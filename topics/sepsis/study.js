@@ -1,0 +1,33 @@
+// topics/sepsis/study.js — Autoevaluación de Sepsis.
+
+export const quiz = [
+  { q: '¿Cuál es la definición de sepsis según Sepsis-3?', options: ['Dos o más criterios de SIRS con infección', 'Disfunción orgánica potencialmente mortal por respuesta desregulada del huésped a la infección', 'Bacteriemia documentada con fiebre', 'Hipotensión que responde a fluidos'], correct: 1, explanation: 'Sepsis-3 (2016) define sepsis como disfunción orgánica potencialmente mortal por una respuesta desregulada del huésped a la infección; el SIRS ya no forma parte de la definición.' },
+  { q: 'El choque séptico se define por:', options: ['Lactato >2 mmol/L únicamente', 'Hipotensión que responde a fluidos', 'Necesidad de vasopresores para PAM ≥65 mmHg más lactato >2 mmol/L pese a reanimación adecuada', 'qSOFA ≥2'], correct: 2, explanation: 'El choque séptico requiere vasopresores para mantener PAM ≥65 mmHg Y lactato >2 mmol/L a pesar de una reanimación con volumen adecuada; su mortalidad supera el 40%.' },
+  { q: '¿Qué componente NO forma parte del qSOFA?', options: ['Frecuencia respiratoria ≥22/min', 'Presión arterial sistólica ≤100 mmHg', 'Alteración del estado mental', 'Lactato >2 mmol/L'], correct: 3, explanation: 'El qSOFA incluye frecuencia respiratoria ≥22, PAS ≤100 y alteración mental. El lactato no forma parte del qSOFA.' },
+  { q: 'Dentro de la primera hora del bundle de sepsis, ¿qué se debe hacer respecto a los hemocultivos y antibióticos?', options: ['Antibióticos solo tras confirmar el patógeno', 'Obtener hemocultivos antes de los antibióticos, sin retrasarlos de forma significativa', 'Nunca tomar hemocultivos antes de antibióticos', 'Esperar 6 horas para iniciar antibióticos'], correct: 1, explanation: 'Se obtienen hemocultivos antes de los antibióticos, pero sin retrasar el inicio de estos (idealmente <45 min) en sepsis/choque séptico.' },
+  { q: 'Vasopresor de primera línea en el choque séptico:', options: ['Dopamina', 'Adrenalina', 'Noradrenalina', 'Fenilefrina'], correct: 2, explanation: 'La noradrenalina es el vasopresor de primera línea; se añade vasopresina para reducir la dosis de noradrenalina o si no se alcanza la PAM meta.' },
+  { q: 'Un aumento agudo de ≥2 puntos en la escala SOFA en un paciente con infección indica:', options: ['SIRS', 'Sepsis (disfunción orgánica)', 'Choque séptico', 'Bacteriemia'], correct: 1, explanation: 'Un incremento agudo ≥2 puntos en SOFA respecto al basal, en el contexto de infección, es el criterio operacional de sepsis según Sepsis-3.' }
+];
+
+export const flashcards = [
+  { front: 'Definición de sepsis (Sepsis-3)', back: 'Disfunción orgánica potencialmente mortal por una respuesta desregulada del huésped a la infección (incremento agudo ≥2 en SOFA).' },
+  { front: 'Definición de choque séptico', back: 'Vasopresores para PAM ≥65 mmHg + lactato >2 mmol/L pese a reanimación adecuada. Mortalidad >40%.' },
+  { front: 'Componentes del qSOFA', back: 'FR ≥22/min, alteración mental (Glasgow <15), PAS ≤100 mmHg. ≥2 = alerta.' },
+  { front: 'Meta de PAM en choque séptico', back: '≥65 mmHg.' },
+  { front: 'Volumen inicial en la reanimación de sepsis', back: 'Cristaloides 30 mL/kg IV, guiados por parámetros dinámicos; reevaluar para evitar sobrecarga.' },
+  { front: 'Vasopresor de primera línea', back: 'Noradrenalina (añadir vasopresina; hidrocortisona si el choque es refractario).' },
+  { front: 'Los 6 sistemas de la escala SOFA', back: 'Respiratorio, coagulación, hígado, cardiovascular, SNC y renal (0-4 cada uno; total 0-24).' },
+  { front: 'Meta de aclaramiento de lactato', back: '≥10% (o normalización); guía la respuesta a la reanimación.' }
+];
+
+export const caseSteps = [
+  { vignette: 'Varón de 68 años con tos, fiebre 39 °C y confusión. FR 26/min, PA 92/58 mmHg, FC 118 lpm, SpO₂ 90%. ¿Cuál es tu primera evaluación de riesgo junto a la cama?', options: ['Calcular qSOFA (FR ≥22, alteración mental, PAS ≤100)', 'Esperar los cultivos antes de actuar', 'Solicitar TC de tórax antes de cualquier medida', 'Dar de alta con antibiótico oral'], correct: 0, explanation: 'El qSOFA es positivo (3/3: FR ≥22, confusión, PAS ≤100), lo que identifica alto riesgo y obliga a evaluar disfunción orgánica e iniciar el manejo de sepsis.' },
+  { vignette: 'El lactato inicial es 4.5 mmol/L y hay hipotensión. Según el bundle de 1 hora, ¿qué haces en esta hora?', options: ['Solo observación', 'Hemocultivos, antibiótico de amplio espectro, cristaloides 30 mL/kg y medir lactato', 'Iniciar corticoides como primera medida', 'Transfundir concentrados eritrocitarios'], correct: 1, explanation: 'El bundle de 1 hora: medir lactato, hemocultivos antes de antibióticos, antibiótico de amplio espectro, cristaloides 30 mL/kg si hipotensión o lactato ≥4, y vasopresores si persiste la hipotensión.' },
+  { vignette: 'Tras 30 mL/kg de cristaloides persiste PAM de 58 mmHg. ¿Cuál es el siguiente paso?', options: ['Más bolos de fluidos sin límite', 'Iniciar noradrenalina para meta de PAM ≥65 mmHg', 'Iniciar dopamina de primera línea', 'Suspender antibióticos'], correct: 1, explanation: 'Si la hipotensión persiste pese a la reanimación con volumen, se inicia noradrenalina (primera línea) para alcanzar una PAM ≥65 mmHg.' },
+  { vignette: 'Con noradrenalina se alcanza PAM 68 mmHg. El lactato de control a las 3 h es 2.4 mmol/L. ¿Cómo interpretas la respuesta?', options: ['Aclaramiento de lactato ~47%: respuesta adecuada a la reanimación', 'Empeoramiento: aumentar drásticamente los fluidos', 'Sin utilidad: el lactato no sirve para seguimiento', 'Suspender vasopresores de inmediato'], correct: 0, explanation: 'El aclaramiento ((4.5−2.4)/4.5 ≈ 47%) es ≥10%, lo que indica buena respuesta a la reanimación; se continúa reevaluando la perfusión.' },
+  { vignette: 'A las 24 h, con cultivos que muestran neumococo sensible, ¿qué haces con los antibióticos?', options: ['Mantener el esquema de amplio espectro indefinidamente', 'Desescalar a terapia dirigida según el antibiograma y valorar la duración', 'Suspender todos los antibióticos', 'Añadir un antifúngico empírico'], correct: 1, explanation: 'Con un patógeno identificado y sensible, se desescala a terapia dirigida y se evalúa la duración (apoyándose en la evolución clínica y, si se usa, la procalcitonina).' }
+];
+
+export const caseSummary = 'Este caso integró el reconocimiento con qSOFA, el bundle de sepsis de 1 hora, la noradrenalina como vasopresor de primera línea, el aclaramiento de lactato como guía de reanimación y la desescalada antibiótica. Repasa la sección de Complicaciones y el protocolo "Bundle de sepsis (1 hora)".';
+
+export default { quiz, flashcards, caseSteps, caseSummary };

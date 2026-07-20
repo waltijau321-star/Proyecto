@@ -1,0 +1,6 @@
+# Ajustes locales de Claude Code (específicos de esta máquina, no se versionan)
+.claude/settings.local.json
+
+# Cruft del sistema operativo
+Thumbs.db
+.DS_Store

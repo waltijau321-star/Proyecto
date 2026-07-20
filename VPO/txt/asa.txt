@@ -1,0 +1,142 @@
+ASA Statement
+
+American Society of Anesthesiologists Statement on
+ASA Physical Status Classification System
+
+ASA Committee of Oversight: Economics
+Approved by the ASA House of Delegates on October 15, 2014, and last amended on October 15, 2025
+
+The American Society of Anesthesiologists (ASA)                     The definitions and examples shown in the table below
+      Physical Status Classification System has been in          are guidelines for the clinician. To improve communica-
+use continuously since 1961. The purpose of the sys-             tion and assessments at a specific institution, anesthesiology
+tem is to assess and communicate a patient's pre-                departments may choose to develop institutional-specific
+anesthesia medical comorbidities. The classification             examples to supplement the ASA-approved examples.
+system in conjunction with other factors (e.g., type of sur-
+gery, frailty, level of deconditioning) helps anesthesiologists     Assigning a Physical Status classification level is a clin-
+estimate perioperative risk. Patients with ASA Physical          ical decision based on multiple factors. While the Physical
+Status III or higher generally require more extensive pre-       Status classification may initially be determined at various
+anesthesia evaluation and coordinated care along with more       times during the preoperative assessment of the patient, the
+intense anesthesia care as compared with patients having         final assignment of Physical Status classification is made on
+ASA Physical Status I or II.                                     the day of anesthesia care by the anesthesiologist after eval-
+                                                                 uating the patient.
+
+Current Definitions and ASA-approved Examples
+
+ASA PS                                      Definition         Adult Examples, Including,           Pediatric Examples, Including               Obstetric Examples,
+Classification                   A normal healthy patient          but not Limited to:                    but not Limited to:                    Including but not
+ASA I                                                                                                                                                Limited to:
+                                 A patient with mild systemic
+ASA II                              disease                    Healthy, non-smoking, no or          Healthy (no acute or chronic disease),      Normal pregnancy,*
+                                                                  minimal alcohol use                  normal BMI percentile for age               well controlled
+                                                                                                                                                   gestational HTN,
+                                                               Mild diseases only without sub-      Asymptomatic non cyanotic congenital           diet-controlled
+                                                                  stantive functional limitations      cardiac disease, well controlled            gestational DM
+                                                                  or end organ involvement.            dysrhythmias, asthma without
+                                                                  Current smoker, social alcohol       exacerbation, well controlled epilepsy,
+                                                                  drinker, pregnancy, obesity          non-insulin dependent DM, abnormal
+                                                                  (30<BMI<40), well-controlled         BMI percentile for age, mild/moderate
+                                                                  DM or HTN, mild lung disease,        OSA, oncologic state in remission,
+                                                                  CHF NYHA Class 1, mild cogni-        autism with mild limitations, malignant
+                                                                  tive dysfunction, isolated mild/     hyperthermia risk (family history or
+                                                                  moderate obstructive sleep           patient with history)
+                                                                  apnea with compliance with
+                                                                  CPAP as prescribed.
+
+                                                                                                                                                (Continued)
+
+Each ASA Statement is reviewed and approved by the ASA House of Delegates at least every 5 years. This Statement was approved by the 2025 ASA House of Delegates and appears
+here with slight modifications to meet journal style. ASA Statements are not evaluated by the Editors of Anesthesiology Open.
+
+Copyright © 2025 American Society of Anesthesiologists. This is an open-access article distributed under the terms of the Creative Commons Attribution-Non Commercial-No
+Derivatives License 4.0 (CCBY-NC-ND), where it is permissible to download and share the work provided it is properly cited. The work cannot be changed in any way or used
+commercially without permission from the journal. Anesthesiology Open 2025:e0002. DOI: 10.1097/ao9.0000000000000002
+
+The article processing charge was funded by the American Society of Anesthesiologists.
+
+Anesthesiology Open, V 1 · NO 1                                January 2026                                                                                                   e0002
+       ASA Statement
+
+       ASA PS          Definition                          Adult Examples, Including,             Pediatric Examples, Including                 Obstetric Examples,
+       Classification                                          but not Limited to:                      but not Limited to:                      Including but not
+                                                                                                                                                     Limited to:
+
+       ASA III         A patient with severe systemic      Substantive functional limitations;    Uncorrected stable congenital cardiac         Preeclampsia with
+                          disease                             One or more moderate to severe         abnormality, asthma with exacer-              or without severe
+       ASA IV                                                 diseases. COPD, morbid obesity         bation, poorly controlled epilepsy,           features, gestational
+       ASA V           A patient with severe systemic         (BMI 40), active hepatitis,            insulin dependent diabetes mellitus,          diabetes poorly
+       ASA VI             disease that is a constant          compensated cirrhosis, alcohol         morbid obesity, malnutrition, severe          controlled or with
+                          threat to life                      dependence or abuse, functional        OSA, oncologic state, renal failure,          complications or high
+                                                              implanted pacemaker, moderate          muscular dystrophy, cystic fibrosis,          insulin requirements,
+                       A moribund patient who is not          reduction of ejection fraction or      history of organ transplantation, brain/      a thrombophilic
+                          expected to survive without the     CHF NYHA class 2 or 3, ESRD            spinal cord malformation, symptom-            disease requiring
+                          operation                           undergoing regularly scheduled         atic hydrocephalus, premature infant          anticoagulation.
+                                                              dialysis, history (>3 months) of       PCA <60 weeks, autism with severe
+                       A declared brain-dead patient          MI, CVA, TIA, PE, or CAD/stents,       limitations, metabolic disease, difficult  Preeclampsia with
+                          whose organs are being              significant cognitive dysfunction,     airway, long term parenteral nutrition.       severe features com-
+                          removed for donor purposes          isolated severe OSA regardless         Full term infants <6 weeks of age.            plicated by HELLP
+                                                              of CPAP compliance or any                                                            or other adverse
+                                                              severity of obstructive sleep       Symptomatic congenital cardiac                   event, peripartum
+                                                              apnea with CPAP noncompli-             abnormality, congestive heart failure,        cardiomyopathy,
+                                                              ance. Poorly controlled DM or          active sequelae of prematurity, acute         uncorrected/decom-
+                                                              HTN withor withoutend organ            hypoxic-ischemic encephalopathy,              pensated heart
+                                                              dysfunction.                           shock, sepsis, disseminated intravascu-       disease.
+                                                                                                     lar coagulation, automatic implantable
+                                                           Recent (<3 months) MI, CVA, TIA           cardioverter-defibrillator, ventilator     Uterine rupture, amni-
+                                                              or CAD/stents, ongoing cardiac         dependence, endocrinopathy, severe            otic fluid embolism
+                                                              ischemia or severe valve dys-          trauma, severe respiratory distress,
+                                                              function, severe reduction of          advanced oncologic state.
+                                                              ejection fraction or CHF NYHA
+                                                              class 4, shock, sepsis, DIC,        Massive trauma, intracranial hemorrhage
+                                                              ARDS, ESRD not undergoing              with mass effect, patient requiring
+                                                              regularly scheduled dialysis,          ECMO, respiratory failure or arrest,
+                                                              uncompensated cirrhosis,               malignant hypertension with hyperten-
+                                                              severe cognitive dysfunction           sive crisis, decompensated congestive
+                                                                                                     heart failure, hepatic encephalopathy,
+                                                           Ruptured abdominal or thoracic            ischemic bowel or multiple organ/
+                                                              aneurysm, massive trauma,              system dysfunction.
+                                                              intracranial bleed with mass
+                                                              effect, ischemic bowel in the
+                                                              face of significant cardiac
+                                                              pathology or multiple organ/
+                                                              system dysfunction
+
+       *Although pregnancy is not a disease, the parturient's physiologic state is significantly altered from when the woman is not pregnant, hence the assignment of ASA PS II for a
+       woman with uncomplicated pregnancy.
+
+       **The addition of "E" denotes Emergency surgery: (An emergency is defined as existing when delay in treatment of the patient would lead to a significant increase in the threat
+       to life or body part).
+
+       ARDS, acute respiratory distress syndrome; ASA, American Society of Anesthesiologists; BMI, body mass index; CAD, coronary artery disease; CHF NYHA, congestive heart
+       failure, New York Heart Association classification; COPD, chronic obstructive pulmonary disease; CPAP, continuous positive airway pressure; CVA, cerebrovascular accident; DIC,
+       disseminated intravascular coagulation; DM, diabetes mellitus; ECMO, extracorporeal membrane oxygenation; ESRD, end-stage renal disease; HELLP, hemolysis, elevated liver
+       enzymes, low platelets; HTN, hypertension; MI, myocardial infarction; OSA, obstructive sleep apnea; PCA, post-conceptual age; PE, pulmonary embolism; PS, physical status; TIA,
+       transient ischemic attack
+
+       References                                                      1. Abouleish AE, Leib ML, Cohen NH: ASA
+                                                                           provides examples to each ASA Physical
+       For more information on theASA Physical Status Classification       Status Class. ASA Monitor 2015; 79:38-49.
+       system and the use of examples, the following publications are      doi:10.1097/01.asm.0001073116.40041.ee.
+       helpful. Additionally, in the reference section of each of the
+       articles, one can find additional publications on this topic.   2. Hurwitz EE, Simon M,Vinta SR, et al.:Adding exam-
+                                                                           ples to the ASA-Physical Status Classification improves
+
+e0002                                                      Anesthesiology Open 2026; 1:e0002                                                    ASA Statement
+                                                             ASA Statement
+
+    correct assignment to patients. Anesthesiology 2017;         Anesthesiologists Physical Status Classification for
+    126:614-22. doi:10.1097/ALN.0000000000001541                 pediatric patients. Anesth Analg 2020; 130:1685-92.
+3. Mayhew D, Mendonca V, Murthy BVS: A review of                 doi:10.1213/ANE.0000000000004277
+    ASA Physical Status - historical perspectives and        6. Ferrari L, Leahy I, Staffa SJ, Berry JG: The
+    modern developments. Anaesthesia 2019; 74:373-9.             pediatric-specific American Society of
+    doi:10.1111/anae.14569                                       Anesthesiologists Physical Status Score: A multi-
+4. Leahy I, Berry JG, Johnson CJ, Crofton C, Staffa SJ,          center study. Anesth Analg 2021; 132:807-17.
+    Ferrari L: Does the current American Society of              doi:10.1213/ANE.0000000000005025
+    Anesthesiologists Physical Status Classification repre-  7. Horvath B, Kloesel B, Todd MM, Cole DJ,
+    sent the chronic disease burden in children undergoing       Prielipp RC: The evolution, current value,
+    general anesthesia? Anesth Analg 2019; 129:1175-80.          and future of the American Society of
+    doi:10.1213/ANE.0000000000003911                             Anesthesiologists Physical Status Classification
+5. Ferrari LR, Leahy I, Staffa SJ, et al.: One size does         System. Anesthesiology 2021; 135:904-19.
+    not fit all: a perspective on the American Society of        doi:10.1097/ALN.0000000000003947
+
+ASA Statement  Anesthesiology Open 2026; 1:e0002                                                                       e0002
+

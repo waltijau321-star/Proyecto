@@ -1,0 +1,566 @@
+Journal of Thrombosis and Thrombolysis (2022) 53:878-886
+https://doi.org/10.1007/s11239-021-02611-3
+
+An abbreviated Caprini model for VTE risk assessment in trauma
+
+Max D. Hazeltine1 � Erin M. Scott1 � Jon D. Dorfman2
+
+Accepted: 11 November 2021 / Published online: 20 November 2021
+� The Author(s), under exclusive licence to Springer Science+Business Media, LLC, part of Springer Nature 2021
+
+Abstract
+
+The Caprini risk assessment model (RAM) is widely used to assess risk of venous thromboembolism (VTE). However,
+it is cumbersome with 31 variables and poses challenges with inter-rater reliability. This study aimed to determine if
+an abbreviated model could perform similarly in VTE risk assessment. We performed a retrospective review of trauma
+patients18 years old and admitted for over 24 h at a Level I trauma center from January 1, 2018, to December 31, 2018.
+Demographic and clinical data were analyzed to generate Caprini scores. Using a p-value cutoff of<0.05, the individual
+components of the original Caprini RAM most highly associated with VTE were identified and used to calculate an abbre-
+viated Caprini score. Logistic regression assessed odds of inpatient VTE with the original or abbreviated Caprini RAMs.
+Receiver operating characteristic curves and c-statistics were generated to assess discriminatory ability. The study sample
+included 1279 patients. Ten risk factors were included in the abbreviated model (recent major surgery, length of sur-
+gery>2 h, transfusion, restricted mobility>72 h, central venous catheter, current major surgery, age, history of VTE, hip
+or leg fracture, and serious trauma). Compared to the original, the abbreviated model had a similar odds ratio (1.17 vs 1.07,
+both p-values<0.001), c-statistic (0.747 vs 0.753), sensitivity (0.73 vs 0.76) and specificity (0.62 vs 0.61). An abbreviated
+Caprini RAM performs similarly to the original, may streamline workflow and allow for automation in electronic health
+records, potentially enhancing its use in resource limited settings.
+
+Keywords Venous thromboembolism � Risk assessment � Caprini � Trauma � Thromboprophylaxis
+
+Abbreviations                                                    SDStandard deviation
+AISAbbreviated Injury Scale                                      SICUSurgical intensive care unit
+BMIBody mass index                                               VTEVenous thromboembolism
+CIConfidence interval
+DVTDeep vein thrombosis                                          Highlights
+ISSInjury Severity Score
+IPCIntermittent pneumatic compression                            � The Caprini risk assessment model for stratification of
+IVCInferior vena cava                                               surgical patients at risk for VTE is cumbersome, time-
+PEPulmonary embolus                                                 consuming to complete, and includes subjective vari-
+RAMRisk assessment model                                            ables.
+
+* Max D. Hazeltine                                               � We have created an abbreviated model using the ten
+     Max.Hazeltine@umassmemorial.org                                components from the original model that are most highly
+                                                                    associated with VTE, also removing all subjective vari-
+     Erin M. Scott                                                  ables.
+     Erin.Scott2@umassmemorial.org
+                                                                 � In a population of trauma patients from a single institu-
+     Jon D. Dorfman                                                 tion, the abbreviated Caprini model performed similarly
+     Jon.Dorfman@umassmemorial.org                                  to the original model.
+
+1 Department of Surgery, University of Massachusetts Medical     � An abbreviated model may streamline workflow and
+     School, 55 Lake Ave North, Worcester, MA 01655, USA            reduce need for costly laboratory testing, potentially
+                                                                    enhancing use in resource-limited settings.
+2 Department of Surgery, Division of Trauma and Surgical
+     Critical Care, University of Massachusetts Medical School,
+     Worcester, MA, USA
+
+V1ol:.3 (1234567890)
+An abbreviated Caprini model for VTE risk assessment in trauma    879
+
+Introduction                                                      January 1, 2018, and December 31, 2018 were included if
+                                                                  they met the following criteria: (1) age 18 years or older,
+Venous thromboembolism (VTE) is the third most common             (2) hospitalization longer than 24 h, and (3) no venous
+cause of in-hospital death for trauma patients [1]. Health        thromboembolism (VTE) identified at admission. We
+care spending for the hospitalization, treatment, and compli-     excluded patients who were made comfort measures only
+cations of VTE is substantial, and rising faster than inflation   within 24 h of presentation. This study was reviewed and
+[2]. Diagnosis and management of VTE remains a compli-            approved by the University of Massachusetts Medical
+cated endeavor because the majority are asymptomatic and          School Institutional Review Board.
+evidence for routine screening is mixed [3]. Mechanical and
+chemical thromboprophylaxis have been proven to decrease          Primary outcome
+the risk of VTE [4], and current guidelines recommend the
+use of chemical thromboprophylaxis, particularly enoxapa-         The primary outcome was the development of inpatient
+rin, in trauma patients [5, 6]. However, significant practice     VTE, defined as either a deep vein thrombosis (DVT) or
+variability exists based on the location of injury, estimated     pulmonary embolus (PE). Identification of VTE was based
+risk of bleeding, and varying institutional methods of risk       on clinical suspicion, with diagnostic testing ordered for
+stratification to guide therapy [3, 4, 7].                        confirmation. The presence of PE was confirmed by com-
+                                                                  puted tomography angiography or ventilation-perfusion
+   Several risk assessment models (RAMs) have been devel-         scan, and DVT by computed tomography angiography or
+oped to stratify patients at risk of VTE. One validated model     ultrasonography. Our institution does not practice routine
+is the Caprini RAM, initially developed in 1991, and subse-       VTE surveillance given the lack of strong evidence to sup-
+quently updated in 2013 and 2019 [8, 9]. Primarily created        port this practice [3, 5, 6, 17, 18].
+for the assessment of VTE risk in general surgical patients,
+the model has since been assessed for its applicability for       Covariates
+specific inpatient populations including surgical critical care,
+as well as specialty surgical populations [10-14]. Despite        The following demographic and clinical characteristics were
+its widespread use, there are several challenges associated       analyzed: patient age in years, body mass index (BMI), sex,
+with the practical application of the Caprini RAM. The cur-       admission serum creatinine in mg/dL, Injury Severity Score
+rent validated model contains 31 clinical variables, is time-     (ISS), placement of epidural catheter, the mean number of
+consuming and includes costly laboratory tests [15]. Also,        days until VTE prophylaxis was initiated, initial VTE proph-
+several variables necessitate a physical exam, which not          ylaxis type (intermittent pneumatic compression [IPC] only,
+only requires additional time to execute, but also allows for     subcutaneous heparin, enoxaparin or other), if a patient was
+inter-rater variability [7]. These challenges are exacerbated     intubated, if there were any missed doses of VTE chemopro-
+in resource-limited settings, where standardized utilization      phylaxis at any point during the hospitalization, and blood
+of the model could be complicated by strained infrastructure      product transfusion.
+and workforce demands. One study from a tertiary center in
+South Africa suggested that a low rate of thromboprophy-          VTE prophylaxis protocol
+laxis prescription may be due to a high burden of acute sur-
+gical and trauma patients, and time constraints for staff to      The trauma surgery service at our institution employs a
+compute risk scores [16].                                         standardized protocol for VTE prophylaxis, with mechanical
+                                                                  prophylaxis with IPC if injury does not preclude placement,
+   Our aim is to determine if an abbreviated model could          and subcutaneous enoxaparin as the first line chemoprophy-
+perform similarly to the Caprini RAM for reliable VTE             laxis agent. Dosing is weight-based, and subsequent dose
+risk assessment in trauma patients. We hypothesized that          adjustments are based upon anti-Xa levels [19]. Patients who
+an abbreviated model would have similar discriminatory            are not eligible for enoxaparin due to renal insufficiency or
+ability as the full Caprini RAM.                                  presence of epidural catheters are started on subcutaneous
+                                                                  heparin. Those who are ineligible for any chemical proph-
+Methods                                                           ylaxis (e.g., intracranial hemorrhage, spinal cord injury,
+                                                                  ongoing hemorrhage, or high risk of hemorrhage) receive
+Study population                                                  mechanical prophylaxis with IPC, and are referred for place-
+                                                                  ment of an inferior vena cava (IVC) filter if felt to be high
+Trauma patients hospitalized in our American College              risk for VTE or prolonged contraindication to chemopro-
+of Surgeons-verified Level I Trauma Center between                phylaxis is anticipated.
+
+                                                                  1 3
+880                                                                                                                            M. D. Hazeltine et al.
+
+Caprini score calculations                                        was determined by identifying the value that maximizes the
+                                                                  product of the sensitivity and specificity [20]. Odds ratios
+Caprini scores were calculated based upon the 2019 Caprini        (OR) with 95% confidence intervals (CI) were estimated
+definitions [8]. There was no definition for the 5-point com-     using logistic regression models to examine the associa-
+ponent of "serious trauma" within this update. Thus, we           tion of individual Caprini components and inpatient VTE.
+defined serious trauma as injuries either involving any two       Any of the original Caprini RAM variables that met a pre-
+long bones (humerus, radius/ulna, femur, tibia/fibula), or        defined p-value threshold of<0.05 were used to calculate a
+involving any two of the Abbreviated Injury Scale (AIS)           new, abbreviated Caprini score. Logistic regression models
+body regions. Injuries with an AIS score of less than two         were utilized to evaluate the odds of inpatient VTE and the
+were excluded from consideration. This definition was             original Caprini score, as well as the odds of VTE and the
+used since it captures significant injuries by using an AIS       abbreviated Caprini score. Receiver operating characteristic
+score threshold, as well as injuries involving multiple body      (ROC) curves and c-statistics were calculated to assess each
+regions. A leg fracture for Caprini scoring was defined as        model's discriminatory ability.
+any fracture involving the femur, tibia, fibula, or tarsals
+based on the Caprini 2019 update; fractures involving meta-       Results
+tarsals or phalanges were not included [8].
+                                                                  Study sample characteristics
+Analytical approach
+                                                                  The study sample was comprised of 1279 trauma patients.
+Analyses were performed in Stata 16.1 statistical software        There were a total of 22 DVT and 14 PE in 33 patients,
+(StataCorp; College Station, Texas). The study population         resulting in a confirmed VTE rate of 2.6%. There were three
+was first stratified by the presence or absence of VTE. Vari-     patients who developed both DVT and PE during their hos-
+ables were described using Chi-Square and Student's t-tests       pitalization. Compared to patients without VTE, those with
+for categorial and continuous variables, respectively. Fish-      VTE had higher mean BMI, Caprini score, ISS, and were
+er's exact test was used for categorical variables with any       more frequently intubated (Table 1). The two groups were
+cell size of less than five. Caprini score components as well     otherwise similar regarding age, sex, days until initiation
+as mean Caprini scores were analyzed in a similar manner.         of VTE prophylaxis, initial VTE prophylaxis type, and
+All statistical tests were two-sided, with statistical signifi-   number of missed doses, if any. The most common Caprini
+cance defined as a p-value of<0.05. A single ideal cut point
+
+Table1Characteristics of                                                      VTE             No VTE      p-value
+adults hospitalized for traumatic                                             (n=33)          (n=1246)
+injury, stratified by the presence
+of VTE                                                                        Mean SD         Mean SD
+
+1 3                                 Age (years)                               52.5       22.3 59.9  22.2  0.06
+
+                                    BMI                                       30.2       6.9  27.4  6.5   0.019
+
+                                    Days until initiation of VTE prophylaxis  0.90       1.0  0.88  1.0   0.89
+
+                                    Serum creatinine (mg/dL)                  1.08       0.2  1.05  0.5   0.49
+
+                                    Caprini score                             16.4       8.2  9.8   7.6   <0.001
+
+                                    ISS                                       17.8       11.0 12.6  7.4   0.011
+
+                                                                              n          %    n     %
+
+                                    Epidural catheter placement               4          12.1 113   9.2   0.54
+
+                                    Initial VTE prophylaxis type
+
+                                    Enoxaparin                                9          27.3 548   44.5  0.14
+
+                                    IPC only                                  13         39.4 311   25.2
+
+                                    Subcutaneous heparin                      10         30.3 339   27.5
+
+                                    Other                                     1          3.0  34    2.8
+
+                                    Intubated                                 15         45.5 157   12.6 <0.001
+
+                                    Male sex                                  22         66.7 761   61.1  0.52
+
+                                    Missed at least one dose of VTE chemoprophylaxis 14  42.4 344   28.3  0.08
+
+                                    BMI body mass index, IPC intermittent pneumatic compression, ISS Injury Severity Score, SD standard
+                                    deviation, VTE venous thromboembolism
+An abbreviated Caprini model for VTE risk assessment in trauma                                                               881
+
+score components within the VTE group were BMI25                  Table2Prevalence of Caprini score components, stratified by the
+(69.7%), serious trauma (63.6%), and major surgery (60.6%)        presence of VTE
+(Table 2).
+                                                                                                       VTE     No VTE        p-value
+Logistic regression analyses of the original                                                           (n=33)  (n=1246)
+and abbreviated Caprini RAMs
+                                                                  Caprini 1-point section              n      %n%
+Unadjusted logistic regression identified which individual                                                    21.2 344 27.6
+Caprini RAM components were most highly associated with           Active smoking                       7      0.0 19 1.5       0.42
+the development of VTE while hospitalized (Table 3). From                                                     21.2 301 24.2    1.00
+the original Caprini RAM, ten variables met the p-value           Acute myocardial infarction          0      69.7 753 60.4    0.18
+threshold and were included in the abbreviated model: recent                                                  3.0 60 4.8       0.28
+major surgery, length of surgery greater than 2 h, transfu-       Age 41-60 years                      7      0.3 12 0.1       1.00
+sion, restricted mobility greater than 72 h, central venous                                                   6.1 80 6.4       0.29
+catheter, current major surgery, age, history of VTE, hip         BMI>25                               23     6.1 70 5.6       1.00
+or leg fracture, and serious trauma. The median score for                                                     0.0 17 1.4       0.71
+the original model was 8 (interquartile range [IQR] 5-13),        BMI>40*                              1      6.1 8 0.6        1.00
+and for the abbreviated model was 6 (IQR 3-10). The origi-                                                    0.0 1 0.1        0.026
+nal and abbreviated Caprini RAMs were used in logistic            Chemotherapy                         1                       1.00
+regression models to evaluate the odds of inpatient VTE.                                                      51.5 274 21.9
+The original RAM had an OR of 1.07 for each increase in           Congestive heart failure             2      0.0 67 5.4     <0.001
+Caprini score (95% CI 1.04-1.10), with a c-statistic of 0.753,                                                0.0 14 1.1       0.41
+sensitivity of 0.76, and specificity of 0.61. The abbreviated     Diabetes mellitus requiring insulin  2                       1.00
+RAM had an OR of 1.17 for each increase in Caprini score                                                      0.0 4 0.3
+(95% CI 1.10-1.25), with a c-statistic of 0.747, sensitivity      History of inflammatory bowel disease 0     36.4 337 27.1    1.00
+of 0.73, and specificity of 0.62 (Table 4). Figure 1 illustrates                                              9.1 40 3.2       0.24
+the ROC curve for the original Caprini RAM, and Fig. 2            History of prior major surgery       2      9.1 121 9.7      0.09
+illustrates the abbreviated RAM. The optimal cut point for                                                    6.1 42 3.4       1.00
+the original Caprini was 9, and for the abbreviated model         History of unexplained stillborn infant 0   45.5 225 18.1    0.32
+was 7.                                                              or recurrent spontaneous abortion         0.0 3 0.2      <0.001
+                                                                                                                               1.00
+Discussion                                                        Length of surgery>2 h**              17     21.2 257 20.6
+                                                                                                              50.0 133 10.9    0.18
+Our analysis suggests that an abbreviated Caprini RAM has         Minor surgery                        0      6.1 158 12.7   <0.001
+similar discriminatory ability to the original Caprini RAM                                                    0.0 42 3.4
+in this sample of trauma patients. The abbreviated model          Oral contraceptives or hormone       0      60.6 369 29.8    0.42
+was based on selection of only those items from the original                                                  54.6 316 25.4    0.62
+Caprini RAM that were most highly associated with devel-          therapy                                                    <0.001
+opment of inpatient VTE. The two models shared similar                                                        18.2 386 31.0  <0.001
+median Caprini scores, odds ratios for VTE, c-statistics,         Pregnant or<1 month postpartum       0      0.0 10 0.8
+sensitivity, and specificity, suggesting similar performance                                                  18.2 72 5.8      0.18
+in ability to assess risk of VTE in trauma patients.              Restricted mobility<72 h             12     0.0 13 1.0       1.00
+                                                                                                                               0.003
+   For a high volume, high acuity service with unpredict-         Serious infection                    3      3.0 14 1.1       1.00
+able demands such as trauma surgery, increasing workflow                                                      3.0 9 0.7
+efficiency and decreasing administrative burden for clini-        Serious lung disease                 3      42.4 273 21.9    0.33
+cians is critical [21, 22]. As it stands, the original Caprini                                                63.6 552 44.3    0.23
+RAM has 31 individual items, several of which require             Swollen legs                         2      3.0 9 0.7        0.005
+a physical exam to assess. By reducing the model to ten                                                                        0.027
+items, all of which can be scored based on objective data,        Transfusion                          15                      0.23
+the time for completion is substantially reduced. Remov-
+ing the majority of historical questions is also advanta-         Varicose veins                       0
+geous in the trauma population for two reasons: (1) many
+                                                                  Caprini 2-point section
+
+                                                                  Age 61-74 years                      7
+
+                                                                  Central venous catheter              15
+
+                                                                  History of malignancy                2
+
+                                                                  Immobilizing plaster cast            0
+
+                                                                  Major surgery                        20
+
+                                                                  Restricted mobility>72 h             18
+
+                                                                  Caprini 3-point section
+
+                                                                  Age75 years                          6
+
+                                                                  Family history of VTE                0
+
+                                                                  History of VTE                       6
+
+                                                                  Personal or family history of blood test 0
+                                                                    that increases VTE risk
+
+                                                                  Caprini 5-point section
+
+                                                                  Acute spinal cord injury with paralysis 1
+
+                                                                  Hip or knee arthroplasty             1
+
+                                                                  Hip, pelvis, or leg fracture         14
+
+                                                                  Serious trauma                       21
+
+                                                                  Stroke                               1
+
+                                                                  BMI body mass index, VTE venous thromboembolism
+
+                                                                  *BMI>40 is additive with a BMI>25 (i.e., 1 point for BMI>25 and
+                                                                  1 point for BMI>40)
+
+                                                                  **Length of surgery>2 h is additive with major surgery
+
+                                                                  trauma patients are registered anonymously until identity
+                                                                  is confirmed, making their medical charts initially inac-
+                                                                  cessible; and (2) critical status renders patients unable to
+
+                                                                                                         1 3
+882                                                                                                                M. D. Hazeltine et al.
+
+Table3Logistic regression                                                       Odds ratio  p-value                95% Confidence
+models assessing inpatient VTE                                                                                     interval
+odds by individual Caprini
+components                      Caprini 1-point section
+                                 Active smoking
+                                 Acute myocardial infarction                    0.71        0.42                   0.30          1.64
+
+                                 Age 41-60 years                                No observations with acute myocardial infarction and
+                                 BMI>25                                           VTE
+                                 BMI>40*
+                                 Chemotherapy                                   0.54        0.20                   0.21          1.37
+                                 Congestive heart failure
+                                 Diabetes mellitus requiring insulin            1.51        0.29                   0.71          3.19
+                                 History of inflammatory bowel disease
+                                                                                0.62        0.64                   0.08          4.60
+                                 History of prior major surgery
+                                 History of unexplained stillborn infant or     3.21        0.27                   0.41          25.47
+
+                                   recurrent spontaneous abortion               0.94        0.93                   0.22          4.00
+                                 Length of surgery>2 h**
+                                 Minor surgery                                  1.08        0.91                   0.25          4.62
+                                 Oral contraceptives or hormone therapy
+                                 Pregnant or<1 month postpartum                 No observations with inflammatory bowel disease and
+                                 Restricted mobility<72 h                         VTE
+                                 Serious infection
+                                 Serious lung disease                           9.98        0.005                  2.04          48.96
+                                 Swollen legs
+                                 Transfusion                                    No observations with recurrent abortion and VTE
+                                 Varicose veins
+                                Caprini 2-point section                         3.77        <0.001                 1.88          7.56
+                                 Age 61-74 years
+                                 Central venous catheter                        No observations with minor surgery and VTE
+                                 History of malignancy
+                                 Immobilizing plaster cast                      No observations with oral contraceptive use and VTE
+                                 Major surgery
+                                 Restricted mobility>72 h                       No observations with postpartum and VTE
+                                Caprini 3-point section
+                                 Age75 years                                    1.54        0.24                   0.75          3.17
+                                 Family history of VTE
+                                 History of VTE                                 3.02        0.08                   0.88          10.29
+                                 Personal or family history of blood test that
+                                                                                0.93        0.91                   0.28          3.09
+                                   increases VTE risk
+                                Caprini 5-point section                         1.85        0.41                   0.43          7.98
+
+                                 Acute spinal cord injury with paralysis        3.78        <0.001                 1.88          7.62
+                                 Hip or knee arthroplasty
+                                 Hip, pelvis, or leg fracture                   No observations with varicose veins and VTE
+                                 Serious trauma
+                                 Stroke                                         0.63        0.34                   0.25          1.61
+
+                                                                                2.86        <0.001                 1.98          4.14
+
+                                                                                0.67        0.27                   0.32          1.37
+
+                                                                                No observations with cast and VTE
+
+                                                                                1.91        <0.001                 1.34          2.73
+
+                                                                                1.88        <0.001                 1.33          2.66
+
+                                                                                0.36        0.041                  0.14          0.96
+
+                                                                                No observations with family history of VTE and VTE
+
+                                                                                1.54        0.006                  1.13          2.08
+
+                                                                                No observations with history of blood test that
+                                                                                  increases VTE risk and VTE
+
+                                                                                1.22        0.34                   0.81          1.85
+
+                                                                                1.34        0.17                   0.88          2.04
+
+                                                                                1.21        0.007                  1.05          1.40
+
+                                                                                1.17        0.031                  1.01          1.35
+
+                                                                                1.34        0.17                   0.88          2.04
+
+                                BMI body mass index, VTE venous thromboembolism
+                                *BMI>40 is additive with a BMI>25 (i.e., 1 point for BMI>25 and 1 point for BMI>40)
+                                **Length of surgery>2 h is additive with major surgery
+
+1 3
+An abbreviated Caprini model for VTE risk assessment in trauma                                                                                      883
+
+Table4Logistic regression models assessing Caprini RAM and             The benefits of employing an abbreviated Caprini RAM
+abbreviated Caprini RAM association with inpatient VTE odds         may also extend to resource-limited settings. Institutions that
+                                                                    operate with limited resources rely on over-burdened house
+         Odds   95% CI           C-statis-  Sensitiv-  Specificity  staff and auxiliary healthcare workers [16]. Reducing time
+         ratio                   tic        ity                     spent on cumbersome RAMs by using an abbreviated model,
+                                                                    and also by facilitating automation in EHRs (if available),
+Caprini 1.07    1.04-1.10 0.753 0.76                   0.61         may increase the overall completion rate in these settings.
+                                                                    In addition, the availability of specialized serum markers
+RAM                                                                 to assess the family history of hypercoagulable disorders
+                                                                    for the original Caprini RAM (e.g., factor V Leiden, homo-
+Abbrevi- 1.17   1.10-1.25 0.747 0.73                   0.62         cysteine, anti-cardiolipin antibodies, lupus anti-coagulant,
+                                                                    prothrombin 20210A) [27], is highly variable and can be
+ated                                                                cost prohibitive [28]. The consistent use of uncommon
+                                                                    laboratory markers for non-communicable disease is also
+Caprini                                                             subject to strained infrastructure and supply chain manage-
+                                                                    ment. A lack of widely available testing then forces reliance
+RAM                                                                 on centralized laboratory processing, resulting in prolonged
+                                                                    turnaround times if even accessible [29, 30], limiting its use-
+CI Confidence interval, RAM risk assessment model, VTE venous       fulness in time-sensitive circumstances. Our abbreviated
+thromboembolism                                                     Caprini RAM removes these costly laboratory tests, which
+                                                                    may increase applicability in resource-limited settings.
+participate in an interview (due to intoxication, traumatic
+brain injury, injury severity, intubation, and/or sedation).           The results of this study, although promising, require
+As prior studies have reported significant scoring variabil-        further assessment as this study represents a sample from
+ity among clinicians in using VTE RAMs, the removal of              a single tertiary care center. Although the Caprini RAM
+subjective components in our abbreviated model may also             has been validated in a variety of patient populations [10,
+increase inter-rater reliability [7, 23]. Lastly, the inclusion     12-14], there is limited data regarding its use in trauma
+of only objective data may facilitate automated calcula-            patients [11]--a population with substantially high VTE
+tion of VTE risk by electronic health record (EHR) sys-             risk [1, 31, 32]. Other RAMs for the trauma population
+tems [11]. Physician-calculated scores have been shown to           have been studied, for instance the Trauma Embolic Scor-
+underestimate risk stratification when compared to com-             ing System, though the additional consideration of overall
+puter-generated scores, leading to inadequate prophylaxis
+management and associated increased risk of VTE [24].
+Therefore, a streamlined workflow and automated EHR
+clinical decision support may result in overall improved
+VTE prophylaxis prescribing practices [23, 25, 26].
+
+Fig.1Receiver operating char-
+acteristic curve of the Caprini
+RAM and inpatient VTE. RAM
+risk assessment model, ROC
+receiver operating characteris-
+tic, VTE venous thromboem-
+bolism
+
+                                                                    1 3
+884                                                          M. D. Hazeltine et al.
+
+Fig.2Receiver operating char-
+acteristic curve of the abbrevi-
+ated Caprini RAM and inpatient
+VTE. RAM risk assessment
+model, ROC receiver operat-
+ing characteristic, VTE venous
+thromboembolism
+
+ventilation days limits its utility in acute settings, when  Conclusions
+thromboprophylaxis is initiated within the first 24 h of
+presentation [33-35]. In contrast, the Caprini RAM is        An abbreviated Caprini RAM has with similar discrimina-
+more practical for real time VTE risk assessment, as         tory ability to the original Caprini RAM in trauma patients.
+all required data is readily accessible by EHR review        The removal of subjective variables may increase workflow
+or patient interview and examination. Other considera-       efficiency and reduce inter-rater variability. Additionally, the
+tions that are specific to trauma patients also include the  savings in terms of both cost and time may enhance utili-
+management of injured patients at high risk for bleeding     zation of such a model in settings with limited resources
+(and contraindicated for chemoprophylaxis). Thus, further    and workforce capacity. Future studies should consider
+study should seek to explore VTE risk assessment and         multi-center investigations, and also validation in varying
+decision-making algorithm of referral for placement of       surgical populations to increase generalizability. An abbrevi-
+IVC filter.                                                  ated model warrants further research as it has the potential
+                                                             to greatly impact workflow efficiency, which may lead to
+   With respect to diagnosing VTE, this study included       improved prescribing practices and overall decreased inci-
+only clinically suspected inpatient VTE, which likely        dence of VTE.
+underestimates the true incidence. Our institution does
+not use a standardized screening protocol for all patients,  Funding This research did not receive any specific grant from funding
+as evidence for routine surveillance is mixed. The Eastern   agencies in the public, commercial, or not-for-profit sectors.
+Association for the Surgery of Trauma recommends sur-
+veillance only in high-risk patients [6], while the West-    Data availability All data are available upon request.
+ern Trauma Association guidelines suggests considera-
+tion of ultrasound weekly depending on VTE risk and          Declarations
+contraindications to chemoprophylaxis [5]. Furthermore,
+the American College of Chest Physicians recommends          Conflict of interest No disclosures.
+against routine screening in major trauma patients [3, 17,
+18]. Additionally, this study included diagnosed VTE dur-    Ethical approval This study was reviewed and approved by the Uni-
+ing index hospitalization only, and potentially excludes     versity of Massachusetts Medical School Institutional Review Board,
+development of VTE past the date of discharge or in the      with waiver of consent.
+case of readmission [36].
+
+1 3
+An abbreviated Caprini model for VTE risk assessment in trauma            885
+
+References                                                                      at a tertiary hospital in Eastern Cape Province, South Africa. S
+                                                                                Afr Med J 109(3):178-181. https://doi.org/10.7196/SAMJ.2019.
+ 1. Roger FB (2001) Venous thromboembolism in trauma patients: a                v109i3.13510
+      review. Surgery 130(1):1-12. https://doi.org/10.1067/msy.2001.      17. Gould MK, Garcia DA, Wren SM et al (2012) Prevention of
+      114558                                                                    VTE in nonorthopedic surgical patients: antithrombotic ther-
+                                                                                apy and prevention of thrombosis, 9th ed: American college
+ 2. Fernandez MM, Hogue S, Preblick R, Kwong WJ (2015) Review                   of chest physicians evidence-based clinical practice guidelines.
+      of the cost of venous thromboembolism. Clinicoecon Outcomes               Chest 141(2 Suppl):e227S - e277. https://doi.org/10.1378/chest.
+      Res 7:451-462. https://doi.org/10.2147/ceor.S85635                        11-2297
+                                                                          18. Kodadek LMHE (2016) Screening and diagnosis of VTE: the
+ 3. Rappold JF, Sheppard FR, Carmichael Ii SP et al (2021) Venous               more you look, the more you find? Curr Trauma Rep 2(2):29-34
+      thromboembolism prophylaxis in the trauma intensive care unit:      19. Bigos R, Solomon E, Dorfman JD, Ha M (2021) A weight- and
+      an American association for the surgery of trauma critical care           anti-Xa-guided enoxaparin dosing protocol for venous thrombo-
+      committee clinical consensus document. Trauma Surg Acute Care             embolism prophylaxis in intensive care unit trauma patients. J
+      Open 6(1):e000643. https://doi.org/10.1136/tsaco-2020-000643              Surg Res 265:122-130. https://doi.org/10.1016/j.jss.2021.02.034
+                                                                          20. Liu X (2012) Classification accuracy and cut point selection. Stat
+ 4. Barrera LM, Perel P, Ker K, Cirocchi R, Farinella E, Morales                Med 31(23):2676-2686. https://doi.org/10.1002/sim.4509
+      Uribe CH (2013) Thromboprophylaxis for trauma patients.             21. Ramaniuk A, Dickson BJ, Mahoney S, O'Mara MS (2017) Maxi-
+      Cochrane Database Syst Rev. https://doi.org/10.1002/14651858.             mizing efficiency on trauma surgeon rounds. J Surg Res 207:198-
+      CD008303.pub2                                                             204. https://doi.org/10.1016/j.jss.2016.08.064
+                                                                          22. Sammann A, Chehab LZ, Patel D, Liao J, Callcut R, Knudson
+ 5. Ley EJ, Brown CVR, Moore EE et al (2020) Updated guidelines                 MM (2020) Improving efficiency and meeting expectations with-
+      to reduce venous thromboembolism in trauma patients: a western            out compromising care on trauma surgical rounds. J Surg Res
+      trauma association critical decisions algorithm. J Trauma Acute           247:163-171. https://doi.org/10.1016/j.jss.2019.10.026
+      Care Surg 89(5):971-981. https://doi.org/10.1097/ta.0000000000      23. Beck MJ, Haidet P, Todoric K, Lehman E, Sciamanna C (2011)
+      002830                                                                    Reliability of a point-based VTE risk assessment tool in the hands
+                                                                                of medical residents. J Hosp Med 6(4):195-201. https://doi.org/
+ 6. Rogers FB, Cipolle MD, Velmahos G, Rozycki G, Luchette FA                   10.1002/jhm.860
+      (2002) Practice management guidelines for the prevention of         24. Pannucci CJ, Obi A, Alvarez R et al (2014) Inadequate venous
+      venous thromboembolism in trauma patients: the EAST practice              thromboembolism risk stratification predicts venous thromboem-
+      management guidelines work group. J Trauma 53(1):142-164.                 bolic events in surgical intensive care unit patients. J Am Coll
+      https://doi.org/10.1097/00005373-200207000-00032                          Surg 218(5):898-904. https://d oi.o rg/1 0.1 016/j.j amcol lsurg.2 014.
+                                                                                01.046
+ 7. Vyas D (2012) Variations in risk assessment models may contrib-       25. Amland RC, Dean BB, Yu H et al (2015) Computerized clini-
+      ute to the existing gap between venous thromboembolism prophy-            cal decision support to prevent venous thromboembolism among
+      laxis guidelines and adherence. Springerplus 1(1):60. https://doi.        hospitalized patients: proximal outcomes from a multiyear quality
+      org/10.1186/2193-1801-1-60                                                improvement project. J Healthc Qual 37(4):221-231. https://doi.
+                                                                                org/10.1111/jhq.12069
+ 8. Cronin M, Dengler N, Krauss ES et al (2019) Completion of the         26. Tooher R, Middleton P, Pham C et al (2005) A systematic review
+      updated caprini risk assessment model (2013 version). Clin Appl           of strategies to improve prophylaxis for venous thromboembolism
+      Thromb Hemost 25:1076029619838052. https://doi.org/10.1177/               in hospitals. Ann Surg 241(3):397-415. https://doi.org/10.1097/
+      1076029619838052                                                          01.sla.0000154120.96169.99
+                                                                          27. Caprini JA, Glase CJ, Anderson CB, Hathaway K (2004) Labora-
+ 9. Caprini JA, Arcelus JI, Hasty JH, Tamhane AC, Fabrega F (1991)              tory markers in the diagnosis of venous thromboembolism. Cir-
+      Clinical assessment of venous thromboembolic risk in surgical             culation 109(12 Suppl 1):I4-18. https://doi.org/10.1161/01.Cir.
+      patients. Semin Thromb Hemost 17(Suppl 3):304-312                         0000122869.59485.36
+                                                                          28. Bilgi K, Muthusamy A, Subair M et al (2016) Assessing the risk
+10. Obi AT, Pannucci CJ, Nackashi A et al (2015) Validation of the              for development of venous thromboembolism (VTE) in surgical
+      Caprini venous thromboembolism risk assessment model in criti-            patients using adapted Caprini scoring system. Int J Surg 30:68-
+      cally ill surgical patients. JAMA Surg 150(10):941-948. https://          73. https://doi.org/10.1016/j.ijsu.2016.04.030
+      doi.org/10.1001/jamasurg.2015.1841                                  29. Kuupiel D, Bawontuo V, Drain PK, Gwala N, Mashamba-Thomp-
+                                                                                son TP (2019) Supply chain management and accessibility to
+11. He L, Luo L, Hou X et al (2021) Predicting venous thromboembo-              point-of-care testing in resource-limited settings: a systematic
+      lism in hospitalized trauma patients: a combination of the Caprini        scoping review. BMC Health Serv Res 19(1):519. https://doi.org/
+      score and data-driven machine learning model. BMC Emerg Med               10.1186/s12913-019-4351-3
+      21(1):60. https://doi.org/10.1186/s12873-021-00447-x                30. Drain PK, Hyle EP, Noubary F et al (2014) Diagnostic point-
+                                                                                of-care tests in resource-limited settings. Lancet Infect Dis
+12. Krauss ES, Segal A, Cronin M et al (2019) Implementation and                14(3):239-249. https://doi.org/10.1016/s1473-3099(13)70250-0
+      validation of the 2013 Caprini score for risk stratification of     31. Bahloul M, Dlela M, Bouchaala K et al (2020) Post-traumatic
+      arthroplasty patients in the prevention of venous thrombosis. Clin        pulmonary embolism: incidence, physiopathology, risk factors of
+      Appl Thromb Hemost 25:1076029619838066. https://doi.org/10.               early occurrence, and impact outcome. A narrative review. Am J
+      1177/1076029619838066                                                     Cardiovasc Dis 10(4):432-443
+                                                                          32. Geerts WH, Code KI, Jay RM, Chen E, Szalai JP (1994) A pro-
+13. Pannucci CJ, Bailey SH, Dreszer G et al (2011) Validation of                spective study of venous thromboembolism after major trauma.
+      the Caprini risk assessment model in plastic and reconstructive           N Engl J Med 331(24):1601-1606. https://d oi.org/10.1056/nejm1
+      surgery patients. J Am Coll Surg 212(1):105-112. https://doi.org/         99412153312401
+      10.1016/j.jamcollsurg.2010.08.018
+
+14. Shuman AG, Hu HM, Pannucci CJ, Jackson CR, Bradford CR,
+      Bahl V (2012) Stratifying the risk of venous thromboembolism
+      in otolaryngology. Otolaryngol Head Neck Surg 146(5):719-724.
+      https://doi.org/10.1177/0194599811434383
+
+15. Mlaver E, Lynde GC, Gallion C, Sweeney JF, Sharma J (2020)
+      Development of a novel preoperative venous thromboembolism
+      risk assessment model. Am Surg 86(9):1098-1105. https://doi.
+      org/10.1177/0003134820943556
+
+16. Rocher WD, Page T, Rocher M, Nel D (2019) Venous thrombo-
+      embolism risk and prophylaxis prescription in surgical patients
+
+                                                                          1 3
+886                                                                                                                                 M. D. Hazeltine et al.
+
+33. Greenfield LJ, Proctor MC, Rodriguez JL, Luchette FA, Cipolle            in severely injured patients. Anaesth Intensive Care 42(6):709-
+      MD, Cho J (1997) Posttrauma thromboembolism prophylaxis. J             714. https://doi.org/10.1177/0310057x1404200605
+      Trauma 42(1):100-103. https://doi.org/10.1097/00005373-19970     36. Yale SH, Medlin SC, Liang H, Peters T, Glurich I, Mazza JJ
+      1000-00017                                                             (2005) Risk assessment model for venothromboembolism in post-
+                                                                             hospitalized patients. Int Angiol 24(3):250-254
+34. Rogers FB, Shackford SR, Horst MA et al (2012) Determining
+      venous thromboembolic risk assessment for patients with trauma:  Publisher's NoteSpringer Nature remains neutral with regard to
+      the trauma embolic scoring system. J Trauma Acute Care Surg      jurisdictional claims in published maps and institutional affiliations.
+      73(2):511-515. https://doi.org/10.1097/ta.0b013e3182588b54
+
+35. Ho KM, Rao S, Rittenhouse KJ, Rogers FB (2014) Use of the
+      trauma embolic scoring system (TESS) to predict symptomatic
+      deep vein thrombosis and fatal and non-fatal pulmonary embolism
+
+1 3
+

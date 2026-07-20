@@ -1,0 +1,245 @@
+Risk assessment as a guide to thrombosis prophylaxis
+
+Joseph A. Caprinia,b
+
+aDivision of Vascular Surgery, NorthShore University  Purpose of review
+HealthSystem, Evanston and bPritzker School of        This review discusses the current status of individual thrombosis risk assessment as an
+Medicine, University of Chicago Medical Center,       alternative to applying prophylaxis to broad groups in an attempt to simplify the process.
+Chicago, Illinois, USA                                Complete assessment is necessary in order to provide the proper type, duration, and
+                                                      intensity of prophylaxis, especially following discharge.
+Correspondence to Joseph A. Caprini, MD, 28           Recent findings
+Coventry Road, Northfield, IL 60093, USA              The concept of weighting risk factors to obtain a score has been used by some to guide
+Tel: +1 847 998 1844; e-mail: jcaprini2@aol.com       prophylactic decisions for 20 years. This approach was thought to be intuitively correct
+                                                      despite not having been prospectively validated. During the past years, several studies
+Current Opinion in Pulmonary Medicine 2010,           have appeared linking the score to clinically relevant, imaging-proven venous
+16:448 - 452                                          thromboembolism events. In one study, 12.5% of patients with a score higher than 8
+                                                      developed proven venous thromboembolism events within 60 days postoperatively.
+                                                      Summary
+                                                      The use of this score can suggest appropriate prophylaxis for surgical patients,
+                                                      especially those at high risk following hospital discharge.
+
+                                                      Keywords
+                                                      pulmonary embolism, risk assessment, risk factors, thrombosis prophylaxis, venous
+                                                      thrombosis
+
+                                                      Curr Opin Pulm Med 16:448-452
+                                                      ß 2010 Wolters Kluwer Health | Lippincott Williams & Wilkins
+                                                      1070-5287
+
+Introduction                                                            mendations contained herein are made for groups of
+                                                                        patients, for whom the benefits appear to outweigh the
+History and physical examination have long been the                     risks. However, prophylaxis decisions for an individual
+standard for providing patient care and used to select                  patient are best made by combining knowledge of the
+therapeutic modalities based on safety and efficacy. Over               literature (including the group recommendations pro-
+the past 20 years, sophisticated diagnostic methods have                vided herein and elsewhere) with clinical judgment
+been developed, including ultrasound technology, com-                   (including detailed knowledge of that particular patient's
+puterized axial tomography (CT) scans, and MRI. The                     unique risks for thrombosis, the potential for adverse
+trend has been to rely more on these exquisite tests than               consequences due to the prophylaxis, and the availability
+on clinical evaluation. Unfortunately, more limited                     of various prophylaxis options locally). The recommen-
+history and physical examinations have resulted, and                    dations that are best for the group may not be best for the
+assessment of an individual patient for all possible throm-             individual.' [1]. In other words, in order to know whether
+bosis risk factors has become unpopular.                                the guidelines apply to an individual patient, there must
+                                                                        be an evaluation of that person's risk factors for throm-
+During this period, national guidelines have been devel-                bosis.
+oped and refined based on the results of randomized
+clinical trials (RCTs). The results of these analyses are               Advice regarding prophylaxis following discharge is lim-
+published every few years as a supplement to the journal                ited to suggestions in those having major joint replace-
+CHEST [1]. They are widely followed and quoted as the                   ment and patients having abdominal cancer operations.
+Bible for clinical practice decisions, despite the flaw of              Compounding prophylactic issues is the policy being
+reflecting only patients that would be included in RCTs.                adopted by US regulatory agencies mandating anti-
+In addition, these guidelines discourage individual risk                coagulant prophylaxis for most surgical patients unless
+assessment in the introduction to the chapter on throm-                 contraindicated by high bleeding risk. The average length
+bosis prophylaxis, stating that it is cumbersome and not                of hospital stay for most of these patients is 2-3 days and
+likely to be widely adopted. Several pages later, however,              there are no data available to show the risk/benefit ratio of
+paragraph 1.4.5 reads as follows: `The prophylaxis recom-               1-3 days of anticoagulant use. Clinical trials used to
+
+1070-5287 ß 2010 Wolters Kluwer Health | Lippincott Williams & Wilkins  DOI:10.1097/MCP.0b013e32833c3d3e
+
+Copyright © Lippincott Williams & Wilkins. Unauthorized reproduction of this article is prohibited.
+                                                              Risk assessment as a guide to thrombosis prophylaxis Caprini 449
+
+develop the CHEST guidelines are based on at least            Risk assessment models
+5-7 days of postoperative prophylaxis.
+                                                              It is well known that not all risk factors carry the same risk
+Incidence of venous thromboembolism                           of VTE and patients with cancer or a history of previous
+It has been estimated that nearly 900 000 venous throm-       VTE are much more likely to develop thrombosis com-
+boembolism (VTE) events occur each year in the USA,           pared to aged patients or those at bed-rest. This concept
+and this includes 296 000 fatal events primarily from         of scoring risk has always made sense but had not been
+pulmonary emboli. One-third of these fatal events occur       prospectively validated until recently. In a study using
+in the outpatient setting, which was defined by the           electronic alerts, Kucher et al. [7] devised a simple score
+authors as occurring more than 90 days following dis-         for patients based on eight common risk factors and
+charge [2]. European investigators have reported very         traced the patients for 90 days after discharge. A score
+similar statistics indicating that 260 000 hospital-acquired  of 4 or more was considered high risk and indeed the
+fatal events were seen, along with 108 535 fatalities seen    authors found a proven 90-day VTE incidence of 5-8%
+in the community, as reported in 2007 [3]. The Registro       depending upon whether the electronic alerts were fol-
+Informatizado de la Enfermedad TromboEmbo´lica (RIETE)        lowed. The same risk stratification used by Kucher et al.
+database contains almost 30 000 patients who have             was evaluated by studying over 5000 patients in the
+experienced a VTE event from more than 100 worldwide          Venous thromboembolism RegIsTrY (VERITY) database in
+centres. Seventy-seven per cent of these patients suf-        whom the eight factors could be evaluated. They found a
+fered their thrombotic event following hospital discharge,    linear correlation between the score and proven VTE
+55% of whom suffered the event after anticoagulant            rate; however, the model lacked low-end sensitivity.
+prophylaxis had been stopped [4]. The landmark `Million       Patients with a score of 0-2 had a VTE incidence of
+Women Study' recently published further underscores           more than 20%. This may be explained by noting that the
+the late occurrence of VTE in patients having surgery.        score included only eight factors and likely those with a
+This study involved 947 454 middle-age female patients        low score had risk factors not counted in the score [8].
+who filled out a questionnaire linked to the UK National
+Health Service hospital admissions and death records.         We have designed a risk scoring system taking into
+Among these patients, 239 614 had surgery and 5914            account most known risk factors and assigning a score
+were readmitted with VTE, including 270 deaths.               to each factor, which estimates the likelihood of a particu-
+Women who underwent a surgical procedure were 70              lar factor being associated with the development of VTE
+times more likely to be readmitted within 6 weeks of          (Fig. 1). The risk list was first evaluated in surgical
+discharge compared to those not having surgery. Those         patients and we were surprised at the number of indi-
+having day case operations were 10 times more likely to       viduals with risk scores at the highest level [9]. This
+be readmitted than those not having surgery. The risks        system was intuitively correct, but despite widespread
+were lower but still substantially increased 7-12 weeks       use over that past two decades, formal validation had not
+after surgery [5].                                            been done. Critics would argue that, as most patients
+                                                              presenting to hospital are `at risk', a formal and complete
+In another study of 158 325 medical patients discharged       assessment is redundant and unnecessary. When one
+with a diagnosis of cancer, congestive heart failure          examines this issue more closely, it is apparent that a
+(CHF), lung disease, or severe infectious disease, the        complete preoperative evaluation is of great value.
+mean follow-up was 416-507 days. The incidence of             Patients who are in the highest risk category can be
+VTE in the cancer patients was 7.6%, which was the            offered combined physical and mechanical prophylaxis
+highest incidence among all of the groups. Overall, 5.6%      during hospitalization, which has been shown to provide
+of the patients suffered a VTE, which included 1.5% with      superior protection compared to either method alone [1].
+a pulmonary embolus. These VTE events occurred most           A full risk evaluation can provide an accurate patient-
+frequently following discharge and the median time to         informed consent regarding the relative risks and benefits
+occurrence was 74 days. Less than 5% of these patients        of a surgical procedure, particularly in cases of elective
+received postdischarge prophylaxis, although 13.1% of         quality-of-life procedures. Some patients after learning
+the CHF patients received ongoing prophylaxis. The            their score may decide against cosmetic or other elective
+authors conclude that `commercially insured medical           procedures. Patients with low scores can be treated with
+patients in the US are at high risk of VTE following          intermittent pneumatic compression (IPC) with good
+hospital discharge. One-quarter of medical patients who       efficacy and no bleeding complications [10]. The most
+developed a VTE are at high risk of developing the more       important reason, however, for a thorough risk assess-
+severe form of the disease, namely pulmonary emboli,          ment is to determine the need for continued prophylaxis
+with independent predictors of VTE in the postdischarge       beyond hospital discharge. The following studies demon-
+period including previous VTE and cancer [6].'                strate the need for providing ongoing prophylaxis in
+                                                              certain patients with high scores.
+
+Copyright © Lippincott Williams & Wilkins. Unauthorized reproduction of this article is prohibited.
+450 Disorders of the pulmonary circulation
+Figure 1 List of the risk factors and score values used to calculate the overall score and degree of risk
+
+Each risk factor carries a weight depending on the likelihood of that factor causing a thrombotic event. One example would be cancer, which has a
+
+                                                                                                                                                   Ã
+
+score of 3, as it is more likely to result in a thrombosis than bed-rest, which has a score of 1. Select only one surgical factor from the list.
+
+Seruya et al. [11] performed the Caprini risk score in 1156    The largest and most definitive study demonstrating the
+plastic surgical procedures and found it to be higher than     value of individual patient scores was done by Bahl et al.
+4 in 173 cases (15%). VTE events were documented in            [13] at the University of Michigan. They conducted a
+7.5% (nine patients) and none in the remaining group           retrospective study involving 8216 surgical inpatients,
+with lower risk scores. Most of these events occurred in       part of the National Surgical Quality Improvement
+the early postoperative period and 17 of these high-risk       Program (NSQIP), who were discharged between July
+patients were sent home on low molecular weight heparin        2001 and January 2008. The NSQIP is a well-documen-
+(LMWH) for about 1 week and none developed VTE.                ted American College of Surgery program that reports
+                                                               30-day mortality and morbidity outcomes, including the
+Hatef et al. [12] also used the scoring system in 247 plastic  incidence of DVT and pulmonary emboli. The Univer-
+surgery patients, 17 of whom developed a deep venous           sity of Michigan investigators assigned the VTE risk
+thrombosis (DVT) within 10 days postoperatively.               category (low, medium, high, and highest) for each
+Fifteen of these individuals had a score higher than 4         patient based on the Caprini risk assessment model.
+and the other two a score of 3-4. The authors noted a          The risk factors were gathered using data from electronic
+much higher incidence of DVT (7.7%) in patients who            sources, including hospital billing data, the operating
+underwent circumferential abdominoplasty compared to           room information system, and clinical data repository.
+1.7% of the other patients. They proposed that this            Risk factors for each patient were scored and summed to
+procedure represents an extra level of risk compared to        determine the cumulative VTE risk and associated risk
+other plastic surgical procedures.                             level. The 30-day VTE outcomes were obtained by the
+
+Copyright © Lippincott Williams & Wilkins. Unauthorized reproduction of this article is prohibited.
+                                                                                             Risk assessment as a guide to thrombosis prophylaxis Caprini 451
+
+Figure 2 Incidence rate of venous thromboembolism for low-risk, moderate-risk, and high-risk levels and by cumulative risk scores
+within the highest-risk levels
+
+Incidence 10.0%                    Incidence rate by risk level/cumulative risk score
+rate with                                                                                                          6.51%
+95% Cl
+
+                   8.0%
+
+                   6.0%
+
+4.0%                               0.70%          0.97%                 1.33%    2.58%
+2.0%
+0.0%                      0.00%                                                        7-8
+                            0-1                                                  Highest risk
+                                          2                  3-4        5-6                     9+
+                         Low risk                                                    (1 008)   (261)
+                         (n = 76)            Cumulative risk score
+
+                                   Moderate risk             High risk  (3 012)
+                                         (868)                 (3 001)
+
+These thrombotic events represent clinically evident imaging-proven venous thromboembolism (VTE) rates at 30 days postoperatively.
+
+nurses' reviews of patient medical records for evidence of   to be tailored for each individual to minimize this danger-
+a DVT or pulmonary emboli from diagnostic test results       ous complication. The vast majority of VTE events occur
+and physician notes. The overall incidence of acquired       following hospital discharge and after thrombosis pro-
+VTE within 30 days was 1.44%. The incidence of VTE           phylaxis has been discontinued. The risk score can
+increased with an increase in risk level. VTE was seen in    suggest ongoing prophylaxis for very high risk individuals
+1.94% of patients in the highest-risk level, 0.97% in the    who remain `at risk' for an extended time following
+high-risk group, 0.70% in moderate-risk patients, and        surgery.
+0% in low-risk patients. The difference between high-
+risk and highest-risk levels was statistically significant   References and recommended reading
+(P ¼ 0.001). Further analysis of the highest-risk patients
+indicated a linear increase in 30-day thrombosis inci-       Papers of particular interest, published within the annual period of review, have
+dence with increasing risk score. Patients with a score      been highlighted as:
+higher than 8 had a proven clinical VTE incidence of          of special interest
+6.5% as seen in Fig. 2.                                       of outstanding interest
+                                                             Additional references related to this topic can also be found in the Current
+Finally, Pannucci [14] reported the results of a multi-      World Literature section in this issue (pp. 522-523).
+centre University Hospital Project (VTEP) study net-
+work involving an analysis of 2000 consecutive plastic       1 Geerts WH, Pineo GF, Heit JA. Prevention of venous thromboembolism: the
+surgery patients with a score of more than 3. All patients         Eighth ACCP Conference on Antithrombotic and Thrombolytic Therapy.
+received pneumatic compression and no anticoagulant                Chest 2008; 133:381S-453S.
+prophylaxis postoperatively. Patients were tracked for
+60 days and those with a Caprini score higher than 8         2 Heit JA, Cohen AT, Anderson FA Jr, on Behalf of the VTEIAG. Estimated
+had 12.5% clinically evident, imaging-proven VTE events.           Annual Number of Incident and Recurrent, Non-Fatal and Fatal Venous
+A second phase of the study is underway involving a similar        Thromboembolism (VTE) Events in the US. Blood 2005; 106:910.
+group, all having LMWH added to the postoperative
+prophylactic regime.                                         3 Cohen AT, Agnelli G, Anderson FA, et al. Venous thromboembolism (VTE) in
+                                                                   Europe. The number of VTE events and associated morbidity and mortality.
+Conclusion                                                         Thromb Haemost 2007; 98:756-764.
+Individual risk assessment is a valuable tool to estimate
+the degree of patient risk for VTE and allows prophylaxis    4 Arcelus JI. Time course and clinical presentation of postoperative VTE in
+                                                                   RIETE. Thromb Haemost 2008; 99:546-551.
+
+                                                             5 Sweetland S, Green J, Liu B, et al., Million Women Study collaborators.
+                                                              Duration and magnitude of the postoperative risk of venous thromboembolism
+
+                                                                   in middle aged women: prospective cohort study. BMJ 2009; 339:b4583.
+                                                             This study surveys nearly 1 million women and highlights the late incidence of VTE
+                                                             after discharge following surgery. Events were documented up to 12 weeks
+                                                             postoperatively.
+
+                                                             6 Spyropoulos AK, Hussein M, Lin J, Battleman D. Rates of venous throm-
+                                                              boembolism occurrence in medical patients among the insured population.
+
+                                                                   Thromb Haemost 2009; 102:951-957.
+                                                             This study evaluates over 150 000 medical patients and also documents the mean
+                                                             incidence of VTE occurred at 74 days.
+
+Copyright © Lippincott Williams & Wilkins. Unauthorized reproduction of this article is prohibited.
+452 Disorders of the pulmonary circulation
+
+7 Kucher N, Koo S, Quiroz R, et al. Electronic alerts to prevent venous        11 Seruya M, Venturi ML, Iorio ML. Efficacy and safety of venous thromboem-
+      thromboembolism among hospitalized patients. N Engl J Med 2005;                bolism prophylaxis in the highest risk plastic surgery patients. Plast Reconstr
+      352:969 - 977.                                                                 Surg 2008; 122:1701-1708.
+
+8 Oshaunnessey D. Evaluating the performance of a previously reported risk     12 Hatef D, Kenkel J, Nguyen M. Thromboembolic risk assessment and the
+      score to predict venous thromboembolism. A Verity registry study. Blood        efficacy of enoxaparin prophylaxis in excisional body contouring surgery. Plast
+      2006; 108:abstract 716.                                                        Reconstr Surg 2008; 122:269-279.
+
+9 Caprini JA, Arcelus JI, Hasty JH, et al. Clinical assessment of venous       13 Bahl V, Hu H, Henke PK, et al. A validation study of a retrospective venous
+      thromboembolic risk in surgical patients. Semin Thromb Hemost 1991; 17    thromboembolism risk scoring method based on the Caprini risk assessment
+      (Suppl 3):304-312.
+                                                                                     model. Ann Surg 2010; 251:344-350.
+10 Turpie AG, Bauer KA, Caprini JA, et al. Fondaparinux combined with          This article is the best evidence for validating the Caprini score and is based on
+      intermittent pneumatic compression vs. intermittent pneumatic compres-   actual VTE clinical events at 30 days.
+      sion alone for prevention of venous thromboembolism after abdominal
+      surgery: a randomized, double-blind comparison. J Thromb Haemost         14 Pannucci C, Bailey S, Fisher C, et al. Validation of the Caprini risk assessment
+      2007; 5:1854-1861.                                                             model in plastic and reconstructive surgery patients [abstract]. J Vasc Surg
+                                                                                     2010; 51:788-789.
+
+Copyright © Lippincott Williams & Wilkins. Unauthorized reproduction of this article is prohibited.
+

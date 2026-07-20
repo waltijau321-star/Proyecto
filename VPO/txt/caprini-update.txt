@@ -1,0 +1,678 @@
+Original Article                                                    Clinical and Applied
+                                                                    Thrombosis/Hemostasis
+Completion of the Updated Caprini Risk                              Volume 25: 1-10
+Assessment Model (2013 Version)                                     ª The Author(s) 2019
+                                                                    Article reuse guidelines:
+                                                                    sagepub.com/journals-permissions
+                                                                    DOI: 10.1177/1076029619838052
+                                                                    journals.sagepub.com/home/cat
+
+MaryAnne Cronin, MS, PharmD1 , Nancy Dengler, RN, NP1,
+Eugene S. Krauss, MD, FAAOS, FACS1, Ayal Segal, MD1, Nicole Wei, BS1,
+Madison Daly, BA1, Frank Mota, BS1, and Joseph A. Caprini, MD, FACS2,3
+
+Abstract
+The Caprini risk assessment model (RAM) has been validated in over 250 000 patients in more than 100 clinical trials worldwide.
+Ultimately, appropriate treatment options are dependent on precise completion of the Caprini RAM. As the numerical score increases,
+the clinical venous thromboembolism rate rises exponentially in every patient group where it has been properly tested. The 2013
+Caprini RAM was completed by specially trained medical students via review of the presurgical assessment history, medical clearances,
+and medical consults. The Caprini RAM was completed for every participant both preoperatively and predischarge to ensure that any
+changes in the patient's postoperative course were captured by the tool. This process led to the development of completion guidelines
+to ensure consistency and accuracy of scoring. The 2013 Caprini scoring system provides a consistent, thorough, and efficacious
+method for risk stratification and selection of prophylaxis for the prevention of venous thrombosis.
+
+Keywords
+thromboprophylaxis, risk stratification, deep vein thrombosis, pulmonary embolism, Caprini risk assessment
+
+Date received: 01 February 2019; accepted: 20 February 2019.
+
+Background                                                          encouraged the development of evidence-based practices for
+                                                                    screening, prevention, diagnosis, and treatment of venous
+Pulmonary embolism (PE) and deep vein thrombosis (DVT),             thrombosis and PE.4 From 2006 through 2008 in recognition
+collectively known as venous thromboembolism (VTE), repre-          of the high attributable risk of DVT and PE due to hospitaliza-
+sent a major public health dilemma that affects 350 000 to 600 000  tion, the National Quality Forum, the Joint Commission, and
+Americans annually.1 Venous thromboembolism remains the             the Centers for Medicare and Medicaid Services all instituted
+most preventable cause of death in hospitalized patients and is     policies and measures to reduce VTE and promote appropriate
+known to cause significant morbidity with associated health-care    prophylaxis to at-risk patients in the hospital setting.5 In 2008,
+expenditure.2 After a primary thromboembolic episode, VTE           the eighth edition of the American College of Chest Physicians
+recurs in approximately 25% of patients over the subsequent         (AT8) guidelines for the prevention of VTE endorsed the need
+10 years. Complications associated with VTE include postthrom-      for an "active, formal strategy" to prevent hospital-induced
+botic syndrome after DVT (20%-50% incidence) and chronic            VTE. The authors felt that available risk assessment models
+thromboembolic pulmonary hypertension after PE (0.1%-3.8%           (RAMs) were minimally validated and impractical to use.6
+incidence).3 These conditions negatively impact quality of life     They proposed that thrombosis prophylaxis should be provided
+and individual productivity while adding burden to the patient,     for groups of patients where clinical trial data were available. It
+their support system, and the health-care system at large.
+                                                                    1 Department of Orthopaedic Surgery, Syosset Hospital, Syosset, NY, USA
+   There has been a marked increase in federal and national         2 Emeritus, NorthShore University HealthSystem, Evanston, IL, USA
+efforts over the last decade to increase both awareness and         3 University of Chicago Pritzker School of Medicine, Chicago, IL, USA
+treatment of this avoidable outcome. In 2008, the Surgeon
+General and the Director of the National Heart, Lung and            Corresponding Author:
+Blood Institute announced a "Call to Action to Prevent Deep         MaryAnne Cronin, Department of Orthopaedic Surgery, Northwell Health/
+Vein Thrombosis and Pulmonary Embolism." The Call to                Syosset Hospital, 221 Jericho Turnpike, Syosset, NY 11791, USA.
+Action emphasized public awareness about risk factors, trig-        Email: mcronin@northwell.edu
+gering events, and symptoms of venous thrombosis and PE and
+
+                       Creative Commons Non Commercial CC BY-NC: This article is distributed under the terms of the Creative Commons
+                       Attribution-NonCommercial 4.0 License (http://www.creativecommons.org/licenses/by-nc/4.0/) which permits non-commercial use,
+reproduction and distribution of the work without further permission provided the original work is attributed as specified on the SAGE and Open Access
+pages (https://us.sagepub.com/en-us/nam/open-access-at-sage).
+2                                                                       Clinical and Applied Thrombosis/Hemostasis
+
+has been subsequently shown that since many patients in clin-           trials worldwide.12-22 One should note that the cutoff score
+ical practice did not fit the criteria for clinical trials, a specific  between risk groups varies depending on the surgical popula-
+analysis of each individual's risk factors was a better approach.       tion that is tested. AT9 defines the high-risk group as a score of
+The availability of the electronic medical record has facilitated       5 or greater for general surgery patients.9 This cutoff point,
+collection of these data and assisted in the implementation of          however, is not appropriate for all surgical specialties. Since
+RAMs. As a result, over the past 5 years, individual thrombosis         then, a score of 12 has been shown to be the very high-risk
+risk assessment has become accepted practice in most surgical           cutoff for those with hip fractures.12 A companion manuscript
+specialties.                                                            submitted for publication in this journal involving total joint
+                                                                        arthroplasty included 1078 patients to establish the very high-
+   There are multiple quantitative VTE RAMs available for               risk cutoff in this population. Krauss et al found that total joint
+use in clinical practice. The Padua Prediction Score and                arthroplasty patients with a score of 10 or greater were at high
+IMPROVE RAMs were designed to address VTE risk in med-                  risk of VTE, and the authors presented data that this very high-
+ical patients.7,8 The ninth edition of the American College of          risk group would benefit from traditional anticoagulants.23
+Chest Physicians Antithrombotic Therapy and Prevention of               Patients with a lower score could safely receive aspirin accord-
+Thrombosis guideline (AT9) has recognized only 2 risk assess-           ing to their findings. A large, prospective, multicenter trial to
+ment tools in the nonorthopaedic surgical population, the               test these concepts is currently in development.
+Rogers Score, and the Caprini Score.9 The Rogers Score has
+been validated in general, vascular, and thoracic surgery in a             Drugs administered to prevent VTE carry their own risks,
+single study. The score is based on variables that were found to        specifically minor to major bleeding events. Thus, individuali-
+be independent predictors of VTE risk such as surgical proce-           zation of prophylaxis treatment based on calculated risk factors
+dure, female sex, and a variety of other individual patient char-       will prevent unnecessary prophylaxis for patients deemed low
+acteristics.10 Unlike the Caprini RAM, the Rogers score does            risk while providing prophylaxis for patients who are high risk.
+not take into account certain VTE risk factors including any            Ultimately, the appropriate treatment options are dependent on
+personal or family history of VTE and thrombophilia. Several            precise completion of the Caprini RAM. An inaccurate medical
+other issues have been identified with using this model. Firstly,       history or incorrect interpretation of criteria contained in the
+the categorizations by which variables are assigned point val-          RAM could result in an erroneous Caprini score, thereby lead-
+ues are not easy to follow and have been noted as                       ing to an incorrect treatment assignment for the patient.
+"cumbersome" to use.9,10 Secondly, the study that was used
+to validate this RAM did not clearly state which patients                  Recently, Pannucci and colleagues performed a meta-
+received prophylactic measures for VTE, and what type they              analysis of selected publications using Caprini scores to inves-
+received (ie, mechanical, pharmacological).9                            tigate benefits and harms of chemoprophylaxis among surgical
+                                                                        patients individually risk stratified for VTE. They evaluated 13
+Caprini Risk Assessment Tool for VTE                                    studies; 11 (n ¼ 14 776) contained data for VTE events, and 8
+                                                                        (n ¼ 7590) contained data for clinically relevant bleeding with
+A group of physicians, nurses, and scientists led by Dr Caprini         and without chemoprophylaxis. The most important finding
+developed a risk assessment scoring system first published in           was a 14-fold increase in VTE risk (from 0.7% to 10.7%)
+1991.11 Individual risk factors were assigned one or more               among surgical patients who did not receive chemoprophy-
+points according to their relative risk of resulting in a throm-        laxis, and patients with higher Caprini scores were significantly
+botic event. Factors such as surgery or cancer received 2 points,       more likely to have a thrombotic event. The benefit of perio-
+whereas varicose veins or oral contraception were assigned one          perative VTE chemoprophylaxis was only found among surgi-
+point. The initial assignment of points was based on the relative       cal patients with Caprini scores equal to or greater than 7.24
+risk of thrombosis for each risk factor using current literature at     One must remember that this study selected the purest 13 of the
+that time. For example, cancer or past history of thrombosis            nearly 100 clinical trials, and these results may not apply to all
+were stronger risk factors than swollen legs. The total score for       patient groups. This meta-analysis, however, demonstrates the
+each patient was compared to the incidence of clinically evi-           value of the Caprini score in classifying patient risk to selec-
+dent VTE events at 30 days to validate the model. An expo-              tively use anticoagulants without exposing entire populations
+nential increase in thrombotic events with increasing score has         to anticoagulants, as was popular in the past.
+been observed for every group properly tested. This allowed for
+categorizing patients into low-, moderate-, and high-risk                  The 2013 version is the most recent iteration of the Caprini
+groups based on the thrombosis event rate for each group.               RAM.25 This version differs from preceding versions in that it
+Using this stratification data, the type, duration, and strength        includes additional risk factors not tested in validation studies
+of prophylaxis could be tailored to the level of risk. The clinical     but shown in the literature to be associated with thrombosis.
+VTE event rate for each group could be compared to the                  These identified risk factors include BMI above 40,26,27 smok-
+patients' risk of bleeding, resulting in prophylaxis tailored to        ing,28,29 diabetes requiring insulin,30,31 chemotherapy,32,33
+provide optimal thrombosis protection.                                  blood transfusions,34,35 and length of surgery over 2 hours.36,37
+
+   Since its introduction in 1991, the Caprini RAM has been                During our validation study of the 2013 Caprini RAM in
+validated in over 250 000 patients in more than 100 clinical            arthroplasty patients, scoring was completed by specially
+                                                                        trained medical students via review of the presurgical
+                                                                        assessment history, medical clearances, and medical
+Cronin et al                                             3
+
+Figure 1. Caprini Risk Assessment Model (version 2013).
+4                                                              Clinical and Applied Thrombosis/Hemostasis
+
+                                     Are You at Risk for DVT?
+
+   Only your doctor can determine if you are at risk for Deep Vein Thrombosis (DVT), a blood clot that forms in one of the deep veins of your legs.
+   A review of your personal history and current health may determine if you are at risk for developing this condion. Please take a moment to
+   complete this form for yourself (or complete it for a loved one). Then be sure to talk with your doctor about your risk for DVT and what you
+   can do to help protect against it.
+
+   1. Please select your AGE :
+       0 - 40 years old (0 points)
+       41 - 60 years old (1 point)
+       61 - 74 years old (2 points)
+       Age 75 or older (3 points)
+
+                                     Score: ______
+
+   2. Add 1 POINT for each statement that applies to you:
+       Within the last month, I have had surgery under general or regional anesthesia that lasted for MORE THAN 45 minutes.
+       Within the last month, I have had or currently have varicose veins. (NOT spider veins)
+       Within the last month, I have had or currently have swollen legs.
+       Within the last month, I have had a heart attack.
+       Within the last month, I have had or currently have a serious infection and was hospitalized, for example pneumonia, cellulitis, etc.
+       I have a history of inflammatory bowel disease (includes Crohn's or ulcerative colitis).
+       I have or have had congestive heart failure.
+       I have a chronic lung disease (for example COPD, emphysema) NOT including asthma.
+                                                                               Score: ______
+
+   3. For WOMEN ONLY, add 1 POINT for each statement that applies to you:
+       I currently use birth control (oral contraceptive pills, skin implantable devices, hormonal patches, IUD with hormones, depo shot) or
+       hormone replacement therapy. Not including condoms or barrier devices.
+
+       I am pregnant or had a baby within the last month.
+
+       I have a history of an unexplained stillborn infant, THREE (3) or more spontaneous abortions, premature birth with preeclampsia, or baby
+       born smaller than appropriate (low weight at birth).
+
+                                                                               Score: ______
+
+   4. Add 2 POINTS for each statement that applies to you:
+       My doctor told me I have cancer, leukemia, lymphoma, or melanoma.
+
+       In the last month I have had a non-removable plaster cast or mold that has kept me from bending and/or walking normally on this leg.
+       In the last month, I have had or currently have a PICC line, Port, or central venous access catheter in my neck or chest that delivers blood or
+       medicine directly into my heart.
+
+                                                                               Score: ______
+
+   5. Add 3 POINTS for each statement that applies to you:
+       I have had a blood clot in my legs, arms, abdomen, or lungs.
+       Has anyone in the family (parents, grandparents, aunts, uncles, siblings, cousins) suffered from a blood clot?
+       Have you or any blood relative ever been told that you have an abnormal blood test indicating an increased risk of blood clotting?
+                                                                               Score: ______
+
+   6. Please select points for each statement that applies to you
+       I have been in bed for LESS than THREE (3) DAYS associated with sustained walking of fewer than 30 feet. (1 point)
+       I have been in bed for THREE (3) or MORE DAYS associated with sustained walking of fewer than 30 feet. (2 points)
+                                                                               Score: ______
+
+   7. Add 5 POINTS for each statement that applies to you:
+       Within the past month, I have had a hip or knee joint replacement surgery. (include if scheduled surgery)
+       Within the past month, I have had a broken hip, pelvis, or leg.
+       Within the past month, I have had a serious trauma (for example multiple broken bones due to fall or car accident).
+       Within the past month, I have had a stroke (clot or hemorrhage in the brain, transient ischemic attack).
+       Within the past month, I have had a spinal cord injury with paralysis
+                                                                               Score: ______
+
+   8. If you have a SCHEDULED SURGERY coming up, please select an option.
+       I have a scheduled surgery under general or regional anesthesia for LESS THAN 45 minutes. (1 point)
+       I have a scheduled surgery under general or regional anesthesia for MORE THAN 45 minutes, including laparoscopic or arthroscopic. (2
+       points) (EXCLUDING total joint replacement - already included in the score of 5)
+                                                                              Score: ______
+
+                                                                                   (over)
+
+Figure 2. Patient-friendly tool (Caprini RAM version 2013) - side 1. Completed by the patient -side 2. Completed by the Healthcare Provider.
+Cronin et al                                                                                                                                     5
+
+FOR THE HEALTHCARE PRACTITIONER:
+
+9. Add 1 POINT for each statement that applies based on patient's BMI:
+    Overweight (BMI > 25)
+                                                                          Score: ______
+
+10. Add 1 POINT for each additional risk factor:
+(These risk factors have not been tested in validation studies but have been shown in the literature to be associated with thrombosis)
+
+    Morbid obesity (BMI > 40)
+    Smoking
+    Diabetes requiring insulin
+    Chemotherapy
+    Blood transfusion
+    Human immunodeficiency virus (HIV)
+    Length of surgery greater than 2 hours (EXCLUDING total joint arthroplasty - already included in the score of 5)
+
+                                                                          Score: ______
+
+Reassess the following with the patient and adjust score as necessary:
+    Assess patient for leg swelling. Includes pitting edema of any kind.
+    Review obstetrical history with female patient. (see #3 "For women only", statement 3)
+    Review family history of thrombosis. Includes first, second and third degree relatives. Includes both superficial and deep vein thrombosis.
+     Review family history of thrombosis. Includes first, second and third degree relatives.
+                                                                      Adjusted Score: ______
+
+                                                          Total Score: ______
+
+        Adapted from Fuentes HE et al. TH Open 2017;1:e106-e112.
+Figure 2. (Continued.)
+
+consults. Any questions or concerns were escalated to                 Pannucci and Fleming have stressed the importance of face-
+Dr Caprini. The Caprini RAM was completed for every parti-         to-face patient interviews rather than relying on record
+cipant both preoperatively and predischarge to ensure that any     review.41 One of the most common errors is failure to ask all
+changes in the patient's postoperative course were captured by     of the pertinent questions. Retrospective database reviews are
+the tool (Figure 1).                                               flawed since it is not known if all of the questions were pre-
+                                                                   sented to the patient or if their responses reflected an accurate
+Completion Guidelines                                              interpretation of the question. This is especially true of obste-
+                                                                   trical complications which may reflect possible antiphospholi-
+The patient or the patient's health-care advocate should com-      pid syndrome being carried by a preoperative patient later in
+plete the risk assessment tool.38 In 2017, Fuentes et al tested    life. These antibodies are a powerful stimulus for VTE. Family
+multiple versions of a patient-friendly Caprini risk score work-   history is the most frequent issue that is overlooked. To reem-
+sheet until they created a tool that, when completed first by the  phasize, a history of past VTE or family VTE history is one of
+patient, and then by a physician trained to interpret the Caprini  the most prevailing risk factors responsible for postoperative
+RAM, yielded a high correlation of agreement. The average          thrombosis, including untimely death.38
+time to complete the tool was 5 minutes for the patient and then
+6 minutes for the physician to finalize the score.38 Having the       The immediate preoperative period on the day of surgery
+patient complete the validated patient-friendly risk assessment    is strongly discouraged for completion of the Caprini RAM.
+in advance of the day of surgery in the presence of family         It is an anxious time for the patient and family and a com-
+members is vital, especially to provide details concerning fam-    prehensive, accurate assessment may not be captured. We
+ily history of thrombosis and obstetrical complications (where     have found that the presurgical testing visit is an optimal
+applicable). Personal experience has taught us that on many        opportunity for the patient and family to fill out the patient-
+occasions, questions regarding family history of thrombosis        friendly form. The entire document is then reviewed by the
+in first-, second-, and third-degree relatives are not asked or    health-care provider, preferably the person responsible for
+are addressed in a superfluous manner.39 Patients who have this    the preoperative history and physical. Knowledge regarding
+history have an increased level of risk, equivalent to those who   a detailed history and physical is necessary to precisely
+have a personal thrombophilic defect.40                            complete the tool for optimal patient outcomes with respect
+                                                                   to thrombosis.
+6                                                                                            Clinical and Applied Thrombosis/Hemostasis
+
+   The Caprini RAM is a dynamic tool, requiring ongoing            with patient-friendly text has been created for the 2013 version
+evaluation of the patient during their hospital course and the     of the Caprini RAM and is now completed by all of our patients
+postoperative recovery period. Changes in clinical status could    in presurgical testing, which occurs up to 21 days prior to
+result in a change in the score, thereby resulting in a new score  surgery (Figure 2).
+and potentially a revised treatment option. For example, a post-
+operative infection necessitating a central line for antibiotics   Conclusion
+would increase a patient's score, and subsequently, the inci-
+dence of VTE. A patient sent home after a short hospitalization    The Caprini RAM is a dynamic tool, requiring ongoing evalua-
+may be unexpectedly immobile due to postoperative pain or          tion of the patient during their hospital course and the post-
+weakness and might develop leg swelling due to inactivity.         operative recovery period. Changes in clinical status could
+This may increase their chance of suffering a thrombotic event     result in a change in the score, thereby resulting in a new score
+in the outpatient setting.                                         and potentially a revised treatment option. The 2013 Caprini
+                                                                   scoring system provides a consistent, accurate, and efficacious
+   Accurate interpretation of the 2013 version of the Caprini      method for risk stratification and selection of prophylaxis.
+RAM is discussed below. The Caprini RAM requires detailed
+patient information for successful risk assessment. Thus, a tool
+
+Add 1 POINT for each of the following criteria that apply
+
+NOW OR WITHIN THE PAST MONTH:                              Criteria interpretation for the health-care provider
+
+c Age 41-60 years
+
+c Minor surgery (less than 45 minutes) is planned          The length of surgery must also include the anesthesia time
+
+c Past major surgery (more than 45 minutes) within the Major surgery within the past month only
+
+   last month
+
+c Visible varicose veins                                   Patients with visible bulging veins would receive a score of 1. This risk factor does
+
+                                                           not refer to a patient with spider veins or a patient with a history of surgically
+
+                                                           removed varicose veins
+
+c History of inflammatory bowel disease (IBD; eg,          This risk factor include both active and inactive inflammatory bowel diseases such as
+
+   Crohns disease or ulcerative colitis)                   ulcerative colitis or regional ileitis. This would not include irritable bowel
+
+                                                           syndrome or diverticulosis
+
+c Swollen legs (current)                                   Swollen legs include pitting edema of any level, loss of definition of the bony
+
+                                                           prominences, obscured surface foot veins, or indentation of the leg when a
+
+                                                           stocking is removed. This factor refers to either 1 or 2 legs affected
+
+c Overweight or obese (body mass index [BMI] above         This weight level was associated with patients developing symptomatic thrombosis
+   25 kg/m2)                                                  following total hip replacement. The combination of BMI greater than 25 kg/m2
+                                                              and oral contraceptive use in women increased the thrombotic risk 10-fold42-44
+
+c Heart attack                                             This refers to acute myocardial infarction (MI) that occurred within the
+
+                                                           past month
+
+c Congestive heart failure                                 This risk factor include patients who have had an episode within the last month.
+
+                                                           Additionally, patients who are currently being treated with medication for CHF
+
+                                                           are included, even if they had not had an acute episode within the past month. An
+
+                                                           ejection fraction alone should not be used when determining whether a patient
+
+                                                           meets this criteria
+
+c Serious infection (eg, pneumonia)                        A "serious infection" is defined as a patient who requires hospitalization and
+
+                                                           intravenous antibiotics for treatment. For example, if a patient has a cellulitis
+
+                                                           requiring hospitalization with IV antibiotics they would receive one point for
+
+                                                           this risk factor. Treatments that are less severe and are managed on an
+
+                                                           outpatient basis with oral antibiotics are not included. Serious infections
+
+                                                           would include diverticulitis, bacterial infection of the bladder and lungs, and
+
+                                                           septicemia
+
+c Lung disease (eg, emphysema or COPD)                     In addition to emphysema or COPD this risk factor also includes any interstitial lung
+
+                                                           disease or patients with abnormal pulmonary function tests. This would include,
+
+                                                           but not limited to, any patient with sarcoidosis, pulmonary fibrosis, pulmonary
+
+                                                           hypertension, and bronchiectasis. Patients who present with more than one
+
+                                                           diagnosis meeting the criteria for lung disease will receive a point for each
+
+                                                           diagnosis. For example, if the patient has a diagnosis of sarcoidosis and COPD
+
+                                                           they would receive a total of 2 points for this risk assessment. Asthma is not
+
+                                                           considered a "lung disease" for the purpose of the risk assessment score.
+
+                                                           Additionally, patients with restrictive pulmonary disease related to obesity would
+
+                                                           not be included in this criteria
+
+                                                                                                                                   (continued)
+Cronin et al                                                                                                                               7
+
+(continued)
+
+Add 1 POINT for each of the following criteria that apply
+
+NOW OR WITHIN THE PAST MONTH:                              Criteria interpretation for the health-care provider
+
+c On bed rest or restricted mobility, including a          Restricted mobility (bedrest) is defined as any individual who is unable to
+   removable leg brace for less than 72 hours                 ambulate continuously more than 30 feet. "Restricted mobility" would also
+                                                              apply to any patient who is unable to ambulate using both leg muscles. For
+                                                              example, a patient who requires crutches and is nonweight bearing would be
+                                                              considered as restricted mobility even though they can ambulate 30 feet.
+                                                              Patients who are using a cane or walker for stability are not included in this
+                                                              group if they are using their calf muscles for ambulation45
+
+Other risk factors (1 POINT each) that apply NOW OR These risk factors have not been tested in validation studies but have been shown in
+
+WITHIN THE PAST MONTH:                                     the literature to be associated with thrombosis
+
+c BMI above 40                                             26,27
+c Smoking within the last month
+c Diabetes requiring insulin                               Smoking is defined as the inhalation of anything that burns, including tobacco,
+c Chemotherapy                                                marijuana, or vaping28,29
+
+c Blood transfusion(s)                                     Only insulin products are included in the risk assessment score. This does not
+c Length of surgery over 2 hours                              include any other oral or parenteral medications used for the treatment of
+                                                              diabetes30,31
+
+                                                           Chemotherapy treatments used for any medical condition are included in the
+                                                              scoring. For example, a patient receiving methotrexate for Rheumatoid
+                                                              Arthritis, regardless of the dose given, would receive a point for this risk
+                                                              factor. Patients diagnosed with essential thrombocytosis taking hydroxyurea
+                                                              would also receive a point here, in addition to 3 points for "personal history
+                                                              of positive blood test indicating increased risk for blood clotting"32,33
+
+                                                           One point is added for one or more blood transfusions34,35
+                                                           Actual current surgery time exceeding 2 hours, including anesthesia time. Do not
+
+                                                              add to the "5" for total hip or knee replacement surgery36,37
+
+FOR WOMEN ONLY: Add 1 POINT for each of the
+
+following criteria:                                        Criteria interpretation for the health-care provider
+
+c Current use of birth control or hormone replacement This includes estrogen contraceptives of any type. This also includes estrogen-like
+
+therapy (HRT)                                              drugs, including raloxifene, tamoxifen, anastrozole, and letrozole. Exemestane
+
+                                                           has not been shown to increase the risk of DVT. Recent publications have shown
+
+                                                           that there is no increased risk of DVT in men who are on long-term testosterone
+
+                                                           therapy; therefore, testosterone is excluded
+
+c Pregnant or had a baby within the last month
+
+c History of unexplained stillborn infant, recurrent       Recurrent fetal loss is associated with antiphospholipid antibody syndrome,
+
+spontaneous abortion (3 or more), premature birth          procoagulant platelet microparticles and some inherited thrombophilias such as
+
+with toxemia or growth restricted infant                   Factor V Leiden. There have been reports of both heritable and acquired
+
+                                                           thrombophilias being associated with preeclampsia, intrauterine growth
+
+                                                           restriction (IUGR), and abruption. However, these associations are not
+                                                           consistently reported with hereditary thrombophilias46
+
+Add 2 POINTS for each of the following criteria:           Criteria interpretation for the health-care provider
+
+c Age 61-74 years                                          Whether the cancer diagnosis is remote or recent the patient will receive a score of
+c Current or past malignancies (excluding skin cancer         2. This is because patients with a remote history of cancer are always at risk of
+                                                              occult metastasis, which would increase their risk of thrombosis. Every incidence
+   but including melanoma)                                    of cancer is considered separately and scored accordingly. For example, a patient
+                                                              who has a remote history of breast cancer and is recently diagnosed with uterine
+                                                              cancer would receive a score of 4 (2 points for each episode of cancer). For the
+                                                              purpose of this document, Ductal Carcinoma in situ (DCIS) would also receive a
+                                                              score of 2 as there is always the potential of an invasive cancer. Myelodysplastic
+                                                              syndrome (MDS) would be scored as 2 points only if the disease requires
+                                                              chemotherapy treatment. The patient would also receive an additional point for
+                                                              the chemotherapy treatment
+
+                                                                                                                                                   (continued)
+8                                                           Clinical and Applied Thrombosis/Hemostasis
+
+(continued)
+
+Add 2 POINTS for each of the following criteria:            Criteria interpretation for the health-care provider
+
+c Planned major surgery lasting longer than 45 minutes Do not add to the "5" for total hip or knee replacement surgery. One additional
+
+   (including laparoscopic and arthroscopic)                point should be added if the surgery lasts longer than 2 hours, including
+
+                                                            anesthesia time. See "Other risk factors (1 point each)"
+
+c Nonremovable plaster cast or mold that prevents leg The intent of this risk factor is to capture any limitation in leg mobility which would
+
+   movement within last month                               interfere with calf muscle pumping action such as a leg brace or cast. Patients
+
+                                                            using crutches who are nonweight bearing on one leg would also be included. The
+
+                                                            use of an assistive device for stability, such as a walker, would not meet the
+
+                                                            criteria if the patient is using their calf muscles
+
+c Tube in blood vessel in neck or chest that delivers
+
+   blood or medicine directly to the heart within the last
+
+   month (eg, central venous access, PICC line, port)
+
+c Confined to bed for 72 hours or more (unable to "Confined to bed" is confusing terminology and should be referred to as impaired
+
+   ambulate continuously 30 feet).                          mobility. The patient is unable to ambulate continuously 30 feet. This would also
+
+                                                            apply to any patient who is unable to ambulate using both leg muscles. For
+
+                                                            example, a patient who requires crutches and is nonweight bearing would be
+
+                                                            considered as restricted mobility even though they can ambulate 30 feet. Patients
+
+                                                            who are using a cane or walker for stability are not included in this group if they
+                                                            are using their calf muscles for ambulation45
+
+Add 3 POINTS for each of the following criteria:            Criteria interpretation for the health-care provider
+
+c Age 75 or over
+
+c History of blood clots, either deep vein thrombosis Arterial blood clots are not included in the scoring. A CVA due to a paradoxical
+
+   (DVT) or pulmonary embolism (PE). This also includes embolus (eg, PFO) would be given 3 points; however, a DVT must be
+
+   history of superficial venous thrombosis (SVT).          documented by an objective measure in this case. Each episode of a DVT or PE is
+
+                                                            captured as a separate event for scoring. For example, a patient with a medical
+
+                                                            history of DVT in 2014 and PE in 2015 would be given a cumulative score of 6.
+
+                                                            However, PE and DVT events that occur simultaneously would be scored as 3
+                                                            points. SVT must be captured and scored a 3 here as well47
+
+c Family history of blood clots                             Family history should include first-degree relatives (sibling, son/daughter, parent,
+
+                                                            grandparent), second-degree relatives (maternal half-sibling, paternal half-sibling,
+
+                                                            niece/nephew), and third-degree relatives (cousin). Younger age of first venous
+                                                            thromboembolism (VTE) and male relative increase the risk39
+
+c Personal or family history of positive blood test         A patient will receive a score of 3 points for each genetic thrombophilia marker. If a
+
+   indicating an increased risk of blood clotting (eg,      family member has a proven genetic marker the patient will receive a score of 3
+
+   genetic or acquired thrombophilia)                       unless it has been confirmed that the patient does not have this genetic marker.
+
+                                                            Genetic (inherited) factors: Factor V Leiden/activated protein C resistance,
+
+                                                            antithrombin III deficiency, protein C & S deficiency, dysfibrinogenemia, 20210A
+
+                                                            prothrombin mutation. Acquired factors: lupus anticoagulant, antiphospholipid
+
+                                                            antibodies, myeloproliferative disorders (including thrombocytosis), disorders of
+
+                                                            plasminogen and plasmin activation, heparin-induced thrombocytopenia,
+                                                            hyperviscosity syndromes, and homocysteinemia.48 HIV infection is an acquired
+                                                            thrombophilia49
+
+Add 5 POINTS for each of the following criteria that apply
+
+NOW OR WITHIN THE PAST MONTH:                               Criteria interpretation for the health-care provider
+
+c Elective hip or knee joint replacement surgery            5 points are given for each surgical procedure; therefore, patients having staged or
+c Broken hip, pelvis, or leg                                   bilateral arthroplasty surgery are to be scored as 10 points
+
+                                                            Fractures requiring surgical repair would receive 5 points for the fracture and
+                                                               will also be assessed additional points depending on the type of surgery.
+                                                               Patients undergoing an ORIF would be given 2 points for "surgery over 45
+                                                               minutes." Patients requiring a hemiarthroplasty would receive 5 points "for
+                                                               elective hip replacement surgery." For example, a patient with a fractured
+                                                               ankle undergoing an ORIF would receive a score of 7, 5 points for the
+                                                               fracture and 2 points for the surgical repair. An additional 2 points would be
+                                                               added if a cast or brace is applied
+
+                                                                                                                                                    (continued)
+Cronin et al                                                                                                      9
+
+(continued)
+
+Add 5 POINTS for each of the following criteria that apply
+
+NOW OR WITHIN THE PAST MONTH:                               Criteria interpretation for the health-care provider
+
+c Serious trauma (eg, multiple broken bones due to a fall Now or within the past month
+
+or car accident)
+
+c Spinal cord injury resulting in paralysis                 Now or within the past month
+
+c Experienced a stroke                                      Now or within the past month
+
+Abbreviations: CHF, congestive heart failure; COPD, chronic obstructive pulmonary disease; CVA, cerebral vascular accident; IV, intravenous; ORIF, open
+reduction internal fixation; PFO, patent foramen ovale; VTE, venous thromboembolism.
+
+Declaration of Conflicting Interests                                               prevention of thrombosis, 9th edition: American College of Chest
+                                                                                   Physicians Evidence-Based Clinical Practice Guidelines. Chest.
+The author(s) declared no potential conflicts of interest with respect to          2012;141(2 suppl):e227S-e277S. doi:10.1378/chest.11-2297.
+the research, authorship, and/or publication of this article.                 10. Laryea J, Champagne B. Venous thromboembolism prophylaxis.
+                                                                                   Clin Colon Rectal Surg. 2013;26(3):153-159. doi:10.1055/s-
+Funding                                                                            0033-1351130.
+                                                                              11. Caprini JA, Arcelus JI, Hasty JH, Tamhane AC, Fabrega F. Clin-
+The author(s) received no financial support for the research, author-              ical Assessment of venous thromboembolic risk in surgical
+ship, and/or publication of this article.                                          patients. Semin Thromb Hemost. 1991;17(suppl 3):304-312. doi:
+                                                                                   10.1136/bmj.g5334.
+ORCID iD                                     https://orcid.org/0000-          12. Luksameearunothai K, Sa-Ngasoongsong P, Kulachote N, et al.
+                                                                                   Usefulness of clinical predictors for preoperative screening of
+MaryAnne Cronin, MS, PharmD, BCPS                                                  deep vein thrombosis in hip fractures. BMC Musculoskelet Dis-
+0002-7498-1564                                                                     ord. 2017;18(1):208. doi:10.1186/s12891-017-1582-5.
+                                                                              13. Hatef D, Kenkel JM, Nguyen MQ, et al. Thromboembolic risk
+References                                                                         assessment and the efficacy of enoxaparin prophylaxis in excision
+                                                                                   body contouring surgery. Plast Reconstr Surg. 2008;122(1):
+ 1. Maynard G, Stein J. Designing and implementing effective                       269-279. doi:10.1097/PRS.0b013e3181773d4a.
+     venous thromboembolism prevention protocols: lessons from col-           14. Seruya M, Venturi M. Efficacy and safety of venous thromboem-
+     laborative efforts. J Thromb Thrombolysis. 2010;29(2):159-166.                bolism prophylaxis in highest risk plastic surgery patients. Plast
+     doi:10.1007%2Fs11239-009-0405-4.                                              Reconstr Surg. 2008;122(6):1701-1708. doi:10.1097/PRS.
+                                                                                   0b013e31818dbffd.
+ 2. Mahan CE, Spyropoulos AC. Venous thromboembolism preven-                  15. Bahl V, Hu HM, Henke PK, Wakefield TW, Campbell DA Jr,
+     tion: a systematic review of methods to improve prophylaxis and               Caprini JA. A validation study of a retrospective venous throm-
+     decrease events in the hospitalized patient. Hosp Pract. 2010;                boembolism risk scoring method. Ann Surg. 2010;251(2):
+     38(1):97-108. doi:10.3810/hp.2010.02.284.                                     344-350. doi:10.1097/SLA.0b013e3181b7fca6.
+                                                                              16. Pannucci CJ, Bailey SH, Dreszer G, et al. Validation of the
+ 3. Becattini C, Agnelli G. Treatment of venous thromboembolism                    Caprini risk assessment model in plastic and reconstructive sur-
+     with new anticoagulant agents. J Am Coll Cardiol. 2016;67(16):                gery patients. J Am Coll Surg. 2011;212(1):105-112. doi:10.1016/
+     1941-1955. doi:10.1016/j.jacc.2016.01.072.                                    j.jamcollsurg.2010.08.018.
+                                                                              17. Shuman AG, Hu HM, Pannucci CJ, Jackson CR, Bradford CR,
+ 4. Wakefield TW, McLafferty RB, Lohr JM, et al. Call to action to                 Bahl V. Stratifying the risk of venous thromboembolism in oto-
+     prevent venous thromboembolism. J Vasc Surg. 2009;49(6):                      laryngology. Otolaryngol Head Neck Surg. 2012;146(5):719-724.
+     1620-1623. doi:10.1016/j.jvs.2009.01.058.                                     doi:10.1177/0194599811434383.
+                                                                              18. Stroud W, Whitworth JM, Miklic M, et al. Validation of a venous
+ 5. Beckman MG, Hooper WC, Critchley SE, Ortel TL. Venous                          thromboembolism risk assessment model in gynecologic oncol-
+     thromboembolism a public health concern. Am J Prev Med.                       ogy. Gynecol Oncol. 2014;134(1):160-163. doi:10.1016/j.ygyno.
+     2010;38(4S):S495-S501. doi:10.1016/j.amepre.2009.12.017.                      2014.04.051.
+                                                                              19. Obi AT, Pannucci CJ, Nackashi A, et al. Validation of the Caprini
+ 6. Geerts WH, Bergqvist D, Pineo GF, et al. Prevention of venous                  venous thromboembolism risk assessment model in critically Ill
+     thromboembolism. American college of chest physicians                         surgical patients. JAMA Surg. 2015;150(10):941-948. doi:10.
+     evidence-based clinical practice guidelines (8th edition). Chest.             1001/jamasurg.2015.1841.
+     2008;133(suppl 6):381S-453S. doi:10.1378/chest.08-0656.                  20. Lobastov K, Barinov V, Schastlivtsev I, Laberko L, Rodoman G,
+                                                                                   Boyarintsev V. Validation of the Caprini risk assessment model
+ 7. Barbar S, Noventa F, Rossetto V, et al. A risk assessment model
+     for the identification of hospitalized medical patients at risk for
+     venous thromboembolism: the Padua Prediction Score. J Thromb
+     Haemost. 2010;8(11):2450-2457. doi:10.1111/j.1538-7836.2010.
+     04044.x.
+
+ 8. Spyropoulos AC, Anderson FA, FitzGerald G, et al. Predictive and
+     associative models to identify hospitalized medication patients at risk
+     for VTE. Chest. 2011;140(3);706-714. doi:10.1378/chest.10-1944.
+
+ 9. Gould MK, Garcia DA, Wren SM, et al. Prevention of VTE in
+     nonorthopedic surgical patients. antithrombotic therapy and
+10                                                                          Clinical and Applied Thrombosis/Hemostasis
+
+     for venous thromboembolism in high-risk surgical patients in the            thrombosis and in hospital mortality in patients with traumatic
+     background of standard prophylaxis. J Vasc Surg Venous Lym-                 injuries. Crit Care. 2009;13(5):R151. doi:10.1186/cc8050.
+     phat Disord. 2016;4(2):153-160. doi:10.1016/j.jvsv.2015.09.004.        35. Vasan SK, Rostgaard K, Majeed A, et al. ABO blood group and
+21. Krasnow R, Gelpi-Hammerschmidt F, Preston M, et al. Valida-                  risk of thromboembolic and arterial disease. A study of 1.5 mil-
+     tion of the Caprini risk assessment model in radical cystectomy             lion blood donors. Circulation. 2016;133(15):1449-1457. doi:10.
+     patients. J Urology. 2016;95(4 suppl):e823-e824. doi:10.1016/j.             1161/CIRCULATIONAHA.115.017563.
+     juro.2016.02.937.                                                      36. Borow M, Goldson H. Postoperative venous thrombosis. Evalua-
+22. Saragas NP, Ferrao PN, Jacobson BF, Saragas E, Strydom A. The                tion of five methods of treatment. Am J Surg. 1981;141(2):245-251.
+     benefit of pharmacological venous thromboprophylaxis in foot           37. Pannucci CJ, Shanks A, Moote MJ, Bahl V, Cederna PS. Identify-
+     and ankle surgery. S Afr Med J. 2017;107(4):327-330. doi:10.                ing patients at high risk for venous thromboembolism requiring
+     1016/j.fas.2013.11.002.                                                     treatment after outpatient surgery. Ann Surg. 2012;255(6):
+23. Krauss ES, Segal A, Cronin M, Dengler N, Lesser ML, Ahn S, . . .             1093-1099. doi:10.1097/SLA.0b013e3182519ccf.
+     Caprini JA. Implementation and Validation of the 2013                  38. Fuentes HE, Paz LH, Al-Ogaili A, et al. Validation of a patient-
+     Caprini Score for Risk Stratification of Arthroplasty Patients in the       completed Caprini risk score for venous thromboembolism risk
+     Prevention of Venous Thrombosis. Clinical and Applied Thrombo-              assessment. TH Open. 2017;1(2):e106-e112. doi:10.1055/s-0037-
+     sis/Hemostasis; 2019.                                                       1607339.
+24. Pannucci CJ, Swistun L, MacDonald JK, Kenke PK, Brooke BS.              39. Zo¨ller B, Ohlsson H, Sundquist J, Sundquist K. Familial risk of
+     Individualized venous thromboembolism risk stratification using             venous thromboembolia in first-, second- and third-degree rela-
+     the 2005 Caprini score to identify the benefits and harms of che-           tives: a nationwide family study in Sweden. Thromb Haemost.
+     moprophylaxis in surgical patients. Ann Surg. 2017;265(6):                  2013;109(3):458-463. doi:10.1160/TH12-10-0743.
+     1094-1103. doi:10.1097/SLA.0000000000002126.                           40. Bezemer ID, van der Meer FJ, Eikenbook JC, Rosendall FR,
+25. Illinois Medical Society. https://www.venousdisease.com/                     Doggen CJ. The value of family history as a risk indicator for
+     caprini-dvt-risk-assessment.pdf.                                            venous thrombosis. Arch Intern Med. 2009;169(6):610-615. doi:
+26. Rocha AT, de Vasconcellos AG, da Luz Neto ER, Arau´jo DM,                    10.1001/archinternmed.2008.589.
+     Alves ES, Lopes AA. Risk of venous thromboembolism and effi-           41. Pannucci CJ, Fleming KI. Comparison of face-to-face interaction
+     cacy of thromboprophylaxis in hospitalized obese medical patients           and the electronic medical record for venous thromboembolism
+     and in obese patients undergoing bariatric surgery. Obes Surg.              risk stratification using the 2005 Caprini score. J Vasc Surg
+     2006;16(12):1645-1655. doi:10.1381/096089206779319383.                      Venous Lymphat Disord. 2018;6(3):304-311. doi:10.1016/j.jvsv.
+27. Martin K, Beyer-Westendorf J, Davidson BL, Huisman MV,                       2017.10.016.
+     Sandset PM, Moll S. Use of the direct oral anticoagulants in obese     42. White RH, Henderson MC. Risk factors for venous thromboem-
+     patients: guidance from the SSC of the ISTH. J Thromb Haemost.              bolism after total hip and knee replacement surgery. Curr Opin
+     2016;14(6):1308-1311. doi:10.1111/jth.13323.                                Pulm Med. 2002;8(5):375-371.
+28. Sweetland S, Parkin L, Balkwill A, et al. Smoking, surgery and          43. White RH, Gettner S, Newman JM, Trauner KB, Romano PS.
+     venous thromboembolism risk in women. United Kingdom cohort                 Predictors of rehospitalization for symptomatic venous throm-
+     study. Circulation. 2013;127(12):1276-1282. doi:10.1161/CIR-                boembolism after total hip arthroplasty. N Engl J Med. 2000;
+     CULATIONAHA.113.001428.                                                     343(24):1758-1764. doi:10.1056/NEJM200012143432403.
+29. Enga KF, Brækkan SK, Hansen-Krone IJ, le Cessie S, Rosendaal            44. Abdollahi M, Cushman M, Rosendaal FR. Obesity: risk of
+     FR, Hansen JB. Cigarette smoking and the risk of venous throm-              venous thrombosis and the interaction with coagulation factor
+     boembolism: the Tromsø Study. J Thromb Haemost. 2012;10(10):                levels and oral contraceptive use. Thromb Haemost. 2003;89(3):
+     2068-2074. doi:10.1111/j.1538-7836.2012.04880.x.                            493-498.
+30. Chung W, Lin C, Kao C. Diabetes increases the risk of deep-vein         45. Amin AN, Girard F, Samama MM. Does ambulation modify venous
+     thrombosis and pulmonary embolism. A population-based cohort                thromboembolism risk in acutely ill medical patients? Thromb Hae-
+     study. Thromb Haemost. 2015;114(4):812-818. doi:10.1160/                    most. 2010;104(5):955-961. doi:10.1160/TH10-04-0236.
+     TH14-10-0868.                                                          46. Greer IA. Thrombophilia: implications for pregnancy outcome.
+31. van Schouwenburg IM, Mahmoodi BK, Veeger NJGM, et al.                        Thromb Res. 2003;109(2-3):73-81. doi:10.1016/S0049-
+     Insulin resistance and risk of venous thromboembolism: results              3848(03)00095-1.
+     of a population-based cohort study. J Thromb Haemost. 2012;            47. Roach RE, Lijfering WM, van Hylckama Vlieg A, et al. The risk of
+     10(6):1012-1018. doi:10.1111/j.1538-7836.2012.04707.x.                      venous thrombosis in individuals with a history of superficial vein
+32. Haddad TC, Greeno EW. Chemotherapy-induced thrombosis. Thromb                thrombosis and acquired venous thrombotic risk factors. Blood.
+     Res. 2006;118(5):555-568. doi:10.1016/j.thromres.2005.10.015.               2013;122(26):4264-4269. doi:10.1182/blood-2013-07-518159.
+33. Khorana AA, Dalal M, Lin J, Connolly GC. Incidence and pre-             48. Caprini JA. Risk assessment as a guide for the prevention of the
+     dictors of venous thromboembolism (VTE) among ambulatory                    many faces of venous thromboembolism. Am J Surg. 2010;199(1
+     high-risk cancer patients undergoing chemotherapy in the United             suppl):S3-10. doi:10.1016/j.amjsurg.2009.10.006.
+     States. Cancer. 2013;119(3):648-655. doi:10.1002/cncr.27772.           49. Shen YM, Frenkel EP. Thrombosis and a hypercoagulable state in
+34. Spinella PC, Carroll CL, Staff I, et al. Duration of red blood cell          HIV-infected patients. Clin Appl Thromb Hemost. 2004;10(3):
+     storage is associated with increased incidence of deep vein                 277-280. doi:10.1177/107602960401000311.
+

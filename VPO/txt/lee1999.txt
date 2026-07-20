@@ -1,0 +1,487 @@
+Downloaded from http://ahajournals.org by on July 18, 2026  Derivation and Prospective Validation of a Simple Index for
+                                                              Prediction of Cardiac Risk of Major Noncardiac Surgery
+
+                                                                  Thomas H. Lee, MD, SM; Edward R. Marcantonio, MD, SM; Carol M. Mangione, MD, SM;
+                                                            Eric J. Thomas, MD, SM; Carisi A. Polanczyk, MD; E. Francis Cook, ScD; David J. Sugarbaker, MD;
+                                                            Magruder C. Donaldson, MD; Robert Poss, MD; Kalon K.L. Ho, MD, SM; Lynn E. Ludwig, MS, RN;
+
+                                                                                                 Alex Pedan, PhD; Lee Goldman, MD, MPH
+
+                                                            Background--Cardiac complications are important causes of morbidity after noncardiac surgery. The purpose of this
+                                                               prospective cohort study was to develop and validate an index for risk of cardiac complications.
+
+                                                            Methods and Results--We studied 4315 patients aged 50 years undergoing elective major noncardiac procedures in a
+                                                               tertiary-care teaching hospital. The main outcome measures were major cardiac complications. Major cardiac
+                                                               complications occurred in 56 (2%) of 2893 patients assigned to the derivation cohort. Six independent predictors of
+                                                               complications were identified and included in a Revised Cardiac Risk Index: high-risk type of surgery, history of
+                                                               ischemic heart disease, history of congestive heart failure, history of cerebrovascular disease, preoperative treatment
+                                                               with insulin, and preoperative serum creatinine 2.0 mg/dL. Rates of major cardiac complication with 0, 1, 2, or 3
+                                                               of these factors were 0.5%, 1.3%, 4%, and 9%, respectively, in the derivation cohort and 0.4%, 0.9%, 7%, and 11%,
+                                                               respectively, among 1422 patients in the validation cohort. Receiver operating characteristic curve analysis in the
+                                                               validation cohort indicated that the diagnostic performance of the Revised Cardiac Risk Index was superior to other
+                                                               published risk-prediction indexes.
+
+                                                            Conclusions--In stable patients undergoing nonurgent major noncardiac surgery, this index can identify patients at higher
+                                                               risk for complications. This index may be useful for identification of candidates for further risk stratification with
+                                                               noninvasive technologies or other management strategies, as well as low-risk patients in whom additional evaluation is
+                                                               unlikely to be helpful. (Circulation. 1999;100:1043-1049.)
+
+                                                                                                          Key Words: risk factors  surgery  prognosis
+
+                                                            C ardiovascular complications are important causes of                                     Methods
+                                                                  morbidity with major noncardiac procedures.1,2 Risk
+                                                            stratification of these patients often relies on noninvasive     Patient Population
+                                                            tests for myocardial ischemia, but analyses suggest that test
+                                                            results are most useful in patients whose clinical data suggest  Patients aged 50 years who underwent nonemergent noncardiac
+                                                            moderate risks for complications and that they have limited      procedures with an expected length of stay 2 days at Brigham and
+                                                            impact in high- or low-risk groups.3-5                           Women's Hospital from July 18, 1989, to February 28, 1994, were
+                                                                                                                             eligible for the study. Patients undergoing qualifying procedures
+                                                               Among the tools for clinical risk stratification are the      were eligible for the study if they underwent postoperative serial
+                                                            Cardiac Risk Index6 and other decision aids.7 Recent guide-      cardiac marker sampling as part of their care or gave their consent to
+                                                            lines have recommended a modification of the Cardiac Risk        the full study protocol, which was approved by the Hospital
+                                                            Index,8,9 but the studies used to develop this and other prior   Institutional Review Board. The full study protocol included preop-
+                                                            decision aids have relied on small numbers of patients, and      erative interviews and serial assessments of health status for 1 year
+                                                            they predated recent advances in surgery and anesthesia.         after surgery. Patients were approached for informed consent for the
+                                                            Furthermore, the usefulness of available indexes has been        full study protocol in the hospital's Preadmission Test Center or on
+                                                            limited by the complexity of their formats. We therefore         the day before surgery if the patient was hospitalized. Comparison of
+                                                            undertook a prospective investigation to derive and validate a   study logs and operating room schedules indicated that 80% of
+                                                            simple index for the prediction of the risk of cardiac compli-   eligible patients were approached by study personnel.
+                                                            cations in major elective noncardiac surgery.
+                                                                                                                                Because some patient subsets underwent preoperative assessment
+                                                                                                                             through different systems, the proportion of patients who did not
+                                                                                                                             provide informed consent preoperatively for the serial interview
+                                                                                                                             portion of the study (621 [14.5%] of the study population) was
+                                                                                                                             higher among patients who underwent thoracic (31%), abdominal
+
+                                                               Received January 19, 1999; revision received June 1, 1999; accepted June 19, 1999.
+                                                               From the Department of Medicine, Brigham and Women's Hospital and Harvard Medical School, and the Department of Medicine, University of
+                                                            California, San Francisco School of Medicine, San Francisco, Calif (L.G.).
+                                                               Reprint requests to Thomas H. Lee, MD, MSc, Partners Community HealthCare, Inc, Prudential Tower Suite 1150, 800 Boylston St, Boston, MA
+                                                            02199.
+                                                               © 1999 American Heart Association, Inc.
+
+                                                               Circulation is available at http://www.circulationaha.org
+
+                                                                                                                                       1043
+                                                            1044 Circulation September 7, 1999
+
+Downloaded from http://ahajournals.org by on July 18, 2026  aortic aneurysm (30%), and other vascular procedures (32%). Pa-         cardiac complications. Variables with a univariate correlation with a
+                                                            tients who provided informed consent before surgery had a lower         P value 0.10 were considered in stepwise logistic regression
+                                                            major cardiac complication rate (see below) than patients who did       analyses that identified the factors included in the risk index, with a
+                                                            not (1.7% versus 4.8%; P0.001).                                         cutoff P value of 0.05. We compared 2 versions of the new index: 1
+                                                                                                                                    in which weights were derived from the logistic regression analysis
+                                                            Data Collection                                                         and 1 in which all variables were assigned an equal value. Because
+                                                                                                                                    ROC analyses did not show an advantage for the index with variable
+                                                            Patients who provided informed consent to the full study protocol       weights, the index with equal weights for all variables was adopted.
+                                                            underwent preoperative evaluations by study personnel, including
+                                                            detailed medical histories, physical examinations, and laboratory          The Revised Cardiac Risk Index was then tested by different
+                                                            testing. For patients who could not be approached or refused            approaches, including comparison of major cardiac complication
+                                                            participation in the interview part of the study, clinical data were    rates within risk classes in the derivation and validation cohorts,
+                                                            obtained from the structured evaluation provided by the anesthesi-      analysis of whether the factors were independent predictors of risk in
+                                                            ologist in the medical record. This data source was also used to        the validation cohort, and comparison of the areas under the ROC for
+                                                            obtain American Society of Anesthesiologists (ASA) class for all        risk-prediction indexes.
+                                                            patients. Consenting patients agreed to postoperative sampling of
+                                                            creatine kinase (CK) and, if total CK levels were elevated, CK-MB                                 Results
+                                                            immediately after surgery, at 8 PM on the evening of surgery, and on
+                                                            the next 2 mornings. For other enrolled patients, samples were          The patients in the derivation and validation cohorts were
+                                                            performed according to the physicians' orders. For the entire study     similar (Table 1), with slightly more patients in the validation
+                                                            population, the mean (SD) number of cardiac enzyme samples              cohort undergoing procedures identified as high risk in the
+                                                            obtained was 4.02.2 (median 4). ECGs were performed in the              Original Cardiac Risk Index (ie, intraperitoneal, intrathoracic,
+                                                            recovery room and on the first, third, and fifth postoperative days if  or suprainguinal vascular). Rates of major cardiac complica-
+                                                            the patient remained hospitalized.                                      tions were 2% and 2.5%, respectively (Table 2).
+
+                                                               Total CK was assayed on the ACA discrete clinical analyzer              When 3 prior decision aids were applied in the derivation
+                                                            (DuPont). CK-MB was measured until July 30, 1993, with a DuPont         cohort, all 3 were able to stratify patients into subsets with
+                                                            ACA ion-exchange chromatography and immunoinhibition assay;             increasing rates of adverse outcomes (Table 3), but few
+                                                            after that date, a mass assay for CK-MB was performed on the            patients fell into high-risk groups. Only 4% of patients were
+                                                            Stratus instrument (Baxter Diagnostics).                                classified above class I in the Modified Cardiac Risk Index,
+                                                                                                                                    and only 3% of patients were assigned the highest ASA class.
+                                                            Classification of Outcomes
+                                                                                                                                    Correlates of Complications in the
+                                                            Follow-up data were collected through daily medical record review       Derivation Cohort
+                                                            by study personnel. The occurrence of all cardiac complications after   The combination of variables that defined preoperative ische-
+                                                            surgery was classified by a single reviewer (L.G.) who was blinded      mic heart disease with the highest correlation with major
+                                                            to preoperative clinical data and who used postoperative clinical       cardiac complications included any of the following: history
+                                                            information. When the ion-exchange chromatography assay was             of myocardial infarction, history of a positive exercise test,
+                                                            used to assay CK-MB, acute myocardial infarction was diagnosed if       current complaint of chest pain considered to be secondary to
+                                                            (1) the peak CK-MB was 5% of an elevated total CK or (2) the            myocardial ischemia, use of nitrate therapy, or ECG with
+                                                            peak CK-MB was 3% of an elevated total CK in the presence of            pathological Q waves. In the derivation cohort, major cardiac
+                                                            ECG changes consistent with ischemia or infarction. When the            complications occurred in 1 (2%) of 51 patients with a history
+                                                            CK-MB mass assay was used, acute myocardial infarction was              of prior angioplasty versus 55 (2%) of 2842 patients without
+                                                            diagnosed if peak CK-MB levels exceeded the normal range (5             prior angioplasty and in 6 (3%) of 217 patients with prior
+                                                            ng/mL) and the ratio of CK-MB to total CK exceeded 0.0278 or, in        CABG surgery versus 50 (2%) of 2676 patients without prior
+                                                            the setting of ECG changes, 0.0167. These threshold ratios were         bypass surgery (PNS). Therefore, patients with prior coro-
+                                                            estimated to be comparable to the respective thresholds with the        nary revascularization procedures were categorized as having
+                                                            activity assay for CK-MB on the basis of regression analyses of         ischemic heart disease only if they had any of the other
+                                                            samples for which both assays were used.                                criteria for ischemic heart disease listed above. This defini-
+                                                                                                                                    tion excluded 1 patient with prior coronary angioplasty and
+                                                               "Major cardiac complications" included myocardial infarction,        26 patients with prior CABG surgery, none of whom had
+                                                            pulmonary edema, ventricular fibrillation or primary cardiac arrest,    major perioperative cardiac complications. Preoperative ECG
+                                                            and complete heart block. Diagnosis of pulmonary edema required a       ST-T-wave changes (ST segment elevation or depression or
+                                                            formal reading of the chest radiograph by a radiologist consistent      T wave inversion) also were not associated with worse
+                                                            with this complication in a plausible clinical setting.                 outcomes.
+
+                                                            Analysis of Data                                                           Congestive heart failure was defined by the presence of
+                                                                                                                                    any of the following: history of congestive heart failure,
+                                                            Two thirds of the 4315 patients were assigned to the derivation         pulmonary edema, or paroxysmal nocturnal dyspnea; physi-
+                                                            cohort (n2893), which was used to develop the Revised Cardiac           cal examination showing bilateral rales or S3 gallop; or chest
+                                                            Risk Index. Patients who underwent vascular surgery were divided        radiograph showing pulmonary vascular redistribution. All of
+                                                            into those who underwent abdominal aortic aneurysm surgery              these variables were correlated with major cardiac complica-
+                                                            (n110) versus all other types of vascular surgery (n498). Among         tions. Cerebrovascular disease was defined as a history of
+                                                            the other vascular procedures, the most common were femoral-tibial      transient ischemic attack or stroke.
+                                                            or femoral popliteal artery bypass procedures (46%), carotid endar-
+                                                            terectomy (31%), and aorto-bifemoral bypass procedures (9%). No
+                                                            analyses were performed for the other 1422 patients (validation
+                                                            cohort) before prospective validation of the Revised Cardiac Risk
+                                                            Index. The performances of prior decision aids1,6,7 were compared by
+                                                            use of receiver operating characteristic curve (ROC) analysis.10
+
+                                                               To develop the revised risk index, clinical correlates of major
+                                                            cardiac complications were identified with a  2 test for categorical
+                                                            variables and a t test or Wilcoxon test for continuous variables.
+                                                            Different combinations of clinical variables were tested to identify
+                                                            the definition of ischemic heart disease most strongly correlated with
+                                                                                                           Lee et al Cardiac Risk Index for Major Noncardiac Surgery 1045
+
+                                                            TABLE 1. Clinical Characteristics of Patients in Derivation and Validation Cohorts
+
+                                                                                                                               Derivation Cohort  Validation Cohort  Relative Risks for Major
+                                                                                                                                   (n2893)            (n1422)         Cardiac Complications
+
+                                                                                                                                                                         and 95% CIs in
+                                                                                                                                                                        Derivation Cohort
+
+                                                            Male sex*, n (%)                                                   1374 (47)          722 (51)           2.6 (1.5, 4.6)
+
+                                                            Age 70 y, n (%)                                                     998 (35)          475 (33)           1.9 (1.1, 3.2)
+                                                            MeanSD age, y                                                      66.410.1           66.39.0
+
+                                                            Type of procedure, n (%)
+
+                                                            Thoracic                                                           346 (12)           184 (13)           1.1 (0.5, 2.3)
+
+                                                            Orthopedic                                                         1026 (35)          463 (33)           0.4 (0.2, 0.8)
+
+                                                            Abdominal aortic aneurysm                                          110 (4)            64 (5)             3.6 (1.7, 7.8)
+
+                                                            Other vascular                                                     498 (17)           226 (16)           3.9 (2.3, 6.5)
+
+                                                            Other abdominal                                                    324 (11)           184 (13)           0.8 (0.3, 1.9)
+
+                                                            Other                                                              578 (20)           292 (21)           0.1 (0.04, 0.6)
+
+                                                            High-risk procedures (intraperitoneal, intrathoracic, or           894 (31)           490 (34)           2.1 (1.2, 3.5)
+                                                            suprainguinal vascular procedures)*
+
+                                                            History of myocardial infarction, n (%)
+
+Downloaded from http://ahajournals.org by on July 18, 2026  Ever                                                               422 (15)           216 (15)           3.5 (2.1, 6.0)
+
+                                                            In last 180 days                                                   19 (1)             12 (1)             2.8 (0.4, 18.9)
+
+                                                            Current history of ischemic chest pain, n (%)                      376 (13)           185 (13)           2.9 (1.7, 5.1)
+
+                                                            History of noninvasive test indicating myocardial ischemia, n (%)  200 (7)            100 (7)            2.9 (1.5, 5.7)
+
+                                                            Current use of nitroglycerin, n (%)                                78 (3)             55 (4)             4.1 (2.1, 8.2)
+
+                                                            History of congestive heart failure, n (%)                         183 (6)            99 (7)             2.1 (1.0, 4.6)
+
+                                                            History of pulmonary edema, n (%)                                  73 (3)             40 (3)             2.2 (0.7, 6.8)
+
+                                                            History or physical examination showing significant valvular       104 (4)            52 (4)             3.2 (1.4, 7.3)
+                                                            heart disease, n (%)
+
+                                                            History of cerebrovascular disease, n (%)
+
+                                                            Transient ischemic attack                                          175 (6)            89 (6)             4.7 (2.6, 8.6)
+
+                                                            Prior cerebrovascular accident                                     155 (5)            78 (5)             2.9 (1.4, 6.1)
+
+                                                            Use of insulin for treatment of diabetes mellitus, n (%)           112 (4)            59 (4)             3.5 (1.6, 7.7)
+
+                                                            Preoperative evaluation, n (%)
+
+                                                            Rales at both bases or higher                                      195 (7)            105 (7)            3.0 (1.5, 5.9)
+
+                                                            S3 gallop                                                          38 (1)             18 (1)             0
+
+                                                            Preoperative laboratory tests, n (%)
+
+                                                            Abnormal rhythm                                                    188 (6.5)          112 (8)            0.8 (0.3, 2.6)
+
+                                                            Pathological Q waves on ECG                                        493 (17)           231 (16)           2.4 (1.3, 4.2)
+
+                                                            Cardiomegaly on preoperative chest x-ray                           129 (4)            74 (5)             3.1 (1.4, 6.6)
+
+                                                            Serum creatinine 2.0 mg/dL                                         103 (4)            55 (4)             5.2 (2.6, 10.3)
+
+                                                            Poor general medical status                                        381 (13)           179 (13)           1.8 (1.0, 3.4)
+
+                                                            Ischemic heart disease, n (%)                                      951 (33)           478 (34)           3.2 (1.9, 5.4)
+
+                                                            Congestive heart failure, n (%)                                    434 (15)           255 (18)           3.4 (2.0, 5.7)
+
+                                                              *P0.05 in comparison of derivation and validation cohorts.
+                                                               Definition of summary variables: "Ischemic heart disease" indicates patient has history of myocardial infarction, positive exercise test, current
+                                                            complaint of ischemic chest pain or use of nitrate therapy, or ECG with Q waves. Patients with prior CABG surgery or PTCA were included in this
+                                                            definition only if they had current complaints of chest pain that were presumed to be due to ischemia. "Congestive heart failure" indicates history
+                                                            of congestive heart failure, pulmonary edema, or paroxysmal nocturnal dyspnea, physical examination showing bilateral rales or S3 gallop, or chest
+                                                            radiograph showing pulmonary vascular redistribution.
+
+                                                               Some factors included in the Original Cardiac Risk Index        considered to have unstable angina, class IV congestive heart
+                                                            were present in few patients and were not associated with          failure, or active transient ischemia attacks.
+                                                            major cardiac complications. Only 19 patients (1%) had a
+                                                            history of myocardial infarction in the last 180 days (Table 1),     Patients who were using -adrenergic blocking agents at
+                                                            and only 5 (0.2%) had critical aortic stenosis. No patient was     the time of admission had a similar rate of cardiac compli-
+                                                                                                                               cations (13/533 patients; 2.4%) as patients who were not
+                                                            1046 Circulation September 7, 1999
+
+                                                            TABLE 2. Major Cardiac Complications in Derivation and Validation Cohorts
+
+                                                            Any major cardiac complication, n (%)                          Derivation Set   Validation Set     P
+                                                               Ventricular fibrillation/cardiac arrest                       (n2893)          (n1422)         NS
+                                                               Complete heart block                                           56 (2)           36 (2.5)       NS
+                                                               Acute myocardial infarction                                      9 (0.3)         7 (0.5)       NS
+                                                               Pulmonary edema                                                  2 (0.1)         2 (0.1)       NS
+                                                                                                                              28 (1.0)         18 (1.3)       NS
+                                                            Cardiac death during admission, n (%)                             24 (0.8)         18 (1.3)       NS
+                                                            Total (cardiac and noncardiac) mortality                            8 (0.3)         4 (0.3)     0.05
+                                                            during admission, n (%)                                           22 (0.8)         21 (1.5)
+
+Downloaded from http://ahajournals.org by on July 18, 2026  using these medications (43/2360; 1.8%). In stratified analy-     In logistic regression analyses, 6 independent (P0.05)
+                                                            ses, -blockers were not associated with major cardiac          correlates of major cardiac complications were identified in
+                                                            complication rates in patients with or without ischemic heart  the derivation cohort. These variables (and the rate of major
+                                                            disease. There was a trend toward higher complication rates    cardiac complications for patients with these characteristics)
+                                                            in patients with worse functional capacity as measured by      included high-risk type of surgery (27/894; 3%), ischemic
+                                                            Specific Activity Scale class (1.03%, 1.66%, 2.07%, and        heart disease (34/951; 4%), congestive heart failure (23/434;
+                                                            2.98%, respectively;  2 test P0.05).                           5%), history of cerebrovascular disease (17/291; 6%), insulin
+
+                                                            TABLE 3. Major Cardiac Complication Rates and 95% CIs in Derivation and Validation
+                                                            Cohorts Stratified by Risk Classification System
+
+                                                                                                Derivation Cohort (n2893)                   Validation Cohort (n1422)
+
+                                                                                         Events/Pop                        Rate (95% CI)    Events/Pop      Rate (95% CI)
+
+                                                            Original Cardiac Risk Index
+
+                                                            Class I                      31/2200                           1.4 (1.0, 2.0)   13/1039         1.3 (0.7, 2.1)
+
+                                                            Class II                     20/561                            3.6 (2.2, 5.5)   15/297          5.1 (2.9, 8.2)
+
+                                                            Class III                           5/127                      3.9 (1.3, 8.9)   8/84            9.5 (4.2, 17.9)
+
+                                                            Class IV                            0/5                        0                0/2             0
+
+                                                            ROC area (SE)                0.606 (0.034)                                      0.701 (0.043)
+
+                                                            Modified Cardiac Risk Index
+
+                                                            Class I                      49/2786                           1.8 (1.3, 2.3)   29/1371         2.1 (1.4, 3.0)
+
+                                                            Class II                            6/95                       6.3 (2.4, 13.2)  4/44            9.1 (2.5, 12.8)
+
+                                                            Class III                           1/12                       8.3 (0.2, 38.5)  3/7             42.9 (9.9, 82)
+
+                                                            ROC area (SE)                0.545 (0.022)                                      0.582 (0.034)
+
+                                                            ASA class
+
+                                                            Class I                             0/140                      0                0/65            0
+
+                                                            Class II                     14/1558                           0.9 (0.5, 1.5)   7/729           1.0 (0.4, 2.0)
+
+                                                            Class III                    35/1078                           3.3 (2.3, 4.5)   24/561          4.3 (2.8, 6.3)
+
+                                                            Class IV                            7/81                       8.6 (3.5, 17)    4/43            9.3 (2.6, 22.1)
+
+                                                            ROC area (SE)                0.697 (0.031)                                      0.706 (0.036)
+
+                                                            Revised Cardiac Risk Index
+
+                                                            Class I                             5/1071                     0.5 (0.2, 1.1)   2/488           0.4 (0.05, 1.5)
+
+                                                            Class II                     14/1106                           1.3 (0.7, 2.1)   5/567           0.9 (0.3, 2.1)
+
+                                                            Class III                    18/506                            3.6 (2.1, 5.6)   17/258          6.6 (3.9, 10.3)
+
+                                                            Class IV                     19/210                            9.1 (5.5, 13.8)  12/109          11.0 (5.8, 18.4)
+
+                                                            ROC area (SE)                0.759 (0.032)*                                     0.806 (0.034)
+
+                                                              *Within the derivation cohort, P0.05 for comparison of performance of Original vs Modified Cardiac Risk Index,
+                                                            Modified Risk Index vs ASA class, and Original Cardiac Risk Index vs ASA class. Also within the derivation cohort,
+                                                            P0.001 for comparison of Revised Cardiac Risk Index vs both Original and Modified Cardiac Risk Index, and
+                                                            P0.055 for comparison of Revised Cardiac Risk Index vs ASA class. Data on ASA class were missing for 36 patients.
+
+                                                              Within the validation cohort, P0.021 for comparison of Revised Cardiac Risk Index vs Original Cardiac Risk
+                                                            Index, P0.0001 for comparison of Revised Cardiac Risk Index vs Modified Cardiac Risk Index, and P0.018 for
+                                                            comparison of Revised Cardiac Risk Index vs ASA class. Data on ASA class were missing for 24 patients.
+                                                                                                    Lee et al Cardiac Risk Index for Major Noncardiac Surgery 1047
+
+                                                                                                                                                   Bars represent rate of major cardiac complica-
+                                                                                                                                                   tions in entire patient population (both deriva-
+                                                                                                                                                   tion and validation cohorts combined) for
+                                                                                                                                                   patients in Revised Cardiac Risk Index classes
+                                                                                                                                                   according to type of procedure performed. AAA
+                                                                                                                                                   indicates abdominal aortic aneurysm. Note that
+                                                                                                                                                   by definition, patients undergoing AAA, tho-
+                                                                                                                                                   racic, and abdominal procedures were
+                                                                                                                                                   excluded from class I. In all subsets except
+                                                                                                                                                   patients undergoing AAA, there was a statisti-
+                                                                                                                                                   cally significant trend toward greater risk with
+                                                                                                                                                   higher risk class.
+
+Downloaded from http://ahajournals.org by on July 18, 2026  therapy for diabetes (7/112; 6%), and preoperative serum               class of the Revised Cardiac Risk Index, the complication
+                                                            creatinine 2.0 mg/dL (9/103; 9%).                                      rates were not statistically different between the derivation
+                                                                                                                                   and validation cohorts. Within the validation cohort, the
+                                                            Derivation of the Revised Cardiac Risk Index                           relative risk for patients in class II compared with patients in
+                                                            A logistic regression model that included the 6 independent            class I (2.2 [95% CI 0.4, 11.0]) was not significantly different
+                                                            correlates of major cardiac complications indicated that the           from the corresponding relative risk in the derivation cohort
+                                                            adjusted OR for these factors ranged from 1.9 to 3.0. Two              (2.7 [95% CI 1.0, 7.5]).
+                                                            indexes were derived from this model. In the variable-weight
+                                                            index, point values were assigned in proportion to the logistic           In the validation cohort, the outcome rate was significantly
+                                                            regression model weights for each variable. In the equal-              higher in class III than class II (6.6% versus 0.9%; P0.001).
+                                                            weight model, 1 point was assigned to each variable. ROC               The relative risk of class III versus class II in the validation
+                                                            analysis showed no significant difference between the diag-            cohort (7.5 [95% CI 2.8, 20.0]) was not significantly different
+                                                            nostic performances of the models (0.7650.032 versus                   from the corresponding relative risk in the derivation cohort
+                                                            0.7590.032, respectively; P0.28). Therefore, the Revised               (2.8 [95% CI 1.4, 5.6]) (P0.11).
+                                                            Cardiac Risk Index was constructed with each risk factor
+                                                            assigned 1 point.                                                         The difference between class IV and class III in outcome
+                                                                                                                                   rates in the validation cohort did not reach statistical signif-
+                                                               Patients with 0, 1, 2, or more factors were assigned to classes     icance (11.0% versus 6.6%; P0.15). The relative risk of
+                                                            I, II, III, or IV, respectively; rates of major cardiac complications  class IV versus class III in the validation cohort (1.7 [95% CI
+                                                            ranged from 0.5% to 9% (Table 3). Statistically significant            0.8, 3.4]) was not significantly different from the correspond-
+                                                            (P0.05) differences were found in rates of major cardiac               ing relative risk in the derivation cohort (2.5 [95% CI 1.4,
+                                                            complications between all classes. ROC analysis indicated that         4.7]) (P0.38).
+                                                            the diagnostic performance of the Revised Cardiac Risk Index
+                                                            was superior to all 3 of the prior decision aids.                         Four of the factors in the Revised Cardiac Risk Index were
+                                                                                                                                   independent correlates of major cardiac complications in the
+                                                            Validation of the Prediction Rule                                      validation cohort: high-risk type of surgery, ischemic heart
+                                                            Diagnostic performance of the Revised Cardiac Risk Index               disease, congestive heart failure, and history of cerebrovas-
+                                                            was similar in the derivation and validation cohorts, as               cular disease. There were trends or significant univariate
+                                                            reflected in ROC analyses (Table 3). Within any specific               associations with major cardiac complications for insulin
+                                                                                                                                   therapy for diabetes (3/59 patients, 5%; relative risk 2.4; 95%
+
+                                                            TABLE 4. Rates of Major Cardiac Complications and Multivariate ORs* Among Patients With Individual
+                                                            Risk Factors in Derivation and Validation Sets
+
+                                                                                                        Derivation Set (n2893)                     Validation Set (n1422)
+
+                                                                                                        Crude                      Adjusted OR        Crude     Adjusted OR
+                                                                                                        Data                         (95% CI)          Data       (95% CI)
+
+                                                            Revised Cardiac Risk Index                                             2.8 (1.6, 4.9)  18/490 (4%)  2.6 (1.3, 5.3)
+                                                                                                                                   2.4 (1.3, 4.2)  26/478 (5%)  3.8 (1.7, 8.2)
+                                                            1. High-risk type of surgery                27/894 (3%)                1.9 (1.1, 3.5)  19/255 (7%)  4.3 (2.1, 8.8)
+                                                                                                                                   3.2 (1.8, 6.0)  10/140 (7%)  3.0 (1.3, 6.8)
+                                                            2. Ischemic heart disease                   34/951 (4%)                3.0 (1.3, 7.1)               1.0 (0.3, 3.8)
+                                                                                                                                   3.0 (1.4, 6.8)    3/59 (5%)  0.9 (0.2, 3.3)
+                                                            3. History of congestive heart failure      23/434 (5%)                                  3/55 (5%)
+
+                                                            4. History of cerebrovascular disease       17/291 (6%)
+
+                                                            5. Insulin therapy for diabetes             7/112 (6%)
+                                                            6. Preoperative serum creatinine 2.0 mg/dL  9/103 (9%)
+
+                                                            *Based on logistic regression models including these 6 variables.
+Downloaded from http://ahajournals.org by on July 18, 2026  1048 Circulation September 7, 1999                                 are not worrisome prognostic factors; indeed, they might be
+                                                                                                                               important predictors in patients undergoing emergent
+                                                            CI 1.2, 4.8) and for preoperative serum creatinine 2.0             operations.
+                                                            mg/dL (3/55 patients, 5%; relative risk 2.3; 95% CI 0.7, 7.1).
+                                                            These variables were not independent correlates of cardiac            There was no relationship between risk class and major
+                                                            complications in the multivariate analysis within the valida-      cardiac complications among the patients who underwent
+                                                            tion cohort (adjusted OR 1.0 and 0.9, respectively), but the       abdominal aortic aneurysm surgery. Because there were only
+                                                            ORs for major cardiac complications for these 2 variables          110 patients who underwent this procedure in the derivation
+                                                            were not significantly different in derivation and validation      cohort, statistical power was limited in these analyses.
+                                                            cohorts.
+                                                                                                                                  The form and content of the Revised Cardiac Risk Index
+                                                               Within the validation cohort, comparisons of areas under        reflect the goal of this investigation: to derive a simple index
+                                                            the ROC indicated better diagnostic performance of the             that might influence and be readily incorporated into routine
+                                                            Revised Cardiac Risk Index compared with the prior decision        practice (eg, on forms for preoperative evaluations). We
+                                                            aids (all P0.01). The Revised Cardiac Risk Index was also          therefore emphasized in the analyses dichotomous variables
+                                                            compared with a prior index for patients undergoing vascular       that were either present or absent and used a scoring system
+                                                            surgery.2 ROC analysis indicated superior diagnostic perfor-       that assigned 1 point to each variable. A more complex index
+                                                            mance of the Revised Cardiac Risk Index in the entire patient      might have achieved greater accuracy but at the expense of
+                                                            population (0.7770.023 versus 0.6450.032; P0.0001),                ease of use.
+                                                            in the validation cohort (0.8060.034 versus 0.6080.056;
+                                                            P0.001), and in the subset of patients undergoing vascular            How the Revised Cardiac Risk Index should be used by
+                                                            surgery (0.7740.032 versus 0.6830.046; P0.05). Nei-                clinicians remains to be defined. One approach is to confine
+                                                            ther of these indexes performed well among patients under-         routine use of noninvasive testing to patients with moderate
+                                                            going abdominal aortic aneurysm surgery (0.5430.092 for            risk for complications (eg, classes III or IV).3 An alternative
+                                                            Revised Cardiac Risk Index versus 0.4840.074 for the               strategy has been suggested by Bodenheimer,12 who argues
+                                                            vascular surgery index; P0.30).                                    that improved outcomes are more likely to result from
+                                                                                                                               controlling postoperative oxygen demand than additional risk
+                                                               Finally, a version of the Revised Cardiac Risk Index with only  stratification. This approach would support use of this index
+                                                            the 4 variables with independent associations with complications   to identify patients who should be treated with strategies to
+                                                            in the validation cohort (excluding diabetes and renal function)   reduce oxygen consumption rather than undergo additional
+                                                            yielded slightly superior diagnostic performance compared with     noninvasive testing.
+                                                            the 6-variable model. Complication rates in patients with none,
+                                                            1, 2, or more of these variables were 0.4% (2/493), 1.0% (6/579),     The findings from the present report should be interpreted
+                                                            7% (19/270), and 11% (9/80).                                       in the context of the study design. The data were collected
+                                                                                                                               from patients undergoing nonemergent operations at a single
+                                                            Performance by Procedure Type                                      teaching hospital. The Revised Cardiac Risk Index is of
+                                                            Patients from both the derivation and validation cohorts were      uncertain generalizability in lower-risk populations, such as
+                                                            pooled for an analysis of the performance of the Revised           patients who undergo more minor procedures, or in high-risk
+                                                            Cardiac Risk Index within types of procedures (Figure).            populations, such as those who undergo emergency opera-
+                                                            Except for patients undergoing abdominal aortic aneurysm           tions. However, patients undergoing major nonemergent pro-
+                                                            surgery, there were significant (P0.05) trends toward              cedures constitute the population in which physicians most
+                                                            greater rates of cardiac complications within higher-risk          often have to consider additional testing or other strategies
+                                                            classes within all procedure types.                                before the patient proceeds to surgery. Other clinical factors
+                                                                                                                               not included in this index may be important for predicting
+                                                                                    Discussion                                 long-term prognosis and warrant attention by clinicians.
+                                                                                                                               Finally, although this cohort is perhaps the largest to be
+                                                            In this report of the risk of major cardiac complications with     studied prospectively for predictors of cardiac complications
+                                                            major nonemergent noncardiac surgery, 6 factors with ap-           associated with noncardiac surgery, the statistical power to
+                                                            proximately equal prognostic importance were identified. The       identify predictors of complications among specific patient
+                                                            presence of 2 of these factors identified patients with            subsets was limited.
+                                                            moderate (7%) and high (11%) complication rates in prospec-
+                                                            tive evaluation among 1422 patients in the validation cohort.         Nevertheless, these findings are consistent with prior
+                                                                                                                               research, and the Revised Cardiac Risk Index appears simple
+                                                               These findings are consistent with prior research and           enough for easy application in patient care. Previously
+                                                            guidelines5,8 that have emphasized the value of clinical data      published data on a subset of this cohort demonstrate that
+                                                            in perioperative risk stratification. Other investigations have    patients with at least 3 of the factors in the Revised Cardiac
+                                                            also found increased risk among patients with cardiovascular       Risk Index (history of ischemic heart disease, history of
+                                                            disease or diabetes mellitus1,2,8,11 or with certain classes of    congestive heart failure, and diabetes mellitus) have an
+                                                            procedures.6 However, several previously identified risk fac-      increased risk for cardiovascular complications during the
+                                                            tors, including advanced age, critical aortic valvular stenosis,   next 6 months, even if they do not have major perioperative
+                                                            and abnormal cardiac rhythms, did not correlate with com-          cardiac complications.13 Hence, patients with increased peri-
+                                                            plications in the present study. This finding may reflect          operative risk probably warrant closer clinical attention well
+                                                            patient selection and increased attention to these issues.         beyond their hospital admission.
+                                                            Therefore, the absence of these factors from the Revised
+                                                            Cardiac Risk Index should not be taken as evidence that they
+                                                            Lee et al Cardiac Risk Index for Major Noncardiac Surgery 1049
+
+                                                                               Acknowledgment                                              6. Goldman L, Caldera DL, Nussbaum SR, Southwick FS, Krogstad D,
+                                                                                                                                               Murray B, Burke DS, O'Malley TA, Goroll AH, Caplan CH, Nolan J,
+                                                            This study was supported by a grant from the Agency for Health                     Carabello B, Slater EE. Multifactorial index of cardiac risk in noncardiac
+                                                            Care Policy and Research, Rockville, Md (RO1-HS06573).                             surgical procedures. N Engl J Med. 1977;297:845- 850.
+
+                                                                                   References                                              7. Detsky AS, Abrams HB, McLaughlin JR, Drucker DJ, Sasson Z, Johnston
+                                                                                                                                               N, Scott JG, Forbath N, Hilliard JR. Predicting cardiac complications in
+                                                             1. L'Italien GJ, Paul SD, Hendel RC, Leppo JA, Cohen MC, Fleisher LA,             patients undergoing noncardiac surgery. J Gen Intern Med. 1986;1:
+                                                                 Brown KA, Zarich SW, Cambria RP, Cutler BS, Eagle KA. Development             211-219.
+                                                                 and validation of a Bayesian model for perioperative cardiac risk
+                                                                 assessment in a cohort of 1,081 vascular surgery patients. J Am Coll      8. American College of Physicians. Guidelines for assessing and managing
+                                                                 Cardiol. 1996;27:779 -786.                                                    the perioperative risk from coronary artery disease associated with major
+                                                                                                                                               noncardiac surgery. Ann Intern Med. 1997;127:309 -312.
+                                                             2. Mangano DT, Layug UL, Wallace A, Tateo I. Effect of atenolol on
+                                                                 mortality and cardiovascular morbidity after noncardiac surgery. N Engl   9. Palda VA, Detsky AS. Perioperative assessment and management of risk
+                                                                 J Med. 1996;335:1713-1720.                                                    from coronary artery disease. Ann Intern Med. 1997;127:313-328.
+
+                                                             3. Mangano DT, Goldman L. Preoperative assessment of patients with           10. Hanley JA, McNeil BJ. The meaning and use of the area under a receiver
+                                                                 known or suspected coronary disease. N Engl J Med. 1995;333:                  operating characteristic (ROC) curve. Radiology. 1982;143:29 -36.
+                                                                 1750 -1756.
+                                                                                                                                          11. Bartels C, Bechtel JFM, Hossman V, Horsch S. Cardiac risk stratification
+                                                             4. Guidelines for perioperative cardiovascular evaluation for noncardiac          for high-risk vascular surgery. Circulation. 1997;95:2473-2475.
+                                                                 surgery: report of the American College of Cardiology/American Heart
+                                                                 Association Task Force on Practice Guidelines. Circulation. 1996;93:     12. Bodenheimer M. Noncardiac surgery in the cardiac patient: what is the
+                                                                 1278 -1317.                                                                   question? Ann Intern Med. 1996;124:763-766.
+
+                                                             5. Eagle KA, Froehlich JB. Reducing cardiovascular risk in patients          13. Lopez-Jimenez, F, Goldman L, Sacks DB, Thomas EJ, Johnson PA, Cook
+                                                                 undergoing noncardiac surgery. N Engl J Med. 1996;335:1761-1763.              EF, Lee TH. Prognostic value of cardiac troponin T after noncardiac
+                                                                                                                                               surgery: 6-month follow-up data. J Am Coll Cardiol. 1997;29:1241-1245.
+
+Downloaded from http://ahajournals.org by on July 18, 2026
+

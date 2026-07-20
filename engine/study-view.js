@@ -1,0 +1,618 @@
+// engine/study-view.js
+// Motor genérico del módulo de ESTUDIO. No conoce ningún tema en concreto:
+// recibe un `topic` (content + presentación + study) y renderiza las secciones,
+// el mapa conceptual, los modales, el buscador, el quiz, las fichas y el caso clínico.
+// Migrado desde el prototipo de Cirrosis y parametrizado.
+
+// Datos del tema activo (poblados por mountStudy)
+let TOPIC, D, BIB, COMP_CITES, ESTIGMAS_FREQ, BIOPSIA_LISTS, ESCALA_REFS, ESCALA_CALC,
+    COMP_GROUPS, ARBOL, CATEGORIES, QUIZ_QUESTIONS, FLASHCARDS, CASE_STEPS, COMP_ORDER, FIGURAS;
+
+/* ---------------- Helpers de texto y citas ---------------- */
+function esc(s) { return (s === undefined || s === null) ? '' : s; }
+function citeHTML(nums) {
+  if (!nums || !nums.length) return '';
+  const uniq = [...new Set(nums)];
+  return '<sup class="cite">' + uniq.map(n => '<a class="cite-link" onclick="highlightBib(' + n + ')">' + n + '</a>').join(',') + '</sup>';
+}
+function highlightBib(n) {
+  const el = document.getElementById('bib-' + n);
+  if (!el) return;
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  el.classList.add('flash');
+  setTimeout(() => el.classList.remove('flash'), 1400);
+}
+export function slugify(s) {
+  return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+function jumpToEscala(id) {
+  const el = document.getElementById('escala-' + id);
+  if (!el) { jumpTo('clasificacion'); return; }
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  el.classList.add('flash');
+  setTimeout(() => el.classList.remove('flash'), 1400);
+}
+function fieldHTML(label, text, citeNums) {
+  if (!text) return '';
+  return `<div class="modal-field"><span class="flabel">${label}</span><div class="fbody">${esc(text)}${citeHTML(citeNums)}</div></div>`;
+}
+function listFieldHTML(label, arr) {
+  if (!arr || !arr.length) return '';
+  return `<div class="modal-field"><span class="flabel">${label}</span><ul>${arr.map(x => '<li>' + esc(x) + '</li>').join('')}</ul></div>`;
+}
+function oneFiguraHTML(key) {
+  const fig = key && FIGURAS[key];
+  if (!fig) return '';
+  return `<div class="modal-field modal-figure">
+    <span class="flabel">${esc(fig.titulo)}</span>
+    <div class="figure-body">${fig.html}</div>
+    ${fig.fuente ? `<div class="figure-source">Fuente: ${esc(fig.fuente)}</div>` : ''}
+  </div>`;
+}
+// Acepta una key, un array de keys, o nada — así una complicación (o el tema) puede adjuntar 0, 1 o varias figuras.
+function figuraHTML(keys) {
+  if (!keys) return '';
+  const arr = Array.isArray(keys) ? keys : [keys];
+  return arr.map(oneFiguraHTML).join('');
+}
+function calcBtn(key) {
+  return `<button type="button" class="calc-btn" onclick="openCalc('${key}')" title="Abrir calculadora">Calcular</button>`;
+}
+function findComp(nombre) { return D.complicaciones.findIndex(c => c.nombre === nombre); }
+function jumpTo(id) { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+function section(id, num, title, intro, body) {
+  return `<section class="section study-section" id="${id}">
+    <div class="section-head"><span class="section-num mono">${num}</span><h2>${title}</h2></div>
+    ${intro ? `<p class="section-intro">${intro}</p>` : ''}
+    ${body}
+  </section>`;
+}
+
+/* ---------------- Mapa conceptual (árbol) ---------------- */
+function treeNode(title, sub, color, onclickAttr, extraClass) {
+  return `<a class="tree-node ${extraClass || ''}" style="--nc:${color}" ${onclickAttr}>
+    <span class="tn-title">${title}</span>
+    ${sub ? `<span class="tn-sub">${sub}</span>` : ''}
+  </a>`;
+}
+function buildTree() {
+  if (!ARBOL) return '';
+  const branches = ARBOL.branches.map(b => {
+    const leaves = (b.leaves || []).map(l =>
+      `<li>${treeNode(l.title, l.sub, l.color, `onclick="jumpTo('${l.target || 'complicaciones'}')"`)}</li>`).join('');
+    return `<li>
+      ${treeNode(b.title, b.sub, b.color, `onclick="jumpTo('${b.target}')"`)}
+      ${leaves ? `<div class="tree-stem"></div><ul>${leaves}</ul>` : ''}
+    </li>`;
+  }).join('');
+  return `<div class="tree-scroll"><ul class="tree">
+    <li>
+      ${treeNode(ARBOL.root.title, null, ARBOL.root.color, `onclick="jumpTo('${ARBOL.root.target}')"`, 'root')}
+      <div class="tree-stem"></div>
+      <ul>${branches}</ul>
+    </li>
+  </ul></div>`;
+}
+
+/* ---------------- Secciones ---------------- */
+function buildDefinicion() {
+  const txt = TOPIC.definicionText || (typeof D.definicion === 'string' ? D.definicion : '');
+  const defLabel = (CATEGORIES.find(c => c.id === 'definicion') || {}).label || 'Definición';
+  return section('definicion', '01', defLabel, null, `
+    <div class="card"><p style="font-size:15.5px; color:var(--ink);">${txt}${citeHTML([1])}</p></div>`);
+}
+
+function buildDiagnostico() {
+  const dg = D.diagnostico;
+  if (!dg) return '';
+  const dc = TOPIC.diagCites || {};
+  const estigmasTitulo = TOPIC.estigmasTitulo || 'Signos clínicos clásicos, en orden de frecuencia';
+  const biopsiaTitulo = TOPIC.biopsiaTitulo || 'Biopsia';
+  const tituloA = (dg.clinica && dg.clinica.tituloA) || 'Presentación inicial';
+  const tituloB = (dg.clinica && dg.clinica.tituloB) || 'Presentación avanzada';
+  const estigmas = (ESTIGMAS_FREQ || []).map((e, i) => `<div class="rank-item rank-clickable" onclick="openStigma(${i})"><span class="rank-num mono">${String(i + 1).padStart(2, '0')}</span><span class="rank-text">${e.s}</span><span class="rank-pct mono">${e.p}</span><span class="rank-icon">${e.photo || e.embed ? 'Foto' : 'Info'}</span></div>`).join('');
+  const lab = (dg.laboratorio || []).map(l => `<tr><td style="color:var(--ink);font-weight:600;">${l.prueba}</td><td>${l.utilidad}</td></tr>`).join('');
+  const etio = (dg.etiologicos || []).map(l => `<tr><td style="color:var(--ink);font-weight:600;">${l.prueba}</td><td>${l.utilidad}</td></tr>`).join('');
+  const ni = (dg.no_invasivos || []).map(m => `<tr><td style="color:var(--ink);font-weight:600;">${m.metodo}</td><td>${m.interpretacion}</td><td class="mono">${m.cutoff}</td><td>${(m.metodo === 'FIB-4' || m.metodo === 'APRI') ? calcBtn('fibrosis') : ''}</td></tr>`).join('');
+  const img = (dg.imagen || []).map(m => `<tr><td style="color:var(--ink);font-weight:600;">${m.modalidad}</td><td>${m.hallazgos}</td></tr>`).join('');
+  const bio = BIOPSIA_LISTS ? `
+    <h3 style="color:var(--ink);font-weight:600;margin:22px 0 12px;">${biopsiaTitulo}${citeHTML(dc.biopsia)}</h3>
+    <div class="biopsy-grid">
+      <div class="biopsy-card positive"><h3>Indicaciones</h3><ul class="biopsy-list">${BIOPSIA_LISTS.indicaciones.map(x => `<li><span class="bio-mark">✓</span>${x}</li>`).join('')}</ul></div>
+      <div class="biopsy-card positive"><h3>Ventajas</h3><ul class="biopsy-list">${BIOPSIA_LISTS.ventajas.map(x => `<li><span class="bio-mark">✓</span>${x}</li>`).join('')}</ul></div>
+      <div class="biopsy-card negative"><h3>Limitaciones</h3><ul class="biopsy-list">${BIOPSIA_LISTS.limitaciones.map(x => `<li><span class="bio-mark warn">⚠</span>${x}</li>`).join('')}</ul></div>
+      <div class="biopsy-card negative"><h3>Contraindicaciones</h3><ul class="biopsy-list">${BIOPSIA_LISTS.contraindicaciones.map(x => `<li><span class="bio-mark stop">✕</span>${x}</li>`).join('')}</ul></div>
+    </div>` : '';
+  const diagLabel = (CATEGORIES.find(c => c.id === 'diagnostico') || {}).label || 'Abordaje Diagnóstico';
+  const diagIntro = TOPIC.diagnosticoIntro !== undefined ? TOPIC.diagnosticoIntro : 'Historia clínica, laboratorio general, estudios dirigidos, métodos no invasivos e imagen — en ese orden de invasividad creciente.';
+  return section('diagnostico', '02', diagLabel, diagIntro, `
+    <div class="grid" style="margin-bottom:18px;">
+      <div class="card"><h3>${tituloA}</h3><p>${dg.clinica ? dg.clinica.compensada : ''}</p></div>
+      <div class="card"><h3>${tituloB}</h3><p>${dg.clinica ? dg.clinica.descompensada : ''}</p></div>
+    </div>
+    ${estigmas ? `<h3 style="color:var(--ink);font-weight:600;margin:22px 0 12px;">${estigmasTitulo}</h3>
+    <div style="margin-bottom:8px;">${estigmas}</div>
+    <p style="color:var(--ink-faint); font-size:12.5px; margin:0 0 30px;">Prevalencias aproximadas; varían según serie, etiología y grado de descompensación.</p>` : ''}
+    ${lab ? `<h3 style="color:var(--ink);font-weight:600;margin:22px 0 12px;">Laboratorio general${citeHTML(dc.laboratorio)}</h3>
+    <div class="table-wrap" style="margin-bottom:30px;"><table><thead><tr><th>Prueba</th><th>Utilidad clínica</th></tr></thead><tbody>${lab}</tbody></table></div>` : ''}
+    ${etio ? `<h3 style="color:var(--ink);font-weight:600;margin:22px 0 12px;">Estudios etiológicos dirigidos${citeHTML(dc.etiologicos)}</h3>
+    <div class="table-wrap" style="margin-bottom:30px;"><table><thead><tr><th>Prueba</th><th>Utilidad clínica</th></tr></thead><tbody>${etio}</tbody></table></div>` : ''}
+    ${ni ? `<h3 style="color:var(--ink);font-weight:600;margin:22px 0 12px;">Escalas y métodos no invasivos${citeHTML(dc.no_invasivos)}</h3>
+    <div class="table-wrap" style="margin-bottom:30px;"><table><thead><tr><th>Método</th><th>Interpretación</th><th>Corte</th><th></th></tr></thead><tbody>${ni}</tbody></table></div>` : ''}
+    ${img ? `<h3 style="color:var(--ink);font-weight:600;margin:22px 0 12px;">Imagen${citeHTML(dc.imagen)}</h3>
+    <div class="table-wrap" style="margin-bottom:30px;"><table><thead><tr><th>Modalidad</th><th>Hallazgos</th></tr></thead><tbody>${img}</tbody></table></div>` : ''}
+    ${bio}
+  `);
+}
+
+function buildClasificacion() {
+  const cl = D.clasificacion;
+  if (!cl || !cl.escalas) return '';
+  const rows = cl.escalas.map(e => `<tr id="escala-${slugify(e.nombre)}"><td style="color:var(--ink);font-weight:600;">${e.nombre}</td><td>${e.componentes}</td><td class="mono">${e.formula}</td><td>${e.interpretacion}</td><td>${citeHTML(ESCALA_REFS[e.nombre] || [])}${ESCALA_CALC[e.nombre] ? calcBtn(ESCALA_CALC[e.nombre]) : ''}</td></tr>`).join('');
+  const clasifLabel = (CATEGORIES.find(c => c.id === 'clasificacion') || {}).label || 'Clasificación y Escalas Pronósticas';
+  return section('clasificacion', '03', clasifLabel, (cl.compensada_descompensada || '') + citeHTML(TOPIC.clasificacionCite), `
+    <div class="table-wrap"><table><thead><tr><th>Escala</th><th>Componentes</th><th>Fórmula</th><th>Interpretación</th><th>Ref.</th></tr></thead><tbody>${rows}</tbody></table></div>
+    ${figuraHTML(TOPIC.figurasClasificacion)}`);
+}
+
+function buildComplicaciones() {
+  const groups = (COMP_GROUPS && COMP_GROUPS.length) ? COMP_GROUPS : [{ title: null, items: D.complicaciones.map(c => c.nombre) }];
+  const catLabel = (CATEGORIES.find(c => c.id === 'complicaciones') || {}).label || 'Complicaciones';
+  const groupsHTML = groups.map(g => {
+    const cards = g.items.map(name => {
+      const i = findComp(name);
+      const c = D.complicaciones[i];
+      if (!c) return '';
+      return `<div class="comp-card" style="--c:${c.color}" onclick="openModal(${i})">
+        <h4>${c.nombre}</h4><p>${c.definicion}</p><div class="open-hint">Ver detalle completo →</div></div>`;
+    }).join('');
+    return `${g.title ? `<h3 style="color:var(--ink);font-weight:600;margin:26px 0 12px;">${g.title}</h3>` : ''}<div class="comp-grid">${cards}</div>`;
+  }).join('');
+  return section('complicaciones', '04', catLabel, null, groupsHTML);
+}
+
+function buildSeguimiento() {
+  const S = D.seguimiento_intrahospitalario;
+  if (!S) return '';
+  const seguLabel = (CATEGORIES.find(c => c.id === 'seguimiento') || {}).label || 'Seguimiento Intrahospitalario';
+  return section('seguimiento', '05', seguLabel, (S.intro || '') + citeHTML(TOPIC.seguimientoCite), `
+    <h3 style="color:var(--ink);font-weight:600;margin:8px 0 14px;">${(TOPIC.modalLabels && TOPIC.modalLabels.monitorizacionTitulo) || 'Monitorización diaria intrahospitalaria'}</h3>
+    <div class="grid" style="margin-bottom:30px;">${(S.parametros || []).map(p => `<div class="card"><p>${p}</p></div>`).join('')}</div>
+    <div class="grid">
+      <div class="card"><h3>${(TOPIC.modalLabels && TOPIC.modalLabels.criterios_uci) || 'Criterios de UCI'}</h3><p>${S.criterios_uci_general || ''}</p></div>
+      <div class="card"><h3>${(TOPIC.modalLabels && TOPIC.modalLabels.criterios_tips) || 'Criterios de intervención'}</h3><p>${S.criterios_tips_general || ''}</p></div>
+      <div class="card"><h3>${(TOPIC.modalLabels && TOPIC.modalLabels.criterios_trasplante) || 'Referencia a trasplante'}</h3><p>${S.criterios_trasplante_general || ''}</p></div>
+      <div class="card"><h3>${(TOPIC.modalLabels && TOPIC.modalLabels.prevencion) || 'Prevención'}</h3><p>${S.prevencion || ''}</p></div>
+    </div>`);
+}
+
+function buildAutoevaluacion() {
+  const cards = [
+    { key: 'quiz', title: 'Banco de preguntas', sub: QUIZ_QUESTIONS.length + ' preguntas de opción múltiple · casos clínicos y teoría', color: '#3d5a73', fn: 'openQuiz()' },
+    { key: 'flashcards', title: 'Fichas de repaso', sub: FLASHCARDS.length + ' fichas · repetición espaciada, se adapta a tu progreso', color: '#5c4a73', fn: 'openFlashcards()' },
+    { key: 'case', title: 'Caso clínico interactivo', sub: 'Un caso completo, paso a paso, con decisiones y retroalimentación', color: '#8c3a34', fn: 'openCase()' }
+  ].filter(c => c.key === 'quiz' ? QUIZ_QUESTIONS.length : c.key === 'flashcards' ? FLASHCARDS.length : CASE_STEPS.length)
+    .map(c => `<div class="comp-card" style="--c:${c.color}" onclick="${c.fn}"><h4>${c.title}</h4><p>${c.sub}</p><div class="open-hint">Comenzar →</div></div>`).join('');
+  const autoevalLabel = (CATEGORIES.find(c => c.id === 'autoevaluacion') || {}).label || 'Autoevaluación';
+  return section('autoevaluacion', '06', autoevalLabel, 'Pon a prueba lo aprendido. Se irá ampliando con más preguntas y casos.', `<div class="comp-grid">${cards}</div>`);
+}
+
+function buildBibliografia() {
+  const items = BIB.map((b, i) => `<li id="bib-${i + 1}"><span class="bnum">[${i + 1}]</span>${b}</li>`).join('');
+  return section('bibliografia', '07', 'Bibliografía', null, `<ul class="bib-list">${items}</ul>`);
+}
+
+/* ---------------- Modal de complicación (o fármaco / ítem genérico) ---------------- */
+const DEFAULT_LABELS = {
+  itemName: 'Complicación',
+  definicion: 'Definición', fisiopatologia: 'Fisiopatología', epidemiologia: 'Epidemiología',
+  factores_riesgo: 'Factores de riesgo', clinica: 'Manifestaciones clínicas', criterios_dx: 'Criterios diagnósticos',
+  laboratorio: 'Laboratorio', imagen: 'Imagen', complementarios: 'Estudios complementarios', dx_diferencial: 'Diagnóstico diferencial',
+  tx_medico: 'Tratamiento médico', tx_farmacologico: 'Tratamiento farmacológico', tx_intervencionista: 'Tratamiento intervencionista',
+  criterios_uci: 'Criterios de UCI', criterios_tips: 'Criterios de intervención', criterios_trasplante: 'Criterios de trasplante',
+  seguimiento_hospitalario: 'Seguimiento hospitalario', seguimiento_ambulatorio: 'Seguimiento ambulatorio', pronostico: 'Pronóstico',
+  algoritmo: 'Algoritmo diagnóstico-terapéutico'
+};
+function openModal(i) {
+  const c = D.complicaciones[i];
+  const L = Object.assign({}, DEFAULT_LABELS, TOPIC.modalLabels || {});
+  const cites = COMP_CITES[c.nombre] || {};
+  const pos = COMP_ORDER.indexOf(c.nombre);
+  const prevIdx = findComp(COMP_ORDER[(pos - 1 + COMP_ORDER.length) % COMP_ORDER.length]);
+  const nextIdx = findComp(COMP_ORDER[(pos + 1) % COMP_ORDER.length]);
+  const m = document.getElementById('modal');
+  m.style.setProperty('--modal-accent', c.color);
+  m.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-nav">
+      <button class="modal-nav-btn" onclick="openModal(${prevIdx})">← Anterior</button>
+      <span class="modal-nav-pos mono">${pos + 1} / ${COMP_ORDER.length}</span>
+      <button class="modal-nav-btn" onclick="openModal(${nextIdx})">Siguiente →</button>
+    </div>
+    <span class="modal-tag" style="color:${c.color};">${L.itemName} ${i + 1} / ${D.complicaciones.length}</span>
+    <h2>${c.nombre}</h2>
+    ${fieldHTML(L.definicion, c.definicion, cites.definicion)}
+    ${fieldHTML(L.fisiopatologia, c.fisiopatologia, cites.fisiopatologia)}
+    ${fieldHTML(L.epidemiologia, c.epidemiologia, cites.epidemiologia)}
+    ${listFieldHTML(L.factores_riesgo, c.factores_riesgo)}
+    <hr class="modal-divider">
+    ${fieldHTML(L.clinica, c.clinica, cites.clinica)}
+    ${fieldHTML(L.criterios_dx, c.criterios_dx, cites.criterios_dx)}
+    ${figuraHTML(c.figura)}
+    <div class="modal-grid">
+      ${fieldHTML(L.laboratorio, c.laboratorio, cites.laboratorio)}
+      ${fieldHTML(L.imagen, c.imagen, cites.imagen)}
+    </div>
+    ${fieldHTML(L.complementarios, c.complementarios, cites.complementarios)}
+    ${fieldHTML(L.dx_diferencial, c.dx_diferencial, cites.dx_diferencial)}
+    <hr class="modal-divider">
+    ${fieldHTML(L.tx_medico, c.tx_medico, cites.tx_medico)}
+    ${fieldHTML(L.tx_farmacologico, c.tx_farmacologico, cites.tx_farmacologico)}
+    ${fieldHTML(L.tx_intervencionista, c.tx_intervencionista, cites.tx_intervencionista)}
+    <div class="modal-grid">
+      ${fieldHTML(L.criterios_uci, c.criterios_uci, cites.criterios_uci)}
+      ${fieldHTML(L.criterios_tips, c.criterios_tips, cites.criterios_tips)}
+    </div>
+    ${fieldHTML(L.criterios_trasplante, c.criterios_trasplante, cites.criterios_trasplante)}
+    <hr class="modal-divider">
+    <div class="modal-grid">
+      ${fieldHTML(L.seguimiento_hospitalario, c.seguimiento_hospitalario, cites.seguimiento_hospitalario)}
+      ${fieldHTML(L.seguimiento_ambulatorio, c.seguimiento_ambulatorio, cites.seguimiento_ambulatorio)}
+    </div>
+    ${fieldHTML(L.pronostico, c.pronostico, cites.pronostico)}
+    ${c.algoritmo ? `<hr class="modal-divider">
+    <span class="flabel" style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:${c.color};display:block;margin-bottom:12px;">${L.algoritmo}</span>
+    <div class="modal-algo">${c.algoritmo.map((s, idx) => `<div class="algo-step"><div class="an" style="background:${c.color}">${idx + 1}</div><div>${s}</div></div>`).join('')}</div>` : ''}
+  `;
+  showOverlay();
+}
+function closeModal() {
+  document.getElementById('overlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+function showOverlay() {
+  document.getElementById('overlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+/* ---------------- Quiz ---------------- */
+const DIFF_LABEL = { facil: 'Fácil', intermedio: 'Intermedio', dificil: 'Difícil' };
+const DIFF_ORDER = ['facil', 'intermedio', 'dificil'];
+let quizState = { level: 'todas', deck: [], qIndex: 0, score: 0, answered: false };
+
+function quizByLevel(level) {
+  if (level === 'todas') return QUIZ_QUESTIONS;
+  return QUIZ_QUESTIONS.filter(q => (q.dificultad || 'facil') === level);
+}
+
+function openQuiz() {
+  const m = document.getElementById('modal');
+  m.style.setProperty('--modal-accent', '#3d5a73');
+  const levelButtons = DIFF_ORDER.filter(lvl => quizByLevel(lvl).length > 0)
+    .map(lvl => `<button class="quiz-opt" onclick="startQuiz('${lvl}')">${DIFF_LABEL[lvl]} <span class="mono" style="color:var(--ink-faint);">(${quizByLevel(lvl).length})</span></button>`)
+    .join('');
+  m.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <span class="modal-tag" style="color:#3d5a73;">Banco de preguntas</span>
+    <h2>Elige la dificultad</h2>
+    <div class="quiz-options">
+      ${levelButtons}
+      <button class="quiz-opt" onclick="startQuiz('todas')">Todas <span class="mono" style="color:var(--ink-faint);">(${QUIZ_QUESTIONS.length})</span></button>
+    </div>`;
+  showOverlay();
+}
+function startQuiz(level) {
+  const deck = quizByLevel(level);
+  quizState = { level, deck, qIndex: 0, score: 0, answered: false };
+  renderQuiz();
+}
+function renderQuiz() {
+  const m = document.getElementById('modal');
+  m.style.setProperty('--modal-accent', '#3d5a73');
+  const deck = quizState.deck;
+  const levelTag = quizState.level !== 'todas' ? ` · ${DIFF_LABEL[quizState.level]}` : '';
+  if (quizState.qIndex >= deck.length) {
+    const pct = Math.round((quizState.score / deck.length) * 100);
+    m.innerHTML = `
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <span class="modal-tag" style="color:#3d5a73;">Resultado final${levelTag}</span>
+      <h2>${quizState.score} / ${deck.length} correctas (${pct}%)</h2>
+      <p class="fbody" style="color:var(--ink-dim);margin-bottom:20px;">${pct >= 80 ? 'Excelente dominio del tema.' : pct >= 60 ? 'Buen desempeño — repasa los temas fallados.' : 'Conviene repasar las secciones de Complicaciones y Escalas antes de reintentar.'}</p>
+      <button class="calc-copy" onclick="startQuiz('${quizState.level}')">Reintentar →</button>
+      <button class="calc-copy" style="margin-left:8px;" onclick="openQuiz()">Cambiar dificultad</button>`;
+    return;
+  }
+  const q = deck[quizState.qIndex];
+  m.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <span class="modal-tag" style="color:#3d5a73;">Pregunta ${quizState.qIndex + 1} / ${deck.length}${levelTag} · Puntaje: ${quizState.score}</span>
+    <h2 style="font-size:1.3rem;">${q.q}</h2>
+    <div class="quiz-options" id="quiz-options">${q.options.map((opt, i) => `<button class="quiz-opt" onclick="answerQuiz(${i})">${opt}</button>`).join('')}</div>
+    <div id="quiz-feedback"></div>`;
+}
+function answerQuiz(i) {
+  if (quizState.answered) return;
+  quizState.answered = true;
+  const q = quizState.deck[quizState.qIndex];
+  const correct = i === q.correct;
+  if (correct) quizState.score++;
+  recordProgress(correct);
+  document.querySelectorAll('#quiz-options .quiz-opt').forEach((btn, idx) => {
+    btn.disabled = true;
+    if (idx === q.correct) btn.classList.add('correct');
+    else if (idx === i) btn.classList.add('incorrect');
+  });
+  document.getElementById('quiz-feedback').innerHTML = `
+    <div class="quiz-feedback-box ${correct ? 'correct' : 'incorrect'}"><strong>${correct ? 'Correcto.' : 'Incorrecto.'}</strong> ${q.explanation}</div>
+    <button class="calc-copy" style="margin-top:14px;" onclick="nextQuiz()">${quizState.qIndex + 1 < quizState.deck.length ? 'Siguiente →' : 'Ver resultado →'}</button>`;
+}
+function nextQuiz() { quizState.qIndex++; quizState.answered = false; renderQuiz(); }
+
+/* ---------------- Progreso acumulado del quiz (persistencia localStorage, para Inicio) ---------------- */
+const PROGRESS_KEY = 'rm:quiz-progress';
+function loadProgressStore() { try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; } catch (e) { return {}; } }
+function saveProgressStore(p) { try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); } catch (e) {} }
+function recordProgress(correct) {
+  const store = loadProgressStore();
+  const id = TOPIC.meta.id;
+  if (!store[id]) store[id] = { correct: 0, incorrect: 0 };
+  store[id][correct ? 'correct' : 'incorrect']++;
+  saveProgressStore(store);
+}
+export function resetAnsweredSummary() { try { localStorage.removeItem(PROGRESS_KEY); } catch (e) {} }
+export function getAnsweredSummary() {
+  const store = loadProgressStore();
+  let correct = 0, incorrect = 0;
+  Object.values(store).forEach(t => { correct += t.correct || 0; incorrect += t.incorrect || 0; });
+  return { correct, incorrect, answered: correct + incorrect };
+}
+
+/* ---------------- Fichas (repetición espaciada, persistencia localStorage) ---------------- */
+let fcState = { deck: [], index: 0, showBack: false };
+function fcKey() { return 'flashcard-progress:' + TOPIC.meta.id; }
+function loadFlashcardProgress() {
+  try { return JSON.parse(localStorage.getItem(fcKey())) || {}; } catch (e) { return {}; }
+}
+function saveFlashcardProgress(progress) {
+  try { localStorage.setItem(fcKey(), JSON.stringify(progress)); } catch (e) {}
+}
+function openFlashcards() {
+  const progress = loadFlashcardProgress();
+  const now = Date.now();
+  let due = FLASHCARDS.map((c, i) => ({ ...c, id: i, prog: progress[i] || { box: 1, next: 0 } })).filter(c => c.prog.next <= now);
+  if (!due.length) due = FLASHCARDS.map((c, i) => ({ ...c, id: i, prog: progress[i] || { box: 1, next: 0 } }));
+  due = due.sort(() => Math.random() - 0.5);
+  fcState = { deck: due, index: 0, showBack: false };
+  renderFlashcard();
+  showOverlay();
+}
+function renderFlashcard() {
+  const m = document.getElementById('modal');
+  m.style.setProperty('--modal-accent', '#5c4a73');
+  if (fcState.index >= fcState.deck.length) {
+    m.innerHTML = `
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <span class="modal-tag" style="color:#5c4a73;">Sesión completa</span>
+      <h2>Repasaste ${fcState.deck.length} fichas.</h2>
+      <p class="fbody" style="color:var(--ink-dim);margin-bottom:20px;">Las fichas calificadas como "Otra vez" o "Difícil" volverán a aparecer pronto; las demás según su intervalo de repaso.</p>
+      <button class="calc-copy" onclick="openFlashcards()">Nueva sesión →</button>`;
+    return;
+  }
+  const card = fcState.deck[fcState.index];
+  m.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <span class="modal-tag" style="color:#5c4a73;">Ficha ${fcState.index + 1} / ${fcState.deck.length}</span>
+    <div class="flashcard" onclick="${fcState.showBack ? '' : 'flipFlashcard()'}">
+      <div class="flashcard-inner">${fcState.showBack ? card.back : card.front}</div>
+      ${fcState.showBack ? '' : '<div class="flashcard-hint">Toca la tarjeta para ver la respuesta</div>'}
+    </div>
+    ${fcState.showBack ? `<div class="fc-rate-row">
+        <button class="fc-rate" onclick="rateFlashcard(1)">Otra vez</button>
+        <button class="fc-rate" onclick="rateFlashcard(2)">Difícil</button>
+        <button class="fc-rate" onclick="rateFlashcard(3)">Bien</button>
+        <button class="fc-rate" onclick="rateFlashcard(4)">Fácil</button>
+      </div>` : ''}`;
+}
+function flipFlashcard() { fcState.showBack = true; renderFlashcard(); }
+function rateFlashcard(rating) {
+  const card = fcState.deck[fcState.index];
+  const progress = loadFlashcardProgress();
+  let box = (progress[card.id] && progress[card.id].box) || 1;
+  if (rating === 1) box = 1; else if (rating === 2) box = Math.max(1, box); else if (rating === 3) box = Math.min(5, box + 1); else box = Math.min(5, box + 2);
+  const intervals = { 1: 0, 2: 1 * 86400000, 3: 3 * 86400000, 4: 7 * 86400000, 5: 14 * 86400000 };
+  progress[card.id] = { box, next: Date.now() + (intervals[box] || 0) };
+  saveFlashcardProgress(progress);
+  fcState.index++; fcState.showBack = false; renderFlashcard();
+}
+
+/* ---------------- Caso clínico ---------------- */
+let caseState = { step: 0, answered: false };
+function openCase() { caseState = { step: 0, answered: false }; renderCase(); showOverlay(); }
+function renderCase() {
+  const m = document.getElementById('modal');
+  m.style.setProperty('--modal-accent', '#8c3a34');
+  if (caseState.step >= CASE_STEPS.length) {
+    const summary = (TOPIC.study && TOPIC.study.caseSummary) || 'Revisa las secciones de Complicaciones si alguna decisión no quedó clara.';
+    m.innerHTML = `
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <span class="modal-tag" style="color:#8c3a34;">Caso completado</span>
+      <h2>Resumen del caso</h2>
+      <p class="fbody" style="color:var(--ink-dim);margin-bottom:20px;">${summary}</p>
+      <button class="calc-copy" onclick="openCase()">Reiniciar caso →</button>`;
+    return;
+  }
+  const s = CASE_STEPS[caseState.step];
+  m.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <span class="modal-tag" style="color:#8c3a34;">Caso clínico · Paso ${caseState.step + 1} / ${CASE_STEPS.length}</span>
+    <div class="case-vignette">${s.vignette}</div>
+    <div class="quiz-options" id="case-options">${s.options.map((opt, i) => `<button class="quiz-opt" onclick="answerCase(${i})">${opt}</button>`).join('')}</div>
+    <div id="case-feedback"></div>`;
+}
+function answerCase(i) {
+  if (caseState.answered) return;
+  caseState.answered = true;
+  const s = CASE_STEPS[caseState.step];
+  const correct = i === s.correct;
+  document.querySelectorAll('#case-options .quiz-opt').forEach((btn, idx) => {
+    btn.disabled = true;
+    if (idx === s.correct) btn.classList.add('correct');
+    else if (idx === i) btn.classList.add('incorrect');
+  });
+  document.getElementById('case-feedback').innerHTML = `
+    <div class="quiz-feedback-box ${correct ? 'correct' : 'incorrect'}"><strong>${correct ? 'Correcto.' : 'Revisa esto:'}</strong> ${s.explanation}</div>
+    <button class="calc-copy" style="margin-top:14px;" onclick="nextCase()">${caseState.step + 1 < CASE_STEPS.length ? 'Continuar caso →' : 'Ver resumen →'}</button>`;
+}
+function nextCase() { caseState.step++; caseState.answered = false; renderCase(); }
+
+/* ---------------- Estigmas ---------------- */
+function openStigma(i) {
+  const e = ESTIGMAS_FREQ[i];
+  const m = document.getElementById('modal');
+  m.style.setProperty('--modal-accent', '#3d5a73');
+  let visual;
+  if (e.embed) {
+    visual = `<div class="stigma-embed">
+        <img src="${e.embed.url}" alt="${e.s}" loading="lazy">
+        <span class="stigma-photo-source">${e.embed.credit}</span>
+        ${e.photo ? `<a class="stigma-photo-link secondary" href="${e.photo.url}" target="_blank" rel="noopener noreferrer">Más fotos (${e.photo.source}) ↗</a>` : ''}
+      </div>`;
+  } else if (e.photo) {
+    visual = `<div class="stigma-photo">
+        <a class="stigma-photo-link" href="${e.photo.url}" target="_blank" rel="noopener noreferrer">Ver fotografía clínica real ↗</a>
+        <span class="stigma-photo-source">Fuente: ${e.photo.source}</span>
+      </div>`;
+  } else {
+    visual = '<div class="stigma-noimg"><span>Sin representación visual disponible.</span></div>';
+  }
+  m.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <span class="modal-tag" style="color:#3d5a73;">Estigma clásico · ${e.p}</span>
+    <h2>${e.s}</h2>
+    <div class="stigma-illustration">${visual}</div>
+    <div class="modal-field"><div class="fbody">${e.desc}</div></div>`;
+  showOverlay();
+}
+
+/* ---------------- Buscador (global: cubre todos los temas y secciones de la app) ---------------- */
+// El índice y la navegación los arma app.js (que sí conoce todos los temas, VPO y protocolos);
+// este módulo solo renderiza el input/resultados y delega el clic.
+let GLOBAL_INDEX = [];
+let NAVIGATE = null;
+export function setGlobalSearch(index, navigateFn) { GLOBAL_INDEX = index || []; NAVIGATE = navigateFn || null; }
+function normalize(s) { return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+// Solo cuenta si q aparece al inicio de una "palabra" (inicio de cadena o tras un separador),
+// para que p. ej. "SOFA" no encuentre falsos positivos dentro de "esofágicas".
+function matchesQuery(label, q) {
+  const norm = normalize(label);
+  let idx = norm.indexOf(q);
+  while (idx !== -1) {
+    if (idx === 0 || !/[a-z0-9]/.test(norm[idx - 1])) return true;
+    idx = norm.indexOf(q, idx + 1);
+  }
+  return false;
+}
+function runSearch(query) {
+  const box = document.getElementById('search-results');
+  const q = normalize(query.trim());
+  if (!q) { box.classList.remove('active'); box.innerHTML = ''; return; }
+  const matches = GLOBAL_INDEX.filter(item => matchesQuery(item.label, q)).slice(0, 8);
+  box.innerHTML = matches.length
+    ? matches.map((m, i) => `<div class="search-item" data-idx="${i}"><span class="search-item-label">${m.label}</span><span class="search-item-type">${m.type}${m.scope ? ' · ' + m.scope : ''}</span></div>`).join('')
+    : '<div class="search-empty">Sin resultados.</div>';
+  box.classList.add('active');
+  box.querySelectorAll('.search-item').forEach(el => {
+    el.addEventListener('click', () => {
+      const m = matches[+el.dataset.idx];
+      clearSearch();
+      if (NAVIGATE) NAVIGATE(m);
+    });
+  });
+}
+function clearSearch() {
+  const inp = document.getElementById('search-input');
+  if (inp) inp.value = '';
+  const box = document.getElementById('search-results');
+  if (box) box.classList.remove('active');
+}
+
+/* ---------------- Scrollspy (pills) ---------------- */
+function initScrollspy() {
+  if (!('IntersectionObserver' in window)) return;
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+        const pill = document.getElementById('pill-' + e.target.id);
+        if (pill) pill.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  document.querySelectorAll('.study-section').forEach(s => obs.observe(s));
+}
+
+/* ---------------- Montaje ---------------- */
+export function mountStudy(topic) {
+  TOPIC = topic;
+  D = topic.content;
+  BIB = topic.bibliografia || [];
+  COMP_CITES = topic.compCites || {};
+  ESTIGMAS_FREQ = topic.estigmas || [];
+  BIOPSIA_LISTS = topic.biopsia || null;
+  ESCALA_REFS = topic.escalaRefs || {};
+  ESCALA_CALC = topic.escalaCalc || {};
+  COMP_GROUPS = topic.compGroups || [];
+  ARBOL = topic.arbol || null;
+  CATEGORIES = topic.categories || [];
+  FIGURAS = topic.figuras || {};
+  QUIZ_QUESTIONS = (topic.study && topic.study.quiz) || [];
+  FLASHCARDS = (topic.study && topic.study.flashcards) || [];
+  CASE_STEPS = (topic.study && topic.study.caseSteps) || [];
+  COMP_ORDER = (COMP_GROUPS.length ? COMP_GROUPS.flatMap(g => g.items) : D.complicaciones.map(c => c.nombre));
+
+  const navPills = CATEGORIES.map(c => `<button type="button" class="pill" id="pill-${c.id}" onclick="jumpTo('${c.id}')">${c.label}</button>`).join('');
+  const autor = (topic.meta && topic.meta.autor) || 'Dr. Walter Jáuregui';
+  const root = document.getElementById('study-root');
+  root.innerHTML = `
+    <div class="hero">
+      <h1>${topic.meta.titulo}</h1>
+      <div class="author">${autor}</div>
+      ${buildTree()}
+    </div>
+    <nav class="pillbar">${navPills}</nav>
+    <div class="searchbar-wrap">
+      <div class="searchbar">
+        <input type="text" id="search-input" placeholder="Buscar en toda la app: temas, escalas, calculadoras, VPO, protocolos…" autocomplete="off" oninput="runSearch(this.value)">
+        <div class="search-results" id="search-results"></div>
+      </div>
+    </div>
+    ${buildDefinicion()}
+    ${buildDiagnostico()}
+    ${buildClasificacion()}
+    ${buildComplicaciones()}
+    ${buildSeguimiento()}
+    ${buildAutoevaluacion()}
+    ${buildBibliografia()}
+  `;
+  initScrollspy();
+
+  // overlay: click fuera cierra
+  const overlay = document.getElementById('overlay');
+  overlay.onclick = e => { if (e.target.id === 'overlay') closeModal(); };
+}
+
+/* ---------------- Handlers globales (para onclick inline) ---------------- */
+Object.assign(window, {
+  jumpTo, jumpToEscala, highlightBib, openModal, closeModal,
+  openQuiz, startQuiz, answerQuiz, nextQuiz,
+  openFlashcards, flipFlashcard, rateFlashcard,
+  openCase, answerCase, nextCase,
+  openStigma, runSearch, clearSearch
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('click', e => {
+  if (!e.target.closest('.searchbar')) {
+    const box = document.getElementById('search-results');
+    if (box) box.classList.remove('active');
+  }
+});

@@ -1,0 +1,503 @@
+                                                            Cardiovascular Surgery
+
+Downloaded from http://ahajournals.org by on July 18, 2026       Development and Validation of a Risk Calculator for
+                                                                        Prediction of Cardiac Risk After Surgery
+
+                                                             Prateek K. Gupta, MD; Himani Gupta, MD; Abhishek Sundaram, MBBS, MPH; Manu Kaushik, MD;
+                                                                  Xiang Fang, PhD; Weldon J. Miller, MS; Dennis J. Esterbrooks, MD; Claire B. Hunter, MD;
+
+                                                            Iraklis I. Pipinos, MD; Jason M. Johanning, MD; Thomas G. Lynch, MD; R. Armour Forse, MD, PhD;
+                                                                                              Syed M. Mohiuddin, MD; Aryan N. Mooss, MD
+
+                                                            Background--Perioperative myocardial infarction or cardiac arrest is associated with significant morbidity and mortality.
+                                                               The Revised Cardiac Risk Index is currently the most commonly used cardiac risk stratification tool; however, it has
+                                                               several limitations, one of which is its relatively low discriminative ability. The objective of the present study was to
+                                                               develop and validate a predictive cardiac risk calculator.
+
+                                                            Methods and Results--Patients who underwent surgery were identified from the American College of Surgeons' 2007
+                                                               National Surgical Quality Improvement Program database, a multicenter (250 hospitals) prospective database. Of the
+                                                               211 410 patients, 1371 (0.65%) developed perioperative myocardial infarction or cardiac arrest. On multivariate logistic
+                                                               regression analysis, 5 predictors of perioperative myocardial infarction or cardiac arrest were identified: type of surgery,
+                                                               dependent functional status, abnormal creatinine, American Society of Anesthesiologists' class, and increasing age. The
+                                                               risk model based on the 2007 data set was subsequently validated on the 2008 data set (n257 385). The model
+                                                               performance was very similar between the 2007 and 2008 data sets, with C statistics (also known as area under the
+                                                               receiver operating characteristic curve) of 0.884 and 0.874, respectively. Application of the Revised Cardiac Risk Index
+                                                               to the 2008 National Surgical Quality Improvement Program data set yielded a relatively lower C statistic (0.747). The
+                                                               risk model was used to develop an interactive risk calculator.
+
+                                                            Conclusions--The cardiac risk calculator provides a risk estimate of perioperative myocardial infarction or cardiac arrest
+                                                               and is anticipated to simplify the informed consent process. Its predictive performance surpasses that of the Revised
+                                                               Cardiac Risk Index. (Circulation. 2011;124:381-387.)
+
+                                                                          Key Words: myocardial infarction  cardiac arrest  risk  assessment  perioperative period
+
+                                                            T he incidence of perioperative myocardial infarction (MI)                                  Editorial see p 376
+                                                                 varies widely, ranging from 3% to 17%, with the                                  Clinical Perspective on p 387
+                                                            incidence being higher in those with coronary artery disease
+                                                            (CAD) or with risk factors for CAD than in those without                    Since Goldman et al first proposed a risk index in 1977,
+                                                            these risk factors.1-3 It is expected that incidence will increase       several perioperative cardiac risk indices/scores have been
+                                                            in the years to come, given that there will be a simultaneous            proposed.1,8-10 The most widely used of these risk indices is
+                                                            increase in the incidence of risk factors for CAD with the               the Revised Cardiac Risk Index (RCRI); however, it has
+                                                            aging population and that this is the population in which a              several limitations.8
+                                                            majority of surgeries are performed.4,5 Perioperative cardiac
+                                                            events are a leading cause of death after surgery.5-7 Thus, risk            With more than 200 hospitals reporting preoperative, intraop-
+                                                            stratification for perioperative MI and cardiac arrest (CA) has          erative, and postoperative data to the American College of
+                                                            become an integral part of the workup of any patient before              Surgeons' National Surgical Quality Improvement Program
+                                                            surgery.2 It serves to identify patients who are at higher risk          (NSQIP), NSQIP is the largest and most complete prospective,
+                                                            for perioperative MI or CA and who would benefit the most                clinical, national surgical database.11,12 Therefore, an analysis of
+                                                            from cardiac optimization before elective surgery.2,6,8                  the NSQIP database was undertaken to ascertain risk factors
+                                                                                                                                     associated with intraoperative/postoperative MI or CA (MICA)
+                                                                                                                                     and to develop and validate a risk calculator for its prediction. Its
+
+                                                               Received December 20, 2010; accepted April 8, 2011.
+                                                               From the Department of Surgery (P.K.G., A.S., R.A.F.), Department of Medicine (H.G.), Division of Cardiology (M.K., D.J.E., C.B.H., S.M.M.,
+                                                            A.N.M.), and Biostatistical Core (X.F.), Creighton University, Omaha, NE; School of Medicine, University of Pittsburgh, Pittsburgh, PA (W.J.M.); and
+                                                            Department of Surgery, University of Nebraska Medical Center, Omaha, NE (I.I.P., J.M.J., T.G.L.).
+                                                               The online-only Data Supplement is available with this article at http://circ.ahajournals.org/cgi/content/full/CIRCULATIONAHA.110.
+                                                            015701/DC1.
+                                                               Correspondence to Prateek K. Gupta, MD, Department of Surgery, Creighton University, 601 N 30th St, Omaha, NE 68131. E-mail
+                                                            prateekgupta@creighton.edu
+                                                               © 2011 American Heart Association, Inc.
+
+                                                            Circulation is available at http://circ.ahajournals.org                  DOI: 10.1161/CIRCULATIONAHA.110.015701
+
+                                                                                                                                381
+                                                            382 Circulation July 26, 2011                                                Table 1. Description of Surgeries
+
+                                                            performance was subsequently compared with that of the RCRI.                 Type of        Organs/Systems Included             n (% of
+                                                            None of the existing risk indices has a high predictive ability for          Surgery                                            211 410)
+                                                            MICA in patients undergoing aortic or noncardiac vascular
+Downloaded from http://ahajournals.org by on July 18, 2026  surgery. Thus, even though the primary objective was to develop              Anorectal       Anus and rectum with transanal       3265 (1.5)
+                                                            and validate a risk calculator to predict risk of MICA after all                                          approach                4479 (2.1)
+                                                            surgeries, the performance of the validated MICA risk calculator             Aortic                         Aorta               12 337 (5.8)
+                                                            was further specifically tested among patients undergoing aortic             Bariatric                                             370 (0.2)
+                                                            or noncardiac vascular surgery to ascertain its predictive ability           Brain                   Bariatric surgeries        21 359 (10.1)
+                                                            in that population.                                                          Breast                         Brain                  631 (0.3)
+                                                                                                                                         Cardiac                       Breast                  646 (0.3)
+                                                                                     Methods                                             ENT                            Heart               12 254 (5.8)
+                                                            Data Set
+                                                                                                                                         FG/HPB         ENT and head and neck surgeries     35 940 (17.0)
+                                                            Data were extracted from the 2007 and 2008 NSQIP Participant                                  except thyroid and parathyroid
+                                                            Use Data Files.13 These are multicenter, prospective databases with          GBAAS                      Foregut and               2861 (1.4)
+                                                            183 (year 2007) and 211 (year 2008) participating academic and                              hepatopancreatobiliary surgeries:   31 692 (15.0)
+                                                            community US hospitals and include data collected on 136 periop-             Gyn            esophagus, stomach, duodenum,
+                                                            erative variables. The 2006 data set was not used because of slight                          pancreas, liver, and biliary tree  31 492 (14.9)
+                                                            differences in definitions. In NSQIP, a participating hospital's             Hernia                                             10 179 (4.8)
+                                                            surgical clinical nurse reviewer captures data using a variety of                           (except isolated cholecystectomy)
+                                                            methods, one of which is medical chart abstraction. The data are             Intestine       Gall bladder, appendix, adrenals     1324 (0.6)
+                                                            collected on the basis of strict criteria formulated by a committee. To                      or spleen; biliary tree surgeries    9272 (4.4)
+                                                            ensure the data collected are of a high quality, the NSQIP has               Neck            other than cholecystectomy not       4086 (1.9)
+                                                            developed different training mechanisms for the surgical clinical            Nonesophageal                                      17 490 (8.3)
+                                                            nurse reviewer and conducts an interrater reliability audit of partic-       thoracic                     included                4906 (2.3)
+                                                            ipating sites.13 The processes of surgical clinical nurse reviewer           Orthopedic        Obstetric and gynecological        1469 (0.7)
+                                                            training, interrater reliability auditing, data collection, and sampling                                                          1975 (0.9)
+                                                            methodology have been described in detail.13-15 The combined                 Other abdomen                surgeries               3383 (1.6)
+                                                            results of the audits revealed an overall disagreement rate of                                Ventral, inguinal, femoral, and
+                                                            approximately 1.99% for all assessed program variables. The Par-             Peripheral
+                                                            ticipant Use Data Files are Health Insurance Portability and Account-        vascular                other hernias (not
+                                                            ability Act- compliant data files that contain patient-level aggregate       Skin                     paraesophageal)
+                                                            data and do not identify hospitals, healthcare providers, or patients.       Spinal            Intestines below the level of
+                                                            Trauma patients, transplant patients, and those younger than 16 years        Urology
+                                                            of age are excluded from the NSQIP database. The NSQIP database              Vein                        duodenum
+                                                            captures outcomes through 30 days after surgery, except for hospital                        Thyroid and parathyroid surgeries
+                                                            length of stay, which is recorded until the patient is discharged.
+                                                                                                                                                           Thoracic surgeries excluding
+                                                            Patients                                                                                           heart and esophagus
+
+                                                            Patients who underwent the surgeries listed in Table 1 were studied.                          Orthopedics and nonvascular
+                                                            Data on demographics, lifestyle, comorbidity, and other variables were                                    extremity
+                                                            obtained. Demographic variables analyzed included age, sex, and race.
+                                                            Lifestyle variables included smoking (within 1 year of surgery) and                         Abdominal surgeries not covered
+                                                            alcohol (more than 2 drinks per day in the 2 weeks before surgery).                                       by above
+                                                            Comorbidities studied included presence or absence of renal disease
+                                                            (acute renal failure and dialysis dependence), CAD (angina within 30                           Nonaortic, nonvein vascular
+                                                            days of surgery, MI within 6 months of surgery, prior percutaneous                                        surgeries
+                                                            coronary intervention, and cardiac surgery), congestive heart failure,                                       Skin
+                                                            hypertension, peripheral vascular disease (revascularization/amputation                                     Spine
+                                                            for peripheral vascular disease and rest pain in lower extremity),
+                                                            pulmonary disease (ventilator dependence before surgery, history of                            Kidneys and urinary system
+                                                            chronic obstructive pulmonary disease, and preexisting pneumonia),                                          Veins
+                                                            sepsis (systemic inflammatory response syndrome, sepsis, and septic
+                                                            shock), liver disease (ascites or esophageal varices), neurological event       ENT indicates ear, nose, and throat; FG/HPB, foregut and hepatopancre-
+                                                            or disease (stroke with or without residual deficit, transient ischemic      atobiliary; GBAAS, gall bladder, appendix, adrenals, or spleen; and Gyn,
+                                                            attack, hemiplegia, paraplegia, quadriplegia, impaired sensation/delir-      gynecological.
+                                                            ium, coma, and central nervous system tumor), diabetes mellitus,
+                                                            disseminated cancer, chronic corticosteroid use, weight loss (10% in         time. NSQIP definitions of "normal" and "abnormal" were used to
+                                                            the 6 months before surgery), bleeding disorders, and open wound.            categorize laboratory values as normal and abnormal; missing data
+                                                            Other factors considered were American Society of Anesthesiologists'         constituted a third categorical level, an indicator variable.17
+                                                            (ASA) class,16 preoperative functional status/ability to perform activities
+                                                            of daily living in the 30 days before surgery (independent, partially        Outcome
+                                                            dependent, totally dependent), dyspnea (none, moderate exertion, at
+                                                            rest), body mass index, pregnancy, prior operation within 30 days,           The primary end point was intraoperative/postoperative MI or CA
+                                                            preoperative transfusion of 4 U of packed red blood cells, neoadjuvant       through 30 days after surgery.
+                                                            chemoradiation, and emergency surgery. The complete definitions for
+                                                            all the above variables have been published previously.13                       Cardiac arrest has been defined by the NSQIP as "The absence of
+                                                                                                                                         cardiac rhythm or presence of chaotic cardiac rhythm that results in
+                                                               Preoperative laboratory variables analyzed included blood urea            loss of consciousness requiring the initiation of any component of
+                                                            nitrogen, creatinine, albumin, bilirubin, hematocrit, platelet count,        basic and/or advanced cardiac life support." Patients with automatic
+                                                            white blood cell count, partial thromboplastin time, and prothrombin         implantable cardioverter defibrillator (AICD) that fire but do not lose
+                                                                                                                                         consciousness are not included in this definition.18 Thus, it effec-
+                                                                                                                                         tively includes all forms of malignant ventricular and supraventric-
+                                                                                                                                         ular arrhythmias, along with pulseless electric activity and asystole.
+
+                                                                                                                                            MI has been defined in the NSQIP database as "Presence of one
+                                                                                                                                         of the following: (1) documentation of electrocardiogram (ECG)
+                                                                                                                                         changes indicative of acute MI (one or more of the following): (a) ST
+                                                            Gupta et al Perioperative Cardiac Risk Calculator 383
+
+                                                            elevation 1 mm in two or more contiguous leads (b) new left               Table 2. Estimates, Standard Errors, and Variables
+                                                            bundle branch (c) new Q-wave in two or more contiguous leads (2)          Associated With Myocardial Infarction or Cardiac Arrest in
+                                                            new elevation in troponin greater than 3 times upper level of the         Stepwise Logistic Regression Analysis (2007 NSQIP Data
+                                                            reference range in the setting of suspected myocardial ischemia."18       Set-Final Model)
+
+                                                               The secondary end point was intraoperative/postoperative MICA          Parameter               Estimate SE Adjusted OR 95% Wald CI
+                                                            among patients undergoing aortic or noncardiac vascular surgery.
+                                                                                                                                      Intercept               5.25 0.24
+                                                            Statistical Analysis
+                                                                                                                                      Totally dependent       1.03 0.09   2.79  2.36-3.30
+                                                            Univariate exploratory analysis was performed on the 2007 NSQIP           functional status*
+                                                            data set. Pearson 2 test or Fisher exact test were performed for the
+                                                            categorical variables, with t or F test for continuous variables.         Partially dependent     0.65 0.08   1.92  1.65-2.23
+                                                            Stepwise multivariate logistic regression was performed to assess the     functional status*
+                                                            most parsimonious combination of risk factors predictive of MICA,
+                                                            thus creating the full model. To address the possibility that the         ASA class 1             5.17 0.72   0.01  0.001-0.02
+                                                            surgery type might interact with any of the other variables, we           ASA class 2             3.29 0.17
+                                                            included all second-order interaction terms that involved surgery in      ASA class 3             1.92 0.13   0.04  0.03-0.05
+                                                            the list of candidate variables.                                          ASA class 4             0.95 0.12
+                                                                                                                                                                          0.15  0.11-0.19
+                                                               To reduce the number of risk factors, we then created parsimoni-
+                                                            ous models by sequentially removing variables from the full model.                                            0.39  0.30-0.49
+                                                            A forward-selection procedure was applied to select a predetermined
+                                                            number of variables for inclusion in the final logistic model from a      Creatinine (abnormal)   0.61 0.06   1.84  1.63-2.09
+                                                            list of candidate variables, which in this analysis included all
+                                                            preoperative variables. The number of variables to be included in the     Creatinine (missing) 0.10 0.15      0.91  0.68-1.21
+                                                            final model was determined as 5 because we found that the inclusion
+                                                            of more than 5 variables in the model did not significantly improve       Age per year of         0.02 0.002  1.02  1.01-1.02
+                                                            the prediction (C statistic) of MICA, but made the model more             increase
+                                                            complex. Statistical analysis was performed with SAS (version 9.2;
+                                                            SAS Institute, Cary, NC). P0.05 was considered significant.               Anorectal§              0.16 0.52   0.85  0.31-2.37
+
+                                                            Risk Model Performance                                                    Aortic§                 1.60 0.17   4.96  3.55-6.93
+
+Downloaded from http://ahajournals.org by on July 18, 2026  The accuracy of a logistic regression model is usually assessed by its    Bariatric§              0.25 0.30   0.78  0.43-1.40
+                                                            discrimination and calibration.19 Discrimination measures how well
+                                                            a model can distinguish between cases (who develop MICA) and              Brain§                  1.40 0.42   4.04  1.79-9.13
+                                                            noncases (who do not develop MICA). Discrimination is usually
+                                                            assessed by the C statistic, also known as the area under the receiver    Breast§                 1.61 0.47   0.20  0.08-0.50
+                                                            operating characteristic curve. This statistic evaluates each pair of
+                                                            observations that have different outcomes and calculates the propor-      Cardiac§                1.01 0.30   2.74  1.51-4.99
+                                                            tion of times when the patient who developed MICA had a higher
+                                                            predicted risk of MICA than the patient who did not develop MICA.         ENT§                    0.71 0.73   2.04  0.49-8.47
+                                                            The C statistic ranges from 0.50 (no better than flipping a coin) to
+                                                            1.00 (model is 100% correct).                                             Foregut/hepato-         1.39 0.17   4.02  2.89-5.60
+                                                                                                                                      pancreatobiliary§
+                                                               Calibration measures the ability of a model to generate predictions
+                                                            that are on average close to the average observed outcome. The most       GBAAS§                  0.59 0.18   1.81  1.27-2.58
+                                                            widely used method for doing this in hospital mortality models is the
+                                                            Hosmer-Lemeshow test, which examines how well the percentage of           Intestinal§             1.14 0.16   3.12  2.29-4.24
+                                                            observed MICA matches the percentage of predicted MICA over
+                                                            deciles of predicted risk.19 In studies with large sample sizes, it is    Neck§                   0.18 0.29   1.20  0.68-2.12
+                                                            suggested that a calibration graph of observed versus predicted
+                                                            events be constructed.19 If the model calibrates well, there will not be  Obstetric/gynecologic§  0.76 0.43   2.14  0.91-5.05
+                                                            a substantial deviation from the 45° line of perfect fit.
+                                                                                                                                      Orthopedic§             0.80 0.18   2.22  1.55-3.17
+                                                            Risk Model Validation
+                                                                                                                                      Other abdomen§          1.13 0.19   3.11  2.13-4.54
+                                                            Once a model was trained on the basis of the 2007 data set, an
+                                                            independent data set (2008 data set) was used to validate the model.      Peripheral vascular§    0.86 0.16   2.36  1.72-3.25
+                                                            The model validation applied the trained model from the 2007 data
+                                                            set to estimate MICA probabilities for all patients in the 2008 data      Skin§                   0.54 0.25   1.72  1.06-2.79
+                                                            set. These estimated probabilities were then compared with actual
+                                                            MICA status in the 2008 data set by computing a C statistic               Spine§                  0.21 0.60   1.24  0.38-4.00
+                                                            (discrimination). To do this, a receiver operating characteristic curve
+                                                            was constructed on the basis of the sensitivity and specificity of the    Thoracic§               0.40 0.42   1.49  0.67-3.32
+                                                            predictions from the 2007 model on the 2008 data set for various
+                                                            prediction cut points. The C statistic is equivalent to the area under    Vein§                   1.09 1.01   0.34  0.05-2.43
+                                                            this receiver operating characteristic curve and was computed by use      Urology§
+                                                            of the trapezoidal rule. This C statistic reflects how much predictive                            0.26 0.52   0.77  0.28-2.14
+                                                            accuracy the trained (2007) model has on the 2008 data set. If this C
+                                                            statistic shows favorable predictive accuracy, then the model is             NSQIP indicates National Surgical Quality Improvement Program; SE, stan-
+                                                            considered validated. As previously described in literature, similar      dard error; OR, odds ratio; CI, confidence interval; ASA, American Society of
+                                                            results for calibration and discrimination indicate validation in an      Anesthesiologists; ENT, ear, nose, and throat; GBAAS, gallbladder, adrenal,
+                                                            independent data set.20-23                                                appendix, spleen surgery.
+
+                                                                                                                                         Abnormal creatinine was creatinine 1.5 mg/dL.
+                                                                                                                                         The estimate and the SE refer to the estimate of the logistic regression
+                                                                                                                                      coefficient for the specific variable and its associated SE. C statistic0.884.
+                                                                                                                                         Reference groups were as follows: *Independent functional status; ASA class 5;
+                                                                                                                                      normal creatinine; §hernia surgery. 0.4% of ASA class data were missing.
+
+                                                                                                                                      Development of Risk Calculator
+
+                                                                                                                                      Once the model was validated, it was used to develop the risk
+                                                                                                                                      calculator, which took the form of an interactive spreadsheet that
+                                                                                                                                      accepts patient covariate information and returns an estimated
+                                                                                                                                      probability percentage of MICA based on the validated model.
+                                                                                                                                      Alternatively, one can generate this estimated probability percentage
+                                                                                                                                      using the model fit directly. The parameter estimates and standard
+                                                                                                                                      errors for the model are presented in Table 2. These estimated
+                                                                                                                                      coefficients can be used to estimate the logit (L^ ) for a patient using
+                                                                                                                                      the standard binary logistic regression equation. The estimated
+                                                            384 Circulation July 26, 2011
+
+                                                                                                                                  Figure 1. Observed vs expected perioperative
+                                                                                                                                  myocardial infarction or cardiac arrest (MICA):
+                                                                                                                                  calibration of predictions in the training set.
+
+Downloaded from http://ahajournals.org by on July 18, 2026  MICA probability percentage for a patient is then computed with the   lower extremity due to peripheral vascular disease, 10%
+                                                            following formula:                                                    preoperative weight loss, history of transient ischemic attack,
+                                                                                                                                  peripheral vascular disease requiring revascularization or ampu-
+                                                                                                                         e^L      tation, prior percutaneous coronary intervention, hypertension,
+                                                                             estimated probability100%1e^L                        chronic obstructive pulmonary disease, dyspnea at rest or exer-
+                                                                                                                                  tion, preoperative sepsis, increasing age, abnormal creatinine,
+                                                            Comparison With Revised Cardiac Risk Index                            blood urea nitrogen, hematocrit, and type of surgery. Preopera-
+                                                                                                                                  tive variables significantly associated with an increased risk for
+                                                            To compare the risk calculator with the RCRI, the risk predictors in  MICA in the final model included ASA class, dependent
+                                                            the RCRI were applied to the 2008 NSQIP data set with end points      functional status, increasing age, abnormal creatinine (1.5
+                                                            of MICA among all surgeries and MICA among vascular surgeries.        mg/dL), and type of surgery (Table 2). None of the second-order
+                                                            Multivariate logistic regression analyses were performed. The C       interaction terms involving surgery were chosen, which suggests
+                                                            statistic (discrimination) was used to compare performance of the     that there was not a substantial interaction between surgery type
+                                                            risk calculator with that of RCRI.                                    and any of the other variables in the model. The variables in the
+                                                                                                                                  model remained statistically significant even after Bonferroni
+                                                                                      Results                                     correction.
+                                                            Demographics
+                                                                                                                                  Development and Validation of Risk Model
+                                                            In the 2007 NSQIP data set (n211 410), MICA was seen in               The 2007 data set was used as the training set to develop the
+                                                            1371 patients (0.65%) (intraoperative MI, 154 patients; post-         model, and the 2008 data set served as the validation set. The
+                                                            operative MI, 357 patients; intraoperative CA, 24 patients;           risk model included significant predictors from the 2007 data
+                                                            postoperative CA, 902 patients). Patients with MICA were              set. The parameter estimates and their standard errors are
+                                                            significantly older than those without MICA (median 71                summarized in Table 2.
+                                                            versus 56 years, P0.0001). Men (57.5%) constituted a
+                                                            significantly higher proportion (P0.0001) of those with                  Reference group for type of surgery was hernia surgery; for
+                                                            MICA than women (42.7%; online-only Data Supplement                   laboratory values, normal values; for functional status, inde-
+                                                            Table I). In the 2008 data set, which was used for validation         pendent functional status; and for ASA class, class 5. Table 2
+                                                            (n257 385), MICA was seen in 1401 patients (0.54%).                   can be used to generate probability estimates identical to the
+                                                                                                                                  risk calculator by inserting the appropriate coefficient esti-
+                                                            Univariate Analysis (2007 Data Set)                                   mates into the standard logistic regression model to compute
+                                                            MICA was significantly associated with a multitude of variables       the estimated logit and then translating this logit into the
+                                                            (P0.0001 for most; online-only Data Supplement Table I).              probability scale as described in Methods.
+                                                            Online-only Data Supplement Table II displays the intraopera-
+                                                            tive and postoperative differences in patients with and without          The C statistic for the training set was 0.892 in the full model
+                                                            MICA. Postoperatively, patients with MICA had more compli-            and 0.884 in the final model, which indicates excellent discrim-
+                                                            cations than those without MICA. Operative time and hospital          ination. Figure 1 shows that the calibration (Hosmer-Lemeshow
+                                                            length of stay were significantly longer (P0.0001 for both).          goodness-of-fit test) was excellent, without a substantial devia-
+                                                            Death within 30 days was also significantly higher in patients        tion from the 45° line of perfect fit.
+                                                            with MICA (61.42% versus 1.35%, P0.0001). Median number
+                                                            of days from surgery until MI was 2 (interquartile range 1 to 6          The selected risk model (final model) was then applied
+                                                            days), whereas the median number of days from surgery until           to the 2008 validation set. The C statistic that arose from use of
+                                                            CA was 4 (interquartile range 1 to 10 days).                          the 2007 model to estimate MICA probability in the 2008 data
+                                                                                                                                  set was 0.874, which indicates excellent discrimination. These
+                                                            Multivariate Analysis for MICA (2007 Data Set)                        findings indicate that the model performance was very similar in
+                                                            Preoperative variables significantly associated with an increased     both the 2007 training set and the 2008 validation set, with the
+                                                            risk for MICA in the full model included ASA class, preopera-         model continuing to have excellent discrimination in an inde-
+                                                            tive dialysis dependence, emergency case, male sex, dependent
+                                                            functional status, history of recent MI, black race, rest pain in
+                                                            Gupta et al Perioperative Cardiac Risk Calculator 385
+
+                                                                                                                                Figure 2. Observed vs expected perioperative
+                                                                                                                                myocardial infarction or cardiac arrest (MICA)
+                                                                                                                                for the Revised Cardiac Risk Index: calibration
+                                                                                                                                of predictions.
+
+Downloaded from http://ahajournals.org by on July 18, 2026  pendent data set. This method of validation using similar C         to 2.20; preoperative treatment with insulin OR 1.27, 95% CI
+                                                            statistics has been described previously in the literature.20-22    1.10 to 1.46; and preoperative serum creatinine 2.0 mg/dL
+                                                                                                                                OR 4.86, 95% CI 4.31 to 5.49. The C statistic was 0.747.
+                                                            Development of Risk Calculator                                      Figure 2 shows that the calibration (Hosmer-Lemeshow
+                                                            The selected model was then used to develop an interactive          goodness-of-fit test) was moderate. Calibration for RCRI had
+                                                            risk calculator. In the risk calculator, values are entered as 0    not been mentioned by Lee et al originally.8 When the RCRI
+                                                            and 1 for absence or presence, respectively, of significant risk    was applied to the 2008 NSQIP data set to assess risk of
+                                                            factors. In the case of continuous variables, values are entered    MICA in patients who underwent aortic or other noncardiac
+                                                            as a number. When the required input is entered into this           vascular surgery (n26 183), the C statistic was 0.591.
+                                                            calculator for a given patient, it returns a model-based percent
+                                                            estimate of postoperative MICA.                                                             Discussion
+
+                                                               We present a few examples of calculated postoperative            In the present study, ASA class, dependent functional status,
+                                                            MICA using the risk calculator:                                     age, abnormal creatinine (1.5 mg/dL), and type of surgery
+                                                                                                                                were associated with cardiac risk after surgery. Some of these
+                                                               1. Sixty-year-old man, ASA class 4, independent, with            are also components of existing risk indices.1,2,8,10,24 Dependent
+                                                                  normal creatinine, undergoing aortic surgery: 3.18%.          functional status was not a component of previous indices;
+                                                                                                                                however, a trend toward higher complication rates in patients
+                                                               2. Seventy-year-old woman, ASA class 3, independent, with        with worse functional capacity was found in RCRI. Insulin-
+                                                                  normal creatinine, undergoing brain surgery: 1.22%.           dependent diabetes mellitus was not a significant predictor on
+                                                                                                                                multivariate analysis in the present study; in the original study by
+                                                               3. Seventy-year-old man, ASA class 5, totally dependent,         Lee et al on RCRI,8 it was significant only for the derivation set
+                                                                  with elevated creatinine, undergoing pancreatoduode-          and not the validation set. Surprisingly, a history of congestive
+                                                                  nectomy: 30.23%.                                              heart failure was also not significantly associated with postoperative
+                                                                                                                                MICA in the present study. It is likely that heart failure is not
+                                                               4. Forty-year-old woman, ASA class 2, independent, with          predictive of MICA independent of functional status or ASA class.
+                                                                  normal creatinine, undergoing laparoscopic cholecys-
+                                                                  tectomy: 0.08%.                                                  Although many previous risk stratification tools exist, they
+                                                                                                                                have several limitations. RCRI, the most widely used risk
+                                                               5. Sixty-five-year-old man, ASA class 4, partially depen-        index, was derived and validated on a relatively small cohort
+                                                                  dent, with elevated creatinine, undergoing peripheral         of 4315 patients in contrast to more than 400 000 patients in
+                                                                  vascular surgery: 5.75%.                                      the present study.8 Furthermore, categorization of surgeries as
+                                                                                                                                used in the RCRI is not very relevant today because of
+                                                            Validation of Risk Model on Patients Undergoing                     advances in the field of surgery, especially minimally inva-
+                                                            Vascular Surgery                                                    sive surgery such as laparoscopy. For instance, in the RCRI,
+                                                            The risk model was further applied specifically to patients in the  all suprainguinal vascular, intraperitoneal, and intrathoracic
+                                                            2008 NSQIP data set who underwent aortic or other noncardiac        surgeries were classified as high risk, thus equating laparo-
+                                                            vascular surgery (n26 183) to ascertain the discriminative          scopic appendectomy and cholecystectomy to pancreatec-
+                                                            ability of the model for MICA in patients undergoing these          tomy and liver resections. This is not the case, as is evidenced
+                                                            surgeries. The C statistic of the model was 0.746.                  by the higher risk of MICA in patients who underwent
+                                                                                                                                foregut/hepatopancreatobiliary (pancreatectomy/liver resec-
+                                                            Application of Revised Cardiac Risk Index to National               tion) surgery compared with patients who underwent laparo-
+                                                            Surgical Quality Improvement Program Data Set                       scopic appendectomy and cholecystectomy in the NSQIP
+                                                            The RCRI identified 6 independent predictors of periopera-          data set. In the RCRI, each organ system was not considered
+                                                            tive cardiac complications.8 When it was applied to the 2008        individually. Evidently, the surgery-specific risk is indepen-
+                                                            NSQIP data set with an end point of MICA among all                  dent of other factors, and hence, organ-based classification of
+                                                            surgeries, all of the 6 risk factors were significant: high-risk
+                                                            surgery odds ratio (OR) 2.01, 95% confidence interval (CI)
+                                                            1.81 to 2.23; history of congestive heart failure OR 3.26, 95%
+                                                            CI 2.67 to 3.98; history of ischemic heart disease OR 3.02,
+                                                            95% CI 2.51 to 3.64; history of stroke OR 1.92, 95% CI 1.67
+                                                            386 Circulation July 26, 2011
+
+Downloaded from http://ahajournals.org by on July 18, 2026  surgeries is the most appropriate approach for MICA risk                precise than a point system, but it may be less simple for
+                                                            assessment, providing a more precise estimate of risk.                  some users to implement. However, as clinicians take advan-
+                                                                                                                                    tage of new handheld computer- based technologies to utilize
+                                                               Despite its relative ease of use, the RCRI lacks in its              pharmacopeias and clinical management guidelines, it is our
+                                                            discriminative/predictive ability. It has been widely suggested         belief that a risk calculator will find widespread use and assist
+                                                            that the discriminative ability of a risk index should be greater       physicians and surgeons in making clinical decisions.
+                                                            than 0.8 for a prediction model to be considered clinically
+                                                            relevant.25,26 The receiver operating characteristic area under the        Apart from identifying high-risk patients, we foresee the risk
+                                                            curve for RCRI, which represents discriminative ability, was            calculator as an important tool in the informed consent process.
+                                                            0.76 in the original study by Lee et al8 and 0.75 in a review by        The process of patient-centered informed consent requires, in
+                                                            Ford et al,6 which makes its discriminative ability only moder-         addition to patient capacity and freedom of action, the presen-
+                                                            ate. RCRI was applied to the 2008 NSQIP data set to predict             tation of adequate information regarding risks and benefits
+                                                            MICA among all surgeries, to assess its performance on an               generally defined using a reasonable person standard.11 Accurate
+                                                            independent prospective cohort of patients across the country,          individualized assessment of MICA, which contributes greatly
+                                                            and to then compare it to the risk calculator in the present study.     to morbidity and mortality, would certainly assist in meeting the
+                                                            Its C statistic was 0.75, lower than the 0.88 seen for the MICA         latter objective. Physicians have long quoted the most current
+                                                            risk calculator proposed in the present study. RCRI was also            literature to explain risks of adverse outcomes associated with a
+                                                            compared to the MICA risk calculator to assess discrimination           procedure. This has not always been an easy task, because each
+                                                            for MICA specifically in patients who underwent aortic or other         patient is different, with a unique set of risk factors. Thus, this
+                                                            noncardiac vascular surgery. The C statistic for RCRI was again         risk calculator will simplify the informed consent process by
+                                                            lower (0.59 versus 0.75).                                               estimating the risk of MICA.
+
+                                                               Discrimination for the MICA risk calculator for aortic or other         In spite of its many strengths, the present study has some
+                                                            noncardiac vascular surgery is also higher than that of the             limitations. Variables analyzed were limited to those recorded
+                                                            Vascular Study Group of New England Cardiac Risk Index                  by NSQIP. Despite the data set being fairly comprehensive,
+                                                            (0.75 versus 0.71).27 The Vascular Study Group of New England           with more than 50 preoperative variables, information on
+                                                            Cardiac Risk Index had age, smoking, insulin-dependent diabe-           preoperative stress test, echocardiography, arrhythmia, and
+                                                            tes mellitus, CAD, abnormal cardiac stress test, long-term              aortic valve disease was not available. Although aortic valve
+                                                            -blocker therapy, chronic obstructive pulmonary disease, and            disease was a risk factor in the original risk index by
+                                                            abnormal creatinine as significant risk factors. Of these, smoking      Goldman et al,1 it was not significant in the RCRI. Informa-
+                                                            and insulin-dependent diabetes mellitus were not significant in         tion on -blocker use was not a part of the data set; however,
+                                                            the MICA risk calculator, while stress test and -blocker therapy        this has not been significant in most previous indices.7
+                                                            were not a part of the NSQIP data set. CAD and chronic                  Outcomes for 1.3% of patients in the 2007 data set who
+                                                            obstructive pulmonary disease, although a part of the full model,       stayed in the hospital beyond 30 days was not available.
+                                                            were not a part of the final model.                                     Unfortunately, known/remote CAD (except prior percutane-
+                                                                                                                                    ous coronary intervention and cardiac surgery) was not a
+                                                               The MICA risk calculator was developed to aid in the surgical        variable in the data set, and this may have helped further
+                                                            decision-making and informed consent process. It is in the form         increase the discriminative ability of the risk calculator.
+                                                            of an interactive spreadsheet and is available online at
+                                                            http://www.surgicalriskcalculator.com/miorcardiacarrest for                There were some methodological differences in the present
+                                                            free download. When the required input is entered into this             study compared with previous indices. The outcome studied
+                                                            calculator for a given patient, it returns a model-based percent        in RCRI and Goldman's original risk index included pulmo-
+                                                            estimate of MICA. In the risk calculator, values are entered as 0 and   nary edema in addition to MICA, with the RCRI also
+                                                            1 for absence or presence, respectively, of the significant predictive  including complete heart block; these were not outcomes in
+                                                            factors or as the actual value for continuous variables.                the present study because they are not a part of the NSQIP.
+                                                                                                                                    The diagnosis of MI was slightly different in the present
+                                                               Previous cardiac indices like the one proposed by Goldman            study than in previous similar studies. The current generation
+                                                            et al1 and the RCRI8 used logistic regression models to create          of troponin-based tests are much more sensitive than the
+                                                            point-based risk score systems. We instead chose to develop             creatinine kinase- based tests that were used in the RCRI and
+                                                            the risk calculator directly on the basis of the logistic               other previous risk indices. Hence, troponin-based tests are
+                                                            regression model. This approach allowed direct modeling and             likely to identify any perioperative MI better than earlier tests.
+                                                            prediction of MICA, rather than the use of 1 model to assess            This may limit the predictive ability of previous risk indices that
+                                                            MICA and another to predict risk based on a point system.               were not based on troponin testing, which is the current standard
+                                                            The predicted probabilities are based on the exact model used           of care. Current guidelines define MI as elevation of troponin
+                                                            to assess MICA, rather than a model of a model, which is                above the reference range. In the present study, a new elevation
+                                                            needed for a point system in this context. Hence, no loss of            in troponin 3 times the upper level of the reference range in the
+                                                            accuracy associated with the use of a second model is                   setting of suspected myocardial ischemia was used as the
+                                                            incurred with this strategy. In addition, the previous indices          definition. Although this would lead to the exclusion of some
+                                                            did not provide an actuarial estimate of risk; instead, patients        MIs, one can also argue that this makes MI a more definitive end
+                                                            were classified as being at high risk/intermediate risk/low risk        point, because minor myocardial damage is excluded.
+                                                            for perioperative cardiac complications. With the MICA risk
+                                                            calculator, we instead provide an exact model-based estimate               In conclusion, although fewer than 1% of patients develop
+                                                            of MICA probability for a patient. This approach is more                MICA, 61% of these patients die within 30 days of surgery. This
+                                                            Gupta et al Perioperative Cardiac Risk Calculator 387
+
+Downloaded from http://ahajournals.org by on July 18, 2026  high mortality rate seen in patients with MICA emphasizes the                        12. Aloia TA. Predicting adverse outcomes after complex cancer surgery.
+                                                            importance of risk stratification and preoperative optimization.                          Ann Surg Oncol. 2010;17:2260 -2261.
+                                                            This risk calculator with its high discriminative ability for
+                                                            intraoperative/postoperative MICA is a step in that direction.                       13. ACS NSQIP PUF. http://www.acsnsqip.org/puf/docs/ACS_NSQIP_
+                                                                                                                                                      Participant_User_Data_File_User_Guide.pdf. Accessed March 1, 2009.
+                                                                                   Disclosures
+                                                                                                                                                 14. Khuri SF, Daley J, Henderson W, Barbour G, Lowry P, Irvin G, Gibbs J,
+                                                            None.                                                                                     Grover F, Hammermeister K, Stremple JF. The National Veterans Admin-
+                                                                                                                                                      istration Surgical Risk Study: risk adjustment for the comparative assessment
+                                                                                   References                                                         of the quality of surgical care. J Am Coll Surg. 1995;180:519-531.
+
+                                                             1. Goldman L, Caldera DL, Nussbaum SR, Southwick FS, Krogstad D,                    15. Khuri SF, Daley J, Henderson W, Hur K, Gibbs JO, Barbour G, Demakis
+                                                                 Murray B, Burke DS, O'Malley TA, Goroll AH, Caplan CH, Nolan J,                      J, Irvin G 3rd, Stremple JF, Grover F, McDonald G, Passaro E Jr, Fabri
+                                                                 Carabello B, Slater EE. Multifactorial index of cardiac risk in noncardiac           PJ, Spencer J, Hammermeister K, Aust JB. Risk adjustment of the
+                                                                 surgical procedures. N Engl J Med. 1977;297:845- 850.                                postoperative mortality rate for the comparative assessment of the quality
+                                                                                                                                                      of surgical care: results of the National Veterans Affairs Surgical Risk
+                                                             2. Ashton CM, Petersen NJ, Wray NP, Kiefe CI, Dunn JK, Wu L, Thomas                      Study. J Am Coll Surg. 1997;185:315-327.
+                                                                 JM. The incidence of perioperative myocardial infarction in men
+                                                                 undergoing noncardiac surgery. Ann Intern Med. 1993;118:504 -510.               16. Saklad M. Grading of patients for surgical procedures. Anesthesiology.
+                                                                                                                                                      1941;2:281-284.
+                                                             3. Mangano DT, Browner WS, Hollenberg M, London MJ, Tubau JF, Tateo
+                                                                 IM. Association of perioperative myocardial ischemia with cardiac morbidity     17. ACS NSQIP Semiannual Report. Chicago, IL: American College of Sur-
+                                                                 and mortality in men undergoing noncardiac surgery: the Study of Periop-             geons; 2008.
+                                                                 erative Ischemia Research Group. N Engl J Med. 1990;323:1781-1788.
+                                                                                                                                                 18. ACS NSQIP. http://nsqip.healthsoftonline.com/lib/Documents/Ch_
+                                                             4. Fleisher LA, Eagle KA. Clinical practice: lowering cardiac risk in non-               4_Variables_Definitions_062810.pdf. Accessed March 21, 2010.
+                                                                 cardiac surgery. N Engl J Med. 2001;345:1677-1682.
+                                                                                                                                                 19. Kramer AA, Zimmerman JE. Assessing the calibration of mortality
+                                                             5. Mangano DT. Perioperative cardiac morbidity. Anesthesiology. 1990;72:                 benchmarks in critical care: the Hosmer-Lemeshow test revisited. Crit
+                                                                 153-184.                                                                             Care Med. 2007;35:2052-2056.
+
+                                                             6. Ford MK, Beattie WS, Wijeysundera DN. Systematic review: prediction              20. Arozullah AM, Khuri SF, Henderson WG, Daley J. Development and vali-
+                                                                 of perioperative cardiac complications and mortality by the revised                  dation of a multifactorial risk index for predicting postoperative pneumonia
+                                                                 cardiac risk index. Ann Intern Med. 2010;152:26 -35.                                 after major noncardiac surgery. Ann Intern Med. 2001;135:847-857.
+
+                                                             7. Devereaux PJ, Yang H, Yusuf S, Guyatt G, Leslie K, Villar JC, Xavier D,          21. Arozullah AM, Daley J, Henderson WG, Khuri SF. Multifactorial risk
+                                                                 Chrolavicius S, Greenspan L, Pogue J, Pais P, Liu L, Xu S, Malaga G,                 index for predicting postoperative respiratory failure in men after major
+                                                                 Avezum A, Chan M, Montori VM, Jacka M, Choi P. Effects of extended-                  noncardiac surgery: the National Veterans Administration Surgical
+                                                                 release metoprolol succinate in patients undergoing non-cardiac surgery              Quality Improvement Program. Ann Surg. 2000;232:242-253.
+                                                                 (POISE trial): a randomised controlled trial. Lancet. 2008;371:1839-1847.
+                                                                                                                                                 22. Rogers SO Jr, Kilaru RK, Hosokawa P, Henderson WG, Zinner MJ,
+                                                             8. Lee TH, Marcantonio ER, Mangione CM, Thomas EJ, Polanczyk CA,                         Khuri SF. Multivariable predictors of postoperative venous thrombo-
+                                                                 Cook EF, Sugarbaker DJ, Donaldson MC, Poss R, Ho KK, Ludwig LE,                      embolic events after general and vascular surgery: results from the Patient
+                                                                 Pedan A, Goldman L. Derivation and prospective validation of a simple                Safety in Surgery Study. J Am Coll Surg. 2007;204:1211-1221.
+                                                                 index for prediction of cardiac risk of major noncardiac surgery.
+                                                                 Circulation. 1999;100:1043-1049.                                                23. Gupta PK, Franck C, Miller WJ, Gupta H, Forse RA. Development and
+                                                                                                                                                      validation of a bariatric surgery morbidity risk calculator using the pro-
+                                                             9. Detsky AS, Abrams HB, McLaughlin JR, Drucker DJ, Sasson Z, Johnston N,                spective, multicenter NSQIP dataset. J Am Coll Surg. 2011;212:301-309.
+                                                                 Scott JG, Forbath N, Hilliard JR. Predicting cardiac complications in patients
+                                                                 undergoing non-cardiac surgery. J Gen Intern Med. 1986;1:211-219.               24. Wolters U, Wolf T, Stutzer H, Schroder T. ASA classification and
+                                                                                                                                                      perioperative variables as predictors of postoperative outcome. Br J
+                                                            10. Davenport DL, Ferraris VA, Hosokawa P, Henderson WG, Khuri SF,                        Anaesth. 1996;77:217-222.
+                                                                 Mentzer RM Jr. Multivariable predictors of postoperative cardiac adverse
+                                                                 events after general and vascular surgery: results from the Patient Safety      25. Ohman EM, Granger CB, Harrington RA, Lee KL. Risk stratification and
+                                                                 in Surgery Study. J Am Coll Surg. 2007;204:1199 -1210.                               therapeutic decision making in acute coronary syndromes. JAMA. 2000;
+                                                                                                                                                      284:876 - 878.
+                                                            11. Cohen ME, Bilimoria KY, Ko CY, Hall BL. Development of an
+                                                                 American College of Surgeons National Surgery Quality Improvement               26. Harrell FE Jr, Califf RM, Pryor DB, Lee KL, Rosati RA. Evaluating the
+                                                                 Program: morbidity and mortality risk calculator for colorectal surgery.             yield of medical tests. JAMA. 1982;247:2543-2546.
+                                                                 J Am Coll Surg. 2009;208:1009 -1016.
+                                                                                                                                                 27. Bertges DJ, Goodney PP, Zhao Y, Schanzer A, Nolan BW, Likosky DS,
+                                                                                                                                                      Eldrup-Jorgensen J, Cronenwett JL. The Vascular Study Group of New
+                                                                                                                                                      England Cardiac Risk Index (VSG-CRI) predicts cardiac complications
+                                                                                                                                                      more accurately than the Revised Cardiac Risk Index in vascular surgery
+                                                                                                                                                      patients. J Vasc Surg. 2010;52:674 - 683.
+
+                                                                                                         CLINICAL PERSPECTIVE
+
+                                                            Perioperative myocardial infarction or cardiac arrest (MICA) is associated with significant morbidity and mortality. The
+                                                            Revised Cardiac Risk Index (RCRI) is currently the most commonly used cardiac risk stratification tool; however, it has
+                                                            several limitations. It was derived and validated on a relatively small cohort of 4315 patients. Categorization of surgeries
+                                                            as used in the RCRI is not very relevant today because of advances in the field of surgery. Lastly, the RCRI lacks in its
+                                                            discriminative/predictive ability. The American College of Surgeons' National Surgical Quality Improvement Program is
+                                                            the largest and most complete prospective, clinical, national surgical database, with more than 200 hospitals participating.
+                                                            We analyzed this database to ascertain risk factors associated with intraoperative/postoperative MICA and to develop and
+                                                            validate a risk calculator for its prediction. Its performance was subsequently compared with that of the RCRI. Of the
+                                                            211 410 patients, 1371 (0.65%) developed MICA. On multivariate logistic regression analysis, 5 predictors of MICA were
+                                                            identified: Type of surgery, dependent functional status, abnormal creatinine, American Society of Anesthesiologists' class,
+                                                            and age. The risk model based on the 2007 data set was subsequently validated on the 2008 data set (n257 385) and used
+                                                            to develop an interactive risk calculator. The C statistic for our risk model was higher than that for the RCRI (0.884 versus
+                                                            0.747), which implies a superior predictive ability. Furthermore, instead of classifying patients as high/intermediate/low
+                                                            risk for perioperative cardiac complications, we provided an exact model-based estimate of MICA probability for a patient.
+                                                            We anticipate the risk calculator will aid in surgical decision making and the informed consent process.
+

@@ -1,0 +1,679 @@
+CHEST                                                                                                       Original Research
+
+                                                                                                                                      CRITICAL CARE
+
+Development and Validation of a Risk
+Calculator Predicting Postoperative
+Respiratory Failure
+
+Himani Gupta, MD; Prateek K. Gupta, MD; Xiang Fang, PhD; Weldon J. Miller, MS;
+Samuel Cemaj, MD; R. Armour Forse, MD, PhD; and Lee E. Morrow, MD, FCCP
+
+Background: Postoperative respiratory failure (PRF) (requiring mechanical ventilation . 48 h
+
+after surgery or unplanned intubation within 30 days of surgery) is associated with significant
+
+morbidity and mortality. The objective of this study was to identify preoperative factors associ-
+
+ated with an increased risk of PRF and subsequently develop and validate a risk calculator.
+
+Methods: The American College of Surgeons National Surgical Quality Improvement Program
+
+(NSQIP), a multicenter, prospective data set (2007-2008), was used. The 2007 data set (n 5 211,410)
+
+served as the training set and the 2008 data set (n 5 257,385) as the validation set.
+
+Results: In the training set, 6,531 patients (3.1%) developed PRF. Patients who developed PRF
+
+had a significantly higher 30-day mortality (25.62% vs 0.98%, P , .0001). On multivariate logistic
+
+regression analysis, five preoperative predictors of PRF were identified: type of surgery, emer-
+
+gency case, dependent functional status, preoperative sepsis, and higher American Society of
+
+Anesthesiologists (ASA) class. The risk model based on the training data set was subsequently
+
+validated on the validation data set. The model performance was very similar between the training
+
+and the validation data sets (c-statistic, 0.894 and 0.897, respectively). The high c-statistics (area
+
+under the receiver operating characteristic curve) indicate excellent predictive performance.
+
+The risk model was used to develop an interactive risk calculator.
+
+Conclusions: Preoperative variables associated with increased risk of PRF include type of sur-
+
+gery, emergency case, dependent functional status, sepsis, and higher ASA class. The validated
+
+risk calculator provides a risk estimate of PRF and is anticipated to aid in surgical decision making
+
+and informed patient consent.                                       CHEST 2011; 140(5):1207-1215
+
+Abbreviations: ACS 5 American College of Surgeons; ASA 5 American Society of Anesthesiologists; BIC 5 Bayes
+Information Criterion; NSQIP 5 National Surgical Quality Improvement Program; PRF 5 postoperative respiratory
+failure; ROC 5 receiver operating characteristic; SCNR 5 surgical clinical nurse reviewer; VA 5 Veterans Affairs;
+VASQIP 5 Veterans Affairs Surgical Quality Improvement Program
+
+The benefits of any surgical procedure are heavily                  care.1-3 Pulmonary complications account for 10% to
+    influenced by the accompanying morbidity and                    40% of postoperative complications after abdominal
+mortality. Complications after surgery not only worsen              and vascular surgeries.4-6
+outcomes but also prolong hospital stay and are asso-
+ciated with a significantly increased cost in hospital                Postoperative respiratory failure (PRF) is com-
+                                                                    monly understood as failure to wean from mechan-
+Manuscript received February 22, 2011; revision accepted June 18,   ical ventilation within 48 h of surgery or unplanned
+2011.
+Affiliations: From the Department of Medicine (Drs H. Gupta         Correspondence to: Lee E. Morrow, MD, FCCP, Division of
+and Morrow), the Department of Surgery (Drs P. K. Gupta,            Pulmonary, Critical Care, and Sleep Medicine, Department of
+Cemaj, and Forse), and Biostatistical Core (Dr Fang), Creighton     Medicine, Creighton University, 601 N 30th St, Ste 3820, Omaha,
+University, Omaha, NE; and the School of Medicine (Mr Miller),      NE 68131; e-mail: lmorrow@creighton.edu
+University of Pittsburgh, Pittsburgh, PA.                           © 2011 American College of Chest Physicians. Reproduction
+Part of this article has been published in abstract form (Gupta P,  of this article is prohibited without written permission from the
+Gupta H, Miller WJ, et al. Chest. 2009;136(4)(suppl 4):31S).        American College of Chest Physicians (http://www.chestpubs.org/
+Funding/Support: The authors have reported to CHEST that no         site/misc/reprints.xhtml).
+funding was received for this study.                                DOI: 10.1378/chest.11-0466
+
+www.chestpubs.org                                                                                 CHEST / 140 / 5 / NOVEMBER, 2011 1207
+
+Downloaded From: http://journal.publications.chestnet.org/ by a University of Wisconsin User on 12/06/2012
+intubation/reintubation postoperatively. It is one of                collection, NSQIP has developed different training mechanisms
+the most serious pulmonary complications and is                      for the SCNR and conducts an interrater reliability audit of par-
+associated with marked increases in length of stay,                  ticipating sites.11 The combined results of the audits revealed an
+morbidity, and mortality.7,8 Most previous studies assess-           overall disagreement rate of approximately 1.99% for all assessed
+ing risk factors for postoperative pulmonary compli-                 program variables. The processes of SCNR training, interrater
+cations have studied them in aggregate; few studies                  reliability auditing, data collection, and sampling methodology
+have assessed risk factors associated solely with PRF.               have been previously described in detail.11-14
+As most of these are single-institution, retrospective
+studies, their limitations are extensive.9,10 Although two           Patients
+large multicenter studies have assessed the risk fac-
+tors associated with PRF, both were Veterans Affairs                    Patients who underwent surgeries listed in Table 1 were
+Surgical Quality Improvement Program (VASQIP)                        studied (2007 data set: n 5 211,410; 2008 data set: n 5 257,385).
+based.7,8 One included only patients from Veterans                   Data obtained included demographic, lifestyle, comorbidity, and
+Affairs (VA) and excluded women. The other pooled                    other variables. The list of variables extracted is mentioned in
+patients from 128 VA hospitals with those from 14                    e-Appendix 1.
+non-VA hospitals, again making their population pri-
+marily VA-based. Further, although one of these studies              Outcome
+divided surgeries based on the incision site--and not
+the organ involved--the other included only general                     The primary end point was PRF through 30 days following
+and vascular surgery cases.                                          surgery. PRF was said to have occurred if patients: (1) had an
+                                                                     unplanned intubation during their surgery or postoperatively,
+  Since the publication of these two multicenter                     (2) were reintubated postoperatively once extubated, or (3) required
+studies, there has been significant evolution of the                 mechanical ventilation for . 48 h postoperatively.
+National Surgical Quality Improvement Program
+(NSQIP) data set. The sample size has grown signifi-                    If the patient returned to the operating room for any reason
+cantly (. 180 hospitals now contribute data), and                    and was intubated as part of the anesthesia/surgery, then it
+data for women and cardiac surgery patients are now                  was not counted as a reintubation. If a patient self-extubated
+included.11 The database is thus not only useful for                 and had to be reintubated, then also it was not counted as a
+institutional and individual quality assessment, but it              reintubation.
+provides a mechanism to facilitate further improve-
+ment in outcomes.                                                    Statistical Analysis
+
+  Given the paucity of comprehensive data on the                        Using patients from the 2007 NSQIP data set, univariate
+subject, we used the American College of Surgeons                    exploratory analysis was performed using Pearson x2 test or Fisher
+(ACS) NSQIP database to study the association of                     exact test for categorical variables, and T or F test for continuous
+PRF with postoperative length of stay, morbidity,                    variables. Stepwise multivariate logistic regression was carried
+mortality, and other clinical outcomes. We analyzed                  out to assess risk factors predictive of PRF, thus creating the
+the NSQIP data set to assess the risk factors for                    "full" model. To address the possibility that the surgery type might
+PRF among all surgical patients, including a com-                    interact with any of the other variables, we included all second-
+parison of different types of surgeries with respect to              order interaction terms involving surgery into the list of candidate
+their risk of developing PRF. We used these risk fac-                variables.
+tors to develop a validated risk calculator. Knowledge
+of these risk factors might help guide optimization of                  To reduce the number of risk factors, we then created a parsi-
+select preoperative medical conditions, which may                    monious model by sequentially removing variables from the full
+reduce the incidence of PRF and improve outcomes.                    model. A forward selection procedure was applied to select a pre-
+                                                                     determined number of variables into the final logistic model from
+               Materials and Methods                                 a list of candidate variables, which in this analysis includes all pre-
+                                                                     operative variables. A Bayes Information Criterion (BIC) vs model
+Data Set                                                             size plot was created to determine the number of variables in the
+                                                                     final parsimonious model.15 The model with 21 variables gave the
+   As this study used a publicly available national data set, it     lowest BIC, with a minimal increase in BIC on further reduction
+was exempt from IRB review. Data were extracted from the 2007        of the number of variables to five. Thus, because of the minimal
+and 2008 ACS NSQIP Participant Use Data Files.11 These are           difference in BIC and to reduce the complexity and make the
+multicenter, prospective databases with 183 (year 2007) and 211      model practically usable, the number of variables included in the
+(year 2008) participant academic and community US hospitals.         final parsimonious model was determined as five. Furthermore,
+In NSQIP, a participant hospital's surgical clinical nurse reviewer  more than five variables in the model did not significantly improve
+(SCNR) captures data using a variety of methods, including med-      the c-statistic, and there was also a minimal loss in the calibration
+ical chart abstraction. The data are collected based on strict cri-  with this approach. Statistical analysis was performed using SAS,
+teria formulated by a committee. To ensure high-quality data         version 9.2 (SAS Institute; Cary, North Carolina). P value , .05
+                                                                     was considered significant.
+1208
+                                                                     Risk Model Performance
+
+                                                                        The accuracy of a logistic regression model is usually assessed
+                                                                     by its discrimination and calibration, with both being used in this
+                                                                     study.16 Discrimination measures how well a model can distin-
+                                                                     guish between cases (who develop PRF) vs noncases (who do not
+                                                                     develop PRF). Discrimination is usually assessed by c-statistic,
+                                                                     also known as the area under the receiver operating characteristic
+
+                                                                                                                                               Original Research
+
+Downloaded From: http://journal.publications.chestnet.org/ by a University of Wisconsin User on 12/06/2012
+                        Table 1--Description of Surgeries
+
+Type of Surgery                                                          Includes                                 No. (%)
+
+Anorectal               Surgeries involving anus and rectum with transanal approach                                3,265 (1.5)
+Aortic                  Surgeries involving the aorta                                                              4,479 (2.1)
+Bariatric               Bariatric surgeries                                                                       12,337 (5.8)
+Brain                   Surgeries involving brain
+Breast                  Surgeries involving breast                                                                   370 (0.2)
+Cardiac                 Surgeries involving heart and not aorta                                                   21,359 (10.1)
+ENT                     ENT and head and neck surgeries except thyroid and parathyroid
+GBAAS                   Surgeries involving gall bladder, appendix, adrenals or spleen. Biliary tree surgeries       631 (0.3)
+                                                                                                                     646 (0.3)
+FG/HPB                     other than cholecystectomy not included                                                35,940 (17.0)
+                        Foregut and hepatopancreatobiliary surgeries: esophagus, stomach, duodenum, pancreas,
+Hernia                                                                                                            12,254 (5.8)
+Intestine                  liver and biliary tree (except isolated cholecystectomy)
+Neck                    Surgeries involving ventral, inguinal, femoral and other hernias (except hiatal hernias)  31,692 (15.0)
+Nonesophageal thoracic  Surgeries involving intestines below the level of duodenum using abdominal approach       31,492 (14.9)
+OB/GYN                  Thyroid and parathyroid surgeries                                                         10,179 (4.8)
+Orthopedic              Surgeries in the thorax excluding heart and esophagus                                      1,324 (0.6)
+Other abdomen           Obstetric and gynecologic surgeries                                                        2,861 (1.4)
+Peripheral vascular     Surgeries involving orthopedics and nonvascular extremity                                  9,272 (4.4)
+Skin                    Abdominal surgeries not covered by above                                                   4,086 (1.9)
+Spine                   Nonaortic, nonvein vascular surgeries                                                     17,490 (8.3)
+Urology                 Surgeries involving skin                                                                   4,906 (2.3)
+Vein                    Surgeries involving spine                                                                  1,469 (0.7)
+                        Surgeries involving kidneys and urinary system                                             1,975 (0.9)
+                        Surgeries involving just veins                                                             3,383 (1.6)
+
+N 5 211,410. ENT 5 ear, nose, throat; FG 5 foregut; GBAAS 5 gall bladder, appendix, adrenals, spleen; GYN 5 gynecologic; HPB 5 hepatopancreatobiliary;
+OB 5 obstetric.
+
+(ROC) curve. The c-statistic ranges from 0.50 (no better than            directly using the logistic regression model. The multiple logistic
+flipping a coin) to 1.00 (model is 100% correct).                        regression model is as follows:
+
+   Calibration (Hosmer-Lemeshow test) measures a model's ability                                L5b01b1x11b2x21...1 bk xk
+to generate predictions that are on average close to the average
+observed outcome. In studies with large sample sizes, it is sug-         where L represents the natural log of the odds of PRF, b0 is the
+gested to construct a calibration graph of observed vs predicted         intercept for the model, k represents the number of parameters
+event.16 If the model calibrates well, there will not be a substantial   needed for the preoperative predictors of PRF, b1 through bk
+deviation from the 45-degree line of perfect fit.                        represent the model parameters corresponding to the selected
+                                                                         predictors of PRF, and x1 through xk represent patient data cor-
+Risk Model Validation                                                    responding to the selected predictors of PRF. Categorical pre-
+                                                                         dictors such as procedure type are incorporated into the model
+   Once a suitable model was chosen based on the 2007 data set,          using reference coding. This means that one level of the categor-
+an independent data set (2008 data set) was used to validate the         ical predictor is chosen as a reference category, and the remain-
+model. The model validation applied the trained model from               ing levels of the predictor are compared with the reference. For
+the 2007 data set to estimate PRF probabilities for all patients in      example, there are 21 different entries for procedure (Table 1),
+the 2008 data set. These estimated probabilities were then com-          so the model has 20 b parameters and x variables that describe
+pared with actual PRF status in the 2008 data set by computing a         the difference between the reference procedure (hernia surgery)
+c-statistic. To do this, an ROC curve was constructed based on           and each of the other 20 procedures in terms of log-odds of
+the sensitivity and specificity of the predictions from the 2007 model   PRF.
+on the 2008 data set for various prediction cut points. The c-statistic
+is equivalent to the area under this ROC curve and was computed             The parameter estimates and standard errors for the model are
+using the trapezoidal rule. This c-statistic reflects how much pre-      presented in the results section. These estimated coefficients can
+dictive accuracy the trained (2007) model has on the 2008 data           be used to estimate the logit for a patient by substituting the
+set. If this c-statistic shows favorable predictive accuracy, then the   patient's data along with the estimated coefficients into the
+model is considered validated. As previously described in litera-        logistic regression equation. If the patient belongs to the reference
+ture, similar results for discrimination indicate validation in an       group for a categorical variable, then all of the x values associated
+independent data set.7,17-19                                             with that variable in the model are zero. If the patient belongs
+                                                                         to a nonreference group, then the appropriate x value is equal to
+Development of Risk Calculator                                           one, and all other x values associated with the categorical variable
+                                                                         are zero. The estimated probability percentage of PRF for a patient
+   Once the model was validated, it was used to develop the risk         is then computed using the following formula:
+calculator, which takes the form of an interactive spreadsheet
+that accepts patient covariate information and returns estimated                                                                eL^
+probability percentage of PRF based on the validated model.                                     estimated probability 5 L^
+Alternatively, one can generate the estimated PRF probability
+                                                                                                                              11 e
+www.chestpubs.org
+                                                                                                       CHEST / 140 / 5 / NOVEMBER, 2011 1209
+
+Downloaded From: http://journal.publications.chestnet.org/ by a University of Wisconsin User on 12/06/2012
+      Table 2--Univariate Analysis--Preoperative (2007 NSQIP Data Set)
+
+Variables                                                                 PRF (n 5 6,531)                   No PRF (n 5 204,879)
+
+Acute renal failure with rising creatinine . 3                                    6.60                                  0.42
+Age                                                                          65.9  14.8                           54.9  17.2
+Angina within 1 mo
+ASA class                                                                         3.28                                  0.88
+
+   1                                                                              0.3                                 10.8
+   2                                                                              8.2                                 46.4
+   3                                                                            43.3                                  37.0
+   4                                                                            43.5                                    5.7
+   5                                                                              4.7                                   0.2
+Ascites                                                                         12.46                                   1.41
+Bleeding disorder                                                               21.13                                   5.71
+BMI                                                                          30.1  9.4                            30.7  8.8
+Chemotherapy within 30 d                                                          2.16
+CHF within 1 mo                                                                   8.54                                  1.13
+Coma . 24 h                                                                       1.26                                  0.80
+COPD with FEV1 , 75% or causing functional disability or hospitalization        17.32                                   0.04
+Corticosteroid use                                                                9.31                                  4.34
+Diabetes                                                                        26.40                                   3.19
+On dialysis                                                                       8.42                                14.18
+Disseminated cancer                                                               4.98                                  2.21
+DNR                                                                               2.50                                  1.94
+Emergency case                                                                  44.37                                   0.56
+Esophageal varices on EGD/CT scan in last 6 mo                                    0.75                                11.58
+ETOH . 2 drinks/d within 2 wk of surgery                                          5.36                                  0.12
+Functional status (independent)                                                 53.48                                   2.43
+Functional status (partially independent)                                       19.14                                 94.31
+Functional status (totally dependent)                                           27.38                                   4.39
+Hemiplegia                                                                        3.17                                  1.30
+Hypertension requiring medications                                              69.15                                   0.93
+Male gender                                                                     53.15                                 44.38
+Myocardial infarction within 6 months                                             4.59                                42.49
+Open wound                                                                      18.40                                   0.61
+Paraplegia                                                                        1.27                                  4.49
+Preexisting pneumonia                                                             7.66                                  0.38
+Previous PCI                                                                    11.42                                   0.34
+Previous cardiac surgery                                                        14.99                                   5.21
+Prior operation within 30 d                                                     18.08                                   5.84
+PVD with revascularization/amputation                                             9.66                                  3.09
+Quadriplegia                                                                      0.69                                  4.24
+Race (black)                                                                    12.42                                   0.11
+Radiotherapy within 90 d                                                          1.58                                  9.76
+Rest pain in lower extremity due to PVD                                           5.07                                  0.75
+Sepsis                                                                                                                  2.45
+   None                                                                         52.58
+   SIRS                                                                         19.46                                 92.14
+   Sepsis                                                                       18.65                                   0.46
+   Septic shock                                                                   9.31                                  6.06
+Smoker within last year                                                         27.81                                   1.34
+Smoker pack-y                                                                23.0  32.7                               20.67
+Stroke with neurologic deficit                                                                                    10.8  22.4
+Stroke with no neurologic deficit                                                 6.94                                  2.32
+TIA history                                                                       4.73                                  1.92
+Transfusion . 4 units PRBC preoperative                                           5.22                                  2.86
+Tumor involving CNS                                                               4.92                                  0.26
+Ventilator dependent during last 48 h                                             0.51                                  0.12
+. 10% weight loss within 6 mo                                                   20.21                                   0.41
+Abnormal laboratory valuesa                                                       7.84                                  2.39
+   Sodium
+   BUN                                                                          31.67                                 12.94
+   Creatinine                                                                   61.17                                 37.78
+   Albumin                                                                      32.33                                   8.96
+   Alkaline phosphatase                                                         66.63                                 22.14
+                                                                                25.01                                 14.26
+
+1210                                                                                                                    (Continued)
+
+                                                                                                                   Original Research
+
+Downloaded From: http://journal.publications.chestnet.org/ by a University of Wisconsin User on 12/06/2012
+           Table 2--Continued
+
+Variables                                                  PRF (n 5 6,531)                                  No PRF (n 5 204,879)
+
+Bilirubin                                                  30.86                                            16.96
+HCT                                                        56.43                                            23.39
+Platelet                                                   37.87                                            19.48
+PT                                                         63.05                                            39.22
+PTT                                                        31.11                                            13.17
+SGOT                                                       33.38                                            16.35
+WBC                                                        46.86                                            23.22
+
+All values except continuous variables are expressed as percentages. Continuous variables are expressed as mean  SD. All P values  .0001; P value
+for pregnancy 5 .1026. ASA 5 American Society of Anesthesiologists; CHF 5 congestive heart failure; CNS 5 central nervous system; DNR 5 do
+not resuscitate; EGD 5 esophagogastroduodenoscopy; ETOH 5 alcohol; HCT 5 hematocrit; NSQIP 5 National Surgical Quality Improvement
+Program; PCI 5 percutaneous coronary intervention; PRBC 5 packed RBC; PRF 5 postoperative respiratory failure; PT 5 prothrombin time;
+PTT 5 partial thromboplastin time; PVD 5 peripheral vascular disease; SGOT 5 serum glutamic oxaloacetic transaminase; SIRS 5 systemic
+inflammatory response syndrome; TIA 5 transient ischemic attack.
+aAbnormal laboratory values: sodium (, 136 or . 145 mEq/L), BUN ( , 10 or . 20 mg/dL), creatinine ( . 1.5 mg/dL), albumin ( , 3.5 g/dL),
+alkaline phosphatase (, 120 IU/L), bilirubin (. 2 mg/dL), hematocrit (, 36%), platelets (, 150,000 or . 350,000 per mL), PT ( . 13.5 s), PTT
+( . 35 s), SGOT ( . 35 IU/L), WBC ( , 4,500 or . 11,000 cells/mL).
+
+                           Results                         appropriate coefficient estimates into the standard
+                                                           logistic regression model to compute the estimated
+Univariate Analysis (2007 Data Set)                        logit and then translating this logit into the probabil-
+                                                           ity scale as described in the "Materials and Methods"
+  Of 211,410 patients in the 2007 NSQIP data set,          section.
+PRF was seen in 6,531 patients (3.1%). In the 2008
+data set used for validation (n 5 257,385), PRF was          The c-statistic for the training set was 0.907 in the
+seen in 6,590 patients (2.6%).                             21-variable model and 0.894 in the final model, indi-
+                                                           cating excellent discrimination. Figures 1 (21-variable
+  PRF was significantly associated with a multitude        model) and 2 (final model) show that the calibration
+of variables (P , .0001 for all) (Tables 2, 3). Postoper-  (Hosmer-Lemeshow goodness-of-fit test) was excel-
+atively, patients with PRF had more complications          lent in both models, without a substantial deviation
+than those without PRF. Death within 30 days was           from the 45-degree line of perfect fit.
+significantly higher in patients with PRF (25.62%
+vs 0.98%; P , .0001).                                        The selected risk model (final model) was then
+                                                           applied to the 2008 validation set. The c-statistic that
+Multivariate Analysis for PRF (2007 Data Set)              arose from using the 2007 model to estimate PRF
+                                                           probability in the 2008 data was 0.897, indicating
+  Preoperative variables significantly associated with     excellent discrimination. These findings indicate that
+an increased risk for PRF in the 21-variable model         the model performance was very similar in both the
+are mentioned in e-Appendix 2. Preoperative vari-          2007 training set and the 2008 validation set, with the
+ables significantly associated with an increased risk      model continuing to have excellent discrimination in
+for PRF in the final model included American Society       an independent data set.
+of Anesthesiologists (ASA) class, dependent functional
+status, emergency procedure, preoperative sepsis, and      Development of Risk Calculator
+type of surgery (Table 4). None of the second-order
+interaction terms involving surgery was chosen, which        The selected model was then used to develop an
+suggests that there was not substantial interaction        interactive risk calculator. When the required input
+between surgery type and any of the other variables        is entered into this calculator for a given patient, it
+in the model.                                              returns a model-based percent estimate of PRF.
+
+Development and Validation of Risk Model                                            Discussion
+
+  The 2007 data set was used as the training set in          Over the past few decades, significant emphasis
+order to develop the model, and the 2008 data set          has been given to identification of risk factors for
+served as the validation set. The risk model included      postoperative cardiac complications.17,20-22 In com-
+significant predictors from the 2007 data set. The         parison, few studies have assessed risk factors for
+parameter estimates and their SEs are summarized           pulmonary complications, including PRF--one of the
+in Table 4.                                                most serious pulmonary complications. Khuri et al23
+
+  Table 4 can be used to generate probability esti-                                      CHEST / 140 / 5 / NOVEMBER, 2011 1211
+mates identical to the risk calculator by inserting the
+
+www.chestpubs.org
+
+Downloaded From: http://journal.publications.chestnet.org/ by a University of Wisconsin User on 12/06/2012
+           Table 3--Univariate Analysis--Perioperative (2007 NSQIP Data Set)
+
+Variables                                                                      PRF (n 5 6,531)              No PRF (n 5 204,879)
+
+Intraoperative/postoperative                                                      1.6  3.6                     0.1  0.8
+   Intraoperative PRBC transfusion in units                                           7.92                        0.26
+   Transfusion . 4 units PRBC within 72 h                                             1.10                        0.27
+   Graft/flap failure with return to operating room                                   9.71                        0.13
+   Cardiac arrest                                                                     2.53                        0.09
+   Myocardial infarction                                                              6.94                        0.52
+   DVT                                                                                2.22                        0.25
+   Pulmonary embolism                                                               33.59                         0.80
+   Pneumonia                                                                        47.97                         0.00
+   Reintubation/unplanned intubation                                                80.02                         0.00
+   Ventilator . 48 h                                                                  5.24                        0.22
+   Renal insufficiency with rise in creatinine by 2 (no dialysis)                   10.29                         0.21
+   Renal failure requiring dialysis                                                   6.78                        2.97
+   Superficial site infection                                                         4.00                        0.73
+   Deep incisional infection                                                        10.32                         1.10
+   Organ/space infection                                                              9.60                        1.45
+   Urinary tract infection                                                            5.44                        0.50
+   Wound and fascia disruption                                                        2.60                        0.02
+   Coma                                                                               3.02                        0.16
+   Stroke                                                                             0.34                        0.07
+   Peripheral nerve injury                                                          34.44                         0.54
+   Septic shock                                                                     18.79                         1.77
+   Sepsis
+   Operative time in min                                                       174.9  135.5                 107.1  86.1
+   Anesthesia time in min                                                      248.4  152.8                 158.5  100.6
+   Return to operating room
+   Total hospital length of stay, d                                                 39.70                         4.57
+   Morbidity (development of any of the above 22 postoperative complications)   28.2  26.5                     3.9  7.8
+   Death within 30 d
+                                                                                   100.00                         8.79
+Type of surgery                                                                     25.62                         0.98
+   Aorta
+   Cardiac                                                                            8.7                         2.0
+   GBAAS                                                                              0.9                         0.3
+   FG/HPB                                                                             6.0                        17.3
+   Intestine                                                                        14.8                          5.5
+   Brain                                                                            37.1                         14.3
+   Orthopedic                                                                         0.5                         0.2
+   Other abdomen                                                                      3.3                         4.4
+   Skin                                                                               6.9                         1.8
+   Nonesophageal thoracic                                                             2.4                         2.3
+   Urology                                                                            1.4                         0.6
+   Peripheral vascular                                                                0.5                         0.9
+   Anorectal                                                                        10.4                          8.2
+   Bariatric                                                                          0.3                         1.6
+   Breast                                                                             1.3                         5.9
+   ENT                                                                                0.2                        10.4
+   OB/GYN                                                                             0.1                         0.3
+   Hernia                                                                             0.2                         1.4
+   Neck                                                                               4.2                        15.3
+   Spine                                                                              0.8                         4.9
+   Vein                                                                               0.2                         0.7
+                                                                                      0.1                         1.6
+
+All values except continuous variables are expressed as percentages. Continuous variables are expressed as mean  SD. All P values  .0001.
+See Table 1 and 2 legends for expansion of abbreviations.
+
+found PRF to be an independent predictor of 30-day    gest that pulmonary complications may be as dele-
+and long-term mortality. In their adjusted analysis,  terious to postoperative outcomes as cardiac and other
+Dimick et al24 found respiratory complications to     complications.
+be associated with the largest attributable cost as
+well as the largest increase in hospital length of      This study is the first to attempt to study PRF
+stay (by 5.5 days). These studies collectively sug-   across a broad population base that includes both gen-
+                                                      ders, academic and community hospitals, and multiple
+1212
+                                                                                                                                Original Research
+
+Downloaded From: http://journal.publications.chestnet.org/ by a University of Wisconsin User on 12/06/2012
+         Table 4--Estimates, SEs, and Variables Associated With PRF in the Stepwise Logistic Regression Analysis
+                                                       (2007 NSQIP Data Set--Final Model)
+
+Parameter                               Estimate          SE  Model Term                                    Adjusted OR  95% Wald CI
+
+Intercept                               21.7397   0.1504      b 0
+
+Totally dependent functional statusa    1.4046    0.0519      b 1                                           4.07          3.68-4.51
+                                                                                                            2.16          1.98-2.34
+Partially dependent functional statusa  0.7678    0.0422      b 2                                           0.03          0.02-0.05
+                                                                                                            0.14          0.11-0.17
+ASA class 1b                            23.5265   0.2672      b 3                                           0.54          0.44-0.67
+                                                                                                            1.28          1.04-1.57
+ASA class 2b                            22.0008   0.1184      b 4                                           0.46          0.42-0.50
+                                                                                                            1.32          1.16-1.49
+ASA class 3b                            20.6201   0.1081      b 5                                           2.47          2.16-2.82
+                                                                                                            0.56          0.52-0.61
+ASA class 4b                            0.2441    0.1053      b 6                                           0.26          0.15-0.44
+                                                                                                            2.94          2.35-3.68
+Preoperative sepsis (none)c             20.7840   0.0444      b 7                                           0.36          0.27-0.49
+                                                                                                            2.08          1.15-3.78
+Preoperative sepsisc                    0.2752    0.0645      b 8                                           0.07          0.04-0.12
+                                                                                                            1.32          0.92-1.88
+Preoperative septic shockc              0.9035    0.0675      b 9                                           1.11          0.26-4.71
+                                                                                                            2.64          2.13-3.27
+Emergency case (absence vs presence)    20.5739   0.0378      b10                                           0.57          0.45-0.71
+                                                                                                            1.78          1.44-2.18
+Anorectald                              21.3530   0.2710      b11                                           0.59          0.33-1.07
+                                                                                                            0.29          0.09-0.94
+Aorticd                                 1.0781    0.1149      b12                                           0.42          0.33-0.55
+                                                                                                            1.27         1.001-1.62
+Bariatricd                              21.0112   0.1495      b13                                           0.79          0.63-0.98
+                                                                                                            0.73          0.55-0.95
+Braind                                  0.7336    0.3043      b14                                           0.593         0.25-1.39
+                                                                                                            1.96          1.43-2.68
+Breastd                                 22.6462   0.2706      b15                                           0.134         0.05-0.37
+                                                                                                            1.36          0.82-2.28
+Cardiacd                                0.2744    0.1811      b16
+
+ENTd                                    0.1060    0.7368      b17
+
+Foregut/hepatopancreatobiliaryd         0.9694    0.1094      b18
+
+GBAASd                                  20.5668   0.1166      b19
+
+Intestinald                             0.5737    0.1057      b20
+
+Neckd                                   20.5271   0.3023      b21
+
+OB/GYNd                                 21.2431   0.6004      b22
+
+Orthopedicd                             20.8577   0.1286      b23
+
+Other abdomend                          0.2416    0.1228      b24
+
+Peripheral vasculard                    20.2389   0.1111      b25
+
+Skind                                   20.3206   0.1396      b26
+
+Spined                                  20.5220   0.4337      b27
+
+Thoracicd                               0.6715    0.1595      b28
+
+Veind                                   22.0080   0.5128      b29
+
+Urologyd                                0.3093    0.2616      b30
+
+The estimate and the SE refer to the estimate of the logistic regression coefficient for the specific variable and its associated SE. C-statistic, 0.894.
+See Table 1 and 2 legends for expansion of abbreviations.
+aReference group, independent functional status.
+bReference group, ASA class 5.
+cReference group, preoperative systemic inflammatory response syndrome.
+dReference group, hernia surgery.
+
+surgical subspecialties. PRF was seen in 3.1% of              emergency case, and preoperative sepsis were also
+patients in this study, which compares to 3.4% and            found to be associated with PRF. Overall, the type of
+3.0% as reported in the two prior (2000 and 2007)             surgery performed had the largest difference in terms
+VASQIP studies.7,8 Death within 30 days was seen in           of risk for PRF, with brain, foregut/hepatopancreato-
+26% of patients with PRF. This again compares well            biliary, and aortic surgeries being associated with the
+to the VASQIP studies, where 30-day mortality rates           highest risk.
+of 27% were reported. Rates of PRF and the associ-
+ated 30-day mortality are thus strikingly similar               The PRF risk calculator was developed to aid in the
+between the academic, community, and VA hospitals             surgical decision making and informed consent process.
+across the country. Our observed mortality rate also          It is in the form of an interactive spreadsheet and is
+suggests that there has been minimal change in the inci-      available online at http://www.surgicalriskcalculator.
+dence of PRF or its attendant mortality over the last         com/prf-risk-calculator for free download.
+10 years.
+                                                                A few previous studies in other disciplines have
+  The impact of performance status on outcomes                used logistic regression models to create point-based
+is well documented in literature, with many studies           score systems. We instead chose to develop a risk
+reporting that patients with limited independence             calculator based directly on the logistic regression
+have poor outcomes.25-27 Like Arozullah et al,7 this          model. This approach allowed direct modeling and
+study also found dependent functional status to be a          prediction of PRF, rather than using one model to
+risk factor associated with PRF. Higher ASA class,            assess PRF and another to predict risk based on a
+                                                              point system. Hence, no loss of accuracy for using a
+www.chestpubs.org
+                                                                                            CHEST / 140 / 5 / NOVEMBER, 2011 1213
+
+Downloaded From: http://journal.publications.chestnet.org/ by a University of Wisconsin User on 12/06/2012
+Figure 1. Calibration of predictions of PRF in the training set   Physicians have long quoted the most current litera-
+(21-variable model). l Denotes deciles of patients. PRF 5 post-   ture to explain risks of adverse outcomes associated
+operative respiratory failure.                                    with a procedure. This has not always been an easy
+                                                                  task, as each patient is different with a unique set of
+second model is incurred with this strategy. In addi-             risk factors. Thus, this risk calculator will simplify the
+tion, the previous indices did not provide an actuarial           informed consent process by estimating the risk of
+estimate of risk; instead, patients were classified as            PRF, and we envision its use preoperatively by the
+being at high risk/intermediate risk/low risk for devel-          physicians/surgeons. It may also be used to hold ICU
+oping complications. With the PRF risk calculator, we             beds prior to surgery for patients who otherwise
+instead provide an exact model-based estimate of PRF              appear to be at low risk.
+probability for a patient. This approach is more pre-
+cise than a point system, but it may be less simple for             In spite of its many strengths, this study has a few
+some users to implement. However, as clinicians take              limitations. Variables analyzed were limited to those
+advantage of new, hand-held computer-based tech-                  recorded by NSQIP. Despite the data set being fairly
+nologies to use pharmacopeias and clinical manage-                comprehensive, with . 50 preoperative variables, some
+ment guidelines, it is our belief that a risk calculator          comorbidities, such as obstructive sleep apnea and
+will find widespread use and assist physicians and                history of venous thromboembolism, were not included.
+surgeons in making clinical decisions.                            Similarly, pulmonary function test results may be rel-
+                                                                  evant to many of the comorbidities and surgeries but
+  Apart from identifying high-risk patients, we fore-             are not available in NSQIP. Information on hospital
+see the risk calculator as an important tool in the               volume is also not contained in NSQIP. The results of
+informed consent process. The process of patient-                 this study may not apply to hospitals that are not a
+centered informed consent requires the presentation               part of NSQIP. However, this is unlikely given its
+of adequate information regarding risks and bene-                 diversity. Finally, whereas data collection is prospec-
+fits.28 Accurate individualized assessment of PRF,                tive in NSQIP, these data were retrospectively ana-
+which contributes greatly to morbidity and mortality,             lyzed for the development and validation of the risk
+would certainly assist in meeting the latter objective.           calculator.
+
+Figure 2. Calibration of predictions of PRF in the training set     In conclusion, PRF occurs postoperatively in around
+(final model). lDenotes deciles of patients. See Figure 1 legend  3% of patients, and 25% of patients with PRF die
+for expansion of abbreviation.                                    within 30 days. PRF incidence is similar in academic,
+                                                                  community, and VA hospitals, with similar effects
+1214                                                              on 30-day mortality. There has been no decline in
+                                                                  these numbers in the last decade. The high associa-
+                                                                  tion of PRF with mortality emphasizes the impor-
+                                                                  tance of risk estimation and preoperative optimization.
+                                                                  This risk calculator, with its high discriminative/
+                                                                  predictive ability for PRF, is a step in that direction.
+
+                                                                                     Acknowledgments
+
+                                                                  Author contributions: Dr P. K. Gupta takes responsibility for
+                                                                  the entire manuscript as a whole.
+                                                                  Dr H. Gupta: contributed to all aspects of the manuscript creation.
+                                                                  Dr P. K. Gupta: contributed to all aspects of the manuscript
+                                                                  creation.
+                                                                  Dr Fang: contributed to all aspects of the manuscript creation.
+                                                                  Mr Miller: contributed to all aspects of the manuscript creation.
+                                                                  Dr Cemaj: contributed to all aspects of the manuscript creation.
+                                                                  Dr Forse: contributed to all aspects of the manuscript creation.
+                                                                  Dr Morrow: contributed to all aspects of the manuscript creation.
+                                                                  Financial/nonfinancial disclosures: The authors have reported
+                                                                  to CHEST that no potential conflicts of interest exist with any
+                                                                  companies/organizations whose products or services may be dis-
+                                                                  cussed in this article.
+                                                                  Other contributions: The ACS NSQIP and the hospitals partici-
+                                                                  pating in the ACS NSQIP are the source of the data used herein;
+                                                                  they have not verified and are not responsible for the statistical
+                                                                  validity of the data analysis or the conclusions derived by the
+                                                                  authors. This study does not represent the views or plans of the ACS
+                                                                  or the ACS NSQIP. We thank Christopher Franck, PhD, Depart-
+                                                                  ment of Statistics, Virginia Tech, VA, for the risk calculator. This
+                                                                  work was performed at Creighton University, Omaha, NE.
+
+                                                                                                                                            Original Research
+
+Downloaded From: http://journal.publications.chestnet.org/ by a University of Wisconsin User on 12/06/2012
+Additional information: The e-Appendices can be found in the                 of the quality of surgical care: results of the National Veterans
+Online Supplement at http://chestjournal.chestpubs.org/content/              Affairs Surgical Risk Study. J Am Coll Surg. 1997;185(4):
+140/5/1207/DC1.                                                              328-340.
+                                                                        15. Cook NR. Use and misuse of the receiver operating char-
+                        References                                           acteristic curve in risk prediction. Circulation. 2007;115(7):
+                                                                             928-935.
+ 1. Fry DE, Pine M, Jones BL, Meimban RJ. Patient character-            16. Kramer AA, Zimmerman JE. Assessing the calibration of
+     istics and the occurrence of never events. Arch Surg. 2010;             mortality benchmarks in critical care: The Hosmer-Lemeshow
+     145(2):148-151.                                                         test revisited. Crit Care Med. 2007;35(9):2052-2056.
+                                                                        17. Gupta PK, Gupta H, Sundaram A et al. Development and
+ 2. Ferraris VA, Ferraris SP, Singh A. Operative outcome and                 validation of a risk calculator for prediction of cardiac risk
+     hospital cost. J Thorac Cardiovasc Surg. 1998;115(3):593-602.           after surgery. Circulation. 2011;124(4):381-387.
+                                                                        18. Gupta PK, Franck C, Miller WJ, Gupta H, Forse RA.
+ 3. Khan NA, Quan H, Bugar JM, Lemaire JB, Brant R, Ghali WA.                Development and validation of a bariatric surgery morbidity risk
+     Association of postoperative complications with hospital costs          calculator using the prospective, multicenter NSQIP data set.
+     and length of stay in a tertiary care center. J Gen Intern Med.         J Am Coll Surg. 2011;212(3):301-309.
+     2006;21(2):177-180.                                                19. Arozullah AM, Khuri SF, Henderson WG, Daley J; Participants
+                                                                             in the National Veterans Affairs Surgical Quality Improve-
+ 4. Wong DH, Weber EC, Schell MJ, Wong AB, Anderson CT,                      ment Program. Development and validation of a multifactorial
+     Barker SJ. Factors associated with postoperative pulmonary              risk index for predicting postoperative pneumonia after major
+     complications in patients with severe chronic obstructive               noncardiac surgery. Ann Intern Med. 2001;135(10):847-857.
+     pulmonary disease. Anesth Analg. 1995;80(2):276-284.               20. Goldman L, Caldera DL, Southwick FS, et al. Cardiac risk
+                                                                             factors and complications in non-cardiac surgery. Medicine
+ 5. Hall JC, Tarala RA, Hall JL, Mander J. A multivariate analysis           (Baltimore). 1978;57(4):357-370.
+     of the risk of pulmonary complications after laparotomy. Chest.    21. Goldman L, Caldera DL, Nussbaum SR, et al. Multifactorial
+     1991;99(4):923-927.                                                     index of cardiac risk in noncardiac surgical procedures.
+                                                                             N Engl J Med. 1977;297(16):845-850.
+ 6. Calligaro KD, Azurin DJ, Dougherty MJ, et al. Pulmonary             22. Lee TH, Marcantonio ER, Mangione CM, et al. Derivation
+     risk factors of elective abdominal aortic surgery. J Vasc Surg.         and prospective validation of a simple index for prediction of
+     1993;18(6):914-920.                                                     cardiac risk of major noncardiac surgery. Circulation. 1999;
+                                                                             100(10):1043-1049.
+ 7. Arozullah AM, Daley J, Henderson WG, Khuri SF; The                  23. Khuri SF, Henderson WG, DePalma RG, Mosca C,
+     National Veterans Administration Surgical Quality Improve-              Healey NA, Kumbhani DJ; Participants in the VA National
+     ment Program. Multifactorial risk index for predicting post-            Surgical Quality Improvement Program. Determinants of
+     operative respiratory failure in men after major noncardiac             long-term survival after major surgery and the adverse effect of
+     surgery. Ann Surg. 2000;232(2):242-253.                                 postoperative complications. Ann Surg. 2005;242(3):326-341.
+                                                                        24. Dimick JB, Chen SL, Taheri PA, Henderson WG, Khuri SF,
+ 8. Johnson RG, Arozullah AM, Neumayer L, Henderson WG,                      Campbell DA Jr. Hospital costs associated with surgical
+     Hosokawa P, Khuri SF. Multivariable predictors of postop-               complications: a report from the private-sector National Sur-
+     erative respiratory failure after general and vascular surgery:         gical Quality Improvement Program. J Am Coll Surg. 2004;
+     results from the patient safety in surgery study. J Am Coll Surg.       199(4):531-537.
+     2007;204(6):1188-1198.                                             25. Covinsky KE, Justice AC, Rosenthal GE, Palmer RM,
+                                                                             Landefeld CS. Measuring prognosis and case mix in hospital-
+ 9. Svensson LG, Hess KR, Coselli JS, Safi HJ, Crawford ES.                  ized elders. The importance of functional status. J Gen Intern
+     A prospective study of respiratory failure after high-risk sur-         Med. 1997;12(4):203-208.
+     gery on the thoracoabdominal aorta. J Vasc Surg. 1991;14(3):       26. Gupta PK, Pipinos II, Miller WJ, et al. A population-based
+     271-282.                                                                study of risk factors for stroke after carotid endarterectomy
+                                                                             using the ACS NSQIP Database. J Surg Res. 2011;167(2):
+10. Money SR, Rice K, Crockett D, et al. Risk of respiratory                 182-91.
+     failure after repair of thoracoabdominal aortic aneurysms.         27. Crawford RS, Cambria RP, Abularrage CJ, et al. Preoperative
+     Am J Surg. 1994;168(2):152-155.                                         functional status predicts perioperative outcomes after infrain-
+                                                                             guinal bypass surgery. J Vasc Surg. 2010;51(2):351-358.
+11. ACS NSQIP PUF. American College of Surgeons National                28. Cohen ME, Bilimoria KY, Ko CY, Hall BL. Development of
+     Surgical Quality Improvement Program Web site. http://www.              an American College of Surgeons National Surgery Quality
+     acsnsqip.org/puf/docs/ACS_NSQIP_Participant_User_Data_                  Improvement Program: morbidity and mortality risk calcu-
+     File_User_Guide.pdf. Accessed March 1, 2009.                            lator for colorectal surgery. J Am Coll Surg. 2009;208(6):
+                                                                             1009-1016.
+12. Khuri SF, Daley J, Henderson W, et al. The National Veterans
+     Administration Surgical Risk Study: risk adjustment for the
+     comparative assessment of the quality of surgical care. J Am
+     Coll Surg. 1995;180(5):519-531.
+
+13. Khuri SF, Daley J, Henderson W, et al. Risk adjustment of
+     the postoperative mortality rate for the comparative assess-
+     ment of the quality of surgical care: results of the National
+     Veterans Affairs Surgical Risk Study. J Am Coll Surg. 1997;
+     185(4):315-327.
+
+14. Daley J, Khuri SF, Henderson W, et al. Risk adjustment of the
+     postoperative morbidity rate for the comparative assessment
+
+www.chestpubs.org                                                       CHEST / 140 / 5 / NOVEMBER, 2011 1215
+
+Downloaded From: http://journal.publications.chestnet.org/ by a University of Wisconsin User on 12/06/2012
+
