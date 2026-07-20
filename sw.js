@@ -1,7 +1,7 @@
 /* ResidenteMed — Service Worker
    Estrategia: cache-first para el "app shell" y los módulos, con actualización en segundo plano.
    Sube CACHE_VERSION cuando cambies archivos del engine para forzar el refresco. */
-const CACHE_VERSION = 'residentemed-v32';
+const CACHE_VERSION = 'residentemed-v33';
 const CORE = [
   './',
   './index.html',
