@@ -5,6 +5,7 @@
 
 let CALC_TOPIC = null; // { calculators:[...], combinedNote:{...}, accent }
 let GENERAL = [];      // calculadoras generales (todas las secciones)
+let ALL_TOPICS = {};   // id -> topic completo, poblado por mountAllCalculators (vista agrupada de Calc)
 
 export function setGeneralCalcs(arr) { GENERAL = arr || []; }
 
@@ -141,6 +142,15 @@ export function openCalc(key) {
   recalc();
 }
 window.openCalc = openCalc;
+
+// Para la vista agrupada de Calc (varios temas a la vez): fija el contexto del tema
+// correcto (acento, nota combinada) antes de abrir, ya que CALC_TOPIC es un solo tema activo.
+export function openCalcFor(topicId, key) {
+  const topic = ALL_TOPICS[topicId];
+  if (topic) setCalcTopic(topic);
+  openCalc(key);
+}
+window.openCalcFor = openCalcFor;
 
 function bindInputs(fields, handler) {
   fields.forEach(f => {
@@ -290,4 +300,43 @@ export function mountCalculators(topic, root, opts = {}) {
 function cardHTML(key, title, sub, accent) {
   return `<div class="comp-card" style="--c:${accent}" onclick="openCalc('${key}')">
     <h4>${title}</h4><p>${sub}</p><div class="open-hint">Abrir calculadora →</div></div>`;
+}
+function cardHTMLFor(topicId, key, title, sub, accent) {
+  return `<div class="comp-card" style="--c:${accent}" onclick="openCalcFor('${topicId}','${key}')">
+    <h4>${title}</h4><p>${sub}</p><div class="open-hint">Abrir calculadora →</div></div>`;
+}
+
+// Vista de la sección Calc: todas las calculadoras de todos los temas construidos,
+// agrupadas por tema (ya no depende de un "tema activo" único como mountCalculators).
+export function mountAllCalculators(root, topics) {
+  ALL_TOPICS = {};
+  topics.forEach(t => { if (t.meta) ALL_TOPICS[t.meta.id] = t; });
+
+  const groups = topics.map(t => {
+    const accent = (t.meta && t.meta.accent) || '#3d6b6b';
+    const cards = [];
+    if (t.combinedNote) {
+      cards.push(cardHTMLFor(t.meta.id, 'notacombinada', t.combinedNote.title || 'Nota combinada',
+        t.combinedNote.subtitle || 'Combina varias escalas en un solo párrafo clínico', accent));
+    }
+    (t.calculators || []).forEach(c => cards.push(cardHTMLFor(t.meta.id, c.key, c.title, c.subtitle || '', accent)));
+    if (!cards.length) return '';
+    return `<h3 style="font-family:'Newsreader',serif;font-size:1.15rem;color:var(--ink);margin:28px 0 12px;">${t.meta.titulo}</h3>
+      <div class="calc-launch-grid">${cards.join('')}</div>`;
+  }).join('');
+
+  const generalCards = GENERAL.map(c => cardHTML(c.key, c.title, c.subtitle || '', c.accent || '#3d6b6b'));
+  const infusionCard = `<div class="comp-card" style="--c:#3d5a73" onclick="openInfusionCalc()">
+    <h4>Velocidad de infusión (goteo)</h4><p>Dosis ↔ mL/h para vasopresores y sedantes, con dilución precargada o personalizada.</p><div class="open-hint">Abrir calculadora →</div></div>`;
+
+  root.innerHTML = `
+    <div class="sec-header"><h2>Calculadoras</h2>
+      <p>Todas las calculadoras clínicas de la app, agrupadas por tema. Se irán agregando más a medida que se construyan nuevos temas.</p></div>
+    <div class="sec-body">
+      ${groups}
+      ${generalCards.length ? `<h3 style="font-family:'Newsreader',serif;font-size:1.15rem;color:var(--ink);margin:28px 0 12px;">Generales</h3>
+      <div class="calc-launch-grid">${generalCards.join('')}</div>` : ''}
+      <h3 style="font-family:'Newsreader',serif;font-size:1.15rem;color:var(--ink);margin:28px 0 12px;">Herramientas de dosificación</h3>
+      <div class="calc-launch-grid">${infusionCard}</div>
+    </div>`;
 }

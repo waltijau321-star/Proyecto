@@ -4,11 +4,18 @@
 import { registry, loadTopic } from './topics/registry.js';
 import { temarioBlocks } from './topics/temario-index.js';
 import { mountStudy, setGlobalSearch, slugify } from './engine/study-view.js';
-import { setCalcTopic, setGeneralCalcs, mountCalculators } from './engine/calculators.js';
+import { setCalcTopic, setGeneralCalcs, mountCalculators, mountAllCalculators } from './engine/calculators.js';
 import { generalCalculators } from './engine/general-calc.js';
 import { mountCalendar } from './engine/calendar.js';
 import { mountProtocols } from './engine/protocols.js';
 import { mountHome } from './engine/home.js';
+import { initAuth } from './engine/auth.js';
+import { initCloudSync } from './engine/cloud-sync.js';
+import { isAdmin, mountAdmin } from './engine/admin.js';
+import { mountExamPage } from './engine/exam-mode.js';
+import { mountAccountMenu } from './engine/account-menu.js';
+import { trackSection, trackTopic } from './engine/usage-tracking.js';
+import { firebaseReady } from './engine/firebase-config.js';
 import './engine/infusion-calc.js';
 import { calculators as vpoCalculators, combinedNote as vpoCombinedNote } from './protocols/vpo-calc.js';
 import { protocols } from './protocols/protocols.js';
@@ -16,29 +23,50 @@ import { protocols } from './protocols/protocols.js';
 setGeneralCalcs(generalCalculators);
 
 const vpoTopic = { meta: { accent: '#3d5a73' }, calculators: vpoCalculators, combinedNote: vpoCombinedNote };
-const mounted = { calendario: false, protocolos: false, vpo: false };
+const mounted = { calendario: false, protocolos: false, vpo: false, calc: false };
 let currentTopic = null;
+
+// Títulos de encabezado para las secciones que no giran en torno a un solo tema
+// (Estudio sigue mostrando el título/subtítulo del tema activo).
+const SECTION_TITLES = {
+  inicio: ['Inicio', ''],
+  calc: ['Calculadoras', 'MIOsler'],
+  protocolos: ['Protocolos', 'MIOsler'],
+  calendario: ['Calendario', 'MIOsler'],
+  vpo: ['Valoración preoperatoria', 'MIOsler'],
+  admin: ['Admin', 'MIOsler'],
+  examen: ['Examen simulado', 'MIOsler']
+};
+
+/* ---------- Botón "Volver al temario" (reemplaza el selector de tema en Estudio) ---------- */
+function renderTopicSwitchSlot(sec) {
+  const slot = document.getElementById('topic-switch-slot');
+  if (!slot) return;
+  slot.innerHTML = sec === 'estudio'
+    ? `<button id="btn-volver-temario" class="home-quick">← Volver al temario</button>`
+    : '';
+  const btn = document.getElementById('btn-volver-temario');
+  if (btn) btn.addEventListener('click', () => showSection('inicio'));
+}
 
 /* ---------- Navegación de secciones ---------- */
 function showSection(sec) {
+  trackSection(sec);
   document.querySelectorAll('.app-section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   const secEl = document.getElementById('sec-' + sec);
   const navEl = document.getElementById('nav-' + sec);
   if (secEl) secEl.classList.add('active');
   if (navEl) navEl.classList.add('active');
+  renderTopicSwitchSlot(sec);
 
-  // En Inicio, el encabezado y el selector de tema no deben mostrar ningún tema
-  // seleccionado (Inicio no pertenece a un tema en particular); al salir, se restauran.
-  const sel = document.getElementById('topic-select');
-  if (sec === 'inicio') {
-    document.getElementById('app-title').textContent = 'Inicio';
-    document.getElementById('app-subtitle').textContent = '';
-    if (sel) sel.selectedIndex = -1;
-  } else if (currentTopic) {
+  if (sec === 'estudio' && currentTopic) {
     document.getElementById('app-title').textContent = currentTopic.meta.titulo;
     document.getElementById('app-subtitle').textContent = currentTopic.meta.subtitulo || 'Medicina Interna';
-    if (sel) sel.value = currentTopic.meta.id;
+  } else {
+    const [title, subtitle] = SECTION_TITLES[sec] || ['MIOsler', ''];
+    document.getElementById('app-title').textContent = title;
+    document.getElementById('app-subtitle').textContent = subtitle;
   }
 
   if (sec === 'calendario' && !mounted.calendario) { mountCalendar(document.getElementById('cal-root')); mounted.calendario = true; }
@@ -55,41 +83,45 @@ function showSection(sec) {
       setCalcTopic(vpoTopic);
     }
   }
-  if (sec === 'calc' && currentTopic) { setCalcTopic(currentTopic); }
+  if (sec === 'calc' && !mounted.calc) { mountAllCalculatorsSection(); mounted.calc = true; }
   if (sec === 'inicio') { mountHomeSection(); }
+  if (sec === 'admin') { mountAdmin(document.getElementById('admin-root')); }
+  if (sec === 'examen') { mountExamPage(document.getElementById('examen-root')); }
 
   window.scrollTo({ top: 0, behavior: 'auto' });
 }
+window.rmGoToExam = () => showSection('examen');
 
 document.querySelectorAll('.nav-item').forEach(btn => {
   btn.addEventListener('click', () => showSection(btn.dataset.sec));
 });
 
+/* ---------- Calculadoras: todas las de los temas construidos, agrupadas ---------- */
+async function mountAllCalculatorsSection() {
+  const topics = [];
+  for (const t of registry) {
+    const topic = await loadTopic(t.id);
+    if (topic) topics.push(topic);
+  }
+  mountAllCalculators(document.getElementById('calc-root'), topics);
+}
+
 /* ---------- Carga de tema ---------- */
 async function selectTopic(id) {
   const topic = await loadTopic(id);
   if (!topic) return;
+  trackTopic(id);
   currentTopic = topic;
   document.getElementById('app-title').textContent = topic.meta.titulo;
   document.getElementById('app-subtitle').textContent = topic.meta.subtitulo || 'Medicina Interna';
   document.documentElement.style.setProperty('--accent', topic.meta.accent || '#7c2d2d');
 
   mountStudy(topic);
-  setCalcTopic(topic);
-  mountCalculators(topic, document.getElementById('calc-root'));
 
   // refleja el tema en la URL sin recargar
   const url = new URL(location.href);
   url.searchParams.set('tema', id);
   history.replaceState(null, '', url);
-}
-
-/* ---------- Selector de tema ---------- */
-function buildTopicSelect() {
-  const sel = document.getElementById('topic-select');
-  sel.innerHTML = registry.map(t => `<option value="${t.id}">${t.titulo}</option>`).join('');
-  sel.addEventListener('change', () => selectTopic(sel.value));
-  return sel;
 }
 
 /* ---------- Inicio (portada: temario + progreso acumulado del quiz) ---------- */
@@ -106,7 +138,6 @@ async function mountHomeSection() {
   mountHome(document.getElementById('home-root'), {
     topics, totalQuestions, temarioBlocks,
     navigateToTopic: async (id) => {
-      document.getElementById('topic-select').value = id;
       await selectTopic(id);
       showSection('estudio');
     },
@@ -134,7 +165,7 @@ async function buildAndSetGlobalIndex() {
       });
     }
     (topic.calculators || []).forEach(c => {
-      index.push({ label: c.title, type: 'Calculadora', scope: t.titulo, section: 'calc', topicId: t.id, action: `openCalc('${c.key}')` });
+      index.push({ label: c.title, type: 'Calculadora', scope: t.titulo, section: 'calc', topicId: t.id, action: `openCalcFor('${t.id}','${c.key}')` });
     });
   }
   vpoCalculators.forEach(c => {
@@ -148,8 +179,6 @@ async function buildAndSetGlobalIndex() {
 
 async function navigateToSearchResult(entry) {
   if (entry.topicId && (!currentTopic || currentTopic.meta.id !== entry.topicId)) {
-    const sel = document.getElementById('topic-select');
-    sel.value = entry.topicId;
     await selectTopic(entry.topicId);
   }
   showSection(entry.section || 'estudio');
@@ -160,19 +189,35 @@ async function navigateToSearchResult(entry) {
 
 /* ---------- Arranque ---------- */
 async function init() {
-  const sel = buildTopicSelect();
+  mountAccountMenu();
   const params = new URLSearchParams(location.search);
   const initial = params.get('tema') && registry.some(t => t.id === params.get('tema'))
     ? params.get('tema') : registry[0].id;
-  sel.value = initial;
-  await selectTopic(initial);
-  showSection('inicio');
-  buildAndSetGlobalIndex();
 
-  // Service worker (PWA) — solo bajo http/https, no en file://
-  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  let booted = false;
+  async function bootApp() {
+    booted = true;
+    await selectTopic(initial);
+    showSection('inicio');
+    buildAndSetGlobalIndex();
+
+    // Service worker (PWA): solo bajo http/https, no en file://
+    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
   }
+
+  // El arranque real de la app espera a que Firebase Auth confirme si hay sesión iniciada
+  // (initAuth ya se encarga de mostrar el modal de login cuando no la hay). Si Firebase
+  // todavía no está configurado (engine/firebase-config.js con placeholders), firebaseReady
+  // es false y la app arranca igual, sin gate, para no bloquear el desarrollo local.
+  initAuth(async (user) => {
+    await initCloudSync(user);
+    document.getElementById('nav-admin').style.display = isAdmin() ? '' : 'none';
+    if (!user && firebaseReady) return;
+    if (!booted) await bootApp();
+    else if (user) mountHomeSection(); // cambio de sesión tras el arranque: refrescar con datos fusionados
+  });
 }
 
 init();

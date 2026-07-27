@@ -1,7 +1,8 @@
-/* ResidenteMed — Service Worker
+/* ResidenteMed: Service Worker
    Estrategia: cache-first para el "app shell" y los módulos, con actualización en segundo plano.
-   Sube CACHE_VERSION cuando cambies archivos del engine para forzar el refresco. */
-const CACHE_VERSION = 'residentemed-v34';
+   CACHE_VERSION se calcula automáticamente a partir del contenido de CORE: correr
+   .claude/bump-cache-version.ps1 después de cambiar cualquier archivo cacheado. */
+const CACHE_VERSION = 'residentemed-632ac51f94';
 const CORE = [
   './',
   './index.html',
@@ -16,6 +17,15 @@ const CORE = [
   './engine/home.js',
   './engine/schedule-import.js',
   './engine/infusion-calc.js',
+  './engine/firebase-config.js',
+  './engine/auth.js',
+  './engine/cloud-sync.js',
+  './engine/admin.js',
+  './engine/account-menu.js',
+  './engine/exam-mode.js',
+  './engine/flashcard-deck.js',
+  './engine/quiz-srs.js',
+  './engine/usage-tracking.js',
   './engine/vendor/pdfjs/pdf.min.mjs',
   './engine/vendor/pdfjs/pdf.worker.min.mjs',
   './topics/registry.js',
@@ -48,9 +58,20 @@ self.addEventListener('activate', (e) => {
   );
 });
 
+const FIREBASE_API_HOSTS = ['identitytoolkit.googleapis.com', 'securetoken.googleapis.com', 'firestore.googleapis.com', 'firebaseio.com'];
+
 self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET') return;
+
+  // Llamadas reales a la API de Firebase (auth/firestore): siempre a la red, nunca cache-first
+  // (tokens de sesión y datos en vivo no deben servirse desde caché).
+  const url = new URL(req.url);
+  if (FIREBASE_API_HOSTS.some((h) => url.hostname === h || url.hostname.endsWith('.' + h))) {
+    e.respondWith(fetch(req));
+    return;
+  }
+
   e.respondWith(
     caches.match(req).then((cached) => {
       const network = fetch(req).then((res) => {

@@ -4,6 +4,10 @@
 # Cruft del sistema operativo
 Thumbs.db
 .DS_Store
+desktop.ini
+
+# Salida generada por la skill graphify (no es parte del proyecto)
+graphify-out/
 
 # Archivos de bloqueo temporal de Word/Office (se crean al tener un documento abierto)
 ~$*

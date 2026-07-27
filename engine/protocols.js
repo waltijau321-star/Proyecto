@@ -3,11 +3,12 @@
 // Consume datos declarativos desde protocols/protocols.js.
 
 import { protocols } from '../protocols/protocols.js';
+import { syncGet, syncSet } from './cloud-sync.js';
 
 let ROOT = null;
 function key(id) { return 'rm:proto:' + id; }
-function loadState(id) { try { return JSON.parse(localStorage.getItem(key(id))) || {}; } catch (e) { return {}; } }
-function saveState(id, st) { try { localStorage.setItem(key(id), JSON.stringify(st)); } catch (e) {} }
+function loadState(id) { return syncGet(key(id), {}); }
+function saveState(id, st) { syncSet(key(id), st); }
 
 export function mountProtocols(root) {
   ROOT = root;

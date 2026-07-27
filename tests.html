@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smoke tests: MIOsler</title>
+<link rel="stylesheet" href="engine/styles.css">
+</head>
+<body>
+<div class="app-shell">
+  <header class="app-header">
+    <div class="brand-mark"><img src="icons/icon-192.png" alt="MIOsler"></div>
+    <div class="brand-txt"><h1>Smoke tests</h1><span>Verificación rápida, sin framework</span></div>
+  </header>
+  <main class="app-main">
+    <section class="app-section active">
+      <div class="sec-body">
+        <p class="home-subhead-note">Corre pruebas mínimas sobre la lógica real de la app (sincronización, repetición espaciada, contraseñas, calculadoras clínicas), importando los módulos directamente. No sustituye probar la app a mano, pero atrapa regresiones obvias antes de que lleguen a un usuario real. Agrega más pruebas en <code>tests.js</code> a medida que se construya más contenido.</p>
+        <div id="test-results"><p class="home-subhead-note">Corriendo pruebas…</p></div>
+      </div>
+    </section>
+  </main>
+</div>
+<script type="module" src="tests.js"></script>
+</body>
+</html>

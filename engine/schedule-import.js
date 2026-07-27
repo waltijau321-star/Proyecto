@@ -3,6 +3,8 @@
 // mencionan tu nombre y proponiendo fechas para revisar y agregar al calendario.
 // Todo ocurre en el navegador (pdf.js vendorizado localmente) — el PDF nunca sale del dispositivo.
 
+import { syncGet, syncSet } from './cloud-sync.js';
+
 const MONTH_NAMES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 const NAME_KEY = 'rm:cal-my-name';
 
@@ -16,7 +18,7 @@ function pad(n) { return String(n).padStart(2, '0'); }
 
 export function mountScheduleImport(root, { onImport }) {
   onImportCb = onImport;
-  const savedName = localStorage.getItem(NAME_KEY) || '';
+  const savedName = syncGet(NAME_KEY, '') || '';
   root.innerHTML = `
     <details class="cal-import">
       <summary>Importar guardias desde un PDF</summary>
@@ -53,7 +55,7 @@ async function analyze(root) {
   const rawName = nameInput.value.trim();
   if (!file) { status.textContent = 'Selecciona un archivo PDF.'; return; }
   if (!rawName) { status.textContent = 'Indica tu nombre como aparece en el documento.'; return; }
-  localStorage.setItem(NAME_KEY, rawName);
+  syncSet(NAME_KEY, rawName);
 
   status.textContent = 'Leyendo el PDF…';
   resultsEl.innerHTML = '';

@@ -3,6 +3,7 @@
 // Portado y ampliado desde el prototipo ResidenteMed (que ya usaba localStorage).
 
 import { mountScheduleImport } from './schedule-import.js';
+import { syncGet, syncSet } from './cloud-sync.js';
 
 const MONTHS = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 const DAYS = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'];
@@ -13,8 +14,8 @@ let today = new Date();
 let curMonth = today.getMonth();
 let curYear = today.getFullYear();
 
-function load() { try { events = JSON.parse(localStorage.getItem(STORE_KEY)) || []; } catch (e) { events = []; } }
-function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(events)); } catch (e) {} }
+function load() { events = syncGet(STORE_KEY, []); }
+function save() { syncSet(STORE_KEY, events); }
 function pad(n) { return String(n).padStart(2, '0'); }
 function iso(y, m, d) { return `${y}-${pad(m + 1)}-${pad(d)}`; }
 function eventsOn(dateStr) { return events.filter(e => e.date === dateStr); }

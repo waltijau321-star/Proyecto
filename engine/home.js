@@ -1,7 +1,10 @@
 // engine/home.js
 // Página de Inicio: portada de la app. No conoce el contenido de cada tema en detalle,
 // solo consume un resumen que le pasa app.js (que sí conoce todos los temas y secciones).
-import { getAnsweredSummary, resetAnsweredSummary } from './study-view.js';
+import { getAnsweredSummary, resetAnsweredSummary, isTopicReviewed, setTopicReviewed } from './study-view.js';
+import { syncGet, syncSet } from './cloud-sync.js';
+import { mountExamSummary } from './exam-mode.js';
+import { mountFlashcardDeck } from './flashcard-deck.js';
 
 let LAST_ROOT = null, LAST_OPTS = null;
 let examEditMode = false;
@@ -61,8 +64,13 @@ function temarioItemRow(item, blockTitle, clusterName, topicsById) {
   const topicId = typeof item === 'string' ? null : item.topicId;
   const topic = topicId ? topicsById[topicId] : null;
   if (topic) {
+    const reviewed = isTopicReviewed(topicId);
     return `<div class="temario-item available" style="--tc:${(topic.accent || '#2f6f5e') + '22'};--tc-dark:${topic.accent || '#2f6f5e'}" onclick="rmGoTopic('${topicId}')">
-      <span>${label}</span><span class="ti-tag">Abrir</span></div>`;
+      <span>${label}</span>
+      <span style="display:flex;align-items:center;flex:none;">
+        <span class="ti-tag">Abrir</span>
+        <button class="ti-review${reviewed ? ' checked' : ''}" title="Marcar como repasado" onclick="event.stopPropagation(); rmToggleReviewed('${topicId}')">${reviewed ? '✓ Repasado' : 'Repasar'}</button>
+      </span></div>`;
   }
   const idx = wipIndex.length;
   wipIndex.push({ blockTitle, clusterName });
@@ -70,18 +78,34 @@ function temarioItemRow(item, blockTitle, clusterName, topicsById) {
     <span>${label}</span><span class="ti-tag">En desarrollo</span></div>`;
 }
 
+function blockCoverage(b, topicsById) {
+  const allItems = b.clusters.flatMap(c => c.items);
+  const total = allItems.length;
+  const builtIds = allItems.filter(it => typeof it !== 'string' && topicsById[it.topicId]).map(it => it.topicId);
+  const built = builtIds.length;
+  const pct = total ? Math.round((built / total) * 100) : 0;
+  const questionCount = builtIds.reduce((sum, id) => sum + (topicsById[id].quizCount || 0), 0);
+  return { total, built, pct, questionCount };
+}
+
 function temarioTreeHTML(blocks, topicsById) {
   wipIndex = [];
-  return `<div class="temario-list">${blocks.map(b => `
+  return `<div class="temario-list">${blocks.map(b => {
+    const cov = blockCoverage(b, topicsById);
+    return `
     <details class="temario-block">
-      <summary>${b.title}</summary>
+      <summary>
+        <span class="temario-block-title">${b.title}</span>
+        <span class="temario-block-cov">${cov.built}/${cov.total} temas · ${cov.pct}% · ${cov.questionCount} preguntas</span>
+      </summary>
       <p class="temario-block-intro">${b.intro}</p>
       ${b.clusters.map(c => `
         <div class="temario-cluster">
           <h5>${c.name}</h5>
           ${c.items.map(it => temarioItemRow(it, b.title, c.name, topicsById)).join('')}
         </div>`).join('')}
-    </details>`).join('')}</div>`;
+    </details>`;
+  }).join('')}</div>`;
 }
 
 function openResetConfirm() {
@@ -105,8 +129,8 @@ function resetProgressNow() {
 
 /* ---------------- Cuenta regresiva de examen (persistencia localStorage) ---------------- */
 const EXAM_KEY = 'rm:exam-date';
-function loadExamDate() { try { return localStorage.getItem(EXAM_KEY) || ''; } catch (e) { return ''; } }
-function saveExamDateStore(v) { try { if (v) localStorage.setItem(EXAM_KEY, v); else localStorage.removeItem(EXAM_KEY); } catch (e) {} }
+function loadExamDate() { return syncGet(EXAM_KEY, ''); }
+function saveExamDateStore(v) { syncSet(EXAM_KEY, v || ''); }
 function daysUntilExam(dateStr) {
   const target = new Date(dateStr + 'T00:00:00');
   const today = new Date();
@@ -160,35 +184,58 @@ export function mountHome(root, opts = {}) {
   window.rmEditExamDate = editExamDate;
   window.rmSaveExamDate = saveExamDateNow;
   window.rmOpenWip = openWip;
+  window.rmToggleReviewed = (id) => { setTopicReviewed(id, !isTopicReviewed(id)); if (LAST_ROOT) mountHome(LAST_ROOT, LAST_OPTS); };
 
   const { correct, incorrect, answered } = getAnsweredSummary();
   const pct = answered ? Math.round((correct / answered) * 100) : null;
 
   root.innerHTML = `
     <div class="home-hero">
-      <img src="icons/icon-192.png" alt="ResidenteMed" class="home-logo">
-      <h1>Medicina Interna</h1>
+      <img src="icons/icon-192.png" alt="MIOsler" class="home-logo">
+      <h1>MIOsler</h1>
       <p class="home-desc">Plataforma de estudio para residentes de Medicina Interna. Incluye mapas conceptuales, calculadoras clínicas validadas, protocolos de manejo, valoración preoperatoria y autoevaluación por tema, todo basado en guías internacionales recientes.</p>
     </div>
 
     <div class="sec-body">
-      <div class="home-progress">
-        <div class="home-progress-ring">${ring(correct, incorrect)}
-          <div class="home-progress-center">${pct !== null ? pct + '%' : 'Sin datos'}${pct !== null ? '<span>acierto</span>' : ''}</div>
+      <div class="grid home-dash-row">
+        <div class="home-dash-card">
+          <h2 class="home-subhead">Tu progreso</h2>
+          <div class="home-progress">
+            <div class="home-progress-ring">${ring(correct, incorrect)}
+              <div class="home-progress-center">${pct !== null ? pct + '%' : 'Sin datos'}${pct !== null ? '<span>acierto</span>' : ''}</div>
+            </div>
+            <div class="home-progress-stats">
+              <div class="home-stat"><span class="home-stat-n">${totalQuestions}</span><span class="home-stat-l">Preguntas en el banco</span></div>
+              <div class="home-stat"><span class="home-stat-n" style="color:#2f6f5e;">${correct}</span><span class="home-stat-l">Correctas</span></div>
+              <div class="home-stat"><span class="home-stat-n" style="color:#8c3a34;">${incorrect}</span><span class="home-stat-l">Incorrectas</span></div>
+            </div>
+            <button class="home-reset" onclick="rmOpenResetConfirm()">Reiniciar progreso</button>
+          </div>
+          <div class="home-progress-divider"></div>
+          ${examSectionHTML()}
         </div>
-        <div class="home-progress-stats">
-          <div class="home-stat"><span class="home-stat-n">${totalQuestions}</span><span class="home-stat-l">Preguntas en el banco</span></div>
-          <div class="home-stat"><span class="home-stat-n" style="color:#2f6f5e;">${correct}</span><span class="home-stat-l">Correctas</span></div>
-          <div class="home-stat"><span class="home-stat-n" style="color:#8c3a34;">${incorrect}</span><span class="home-stat-l">Incorrectas</span></div>
+
+        <div class="home-dash-card">
+          <h2 class="home-subhead">Repasa y practica</h2>
+          <div class="home-study-box">
+            <div class="home-study-col">
+              <h3 class="home-study-col-title">Fichas de repaso</h3>
+              <div id="fc-deck-root"><p class="home-subhead-note">Cargando…</p></div>
+            </div>
+            <div class="home-study-col">
+              <h3 class="home-study-col-title">Exámenes simulados</h3>
+              <div id="exam-root"><p class="home-subhead-note">Cargando…</p></div>
+            </div>
+          </div>
         </div>
-        <button class="home-reset" onclick="rmOpenResetConfirm()">Reiniciar progreso</button>
       </div>
 
-      <h2 class="home-subhead">Fecha de examen</h2>
-      ${examSectionHTML()}
-
-      <h2 class="home-subhead" style="margin-top:30px;">Temario</h2>
+      <h2 class="home-subhead" style="margin-top:26px;">Temario</h2>
       <p class="home-subhead-note">Programa completo de Medicina Interna en 14 bloques. Los subtemas marcados "Abrir" ya tienen contenido construido; el resto se irá agregando en próximas actualizaciones.</p>
       ${temarioTreeHTML(temarioBlocks, topicsById)}
     </div>`;
+
+  mountFlashcardDeck(document.getElementById('fc-deck-root'));
+  mountExamSummary(document.getElementById('exam-root'));
+  window.rmRefreshHome = () => { if (LAST_ROOT) mountHome(LAST_ROOT, LAST_OPTS); };
 }

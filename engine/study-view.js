@@ -4,6 +4,10 @@
 // el mapa conceptual, los modales, el buscador, el quiz, las fichas y el caso clínico.
 // Migrado desde el prototipo de Cirrosis y parametrizado.
 
+import { syncGet, syncSet } from './cloud-sync.js';
+import { updateQuizSRS, dueQuestionIndices } from './quiz-srs.js';
+import { trackEvent } from './usage-tracking.js';
+
 // Datos del tema activo (poblados por mountStudy)
 let TOPIC, D, BIB, COMP_CITES, ESTIGMAS_FREQ, BIOPSIA_LISTS, ESCALA_REFS, ESCALA_CALC,
     COMP_GROUPS, ARBOL, CATEGORIES, QUIZ_QUESTIONS, FLASHCARDS, CASE_STEPS, COMP_ORDER, FIGURAS;
@@ -276,18 +280,24 @@ function showOverlay() {
 }
 
 /* ---------------- Quiz ---------------- */
-const DIFF_LABEL = { facil: 'Fácil', intermedio: 'Intermedio', dificil: 'Difícil' };
+const DIFF_LABEL = { facil: 'Fácil', intermedio: 'Intermedio', dificil: 'Difícil', inteligente: 'Repaso inteligente' };
 const DIFF_ORDER = ['facil', 'intermedio', 'dificil'];
 let quizState = { level: 'todas', deck: [], qIndex: 0, score: 0, answered: false };
 
 function quizByLevel(level) {
   if (level === 'todas') return QUIZ_QUESTIONS;
+  if (level === 'inteligente') {
+    const due = dueQuestionIndices(TOPIC.meta.id, QUIZ_QUESTIONS.length);
+    const idx = due.length ? due : QUIZ_QUESTIONS.map((_, i) => i);
+    return idx.map(i => QUIZ_QUESTIONS[i]);
+  }
   return QUIZ_QUESTIONS.filter(q => (q.dificultad || 'facil') === level);
 }
 
 function openQuiz() {
   const m = document.getElementById('modal');
   m.style.setProperty('--modal-accent', '#3d5a73');
+  const dueCount = dueQuestionIndices(TOPIC.meta.id, QUIZ_QUESTIONS.length).length;
   const levelButtons = DIFF_ORDER.filter(lvl => quizByLevel(lvl).length > 0)
     .map(lvl => `<button class="quiz-opt" onclick="startQuiz('${lvl}')">${DIFF_LABEL[lvl]} <span class="mono" style="color:var(--ink-faint);">(${quizByLevel(lvl).length})</span></button>`)
     .join('');
@@ -296,16 +306,20 @@ function openQuiz() {
     <span class="modal-tag" style="color:#3d5a73;">Banco de preguntas</span>
     <h2>Elige la dificultad</h2>
     <div class="quiz-options">
+      <button class="quiz-opt" onclick="startQuiz('inteligente')">Repaso inteligente <span class="mono" style="color:var(--ink-faint);">(${dueCount})</span></button>
       ${levelButtons}
       <button class="quiz-opt" onclick="startQuiz('todas')">Todas <span class="mono" style="color:var(--ink-faint);">(${QUIZ_QUESTIONS.length})</span></button>
-    </div>`;
+    </div>
+    <p class="auth-note" style="margin-top:14px;">"Repaso inteligente" prioriza las preguntas que has fallado o no has repasado recientemente, con el mismo sistema de repetición espaciada que las fichas.</p>`;
   showOverlay();
 }
 function startQuiz(level) {
-  const deck = quizByLevel(level);
+  const deck = level === 'inteligente' ? shuffleQuiz(quizByLevel(level)) : quizByLevel(level);
   quizState = { level, deck, qIndex: 0, score: 0, answered: false };
+  trackEvent('quizStart');
   renderQuiz();
 }
+function shuffleQuiz(arr) { return arr.map(v => [Math.random(), v]).sort((a, b) => a[0] - b[0]).map(([, v]) => v); }
 function renderQuiz() {
   const m = document.getElementById('modal');
   m.style.setProperty('--modal-accent', '#3d5a73');
@@ -313,11 +327,12 @@ function renderQuiz() {
   const levelTag = quizState.level !== 'todas' ? ` · ${DIFF_LABEL[quizState.level]}` : '';
   if (quizState.qIndex >= deck.length) {
     const pct = Math.round((quizState.score / deck.length) * 100);
+    trackEvent('quizComplete');
     m.innerHTML = `
       <button class="modal-close" onclick="closeModal()">✕</button>
       <span class="modal-tag" style="color:#3d5a73;">Resultado final${levelTag}</span>
       <h2>${quizState.score} / ${deck.length} correctas (${pct}%)</h2>
-      <p class="fbody" style="color:var(--ink-dim);margin-bottom:20px;">${pct >= 80 ? 'Excelente dominio del tema.' : pct >= 60 ? 'Buen desempeño — repasa los temas fallados.' : 'Conviene repasar las secciones de Complicaciones y Escalas antes de reintentar.'}</p>
+      <p class="fbody" style="color:var(--ink-dim);margin-bottom:20px;">${pct >= 80 ? 'Excelente dominio del tema.' : pct >= 60 ? 'Buen desempeño, repasa los temas fallados.' : 'Conviene repasar las secciones de Complicaciones y Escalas antes de reintentar.'}</p>
       <button class="calc-copy" onclick="startQuiz('${quizState.level}')">Reintentar →</button>
       <button class="calc-copy" style="margin-left:8px;" onclick="openQuiz()">Cambiar dificultad</button>`;
     return;
@@ -337,6 +352,7 @@ function answerQuiz(i) {
   const correct = i === q.correct;
   if (correct) quizState.score++;
   recordProgress(correct);
+  updateQuizSRS(TOPIC.meta.id, QUIZ_QUESTIONS.indexOf(q), correct);
   document.querySelectorAll('#quiz-options .quiz-opt').forEach((btn, idx) => {
     btn.disabled = true;
     if (idx === q.correct) btn.classList.add('correct');
@@ -348,10 +364,10 @@ function answerQuiz(i) {
 }
 function nextQuiz() { quizState.qIndex++; quizState.answered = false; renderQuiz(); }
 
-/* ---------------- Progreso acumulado del quiz (persistencia localStorage, para Inicio) ---------------- */
+/* ---------------- Progreso acumulado del quiz (persistencia sincronizada, para Inicio) ---------------- */
 const PROGRESS_KEY = 'rm:quiz-progress';
-function loadProgressStore() { try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; } catch (e) { return {}; } }
-function saveProgressStore(p) { try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); } catch (e) {} }
+function loadProgressStore() { return syncGet(PROGRESS_KEY, {}); }
+function saveProgressStore(p) { syncSet(PROGRESS_KEY, p); }
 function recordProgress(correct) {
   const store = loadProgressStore();
   const id = TOPIC.meta.id;
@@ -359,7 +375,7 @@ function recordProgress(correct) {
   store[id][correct ? 'correct' : 'incorrect']++;
   saveProgressStore(store);
 }
-export function resetAnsweredSummary() { try { localStorage.removeItem(PROGRESS_KEY); } catch (e) {} }
+export function resetAnsweredSummary() { syncSet(PROGRESS_KEY, {}); }
 export function getAnsweredSummary() {
   const store = loadProgressStore();
   let correct = 0, incorrect = 0;
@@ -367,15 +383,20 @@ export function getAnsweredSummary() {
   return { correct, incorrect, answered: correct + incorrect };
 }
 
-/* ---------------- Fichas (repetición espaciada, persistencia localStorage) ---------------- */
+/* ---------------- Temas repasados (persistencia sincronizada) ---------------- */
+const REVIEWED_KEY = 'rm:topics-reviewed';
+export function isTopicReviewed(topicId) { return !!syncGet(REVIEWED_KEY, {})[topicId]; }
+export function setTopicReviewed(topicId, val) {
+  const store = syncGet(REVIEWED_KEY, {});
+  if (val) store[topicId] = true; else delete store[topicId];
+  syncSet(REVIEWED_KEY, store);
+}
+
+/* ---------------- Fichas (repetición espaciada, persistencia sincronizada) ---------------- */
 let fcState = { deck: [], index: 0, showBack: false };
 function fcKey() { return 'flashcard-progress:' + TOPIC.meta.id; }
-function loadFlashcardProgress() {
-  try { return JSON.parse(localStorage.getItem(fcKey())) || {}; } catch (e) { return {}; }
-}
-function saveFlashcardProgress(progress) {
-  try { localStorage.setItem(fcKey(), JSON.stringify(progress)); } catch (e) {}
-}
+function loadFlashcardProgress() { return syncGet(fcKey(), {}); }
+function saveFlashcardProgress(progress) { syncSet(fcKey(), progress); }
 function openFlashcards() {
   const progress = loadFlashcardProgress();
   const now = Date.now();
@@ -383,6 +404,7 @@ function openFlashcards() {
   if (!due.length) due = FLASHCARDS.map((c, i) => ({ ...c, id: i, prog: progress[i] || { box: 1, next: 0 } }));
   due = due.sort(() => Math.random() - 0.5);
   fcState = { deck: due, index: 0, showBack: false };
+  trackEvent('flashcardStart');
   renderFlashcard();
   showOverlay();
 }
@@ -390,6 +412,7 @@ function renderFlashcard() {
   const m = document.getElementById('modal');
   m.style.setProperty('--modal-accent', '#5c4a73');
   if (fcState.index >= fcState.deck.length) {
+    trackEvent('flashcardComplete');
     m.innerHTML = `
       <button class="modal-close" onclick="closeModal()">✕</button>
       <span class="modal-tag" style="color:#5c4a73;">Sesión completa</span>
@@ -427,11 +450,12 @@ function rateFlashcard(rating) {
 
 /* ---------------- Caso clínico ---------------- */
 let caseState = { step: 0, answered: false };
-function openCase() { caseState = { step: 0, answered: false }; renderCase(); showOverlay(); }
+function openCase() { caseState = { step: 0, answered: false }; trackEvent('caseStart'); renderCase(); showOverlay(); }
 function renderCase() {
   const m = document.getElementById('modal');
   m.style.setProperty('--modal-accent', '#8c3a34');
   if (caseState.step >= CASE_STEPS.length) {
+    trackEvent('caseComplete');
     const summary = (TOPIC.study && TOPIC.study.caseSummary) || 'Revisa las secciones de Complicaciones si alguna decisión no quedó clara.';
     m.innerHTML = `
       <button class="modal-close" onclick="closeModal()">✕</button>
