@@ -6,7 +6,6 @@ import { sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/12.15
 import { auth } from './firebase-config.js';
 import { getCurrentUser, signOutUser, RESIDENCY_YEARS } from './auth.js';
 import { syncGet, syncSet } from './cloud-sync.js';
-import { isAnalyticsEnabled, setAnalyticsEnabled } from './usage-tracking.js';
 
 const SUPPORT_EMAIL = 'waltijau321@gmail.com';
 const THEME_KEY = 'rm:theme-pref';
@@ -95,12 +94,6 @@ export function mountAccountMenu() {
       syncSet(THEME_KEY, themeSelect.value);
       applyTheme(themeSelect.value);
     });
-  }
-
-  const analyticsToggle = document.getElementById('menu-analytics-toggle');
-  if (analyticsToggle) {
-    analyticsToggle.checked = isAnalyticsEnabled();
-    analyticsToggle.addEventListener('change', () => setAnalyticsEnabled(analyticsToggle.checked));
   }
 
   const close = () => dropdown.classList.remove('open');

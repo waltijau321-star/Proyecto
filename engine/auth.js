@@ -271,7 +271,7 @@ function termsAndConditionsHTML() {
       <p>Tu progreso de estudio (temas completados, resultados de autoevaluación, fichas, calendario de guardias) y los datos de tu perfil se guardan de forma asociada a tu cuenta mediante Firebase, para que puedas acceder a ellos desde distintos dispositivos.</p>
 
       <h3>5. Analítica de uso</h3>
-      <p>De forma anónima y opcional, MIOsler puede compartir qué secciones y funciones usas, para ayudarme a mejorar la app. No se comparte el contenido de tus respuestas ni tu identidad. Esta opción está desactivada por defecto y puedes activarla o desactivarla en cualquier momento desde el menú de cuenta (ícono de la tuerca).</p>
+      <p>MIOsler comparte de forma anónima qué secciones y funciones usas, para ayudarme a mejorar la app. No se comparte el contenido de tus respuestas ni tu identidad. Al crear tu cuenta aceptas esta analítica como parte del funcionamiento de la plataforma.</p>
 
       <h3>6. Propiedad intelectual</h3>
       <p>Los contenidos, calculadoras y protocolos de MIOsler se elaboran con fines educativos a partir de guías internacionales públicas. Su reproducción o distribución fuera de la plataforma requiere autorización previa.</p>
