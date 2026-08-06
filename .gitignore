@@ -11,3 +11,6 @@ graphify-out/
 
 # Archivos de bloqueo temporal de Word/Office (se crean al tener un documento abierto)
 ~$*
+
+# PDFs de referencia sueltos en la raíz (no son parte del sitio, solo insumos de trabajo)
+/medinterna.pdf
