@@ -677,6 +677,20 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
   background:var(--bg); border:1px solid var(--line); border-radius:20px; padding:3px 10px; white-space:nowrap;
 }
 .temario-block-intro{margin:0 16px 12px; font-size:12.5px; color:var(--ink-faint); line-height:1.55;}
+.temario-group{margin:0 16px 12px; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--bg);}
+.temario-group > summary{
+  list-style:none; cursor:pointer; padding:10px 14px; display:flex; align-items:center; gap:10px;
+  font-family:'Source Sans 3',sans-serif; font-weight:700; font-size:13px; color:var(--ink);
+}
+.temario-group > summary::-webkit-details-marker{display:none;}
+.temario-group > summary::after{
+  content:""; flex:none; width:8px; height:8px; margin-left:auto;
+  border-right:2px solid var(--ink-faint); border-bottom:2px solid var(--ink-faint);
+  transform:rotate(45deg); transition:transform .15s;
+}
+.temario-group[open] > summary::after{transform:rotate(-135deg);}
+.temario-group .temario-cluster{margin:0 14px 14px;}
+.temario-group .temario-cluster:first-of-type{margin-top:4px;}
 .temario-cluster{margin:0 16px 14px;}
 .temario-cluster h5{
   margin:0 0 8px; font-family:'Source Sans 3',sans-serif; font-size:11.5px; font-weight:700;

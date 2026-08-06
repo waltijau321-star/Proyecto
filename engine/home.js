@@ -78,8 +78,15 @@ function temarioItemRow(item, blockTitle, clusterName, topicsById) {
     <span>${label}</span><span class="ti-tag">En desarrollo</span></div>`;
 }
 
+// Un bloque normal trae `clusters` (lista plana). Un bloque de acceso rápido como R1
+// puede traer `groups` en su lugar — cada grupo es un tema con sus propios clusters,
+// para que también se pueda abrir/cerrar de forma independiente. blockClusters() junta
+// los clusters de cualquiera de las dos formas para calcular la cobertura del bloque.
+function blockClusters(b) {
+  return b.groups ? b.groups.flatMap(g => g.clusters) : b.clusters;
+}
 function blockCoverage(b, topicsById) {
-  const allItems = b.clusters.flatMap(c => c.items);
+  const allItems = blockClusters(b).flatMap(c => c.items);
   const total = allItems.length;
   const builtIds = allItems.filter(it => typeof it !== 'string' && topicsById[it.topicId]).map(it => it.topicId);
   const built = builtIds.length;
@@ -88,10 +95,25 @@ function blockCoverage(b, topicsById) {
   return { total, built, pct, questionCount };
 }
 
+function clusterHTML(c, blockTitle, topicsById) {
+  return `
+    <div class="temario-cluster">
+      <h5>${c.name}</h5>
+      ${c.items.map(it => temarioItemRow(it, blockTitle, c.name, topicsById)).join('')}
+    </div>`;
+}
+
 function temarioTreeHTML(blocks, topicsById) {
   wipIndex = [];
   return `<div class="temario-list">${blocks.map(b => {
     const cov = blockCoverage(b, topicsById);
+    const body = b.groups
+      ? b.groups.map(g => `
+        <details class="temario-group">
+          <summary><span class="temario-group-title">${g.name}</span></summary>
+          ${g.clusters.map(c => clusterHTML(c, b.title, topicsById)).join('')}
+        </details>`).join('')
+      : b.clusters.map(c => clusterHTML(c, b.title, topicsById)).join('');
     return `
     <details class="temario-block">
       <summary>
@@ -99,11 +121,7 @@ function temarioTreeHTML(blocks, topicsById) {
         <span class="temario-block-cov">${cov.built}/${cov.total} temas · ${cov.pct}% · ${cov.questionCount} preguntas</span>
       </summary>
       <p class="temario-block-intro">${b.intro}</p>
-      ${b.clusters.map(c => `
-        <div class="temario-cluster">
-          <h5>${c.name}</h5>
-          ${c.items.map(it => temarioItemRow(it, b.title, c.name, topicsById)).join('')}
-        </div>`).join('')}
+      ${body}
     </details>`;
   }).join('')}</div>`;
 }

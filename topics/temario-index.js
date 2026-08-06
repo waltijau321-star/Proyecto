@@ -69,24 +69,17 @@ const DERMATOLOGIA_ITEMS = [
   'Manifestaciones cutáneas de enfermedad sistémica'
 ];
 
-// Junta los clusters de un área bajo un prefijo "Área · cluster" para que se distingan
-// visualmente dentro del bloque R1, que por diseño del motor solo tiene 2 niveles
-// (bloque > cluster > ítems, sin un tercer nivel de agrupación).
-function withPrefix(prefix, clusters) {
-  return clusters.map(c => ({ name: `${prefix} · ${c.name}`, items: c.items }));
-}
-
 export const temarioBlocks = [
   {
     title: 'R1',
     quickAccess: true,
-    intro: 'Acceso rápido a los 5 temas evaluados en el kardex de primer año (Semiología y Exploración Física, Fallas orgánicas, Neurología, Neumología, Dermatología). Son los mismos subtemas que ya están en su bloque de siempre más abajo — esto es solo un atajo, no un temario aparte.',
-    clusters: [
-      ...withPrefix('Semiología', SEMIOLOGIA_CLUSTERS),
-      { name: 'Fallas orgánicas', items: FALLAS_ORGANICAS_ITEMS },
-      ...withPrefix('Neurología', NEUROLOGIA_CLUSTERS),
-      ...withPrefix('Neumología', NEUMOLOGIA_R1_CLUSTERS),
-      { name: 'Dermatología', items: DERMATOLOGIA_ITEMS }
+    intro: 'Acceso rápido a los 5 temas evaluados en el kardex de primer año (Semiología y Exploración Física, Fallas orgánicas, Neurología, Neumología, Dermatología). Son los mismos subtemas que ya están en su bloque de siempre más abajo — esto es solo un atajo, no un temario aparte. Cada uno se abre por separado.',
+    groups: [
+      { name: 'Semiología y Exploración Física', clusters: SEMIOLOGIA_CLUSTERS },
+      { name: 'Fallas orgánicas', clusters: [{ name: 'Fallas orgánicas', items: FALLAS_ORGANICAS_ITEMS }] },
+      { name: 'Neurología', clusters: NEUROLOGIA_CLUSTERS },
+      { name: 'Neumología', clusters: NEUMOLOGIA_R1_CLUSTERS },
+      { name: 'Dermatología', clusters: [{ name: 'Dermatología', items: DERMATOLOGIA_ITEMS }] }
     ]
   },
   {
