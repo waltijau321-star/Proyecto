@@ -27,6 +27,14 @@ export const registry = [
       import('./vasopresores-sedantes/calculators.js'),
       import('./vasopresores-sedantes/study.js')
     ])
+  },
+  {
+    id: 'historia-clinica', titulo: 'Historia Clínica y Anamnesis Dirigida',
+    load: () => Promise.all([
+      import('./historia-clinica/content.js'),
+      import('./historia-clinica/calculators.js'),
+      import('./historia-clinica/study.js')
+    ])
   }
 ];
 

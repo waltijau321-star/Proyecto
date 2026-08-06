@@ -282,7 +282,13 @@ function showOverlay() {
 /* ---------------- Quiz ---------------- */
 const DIFF_LABEL = { facil: 'Fácil', intermedio: 'Intermedio', dificil: 'Difícil', inteligente: 'Repaso inteligente' };
 const DIFF_ORDER = ['facil', 'intermedio', 'dificil'];
-let quizState = { level: 'todas', deck: [], qIndex: 0, score: 0, answered: false };
+// Un ítem del banco puede ser una pregunta única (misma forma de siempre: {q, options, correct,
+// explanation}) o una pregunta en cascada ({type:'cascade', vignette, steps:[{q,options,correct}],
+// explanation}) — 2-3 preguntas que comparten una viñeta y dan retroalimentación consolidada al
+// final, en vez de una por una. itemWeight() cuenta cada paso de una cascada como una pregunta
+// para el puntaje final, sin romper el conteo de temas que ya usan solo preguntas únicas.
+function itemWeight(item) { return item.type === 'cascade' ? item.steps.length : 1; }
+let quizState = { level: 'todas', deck: [], qIndex: 0, score: 0, answered: false, subStep: 0, subAnswers: [] };
 
 function quizByLevel(level) {
   if (level === 'todas') return QUIZ_QUESTIONS;
@@ -315,7 +321,7 @@ function openQuiz() {
 }
 function startQuiz(level) {
   const deck = level === 'inteligente' ? shuffleQuiz(quizByLevel(level)) : quizByLevel(level);
-  quizState = { level, deck, qIndex: 0, score: 0, answered: false };
+  quizState = { level, deck, qIndex: 0, score: 0, answered: false, subStep: 0, subAnswers: [] };
   trackEvent('quizStart');
   renderQuiz();
 }
@@ -326,43 +332,87 @@ function renderQuiz() {
   const deck = quizState.deck;
   const levelTag = quizState.level !== 'todas' ? ` · ${DIFF_LABEL[quizState.level]}` : '';
   if (quizState.qIndex >= deck.length) {
-    const pct = Math.round((quizState.score / deck.length) * 100);
+    const total = deck.reduce((s, it) => s + itemWeight(it), 0);
+    const pct = total ? Math.round((quizState.score / total) * 100) : 0;
     trackEvent('quizComplete');
     m.innerHTML = `
       <button class="modal-close" onclick="closeModal()">✕</button>
       <span class="modal-tag" style="color:#3d5a73;">Resultado final${levelTag}</span>
-      <h2>${quizState.score} / ${deck.length} correctas (${pct}%)</h2>
+      <h2>${quizState.score} / ${total} correctas (${pct}%)</h2>
       <p class="fbody" style="color:var(--ink-dim);margin-bottom:20px;">${pct >= 80 ? 'Excelente dominio del tema.' : pct >= 60 ? 'Buen desempeño, repasa los temas fallados.' : 'Conviene repasar las secciones de Complicaciones y Escalas antes de reintentar.'}</p>
       <button class="calc-copy" onclick="startQuiz('${quizState.level}')">Reintentar →</button>
       <button class="calc-copy" style="margin-left:8px;" onclick="openQuiz()">Cambiar dificultad</button>`;
     return;
   }
-  const q = deck[quizState.qIndex];
+  const item = deck[quizState.qIndex];
+  if (item.type === 'cascade') { renderCascadeStep(item); return; }
   m.innerHTML = `
     <button class="modal-close" onclick="closeModal()">✕</button>
     <span class="modal-tag" style="color:#3d5a73;">Pregunta ${quizState.qIndex + 1} / ${deck.length}${levelTag} · Puntaje: ${quizState.score}</span>
-    <h2 style="font-size:1.3rem;">${q.q}</h2>
-    <div class="quiz-options" id="quiz-options">${q.options.map((opt, i) => `<button class="quiz-opt" onclick="answerQuiz(${i})">${opt}</button>`).join('')}</div>
+    <h2 style="font-size:1.3rem;">${item.q}</h2>
+    <div class="quiz-options" id="quiz-options">${item.options.map((opt, i) => `<button class="quiz-opt" onclick="answerQuiz(${i})">${opt}</button>`).join('')}</div>
+    <div id="quiz-feedback"></div>`;
+}
+function renderCascadeStep(item) {
+  const m = document.getElementById('modal');
+  const step = item.steps[quizState.subStep];
+  m.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <span class="modal-tag" style="color:#3d5a73;">Caso ${quizState.qIndex + 1} / ${quizState.deck.length} · Paso ${quizState.subStep + 1} / ${item.steps.length}</span>
+    <div class="case-vignette">${item.vignette}</div>
+    <h2 style="font-size:1.3rem;">${step.q}</h2>
+    <div class="quiz-options" id="quiz-options">${step.options.map((opt, i) => `<button class="quiz-opt" onclick="answerQuiz(${i})">${opt}</button>`).join('')}</div>
     <div id="quiz-feedback"></div>`;
 }
 function answerQuiz(i) {
   if (quizState.answered) return;
   quizState.answered = true;
-  const q = quizState.deck[quizState.qIndex];
-  const correct = i === q.correct;
+  const item = quizState.deck[quizState.qIndex];
+  if (item.type === 'cascade') { answerCascade(item, i); return; }
+  const correct = i === item.correct;
   if (correct) quizState.score++;
   recordProgress(correct);
-  updateQuizSRS(TOPIC.meta.id, QUIZ_QUESTIONS.indexOf(q), correct);
+  updateQuizSRS(TOPIC.meta.id, QUIZ_QUESTIONS.indexOf(item), correct);
   document.querySelectorAll('#quiz-options .quiz-opt').forEach((btn, idx) => {
     btn.disabled = true;
-    if (idx === q.correct) btn.classList.add('correct');
+    if (idx === item.correct) btn.classList.add('correct');
     else if (idx === i) btn.classList.add('incorrect');
   });
   document.getElementById('quiz-feedback').innerHTML = `
-    <div class="quiz-feedback-box ${correct ? 'correct' : 'incorrect'}"><strong>${correct ? 'Correcto.' : 'Incorrecto.'}</strong> ${q.explanation}</div>
+    <div class="quiz-feedback-box ${correct ? 'correct' : 'incorrect'}"><strong>${correct ? 'Correcto.' : 'Incorrecto.'}</strong> ${item.explanation}</div>
     <button class="calc-copy" style="margin-top:14px;" onclick="nextQuiz()">${quizState.qIndex + 1 < quizState.deck.length ? 'Siguiente →' : 'Ver resultado →'}</button>`;
 }
-function nextQuiz() { quizState.qIndex++; quizState.answered = false; renderQuiz(); }
+// Cascada: NO se marca correcto/incorrecto paso a paso — solo se registra la respuesta y se
+// avanza. La retroalimentación (qué se acertó, qué no, y la explicación integradora) se muestra
+// junta recién al terminar el último paso, como pidió el usuario.
+function answerCascade(item, i) {
+  quizState.subAnswers[quizState.subStep] = i;
+  document.querySelectorAll('#quiz-options .quiz-opt').forEach(btn => { btn.disabled = true; });
+  const isLastStep = quizState.subStep + 1 >= item.steps.length;
+  if (!isLastStep) {
+    document.getElementById('quiz-feedback').innerHTML = `
+      <button class="calc-copy" style="margin-top:14px;" onclick="nextCascadeStep()">Continuar caso →</button>`;
+    return;
+  }
+  const correctCount = item.steps.reduce((n, s, idx) => n + (quizState.subAnswers[idx] === s.correct ? 1 : 0), 0);
+  quizState.score += correctCount;
+  const allCorrect = correctCount === item.steps.length;
+  recordProgress(allCorrect);
+  updateQuizSRS(TOPIC.meta.id, QUIZ_QUESTIONS.indexOf(item), allCorrect);
+  const stepsReview = item.steps.map((s, idx) => {
+    const chosen = quizState.subAnswers[idx];
+    const ok = chosen === s.correct;
+    return `<div class="quiz-feedback-box ${ok ? 'correct' : 'incorrect'}" style="margin-bottom:8px;">
+      <strong>${idx + 1}. ${s.q}</strong><br>Tu respuesta: ${s.options[chosen]}${ok ? '' : ` · Correcta: ${s.options[s.correct]}`}
+    </div>`;
+  }).join('');
+  document.getElementById('quiz-feedback').innerHTML = `
+    ${stepsReview}
+    <div class="quiz-feedback-box ${allCorrect ? 'correct' : 'incorrect'}"><strong>${correctCount} / ${item.steps.length} correctas en este caso.</strong> ${item.explanation}</div>
+    <button class="calc-copy" style="margin-top:14px;" onclick="nextQuiz()">${quizState.qIndex + 1 < quizState.deck.length ? 'Siguiente →' : 'Ver resultado →'}</button>`;
+}
+function nextCascadeStep() { quizState.subStep++; quizState.answered = false; renderQuiz(); }
+function nextQuiz() { quizState.qIndex++; quizState.subStep = 0; quizState.subAnswers = []; quizState.answered = false; renderQuiz(); }
 
 /* ---------------- Progreso acumulado del quiz (persistencia sincronizada, para Inicio) ---------------- */
 const PROGRESS_KEY = 'rm:quiz-progress';
@@ -628,7 +678,7 @@ export function mountStudy(topic) {
 /* ---------------- Handlers globales (para onclick inline) ---------------- */
 Object.assign(window, {
   jumpTo, jumpToEscala, highlightBib, openModal, closeModal,
-  openQuiz, startQuiz, answerQuiz, nextQuiz,
+  openQuiz, startQuiz, answerQuiz, nextQuiz, nextCascadeStep,
   openFlashcards, flipFlashcard, rateFlashcard,
   openCase, answerCase, nextCase,
   openStigma, runSearch, clearSearch
