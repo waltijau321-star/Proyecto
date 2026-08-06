@@ -49,7 +49,8 @@ export const quiz = [
 
 export const flashcards = [
   { front: 'Estructura de la historia clínica (orden)', back: 'Ficha de identificación → Motivo de consulta → Padecimiento actual → Antecedentes heredofamiliares → Antecedentes personales patológicos → Antecedentes personales no patológicos → Interrogatorio por aparatos y sistemas → Exploración física → Resumen/lista de problemas → Plan.' },
-  { front: 'SOCRATES (semiología del síntoma)', back: 'Site (localización), Onset (inicio), Character (calidad), Radiation (irradiación), Associations (síntomas acompañantes), Time course (cronología), Exacerbating/relieving factors (agravantes/atenuantes), Severity (intensidad).' },
+  { front: 'ALICIA (semiología del síntoma, en español)', back: 'Aparición, Localización, Intensidad, Carácter, Irradiación, Atenuantes/agravantes.' },
+  { front: 'SOCRATES (semiología del síntoma, en inglés)', back: 'Site (localización), Onset (inicio), Character (calidad), Radiation (irradiación), Associations (síntomas acompañantes), Time course (cronología), Exacerbating/relieving factors (agravantes/atenuantes), Severity (intensidad).' },
   { front: '¿Qué son los "negativos pertinentes" en el PA?', back: 'Síntomas ausentes que se documentan deliberadamente porque su ausencia ayuda a descartar diagnósticos (ej. "niega fiebre, niega disnea").' },
   { front: 'Antecedentes personales patológicos vs. no patológicos', back: 'Patológicos: enfermedades, cirugías, alergias, transfusiones, vacunas. No patológicos: ocupación, vivienda, alimentación, tabaco/alcohol, sueño, red de apoyo.' },
   { front: 'Dolor visceral vs. dolor somático', back: 'Visceral: difuso, mal localizado, puede referirse a un dermatoma distante. Somático: agudo, bien localizado, se agrava con el movimiento/palpación.' },

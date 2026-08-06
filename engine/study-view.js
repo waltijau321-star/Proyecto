@@ -220,6 +220,14 @@ const DEFAULT_LABELS = {
   seguimiento_hospitalario: 'Seguimiento hospitalario', seguimiento_ambulatorio: 'Seguimiento ambulatorio', pronostico: 'Pronóstico',
   algoritmo: 'Algoritmo diagnóstico-terapéutico'
 };
+// Las líneas divisorias (<hr class="modal-divider">) solo tienen sentido entre dos bloques que
+// ambos tengan contenido real — si no, queda una línea suelta sin nada alrededor (ej. un tema de
+// semiología que no usa campos de tratamiento/seguimiento). blockHTML() arma cada bloque y
+// joinBlocks() intercala <hr> únicamente entre bloques no vacíos consecutivos.
+function blockHTML(...parts) { return parts.join(''); }
+function joinBlocks(blocks) {
+  return blocks.filter(b => b && b.trim()).join('<hr class="modal-divider">');
+}
 function openModal(i) {
   const c = D.complicaciones[i];
   const L = Object.assign({}, DEFAULT_LABELS, TOPIC.modalLabels || {});
@@ -229,6 +237,44 @@ function openModal(i) {
   const nextIdx = findComp(COMP_ORDER[(pos + 1) % COMP_ORDER.length]);
   const m = document.getElementById('modal');
   m.style.setProperty('--modal-accent', c.color);
+
+  const blockDefinicion = blockHTML(
+    fieldHTML(L.definicion, c.definicion, cites.definicion),
+    fieldHTML(L.fisiopatologia, c.fisiopatologia, cites.fisiopatologia),
+    fieldHTML(L.epidemiologia, c.epidemiologia, cites.epidemiologia),
+    listFieldHTML(L.factores_riesgo, c.factores_riesgo)
+  );
+  const blockDiagnostico = blockHTML(
+    fieldHTML(L.clinica, c.clinica, cites.clinica),
+    fieldHTML(L.criterios_dx, c.criterios_dx, cites.criterios_dx),
+    figuraHTML(c.figura),
+    (c.laboratorio || c.imagen) ? `<div class="modal-grid">
+      ${fieldHTML(L.laboratorio, c.laboratorio, cites.laboratorio)}
+      ${fieldHTML(L.imagen, c.imagen, cites.imagen)}
+    </div>` : '',
+    fieldHTML(L.complementarios, c.complementarios, cites.complementarios),
+    fieldHTML(L.dx_diferencial, c.dx_diferencial, cites.dx_diferencial)
+  );
+  const blockTratamiento = blockHTML(
+    fieldHTML(L.tx_medico, c.tx_medico, cites.tx_medico),
+    fieldHTML(L.tx_farmacologico, c.tx_farmacologico, cites.tx_farmacologico),
+    fieldHTML(L.tx_intervencionista, c.tx_intervencionista, cites.tx_intervencionista),
+    (c.criterios_uci || c.criterios_tips) ? `<div class="modal-grid">
+      ${fieldHTML(L.criterios_uci, c.criterios_uci, cites.criterios_uci)}
+      ${fieldHTML(L.criterios_tips, c.criterios_tips, cites.criterios_tips)}
+    </div>` : '',
+    fieldHTML(L.criterios_trasplante, c.criterios_trasplante, cites.criterios_trasplante)
+  );
+  const blockSeguimiento = blockHTML(
+    (c.seguimiento_hospitalario || c.seguimiento_ambulatorio) ? `<div class="modal-grid">
+      ${fieldHTML(L.seguimiento_hospitalario, c.seguimiento_hospitalario, cites.seguimiento_hospitalario)}
+      ${fieldHTML(L.seguimiento_ambulatorio, c.seguimiento_ambulatorio, cites.seguimiento_ambulatorio)}
+    </div>` : '',
+    fieldHTML(L.pronostico, c.pronostico, cites.pronostico)
+  );
+  const blockAlgoritmo = c.algoritmo ? `<span class="flabel" style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:${c.color};display:block;margin-bottom:12px;">${L.algoritmo}</span>
+    <div class="modal-algo">${c.algoritmo.map((s, idx) => `<div class="algo-step"><div class="an" style="background:${c.color}">${idx + 1}</div><div>${s}</div></div>`).join('')}</div>` : '';
+
   m.innerHTML = `
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="modal-nav">
@@ -238,38 +284,7 @@ function openModal(i) {
     </div>
     <span class="modal-tag" style="color:${c.color};">${L.itemName} ${i + 1} / ${D.complicaciones.length}</span>
     <h2>${c.nombre}</h2>
-    ${fieldHTML(L.definicion, c.definicion, cites.definicion)}
-    ${fieldHTML(L.fisiopatologia, c.fisiopatologia, cites.fisiopatologia)}
-    ${fieldHTML(L.epidemiologia, c.epidemiologia, cites.epidemiologia)}
-    ${listFieldHTML(L.factores_riesgo, c.factores_riesgo)}
-    <hr class="modal-divider">
-    ${fieldHTML(L.clinica, c.clinica, cites.clinica)}
-    ${fieldHTML(L.criterios_dx, c.criterios_dx, cites.criterios_dx)}
-    ${figuraHTML(c.figura)}
-    <div class="modal-grid">
-      ${fieldHTML(L.laboratorio, c.laboratorio, cites.laboratorio)}
-      ${fieldHTML(L.imagen, c.imagen, cites.imagen)}
-    </div>
-    ${fieldHTML(L.complementarios, c.complementarios, cites.complementarios)}
-    ${fieldHTML(L.dx_diferencial, c.dx_diferencial, cites.dx_diferencial)}
-    <hr class="modal-divider">
-    ${fieldHTML(L.tx_medico, c.tx_medico, cites.tx_medico)}
-    ${fieldHTML(L.tx_farmacologico, c.tx_farmacologico, cites.tx_farmacologico)}
-    ${fieldHTML(L.tx_intervencionista, c.tx_intervencionista, cites.tx_intervencionista)}
-    <div class="modal-grid">
-      ${fieldHTML(L.criterios_uci, c.criterios_uci, cites.criterios_uci)}
-      ${fieldHTML(L.criterios_tips, c.criterios_tips, cites.criterios_tips)}
-    </div>
-    ${fieldHTML(L.criterios_trasplante, c.criterios_trasplante, cites.criterios_trasplante)}
-    <hr class="modal-divider">
-    <div class="modal-grid">
-      ${fieldHTML(L.seguimiento_hospitalario, c.seguimiento_hospitalario, cites.seguimiento_hospitalario)}
-      ${fieldHTML(L.seguimiento_ambulatorio, c.seguimiento_ambulatorio, cites.seguimiento_ambulatorio)}
-    </div>
-    ${fieldHTML(L.pronostico, c.pronostico, cites.pronostico)}
-    ${c.algoritmo ? `<hr class="modal-divider">
-    <span class="flabel" style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:${c.color};display:block;margin-bottom:12px;">${L.algoritmo}</span>
-    <div class="modal-algo">${c.algoritmo.map((s, idx) => `<div class="algo-step"><div class="an" style="background:${c.color}">${idx + 1}</div><div>${s}</div></div>`).join('')}</div>` : ''}
+    ${joinBlocks([blockDefinicion, blockDiagnostico, blockTratamiento, blockSeguimiento, blockAlgoritmo])}
   `;
   showOverlay();
 }
