@@ -13,6 +13,18 @@
      -fg es lo que consumen los estilos, para poder aclararlos en modo oscuro sin tocar JS. */
   --accent-fg:var(--accent);
   --modal-accent-fg:var(--modal-accent,var(--accent));
+
+  /* ---- Escala de radio (unifica los valores sueltos que había: 3/6/8/10px) ---- */
+  --radius-sm:3px; --radius-md:6px; --radius-lg:10px;
+
+  /* ---- Escala de elevación (sombras repetidas hoy como valores sueltos) ---- */
+  --shadow-sm:0 2px 6px rgba(35,31,25,.08);
+  --shadow-md:0 12px 32px rgba(35,31,25,.16);
+  --shadow-lg:0 12px 40px rgba(35,31,25,.18);
+
+  /* ---- Motion: duración/curva únicas para toda la app ---- */
+  --dur-fast:.15s; --dur:.22s; --dur-slow:.4s;
+  --ease:cubic-bezier(.4,0,.2,1);
 }
 
 /* ---------------- Modo oscuro ---------------- */
@@ -25,6 +37,9 @@
     --chrome-bg:rgba(27,25,21,.92); --chrome-bg-soft:rgba(27,25,21,.9);
     --accent-fg:color-mix(in srgb, var(--accent) 65%, white 35%);
     --modal-accent-fg:color-mix(in srgb, var(--modal-accent,var(--accent)) 65%, white 35%);
+    --shadow-sm:0 2px 6px rgba(0,0,0,.28);
+    --shadow-md:0 12px 32px rgba(0,0,0,.42);
+    --shadow-lg:0 12px 40px rgba(0,0,0,.46);
   }
 }
 :root[data-theme="dark"]{
@@ -35,6 +50,9 @@
   --chrome-bg:rgba(27,25,21,.92); --chrome-bg-soft:rgba(27,25,21,.9);
   --accent-fg:color-mix(in srgb, var(--accent) 65%, white 35%);
   --modal-accent-fg:color-mix(in srgb, var(--modal-accent,var(--accent)) 65%, white 35%);
+  --shadow-sm:0 2px 6px rgba(0,0,0,.28);
+  --shadow-md:0 12px 32px rgba(0,0,0,.42);
+  --shadow-lg:0 12px 40px rgba(0,0,0,.46);
 }
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -50,6 +68,40 @@ button, input, select, textarea{font-family:inherit;}
 .mono{font-family:'IBM Plex Mono',monospace;}
 h1,h2,h3,.display{font-family:'Newsreader',serif; font-weight:600;}
 ::selection{background:var(--accent-fg); color:#fff;}
+
+/* ---------- Foco accesible (teclado) ---------- */
+/* :focus-visible en vez de :focus para no dibujar el anillo en clics de mouse, solo en
+   navegación por teclado. Un solo estilo para toda la app: botones, links, inputs, nav. */
+a, button, input, select, textarea, summary, [tabindex]{outline:none;}
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible,
+textarea:focus-visible, summary:focus-visible, [tabindex]:focus-visible{
+  outline:2px solid var(--accent-fg); outline-offset:2px; border-radius:2px;
+}
+
+/* ---------- Skeleton de carga (shimmer) ---------- */
+.skeleton{
+  position:relative; overflow:hidden; background:var(--line); border-radius:var(--radius);
+  color:transparent !important;
+}
+.skeleton::after{
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+  animation:skeleton-shimmer 1.4s ease-in-out infinite;
+}
+:root[data-theme="dark"] .skeleton::after{
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .skeleton::after{
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
+  }
+}
+@keyframes skeleton-shimmer{
+  0%{transform:translateX(-100%);} 100%{transform:translateX(100%);}
+}
+@media (prefers-reduced-motion: reduce){
+  .skeleton::after{animation:none; display:none;}
+}
 
 .cite{font-size:.7em; margin-left:1px; font-family:'Source Sans 3',sans-serif;}
 .cite a{color:var(--accent-fg); text-decoration:none; font-weight:600; cursor:pointer; border-bottom:1px solid var(--accent-dim); font-family:inherit;}
@@ -101,7 +153,7 @@ h1,h2,h3,.display{font-family:'Newsreader',serif; font-weight:600;}
   background:var(--panel); border:1px solid var(--line); border-top:2px solid var(--nc,var(--accent-fg));
   border-radius:var(--radius); padding:12px 14px; cursor:pointer; text-decoration:none; transition:border-color .18s, box-shadow .18s;
 }
-.tree-node:hover{border-color:var(--nc,var(--accent-fg)); box-shadow:0 2px 6px rgba(35,31,25,.08);}
+.tree-node:hover{border-color:var(--nc,var(--accent-fg)); box-shadow:var(--shadow-sm);}
 .tree-node .tn-title{font-family:'Source Sans 3',sans-serif; font-weight:600; font-size:13px; color:var(--ink); letter-spacing:.01em;}
 .tree-node .tn-sub{font-size:11px; color:var(--ink-faint); line-height:1.4;}
 .tree-node.root{min-width:170px; border-top-color:var(--accent-fg);}
@@ -157,7 +209,7 @@ h1,h2,h3,.display{font-family:'Newsreader',serif; font-weight:600;}
 .searchbar input::placeholder{color:var(--ink-faint);}
 .search-results{
   display:none; position:absolute; top:calc(100% + 6px); left:0; right:0; background:var(--bg2); border:1px solid var(--line);
-  border-radius:var(--radius); box-shadow:0 8px 24px rgba(35,31,25,.12); max-height:340px; overflow-y:auto; z-index:60;
+  border-radius:var(--radius); box-shadow:var(--shadow-md); max-height:340px; overflow-y:auto; z-index:60;
 }
 .search-results.active{display:block;}
 .search-item{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 14px; cursor:pointer; border-bottom:1px solid var(--line);}
@@ -172,13 +224,25 @@ h1,h2,h3,.display{font-family:'Newsreader',serif; font-weight:600;}
 .section-head{display:flex; align-items:baseline; gap:14px; margin-bottom:24px; border-bottom:1px solid var(--ink); padding-bottom:14px;}
 .section-num{font-family:'Newsreader',serif; font-style:italic; font-size:16px; color:var(--accent-fg);}
 .section-head h2{font-size:clamp(1.5rem,2.8vw,2rem); margin:0; color:var(--ink); font-weight:600;}
-.section-intro{color:var(--ink-dim); max-width:760px; margin-bottom:26px;}
+.section-intro{color:var(--ink-dim); max-width:66ch; line-height:1.65; margin-bottom:26px;}
+
+/* Subtítulo reutilizable dentro de una sección de estudio (antes repetido como inline style
+   en engine/study-view.js). El modificador solo cambia el margen exterior. */
+.study-subhead{
+  color:var(--ink); font-weight:600; font-family:'Source Sans 3',sans-serif; font-size:1rem;
+  line-height:1.4; margin:22px 0 12px;
+}
+.study-subhead--loose{margin-top:26px;}
+.study-subhead--tight{margin:8px 0 14px;}
 
 .card{
   background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px; margin-bottom:12px;
 }
 .card h3{margin:0 0 7px; font-size:1rem; color:var(--ink); font-weight:600; font-family:'Source Sans 3',sans-serif;}
-.card p{margin:0; color:var(--ink-dim); font-size:14.5px;}
+/* Sin max-width aquí: .card se usa tanto en grids angostos (comp-grid, etc., ya acotados por su
+   columna) como en tarjetas de ancho completo (p. ej. el párrafo de Definición) — un tope de
+   medida ahí dejaba el texto angosto y pegado a la izquierda dentro de un contenedor ancho. */
+.card p{margin:0; color:var(--ink-dim); font-size:14.5px; line-height:1.6;}
 .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:12px;}
 
 .taglist{display:flex; flex-wrap:wrap; gap:8px;}
@@ -239,7 +303,7 @@ tr.flash td{background:var(--panel2);}
   position:relative; overflow:hidden; transition:border-color .18s ease, box-shadow .18s ease;
 }
 .comp-card::before{content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--c);}
-.comp-card:hover{border-color:var(--c); box-shadow:0 2px 8px rgba(35,31,25,.08);}
+.comp-card:hover{border-color:var(--c); box-shadow:var(--shadow-sm);}
 .comp-card h4{margin:0 0 6px; font-size:14.5px; color:var(--ink); font-weight:600; padding-left:6px; font-family:'Source Sans 3',sans-serif;}
 .comp-card p{margin:0; font-size:12.5px; color:var(--ink-faint); padding-left:6px; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;}
 .comp-card .open-hint{margin-top:10px; padding-left:6px; font-family:'Source Sans 3',sans-serif; font-size:11px; letter-spacing:.02em; color:var(--c); font-weight:600;}
@@ -251,8 +315,8 @@ tr.flash td{background:var(--panel2);}
 }
 .overlay.active{display:flex;}
 .modal{
-  background:var(--bg2); border:1px solid var(--line); border-radius:6px; max-width:800px; width:100%;
-  padding:32px 32px 38px; position:relative; margin-bottom:40px; box-shadow:0 12px 40px rgba(35,31,25,.18);
+  background:var(--bg2); border:1px solid var(--line); border-radius:var(--radius-md); max-width:800px; width:100%;
+  padding:32px 32px 38px; position:relative; margin-bottom:40px; box-shadow:var(--shadow-lg);
 }
 .modal-close{
   position:absolute; top:18px; right:18px; width:32px; height:32px; border-radius:50%; border:1px solid var(--line);
@@ -270,8 +334,8 @@ tr.flash td{background:var(--panel2);}
 .modal h2{margin:0 0 20px; font-size:1.7rem; color:var(--ink); padding-right:40px; font-weight:600;}
 .modal-field{margin-bottom:16px;}
 .modal-field .flabel{font-family:'Source Sans 3',sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--modal-accent-fg); margin-bottom:5px; display:block; font-weight:600;}
-.modal-field .fbody{color:var(--ink-dim); font-size:14.5px;}
-.modal-field ul{margin:6px 0 0; padding-left:18px; color:var(--ink-dim); font-size:14px;}
+.modal-field .fbody{color:var(--ink-dim); font-size:14.5px; line-height:1.65; max-width:70ch;}
+.modal-field ul{margin:6px 0 0; padding-left:18px; color:var(--ink-dim); font-size:14px; line-height:1.6; max-width:66ch;}
 .modal-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px 26px;}
 .modal-divider{border:none; border-top:1px solid var(--line); margin:24px 0;}
 .modal-algo{display:flex; flex-direction:column; gap:8px;}
@@ -279,12 +343,24 @@ tr.flash td{background:var(--panel2);}
 .algo-step .an{flex:none; width:20px; height:20px; border-radius:50%; background:var(--modal-accent-fg); color:#fff; font-family:'Source Sans 3',sans-serif; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center;}
 .algo-step:not(:last-child){padding-bottom:8px; border-bottom:1px dashed var(--line); margin-bottom:0;}
 
-/* Figuras/diagramas dentro del modal de complicación (recreadas en HTML, no imágenes) */
+/* ==========================================================================
+   FIGURAS DIDÁCTICAS — contrato para topic.figuras{clave:{titulo,html,fuente}}
+   (render en engine/study-view.js vía figuraHTML()/oneFiguraHTML(), dentro de .modal-figure).
+   Dos orígenes válidos dentro de fig.html:
+     1. SVG/HTML dibujado a mano (clínico, exacto) — DEBE usar solo var(--ink), var(--ink-dim),
+        var(--accent-fg), var(--line), var(--panel[2]) o currentColor. Nunca un hex fijo, o se
+        rompe en modo oscuro. .figure-body svg hereda el ancho del contenedor automáticamente.
+     2. <img> raster (foto real o generado, decorativo) — como aclf-figura2-easl2023.png. El
+        fondo blanco de .figure-body img es intencional: las fotos/escaneos suelen tener fondo
+        transparente o claro y se verían con un recorte raro sobre --panel2 en modo oscuro.
+   Ver .claude/skills/figura-didactica/SKILL.md para la receta completa de cada camino.
+   ========================================================================== */
 .modal-figure{background:var(--panel2); border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px 16px;}
 .figure-body{margin-top:2px;}
 .figure-body table{font-size:12.5px;}
 .figure-body th{background:transparent;}
 .figure-body img{max-width:100%; height:auto; display:block; margin:0 auto; border-radius:var(--radius); border:1px solid var(--line); background:#fff;}
+.figure-body svg{max-width:100%; height:auto; display:block; margin:0 auto;}
 .figure-org{font-weight:600; color:var(--ink);}
 .figure-tag{display:inline-block; padding:2px 8px; border-radius:20px; font-size:11px; font-weight:600; white-space:nowrap;}
 .figure-tag.fail{background:#8c3a3420; color:#8c3a34;}
@@ -432,7 +508,7 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 .account-gear-btn svg{width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round;}
 .account-dropdown{
   position:absolute; top:44px; right:0; min-width:210px; background:var(--panel); border:1px solid var(--line);
-  border-radius:8px; box-shadow:0 12px 32px rgba(35,31,25,.16); padding:6px; display:none; z-index:60;
+  border-radius:var(--radius-md); box-shadow:var(--shadow-md); padding:6px; display:none; z-index:60;
 }
 .account-dropdown.open{display:block;}
 .account-dropdown button, .account-dropdown a{
@@ -453,8 +529,17 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 /* Sección switcher */
 .app-main{flex:1; padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom, 0px) + 8px);}
 .app-section{display:none;}
-.app-section.active{display:block;}
+.app-section.active{
+  display:block; animation:section-in var(--dur-slow) var(--ease) both;
+}
 .app-section .section:first-child{padding-top:22px;}
+@keyframes section-in{
+  from{opacity:0; transform:translateY(6px);}
+  to{opacity:1; transform:translateY(0);}
+}
+@media (prefers-reduced-motion: reduce){
+  .app-section.active{animation:none;}
+}
 
 /* Encabezado simple de sección (calc/protocolos/calendario/tools) */
 .sec-header{max-width:1040px; margin:0 auto; padding:26px 20px 4px;}
@@ -606,6 +691,7 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 .home-stat{display:flex; flex-direction:column; gap:2px;}
 .home-stat-n{font-family:'Newsreader',serif; font-size:1.6rem; font-weight:600; color:var(--ink);}
 .home-stat-l{font-size:11.5px; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.03em;}
+.home-stat-n.skeleton, .home-stat-l.skeleton{padding:2px 8px; display:inline-block;}
 .home-subhead{font-family:'Newsreader',serif; font-size:1.25rem; font-weight:600; margin:0; color:var(--ink);}
 .home-subhead-note{color:var(--ink-dim); font-size:13.5px; margin:6px 0 14px;}
 .home-quick{background:var(--panel); border:1px solid var(--line); color:var(--ink-dim); font-size:12.5px; font-weight:600; padding:9px 16px; border-radius:var(--radius); cursor:pointer;}
@@ -628,10 +714,14 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 .home-dash-row{align-items:stretch; margin:14px 0;}
 
 .home-dash-card{
-  display:flex; flex-direction:column; gap:14px; height:100%; box-sizing:border-box;
-  background:var(--panel2); border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px;
+  display:flex; flex-direction:column; gap:16px; height:100%; box-sizing:border-box;
+  background:var(--panel2); border:1px solid var(--line); border-top:3px solid var(--shell);
+  border-radius:var(--radius); padding:20px 20px 22px;
 }
-.home-dash-card > .home-subhead{margin:0;}
+/* Segunda tarjeta ("Repasa y practica") diferenciada por color para escanear las dos de un
+   vistazo — mismo tratamiento que .tree-node/.comp-card (borde superior = identidad del bloque). */
+.home-dash-row > .home-dash-card:nth-child(2){border-top-color:var(--accent-fg);}
+.home-dash-card > .home-subhead{margin:0 0 -2px; padding-bottom:10px; border-bottom:1px solid var(--line);}
 .home-dash-card .home-progress, .home-dash-card .home-exam{background:none; border:none; padding:0; margin:0;}
 .home-progress-divider{height:1px; background:var(--line);}
 
@@ -676,7 +766,14 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
   flex:none; font-family:'Source Sans 3',sans-serif; font-size:10.5px; font-weight:600; color:var(--ink-faint);
   background:var(--bg); border:1px solid var(--line); border-radius:20px; padding:3px 10px; white-space:nowrap;
 }
-.temario-block-intro{margin:0 16px 12px; font-size:12.5px; color:var(--ink-faint); line-height:1.55;}
+/* Barra de cobertura del bloque (built/total, ya calculado en blockCoverage() de home.js) —
+   complementa el texto "N/M temas · X%" con una lectura visual instantánea. */
+.temario-block-bar{height:4px; margin:0 16px; background:var(--line); border-radius:4px; overflow:hidden;}
+.temario-block-bar span{
+  display:block; height:100%; background:var(--shell); border-radius:4px;
+  transition:width var(--dur-slow) var(--ease);
+}
+.temario-block-intro{margin:10px 16px 12px; font-size:12.5px; color:var(--ink-faint); line-height:1.55;}
 .temario-group{margin:0 16px 12px; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--bg);}
 .temario-group > summary{
   list-style:none; cursor:pointer; padding:10px 14px; display:flex; align-items:center; gap:10px;
@@ -765,7 +862,7 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 .home-feature h3{font-family:'Newsreader',serif; font-size:15px; font-weight:600; color:var(--ink); margin:12px 0 6px;}
 .home-feature p{font-size:12.5px; color:var(--ink-dim); line-height:1.55; margin:0;}
 
-.auth-formside{width:100%; max-width:420px; margin:40px auto 0; padding:28px 26px 32px; background:var(--panel); border:1px solid var(--line); border-radius:8px; box-shadow:0 12px 40px rgba(35,31,25,.1);}
+.auth-formside{width:100%; max-width:420px; margin:40px auto 0; padding:28px 26px 32px; background:var(--panel); border:1px solid var(--line); border-radius:var(--radius-md); box-shadow:var(--shadow-lg);}
 .auth-formside .auth-modal{max-width:none;}
 .auth-formside--wide{max-width:560px;}
 

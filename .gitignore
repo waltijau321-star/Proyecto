@@ -14,3 +14,8 @@ graphify-out/
 
 # PDFs de referencia sueltos en la raíz (no son parte del sitio, solo insumos de trabajo)
 /medinterna.pdf
+
+# Clave de la API gratuita de Gemini para tools/generar-figura.py — nunca se commitea
+# (ver .claude/skills/figura-didactica/SKILL.md). El script también acepta la variable de
+# entorno GEMINI_API_KEY como alternativa a este archivo.
+.claude/gemini-key.txt

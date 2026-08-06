@@ -102,8 +102,11 @@ function buildTree() {
 function buildDefinicion() {
   const txt = TOPIC.definicionText || (typeof D.definicion === 'string' ? D.definicion : '');
   const defLabel = (CATEGORIES.find(c => c.id === 'definicion') || {}).label || 'Definición';
+  // Mismo patrón que TOPIC.figurasClasificacion en buildClasificacion(): un tema puede adjuntar
+  // 0+ figuras a la sección de Definición (p. ej. un diagrama de mecanismo/fisiopatología).
   return section('definicion', '01', defLabel, null, `
-    <div class="card"><p style="font-size:15.5px; color:var(--ink);">${txt}${citeHTML([1])}</p></div>`);
+    <div class="card"><p style="font-size:15.5px; color:var(--ink);">${txt}${citeHTML([1])}</p></div>
+    ${figuraHTML(TOPIC.figurasDefinicion)}`);
 }
 
 function buildDiagnostico() {
@@ -120,7 +123,7 @@ function buildDiagnostico() {
   const ni = (dg.no_invasivos || []).map(m => `<tr><td style="color:var(--ink);font-weight:600;">${m.metodo}</td><td>${m.interpretacion}</td><td class="mono">${m.cutoff}</td><td>${(m.metodo === 'FIB-4' || m.metodo === 'APRI') ? calcBtn('fibrosis') : ''}</td></tr>`).join('');
   const img = (dg.imagen || []).map(m => `<tr><td style="color:var(--ink);font-weight:600;">${m.modalidad}</td><td>${m.hallazgos}</td></tr>`).join('');
   const bio = BIOPSIA_LISTS ? `
-    <h3 style="color:var(--ink);font-weight:600;margin:22px 0 12px;">${biopsiaTitulo}${citeHTML(dc.biopsia)}</h3>
+    <h3 class="study-subhead">${biopsiaTitulo}${citeHTML(dc.biopsia)}</h3>
     <div class="biopsy-grid">
       <div class="biopsy-card positive"><h3>Indicaciones</h3><ul class="biopsy-list">${BIOPSIA_LISTS.indicaciones.map(x => `<li><span class="bio-mark">✓</span>${x}</li>`).join('')}</ul></div>
       <div class="biopsy-card positive"><h3>Ventajas</h3><ul class="biopsy-list">${BIOPSIA_LISTS.ventajas.map(x => `<li><span class="bio-mark">✓</span>${x}</li>`).join('')}</ul></div>
@@ -134,16 +137,16 @@ function buildDiagnostico() {
       <div class="card"><h3>${tituloA}</h3><p>${dg.clinica ? dg.clinica.compensada : ''}</p></div>
       <div class="card"><h3>${tituloB}</h3><p>${dg.clinica ? dg.clinica.descompensada : ''}</p></div>
     </div>
-    ${estigmas ? `<h3 style="color:var(--ink);font-weight:600;margin:22px 0 12px;">${estigmasTitulo}</h3>
+    ${estigmas ? `<h3 class="study-subhead">${estigmasTitulo}</h3>
     <div style="margin-bottom:8px;">${estigmas}</div>
     <p style="color:var(--ink-faint); font-size:12.5px; margin:0 0 30px;">Prevalencias aproximadas; varían según serie, etiología y grado de descompensación.</p>` : ''}
-    ${lab ? `<h3 style="color:var(--ink);font-weight:600;margin:22px 0 12px;">Laboratorio general${citeHTML(dc.laboratorio)}</h3>
+    ${lab ? `<h3 class="study-subhead">Laboratorio general${citeHTML(dc.laboratorio)}</h3>
     <div class="table-wrap" style="margin-bottom:30px;"><table><thead><tr><th>Prueba</th><th>Utilidad clínica</th></tr></thead><tbody>${lab}</tbody></table></div>` : ''}
-    ${etio ? `<h3 style="color:var(--ink);font-weight:600;margin:22px 0 12px;">Estudios etiológicos dirigidos${citeHTML(dc.etiologicos)}</h3>
+    ${etio ? `<h3 class="study-subhead">Estudios etiológicos dirigidos${citeHTML(dc.etiologicos)}</h3>
     <div class="table-wrap" style="margin-bottom:30px;"><table><thead><tr><th>Prueba</th><th>Utilidad clínica</th></tr></thead><tbody>${etio}</tbody></table></div>` : ''}
-    ${ni ? `<h3 style="color:var(--ink);font-weight:600;margin:22px 0 12px;">Escalas y métodos no invasivos${citeHTML(dc.no_invasivos)}</h3>
+    ${ni ? `<h3 class="study-subhead">Escalas y métodos no invasivos${citeHTML(dc.no_invasivos)}</h3>
     <div class="table-wrap" style="margin-bottom:30px;"><table><thead><tr><th>Método</th><th>Interpretación</th><th>Corte</th><th></th></tr></thead><tbody>${ni}</tbody></table></div>` : ''}
-    ${img ? `<h3 style="color:var(--ink);font-weight:600;margin:22px 0 12px;">Imagen${citeHTML(dc.imagen)}</h3>
+    ${img ? `<h3 class="study-subhead">Imagen${citeHTML(dc.imagen)}</h3>
     <div class="table-wrap" style="margin-bottom:30px;"><table><thead><tr><th>Modalidad</th><th>Hallazgos</th></tr></thead><tbody>${img}</tbody></table></div>` : ''}
     ${bio}
   `);
@@ -170,7 +173,7 @@ function buildComplicaciones() {
       return `<div class="comp-card" style="--c:${c.color}" onclick="openModal(${i})">
         <h4>${c.nombre}</h4><p>${c.definicion}</p><div class="open-hint">Ver detalle completo →</div></div>`;
     }).join('');
-    return `${g.title ? `<h3 style="color:var(--ink);font-weight:600;margin:26px 0 12px;">${g.title}</h3>` : ''}<div class="comp-grid">${cards}</div>`;
+    return `${g.title ? `<h3 class="study-subhead study-subhead--loose">${g.title}</h3>` : ''}<div class="comp-grid">${cards}</div>`;
   }).join('');
   return section('complicaciones', '04', catLabel, null, groupsHTML);
 }
@@ -180,7 +183,7 @@ function buildSeguimiento() {
   if (!S) return '';
   const seguLabel = (CATEGORIES.find(c => c.id === 'seguimiento') || {}).label || 'Seguimiento Intrahospitalario';
   return section('seguimiento', '05', seguLabel, (S.intro || '') + citeHTML(TOPIC.seguimientoCite), `
-    <h3 style="color:var(--ink);font-weight:600;margin:8px 0 14px;">${(TOPIC.modalLabels && TOPIC.modalLabels.monitorizacionTitulo) || 'Monitorización diaria intrahospitalaria'}</h3>
+    <h3 class="study-subhead study-subhead--tight">${(TOPIC.modalLabels && TOPIC.modalLabels.monitorizacionTitulo) || 'Monitorización diaria intrahospitalaria'}</h3>
     <div class="grid" style="margin-bottom:30px;">${(S.parametros || []).map(p => `<div class="card"><p>${p}</p></div>`).join('')}</div>
     <div class="grid">
       <div class="card"><h3>${(TOPIC.modalLabels && TOPIC.modalLabels.criterios_uci) || 'Criterios de UCI'}</h3><p>${S.criterios_uci_general || ''}</p></div>

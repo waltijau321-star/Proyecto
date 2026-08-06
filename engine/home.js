@@ -20,13 +20,53 @@ function ring(correct, incorrect) {
   }
   const correctLen = circ * (correct / answered);
   const incorrectLen = circ * (incorrect / answered);
+  // Los arcos arrancan "vacíos" (stroke-dasharray="0 circ") — animateRing() los completa hasta
+  // su valor real justo después del montaje, vía atributos SVG con transición CSS (ring-arc).
   return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="transform:rotate(-90deg);">
     <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--line)" stroke-width="${stroke}"/>
-    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#8c3a34" stroke-width="${stroke}"
-      stroke-dasharray="${incorrectLen} ${circ - incorrectLen}" stroke-dashoffset="${-correctLen}"/>
-    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#2f6f5e" stroke-width="${stroke}"
-      stroke-dasharray="${correctLen} ${circ - correctLen}" stroke-linecap="butt"/>
+    <circle class="ring-arc" cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#8c3a34" stroke-width="${stroke}"
+      data-len="${incorrectLen}" data-gap="${circ - incorrectLen}" data-offset="${-correctLen}"
+      stroke-dasharray="0 ${circ}" stroke-dashoffset="0"/>
+    <circle class="ring-arc" cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#2f6f5e" stroke-width="${stroke}"
+      data-len="${correctLen}" data-gap="${circ - correctLen}" data-offset="0"
+      stroke-dasharray="0 ${circ}" stroke-linecap="butt"/>
   </svg>`;
+}
+
+// Anima los arcos del anillo de "vacío" a su valor real en el siguiente frame (doble rAF para
+// asegurar que el navegador pinte el estado inicial antes de aplicar la transición). Respeta
+// prefers-reduced-motion saltando directo al valor final sin animar.
+function animateRing(root) {
+  const arcs = root.querySelectorAll('.ring-arc');
+  if (!arcs.length) return;
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const apply = c => {
+    c.setAttribute('stroke-dasharray', `${c.dataset.len} ${c.dataset.gap}`);
+    c.setAttribute('stroke-dashoffset', c.dataset.offset);
+  };
+  if (reduceMotion) { arcs.forEach(apply); return; }
+  // rAF no se dispara en pestañas en segundo plano (o paneles sin compositing activo) —
+  // sin red de seguridad el anillo quedaría vacío indefinidamente hasta que la pestaña
+  // recupere foco. apply() es idempotente, así que un setTimeout de respaldo no rompe nada
+  // si el rAF sí llegó a correr primero; solo garantiza que el valor final siempre se aplique.
+  let done = false;
+  const finish = () => { if (done) return; done = true; arcs.forEach(apply); };
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    if (done) return;
+    done = true;
+    arcs.forEach(c => { c.style.transition = 'stroke-dasharray .9s var(--ease), stroke-dashoffset .9s var(--ease)'; apply(c); });
+  }));
+  setTimeout(finish, 400);
+}
+
+// Placeholder mientras mountFlashcardDeck()/mountExamSummary() resuelven su carga (ambas son
+// async: leen progreso vía syncGet/Firestore). Aproxima la forma final (2 stats + botón) sin
+// tener que conocer los datos reales todavía.
+function loadingSkeleton() {
+  return `<div class="home-progress-stats" aria-hidden="true">
+    <div class="home-stat"><span class="home-stat-n skeleton">00</span><span class="home-stat-l skeleton">Cargando</span></div>
+    <div class="home-stat"><span class="home-stat-n skeleton">00</span><span class="home-stat-l skeleton">Cargando</span></div>
+  </div>`;
 }
 
 /* ---------------- Temario completo (acordeón) ---------------- */
@@ -120,6 +160,7 @@ function temarioTreeHTML(blocks, topicsById) {
         <span class="temario-block-title">${b.title}</span>
         <span class="temario-block-cov">${cov.built}/${cov.total} temas · ${cov.pct}% · ${cov.questionCount} preguntas</span>
       </summary>
+      <div class="temario-block-bar" role="progressbar" aria-valuenow="${cov.pct}" aria-valuemin="0" aria-valuemax="100" aria-label="Cobertura de ${b.title}"><span style="width:${cov.pct}%"></span></div>
       <p class="temario-block-intro">${b.intro}</p>
       ${body}
     </details>`;
@@ -238,11 +279,11 @@ export function mountHome(root, opts = {}) {
           <div class="home-study-box">
             <div class="home-study-col">
               <h3 class="home-study-col-title">Fichas de repaso</h3>
-              <div id="fc-deck-root"><p class="home-subhead-note">Cargando…</p></div>
+              <div id="fc-deck-root">${loadingSkeleton()}</div>
             </div>
             <div class="home-study-col">
               <h3 class="home-study-col-title">Exámenes simulados</h3>
-              <div id="exam-root"><p class="home-subhead-note">Cargando…</p></div>
+              <div id="exam-root">${loadingSkeleton()}</div>
             </div>
           </div>
         </div>
@@ -253,6 +294,7 @@ export function mountHome(root, opts = {}) {
       ${temarioTreeHTML(temarioBlocks, topicsById)}
     </div>`;
 
+  animateRing(root);
   mountFlashcardDeck(document.getElementById('fc-deck-root'));
   mountExamSummary(document.getElementById('exam-root'));
   window.rmRefreshHome = () => { if (LAST_ROOT) mountHome(LAST_ROOT, LAST_OPTS); };

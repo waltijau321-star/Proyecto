@@ -59,6 +59,7 @@ function compose(c, calc, study) {
     seguimientoCite: c.seguimientoCite,
     figuras: c.figuras,
     figurasClasificacion: c.figurasClasificacion,
+    figurasDefinicion: c.figurasDefinicion,
     modalLabels: c.modalLabels,
     diagnosticoIntro: c.diagnosticoIntro,
     calculators: calc.calculators || [],

@@ -97,8 +97,18 @@ export const estigmasTitulo = 'Estigmas clásicos de hepatopatía crónica, en o
 export const clasificacionCite = [5];
 export const seguimientoCite = [5];
 export const figurasClasificacion = ['easl-algoritmo-scores'];
+export const figurasDefinicion = ['fibrogenesis-ilustrativo'];
 
 export const figuras = {
+  // Figura piloto del sistema de figuras (ver .claude/skills/figura-didactica/SKILL.md).
+  // El html no usa el campo `fuente` (que antepone "Fuente:") sino un caption propio, para
+  // controlar exactamente el texto sin el prefijo de cita — esta imagen no es una cita externa.
+  'fibrogenesis-ilustrativo': {
+    titulo: 'Progresión celular de la fibrogénesis',
+    html: `
+      <img src="topics/cirrosis-hepatica/assets/fibrogenesis-ilustrativo-ia.png" alt="Ilustración de 5 etapas con íconos: daño hepatocelular crónico, activación de células estrelladas hepáticas, depósito de matriz extracelular, fibrosis en puentes, y cirrosis.">
+      <div class="figure-source">Adaptado del texto de definición de este tema (ver Definición, arriba).</div>`
+  },
   'clif-of-organos': {
     titulo: 'Figura 2 — Sistemas orgánicos evaluados en ACLF',
     fuente: 'EASL Clinical Practice Guidelines on acute-on-chronic liver failure. J Hepatol. 2023 (Fig. 2)',
