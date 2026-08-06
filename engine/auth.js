@@ -56,7 +56,9 @@ document.addEventListener('click', (e) => {
 
 export const RESIDENCY_YEARS = ['R1 (primer año)', 'R2 (segundo año)', 'R3 (tercer año)', 'R4 (cuarto año)', 'Adscrito / otro'];
 const REFERRAL_SOURCES = ['Redes sociales (Instagram, Facebook, X)', 'Recomendación de un colega o profesor', 'Búsqueda en Google', 'Congreso o evento académico', 'Otro'];
-const itemCount = temarioBlocks.reduce((acc, b) => acc + b.clusters.reduce((a2, c) => a2 + c.items.length, 0), 0);
+// Excluye el bloque "R1" (acceso rápido) de la cuenta: sus ítems son los mismos que ya
+// se cuentan en su bloque temático de siempre, no temas nuevos.
+const itemCount = temarioBlocks.filter(b => !b.quickAccess).reduce((acc, b) => acc + b.clusters.reduce((a2, c) => a2 + c.items.length, 0), 0);
 
 function footerHTML() {
   return `<footer class="home-footer">
