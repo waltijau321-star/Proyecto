@@ -168,6 +168,66 @@ async function run() {
     assertEqual(r.cls, 'C');
   });
 
+  /* ---------------- Integridad de esquema: temas registrados (topics/registry.js) ----------------
+     Cada tema nuevo que se agregue a topics/registry.js pasa automáticamente por estas pruebas la
+     próxima vez que se abra tests.html — atrapa campos faltantes/vacíos antes de que lleguen al
+     usuario, sin necesidad de Node ni un framework de tipos. */
+  const { registry, loadTopic } = await import('./topics/registry.js');
+
+  for (const entry of registry) {
+    const topic = await loadTopic(entry.id);
+
+    test(`esquema[${entry.id}]: carga sin errores y meta.id coincide con el registro`, () => {
+      assert(topic, `loadTopic('${entry.id}') devolvió null`);
+      assertEqual(topic.meta && topic.meta.id, entry.id);
+    });
+    test(`esquema[${entry.id}]: meta.titulo no está vacío`, () => {
+      assert(topic.meta && topic.meta.titulo && topic.meta.titulo.trim().length > 0, 'meta.titulo vacío o ausente');
+    });
+    test(`esquema[${entry.id}]: definicionText no está vacío`, () => {
+      assert(topic.definicionText && topic.definicionText.trim().length > 0, 'definicionText vacío o ausente');
+    });
+    test(`esquema[${entry.id}]: tiene al menos 1 referencia bibliográfica`, () => {
+      assert(Array.isArray(topic.bibliografia) && topic.bibliografia.length > 0, 'bibliografia vacía o ausente');
+    });
+    test(`esquema[${entry.id}]: categories no está vacío`, () => {
+      assert(Array.isArray(topic.categories) && topic.categories.length > 0, 'categories vacío o ausente');
+    });
+    test(`esquema[${entry.id}]: tiene al menos 1 pregunta de quiz`, () => {
+      assert(Array.isArray(topic.study.quiz) && topic.study.quiz.length > 0, 'study.quiz vacío o ausente');
+    });
+    test(`esquema[${entry.id}]: tiene al menos 1 flashcard`, () => {
+      assert(Array.isArray(topic.study.flashcards) && topic.study.flashcards.length > 0, 'study.flashcards vacío o ausente');
+    });
+    test(`esquema[${entry.id}]: cada complicación (si hay) tiene "nombre"`, () => {
+      const comps = topic.content.complicaciones || [];
+      assert(comps.every(c => c.nombre && c.nombre.trim().length > 0), 'hay una complicación sin "nombre"');
+    });
+  }
+
+  /* ---------------- Integridad de enlaces: topicId del temario vs. temas registrados ----------------
+     topics/temario-index.js referencia temas construidos con `{ label, topicId }`. Si un topicId
+     apunta a un tema que no existe en el registro (typo, tema renombrado/eliminado), el ítem del
+     temario queda roto en silencio — esta prueba lo hubiera atrapado en el commit de hoy mismo. */
+  {
+    const { temarioBlocks } = await import('./topics/temario-index.js');
+    const registeredIds = new Set(registry.map(t => t.id));
+    const clustersOf = b => b.groups ? b.groups.flatMap(g => g.clusters) : b.clusters;
+    const brokenLinks = [];
+    for (const b of temarioBlocks) {
+      for (const c of clustersOf(b)) {
+        for (const it of c.items) {
+          if (typeof it !== 'string' && it.topicId && !registeredIds.has(it.topicId)) {
+            brokenLinks.push(`"${it.label}" (bloque "${b.title}") → topicId inexistente: ${it.topicId}`);
+          }
+        }
+      }
+    }
+    test('temario: todos los topicId referenciados existen en topics/registry.js', () => {
+      assert(brokenLinks.length === 0, brokenLinks.join(' | '));
+    });
+  }
+
   render();
 }
 
