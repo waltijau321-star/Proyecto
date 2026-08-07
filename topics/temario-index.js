@@ -14,7 +14,9 @@ const SEMIOLOGIA_CLUSTERS = [
   { name: 'Historia clínica y anamnesis dirigida', items: [
     { label: 'Historia clínica y anamnesis dirigida (estructura, interrogatorio por aparatos y sistemas, semiología del síntoma guía)', topicId: 'historia-clinica' }
   ] },
-  { name: 'Exploración cardiovascular', items: ['Inspección y palpación del precordio', 'Auscultación cardiaca: ruidos, soplos y extratonos', 'Pulsos arteriales periféricos', 'Presión venosa yugular y reflujo hepatoyugular'] },
+  { name: 'Exploración cardiovascular', items: [
+    { label: 'Exploración cardiovascular (precordio, pulsos, presión venosa yugular, ruidos, soplos y extratonos)', topicId: 'exploracion-cardiovascular' }
+  ] },
   { name: 'Exploración respiratoria', items: ['Inspección del patrón respiratorio y tórax', 'Palpación: expansión torácica y frémito', 'Percusión: matidez, hiperresonancia', 'Auscultación: ruidos normales y agregados (estertores, sibilancias, roce pleural)'] },
   { name: 'Exploración abdominal', items: ['Inspección y auscultación abdominal', 'Percusión: timpanismo, matidez, oleada ascítica', 'Palpación superficial y profunda', 'Signos específicos (Murphy, McBurney, Blumberg, Rovsing)', 'Hepatomegalia y esplenomegalia'] },
   { name: 'Exploración neurológica', items: ['Estado mental y nivel de conciencia', 'Pares craneales', 'Fuerza, tono y reflejos osteotendinosos', 'Sensibilidad y coordinación', 'Marcha y equilibrio', 'Signos meníngeos (Kernig, Brudzinski)', 'Reflejo de Babinski y otros signos patológicos'] },
