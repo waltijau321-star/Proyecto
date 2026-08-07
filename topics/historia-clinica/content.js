@@ -167,7 +167,7 @@ export const content = {
       clinica: 'El umbral y la fiabilidad de la medición dependen del sitio donde se toma (ver figura); también se interrogan los síntomas acompañantes que orienten el foco (tos, disuria, cefalea, exantema, artralgias).',
       criterios_dx: 'El patrón febril y los síntomas acompañantes orientan el foco infeccioso probable; la fiebre de origen desconocido obliga a ampliar el diferencial más allá de lo infeccioso, hacia causas neoplásicas, autoinmunes y farmacológicas.',
       dx_diferencial: 'Infecciosa (la más frecuente), neoplásica, autoinmune/inflamatoria, medicamentosa (fiebre por fármacos), tromboembólica.',
-      figura: ['fiebre-patrones', 'fiebre-rangos', 'fiebre-sitios']
+      figura: ['fiebre-patrones', 'fiebre-temperatura']
     },
     {
       nombre: 'Disnea',
@@ -230,34 +230,32 @@ export const figuras = {
     ]),
     fuente: "Bates' Guide to Physical Examination and History Taking"
   },
-  'fiebre-rangos': {
-    titulo: 'Rangos de temperatura corporal',
-    html: `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;">
-      <div style="border:1px solid var(--line);border-radius:8px;padding:8px 10px;"><strong>Normal</strong><br>36.5-37.2 °C</div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:8px 10px;"><strong>Febrícula</strong><br>37.3-38.0 °C</div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:8px 10px;"><strong>Fiebre</strong><br>&gt;38.0 °C</div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:8px 10px;"><strong>Hiperpirexia</strong><br>&gt;41.0 °C</div>
-    </div>`,
-    fuente: "DeGowin's Diagnostic Examination"
-  },
-  'fiebre-sitios': {
-    titulo: 'Umbral de fiebre según el sitio de medición',
-    html: `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;">
-      <div style="border:1px solid var(--line);border-radius:8px;padding:10px;"><strong>Axilar</strong><br>&gt;37.2 °C<br><span style="color:var(--ink-faint);font-size:12px;">Menos preciso; el más usado en consulta.</span></div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:10px;"><strong>Oral</strong><br>&gt;37.5 °C<br><span style="color:var(--ink-faint);font-size:12px;">Afectado por ingesta reciente de líquidos.</span></div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:10px;"><strong>Rectal</strong><br>&gt;38.0 °C<br><span style="color:var(--ink-faint);font-size:12px;">El más cercano a la temperatura central.</span></div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:10px;"><strong>Timpánico</strong><br>&gt;37.5-38.0 °C<br><span style="color:var(--ink-faint);font-size:12px;">Variable según técnica de medición.</span></div>
-    </div>`,
-    fuente: "Bates' Guide to Physical Examination and History Taking"
+  'fiebre-temperatura': {
+    titulo: 'Temperatura corporal: rangos y sitio de medición',
+    html: `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:6px;">
+      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Normal</strong><br>36.5-37.2°C</div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Febrícula</strong><br>37.3-38.0°C</div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Fiebre</strong><br>&gt;38.0°C</div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Hiperpirexia</strong><br>&gt;41.0°C</div>
+    </div>
+    <div style="font-size:10.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin:12px 0 6px;">Umbral de fiebre según el sitio</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:6px;">
+      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Axilar</strong><br>&gt;37.2°C</div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Oral</strong><br>&gt;37.5°C</div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Rectal</strong><br>&gt;38.0°C</div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Timpánico</strong><br>&gt;37.5-38.0°C</div>
+    </div>
+    <p style="font-size:11.5px;color:var(--ink-faint);margin:8px 0 0;">El axilar es el menos preciso pero el más usado en consulta; el rectal es el más cercano a la temperatura central; el oral se afecta por ingesta reciente de líquidos.</p>`,
+    fuente: "Bates' Guide to Physical Examination and History Taking; DeGowin's Diagnostic Examination"
   },
   'mmrc-scale': {
     titulo: 'Escala de disnea mMRC (Modified Medical Research Council)',
-    html: `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;">
-      <div style="border:1px solid var(--line);border-radius:8px;padding:10px;"><strong>Grado 0</strong><br>Disnea solo ante actividad física intensa.</div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:10px;"><strong>Grado 1</strong><br>Al andar rápido en llano o subir una pendiente leve.</div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:10px;"><strong>Grado 2</strong><br>Camina más despacio que otras personas de su edad, o debe detenerse a respirar caminando a su paso en llano.</div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:10px;"><strong>Grado 3</strong><br>Se detiene a respirar tras caminar ~100 m o pocos minutos en llano.</div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:10px;"><strong>Grado 4</strong><br>Le impide salir de casa, o aparece al vestirse/desvestirse.</div>
+    html: `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px;">
+      <div style="border:1px solid var(--line);border-radius:8px;padding:7px 9px;"><strong>Grado 0</strong><br>Disnea solo con actividad física intensa.</div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:7px 9px;"><strong>Grado 1</strong><br>Al andar rápido en llano o subir una pendiente leve.</div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:7px 9px;"><strong>Grado 2</strong><br>Camina más despacio que otros de su edad, o se detiene al caminar en llano.</div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:7px 9px;"><strong>Grado 3</strong><br>Se detiene a respirar tras ~100 m o pocos minutos en llano.</div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:7px 9px;"><strong>Grado 4</strong><br>Le impide salir de casa, o aparece al vestirse.</div>
     </div>`,
     fuente: 'Bestall et al. 1999; escala usada por GOLD para EPOC'
   },
