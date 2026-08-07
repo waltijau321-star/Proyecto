@@ -35,6 +35,14 @@ export const registry = [
       import('./historia-clinica/calculators.js'),
       import('./historia-clinica/study.js')
     ])
+  },
+  {
+    id: 'exploracion-piel-faneras', titulo: 'Exploración de Piel y Faneras',
+    load: () => Promise.all([
+      import('./exploracion-piel-faneras/content.js'),
+      import('./exploracion-piel-faneras/calculators.js'),
+      import('./exploracion-piel-faneras/study.js')
+    ])
   }
 ];
 
