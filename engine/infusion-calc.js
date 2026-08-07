@@ -143,6 +143,9 @@ export function openInfusionCalc() {
   });
   onDrugChange();
 
+  // Limpia una posible clase 'auth-page' pegada del login (mismo #overlay reutilizado en toda
+  // la app) — si queda, el modal hereda max-width:none y se ve a ancho completo.
+  document.getElementById('overlay').classList.remove('auth-page');
   document.getElementById('overlay').classList.add('active');
   document.body.style.overflow = 'hidden';
 }

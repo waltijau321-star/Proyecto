@@ -121,6 +121,9 @@ async function openExamConfigModal() {
     <span class="modal-tag" style="color:#3d5a73;">Examen simulado</span>
     <h2>Configura tu examen</h2>
     ${pool.length ? formHTML(pool) : '<p class="fbody" style="color:var(--ink-dim);">El generador de exámenes estará disponible cuando haya al menos un tema con preguntas construido.</p>'}`;
+  // Limpia una posible clase 'auth-page' pegada del login (mismo #overlay reutilizado en toda
+  // la app) — si queda, el modal hereda max-width:none y se ve a ancho completo.
+  document.getElementById('overlay').classList.remove('auth-page');
   document.getElementById('overlay').classList.add('active');
   document.body.style.overflow = 'hidden';
 
@@ -245,6 +248,9 @@ function openHistoryModal() {
     <span class="modal-tag" style="color:#3d5a73;">Historial</span>
     <h2>Tus exámenes simulados</h2>
     ${list.length ? historyTableHTML(list) : '<p class="fbody" style="color:var(--ink-dim);">Aún no has hecho ningún examen simulado.</p>'}`;
+  // Limpia una posible clase 'auth-page' pegada del login (mismo #overlay reutilizado en toda
+  // la app) — si queda, el modal hereda max-width:none y se ve a ancho completo.
+  document.getElementById('overlay').classList.remove('auth-page');
   document.getElementById('overlay').classList.add('active');
   document.body.style.overflow = 'hidden';
 }

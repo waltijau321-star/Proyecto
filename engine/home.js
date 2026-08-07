@@ -95,6 +95,9 @@ function openWip(idx) {
   const m = document.getElementById('modal');
   m.style.setProperty('--modal-accent', '#8d8570');
   m.innerHTML = `<button class="modal-close" onclick="closeModal()">✕</button>${wipModalHTML(entry)}`;
+  // Limpia una posible clase 'auth-page' pegada del login (mismo #overlay reutilizado en toda
+  // la app) — si queda, el modal hereda max-width:none y se ve a ancho completo.
+  document.getElementById('overlay').classList.remove('auth-page');
   document.getElementById('overlay').classList.add('active');
   document.body.style.overflow = 'hidden';
 }
@@ -177,6 +180,9 @@ function openResetConfirm() {
     <p class="fbody" style="color:var(--ink-dim);margin-bottom:20px;">Se borrará el conteo de preguntas correctas e incorrectas de todos los temas. Esta acción no se puede deshacer.</p>
     <button class="calc-copy" onclick="rmResetProgress()">Sí, reiniciar</button>
     <button class="calc-copy" style="margin-left:8px;" onclick="closeModal()">Cancelar</button>`;
+  // Limpia una posible clase 'auth-page' pegada del login (mismo #overlay reutilizado en toda
+  // la app) — si queda, el modal hereda max-width:none y se ve a ancho completo.
+  document.getElementById('overlay').classList.remove('auth-page');
   document.getElementById('overlay').classList.add('active');
   document.body.style.overflow = 'hidden';
 }

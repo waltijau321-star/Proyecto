@@ -50,7 +50,6 @@ function oneFiguraHTML(key) {
   return `<div class="modal-field modal-figure">
     <span class="flabel">${esc(fig.titulo)}</span>
     <div class="figure-body">${fig.html}</div>
-    ${fig.fuente ? `<div class="figure-source">Fuente: ${esc(fig.fuente)}</div>` : ''}
   </div>`;
 }
 // Acepta una key, un array de keys, o nada — así una complicación (o el tema) puede adjuntar 0, 1 o varias figuras.
@@ -294,6 +293,12 @@ function closeModal() {
   document.body.style.overflow = '';
 }
 function showOverlay() {
+  // 'auth-page' es la clase que usa auth.js para el layout de pantalla completa del
+  // login/registro (mismo #overlay/#modal reutilizados en toda la app, ver CLAUDE.md). Si
+  // por cualquier motivo queda pegada de un estado anterior, un modal de contenido normal
+  // (quiz, ficha, complicación) hereda su regla `max-width:none` y se ve a ancho completo
+  // con un hueco enorme a la derecha del texto. Se limpia siempre al abrir un modal normal.
+  document.getElementById('overlay').classList.remove('auth-page');
   document.getElementById('overlay').classList.add('active');
   document.body.style.overflow = 'hidden';
 }

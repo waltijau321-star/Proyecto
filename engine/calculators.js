@@ -28,6 +28,9 @@ function openModalShell(accent, innerHTML) {
   const m = modalEl();
   m.style.setProperty('--modal-accent', accent);
   m.innerHTML = innerHTML;
+  // Limpia una posible clase 'auth-page' pegada del login (mismo #overlay reutilizado en toda
+  // la app) — si queda, el modal hereda max-width:none y se ve a ancho completo.
+  overlay().classList.remove('auth-page');
   overlay().classList.add('active');
   document.body.style.overflow = 'hidden';
 }
