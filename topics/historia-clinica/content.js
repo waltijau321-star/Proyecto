@@ -109,8 +109,13 @@ export const content = {
       nombre: 'Padecimiento actual (PA): cómo se escribe',
       color: '#3d5a73',
       definicion: 'La narración cronológica, en prosa, del síntoma o motivo de consulta desde su inicio hasta el momento presente — la sección de mayor peso diagnóstico de toda la historia clínica.',
-      clinica: 'Técnica de redacción: (1) se abre indicando edad, sexo y tiempo total de evolución — "Paciente masculino de 45 años, con cuadro clínico de 3 días de evolución caracterizado por…"; (2) se narra en orden cronológico estricto, sin saltos hacia atrás y hacia adelante; (3) se incluyen los "negativos pertinentes" — síntomas que el paciente NO presenta y que ayudan a descartar diagnósticos (ej. "niega fiebre, niega disnea"); (4) se cierra con el estado actual y el evento puntual que motivó la consulta en este momento particular ("por qué hoy y no antes"). Integra la caracterización semiológica completa del síntoma guía (ver ALICIA/SOCRATES) junto con los síntomas acompañantes y los tratamientos ya intentados.',
-      criterios_dx: 'Un PA bien escrito debería, por sí solo, permitir a otro médico que no vio al paciente generar una lista razonable de diagnósticos diferenciales. Es el estándar con el que se evalúa la calidad de una historia clínica en la práctica y en el examen.',
+      algoritmo: [
+        'Abrir indicando edad, sexo y tiempo total de evolución — "Paciente masculino de 45 años, con cuadro clínico de 3 días de evolución caracterizado por…"',
+        'Narrar en orden cronológico estricto, sin saltos hacia atrás y hacia adelante',
+        'Incluir los "negativos pertinentes": síntomas que el paciente NO presenta y que ayudan a descartar diagnósticos (ej. "niega fiebre, niega disnea")',
+        'Cerrar con el estado actual y el evento puntual que motivó la consulta hoy ("por qué hoy y no antes")'
+      ],
+      criterios_dx: 'Un PA bien escrito debería, por sí solo, permitir a otro médico que no vio al paciente generar una lista razonable de diagnósticos diferenciales — integra la caracterización semiológica completa del síntoma guía (ver ALICIA/SOCRATES) junto con los síntomas acompañantes y los tratamientos ya intentados. Es el estándar con el que se evalúa la calidad de una historia clínica en la práctica y en el examen.',
       figura: 'pa-timeline'
     },
     {
@@ -342,7 +347,7 @@ export const figurasDefinicion = ['historia-completa-vs-dirigida'];
 
 export const compCites = {
   'Estructura de la historia clínica': { definicion: [1, 2], criterios_dx: [2] },
-  'Padecimiento actual (PA): cómo se escribe': { definicion: [1, 2], clinica: [1, 4], criterios_dx: [2] },
+  'Padecimiento actual (PA): cómo se escribe': { definicion: [1, 2], criterios_dx: [1, 2, 4] },
   'Antecedentes personales patológicos': { definicion: [1, 2], clinica: [1], criterios_dx: [3] },
   'Antecedentes personales no patológicos': { definicion: [2, 4], clinica: [2], criterios_dx: [2, 3] },
   'Interrogatorio por aparatos y sistemas': { definicion: [1, 3], clinica: [1], criterios_dx: [3] },
