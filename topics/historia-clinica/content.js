@@ -270,25 +270,9 @@ export const figuras = {
     fuente: "Forma del patrón descrita en Surós y en DeGowin's Diagnostic Examination (curvas ilustrativas, no datos de un paciente real)"
   },
   'dolor-referido': {
-    titulo: 'Dolor referido: dos patrones clásicos',
-    html: `<svg viewBox="0 0 300 628" role="img" aria-labelledby="dr-t dr-d" style="width:100%;max-width:170px;display:block;margin:0 auto;">
-      <title id="dr-t">Silueta corporal con dos patrones de dolor referido</title>
-      <desc id="dr-d">Silueta corporal (vista anterior, posición anatómica estándar) con dos patrones de dolor referido: el dolor de origen cardiaco (isquemia) se refiere hacia el brazo izquierdo y la mandíbula; el dolor de la vesícula biliar se refiere hacia la escápula derecha.</desc>
-      <image href="topics/historia-clinica/assets/silueta-cuerpo.png" x="0" y="0" width="300" height="628"/>
-      <path d="M170,235 Q220,290 250,340" fill="none" stroke="#8c3a34" stroke-width="2" stroke-dasharray="5,4"/>
-      <path d="M170,235 Q165,160 155,95" fill="none" stroke="#8c3a34" stroke-width="2" stroke-dasharray="5,4"/>
-      <path d="M128,300 Q100,250 88,200" fill="none" stroke="#3d5a73" stroke-width="2" stroke-dasharray="5,4"/>
-      <circle cx="170" cy="235" r="6" fill="#8c3a34"/>
-      <circle cx="250" cy="340" r="5" fill="#8c3a34"/>
-      <circle cx="155" cy="95" r="5" fill="#8c3a34"/>
-      <circle cx="128" cy="300" r="6" fill="#3d5a73"/>
-      <circle cx="88" cy="200" r="5" fill="#3d5a73"/>
-    </svg>
-    <div style="display:flex;flex-direction:column;gap:6px;margin-top:10px;font-size:12px;color:var(--ink-dim);">
-      <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#8c3a34;margin-right:6px;"></span>Corazón (isquemia) → brazo izquierdo y mandíbula</span>
-      <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#3d5a73;margin-right:6px;"></span>Vesícula biliar → escápula derecha</span>
-    </div>`,
-    fuente: "Patrones clásicos descritos en Bates' Guide to Physical Examination"
+    titulo: 'Mapa de irradiación del dolor visceral (dolor referido)',
+    html: `<img src="topics/historia-clinica/assets/dolor-referido-infografia.png" alt="Infografía de dolor referido con vista anterior y posterior del cuerpo. Tabla con 7 patrones clásicos: (1) infarto agudo de miocardio → hombro izquierdo, cara medial del brazo izquierdo hasta 4º y 5º dedos, cuello, mandíbula y región interescapular, por convergencia con aferentes somáticos de C4-T1; (2) colecistitis aguda → hipocondrio derecho, hombro y región escapular derechos, segmentos torácicos T7-T9; (3) pancreatitis aguda → epigastrio con irradiación directa a la región medio-dorsal, T7-T9 (T10 en ocasiones); (4) cólico renal → flanco, fosa ilíaca, ingle y región genital ipsilateral, T10-L2; (5) apendicitis aguda → dolor periumbilical inicial que migra a fosa ilíaca derecha, fibras viscerales T10 y somáticas L1; (6) úlcera péptica perforada → dolor epigástrico que irradia a la espalda, T6-T9; (7) irritación diafragmática/signo de Kehr → hombro ipsilateral, especialmente el izquierdo, vía nervio frénico C3-C5. Incluye diagrama del mecanismo: las fibras aferentes viscerales y somáticas convergen en la misma neurona de segundo orden de la médula espinal, y el cerebro interpreta la señal como proveniente del territorio somático.">`,
+    fuente: null
   },
   'pa-timeline': {
     titulo: 'Ejemplo: línea de tiempo de un padecimiento actual',
