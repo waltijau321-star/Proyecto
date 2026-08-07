@@ -35,7 +35,9 @@ const SEMIOLOGIA_CLUSTERS = [
   { name: 'Exploración de cabeza, cuello y ganglios', items: [
     { label: 'Exploración de cabeza, cuello y ganglios (tiroides, bocio, cadenas ganglionares, ganglio de Virchow, masas cervicales, soplo carotídeo)', topicId: 'exploracion-cabeza-cuello' }
   ] },
-  { name: 'Signos y maniobras clásicas (referencia transversal)', items: ['Índice de signos con epónimo por especialidad (Murphy, Homans, Kernig, Brudzinski, McBurney, Rovsing, entre otros)'] }
+  { name: 'Signos y maniobras clásicas (referencia transversal)', items: [
+    { label: 'Signos y maniobras clásicas (índice maestro + tétrada de insuficiencia aórtica, Courvoisier, Kehr, Chvostek/Trousseau, Lhermitte, Battle, Hoover, Gowers, Auspitz, Darier, Levine)', topicId: 'signos-clasicos' }
+  ] }
 ];
 
 const FALLAS_ORGANICAS_ITEMS = [

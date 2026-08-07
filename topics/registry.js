@@ -91,6 +91,14 @@ export const registry = [
       import('./exploracion-cabeza-cuello/calculators.js'),
       import('./exploracion-cabeza-cuello/study.js')
     ])
+  },
+  {
+    id: 'signos-clasicos', titulo: 'Signos y Maniobras Clásicas',
+    load: () => Promise.all([
+      import('./signos-clasicos/content.js'),
+      import('./signos-clasicos/calculators.js'),
+      import('./signos-clasicos/study.js')
+    ])
   }
 ];
 
