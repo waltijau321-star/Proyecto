@@ -75,6 +75,14 @@ export const registry = [
       import('./exploracion-piel-faneras/calculators.js'),
       import('./exploracion-piel-faneras/study.js')
     ])
+  },
+  {
+    id: 'exploracion-osteoarticular', titulo: 'Exploración Osteoarticular y de Extremidades',
+    load: () => Promise.all([
+      import('./exploracion-osteoarticular/content.js'),
+      import('./exploracion-osteoarticular/calculators.js'),
+      import('./exploracion-osteoarticular/study.js')
+    ])
   }
 ];
 
