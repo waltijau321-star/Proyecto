@@ -32,7 +32,9 @@ const SEMIOLOGIA_CLUSTERS = [
   { name: 'Exploración osteoarticular y de extremidades', items: [
     { label: 'Exploración osteoarticular y de extremidades (articular, derrame, patrones, edema, TVP, insuficiencia venosa, ITB, isquemia arterial aguda, úlceras)', topicId: 'exploracion-osteoarticular' }
   ] },
-  { name: 'Exploración de cabeza, cuello y ganglios', items: ['Palpación tiroidea', 'Cadenas ganglionares y adenopatías', 'Ingurgitación yugular'] },
+  { name: 'Exploración de cabeza, cuello y ganglios', items: [
+    { label: 'Exploración de cabeza, cuello y ganglios (tiroides, bocio, cadenas ganglionares, ganglio de Virchow, masas cervicales, soplo carotídeo)', topicId: 'exploracion-cabeza-cuello' }
+  ] },
   { name: 'Signos y maniobras clásicas (referencia transversal)', items: ['Índice de signos con epónimo por especialidad (Murphy, Homans, Kernig, Brudzinski, McBurney, Rovsing, entre otros)'] }
 ];
 

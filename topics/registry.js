@@ -83,6 +83,14 @@ export const registry = [
       import('./exploracion-osteoarticular/calculators.js'),
       import('./exploracion-osteoarticular/study.js')
     ])
+  },
+  {
+    id: 'exploracion-cabeza-cuello', titulo: 'Exploración de Cabeza, Cuello y Ganglios',
+    load: () => Promise.all([
+      import('./exploracion-cabeza-cuello/content.js'),
+      import('./exploracion-cabeza-cuello/calculators.js'),
+      import('./exploracion-cabeza-cuello/study.js')
+    ])
   }
 ];
 
