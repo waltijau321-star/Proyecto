@@ -29,7 +29,9 @@ const SEMIOLOGIA_CLUSTERS = [
   { name: 'Exploración de piel y faneras', items: [
     { label: 'Exploración de piel y faneras (lesiones elementales, patrones de distribución, ABCDE del melanoma, neoplasias cutáneas, uñas y cabello)', topicId: 'exploracion-piel-faneras' }
   ] },
-  { name: 'Exploración osteoarticular y de extremidades', items: ['Inspección y palpación articular', 'Edema y signos de trombosis venosa profunda (Homans)', 'Exploración vascular periférica'] },
+  { name: 'Exploración osteoarticular y de extremidades', items: [
+    { label: 'Exploración osteoarticular y de extremidades (articular, derrame, patrones, edema, TVP, insuficiencia venosa, ITB, isquemia arterial aguda, úlceras)', topicId: 'exploracion-osteoarticular' }
+  ] },
   { name: 'Exploración de cabeza, cuello y ganglios', items: ['Palpación tiroidea', 'Cadenas ganglionares y adenopatías', 'Ingurgitación yugular'] },
   { name: 'Signos y maniobras clásicas (referencia transversal)', items: ['Índice de signos con epónimo por especialidad (Murphy, Homans, Kernig, Brudzinski, McBurney, Rovsing, entre otros)'] }
 ];
