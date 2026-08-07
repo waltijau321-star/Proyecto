@@ -75,6 +75,14 @@ export const registry = [
       import('./exploracion-piel-faneras/calculators.js'),
       import('./exploracion-piel-faneras/study.js')
     ])
+  },
+  {
+    id: 'exploracion-cabeza-cuello', titulo: 'Exploración de Cabeza, Cuello y Ganglios',
+    load: () => Promise.all([
+      import('./exploracion-cabeza-cuello/content.js'),
+      import('./exploracion-cabeza-cuello/calculators.js'),
+      import('./exploracion-cabeza-cuello/study.js')
+    ])
   }
 ];
 
