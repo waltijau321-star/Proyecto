@@ -75,6 +75,14 @@ export const registry = [
       import('./exploracion-piel-faneras/calculators.js'),
       import('./exploracion-piel-faneras/study.js')
     ])
+  },
+  {
+    id: 'signos-clasicos', titulo: 'Signos y Maniobras Clásicas',
+    load: () => Promise.all([
+      import('./signos-clasicos/content.js'),
+      import('./signos-clasicos/calculators.js'),
+      import('./signos-clasicos/study.js')
+    ])
   }
 ];
 

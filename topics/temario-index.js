@@ -31,7 +31,9 @@ const SEMIOLOGIA_CLUSTERS = [
   ] },
   { name: 'Exploración osteoarticular y de extremidades', items: ['Inspección y palpación articular', 'Edema y signos de trombosis venosa profunda (Homans)', 'Exploración vascular periférica'] },
   { name: 'Exploración de cabeza, cuello y ganglios', items: ['Palpación tiroidea', 'Cadenas ganglionares y adenopatías', 'Ingurgitación yugular'] },
-  { name: 'Signos y maniobras clásicas (referencia transversal)', items: ['Índice de signos con epónimo por especialidad (Murphy, Homans, Kernig, Brudzinski, McBurney, Rovsing, entre otros)'] }
+  { name: 'Signos y maniobras clásicas (referencia transversal)', items: [
+    { label: 'Signos y maniobras clásicas (índice maestro + tétrada de insuficiencia aórtica, Courvoisier, Kehr, Chvostek/Trousseau, Lhermitte, Battle, Hoover, Gowers, Auspitz, Darier, Levine)', topicId: 'signos-clasicos' }
+  ] }
 ];
 
 const FALLAS_ORGANICAS_ITEMS = [
