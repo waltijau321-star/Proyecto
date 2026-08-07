@@ -29,7 +29,12 @@ export const bibliografia = [
   "Bickley LS, Szilagyi PG, Hoffman RM. Bates' Guide to Physical Examination and History Taking. 13th ed. Philadelphia: Wolters Kluwer; 2021.",
   'Argente HA, Álvarez ME. Semiología Médica: Fisiopatología, Semiotecnia y Propedéutica. 2nd ed. Buenos Aires: Editorial Médica Panamericana; 2013.',
   "LeBlond RF, Brown DD, Suneja M, Szot JF. DeGowin's Diagnostic Examination. 10th ed. New York: McGraw-Hill; 2015.",
-  'Surós Batlló A, Surós Batlló J. Semiología Médica y Técnica Exploratoria. 8th ed. Barcelona: Elsevier Masson; 2001.'
+  'Surós Batlló A, Surós Batlló J. Semiología Médica y Técnica Exploratoria. 8th ed. Barcelona: Elsevier Masson; 2001.',
+  'Dinarello CA. Cytokines as endogenous pyrogens. J Infect Dis. 1999;179(Suppl 2):S294-304.',
+  'Basbaum AI, Bautista DM, Scherrer G, Julius D. Cellular and molecular mechanisms of pain. Cell. 2009;139(2):267-284.',
+  'Parshall MB, Schwartzstein RM, Adams L, et al. An official American Thoracic Society statement: update on the mechanisms, assessment, and management of dyspnea. Am J Respir Crit Care Med. 2012;185(4):435-452.',
+  'Canning BJ, Chang AB, Bolser DC, et al. Anatomy and neurophysiology of cough: CHEST guideline and expert panel report. Chest. 2014;146(6):1633-1648.',
+  'Dantzer R, O’Connor JC, Freund GG, Johnson RW, Kelley KW. From inflammation to sickness and depression: when the immune system subjugates the brain. Nat Rev Neurosci. 2008;9(1):46-56.'
 ];
 
 // Reetiqueta TODOS los campos genéricos del motor (pensados para "enfermedad") para que
@@ -156,7 +161,7 @@ export const content = {
       color: '#8c3a34',
       icono: ICONOS.dolor,
       definicion: 'Experiencia sensorial y emocional desagradable asociada a daño tisular real o potencial. Se caracteriza siempre con ALICIA/SOCRATES.',
-      fisiopatologia: 'Por mecanismo: nociceptivo somático (piel, músculo, hueso — agudo, bien localizado, se agrava con el movimiento/palpación) o visceral (vísceras huecas/sólidas — difuso, mal localizado, sordo, puede referirse a un dermatoma distante que comparte inervación aferente, ej. vesícula biliar → escápula derecha, isquemia miocárdica → brazo izquierdo/mandíbula); o neuropático (lesión del propio sistema nervioso — quemante, con disestesias). Por duración: agudo (&lt;3 meses) o crónico.',
+      fisiopatologia: 'Los nociceptores periféricos transducen el estímulo lesivo y lo transmiten por dos tipos de fibra: Aδ (mielinizadas, conducción rápida) generan el "primer dolor" — agudo, bien localizado; C (amielínicas, conducción lenta) generan el "segundo dolor" — sordo, difuso, persistente. Ambas hacen sinapsis en el asta dorsal medular (láminas I y V de Rexed), decusan, y ascienden por el tracto espinotalámico lateral hacia el tálamo y la corteza somatosensorial. Por mecanismo: nociceptivo somático (piel, músculo, hueso — bien localizado, se agrava con el movimiento) o visceral (vísceras huecas/sólidas — difuso, mal localizado); o neuropático (lesión del propio sistema nervioso — quemante, con disestesias, descargas ectópicas). El dolor referido se explica por el mecanismo de convergencia-proyección de Ruch: las neuronas de segundo orden del asta dorsal reciben aferencias viscerales y somáticas del mismo segmento medular, y la corteza interpreta la señal como proveniente del territorio somático (ver figura). La inflamación local sensibiliza los nociceptores (bradicinina, prostaglandinas, sustancia P — sensibilización periférica) y puede amplificar la respuesta a nivel medular (sensibilización central: hiperalgesia, alodinia). Por duración: agudo (&lt;3 meses) o crónico.',
       clinica: 'Se interroga con ALICIA/SOCRATES completo, prestando especial atención a si el paciente puede señalar el punto exacto con un dedo (más compatible con somático) o solo señala una región amplia con la mano (más compatible con visceral).',
       criterios_dx: 'La localización, la irradiación y la relación con desencadenantes (esfuerzo físico, alimentos, movimiento, respiración) son las variables con mayor rendimiento diagnóstico para orientar el origen del dolor.',
       dx_diferencial: 'Dolor torácico: cardiovascular (isquémico, pericárdico, aórtico), pleuropulmonar, digestivo (esofágico, biliar), musculoesquelético, psicógeno. Dolor abdominal: según cuadrante y órgano subyacente.',
@@ -167,7 +172,7 @@ export const content = {
       color: '#8c3a34',
       icono: ICONOS.fiebre,
       definicion: 'Elevación de la temperatura corporal por encima de 38.0 °C, mediada por pirógenos que reajustan el centro termorregulador hipotalámico (ver figura de rangos).',
-      fisiopatologia: 'Por patrón: continua (oscila &lt;1 °C en 24 h, sin llegar a lo normal), remitente (oscila &gt;1 °C, sin llegar a lo normal), intermitente (llega a lo normal entre picos) y héctica o séptica (picos muy altos alternados con caídas a lo normal, típica de abscesos). Por duración: aguda (&lt;2 semanas) vs. fiebre de origen desconocido (&gt;3 semanas sin diagnóstico pese a estudio adecuado). Se diferencia de la hipertermia, en la que falla la disipación de calor sin que el centro termorregulador se reajuste (ej. golpe de calor).',
+      fisiopatologia: 'Los pirógenos exógenos (lipopolisacárido bacteriano, toxinas, componentes virales) activan monocitos/macrófagos, que liberan pirógenos endógenos — principalmente IL-1β, IL-6 y TNF-α. Estas citocinas actúan sobre el órgano vascular de la lámina terminal (OVLT), una región del hipotálamo anterior con barrera hematoencefálica fenestrada, e inducen la expresión de COX-2 local, generando prostaglandina E2 (PGE2). La PGE2 se une a receptores EP3 en el núcleo preóptico ventromedial y eleva el punto de ajuste ("set point") termorregulador hipotalámico; el organismo responde generando y conservando calor (vasoconstricción cutánea, escalofríos, conducta de abrigo) hasta alcanzar el nuevo set point. Los antipiréticos (AINEs, paracetamol) inhiben la COX y reducen la PGE2 — por eso NO son eficaces en la hipertermia, donde el set point nunca cambió y el problema es una falla en la disipación de calor (golpe de calor, hipertermia maligna, síndrome neuroléptico maligno, síndrome serotoninérgico). Por patrón: continua (oscila &lt;1 °C en 24 h, sin llegar a lo normal), remitente (oscila &gt;1 °C, sin llegar a lo normal), intermitente (llega a lo normal entre picos) y héctica o séptica (picos muy altos alternados con caídas a lo normal, típica de abscesos). Por duración: aguda (&lt;2 semanas) vs. fiebre de origen desconocido (&gt;3 semanas sin diagnóstico pese a estudio adecuado).',
       clinica: 'El umbral y la fiabilidad de la medición dependen del sitio donde se toma (ver figura); también se interrogan los síntomas acompañantes que orienten el foco (tos, disuria, cefalea, exantema, artralgias).',
       criterios_dx: 'El patrón febril y los síntomas acompañantes orientan el foco infeccioso probable; la fiebre de origen desconocido obliga a ampliar el diferencial más allá de lo infeccioso, hacia causas neoplásicas, autoinmunes y farmacológicas.',
       dx_diferencial: 'Infecciosa (la más frecuente), neoplásica, autoinmune/inflamatoria, medicamentosa (fiebre por fármacos), tromboembólica.',
@@ -178,7 +183,7 @@ export const content = {
       color: '#8c3a34',
       icono: ICONOS.disnea,
       definicion: 'Sensación subjetiva de falta de aire o dificultad para respirar, desproporcionada al esfuerzo realizado.',
-      fisiopatologia: 'Se gradúa con escalas funcionales, la más usada es la mMRC (ver figura). También se caracteriza por su instalación (aguda vs. crónica) y por la posición que la mejora o empeora: ortopnea (empeora acostado), platipnea (empeora sentado/de pie) y trepopnea (empeora en decúbito lateral).',
+      fisiopatologia: 'Mecanismo multifactorial e integrador: quimiorreceptores centrales (bulbares, sensibles a pCO2/pH del LCR) y periféricos (cuerpos carotídeos y aórticos, sensibles a pO2), mecanorreceptores pulmonares (receptores de estiramiento y receptores J yuxtacapilares, activados por congestión intersticial) y receptores de la pared torácica envían información aferente al tronco encefálico. La disnea surge por un desacople neuromecánico: discordancia entre el impulso ventilatorio eferente que emite el centro respiratorio y la respuesta mecánica real del sistema respiratorio. Esto explica sus 3 cualidades distintas: sensación de esfuerzo/trabajo respiratorio (enfermedad neuromuscular, obstrucción), opresión torácica (broncoconstricción, vía receptores de estiramiento) y hambre de aire/asfixia (hipercapnia y acidosis, vía quimiorreceptores). Se gradúa con escalas funcionales, la más usada es la mMRC (ver figura). También se caracteriza por su instalación (aguda vs. crónica) y por la posición que la mejora o empeora: ortopnea (empeora acostado), platipnea (empeora sentado/de pie) y trepopnea (empeora en decúbito lateral).',
       clinica: 'Se interroga su relación con el esfuerzo (grado mMRC), su instalación temporal, la posición que la modifica, y los síntomas acompañantes (dolor torácico, tos, edema de miembros inferiores).',
       criterios_dx: 'La ortopnea y la disnea paroxística nocturna orientan fuertemente a insuficiencia cardiaca; la disnea de instalación súbita orienta a tromboembolia pulmonar, neumotórax o edema agudo de pulmón.',
       dx_diferencial: 'Cardiovascular (insuficiencia cardiaca, isquemia), respiratoria (EPOC, asma, neumonía, TEP), anemia, acidosis metabólica, causa psicógena (ansiedad).',
@@ -189,7 +194,7 @@ export const content = {
       color: '#8c3a34',
       icono: ICONOS.tos,
       definicion: 'Reflejo de defensa de la vía aérea ante un estímulo mecánico, químico o inflamatorio.',
-      fisiopatologia: 'Por duración: aguda (&lt;3 semanas), subaguda (3-8 semanas) o crónica (&gt;8 semanas). Por productividad: seca o productiva — en este caso se describen las características del esputo (color, cantidad, presencia de sangre).',
+      fisiopatologia: 'El reflejo tusígeno se inicia en receptores de adaptación rápida (RARs) y fibras C sensibles a irritantes mecánicos/químicos, ubicados en laringe, tráquea y bronquios de gran calibre. La señal aferente viaja por el nervio vago hasta el centro de la tos en el bulbo raquídeo (próximo al núcleo del tracto solitario), que coordina 3 fases: inspiratoria (inspiración profunda), compresiva (cierre glótico con contracción espiratoria forzada, generando presión intratorácica elevada) y expulsiva (apertura súbita de la glotis con flujo espiratorio explosivo que arrastra secreciones o cuerpos extraños). Por duración: aguda (&lt;3 semanas), subaguda (3-8 semanas) o crónica (&gt;8 semanas). Por productividad: seca o productiva — en este caso se describen las características del esputo (color, cantidad, presencia de sangre).',
       clinica: 'Se interroga duración, productividad, horario (nocturna vs. diurna), relación con la posición o los alimentos, y síntomas acompañantes.',
       criterios_dx: 'La tos crónica productiva orienta a EPOC o bronquiectasias; la tos seca crónica en un paciente que toma IECA orienta a efecto adverso farmacológico; la hemoptisis siempre amerita descartar neoplasia pulmonar y tuberculosis.',
       dx_diferencial: 'Infecciosa, EPOC/asma, reflujo gastroesofágico, goteo posnasal, efecto adverso de IECA, insuficiencia cardiaca, neoplasia pulmonar.'
@@ -199,7 +204,7 @@ export const content = {
       color: '#8c3a34',
       icono: ICONOS.astenia,
       definicion: 'Sensación subjetiva de falta de energía (astenia) o incapacidad de mantener un esfuerzo (fatiga). La pérdida de peso involuntaria significativa es &gt;5% del peso corporal en 6-12 meses, sin dieta intencional.',
-      fisiopatologia: 'Si mejora con el descanso, orienta a una causa fisiológica o funcional; si no mejora con el reposo, orienta a causa orgánica (anemia, hipotiroidismo, neoplasia, enfermedad crónica sistémica).',
+      fisiopatologia: 'Se distingue fatiga central (originada en el SNC, mediada por neurotransmisores como la serotonina y por citocinas proinflamatorias — IL-6, TNF-α — que inducen la llamada "conducta de enfermedad" o sickness behavior: el mismo eje inflamatorio que genera la fiebre, lo que explica por qué astenia y fiebre coexisten con frecuencia en procesos infecciosos, neoplásicos y autoinmunes) de fatiga periférica (falla neuromuscular: depleción de ATP/glucógeno, acumulación de metabolitos musculares). Si mejora con el descanso, orienta a una causa fisiológica o funcional; si no mejora con el reposo, orienta a causa orgánica (anemia, hipotiroidismo, neoplasia, enfermedad crónica sistémica).',
       clinica: 'Se interroga la cronología, la relación con el sueño o el reposo, y siempre se acompaña de una búsqueda dirigida de síntomas de alarma como fiebre, sudoración nocturna profusa o sangrado.',
       criterios_dx: 'La combinación de astenia, pérdida de peso involuntaria y sudoración nocturna (los llamados "síntomas B") es una tríada de alarma que obliga a descartar neoplasia, tuberculosis e infección por VIH.',
       dx_diferencial: 'Anemia, hipotiroidismo, depresión, neoplasia, enfermedad crónica sistémica (renal, hepática), infecciones crónicas.'
@@ -333,11 +338,11 @@ export const compCites = {
   'Antecedentes personales no patológicos': { definicion: [2, 4], clinica: [2], criterios_dx: [2, 3] },
   'Interrogatorio por aparatos y sistemas': { definicion: [1, 3], clinica: [1], criterios_dx: [3] },
   'Semiología del síntoma guía (ALICIA / SOCRATES)': { definicion: [1, 4], clinica: [1, 2], criterios_dx: [4] },
-  'Dolor': { definicion: [1, 4], fisiopatologia: [1, 2], clinica: [1], criterios_dx: [1] },
-  'Fiebre': { definicion: [3], fisiopatologia: [3, 4], clinica: [1, 3], criterios_dx: [3] },
-  'Disnea': { definicion: [1], fisiopatologia: [1], clinica: [1, 3], criterios_dx: [1] },
-  'Tos': { definicion: [1], fisiopatologia: [1, 3], clinica: [1, 3], criterios_dx: [1] },
-  'Astenia, fatiga y pérdida de peso involuntaria': { definicion: [2, 3], fisiopatologia: [2], clinica: [2], criterios_dx: [3] }
+  'Dolor': { definicion: [1, 4], fisiopatologia: [1, 2, 6], clinica: [1], criterios_dx: [1] },
+  'Fiebre': { definicion: [3], fisiopatologia: [3, 4, 5], clinica: [1, 3], criterios_dx: [3] },
+  'Disnea': { definicion: [1], fisiopatologia: [1, 7], clinica: [1, 3], criterios_dx: [1] },
+  'Tos': { definicion: [1], fisiopatologia: [1, 3, 8], clinica: [1, 3], criterios_dx: [1] },
+  'Astenia, fatiga y pérdida de peso involuntaria': { definicion: [2, 3], fisiopatologia: [2, 9], clinica: [2], criterios_dx: [3] }
 };
 export const estigmas = [];
 export const biopsia = null;
