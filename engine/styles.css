@@ -336,8 +336,12 @@ tr.flash td{background:var(--panel2);}
 .modal h2{margin:0 0 20px; font-size:1.7rem; color:var(--ink); padding-right:40px; font-weight:600;}
 .modal-field{margin-bottom:16px;}
 .modal-field .flabel{font-family:'Source Sans 3',sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--modal-accent-fg); margin-bottom:5px; display:block; font-weight:600;}
-.modal-field .fbody{color:var(--ink-dim); font-size:14.5px; line-height:1.65; max-width:70ch;}
-.modal-field ul{margin:6px 0 0; padding-left:18px; color:var(--ink-dim); font-size:14px; line-height:1.6; max-width:66ch;}
+/* Sin max-width en ch: el modal ya está acotado a 800px (ver .modal), un límite de ancho de
+   línea aparte dejaba un hueco fijo de ~260px a la derecha del texto en casi todos los campos
+   (reportado dos veces). El texto ahora llena el mismo ancho que ya usan .modal-grid y las
+   figuras, sin hueco. */
+.modal-field .fbody{color:var(--ink-dim); font-size:14.5px; line-height:1.65;}
+.modal-field ul{margin:6px 0 0; padding-left:18px; color:var(--ink-dim); font-size:14px; line-height:1.6;}
 .modal-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px 26px;}
 .modal-divider{border:none; border-top:1px solid var(--line); margin:24px 0;}
 .modal-algo{display:flex; flex-direction:column; gap:8px;}

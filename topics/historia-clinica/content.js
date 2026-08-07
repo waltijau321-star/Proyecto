@@ -32,8 +32,12 @@ export const bibliografia = [
   'Surós Batlló A, Surós Batlló J. Semiología Médica y Técnica Exploratoria. 8th ed. Barcelona: Elsevier Masson; 2001.'
 ];
 
+// Reetiqueta TODOS los campos genéricos del motor (pensados para "enfermedad") para que
+// encajen con contenido de semiología. Ninguna tarjeta de este tema debe mostrar ya
+// "Manifestaciones clínicas" — fue señalado dos veces como fuera de lugar acá.
 export const modalLabels = {
   fisiopatologia: 'Clasificación y mecanismo',
+  clinica: 'Aplicación práctica',
   criterios_dx: 'Significado clínico',
   algoritmo: 'Secuencia'
 };
