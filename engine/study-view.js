@@ -171,6 +171,7 @@ function buildComplicaciones() {
       const c = D.complicaciones[i];
       if (!c) return '';
       return `<div class="comp-card" style="--c:${c.color}" onclick="openModal(${i})">
+        ${c.icono ? `<div class="comp-icon">${c.icono}</div>` : ''}
         <h4>${c.nombre}</h4><p>${c.definicion}</p><div class="open-hint">Ver detalle completo →</div></div>`;
     }).join('');
     return `${g.title ? `<h3 class="study-subhead study-subhead--loose">${g.title}</h3>` : ''}<div class="comp-grid">${cards}</div>`;

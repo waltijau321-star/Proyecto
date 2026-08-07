@@ -46,6 +46,38 @@ function letraLista(color, filas) {
   </div>`;
 }
 
+// Iconos de tarjeta (24x24, solo trazo — decorativos, la información real ya está en el texto
+// de al lado, por eso van con aria-hidden en vez de title/desc propios).
+const ICONOS = {
+  dolor: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 5 14h5l-1 8 8-12h-5l1-8z"/></svg>',
+  fiebre: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14.5V5a2 2 0 0 0-4 0v9.5a4 4 0 1 0 4 0Z"/><path d="M12 8.5h2"/></svg>',
+  disnea: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v6"/><path d="M12 9c-1.2 0-2.2 1-3 3s-1.8 6.5-.8 7.5 2.8-.8 3.8-3.5"/><path d="M12 9c1.2 0 2.2 1 3 3s1.8 6.5.8 7.5-2.8-.8-3.8-3.5"/></svg>',
+  tos: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="12" r="5"/><path d="M15.5 9.5c1.8 0 3 1.1 3 2.5s-1.2 2.5-3 2.5"/><path d="M18.5 7c2.8 0 4.5 2.2 4.5 5s-1.7 5-4.5 5"/></svg>',
+  astenia: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="7" width="17" height="10" rx="2"/><line x1="21" y1="10" x2="21" y2="14"/><line x1="6" y1="10" x2="6" y2="14"/></svg>'
+};
+
+// Mini-gráfica de patrón febril (temperatura vs. días). Puramente esquemática (ilustra la FORMA
+// del patrón descrito en el texto, no datos de un paciente real) — por eso `fuente` cita el
+// texto clásico que describe el patrón, no un dataset.
+function patronFiebreSVG(id, valores, label) {
+  const w = 200, h = 100, padL = 26, padR = 8, padT = 10, padB = 18;
+  const minT = 36, maxT = 40.5;
+  const x = i => padL + (i / (valores.length - 1)) * (w - padL - padR);
+  const y = t => padT + (1 - (t - minT) / (maxT - minT)) * (h - padT - padB);
+  const pts = valores.map((t, i) => `${x(i).toFixed(1)},${y(t).toFixed(1)}`).join(' ');
+  return `<svg viewBox="0 0 ${w} ${h}" role="img" aria-labelledby="${id}-t ${id}-d" style="width:100%;max-width:220px;">
+    <title id="${id}-t">Patrón febril ${label}</title>
+    <desc id="${id}-d">Curva esquemática de temperatura corporal a lo largo de varios días, mostrando el patrón ${label.toLowerCase()}.</desc>
+    <line x1="${padL}" y1="${y(37).toFixed(1)}" x2="${w - padR}" y2="${y(37).toFixed(1)}" stroke="var(--line)" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="${padL - 3}" y="${y(37).toFixed(1)}" text-anchor="end" dominant-baseline="middle" font-size="7" fill="var(--ink-faint)">37°</text>
+    <line x1="${padL}" y1="${y(38).toFixed(1)}" x2="${w - padR}" y2="${y(38).toFixed(1)}" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="3,2"/>
+    <text x="${padL - 3}" y="${y(38).toFixed(1)}" text-anchor="end" dominant-baseline="middle" font-size="7" fill="var(--ink-faint)">38°</text>
+    <polyline points="${pts}" fill="none" stroke="#8c3a34" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    ${valores.map((t, i) => `<circle cx="${x(i).toFixed(1)}" cy="${y(t).toFixed(1)}" r="2" fill="#8c3a34"/>`).join('')}
+    <text x="${(padL + (w - padR)) / 2}" y="${h - 4}" text-anchor="middle" font-size="8.5" fill="var(--ink)" font-weight="700">${label}</text>
+  </svg>`;
+}
+
 export const content = {
   diagnostico: {
     clinica: {
@@ -78,7 +110,8 @@ export const content = {
       color: '#3d5a73',
       definicion: 'La narración cronológica, en prosa, del síntoma o motivo de consulta desde su inicio hasta el momento presente — la sección de mayor peso diagnóstico de toda la historia clínica.',
       clinica: 'Técnica de redacción: (1) se abre indicando edad, sexo y tiempo total de evolución — "Paciente masculino de 45 años, con cuadro clínico de 3 días de evolución caracterizado por…"; (2) se narra en orden cronológico estricto, sin saltos hacia atrás y hacia adelante; (3) se incluyen los "negativos pertinentes" — síntomas que el paciente NO presenta y que ayudan a descartar diagnósticos (ej. "niega fiebre, niega disnea"); (4) se cierra con el estado actual y el evento puntual que motivó la consulta en este momento particular ("por qué hoy y no antes"). Integra la caracterización semiológica completa del síntoma guía (ver ALICIA/SOCRATES) junto con los síntomas acompañantes y los tratamientos ya intentados.',
-      criterios_dx: 'Un PA bien escrito debería, por sí solo, permitir a otro médico que no vio al paciente generar una lista razonable de diagnósticos diferenciales. Es el estándar con el que se evalúa la calidad de una historia clínica en la práctica y en el examen.'
+      criterios_dx: 'Un PA bien escrito debería, por sí solo, permitir a otro médico que no vio al paciente generar una lista razonable de diagnósticos diferenciales. Es el estándar con el que se evalúa la calidad de una historia clínica en la práctica y en el examen.',
+      figura: 'pa-timeline'
     },
     {
       nombre: 'Antecedentes personales patológicos',
@@ -112,25 +145,29 @@ export const content = {
     {
       nombre: 'Dolor',
       color: '#8c3a34',
+      icono: ICONOS.dolor,
       definicion: 'Experiencia sensorial y emocional desagradable asociada a daño tisular real o potencial. Se caracteriza siempre con ALICIA/SOCRATES.',
       fisiopatologia: 'Por mecanismo: nociceptivo somático (piel, músculo, hueso — agudo, bien localizado, se agrava con el movimiento/palpación) o visceral (vísceras huecas/sólidas — difuso, mal localizado, sordo, puede referirse a un dermatoma distante que comparte inervación aferente, ej. vesícula biliar → escápula derecha, isquemia miocárdica → brazo izquierdo/mandíbula); o neuropático (lesión del propio sistema nervioso — quemante, con disestesias). Por duración: agudo (&lt;3 meses) o crónico.',
       clinica: 'Se interroga con ALICIA/SOCRATES completo, prestando especial atención a si el paciente puede señalar el punto exacto con un dedo (más compatible con somático) o solo señala una región amplia con la mano (más compatible con visceral).',
       criterios_dx: 'La localización, la irradiación y la relación con desencadenantes (esfuerzo físico, alimentos, movimiento, respiración) son las variables con mayor rendimiento diagnóstico para orientar el origen del dolor.',
-      dx_diferencial: 'Dolor torácico: cardiovascular (isquémico, pericárdico, aórtico), pleuropulmonar, digestivo (esofágico, biliar), musculoesquelético, psicógeno. Dolor abdominal: según cuadrante y órgano subyacente.'
+      dx_diferencial: 'Dolor torácico: cardiovascular (isquémico, pericárdico, aórtico), pleuropulmonar, digestivo (esofágico, biliar), musculoesquelético, psicógeno. Dolor abdominal: según cuadrante y órgano subyacente.',
+      figura: ['dolor-referido']
     },
     {
       nombre: 'Fiebre',
       color: '#8c3a34',
+      icono: ICONOS.fiebre,
       definicion: 'Elevación de la temperatura corporal por encima de 38.0 °C, mediada por pirógenos que reajustan el centro termorregulador hipotalámico (ver figura de rangos).',
       fisiopatologia: 'Por patrón: continua (oscila &lt;1 °C en 24 h, sin llegar a lo normal), remitente (oscila &gt;1 °C, sin llegar a lo normal), intermitente (llega a lo normal entre picos) y héctica o séptica (picos muy altos alternados con caídas a lo normal, típica de abscesos). Por duración: aguda (&lt;2 semanas) vs. fiebre de origen desconocido (&gt;3 semanas sin diagnóstico pese a estudio adecuado). Se diferencia de la hipertermia, en la que falla la disipación de calor sin que el centro termorregulador se reajuste (ej. golpe de calor).',
       clinica: 'El umbral y la fiabilidad de la medición dependen del sitio donde se toma (ver figura); también se interrogan los síntomas acompañantes que orienten el foco (tos, disuria, cefalea, exantema, artralgias).',
       criterios_dx: 'El patrón febril y los síntomas acompañantes orientan el foco infeccioso probable; la fiebre de origen desconocido obliga a ampliar el diferencial más allá de lo infeccioso, hacia causas neoplásicas, autoinmunes y farmacológicas.',
       dx_diferencial: 'Infecciosa (la más frecuente), neoplásica, autoinmune/inflamatoria, medicamentosa (fiebre por fármacos), tromboembólica.',
-      figura: ['fiebre-rangos', 'fiebre-sitios']
+      figura: ['fiebre-patrones', 'fiebre-rangos', 'fiebre-sitios']
     },
     {
       nombre: 'Disnea',
       color: '#8c3a34',
+      icono: ICONOS.disnea,
       definicion: 'Sensación subjetiva de falta de aire o dificultad para respirar, desproporcionada al esfuerzo realizado.',
       fisiopatologia: 'Se gradúa con escalas funcionales, la más usada es la mMRC (ver figura). También se caracteriza por su instalación (aguda vs. crónica) y por la posición que la mejora o empeora: ortopnea (empeora acostado), platipnea (empeora sentado/de pie) y trepopnea (empeora en decúbito lateral).',
       clinica: 'Se interroga su relación con el esfuerzo (grado mMRC), su instalación temporal, la posición que la modifica, y los síntomas acompañantes (dolor torácico, tos, edema de miembros inferiores).',
@@ -141,6 +178,7 @@ export const content = {
     {
       nombre: 'Tos',
       color: '#8c3a34',
+      icono: ICONOS.tos,
       definicion: 'Reflejo de defensa de la vía aérea ante un estímulo mecánico, químico o inflamatorio.',
       fisiopatologia: 'Por duración: aguda (&lt;3 semanas), subaguda (3-8 semanas) o crónica (&gt;8 semanas). Por productividad: seca o productiva — en este caso se describen las características del esputo (color, cantidad, presencia de sangre).',
       clinica: 'Se interroga duración, productividad, horario (nocturna vs. diurna), relación con la posición o los alimentos, y síntomas acompañantes.',
@@ -150,6 +188,7 @@ export const content = {
     {
       nombre: 'Astenia, fatiga y pérdida de peso involuntaria',
       color: '#8c3a34',
+      icono: ICONOS.astenia,
       definicion: 'Sensación subjetiva de falta de energía (astenia) o incapacidad de mantener un esfuerzo (fatiga). La pérdida de peso involuntaria significativa es &gt;5% del peso corporal en 6-12 meses, sin dieta intencional.',
       fisiopatologia: 'Si mejora con el descanso, orienta a una causa fisiológica o funcional; si no mejora con el reposo, orienta a causa orgánica (anemia, hipotiroidismo, neoplasia, enfermedad crónica sistémica).',
       clinica: 'Se interroga la cronología, la relación con el sueño o el reposo, y siempre se acompaña de una búsqueda dirigida de síntomas de alarma como fiebre, sudoración nocturna profusa o sangrado.',
@@ -216,8 +255,90 @@ export const figuras = {
       <div style="border:1px solid var(--line);border-radius:8px;padding:10px;"><strong>Grado 4</strong><br>Le impide salir de casa, o aparece al vestirse/desvestirse.</div>
     </div>`,
     fuente: 'Bestall et al. 1999; escala usada por GOLD para EPOC'
+  },
+  'fiebre-patrones': {
+    titulo: 'Patrones de fiebre (esquemático)',
+    html: `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
+      ${patronFiebreSVG('pat-cont', [38.6, 39.0, 38.7, 39.1, 38.5, 38.8], 'Continua')}
+      ${patronFiebreSVG('pat-rem', [39.5, 38.2, 39.6, 38.1, 39.4, 38.3], 'Remitente')}
+      ${patronFiebreSVG('pat-int', [39.5, 37.0, 39.6, 36.9, 39.3, 37.1], 'Intermitente')}
+      ${patronFiebreSVG('pat-hec', [40.2, 36.5, 40.5, 36.3, 40.0, 36.8], 'Héctica/séptica')}
+    </div>`,
+    fuente: "Forma del patrón descrita en Surós y en DeGowin's Diagnostic Examination (curvas ilustrativas, no datos de un paciente real)"
+  },
+  'dolor-referido': {
+    titulo: 'Dolor referido: dos patrones clásicos',
+    html: `<svg viewBox="0 0 220 240" role="img" aria-labelledby="dr-t dr-d" style="width:100%;max-width:200px;display:block;margin:0 auto;">
+      <title id="dr-t">Silueta corporal con dos patrones de dolor referido</title>
+      <desc id="dr-d">Silueta corporal esquemática: el dolor de origen cardiaco (isquemia) se refiere hacia el brazo izquierdo y la mandíbula; el dolor de la vesícula biliar se refiere hacia la escápula derecha.</desc>
+      <circle cx="100" cy="26" r="16" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/>
+      <path d="M72,50 C60,55 55,70 56,90 L52,155 C51,168 65,175 80,175 L120,175 C135,175 149,168 148,155 L144,90 C145,70 140,55 128,50 C118,44 82,44 72,50 Z" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/>
+      <path d="M60,58 C45,75 38,100 40,135" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/>
+      <path d="M140,58 C155,75 162,100 160,135" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/>
+      <path d="M80,175 C78,195 76,215 74,232" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/>
+      <path d="M120,175 C122,195 124,215 126,232" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/>
+      <path d="M92,85 Q65,105 46,135" fill="none" stroke="#8c3a34" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <path d="M92,85 Q90,55 96,32" fill="none" stroke="#8c3a34" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <path d="M118,108 Q135,80 138,58" fill="none" stroke="#3d5a73" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <circle cx="92" cy="85" r="4" fill="#8c3a34"/>
+      <circle cx="46" cy="135" r="3" fill="#8c3a34"/>
+      <circle cx="96" cy="32" r="3" fill="#8c3a34"/>
+      <circle cx="118" cy="108" r="4" fill="#3d5a73"/>
+      <circle cx="138" cy="58" r="3" fill="#3d5a73"/>
+    </svg>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-top:10px;font-size:12px;color:var(--ink-dim);">
+      <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#8c3a34;margin-right:6px;"></span>Corazón (isquemia) → brazo izquierdo y mandíbula</span>
+      <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#3d5a73;margin-right:6px;"></span>Vesícula biliar → escápula derecha</span>
+    </div>`,
+    fuente: "Patrones clásicos descritos en Bates' Guide to Physical Examination"
+  },
+  'pa-timeline': {
+    titulo: 'Ejemplo: línea de tiempo de un padecimiento actual',
+    html: `<div style="display:flex;gap:14px;">
+      <div style="flex:1;border-top:2px solid var(--line);padding-top:10px;position:relative;">
+        <div style="width:9px;height:9px;border-radius:50%;background:#3d5a73;position:absolute;top:-5.5px;left:0;"></div>
+        <div style="font-size:11px;font-weight:700;color:var(--ink);">Hace 3 días</div>
+        <div style="font-size:11.5px;color:var(--ink-dim);margin-top:2px;">Inicio insidioso, dolor retroesternal opresivo leve.</div>
+      </div>
+      <div style="flex:1;border-top:2px solid var(--line);padding-top:10px;position:relative;">
+        <div style="width:9px;height:9px;border-radius:50%;background:#3d5a73;position:absolute;top:-5.5px;left:0;"></div>
+        <div style="font-size:11px;font-weight:700;color:var(--ink);">Hoy</div>
+        <div style="font-size:11.5px;color:var(--ink-dim);margin-top:2px;">Se intensifica con el esfuerzo, aparece diaforesis.</div>
+      </div>
+      <div style="flex:1;border-top:2px solid var(--line);padding-top:10px;position:relative;">
+        <div style="width:9px;height:9px;border-radius:50%;background:#8c3a34;position:absolute;top:-5.5px;left:0;"></div>
+        <div style="font-size:11px;font-weight:700;color:var(--ink);">Ahora</div>
+        <div style="font-size:11.5px;color:var(--ink-dim);margin-top:2px;">Acude a urgencias — motivo puntual de la consulta.</div>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:10px 12px;background:var(--panel);border:1px solid var(--line);border-radius:8px;font-size:12px;color:var(--ink-dim);">
+      <strong style="color:var(--ink);">Negativos pertinentes incluidos:</strong> "niega disnea, niega palpitaciones, niega dolor con la respiración" — ayuda a orientar entre causa cardiovascular y pleuropulmonar.
+    </div>`,
+    fuente: 'Adaptado del caso de dolor torácico usado en la autoevaluación de este tema'
+  },
+  'historia-completa-vs-dirigida': {
+    titulo: 'Cuándo hacer historia completa vs. anamnesis dirigida',
+    html: `<div class="algo-flow">
+      <div class="algo-flow-step">¿El paciente está estable y hay tiempo para el interrogatorio completo?</div>
+      <div class="algo-flow-branches">
+        <div class="algo-flow-branch" style="--bc:#3f6b52">
+          <div class="algo-flow-label">Sí — primera vez / consulta programada</div>
+          <div class="algo-flow-box">Historia clínica <strong>completa</strong>: los 9 componentes en orden</div>
+        </div>
+        <div class="algo-flow-branch" style="--bc:#8c3a34">
+          <div class="algo-flow-label">No — urgencia, guardia, paciente inestable</div>
+          <div class="algo-flow-box">Anamnesis <strong>dirigida</strong>: síntoma guía (ALICIA/SOCRATES), alergias, medicamentos, antecedentes directamente relevantes</div>
+          <div class="algo-flow-risks">
+            <div class="algo-risk mid">Completar el resto de la historia clínica una vez estabilizado el paciente</div>
+          </div>
+        </div>
+      </div>
+    </div>`,
+    fuente: 'Adaptado del texto de definición de este tema (ver Metodología, arriba)'
   }
 };
+
+export const figurasDefinicion = ['historia-completa-vs-dirigida'];
 
 export const compCites = {
   'Estructura de la historia clínica': { definicion: [1, 2], criterios_dx: [2] },
