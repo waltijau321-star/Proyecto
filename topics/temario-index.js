@@ -26,7 +26,9 @@ const SEMIOLOGIA_CLUSTERS = [
   { name: 'Exploración neurológica', items: [
     { label: 'Exploración neurológica (estado mental, Glasgow, pares craneales, fuerza/tono/reflejos, sensibilidad, coordinación, marcha, signos meníngeos y de liberación piramidal)', topicId: 'exploracion-neurologica' }
   ] },
-  { name: 'Exploración de piel y faneras', items: ['Lesiones dermatológicas elementales', 'Regla ABCDE del melanoma', 'Exploración de uñas y cabello'] },
+  { name: 'Exploración de piel y faneras', items: [
+    { label: 'Exploración de piel y faneras (lesiones elementales, patrones de distribución, ABCDE del melanoma, neoplasias cutáneas, uñas y cabello)', topicId: 'exploracion-piel-faneras' }
+  ] },
   { name: 'Exploración osteoarticular y de extremidades', items: ['Inspección y palpación articular', 'Edema y signos de trombosis venosa profunda (Homans)', 'Exploración vascular periférica'] },
   { name: 'Exploración de cabeza, cuello y ganglios', items: ['Palpación tiroidea', 'Cadenas ganglionares y adenopatías', 'Ingurgitación yugular'] },
   { name: 'Signos y maniobras clásicas (referencia transversal)', items: ['Índice de signos con epónimo por especialidad (Murphy, Homans, Kernig, Brudzinski, McBurney, Rovsing, entre otros)'] }
