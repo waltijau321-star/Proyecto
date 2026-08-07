@@ -35,6 +35,14 @@ export const registry = [
       import('./historia-clinica/calculators.js'),
       import('./historia-clinica/study.js')
     ])
+  },
+  {
+    id: 'exploracion-respiratoria', titulo: 'Exploración Respiratoria',
+    load: () => Promise.all([
+      import('./exploracion-respiratoria/content.js'),
+      import('./exploracion-respiratoria/calculators.js'),
+      import('./exploracion-respiratoria/study.js')
+    ])
   }
 ];
 
