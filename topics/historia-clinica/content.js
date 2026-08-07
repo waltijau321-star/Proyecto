@@ -271,23 +271,18 @@ export const figuras = {
   },
   'dolor-referido': {
     titulo: 'Dolor referido: dos patrones clásicos',
-    html: `<svg viewBox="0 0 220 240" role="img" aria-labelledby="dr-t dr-d" style="width:100%;max-width:200px;display:block;margin:0 auto;">
+    html: `<svg viewBox="0 0 300 628" role="img" aria-labelledby="dr-t dr-d" style="width:100%;max-width:170px;display:block;margin:0 auto;">
       <title id="dr-t">Silueta corporal con dos patrones de dolor referido</title>
-      <desc id="dr-d">Silueta corporal esquemática: el dolor de origen cardiaco (isquemia) se refiere hacia el brazo izquierdo y la mandíbula; el dolor de la vesícula biliar se refiere hacia la escápula derecha.</desc>
-      <circle cx="100" cy="26" r="16" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/>
-      <path d="M72,50 C60,55 55,70 56,90 L52,155 C51,168 65,175 80,175 L120,175 C135,175 149,168 148,155 L144,90 C145,70 140,55 128,50 C118,44 82,44 72,50 Z" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/>
-      <path d="M60,58 C45,75 38,100 40,135" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/>
-      <path d="M140,58 C155,75 162,100 160,135" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/>
-      <path d="M80,175 C78,195 76,215 74,232" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/>
-      <path d="M120,175 C122,195 124,215 126,232" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/>
-      <path d="M92,85 Q65,105 46,135" fill="none" stroke="#8c3a34" stroke-width="1.5" stroke-dasharray="4,3"/>
-      <path d="M92,85 Q90,55 96,32" fill="none" stroke="#8c3a34" stroke-width="1.5" stroke-dasharray="4,3"/>
-      <path d="M118,108 Q135,80 138,58" fill="none" stroke="#3d5a73" stroke-width="1.5" stroke-dasharray="4,3"/>
-      <circle cx="92" cy="85" r="4" fill="#8c3a34"/>
-      <circle cx="46" cy="135" r="3" fill="#8c3a34"/>
-      <circle cx="96" cy="32" r="3" fill="#8c3a34"/>
-      <circle cx="118" cy="108" r="4" fill="#3d5a73"/>
-      <circle cx="138" cy="58" r="3" fill="#3d5a73"/>
+      <desc id="dr-d">Silueta corporal (vista anterior, posición anatómica estándar) con dos patrones de dolor referido: el dolor de origen cardiaco (isquemia) se refiere hacia el brazo izquierdo y la mandíbula; el dolor de la vesícula biliar se refiere hacia la escápula derecha.</desc>
+      <image href="topics/historia-clinica/assets/silueta-cuerpo.png" x="0" y="0" width="300" height="628"/>
+      <path d="M170,235 Q220,290 250,340" fill="none" stroke="#8c3a34" stroke-width="2" stroke-dasharray="5,4"/>
+      <path d="M170,235 Q165,160 155,95" fill="none" stroke="#8c3a34" stroke-width="2" stroke-dasharray="5,4"/>
+      <path d="M128,300 Q100,250 88,200" fill="none" stroke="#3d5a73" stroke-width="2" stroke-dasharray="5,4"/>
+      <circle cx="170" cy="235" r="6" fill="#8c3a34"/>
+      <circle cx="250" cy="340" r="5" fill="#8c3a34"/>
+      <circle cx="155" cy="95" r="5" fill="#8c3a34"/>
+      <circle cx="128" cy="300" r="6" fill="#3d5a73"/>
+      <circle cx="88" cy="200" r="5" fill="#3d5a73"/>
     </svg>
     <div style="display:flex;flex-direction:column;gap:6px;margin-top:10px;font-size:12px;color:var(--ink-dim);">
       <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#8c3a34;margin-right:6px;"></span>Corazón (isquemia) → brazo izquierdo y mandíbula</span>
