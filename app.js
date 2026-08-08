@@ -107,7 +107,7 @@ async function mountAllCalculatorsSection() {
 }
 
 /* ---------- Carga de tema ---------- */
-async function selectTopic(id) {
+async function selectTopic(id, { reflectUrl = true } = {}) {
   const topic = await loadTopic(id);
   if (!topic) return;
   trackTopic(id);
@@ -118,10 +118,14 @@ async function selectTopic(id) {
 
   mountStudy(topic);
 
-  // refleja el tema en la URL sin recargar
-  const url = new URL(location.href);
-  url.searchParams.set('tema', id);
-  history.replaceState(null, '', url);
+  // Refleja el tema en la URL sin recargar — pero solo si el llamador lo pide (reflectUrl):
+  // el arranque con un tema por defecto (nadie eligió nada todavía) NO debe escribir ?tema=
+  // en una URL que llegó limpia; una vez que el usuario elige un tema explícitamente, sí.
+  if (reflectUrl) {
+    const url = new URL(location.href);
+    url.searchParams.set('tema', id);
+    history.replaceState(null, '', url);
+  }
 }
 
 /* ---------- Inicio (portada: temario + progreso acumulado del quiz) ---------- */
@@ -191,13 +195,16 @@ async function navigateToSearchResult(entry) {
 async function init() {
   mountAccountMenu();
   const params = new URLSearchParams(location.search);
-  const initial = params.get('tema') && registry.some(t => t.id === params.get('tema'))
-    ? params.get('tema') : registry[0].id;
+  const hasValidTemaParam = params.get('tema') && registry.some(t => t.id === params.get('tema'));
+  const initial = hasValidTemaParam ? params.get('tema') : registry[0].id;
 
   let booted = false;
   async function bootApp() {
     booted = true;
-    await selectTopic(initial);
+    // Si la URL ya traía un ?tema= válido, se conserva. Si no, se elige un tema por defecto
+    // internamente (el primero del registro) pero SIN escribirlo en la URL — la URL queda
+    // limpia hasta que el usuario elija un tema de verdad.
+    await selectTopic(initial, { reflectUrl: hasValidTemaParam });
     showSection('inicio');
     buildAndSetGlobalIndex();
 
