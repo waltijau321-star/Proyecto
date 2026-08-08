@@ -259,7 +259,7 @@ export const content = {
       definicion: 'Caracterización sistemática y completa del síntoma que motiva la consulta — junto con el padecimiento actual, la pieza de mayor rendimiento diagnóstico de toda la anamnesis.',
       clinica: 'Se apoya en dos mnemotecnias equivalentes. En español, <strong>ALICIA</strong>: Aparición, Localización, Intensidad, Carácter, Irradiación, Atenuantes/agravantes (ver figura). En inglés, <strong>SOCRATES</strong> cubre lo mismo con dos componentes explícitos adicionales: Associations (síntomas acompañantes) y Time course (cronología) (ver figura). Ejemplo aplicado a dolor torácico: inicio súbito vs. progresivo, localización retroesternal vs. costal, irradiación a brazo o mandíbula, calidad opresiva vs. punzante, relación con el esfuerzo o la respiración, síntomas acompañantes como diaforesis o disnea.',
       criterios_dx: 'No todos los síntomas completan las 6-8 características por igual — hay que reconocer cuándo un componente no aplica en vez de forzarlo. Ejemplos: la fiebre no tiene "localización" en el sentido clásico (no se puede señalar un punto); el prurito rara vez tiene irradiación definida; la astenia no tiene carácter ni localización aplicables. Aun así, siempre conviene intentar cada componente antes de descartarlo — cada uno modifica el diagnóstico diferencial y orienta qué estudios pedir primero.',
-      figura: ['alicia-list', 'socrates-list']
+      figura: ['alicia-list', 'socrates-ilustracion']
     },
     {
       nombre: 'Dolor',
@@ -364,18 +364,9 @@ export const figuras = {
     ]),
     fuente: 'Argente-Álvarez, Semiología Médica'
   },
-  'socrates-list': {
+  'socrates-ilustracion': {
     titulo: 'SOCRATES',
-    html: letraLista('#3d5a73', [
-      ['S', 'ite', 'localización'],
-      ['O', 'nset', 'inicio: súbito o gradual'],
-      ['C', 'haracter', 'calidad: opresivo, punzante, cólico, urente…'],
-      ['R', 'adiation', 'irradiación'],
-      ['A', 'ssociations', 'síntomas acompañantes'],
-      ['T', 'ime course', 'cronología: constante/intermitente, duración'],
-      ['E', 'xacerbating/relieving factors', 'factores agravantes y atenuantes'],
-      ['S', 'everity', 'intensidad, habitualmente escala 0-10']
-    ]),
+    html: `<img src="topics/historia-clinica/assets/socrates-ilustracion.png" alt="Infografía SOCRATES: mnemotecnia para la evaluación sistemática del dolor. S — Site: localización, ¿dónde se localiza el dolor? O — Onset: inicio súbito o gradual, ¿cuándo comenzó el dolor? C — Character: calidad (opresivo, punzante, cólico, urente, etc.), ¿cómo es el dolor? R — Radiation: irradiación, ¿se irradia a alguna otra parte del cuerpo? A — Associations: síntomas acompañantes, ¿qué otros síntomas se presentan junto con el dolor? T — Time course: cronología (constante o intermitente, duración), ¿cuánto dura el dolor?, ¿cómo es su evolución? E — Exacerbating/relieving factors: factores agravantes y atenuantes, ¿qué lo empeora?, ¿qué lo alivia? S — Severity: intensidad, ¿qué tan intenso es el dolor?, habitualmente escala 0-10. Ilustración de un médico entrevistando a un paciente.">`,
     fuente: "Bates' Guide to Physical Examination and History Taking"
   },
   'fiebre-temperatura': {
