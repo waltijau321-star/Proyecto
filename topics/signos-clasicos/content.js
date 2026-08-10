@@ -111,7 +111,7 @@ export const content = {
       nombre: 'Signo de Courvoisier',
       color: '#8c3a34',
       definicion: 'Vesícula biliar palpable, aumentada de tamaño, NO dolorosa, en un paciente con ictericia.',
-      fisiopatologia: 'La "ley de Courvoisier" establece que este hallazgo rara vez se debe a litiasis biliar: una vesícula crónicamente inflamada por cálculos suele estar fibrótica, engrosada y NO distensible, por lo que no llega a palparse aunque la vía biliar esté obstruida. Una vesícula distendida e indolora, en cambio, sugiere una obstrucción biliar extrínseca de instauración gradual —clásicamente un carcinoma de la cabeza del páncreas— sobre una vesícula previamente sana y capaz de distenderse.',
+      fisiopatologia: 'La "ley de Courvoisier" establece que este hallazgo rara vez se debe a litiasis biliar: una vesícula crónicamente inflamada por cálculos suele estar fibrótica, engrosada y NO distensible, por lo que no llega a palparse aunque la vía biliar esté obstruida. Una vesícula distendida e indolora, en cambio, sugiere una obstrucción biliar extrínseca de instauración gradual —clásicamente un carcinoma de la cabeza del páncreas— sobre una vesícula previamente sana y capaz de distenderse. Es la diferencia entre intentar inflar un globo viejo que ya se ha inflado y desinflado muchas veces, endurecido y con la goma reseca (no se estira, por más presión que reciba) y un globo nuevo, elástico, que se distiende con facilidad ante la misma presión.',
       criterios_dx: 'Vesícula palpable + ictericia + ausencia de dolor obliga a descartar una neoplasia periampular/pancreática antes que colelitiasis.',
       dx_diferencial: 'Vesícula palpable Y dolorosa (Murphy positivo) con ictericia sugiere coledocolitiasis con colangitis, no neoplasia.'
     },
@@ -119,7 +119,7 @@ export const content = {
       nombre: 'Signo de Kehr',
       color: '#8c3a34',
       definicion: 'Dolor referido en el hombro IZQUIERDO, exacerbado en decúbito o con la maniobra de Trendelenburg, en el contexto de irritación peritoneal del cuadrante superior izquierdo.',
-      fisiopatologia: 'La sangre o el contenido irritante en contacto con la superficie inferior del diafragma estimula las fibras sensitivas del nervio frénico (C3-C5), que comparte raíz cervical con el dermatoma del hombro — el cerebro interpreta la señal como proveniente del hombro (dolor referido) en vez de reconocer su origen diafragmático/subfrénico real.',
+      fisiopatologia: 'La sangre o el contenido irritante en contacto con la superficie inferior del diafragma estimula las fibras sensitivas del nervio frénico (C3-C5), que comparte raíz cervical con el dermatoma del hombro — el cerebro interpreta la señal como proveniente del hombro (dolor referido) en vez de reconocer su origen diafragmático/subfrénico real. Es como dos interruptores de luz distintos conectados al mismo circuito eléctrico: si uno de ellos se daña y manda una señal errática, esa señal puede terminar "encendiendo" la luz equivocada, la del otro interruptor que comparte el mismo cableado, en vez de la que realmente falló.',
       criterios_dx: 'En un paciente con traumatismo abdominal cerrado, el signo de Kehr obliga a descartar ruptura esplénica con hemoperitoneo, incluso sin hallazgos abdominales floridos.',
       dx_diferencial: 'Dolor referido al hombro DERECHO por irritación subdiafragmática derecha (ej. absceso subfrénico, patología biliar) sigue el mismo mecanismo frénico, del lado contrario.'
     },
@@ -152,7 +152,7 @@ export const content = {
       nombre: 'Signo de Lhermitte',
       color: '#8c3a34',
       definicion: 'Sensación breve, similar a una descarga eléctrica, que desciende por la columna vertebral (y a veces hacia las extremidades), provocada por la flexión pasiva o activa del cuello.',
-      fisiopatologia: 'Refleja hipersensibilidad mecánica de axones desmielinizados en los cordones posteriores de la médula cervical: el estiramiento mecánico de fibras desmielinizadas genera una descarga ectópica que se percibe como una sensación eléctrica. Clásicamente descrito en esclerosis múltiple, pero también en cualquier causa de mielopatía cervical compresiva (espondilosis cervical severa, tumor medular).',
+      fisiopatologia: 'Refleja hipersensibilidad mecánica de axones desmielinizados en los cordones posteriores de la médula cervical: el estiramiento mecánico de fibras desmielinizadas genera una descarga ectópica que se percibe como una sensación eléctrica. Es como un cable telefónico viejo, con la funda protectora agrietada y el cobre casi expuesto: mientras está quieto no da problema, pero al doblarlo o estirarlo genera chisporroteos y ruido de estática que un cable nuevo, bien aislado, nunca produciría. Clásicamente descrito en esclerosis múltiple, pero también en cualquier causa de mielopatía cervical compresiva (espondilosis cervical severa, tumor medular).',
       criterios_dx: 'Un signo de Lhermitte positivo localiza la lesión a nivel de los cordones posteriores cervicales, orientando el estudio de imagen (resonancia magnética) hacia esa región.'
     },
     {
