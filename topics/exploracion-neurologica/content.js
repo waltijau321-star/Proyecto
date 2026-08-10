@@ -36,11 +36,26 @@ export const bibliografia = [
 // Reetiqueta los 4 campos genéricos del motor para que encajen con contenido semiológico
 // (mismo criterio que los temas de Semiología anteriores).
 export const modalLabels = {
+  itemName: 'Punto de exploración',
   fisiopatologia: 'Mecanismo y clasificación',
   clinica: 'Técnica y hallazgos',
   criterios_dx: 'Significado clínico',
   algoritmo: 'Secuencia'
 };
+
+// Reproduce el marcado visual de .modal-figure que arma oneFiguraHTML() en engine/study-view.js,
+// para poder insertar una tabla/imagen EN LÍNEA justo debajo del párrafo que la menciona, en vez
+// de dejar que el motor la adjunte al final del modal vía `c.figura`. Numeración continua por
+// TEMA completo (no por tarjeta): Tabla y Imagen son contadores independientes que avanzan según
+// el orden de aparición al recorrer `complicaciones` de arriba a abajo. La tabla de la Escala de
+// Coma de Glasgow (figurasClasificacion, sección "Escalas de exploración") vive en una sección
+// distinta y ya aparece pegada a su escala — queda fuera de este conteo.
+function figBlock(label, titulo, html) {
+  return `<div class="modal-field modal-figure" style="margin:10px 0 4px;">
+    <span class="flabel">${label} · ${titulo}</span>
+    <div class="figure-body">${html}</div>
+  </div>`;
+}
 
 // ---------------------------------------------------------------------------------------------
 // Helpers de figuras (SVG a mano, theme-aware vía var(--...) salvo colores clínicos ya
@@ -125,13 +140,18 @@ export const content = {
       tituloB: 'Hallazgos que obligan a profundizar el estudio',
       compensada: 'Alerta, orientado en las 3 esferas, lenguaje fluente y comprensible; pupilas isocóricas y reactivas, movimientos oculares completos, cara simétrica; fuerza 5/5 en las 4 extremidades, tono normal, reflejos osteotendinosos simétricos (2+); sensibilidad conservada en todas las modalidades; coordinación normal (dedo-nariz, Romberg negativo); marcha normal; sin signos meníngeos ni reflejos patológicos.',
       descompensada: 'Cualquier alteración del nivel de conciencia o del contenido mental, asimetría pupilar o facial, déficit de fuerza o sensibilidad focal, reflejos asimétricos o clono, alteración de la coordinación o de la marcha, o cualquier signo meníngeo o patológico (Babinski, Kernig, Brudzinski) — cada uno de estos hallazgos, aislado, ya orienta a una localización anatómica específica dentro del sistema nervioso y puede justificar neuroimagen urgente.'
-    },
-    clasificacion: {
-      compensada_descompensada: 'La Escala de Coma de Glasgow (ECG) cuantifica el nivel de conciencia mediante 3 componentes evaluados por separado —apertura ocular, respuesta verbal y respuesta motora— y es la única escala de exploración física de uso universal en este tema. Se reporta siempre desglosada (ej. "O2V2M4 = 8") y no solo como suma total, porque el mismo puntaje total puede corresponder a combinaciones clínicamente distintas.',
-      escalas: [
-        { nombre: 'Escala de Coma de Glasgow (ECG)', componentes: 'Apertura ocular (4) + Respuesta verbal (5) + Respuesta motora (6)', formula: 'Suma de los 3 componentes (mínimo 3, máximo 15)', interpretacion: '13-15: leve. 9-12: moderado. ≤8: severo — indicación clásica de manejo avanzado de la vía aérea ("8 = intuba").' }
-      ]
     }
+  },
+  // `clasificacion` va al mismo nivel que `diagnostico` (no anidado dentro), porque
+  // buildClasificacion() en engine/study-view.js lee `topic.content.clasificacion` directamente
+  // — anidado bajo `diagnostico` (como estaba antes) el motor nunca encontraba `D.clasificacion`
+  // y la sección "Escalas de exploración" (con la Escala de Coma de Glasgow) quedaba invisible,
+  // pese a estar completamente escrita. Bug encontrado y corregido en esta revisión.
+  clasificacion: {
+    compensada_descompensada: 'La Escala de Coma de Glasgow (ECG) cuantifica el nivel de conciencia mediante 3 componentes evaluados por separado —apertura ocular, respuesta verbal y respuesta motora— y es la única escala de exploración física de uso universal en este tema. Se reporta siempre desglosada (ej. "O2V2M4 = 8") y no solo como suma total, porque el mismo puntaje total puede corresponder a combinaciones clínicamente distintas.',
+    escalas: [
+      { nombre: 'Escala de Coma de Glasgow (ECG)', componentes: 'Apertura ocular (4) + Respuesta verbal (5) + Respuesta motora (6)', formula: 'Suma de los 3 componentes (mínimo 3, máximo 15)', interpretacion: '13-15: leve. 9-12: moderado. ≤8: severo — indicación clásica de manejo avanzado de la vía aérea ("8 = intuba").' }
+    ]
   },
   complicaciones: [
     {
@@ -163,11 +183,11 @@ export const content = {
     {
       nombre: 'Par craneal V (trigémino) y VII (facial): parálisis facial central vs. periférica',
       color: '#8c3a34',
-      definicion: 'V (trigémino): sensibilidad facial en sus 3 ramas (oftálmica, maxilar, mandibular) y fuerza de los músculos de la masticación; reflejo corneal. VII (facial): fuerza de los músculos de expresión facial (elevar cejas, cerrar los ojos con fuerza, sonreír, inflar mejillas) y gusto de los dos tercios anteriores de la lengua (ver figura).',
-      fisiopatologia: 'El núcleo facial recibe inervación cortical BILATERAL para la porción que controla la musculatura de la frente, pero solo inervación cortical CONTRALATERAL para la porción que controla la musculatura inferior de la cara. Por eso una lesión CENTRAL (vía corticonuclear, por encima del núcleo del facial) respeta la frente —el paciente sí puede arrugarla y cerrar el ojo de ese lado— y solo cae la mitad inferior de la cara contralateral a la lesión. Una lesión PERIFÉRICA (del núcleo o del nervio facial mismo, ej. parálisis de Bell) compromete TODA la hemicara ipsilateral, incluida la frente, porque interrumpe la vía final común para ambas porciones del núcleo. Es como una lámpara del techo conectada a dos interruptores distintos (uno de cada lado de la casa) para la mitad superior, pero con un solo interruptor para la mitad inferior: dañar uno de los dos interruptores de arriba no la apaga (el otro la sigue alimentando), pero dañar el único interruptor de abajo, o el cable principal que llega a la lámpara completa, sí la apaga entera.',
+      definicion: 'V (trigémino): sensibilidad facial en sus 3 ramas (oftálmica, maxilar, mandibular) y fuerza de los músculos de la masticación; reflejo corneal. VII (facial): fuerza de los músculos de expresión facial (elevar cejas, cerrar los ojos con fuerza, sonreír, inflar mejillas) y gusto de los dos tercios anteriores de la lengua (ver Imagen 1).',
+      fisiopatologia: `${figBlock('Imagen 1', 'Parálisis facial central vs. periférica', paralisisFacialSVG())}
+El núcleo facial recibe inervación cortical BILATERAL para la porción que controla la musculatura de la frente, pero solo inervación cortical CONTRALATERAL para la porción que controla la musculatura inferior de la cara. Por eso una lesión CENTRAL (vía corticonuclear, por encima del núcleo del facial) respeta la frente —el paciente sí puede arrugarla y cerrar el ojo de ese lado— y solo cae la mitad inferior de la cara contralateral a la lesión. Una lesión PERIFÉRICA (del núcleo o del nervio facial mismo, ej. parálisis de Bell) compromete TODA la hemicara ipsilateral, incluida la frente, porque interrumpe la vía final común para ambas porciones del núcleo. Es como una lámpara del techo conectada a dos interruptores distintos (uno de cada lado de la casa) para la mitad superior, pero con un solo interruptor para la mitad inferior: dañar uno de los dos interruptores de arriba no la apaga (el otro la sigue alimentando), pero dañar el único interruptor de abajo, o el cable principal que llega a la lámpara completa, sí la apaga entera.`,
       criterios_dx: 'Preservación de la capacidad de arrugar la frente y cerrar el ojo con fuerza en el lado "paralizado" = lesión central (buscar un evento cerebrovascular). Compromiso de toda la hemicara incluida la frente = lesión periférica (Bell, herpes zóster ótico/síndrome de Ramsay Hunt, otitis, tumor del ángulo pontocerebeloso).',
-      dx_diferencial: 'Parálisis facial periférica bilateral: considerar síndrome de Guillain-Barré, sarcoidosis, enfermedad de Lyme.',
-      figura: 'paralisis-facial'
+      dx_diferencial: 'Parálisis facial periférica bilateral: considerar síndrome de Guillain-Barré, sarcoidosis, enfermedad de Lyme.'
     },
     {
       nombre: 'Pares craneales VIII-XII: vestibulococlear, bulbares y espinal',
@@ -206,11 +226,11 @@ export const content = {
     {
       nombre: 'Sensibilidad: dermatomas y vías sensitivas',
       color: '#3d5a73',
-      definicion: 'Evaluación de la sensibilidad superficial (táctil, dolorosa, térmica) y profunda (vibratoria con diapasón, posicional/propioceptiva) por dermatomas (ver figura).',
-      fisiopatologia: 'Dos vías anatómicamente distintas conducen la sensibilidad, lo que explica los patrones de pérdida disociada: la vía espinotalámica (dolor, temperatura) decusa de inmediato, a nivel medular, 1-2 segmentos por encima de su entrada; los cordones posteriores (vibración, posición/propiocepción) ascienden ipsilaterales sin decusar hasta el bulbo raquídeo. Síndrome de Brown-Séquard (hemisección medular): pérdida motora y de sensibilidad vibratoria/posicional IPSILATERAL a la lesión (los cordones posteriores aún no habían decusado), con pérdida de dolor y temperatura CONTRALATERAL (la vía espinotalámica ya había decusado antes de ser lesionada). Siringomielia: pérdida SUSPENDIDA y bilateral de dolor y temperatura en un nivel específico (afecta las fibras espinotalámicas que decusan justo en la comisura anterior, donde se forma la cavidad siringomiélica), con preservación de la sensibilidad vibratoria/posicional y del tacto fino (cordones posteriores, anatómicamente alejados de la comisura anterior).',
+      definicion: 'Evaluación de la sensibilidad superficial (táctil, dolorosa, térmica) y profunda (vibratoria con diapasón, posicional/propioceptiva) por dermatomas (ver Imagen 2).',
+      fisiopatologia: `${figBlock('Imagen 2', 'Dermatomas de referencia clínica', dermatomasSVG())}
+Dos vías anatómicamente distintas conducen la sensibilidad, lo que explica los patrones de pérdida disociada: la vía espinotalámica (dolor, temperatura) decusa de inmediato, a nivel medular, 1-2 segmentos por encima de su entrada; los cordones posteriores (vibración, posición/propiocepción) ascienden ipsilaterales sin decusar hasta el bulbo raquídeo. Síndrome de Brown-Séquard (hemisección medular): pérdida motora y de sensibilidad vibratoria/posicional IPSILATERAL a la lesión (los cordones posteriores aún no habían decusado), con pérdida de dolor y temperatura CONTRALATERAL (la vía espinotalámica ya había decusado antes de ser lesionada). Siringomielia: pérdida SUSPENDIDA y bilateral de dolor y temperatura en un nivel específico (afecta las fibras espinotalámicas que decusan justo en la comisura anterior, donde se forma la cavidad siringomiélica), con preservación de la sensibilidad vibratoria/posicional y del tacto fino (cordones posteriores, anatómicamente alejados de la comisura anterior).`,
       criterios_dx: 'Un patrón de pérdida sensitiva disociada (dolor/temperatura afectados, vibración/posición conservados, o viceversa) localiza la lesión a nivel medular con alta precisión, sin necesidad de neuroimagen para sospechar el diagnóstico.',
-      dx_diferencial: 'Pérdida sensitiva en "guante y calceta" (distal, simétrica, en las 4 extremidades): polineuropatía periférica, no lesión medular.',
-      figura: 'dermatomas'
+      dx_diferencial: 'Pérdida sensitiva en "guante y calceta" (distal, simétrica, en las 4 extremidades): polineuropatía periférica, no lesión medular.'
     },
     {
       nombre: 'Coordinación: pruebas cerebelosas y Romberg',
@@ -224,47 +244,8 @@ export const content = {
     {
       nombre: 'Marcha y equilibrio',
       color: '#3d5a73',
-      definicion: 'Observación de la marcha espontánea, en tándem (talón-punta) y, si es posible, de puntillas y talones, integrando fuerza, tono, coordinación y sensibilidad propioceptiva en una sola tarea (ver figura).',
-      criterios_dx: 'El patrón específico de la marcha patológica suele ser suficiente, sin más maniobras, para localizar el nivel de la lesión (piramidal, extrapiramidal, cerebelosa, sensitiva/cordones posteriores, de nervio periférico, o muscular).',
-      figura: 'marcha-patologica-tabla'
-    },
-    {
-      nombre: 'Signos meníngeos',
-      color: '#8c3a34',
-      definicion: 'Maniobras que buscan reproducir dolor por irritación de las meninges inflamadas al estirar las raíces nerviosas o las estructuras meníngeas circundantes (ver figura).',
-      clinica: 'Rigidez de nuca: resistencia involuntaria a la flexión pasiva del cuello. Signo de Kernig: con la cadera flexionada a 90°, se intenta extender pasivamente la rodilla — positivo si genera dolor o resistencia. Signo de Brudzinski: la flexión pasiva del cuello provoca flexión refleja e involuntaria de caderas y rodillas.',
-      fisiopatologia: 'Ambas maniobras estiran las raíces lumbosacras (Kernig, indirectamente vía el nervio ciático) o generan un mecanismo reflejo protector (Brudzinski) cuando las meninges inflamadas irritan las raíces nerviosas al ser traccionadas por el movimiento.',
-      criterios_dx: 'La sensibilidad de Kernig y Brudzinski para meningitis es baja (estudios de validación muestran sensibilidad de apenas 5-10% en series de adultos con meningitis confirmada por cultivo), por lo que su AUSENCIA no descarta meningitis — la decisión de realizar punción lumbar debe basarse en el cuadro clínico global, no en la negatividad aislada de estos signos.',
-      dx_diferencial: 'Rigidez de nuca por patología cervical mecánica/artrósica (limita TODOS los movimientos del cuello, no solo la flexión) vs. rigidez de nuca meníngea (limita predominantemente la flexión, con relativa preservación de la rotación lateral).',
-      figura: 'signos-meningeos'
-    },
-    {
-      nombre: 'Reflejo de Babinski y otros signos de liberación piramidal',
-      color: '#8c3a34',
-      definicion: 'Signo de Babinski: se estimula el borde lateral de la planta del pie, de talón a la base de los dedos; respuesta patológica = extensión (dorsiflexión) del hallux con apertura en abanico de los demás dedos.',
-      clinica: 'Normal en el adulto: flexión plantar de todos los dedos (respuesta "flexora" o "Babinski negativo"). Patológico: extensión del hallux con abanico de los otros dedos ("Babinski positivo"), fisiológico solo hasta los 2 años de edad (inmadurez de la mielinización corticoespinal).',
-      fisiopatologia: 'El Babinski positivo es un signo de liberación piramidal: la lesión de la vía corticoespinal desinhibe un reflejo de retirada primitivo (flexor plantar de origen espinal) que normalmente está suprimido por la vía corticoespinal madura. El signo de Hoffmann (flexión brusca de la falange distal del dedo medio, positiva si genera flexión-aducción refleja del pulgar) es su equivalente funcional en el miembro superior.',
-      criterios_dx: 'Babinski positivo, en un adulto, siempre indica lesión de neurona motora superior en algún punto de la vía corticoespinal (desde la corteza hasta la médula) — nunca es un hallazgo normal fuera de la primera infancia.',
-      dx_diferencial: 'Retirada voluntaria/de defensa por cosquillas (movimiento rápido, inconsistente, con retirada de toda la pierna) vs. Babinski verdadero (extensión aislada y reproducible del hallux, con latencia característica).',
-      figura: 'umn-lmn-tabla'
-    }
-  ]
-};
-
-export const figuras = {
-  'dermatomas': {
-    titulo: 'Dermatomas de referencia clínica',
-    html: dermatomasSVG(),
-    fuente: "Bates' Guide to Physical Examination; Campbell, DeJong's The Neurologic Examination"
-  },
-  'paralisis-facial': {
-    titulo: 'Parálisis facial central vs. periférica',
-    html: paralisisFacialSVG(),
-    fuente: "Campbell, DeJong's The Neurologic Examination; Ropper, Adams and Victor's Principles of Neurology"
-  },
-  'marcha-patologica-tabla': {
-    titulo: 'Tipos de marcha patológica',
-    html: `<div style="overflow-x:auto;">
+      definicion: 'Observación de la marcha espontánea, en tándem (talón-punta) y, si es posible, de puntillas y talones, integrando fuerza, tono, coordinación y sensibilidad propioceptiva en una sola tarea (ver Tabla 1).',
+      criterios_dx: `El patrón específico de la marcha patológica suele ser suficiente, sin más maniobras, para localizar el nivel de la lesión (piramidal, extrapiramidal, cerebelosa, sensitiva/cordones posteriores, de nervio periférico, o muscular).${figBlock('Tabla 1', 'Tipos de marcha patológica', `<div style="overflow-x:auto;">
     <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
       <thead><tr style="border-bottom:1px solid var(--line);">
         <th style="text-align:left;padding:5px 6px;">Marcha</th>
@@ -280,17 +261,24 @@ export const figuras = {
         <tr><td style="padding:5px 6px;"><strong>Miopática (anadeante)</strong></td><td style="padding:5px 6px;">"De pato", basculación pélvica lateral por debilidad de glúteos medios</td><td style="padding:5px 6px;">Miopatías proximales</td></tr>
       </tbody>
     </table>
-    </div>`,
-    fuente: "Bates' Guide to Physical Examination; Campbell, DeJong's The Neurologic Examination"
-  },
-  'signos-meningeos': {
-    titulo: 'Maniobras de Kernig y Brudzinski',
-    html: signosMeningeosSVG(),
-    fuente: 'Thomas et al. Clin Infect Dis 2002'
-  },
-  'umn-lmn-tabla': {
-    titulo: 'Neurona motora superior vs. inferior: patrón de hallazgos',
-    html: `<div style="overflow-x:auto;">
+    </div>`)}`
+    },
+    {
+      nombre: 'Signos meníngeos',
+      color: '#8c3a34',
+      definicion: 'Maniobras que buscan reproducir dolor por irritación de las meninges inflamadas al estirar las raíces nerviosas o las estructuras meníngeas circundantes (ver Imagen 3).',
+      clinica: 'Rigidez de nuca: resistencia involuntaria a la flexión pasiva del cuello. Signo de Kernig: con la cadera flexionada a 90°, se intenta extender pasivamente la rodilla — positivo si genera dolor o resistencia. Signo de Brudzinski: la flexión pasiva del cuello provoca flexión refleja e involuntaria de caderas y rodillas.',
+      fisiopatologia: `${figBlock('Imagen 3', 'Maniobras de Kernig y Brudzinski', signosMeningeosSVG())}
+Ambas maniobras estiran las raíces lumbosacras (Kernig, indirectamente vía el nervio ciático) o generan un mecanismo reflejo protector (Brudzinski) cuando las meninges inflamadas irritan las raíces nerviosas al ser traccionadas por el movimiento.`,
+      criterios_dx: 'La sensibilidad de Kernig y Brudzinski para meningitis es baja (estudios de validación muestran sensibilidad de apenas 5-10% en series de adultos con meningitis confirmada por cultivo), por lo que su AUSENCIA no descarta meningitis — la decisión de realizar punción lumbar debe basarse en el cuadro clínico global, no en la negatividad aislada de estos signos.',
+      dx_diferencial: 'Rigidez de nuca por patología cervical mecánica/artrósica (limita TODOS los movimientos del cuello, no solo la flexión) vs. rigidez de nuca meníngea (limita predominantemente la flexión, con relativa preservación de la rotación lateral).'
+    },
+    {
+      nombre: 'Reflejo de Babinski y otros signos de liberación piramidal',
+      color: '#8c3a34',
+      definicion: 'Signo de Babinski: se estimula el borde lateral de la planta del pie, de talón a la base de los dedos; respuesta patológica = extensión (dorsiflexión) del hallux con apertura en abanico de los demás dedos.',
+      clinica: 'Normal en el adulto: flexión plantar de todos los dedos (respuesta "flexora" o "Babinski negativo"). Patológico: extensión del hallux con abanico de los otros dedos ("Babinski positivo"), fisiológico solo hasta los 2 años de edad (inmadurez de la mielinización corticoespinal).',
+      fisiopatologia: `El Babinski positivo es un signo de liberación piramidal: la lesión de la vía corticoespinal desinhibe un reflejo de retirada primitivo (flexor plantar de origen espinal) que normalmente está suprimido por la vía corticoespinal madura. El signo de Hoffmann (flexión brusca de la falange distal del dedo medio, positiva si genera flexión-aducción refleja del pulgar) es su equivalente funcional en el miembro superior. La Tabla 2 resume el patrón completo de hallazgos que distingue una lesión de neurona motora superior de una inferior.${figBlock('Tabla 2', 'Neurona motora superior vs. inferior: patrón de hallazgos', `<div style="overflow-x:auto;">
     <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
       <thead><tr style="border-bottom:1px solid var(--line);">
         <th style="text-align:left;padding:5px 6px;">Característica</th>
@@ -306,9 +294,14 @@ export const figuras = {
         <tr><td style="padding:5px 6px;"><strong>Distribución</strong></td><td style="padding:5px 6px;">Patrón piramidal (regional/hemicorporal)</td><td style="padding:5px 6px;">Radicular o troncular (miotoma/nervio específico)</td></tr>
       </tbody>
     </table>
-    </div>`,
-    fuente: "Campbell, DeJong's The Neurologic Examination; Ropper, Adams and Victor's Principles of Neurology"
-  },
+    </div>`)}`,
+      criterios_dx: 'Babinski positivo, en un adulto, siempre indica lesión de neurona motora superior en algún punto de la vía corticoespinal (desde la corteza hasta la médula) — nunca es un hallazgo normal fuera de la primera infancia.',
+      dx_diferencial: 'Retirada voluntaria/de defensa por cosquillas (movimiento rápido, inconsistente, con retirada de toda la pierna) vs. Babinski verdadero (extensión aislada y reproducible del hallux, con latencia característica).'
+    }
+  ]
+};
+
+export const figuras = {
   'glasgow-detalle-tabla': {
     titulo: 'Escala de Coma de Glasgow: desglose por componente',
     html: `<div style="overflow-x:auto;">

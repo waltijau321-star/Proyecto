@@ -44,11 +44,24 @@ export const bibliografia = [
 // Reetiqueta los 4 campos genéricos del motor para que encajen con contenido semiológico
 // (mismo criterio que los demás temas de Semiología).
 export const modalLabels = {
+  itemName: 'Signo',
   fisiopatologia: 'Mecanismo y clasificación',
   clinica: 'Técnica y hallazgos',
   criterios_dx: 'Significado clínico',
   algoritmo: 'Secuencia'
 };
+
+// Reproduce el marcado visual de .modal-figure que arma oneFiguraHTML() en engine/study-view.js,
+// para poder insertar una tabla/imagen EN LÍNEA justo debajo del párrafo que la menciona, en vez
+// de dejar que el motor la adjunte al final del modal vía `c.figura`. Numeración continua por
+// TEMA completo (no por tarjeta): Tabla y Imagen son contadores independientes que avanzan según
+// el orden de aparición al recorrer `complicaciones` de arriba a abajo.
+function figBlock(label, titulo, html) {
+  return `<div class="modal-field modal-figure" style="margin:10px 0 4px;">
+    <span class="flabel">${label} · ${titulo}</span>
+    <div class="figure-body">${html}</div>
+  </div>`;
+}
 
 // ---------------------------------------------------------------------------------------------
 // Helpers de figuras (SVG a mano, theme-aware vía var(--...) salvo colores clínicos ya
@@ -85,18 +98,72 @@ export const content = {
     {
       nombre: 'Índice maestro de signos con epónimo',
       color: '#3d5a73',
-      definicion: 'Tabla de referencia rápida con TODOS los signos con epónimo relevantes de Medicina Interna: los ya construidos a fondo en su tema de sistema correspondiente, y los nuevos que se desarrollan en las tarjetas siguientes de este mismo tema (ver figura).',
-      clinica: 'Úsala para ubicar en segundos dónde profundizar cualquier signo con nombre propio que aparezca en un caso clínico o una pregunta de examen.',
-      figura: 'indice-maestro-tabla'
+      definicion: 'Tabla de referencia rápida con TODOS los signos con epónimo relevantes de Medicina Interna: los ya construidos a fondo en su tema de sistema correspondiente, y los nuevos que se desarrollan en las tarjetas siguientes de este mismo tema (ver Tabla 1).',
+      clinica: `Úsala para ubicar en segundos dónde profundizar cualquier signo con nombre propio que aparezca en un caso clínico o una pregunta de examen.${figBlock('Tabla 1', 'Índice maestro de signos con epónimo', `<div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:11px;">
+      <thead><tr style="border-bottom:1px solid var(--line);">
+        <th style="text-align:left;padding:4px 5px;">Signo</th>
+        <th style="text-align:left;padding:4px 5px;">Significado breve</th>
+        <th style="text-align:left;padding:4px 5px;">Profundizar en</th>
+      </tr></thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Murphy</td><td style="padding:4px 5px;">Colecistitis aguda</td><td style="padding:4px 5px;">Exploración Abdominal</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">McBurney</td><td style="padding:4px 5px;">Punto apendicular</td><td style="padding:4px 5px;">Exploración Abdominal</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Rovsing</td><td style="padding:4px 5px;">Apendicitis (irritación a distancia)</td><td style="padding:4px 5px;">Exploración Abdominal</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Blumberg</td><td style="padding:4px 5px;">Irritación peritoneal (rebote)</td><td style="padding:4px 5px;">Exploración Abdominal</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Psoas / obturador</td><td style="padding:4px 5px;">Apendicitis retrocecal/pélvica</td><td style="padding:4px 5px;">Exploración Abdominal</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Cullen / Grey Turner</td><td style="padding:4px 5px;">Hemorragia retroperitoneal (pancreatitis)</td><td style="padding:4px 5px;">Exploración Abdominal</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;"><strong>Courvoisier</strong></td><td style="padding:4px 5px;">Obstrucción biliar neoplásica</td><td style="padding:4px 5px;">Aquí</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;"><strong>Kehr</strong></td><td style="padding:4px 5px;">Ruptura esplénica (dolor referido al hombro)</td><td style="padding:4px 5px;">Aquí</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Kernig / Brudzinski</td><td style="padding:4px 5px;">Irritación meníngea</td><td style="padding:4px 5px;">Exploración Neurológica</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Babinski / Hoffmann</td><td style="padding:4px 5px;">Liberación piramidal</td><td style="padding:4px 5px;">Exploración Neurológica</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Romberg</td><td style="padding:4px 5px;">Ataxia sensitiva vs. cerebelosa</td><td style="padding:4px 5px;">Exploración Neurológica</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Argyll-Robertson</td><td style="padding:4px 5px;">Neurosífilis</td><td style="padding:4px 5px;">Exploración Neurológica</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Horner</td><td style="padding:4px 5px;">Vía oculosimpática (ptosis/miosis/anhidrosis)</td><td style="padding:4px 5px;">Exploración Neurológica</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;"><strong>Lhermitte</strong></td><td style="padding:4px 5px;">Desmielinización cervical</td><td style="padding:4px 5px;">Aquí</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;"><strong>Battle / ojos de mapache</strong></td><td style="padding:4px 5px;">Fractura de base de cráneo</td><td style="padding:4px 5px;">Aquí</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Kussmaul</td><td style="padding:4px 5px;">Pericarditis constrictiva/taponamiento</td><td style="padding:4px 5px;">Exploración Cardiovascular</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Carvallo</td><td style="padding:4px 5px;">Soplo del lado derecho del corazón</td><td style="padding:4px 5px;">Exploración Cardiovascular</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;"><strong>Musset / Duroziez / Traube / Quincke</strong></td><td style="padding:4px 5px;">Insuficiencia aórtica severa</td><td style="padding:4px 5px;">Aquí</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;"><strong>Levine</strong></td><td style="padding:4px 5px;">Dolor isquémico visceral</td><td style="padding:4px 5px;">Aquí</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Homans / Pratt</td><td style="padding:4px 5px;">Trombosis venosa profunda</td><td style="padding:4px 5px;">Exploración Osteoarticular</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Buerger</td><td style="padding:4px 5px;">Isquemia arterial periférica</td><td style="padding:4px 5px;">Exploración Osteoarticular</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Stemmer</td><td style="padding:4px 5px;">Linfedema</td><td style="padding:4px 5px;">Exploración Osteoarticular</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Pemberton</td><td style="padding:4px 5px;">Bocio con extensión retroesternal</td><td style="padding:4px 5px;">Exploración Cabeza y Cuello</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Troisier (ganglio de Virchow)</td><td style="padding:4px 5px;">Neoplasia abdominal metastásica</td><td style="padding:4px 5px;">Exploración Cabeza y Cuello</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Nikolsky</td><td style="padding:4px 5px;">Fragilidad epidérmica intraepidérmica</td><td style="padding:4px 5px;">Exploración de Piel y Faneras</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Koebner</td><td style="padding:4px 5px;">Lesión nueva en sitio de trauma cutáneo</td><td style="padding:4px 5px;">Exploración de Piel y Faneras</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;"><strong>Chvostek / Trousseau (tetania)</strong></td><td style="padding:4px 5px;">Hipocalcemia</td><td style="padding:4px 5px;">Aquí</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;"><strong>Trousseau (tromboflebitis migratoria)</strong></td><td style="padding:4px 5px;">Neoplasia oculta (páncreas)</td><td style="padding:4px 5px;">Aquí</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;"><strong>Hoover</strong></td><td style="padding:4px 5px;">EPOC avanzado</td><td style="padding:4px 5px;">Aquí</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;"><strong>Gowers</strong></td><td style="padding:4px 5px;">Miopatía proximal (Duchenne)</td><td style="padding:4px 5px;">Aquí</td></tr>
+        <tr><td style="padding:4px 5px;"><strong>Auspitz / Darier</strong></td><td style="padding:4px 5px;">Psoriasis / mastocitosis</td><td style="padding:4px 5px;">Aquí</td></tr>
+      </tbody>
+    </table>
+    </div>`)}`
     },
     {
       nombre: 'Tétrada periférica de la insuficiencia aórtica severa: Musset, Duroziez, Traube y Quincke',
       color: '#8c3a34',
-      definicion: 'Conjunto de signos periféricos clásicos, generados todos por el mismo mecanismo, hoy de valor más histórico/de examen que de utilidad diagnóstica de primera línea (el ecocardiograma los reemplazó) (ver figura).',
+      definicion: 'Conjunto de signos periféricos clásicos, generados todos por el mismo mecanismo, hoy de valor más histórico/de examen que de utilidad diagnóstica de primera línea (el ecocardiograma los reemplazó) (ver Tabla 2).',
       clinica: 'Signo de Musset: cabeceo rítmico y sincrónico con cada latido cardiaco, sin que el examinador toque al paciente. Signo de Duroziez: al comprimir progresivamente la arteria femoral con el estetoscopio, se ausculta un soplo tanto con la compresión proximal (sistólico, normal) como con la compresión distal (diastólico, anormal). Signo de Traube ("pistol shot"): ruido sistólico y diastólico intenso y seco sobre la arteria femoral, SIN necesidad de comprimirla. Signo de Quincke: pulsación capilar visible (alternancia de palidez y rubor) en el lecho ungueal al presionar suavemente la punta de la uña, o en el borde labial con transiluminación.',
-      fisiopatologia: 'Los 4 comparten el mismo origen: la fuga diastólica masiva a través de la válvula aórtica insuficiente genera una presión de pulso muy amplia (sistólica alta, diastólica muy baja) que se transmite exageradamente a la periferia — el mismo mecanismo detrás del pulso celer et magnus/de Corrigan ya visto en Exploración Cardiovascular.',
-      criterios_dx: 'Su baja sensibilidad y especificidad comparadas con los hallazgos centrales (soplo diastólico, pulso celer et magnus) y el ecocardiograma les da hoy un valor más de reconocimiento clásico que de utilidad diagnóstica de primera línea.',
-      figura: 'tetrada-ar-tabla'
+      fisiopatologia: `${figBlock('Tabla 2', 'Tétrada periférica de la insuficiencia aórtica severa', `<div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
+      <thead><tr style="border-bottom:1px solid var(--line);">
+        <th style="text-align:left;padding:5px 6px;">Signo</th>
+        <th style="text-align:left;padding:5px 6px;">Técnica</th>
+        <th style="text-align:left;padding:5px 6px;">Hallazgo</th>
+      </tr></thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Musset</strong></td><td style="padding:5px 6px;">Observar la cabeza sin tocar al paciente</td><td style="padding:5px 6px;">Cabeceo sincrónico con cada latido</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Duroziez</strong></td><td style="padding:5px 6px;">Comprimir la arteria femoral proximal y distal con el estetoscopio</td><td style="padding:5px 6px;">Soplo sistólico Y diastólico</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Traube</strong></td><td style="padding:5px 6px;">Auscultar la femoral sin comprimirla</td><td style="padding:5px 6px;">Ruido "en pistoletazo" sistólico-diastólico</td></tr>
+        <tr><td style="padding:5px 6px;"><strong>Quincke</strong></td><td style="padding:5px 6px;">Presionar suavemente la punta de la uña o transiluminar el labio</td><td style="padding:5px 6px;">Pulsación capilar visible (palidez-rubor alternantes)</td></tr>
+      </tbody>
+    </table>
+    </div>`)}
+Los 4 comparten el mismo origen: la fuga diastólica masiva a través de la válvula aórtica insuficiente genera una presión de pulso muy amplia (sistólica alta, diastólica muy baja) que se transmite exageradamente a la periferia — el mismo mecanismo detrás del pulso celer et magnus/de Corrigan ya visto en Exploración Cardiovascular.`,
+      criterios_dx: 'Su baja sensibilidad y especificidad comparadas con los hallazgos centrales (soplo diastólico, pulso celer et magnus) y el ecocardiograma les da hoy un valor más de reconocimiento clásico que de utilidad diagnóstica de primera línea.'
     },
     {
       nombre: 'Signo de Levine',
@@ -142,11 +209,24 @@ export const content = {
     {
       nombre: 'Signo de Trousseau de tromboflebitis migratoria (¡mismo nombre, significado distinto!)',
       color: '#8c3a34',
-      definicion: 'Episodios recurrentes y migratorios de tromboflebitis superficial, en sitios variables e inusuales (con frecuencia sin relación con venas varicosas), que aparecen y desaparecen de forma sucesiva (ver figura).',
-      fisiopatologia: 'Fenómeno paraneoplásico por un estado de hipercoagulabilidad sistémica inducido por la neoplasia (liberación de factor tisular y mucinas procoagulantes por las células tumorales), clásicamente asociado al adenocarcinoma de páncreas, aunque descrito también en otras neoplasias.',
+      definicion: 'Episodios recurrentes y migratorios de tromboflebitis superficial, en sitios variables e inusuales (con frecuencia sin relación con venas varicosas), que aparecen y desaparecen de forma sucesiva (ver Tabla 3).',
+      fisiopatologia: `${figBlock('Tabla 3', '"Signo de Trousseau": dos entidades distintas, mismo nombre', `<div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
+      <thead><tr style="border-bottom:1px solid var(--line);">
+        <th style="text-align:left;padding:5px 6px;"></th>
+        <th style="text-align:left;padding:5px 6px;">Trousseau de la tetania</th>
+        <th style="text-align:left;padding:5px 6px;">Trousseau de tromboflebitis migratoria</th>
+      </tr></thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Significa</strong></td><td style="padding:5px 6px;">Hipocalcemia</td><td style="padding:5px 6px;">Neoplasia oculta (clásicamente pancreática)</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Hallazgo</strong></td><td style="padding:5px 6px;">Espasmo carpal con isquemia por manguito</td><td style="padding:5px 6px;">Tromboflebitis superficial recurrente y migratoria</td></tr>
+        <tr><td style="padding:5px 6px;"><strong>Mecanismo</strong></td><td style="padding:5px 6px;">Hiperexcitabilidad neuromuscular por hipocalcemia</td><td style="padding:5px 6px;">Hipercoagulabilidad paraneoplásica</td></tr>
+      </tbody>
+    </table>
+    </div>`)}
+Fenómeno paraneoplásico por un estado de hipercoagulabilidad sistémica inducido por la neoplasia (liberación de factor tisular y mucinas procoagulantes por las células tumorales), clásicamente asociado al adenocarcinoma de páncreas, aunque descrito también en otras neoplasias.`,
       criterios_dx: 'Una tromboflebitis superficial migratoria e inexplicada, sobre todo sin factores de riesgo venoso habituales, obliga a descartar una neoplasia oculta.',
-      dx_diferencial: 'ADVERTENCIA de nomenclatura: este es un signo COMPLETAMENTE DISTINTO al signo de Trousseau de la tetania hipocalcémica. Ambos llevan el nombre de Armand Trousseau, quien los describió por separado — y, dato histórico real, él mismo desarrolló después un cáncer de páncreas y reconoció en sí mismo el signo de tromboflebitis migratoria que había descrito. Confundir ambos "Trousseau" es un error frecuente y potencialmente grave.',
-      figura: 'trousseau-dual-tabla'
+      dx_diferencial: 'ADVERTENCIA de nomenclatura: este es un signo COMPLETAMENTE DISTINTO al signo de Trousseau de la tetania hipocalcémica. Ambos llevan el nombre de Armand Trousseau, quien los describió por separado — y, dato histórico real, él mismo desarrolló después un cáncer de páncreas y reconoció en sí mismo el signo de tromboflebitis migratoria que había descrito. Confundir ambos "Trousseau" es un error frecuente y potencialmente grave.'
     },
     {
       nombre: 'Signo de Lhermitte',
@@ -158,11 +238,11 @@ export const content = {
     {
       nombre: 'Signos de fractura de base de cráneo: Battle y ojos de mapache',
       color: '#8c3a34',
-      definicion: 'Dos signos de equimosis en localizaciones específicas, indicativos de fractura de la base del cráneo (ver figura).',
+      definicion: 'Dos signos de equimosis en localizaciones específicas, indicativos de fractura de la base del cráneo (ver Imagen 1).',
       clinica: 'Signo de Battle: equimosis retroauricular, sobre la apófisis mastoides. Ojos de mapache: equimosis periorbitaria bilateral.',
-      fisiopatologia: 'La sangre proveniente de una fractura de la fosa craneal media/posterior (Battle) o anterior (ojos de mapache) se extravasa y diseca a través de los planos fasciales hasta acumularse en el tejido subcutáneo laxo de esas regiones específicas, siguiendo el camino de menor resistencia anatómica — por eso aparecen en sitios predecibles y no aleatorios.',
-      criterios_dx: 'Ambos son signos TARDÍOS (aparecen 1-3 días después del traumatismo, no inmediatamente), por lo que su ausencia en la evaluación inicial NO descarta una fractura de base de cráneo.',
-      figura: 'battle-mapache-diagrama'
+      fisiopatologia: `${figBlock('Imagen 1', 'Signo de Battle y ojos de mapache', battleMapacheSVG())}
+La sangre proveniente de una fractura de la fosa craneal media/posterior (Battle) o anterior (ojos de mapache) se extravasa y diseca a través de los planos fasciales hasta acumularse en el tejido subcutáneo laxo de esas regiones específicas, siguiendo el camino de menor resistencia anatómica — por eso aparecen en sitios predecibles y no aleatorios.`,
+      criterios_dx: 'Ambos son signos TARDÍOS (aparecen 1-3 días después del traumatismo, no inmediatamente), por lo que su ausencia en la evaluación inicial NO descarta una fractura de base de cráneo.'
     },
     {
       nombre: 'Signo de Hoover',
@@ -193,97 +273,6 @@ export const content = {
       criterios_dx: 'Un signo de Darier positivo es prácticamente diagnóstico de mastocitosis cutánea (urticaria pigmentosa) y evita la necesidad de biopsia en la mayoría de los casos.'
     }
   ]
-};
-
-export const figuras = {
-  'indice-maestro-tabla': {
-    titulo: 'Índice maestro de signos con epónimo',
-    html: `<div style="overflow-x:auto;">
-    <table style="width:100%;border-collapse:collapse;font-size:11px;">
-      <thead><tr style="border-bottom:1px solid var(--line);">
-        <th style="text-align:left;padding:4px 5px;">Signo</th>
-        <th style="text-align:left;padding:4px 5px;">Significado breve</th>
-        <th style="text-align:left;padding:4px 5px;">Profundizar en</th>
-      </tr></thead>
-      <tbody>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Murphy</td><td style="padding:4px 5px;">Colecistitis aguda</td><td style="padding:4px 5px;">Exploración Abdominal</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">McBurney</td><td style="padding:4px 5px;">Punto apendicular</td><td style="padding:4px 5px;">Exploración Abdominal</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Rovsing</td><td style="padding:4px 5px;">Apendicitis (irritación a distancia)</td><td style="padding:4px 5px;">Exploración Abdominal</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Blumberg</td><td style="padding:4px 5px;">Irritación peritoneal (rebote)</td><td style="padding:4px 5px;">Exploración Abdominal</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Psoas / obturador</td><td style="padding:4px 5px;">Apendicitis retrocecal/pélvica</td><td style="padding:4px 5px;">Exploración Abdominal</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Cullen / Grey Turner</td><td style="padding:4px 5px;">Hemorragia retroperitoneal (pancreatitis)</td><td style="padding:4px 5px;">Exploración Abdominal</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;"><strong>Courvoisier</strong></td><td style="padding:4px 5px;">Obstrucción biliar neoplásica</td><td style="padding:4px 5px;">Aquí</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;"><strong>Kehr</strong></td><td style="padding:4px 5px;">Ruptura esplénica (dolor referido al hombro)</td><td style="padding:4px 5px;">Aquí</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Kernig / Brudzinski</td><td style="padding:4px 5px;">Irritación meníngea</td><td style="padding:4px 5px;">Exploración Neurológica</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Babinski / Hoffmann</td><td style="padding:4px 5px;">Liberación piramidal</td><td style="padding:4px 5px;">Exploración Neurológica</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Romberg</td><td style="padding:4px 5px;">Ataxia sensitiva vs. cerebelosa</td><td style="padding:4px 5px;">Exploración Neurológica</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Argyll-Robertson</td><td style="padding:4px 5px;">Neurosífilis</td><td style="padding:4px 5px;">Exploración Neurológica</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Horner</td><td style="padding:4px 5px;">Vía oculosimpática (ptosis/miosis/anhidrosis)</td><td style="padding:4px 5px;">Exploración Neurológica</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;"><strong>Lhermitte</strong></td><td style="padding:4px 5px;">Desmielinización cervical</td><td style="padding:4px 5px;">Aquí</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;"><strong>Battle / ojos de mapache</strong></td><td style="padding:4px 5px;">Fractura de base de cráneo</td><td style="padding:4px 5px;">Aquí</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Kussmaul</td><td style="padding:4px 5px;">Pericarditis constrictiva/taponamiento</td><td style="padding:4px 5px;">Exploración Cardiovascular</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Carvallo</td><td style="padding:4px 5px;">Soplo del lado derecho del corazón</td><td style="padding:4px 5px;">Exploración Cardiovascular</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;"><strong>Musset / Duroziez / Traube / Quincke</strong></td><td style="padding:4px 5px;">Insuficiencia aórtica severa</td><td style="padding:4px 5px;">Aquí</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;"><strong>Levine</strong></td><td style="padding:4px 5px;">Dolor isquémico visceral</td><td style="padding:4px 5px;">Aquí</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Homans / Pratt</td><td style="padding:4px 5px;">Trombosis venosa profunda</td><td style="padding:4px 5px;">Exploración Osteoarticular</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Buerger</td><td style="padding:4px 5px;">Isquemia arterial periférica</td><td style="padding:4px 5px;">Exploración Osteoarticular</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Stemmer</td><td style="padding:4px 5px;">Linfedema</td><td style="padding:4px 5px;">Exploración Osteoarticular</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Pemberton</td><td style="padding:4px 5px;">Bocio con extensión retroesternal</td><td style="padding:4px 5px;">Exploración Cabeza y Cuello</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Troisier (ganglio de Virchow)</td><td style="padding:4px 5px;">Neoplasia abdominal metastásica</td><td style="padding:4px 5px;">Exploración Cabeza y Cuello</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Nikolsky</td><td style="padding:4px 5px;">Fragilidad epidérmica intraepidérmica</td><td style="padding:4px 5px;">Exploración de Piel y Faneras</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;">Koebner</td><td style="padding:4px 5px;">Lesión nueva en sitio de trauma cutáneo</td><td style="padding:4px 5px;">Exploración de Piel y Faneras</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;"><strong>Chvostek / Trousseau (tetania)</strong></td><td style="padding:4px 5px;">Hipocalcemia</td><td style="padding:4px 5px;">Aquí</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;"><strong>Trousseau (tromboflebitis migratoria)</strong></td><td style="padding:4px 5px;">Neoplasia oculta (páncreas)</td><td style="padding:4px 5px;">Aquí</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;"><strong>Hoover</strong></td><td style="padding:4px 5px;">EPOC avanzado</td><td style="padding:4px 5px;">Aquí</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:4px 5px;"><strong>Gowers</strong></td><td style="padding:4px 5px;">Miopatía proximal (Duchenne)</td><td style="padding:4px 5px;">Aquí</td></tr>
-        <tr><td style="padding:4px 5px;"><strong>Auspitz / Darier</strong></td><td style="padding:4px 5px;">Psoriasis / mastocitosis</td><td style="padding:4px 5px;">Aquí</td></tr>
-      </tbody>
-    </table>
-    </div>`,
-    fuente: 'Compilación de todos los temas de Semiología del programa'
-  },
-  'tetrada-ar-tabla': {
-    titulo: 'Tétrada periférica de la insuficiencia aórtica severa',
-    html: `<div style="overflow-x:auto;">
-    <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
-      <thead><tr style="border-bottom:1px solid var(--line);">
-        <th style="text-align:left;padding:5px 6px;">Signo</th>
-        <th style="text-align:left;padding:5px 6px;">Técnica</th>
-        <th style="text-align:left;padding:5px 6px;">Hallazgo</th>
-      </tr></thead>
-      <tbody>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Musset</strong></td><td style="padding:5px 6px;">Observar la cabeza sin tocar al paciente</td><td style="padding:5px 6px;">Cabeceo sincrónico con cada latido</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Duroziez</strong></td><td style="padding:5px 6px;">Comprimir la arteria femoral proximal y distal con el estetoscopio</td><td style="padding:5px 6px;">Soplo sistólico Y diastólico</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Traube</strong></td><td style="padding:5px 6px;">Auscultar la femoral sin comprimirla</td><td style="padding:5px 6px;">Ruido "en pistoletazo" sistólico-diastólico</td></tr>
-        <tr><td style="padding:5px 6px;"><strong>Quincke</strong></td><td style="padding:5px 6px;">Presionar suavemente la punta de la uña o transiluminar el labio</td><td style="padding:5px 6px;">Pulsación capilar visible (palidez-rubor alternantes)</td></tr>
-      </tbody>
-    </table>
-    </div>`,
-    fuente: 'Perloff, Physical Examination of the Heart and Circulation'
-  },
-  'trousseau-dual-tabla': {
-    titulo: '"Signo de Trousseau": dos entidades distintas, mismo nombre',
-    html: `<div style="overflow-x:auto;">
-    <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
-      <thead><tr style="border-bottom:1px solid var(--line);">
-        <th style="text-align:left;padding:5px 6px;"></th>
-        <th style="text-align:left;padding:5px 6px;">Trousseau de la tetania</th>
-        <th style="text-align:left;padding:5px 6px;">Trousseau de tromboflebitis migratoria</th>
-      </tr></thead>
-      <tbody>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Significa</strong></td><td style="padding:5px 6px;">Hipocalcemia</td><td style="padding:5px 6px;">Neoplasia oculta (clásicamente pancreática)</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Hallazgo</strong></td><td style="padding:5px 6px;">Espasmo carpal con isquemia por manguito</td><td style="padding:5px 6px;">Tromboflebitis superficial recurrente y migratoria</td></tr>
-        <tr><td style="padding:5px 6px;"><strong>Mecanismo</strong></td><td style="padding:5px 6px;">Hiperexcitabilidad neuromuscular por hipocalcemia</td><td style="padding:5px 6px;">Hipercoagulabilidad paraneoplásica</td></tr>
-      </tbody>
-    </table>
-    </div>`,
-    fuente: 'Varki. Blood 2007'
-  },
-  'battle-mapache-diagrama': {
-    titulo: 'Signo de Battle y ojos de mapache',
-    html: battleMapacheSVG(),
-    fuente: "Bates' Guide to Physical Examination; DeGowin's Diagnostic Examination"
-  }
 };
 
 export const compCites = {

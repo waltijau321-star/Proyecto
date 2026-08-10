@@ -41,11 +41,24 @@ export const bibliografia = [
 // Reetiqueta los 4 campos genéricos del motor para que encajen con contenido semiológico
 // (mismo criterio que los demás temas de Semiología).
 export const modalLabels = {
+  itemName: 'Punto de exploración',
   fisiopatologia: 'Mecanismo y clasificación',
   clinica: 'Técnica y hallazgos',
   criterios_dx: 'Significado clínico',
   algoritmo: 'Secuencia'
 };
+
+// Reproduce el marcado visual de .modal-figure que arma oneFiguraHTML() en engine/study-view.js,
+// para poder insertar una tabla/imagen EN LÍNEA justo debajo del párrafo que la menciona, en vez
+// de dejar que el motor la adjunte al final del modal vía `c.figura`. Numeración continua por
+// TEMA completo (no por tarjeta): Tabla y Imagen son contadores independientes que avanzan según
+// el orden de aparición al recorrer `complicaciones` de arriba a abajo.
+function figBlock(label, titulo, html) {
+  return `<div class="modal-field modal-figure" style="margin:10px 0 4px;">
+    <span class="flabel">${label} · ${titulo}</span>
+    <div class="figure-body">${html}</div>
+  </div>`;
+}
 
 // ---------------------------------------------------------------------------------------------
 // Helpers de figuras (SVG a mano, theme-aware vía var(--...) salvo colores clínicos ya
@@ -129,39 +142,66 @@ export const content = {
     {
       nombre: 'Bocio y signo de Pemberton',
       color: '#8c3a34',
-      definicion: 'Bocio: aumento de tamaño de la glándula tiroides, clasificado por su extensión (grados de la OMS) y por su patrón (difuso vs. nodular).',
+      definicion: 'Bocio: aumento de tamaño de la glándula tiroides, clasificado por su extensión (grados de la OMS, ver Tabla 1) y por su patrón (difuso vs. nodular).',
       clinica: 'Bocio difuso: toda la glándula aumentada de forma uniforme (enfermedad de Graves, tiroiditis de Hashimoto). Bocio nodular: uno (uninodular) o varios (multinodular) nódulos palpables dentro de la glándula.',
-      fisiopatologia: 'Signo de Pemberton: se pide al paciente elevar ambos brazos por encima de la cabeza y mantenerlos así ~1 minuto; es positivo si aparece congestión facial, cianosis, distensión yugular o estridor. Un bocio con extensión retroesternal ya reduce el espacio disponible en el estrecho torácico superior; al elevar los brazos, la clavícula se desplaza hacia arriba y comprime aún más ese espacio ya limitado, obstruyendo el retorno venoso yugular y, en casos severos, comprometiendo la vía aérea. Es como intentar pasar un mueble grande por una puerta que ya estaba ajustada de por sí: si alguien empuja el marco un poco más hacia adentro (los brazos elevados desplazando la clavícula), el paso que ya era estrecho se cierra todavía más y termina bloqueándose por completo.',
-      criterios_dx: 'Un signo de Pemberton positivo obliga a evaluar la extensión retroesternal del bocio (TC de cuello/tórax) antes de cualquier intento de tiroidectomía, por el riesgo de obstrucción de la vía aérea durante la manipulación quirúrgica.',
-      figura: 'bocio-clasificacion-tabla'
+      fisiopatologia: `${figBlock('Tabla 1', 'Clasificación del bocio (OMS)', `<div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
+      <thead><tr style="border-bottom:1px solid var(--line);">
+        <th style="text-align:left;padding:5px 6px;">Grado</th>
+        <th style="text-align:left;padding:5px 6px;">Descripción</th>
+      </tr></thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>0</strong></td><td style="padding:5px 6px;">No palpable ni visible</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>I</strong></td><td style="padding:5px 6px;">Palpable, pero no visible con el cuello en posición normal</td></tr>
+        <tr><td style="padding:5px 6px;"><strong>II</strong></td><td style="padding:5px 6px;">Visible con el cuello en posición normal</td></tr>
+      </tbody>
+    </table>
+    </div>`)}
+Signo de Pemberton: se pide al paciente elevar ambos brazos por encima de la cabeza y mantenerlos así ~1 minuto; es positivo si aparece congestión facial, cianosis, distensión yugular o estridor. Un bocio con extensión retroesternal ya reduce el espacio disponible en el estrecho torácico superior; al elevar los brazos, la clavícula se desplaza hacia arriba y comprime aún más ese espacio ya limitado, obstruyendo el retorno venoso yugular y, en casos severos, comprometiendo la vía aérea. Es como intentar pasar un mueble grande por una puerta que ya estaba ajustada de por sí: si alguien empuja el marco un poco más hacia adentro (los brazos elevados desplazando la clavícula), el paso que ya era estrecho se cierra todavía más y termina bloqueándose por completo.`,
+      criterios_dx: 'Un signo de Pemberton positivo obliga a evaluar la extensión retroesternal del bocio (TC de cuello/tórax) antes de cualquier intento de tiroidectomía, por el riesgo de obstrucción de la vía aérea durante la manipulación quirúrgica.'
     },
     {
       nombre: 'Cadenas ganglionares cervicales: anatomía y técnica',
       color: '#3d5a73',
-      definicion: 'Sistema organizado de grupos ganglionares que drenan regiones específicas de cabeza y cuello, palpados sistemáticamente de arriba hacia abajo (ver figura).',
+      definicion: 'Sistema organizado de grupos ganglionares que drenan regiones específicas de cabeza y cuello, palpados sistemáticamente de arriba hacia abajo (ver Imagen 1).',
       clinica: 'Preauricular, postauricular (mastoideo), occipital, submentoniano, submandibular, cervical anterior (superficial y profundo, a lo largo del esternocleidomastoideo), cervical posterior (triángulo posterior), supraclavicular.',
-      fisiopatologia: 'Cada cadena drena un territorio anatómico específico, por lo que la localización de una adenopatía orienta directamente el sitio de origen probable: preauricular → conjuntiva/párpados/piel temporal; occipital → cuero cabelludo posterior; submentoniano → labio inferior/piso de la boca; submandibular → cavidad oral/dientes/glándula submandibular; cervical anterior → faringe/laringe/tiroides; supraclavicular → tórax/abdomen (ver ganglio de Virchow).',
-      criterios_dx: 'Examinar sistemáticamente TODAS las cadenas, no solo la región sintomática, porque una adenopatía "silente" en una cadena distante (ej. supraclavicular) puede ser el hallazgo más relevante de toda la exploración.',
-      figura: 'cadenas-ganglionares'
+      fisiopatologia: `${figBlock('Imagen 1', 'Cadenas ganglionares cervicales', cadenasGanglionaresSVG())}
+Cada cadena drena un territorio anatómico específico, por lo que la localización de una adenopatía orienta directamente el sitio de origen probable: preauricular → conjuntiva/párpados/piel temporal; occipital → cuero cabelludo posterior; submentoniano → labio inferior/piso de la boca; submandibular → cavidad oral/dientes/glándula submandibular; cervical anterior → faringe/laringe/tiroides; supraclavicular → tórax/abdomen (ver ganglio de Virchow).`,
+      criterios_dx: 'Examinar sistemáticamente TODAS las cadenas, no solo la región sintomática, porque una adenopatía "silente" en una cadena distante (ej. supraclavicular) puede ser el hallazgo más relevante de toda la exploración.'
     },
     {
       nombre: 'Características semiológicas de una adenopatía: benigna vs. maligna',
       color: '#8c3a34',
-      definicion: 'Conjunto de características palpatorias que orientan el origen probable de un ganglio aumentado de tamaño.',
+      definicion: 'Conjunto de características palpatorias que orientan el origen probable de un ganglio aumentado de tamaño (ver Tabla 2).',
       clinica: 'Se evalúan: tamaño, consistencia, movilidad, dolor, superficie y agrupación (aislada vs. confluente).',
-      fisiopatologia: 'Reactiva/inflamatoria: consistencia blanda o elástica, móvil (no fija a planos profundos ni a la piel), DOLOROSA a la palpación, superficie lisa, ganglio aislado — refleja hiperplasia folicular benigna en respuesta a un estímulo antigénico local. Neoplásica (metastásica o linfomatosa): consistencia dura/pétrea (metástasis carcinomatosa) o "gomosa" (linfoma), fija a planos profundos o a la piel suprayacente (invasión capsular), típicamente INDOLORA (el crecimiento neoplásico lento no genera la distensión capsular aguda y dolorosa de la inflamación), superficie irregular, con frecuencia confluente ("matted", varios ganglios fusionados entre sí).',
+      fisiopatologia: `${figBlock('Tabla 2', 'Adenopatía: reactiva/inflamatoria vs. neoplásica', `<div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
+      <thead><tr style="border-bottom:1px solid var(--line);">
+        <th style="text-align:left;padding:5px 6px;">Característica</th>
+        <th style="text-align:left;padding:5px 6px;">Reactiva/inflamatoria</th>
+        <th style="text-align:left;padding:5px 6px;">Neoplásica</th>
+      </tr></thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Consistencia</strong></td><td style="padding:5px 6px;">Blanda o elástica</td><td style="padding:5px 6px;">Dura/pétrea (metástasis) o gomosa (linfoma)</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Movilidad</strong></td><td style="padding:5px 6px;">Móvil</td><td style="padding:5px 6px;">Fija a planos profundos o a la piel</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Dolor</strong></td><td style="padding:5px 6px;">Dolorosa</td><td style="padding:5px 6px;">Típicamente indolora</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Superficie</strong></td><td style="padding:5px 6px;">Lisa</td><td style="padding:5px 6px;">Irregular</td></tr>
+        <tr><td style="padding:5px 6px;"><strong>Agrupación</strong></td><td style="padding:5px 6px;">Aislada</td><td style="padding:5px 6px;">Con frecuencia confluente ("matted")</td></tr>
+      </tbody>
+    </table>
+    </div>`)}
+Reactiva/inflamatoria: consistencia blanda o elástica, móvil (no fija a planos profundos ni a la piel), DOLOROSA a la palpación, superficie lisa, ganglio aislado — refleja hiperplasia folicular benigna en respuesta a un estímulo antigénico local. Neoplásica (metastásica o linfomatosa): consistencia dura/pétrea (metástasis carcinomatosa) o "gomosa" (linfoma), fija a planos profundos o a la piel suprayacente (invasión capsular), típicamente INDOLORA (el crecimiento neoplásico lento no genera la distensión capsular aguda y dolorosa de la inflamación), superficie irregular, con frecuencia confluente ("matted", varios ganglios fusionados entre sí).`,
       criterios_dx: 'La combinación de consistencia pétrea/fija más ausencia de dolor más crecimiento progresivo es la más sugestiva de malignidad y amerita biopsia, independientemente del tamaño absoluto del ganglio.',
-      dx_diferencial: 'Adenopatía dolorosa de inicio agudo con signos inflamatorios locales asociados (celulitis, faringitis): causa infecciosa/reactiva. Adenopatía indolora, de crecimiento lento, en un paciente añoso o con factores de riesgo oncológico: descartar malignidad.',
-      figura: 'adenopatia-tabla'
+      dx_diferencial: 'Adenopatía dolorosa de inicio agudo con signos inflamatorios locales asociados (celulitis, faringitis): causa infecciosa/reactiva. Adenopatía indolora, de crecimiento lento, en un paciente añoso o con factores de riesgo oncológico: descartar malignidad.'
     },
     {
       nombre: 'Ganglio de Virchow y signo de Troisier',
       color: '#8c3a34',
-      definicion: 'Adenopatía supraclavicular izquierda, palpable en el ángulo formado por el borde posterior del esternocleidomastoideo y la clavícula (ver figura).',
-      fisiopatologia: 'El conducto torácico —que drena la linfa de la mayor parte del cuerpo, incluido el abdomen— desemboca en la unión de las venas yugular interna y subclavia izquierdas. Una neoplasia abdominal (clásicamente gástrica, aunque también de páncreas, esófago u otras vísceras abdominales/pélvicas) puede diseminarse por esta vía linfática hasta ese punto final de drenaje, generando una adenopatía supraclavicular izquierda palpable incluso antes de que la neoplasia primaria sea evidente. Es como una gran cuenca hidrográfica en la que decenas de arroyos de todo el abdomen y la pelvis terminan confluyendo en un único río principal que desemboca siempre en el mismo punto: basta con vigilar ese punto de desembocadura para detectar señales de lo que ocurre río arriba, sin necesidad de rastrear cada arroyo por separado.',
+      definicion: 'Adenopatía supraclavicular izquierda, palpable en el ángulo formado por el borde posterior del esternocleidomastoideo y la clavícula (ver Imagen 2).',
+      fisiopatologia: `${figBlock('Imagen 2', 'Drenaje linfático del ganglio de Virchow', virchowSVG())}
+El conducto torácico —que drena la linfa de la mayor parte del cuerpo, incluido el abdomen— desemboca en la unión de las venas yugular interna y subclavia izquierdas. Una neoplasia abdominal (clásicamente gástrica, aunque también de páncreas, esófago u otras vísceras abdominales/pélvicas) puede diseminarse por esta vía linfática hasta ese punto final de drenaje, generando una adenopatía supraclavicular izquierda palpable incluso antes de que la neoplasia primaria sea evidente. Es como una gran cuenca hidrográfica en la que decenas de arroyos de todo el abdomen y la pelvis terminan confluyendo en un único río principal que desemboca siempre en el mismo punto: basta con vigilar ese punto de desembocadura para detectar señales de lo que ocurre río arriba, sin necesidad de rastrear cada arroyo por separado.`,
       criterios_dx: 'Un ganglio de Virchow palpable (signo de Troisier positivo) obliga a buscar activamente una neoplasia abdominal oculta, clásicamente gástrica, incluso en ausencia de síntomas digestivos.',
-      dx_diferencial: 'Una adenopatía supraclavicular DERECHA sugiere con más frecuencia una neoplasia torácica (pulmón, mediastino, esófago) o linfoma, por drenar hacia el conducto linfático derecho, de trayecto más corto (tórax, brazo y cabeza derechos).',
-      figura: 'virchow-troisier'
+      dx_diferencial: 'Una adenopatía supraclavicular DERECHA sugiere con más frecuencia una neoplasia torácica (pulmón, mediastino, esófago) o linfoma, por drenar hacia el conducto linfático derecho, de trayecto más corto (tórax, brazo y cabeza derechos).'
     },
     {
       nombre: 'Masas cervicales de la línea media y laterales: quiste tirogloso vs. quiste branquial',
@@ -188,56 +228,6 @@ export const content = {
       criterios_dx: 'Una presión venosa yugular elevada detectada durante la exploración cervical general es la señal para profundizar con la técnica completa de medición y el análisis de ondas (a, c, x, v, y) y sus anomalías, descrita a fondo en Exploración Cardiovascular — no se repite aquí para evitar duplicar contenido ya construido.'
     }
   ]
-};
-
-export const figuras = {
-  'bocio-clasificacion-tabla': {
-    titulo: 'Clasificación del bocio (OMS)',
-    html: `<div style="overflow-x:auto;">
-    <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
-      <thead><tr style="border-bottom:1px solid var(--line);">
-        <th style="text-align:left;padding:5px 6px;">Grado</th>
-        <th style="text-align:left;padding:5px 6px;">Descripción</th>
-      </tr></thead>
-      <tbody>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>0</strong></td><td style="padding:5px 6px;">No palpable ni visible</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>I</strong></td><td style="padding:5px 6px;">Palpable, pero no visible con el cuello en posición normal</td></tr>
-        <tr><td style="padding:5px 6px;"><strong>II</strong></td><td style="padding:5px 6px;">Visible con el cuello en posición normal</td></tr>
-      </tbody>
-    </table>
-    </div>`,
-    fuente: "Bates' Guide to Physical Examination; DeGowin's Diagnostic Examination"
-  },
-  'cadenas-ganglionares': {
-    titulo: 'Cadenas ganglionares cervicales',
-    html: cadenasGanglionaresSVG(),
-    fuente: "Netter, Atlas of Human Anatomy; Bates' Guide to Physical Examination"
-  },
-  'adenopatia-tabla': {
-    titulo: 'Adenopatía: reactiva/inflamatoria vs. neoplásica',
-    html: `<div style="overflow-x:auto;">
-    <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
-      <thead><tr style="border-bottom:1px solid var(--line);">
-        <th style="text-align:left;padding:5px 6px;">Característica</th>
-        <th style="text-align:left;padding:5px 6px;">Reactiva/inflamatoria</th>
-        <th style="text-align:left;padding:5px 6px;">Neoplásica</th>
-      </tr></thead>
-      <tbody>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Consistencia</strong></td><td style="padding:5px 6px;">Blanda o elástica</td><td style="padding:5px 6px;">Dura/pétrea (metástasis) o gomosa (linfoma)</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Movilidad</strong></td><td style="padding:5px 6px;">Móvil</td><td style="padding:5px 6px;">Fija a planos profundos o a la piel</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Dolor</strong></td><td style="padding:5px 6px;">Dolorosa</td><td style="padding:5px 6px;">Típicamente indolora</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Superficie</strong></td><td style="padding:5px 6px;">Lisa</td><td style="padding:5px 6px;">Irregular</td></tr>
-        <tr><td style="padding:5px 6px;"><strong>Agrupación</strong></td><td style="padding:5px 6px;">Aislada</td><td style="padding:5px 6px;">Con frecuencia confluente ("matted")</td></tr>
-      </tbody>
-    </table>
-    </div>`,
-    fuente: "Bates' Guide to Physical Examination; Haynes et al. Am Fam Physician 2015"
-  },
-  'virchow-troisier': {
-    titulo: 'Drenaje linfático del ganglio de Virchow',
-    html: virchowSVG(),
-    fuente: "DeGowin's Diagnostic Examination; McGee, Evidence-Based Physical Diagnosis"
-  }
 };
 
 export const compCites = {

@@ -38,11 +38,24 @@ export const bibliografia = [
 // Reetiqueta los 4 campos genéricos del motor para que encajen con contenido semiológico
 // (mismo criterio que historia-clinica y exploracion-cardiovascular, ver nota ahí).
 export const modalLabels = {
+  itemName: 'Punto de exploración',
   fisiopatologia: 'Mecanismo y clasificación',
   clinica: 'Técnica y hallazgos',
   criterios_dx: 'Significado clínico',
   algoritmo: 'Secuencia'
 };
+
+// Reproduce el marcado visual de .modal-figure que arma oneFiguraHTML() en engine/study-view.js,
+// para poder insertar una tabla/imagen EN LÍNEA justo debajo del párrafo que la menciona, en vez
+// de dejar que el motor la adjunte al final del modal vía `c.figura`. Numeración continua por
+// TEMA completo (no por tarjeta): Tabla y Imagen son contadores independientes que avanzan según
+// el orden de aparición al recorrer `complicaciones` de arriba a abajo.
+function figBlock(label, titulo, html) {
+  return `<div class="modal-field modal-figure" style="margin:10px 0 4px;">
+    <span class="flabel">${label} · ${titulo}</span>
+    <div class="figure-body">${html}</div>
+  </div>`;
+}
 
 // ---------------------------------------------------------------------------------------------
 // Helpers de figuras (SVG a mano, theme-aware vía var(--...) salvo colores clínicos ya
@@ -162,9 +175,8 @@ export const content = {
       nombre: 'Regiones y cuadrantes abdominales',
       color: '#3d5a73',
       definicion: 'Dos sistemas de referencia topográfica de uso simultáneo: 4 cuadrantes (rápido, útil para localizar dolor a la cabecera) y 9 regiones (dos líneas medioclaviculares verticales y dos horizontales —subcostal y transtubercular— más precisas para correlacionar con una víscera concreta).',
-      clinica: 'Hipocondrio derecho: hígado, vesícula. Epigastrio: estómago, páncreas, duodeno. Hipocondrio izquierdo: bazo. Flancos: colon ascendente/descendente, riñones. Región umbilical: intestino delgado, aorta. Fosas iliacas: ciego/apéndice (derecha), sigmoides (izquierda). Hipogastrio: vejiga, útero (ver figura).',
-      criterios_dx: 'Localizar el dolor por región/cuadrante orienta el diagnóstico diferencial inicial antes de cualquier maniobra específica — un dolor en fosa iliaca derecha y uno en hipocondrio derecho comparten poco diagnóstico diferencial pese a estar en el mismo hemiabdomen.',
-      figura: 'regiones-abdominales'
+      clinica: `Hipocondrio derecho: hígado, vesícula. Epigastrio: estómago, páncreas, duodeno. Hipocondrio izquierdo: bazo. Flancos: colon ascendente/descendente, riñones. Región umbilical: intestino delgado, aorta. Fosas iliacas: ciego/apéndice (derecha), sigmoides (izquierda). Hipogastrio: vejiga, útero (ver Imagen 1).${figBlock('Imagen 1', 'Las 9 regiones topográficas del abdomen', regionesAbdominalesSVG())}`,
+      criterios_dx: 'Localizar el dolor por región/cuadrante orienta el diagnóstico diferencial inicial antes de cualquier maniobra específica — un dolor en fosa iliaca derecha y uno en hipocondrio derecho comparten poco diagnóstico diferencial pese a estar en el mismo hemiabdomen.'
     },
     {
       nombre: 'Inspección abdominal',
@@ -179,11 +191,27 @@ export const content = {
       nombre: 'Auscultación abdominal: ruidos hidroaéreos y soplos vasculares',
       color: '#3d5a73',
       definicion: 'Única maniobra que se realiza ANTES de percutir o palpar, con el diafragma del estetoscopio; los ruidos se transmiten por todo el abdomen, por lo que auscultar en un solo punto (habitualmente periumbilical) suele bastar.',
-      clinica: 'Normal: 5-34 ruidos/min, con borborigmos ocasionales. Se requieren hasta 2 minutos continuos de auscultación antes de declarar "silencio abdominal" (ausencia de ruidos) — un tiempo insuficiente es la causa más frecuente de sobrediagnosticar íleo (ver figura).',
+      clinica: `Normal: 5-34 ruidos/min, con borborigmos ocasionales. Se requieren hasta 2 minutos continuos de auscultación antes de declarar "silencio abdominal" (ausencia de ruidos) — un tiempo insuficiente es la causa más frecuente de sobrediagnosticar íleo (ver Tabla 1).${figBlock('Tabla 1', 'Ruidos hidroaéreos y soplos vasculares: hallazgo y significado', `<div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
+      <thead><tr style="border-bottom:1px solid var(--line);">
+        <th style="text-align:left;padding:5px 6px;">Hallazgo</th>
+        <th style="text-align:left;padding:5px 6px;">Descripción</th>
+        <th style="text-align:left;padding:5px 6px;">Causa</th>
+      </tr></thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Normal</strong></td><td style="padding:5px 6px;">5-34 ruidos/min, borborigmos ocasionales</td><td style="padding:5px 6px;">—</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Aumentados, agudos, en ráfagas</strong></td><td style="padding:5px 6px;">"Ruidos de lucha", coinciden con el cólico</td><td style="padding:5px 6px;">Obstrucción mecánica temprana</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Disminuidos/ausentes</strong></td><td style="padding:5px 6px;">Requiere ≥2 min de auscultación para confirmarlo</td><td style="padding:5px 6px;">Íleo paralítico, peritonitis, hipopotasemia, opioides, obstrucción tardía</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Soplo sistólico/sistodiastólico</strong></td><td style="padding:5px 6px;">Epigastrio o flancos</td><td style="padding:5px 6px;">Estenosis de arteria renal (diastólico = mayor severidad)</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Soplo hepático</strong></td><td style="padding:5px 6px;">Sobre el área de proyección hepática</td><td style="padding:5px 6px;">Hepatocarcinoma, hepatitis alcohólica severa</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Soplo venoso "en zumbido"</strong></td><td style="padding:5px 6px;">Continuo, periumbilical</td><td style="padding:5px 6px;">Síndrome de Cruveilhier-Baumgarten (hipertensión portal)</td></tr>
+        <tr><td style="padding:5px 6px;"><strong>Roce/fricción</strong></td><td style="padding:5px 6px;">Hepático o esplénico, con la respiración</td><td style="padding:5px 6px;">Perihepatitis/periesplenitis (infarto, absceso)</td></tr>
+      </tbody>
+    </table>
+    </div>`)}`,
       fisiopatologia: 'Ruidos aumentados, de tono agudo, en "ráfagas" coincidiendo con el cólico ("ruidos de lucha"): obstrucción mecánica temprana, el intestino proximal a la obstrucción hiperperistalta contra la resistencia. Ruidos disminuidos o ausentes: íleo paralítico/adinámico (posquirúrgico, peritonitis, hipopotasemia, opioides) donde el músculo liso intestinal pierde su actividad contráctil coordinada, o fase tardía de una obstrucción mecánica ya agotada. Soplo sistólico o sistodiastólico en epigastrio/flancos: estenosis de arteria renal (el componente diastólico sugiere mayor severidad). Soplo sobre el hígado: hepatocarcinoma o hepatitis alcohólica severa. Soplo venoso continuo, "en zumbido", periumbilical: síndrome de Cruveilhier-Baumgarten (hipertensión portal con recanalización de la vena umbilical, coincide con la cabeza de medusa). Roce/fricción hepático o esplénico: perihepatitis o periesplenitis (infarto, absceso).',
       criterios_dx: 'Un soplo abdominal en un paciente con hipertensión arterial resistente al tratamiento obliga a descartar estenosis de arteria renal.',
-      dx_diferencial: 'Silencio abdominal verdadero (íleo, peritonitis) vs. auscultación insuficiente (&lt;2 minutos, la causa más frecuente de un falso "abdomen silente").',
-      figura: 'ruidos-hidroaereos-tabla'
+      dx_diferencial: 'Silencio abdominal verdadero (íleo, peritonitis) vs. auscultación insuficiente (&lt;2 minutos, la causa más frecuente de un falso "abdomen silente").'
     },
     {
       nombre: 'Percusión abdominal: timpanismo y matidez hepática/esplénica',
@@ -197,12 +225,12 @@ export const content = {
     {
       nombre: 'Ascitis: matidez cambiante y oleada ascítica',
       color: '#8c3a34',
-      definicion: 'Maniobras de percusión y palpación diseñadas para detectar líquido libre en la cavidad peritoneal (ver figura).',
+      definicion: 'Maniobras de percusión y palpación diseñadas para detectar líquido libre en la cavidad peritoneal (ver Imagen 2).',
       clinica: 'Matidez cambiante (shifting dullness): con el paciente en decúbito supino, percutir desde el ombligo hacia el flanco marcando el punto donde el timpanismo cambia a matidez; girar al paciente al decúbito lateral contrario, esperar unos segundos y repercutir el mismo punto — si lo que era mate se vuelve timpánico, la prueba es positiva. Oleada ascítica (fluid wave): un asistente aplica el borde cubital de su mano firmemente sobre la línea media del abdomen (para bloquear la transmisión de la onda a través de la grasa de la pared) mientras el examinador da un golpe seco en un flanco y palpa la transmisión de la onda en el flanco contrario.',
-      fisiopatologia: 'En decúbito supino el gas intestinal flota en la región central-anterior (timpanismo periumbilical) mientras el líquido libre se acumula por gravedad en ambos flancos (matidez); al rotar al paciente, el líquido migra al nuevo flanco declive y el punto marcado que era mate se vuelve timpánico. Es el mismo principio que un vaso de agua con hielo: el hielo (el gas) siempre flota arriba y el agua (el líquido) ocupa la parte de abajo, sin importar cómo se incline el vaso — al girar al paciente, el "arriba" y el "abajo" cambian, y el contenido se redistribuye de inmediato por gravedad. La matidez cambiante requiere un volumen relativamente moderado de líquido libre (aprox. 1500 mL) para detectarse; la oleada ascítica solo es fiable con volúmenes grandes y, sin la mano bloqueadora del asistente, puede dar falsos positivos por transmisión a través de la grasa de la pared en pacientes obesos.',
+      fisiopatologia: `${figBlock('Imagen 2', 'Matidez cambiante (shifting dullness)', ascitisTecnicaSVG())}
+En decúbito supino el gas intestinal flota en la región central-anterior (timpanismo periumbilical) mientras el líquido libre se acumula por gravedad en ambos flancos (matidez); al rotar al paciente, el líquido migra al nuevo flanco declive y el punto marcado que era mate se vuelve timpánico. Es el mismo principio que un vaso de agua con hielo: el hielo (el gas) siempre flota arriba y el agua (el líquido) ocupa la parte de abajo, sin importar cómo se incline el vaso — al girar al paciente, el "arriba" y el "abajo" cambian, y el contenido se redistribuye de inmediato por gravedad. La matidez cambiante requiere un volumen relativamente moderado de líquido libre (aprox. 1500 mL) para detectarse; la oleada ascítica solo es fiable con volúmenes grandes y, sin la mano bloqueadora del asistente, puede dar falsos positivos por transmisión a través de la grasa de la pared en pacientes obesos.`,
       criterios_dx: 'La ausencia de matidez cambiante hace poco probable una ascitis clínicamente detectable; su presencia junto con distensión abdominal difusa tiene mejor rendimiento diagnóstico que la oleada ascítica aislada.',
-      dx_diferencial: 'Distensión sin matidez cambiante: obesidad, embarazo, meteorismo, o una masa quística gigante (ej. quiste de ovario), que clásicamente da matidez central fija en vez de matidez en ambos flancos.',
-      figura: 'ascitis-tecnicas'
+      dx_diferencial: 'Distensión sin matidez cambiante: obesidad, embarazo, meteorismo, o una masa quística gigante (ej. quiste de ovario), que clásicamente da matidez central fija en vez de matidez en ambos flancos.'
     },
     {
       nombre: 'Palpación superficial y profunda',
@@ -234,76 +262,19 @@ export const content = {
     {
       nombre: 'Signo de Murphy',
       color: '#8c3a34',
-      definicion: 'Maniobra para colecistitis aguda: se colocan los dedos bajo el reborde costal derecho, en el punto cístico (intersección del reborde costal derecho con el borde lateral del músculo recto abdominal), y se pide al paciente inspirar profundamente (ver figura).',
+      definicion: 'Maniobra para colecistitis aguda: se colocan los dedos bajo el reborde costal derecho, en el punto cístico (intersección del reborde costal derecho con el borde lateral del músculo recto abdominal), y se pide al paciente inspirar profundamente (ver Imagen 3).',
       clinica: 'Positivo: interrupción brusca e involuntaria de la inspiración por dolor, cuando la vesícula inflamada desciende con el diafragma y choca contra los dedos del examinador.',
-      fisiopatologia: 'Requiere que la vesícula inflamada realmente descienda hasta contactar los dedos — por eso puede ser falsamente negativo en obesidad severa (la vesícula no alcanza a descender lo suficiente) o en el anciano/diabético con respuesta dolorosa atenuada. Existe un equivalente ecográfico (Murphy ecográfico: dolor máximo al comprimir con el transductor directamente sobre la vesícula visualizada), más sensible en esos escenarios.',
+      fisiopatologia: `${figBlock('Imagen 3', 'Punto cístico (Murphy) y punto de McBurney', puntosDolorosSVG())}
+Requiere que la vesícula inflamada realmente descienda hasta contactar los dedos — por eso puede ser falsamente negativo en obesidad severa (la vesícula no alcanza a descender lo suficiente) o en el anciano/diabético con respuesta dolorosa atenuada. Existe un equivalente ecográfico (Murphy ecográfico: dolor máximo al comprimir con el transductor directamente sobre la vesícula visualizada), más sensible en esos escenarios.`,
       criterios_dx: 'Murphy positivo con vesícula engrosada/litiásica en ecografía es altamente sugestivo de colecistitis aguda; su ausencia no la descarta, sobre todo con respuesta dolorosa atenuada.',
-      dx_diferencial: 'Un "falso Murphy" (dolor al palpar sin verdadera interrupción inspiratoria) puede verse en neumonía del lóbulo inferior derecho o pleuritis basal derecha.',
-      figura: 'puntos-dolorosos-abdomen'
+      dx_diferencial: 'Un "falso Murphy" (dolor al palpar sin verdadera interrupción inspiratoria) puede verse en neumonía del lóbulo inferior derecho o pleuritis basal derecha.'
     },
     {
       nombre: 'Signos de apendicitis: McBurney, Rovsing, psoas y obturador',
       color: '#8c3a34',
-      definicion: 'Conjunto de maniobras que buscan irritación peritoneal originada en un apéndice inflamado; su posición anatómica variable (retrocecal, pélvica, subcecal) explica por qué ningún signo aislado es sensible al 100% (ver figura).',
+      definicion: 'Conjunto de maniobras que buscan irritación peritoneal originada en un apéndice inflamado; su posición anatómica variable (retrocecal, pélvica, subcecal) explica por qué ningún signo aislado es sensible al 100% (ver Tabla 2).',
       clinica: 'Punto de McBurney: dolor a la palpación en la unión del tercio externo con los dos tercios internos de la línea entre la espina iliaca anterosuperior y el ombligo — corresponde a la base fija del apéndice. Signo de Rovsing: dolor referido en fosa iliaca derecha al palpar/percutir la fosa iliaca izquierda. Signo del psoas: dolor al extender pasivamente la cadera derecha en decúbito lateral izquierdo, o al flexionarla contra resistencia. Signo del obturador: dolor al rotar internamente la cadera y rodilla derechas flexionadas a 90°.',
-      fisiopatologia: 'A diferencia del ciego, que es móvil, la base apendicular tiene posición anatómica relativamente constante, de ahí la utilidad del punto de McBurney. Rovsing se explica por el desplazamiento del gas/contenido intestinal y la tracción indirecta del peritoneo parietal inflamado al comprimir a distancia — como tirar de una esquina de una sábana bien estirada: el jalón se siente también en la esquina opuesta, porque toda la tela (aquí, el peritoneo) es una superficie continua. El psoas es positivo cuando un apéndice retrocecal contacta el músculo psoas ilíaco y su estiramiento irrita el peritoneo adyacente. El obturador es positivo cuando un apéndice pélvico contacta el músculo obturador interno, irritado por su rotación.',
-      criterios_dx: 'Ningún signo aislado tiene sensibilidad suficiente para descartar apendicitis por sí solo; su valor es acumulativo junto con la localización del dolor, la secuencia típica (dolor periumbilical migrando a fosa iliaca derecha) y los signos de irritación peritoneal directa.',
-      dx_diferencial: 'Psoas y obturador positivos no son exclusivos de apendicitis: también aparecen en abscesos del psoas de otro origen o en procesos inflamatorios pélvicos (ej. anexitis) que irritan los mismos músculos.',
-      figura: 'signos-apendiculares-tabla'
-    },
-    {
-      nombre: 'Signos de irritación peritoneal: Blumberg y defensa involuntaria',
-      color: '#8c3a34',
-      definicion: 'Hallazgos que indican inflamación del peritoneo parietal más allá de un punto específico.',
-      clinica: 'Signo de Blumberg (rebote): se palpa profundamente y de forma sostenida sobre el punto doloroso y luego se retira la mano bruscamente; positivo si el dolor es mayor al retirar la mano que al comprimir. Defensa muscular involuntaria ("vientre en tabla"): contractura refleja generalizada de la pared, que no cede con ninguna maniobra de relajación.',
-      fisiopatologia: 'El dolor de rebote no se genera por el estiramiento del peritoneo al retirar la mano, sino por el movimiento súbito de la pared y las vísceras subyacentes, que sacude el peritoneo parietal inflamado — por eso maniobras equivalentes sin tocar directamente el punto doloroso (percusión suave, o pedir al paciente que tosa: "signo de la tos") pueden reproducir el mismo dolor con menos molestia y rendimiento diagnóstico similar — es la misma razón por la que un moretón duele más al soltarlo de golpe después de presionarlo que al mantenerlo comprimido: el dolor viene del movimiento brusco del tejido lesionado, no de la presión sostenida en sí. El vientre en tabla generalizado refleja peritonitis difusa, típicamente por perforación de víscera hueca.',
-      criterios_dx: 'El signo de la tos y la percusión suave tienen sensibilidad similar al rebote clásico para irritación peritoneal, con menos dolor provocado — preferibles como primera maniobra de tamizaje.',
-      dx_diferencial: 'Dolor a la descompresión localizado (irritación peritoneal focal, ej. apendicitis) vs. vientre en tabla generalizado (peritonitis difusa por perforación de víscera hueca — urgencia quirúrgica inmediata).'
-    }
-  ]
-};
-
-export const figuras = {
-  'regiones-abdominales': {
-    titulo: 'Las 9 regiones topográficas del abdomen',
-    html: regionesAbdominalesSVG(),
-    fuente: "Bates' Guide to Physical Examination and History Taking; Argente-Álvarez, Semiología Médica"
-  },
-  'ruidos-hidroaereos-tabla': {
-    titulo: 'Ruidos hidroaéreos y soplos vasculares: hallazgo y significado',
-    html: `<div style="overflow-x:auto;">
-    <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
-      <thead><tr style="border-bottom:1px solid var(--line);">
-        <th style="text-align:left;padding:5px 6px;">Hallazgo</th>
-        <th style="text-align:left;padding:5px 6px;">Descripción</th>
-        <th style="text-align:left;padding:5px 6px;">Causa</th>
-      </tr></thead>
-      <tbody>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Normal</strong></td><td style="padding:5px 6px;">5-34 ruidos/min, borborigmos ocasionales</td><td style="padding:5px 6px;">—</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Aumentados, agudos, en ráfagas</strong></td><td style="padding:5px 6px;">"Ruidos de lucha", coinciden con el cólico</td><td style="padding:5px 6px;">Obstrucción mecánica temprana</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Disminuidos/ausentes</strong></td><td style="padding:5px 6px;">Requiere ≥2 min de auscultación para confirmarlo</td><td style="padding:5px 6px;">Íleo paralítico, peritonitis, hipopotasemia, opioides, obstrucción tardía</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Soplo sistólico/sistodiastólico</strong></td><td style="padding:5px 6px;">Epigastrio o flancos</td><td style="padding:5px 6px;">Estenosis de arteria renal (diastólico = mayor severidad)</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Soplo hepático</strong></td><td style="padding:5px 6px;">Sobre el área de proyección hepática</td><td style="padding:5px 6px;">Hepatocarcinoma, hepatitis alcohólica severa</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Soplo venoso "en zumbido"</strong></td><td style="padding:5px 6px;">Continuo, periumbilical</td><td style="padding:5px 6px;">Síndrome de Cruveilhier-Baumgarten (hipertensión portal)</td></tr>
-        <tr><td style="padding:5px 6px;"><strong>Roce/fricción</strong></td><td style="padding:5px 6px;">Hepático o esplénico, con la respiración</td><td style="padding:5px 6px;">Perihepatitis/periesplenitis (infarto, absceso)</td></tr>
-      </tbody>
-    </table>
-    </div>`,
-    fuente: 'Bates’ Guide to Physical Examination; McGee, Evidence-Based Physical Diagnosis'
-  },
-  'ascitis-tecnicas': {
-    titulo: 'Matidez cambiante (shifting dullness)',
-    html: ascitisTecnicaSVG(),
-    fuente: 'Cattau et al. JAMA 1982; Bates’ Guide to Physical Examination'
-  },
-  'puntos-dolorosos-abdomen': {
-    titulo: 'Punto cístico (Murphy) y punto de McBurney',
-    html: puntosDolorosSVG(),
-    fuente: "Bates' Guide to Physical Examination; DeGowin's Diagnostic Examination"
-  },
-  'signos-apendiculares-tabla': {
-    titulo: 'Signos de apendicitis: técnica y mecanismo',
-    html: `<div style="overflow-x:auto;">
+      fisiopatologia: `${figBlock('Tabla 2', 'Signos de apendicitis: técnica y mecanismo', `<div style="overflow-x:auto;">
     <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
       <thead><tr style="border-bottom:1px solid var(--line);">
         <th style="text-align:left;padding:5px 6px;">Signo</th>
@@ -318,9 +289,21 @@ export const figuras = {
         <tr><td style="padding:5px 6px;"><strong>Obturador</strong></td><td style="padding:5px 6px;">Rotar internamente cadera y rodilla derechas flexionadas a 90°</td><td style="padding:5px 6px;">Dolor</td><td style="padding:5px 6px;">Apéndice pélvico en contacto con el obturador interno</td></tr>
       </tbody>
     </table>
-    </div>`,
-    fuente: 'Wagner et al. JAMA 1996; Bates’ Guide to Physical Examination'
-  }
+    </div>`)}
+A diferencia del ciego, que es móvil, la base apendicular tiene posición anatómica relativamente constante, de ahí la utilidad del punto de McBurney. Rovsing se explica por el desplazamiento del gas/contenido intestinal y la tracción indirecta del peritoneo parietal inflamado al comprimir a distancia — como tirar de una esquina de una sábana bien estirada: el jalón se siente también en la esquina opuesta, porque toda la tela (aquí, el peritoneo) es una superficie continua. El psoas es positivo cuando un apéndice retrocecal contacta el músculo psoas ilíaco y su estiramiento irrita el peritoneo adyacente. El obturador es positivo cuando un apéndice pélvico contacta el músculo obturador interno, irritado por su rotación.`,
+      criterios_dx: 'Ningún signo aislado tiene sensibilidad suficiente para descartar apendicitis por sí solo; su valor es acumulativo junto con la localización del dolor, la secuencia típica (dolor periumbilical migrando a fosa iliaca derecha) y los signos de irritación peritoneal directa.',
+      dx_diferencial: 'Psoas y obturador positivos no son exclusivos de apendicitis: también aparecen en abscesos del psoas de otro origen o en procesos inflamatorios pélvicos (ej. anexitis) que irritan los mismos músculos.'
+    },
+    {
+      nombre: 'Signos de irritación peritoneal: Blumberg y defensa involuntaria',
+      color: '#8c3a34',
+      definicion: 'Hallazgos que indican inflamación del peritoneo parietal más allá de un punto específico.',
+      clinica: 'Signo de Blumberg (rebote): se palpa profundamente y de forma sostenida sobre el punto doloroso y luego se retira la mano bruscamente; positivo si el dolor es mayor al retirar la mano que al comprimir. Defensa muscular involuntaria ("vientre en tabla"): contractura refleja generalizada de la pared, que no cede con ninguna maniobra de relajación.',
+      fisiopatologia: 'El dolor de rebote no se genera por el estiramiento del peritoneo al retirar la mano, sino por el movimiento súbito de la pared y las vísceras subyacentes, que sacude el peritoneo parietal inflamado — por eso maniobras equivalentes sin tocar directamente el punto doloroso (percusión suave, o pedir al paciente que tosa: "signo de la tos") pueden reproducir el mismo dolor con menos molestia y rendimiento diagnóstico similar — es la misma razón por la que un moretón duele más al soltarlo de golpe después de presionarlo que al mantenerlo comprimido: el dolor viene del movimiento brusco del tejido lesionado, no de la presión sostenida en sí. El vientre en tabla generalizado refleja peritonitis difusa, típicamente por perforación de víscera hueca.',
+      criterios_dx: 'El signo de la tos y la percusión suave tienen sensibilidad similar al rebote clásico para irritación peritoneal, con menos dolor provocado — preferibles como primera maniobra de tamizaje.',
+      dx_diferencial: 'Dolor a la descompresión localizado (irritación peritoneal focal, ej. apendicitis) vs. vientre en tabla generalizado (peritonitis difusa por perforación de víscera hueca — urgencia quirúrgica inmediata).'
+    }
+  ]
 };
 
 export const compCites = {

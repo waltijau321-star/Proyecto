@@ -36,11 +36,24 @@ export const bibliografia = [
 // Reetiqueta los 4 campos genéricos del motor para que encajen con contenido semiológico
 // (mismo criterio que los demás temas de Semiología).
 export const modalLabels = {
+  itemName: 'Punto de exploración',
   fisiopatologia: 'Mecanismo y clasificación',
   clinica: 'Técnica y hallazgos',
   criterios_dx: 'Significado clínico',
   algoritmo: 'Secuencia'
 };
+
+// Reproduce el marcado visual de .modal-figure que arma oneFiguraHTML() en engine/study-view.js,
+// para poder insertar una tabla/imagen EN LÍNEA justo debajo del párrafo que la menciona, en vez
+// de dejar que el motor la adjunte al final del modal vía `c.figura`. Numeración continua por
+// TEMA completo (no por tarjeta): Tabla y Imagen son contadores independientes que avanzan según
+// el orden de aparición al recorrer `complicaciones` de arriba a abajo.
+function figBlock(label, titulo, html) {
+  return `<div class="modal-field modal-figure" style="margin:10px 0 4px;">
+    <span class="flabel">${label} · ${titulo}</span>
+    <div class="figure-body">${html}</div>
+  </div>`;
+}
 
 // ---------------------------------------------------------------------------------------------
 // Helpers de figuras (SVG a mano, theme-aware vía var(--...) salvo colores clínicos ya
@@ -145,10 +158,30 @@ export const content = {
     {
       nombre: 'Lesiones primarias planas: mácula y mancha',
       color: '#3d5a73',
-      definicion: 'Cambios de coloración de la piel, NO palpables (sin relieve ni depresión), que se distinguen únicamente por el tamaño (ver figura).',
-      clinica: 'Mácula: &lt;1 cm de diámetro. Mancha (o mácula grande): &gt;1 cm. Ambas pueden ser de origen vascular (eritema), pigmentario (hiper o hipopigmentación) o purpúrico (extravasación de sangre).',
-      criterios_dx: 'Distinguir el origen —vascular, pigmentario o purpúrico— mediante vitropresión es clínicamente más relevante que el tamaño exacto de la lesión.',
-      figura: 'lesiones-primarias-tabla'
+      definicion: 'Cambios de coloración de la piel, NO palpables (sin relieve ni depresión), que se distinguen únicamente por el tamaño (ver Tabla 1).',
+      clinica: `${figBlock('Tabla 1', 'Lesiones elementales primarias', `<div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
+      <thead><tr style="border-bottom:1px solid var(--line);">
+        <th style="text-align:left;padding:5px 6px;">Lesión</th>
+        <th style="text-align:left;padding:5px 6px;">Tamaño</th>
+        <th style="text-align:left;padding:5px 6px;">Palpable</th>
+        <th style="text-align:left;padding:5px 6px;">Descripción</th>
+      </tr></thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Mácula</strong></td><td style="padding:5px 6px;">&lt;1 cm</td><td style="padding:5px 6px;">No</td><td style="padding:5px 6px;">Cambio de color plano</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Mancha</strong></td><td style="padding:5px 6px;">&gt;1 cm</td><td style="padding:5px 6px;">No</td><td style="padding:5px 6px;">Cambio de color plano</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Pápula</strong></td><td style="padding:5px 6px;">&lt;1 cm</td><td style="padding:5px 6px;">Sí</td><td style="padding:5px 6px;">Sólida, elevada, bien delimitada</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Placa</strong></td><td style="padding:5px 6px;">&gt;1 cm</td><td style="padding:5px 6px;">Sí</td><td style="padding:5px 6px;">Elevación superficial, mayor diámetro que profundidad</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Nódulo</strong></td><td style="padding:5px 6px;">&gt;1 cm</td><td style="padding:5px 6px;">Sí</td><td style="padding:5px 6px;">Sólido, en dermis profunda/hipodermis</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Roncha/habón</strong></td><td style="padding:5px 6px;">Variable</td><td style="padding:5px 6px;">Sí</td><td style="padding:5px 6px;">Edema dérmico transitorio (&lt;24 h), pruriginoso</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Vesícula</strong></td><td style="padding:5px 6px;">&lt;1 cm</td><td style="padding:5px 6px;">Sí</td><td style="padding:5px 6px;">Contenido líquido claro</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Ampolla</strong></td><td style="padding:5px 6px;">&gt;1 cm</td><td style="padding:5px 6px;">Sí</td><td style="padding:5px 6px;">Contenido líquido claro</td></tr>
+        <tr><td style="padding:5px 6px;"><strong>Pústula</strong></td><td style="padding:5px 6px;">Variable</td><td style="padding:5px 6px;">Sí</td><td style="padding:5px 6px;">Contenido purulento</td></tr>
+      </tbody>
+    </table>
+    </div>`)}
+Mácula: &lt;1 cm de diámetro. Mancha (o mácula grande): &gt;1 cm. Ambas pueden ser de origen vascular (eritema), pigmentario (hiper o hipopigmentación) o purpúrico (extravasación de sangre).`,
+      criterios_dx: 'Distinguir el origen —vascular, pigmentario o purpúrico— mediante vitropresión es clínicamente más relevante que el tamaño exacto de la lesión.'
     },
     {
       nombre: 'Lesiones primarias sólidas: pápula, placa, nódulo y roncha',
@@ -170,107 +203,37 @@ export const content = {
     {
       nombre: 'Lesiones secundarias por pérdida de sustancia: erosión y úlcera',
       color: '#3d5a73',
-      definicion: 'Pérdida de continuidad de la piel, clasificada según la profundidad alcanzada (ver figura).',
+      definicion: 'Pérdida de continuidad de la piel, clasificada según la profundidad alcanzada (ver Imagen 1).',
       clinica: 'Erosión: pérdida limitada a la epidermis, hasta la membrana basal — superficie húmeda, no sangra con facilidad. Úlcera: pérdida que alcanza la dermis o planos más profundos — puede sangrar, con bordes (elevados, socavados) y fondo (limpio, necrótico, fibrinoso) definibles.',
-      fisiopatologia: 'La profundidad determina el desenlace cicatricial: la erosión, al respetar la membrana basal y las estructuras anexiales de la dermis, cura SIN cicatriz; la úlcera, al destruir la dermis, cura CON cicatriz (reemplazo por tejido de granulación y colágeno desorganizado).',
-      criterios_dx: 'Predecir si una lesión cicatrizará o no según su profundidad permite anticipar el pronóstico estético y funcional antes de iniciar cualquier tratamiento.',
-      figura: 'erosion-ulcera-diagrama'
+      fisiopatologia: `${figBlock('Imagen 1', 'Profundidad de la erosión y la úlcera', erosionUlceraSVG())}
+La profundidad determina el desenlace cicatricial: la erosión, al respetar la membrana basal y las estructuras anexiales de la dermis, cura SIN cicatriz; la úlcera, al destruir la dermis, cura CON cicatriz (reemplazo por tejido de granulación y colágeno desorganizado).`,
+      criterios_dx: 'Predecir si una lesión cicatrizará o no según su profundidad permite anticipar el pronóstico estético y funcional antes de iniciar cualquier tratamiento.'
     },
     {
       nombre: 'Patrones de distribución y configuración',
       color: '#3d5a73',
-      definicion: 'La forma en que se agrupan o distribuyen las lesiones en la superficie corporal, un dato tan diagnóstico como la morfología de cada lesión individual (ver figura).',
+      definicion: 'La forma en que se agrupan o distribuyen las lesiones en la superficie corporal, un dato tan diagnóstico como la morfología de cada lesión individual (ver Imagen 2).',
       clinica: 'Lineal (a lo largo de una línea), anular (en anillo, con aclaramiento central), arciforme (en arco, anillo incompleto), en diana/target (3 zonas concéntricas de color distinto), agrupado/herpetiforme (racimo de lesiones muy próximas), en dermatoma (banda que sigue la distribución de una raíz nerviosa).',
-      fisiopatologia: 'En dermatoma → herpes zóster, por reactivación del virus varicela-zóster latente en un ganglio de la raíz dorsal, que viaja por el nervio sensitivo hasta la piel que inerva. Anular → tiña (borde activo descamativo con aclaramiento central por resolución centrífuga), granuloma anular, eritema migrans de la enfermedad de Lyme. En diana → eritema multiforme. Agrupado/herpetiforme → herpes simple, dermatitis herpetiforme. Lineal → dermatitis de contacto por planta (el alérgeno se deposita en la línea de contacto) o fenómeno de Koebner.',
-      criterios_dx: 'El fenómeno de Koebner (lesiones nuevas de la misma enfermedad de base, exactamente en sitios de trauma cutáneo previo: rasguño, cicatriz quirúrgica) es característico de psoriasis, liquen plano y vitíligo, y su presencia apoya activamente esos diagnósticos.',
-      figura: 'patrones-distribucion'
+      fisiopatologia: `${figBlock('Imagen 2', 'Patrones de distribución y configuración', patronesDistribucionSVG())}
+En dermatoma → herpes zóster, por reactivación del virus varicela-zóster latente en un ganglio de la raíz dorsal, que viaja por el nervio sensitivo hasta la piel que inerva. Anular → tiña (borde activo descamativo con aclaramiento central por resolución centrífuga), granuloma anular, eritema migrans de la enfermedad de Lyme. En diana → eritema multiforme. Agrupado/herpetiforme → herpes simple, dermatitis herpetiforme. Lineal → dermatitis de contacto por planta (el alérgeno se deposita en la línea de contacto) o fenómeno de Koebner.`,
+      criterios_dx: 'El fenómeno de Koebner (lesiones nuevas de la misma enfermedad de base, exactamente en sitios de trauma cutáneo previo: rasguño, cicatriz quirúrgica) es característico de psoriasis, liquen plano y vitíligo, y su presencia apoya activamente esos diagnósticos.'
     },
     {
       nombre: 'Regla ABCDE del melanoma',
       color: '#8c3a34',
-      definicion: 'Criterios clínicos para diferenciar un nevo melanocítico benigno de una lesión sospechosa de melanoma, complementados por el "signo del patito feo" y la dermatoscopia (ver figura).',
+      definicion: 'Criterios clínicos para diferenciar un nevo melanocítico benigno de una lesión sospechosa de melanoma, complementados por el "signo del patito feo" y la dermatoscopia (ver Imagen 3).',
       clinica: 'Asimetría (una mitad no es igual a la otra), Bordes irregulares (festoneados, mal definidos), Color heterogéneo (múltiples tonos en la misma lesión), Diámetro &gt;6 mm (aproximadamente el tamaño de un borrador de lápiz), Evolución (cualquier cambio de tamaño, forma, color o síntoma —sangrado, prurito— en semanas o meses).',
-      fisiopatologia: 'El "signo del patito feo" complementa al ABCDE: una lesión pigmentada que se ve clínicamente distinta de los demás nevos de ese paciente es sospechosa AUNQUE cumpla pocos criterios ABCDE aislados, porque la mayoría de los nevos de una persona tienden a parecerse entre sí ("firma nevomelanocítica" propia de cada individuo).',
+      fisiopatologia: `${figBlock('Imagen 3', 'Nevo benigno vs. lesión sospechosa (ABCDE)', abcdeMelanomaSVG())}
+El "signo del patito feo" complementa al ABCDE: una lesión pigmentada que se ve clínicamente distinta de los demás nevos de ese paciente es sospechosa AUNQUE cumpla pocos criterios ABCDE aislados, porque la mayoría de los nevos de una persona tienden a parecerse entre sí ("firma nevomelanocítica" propia de cada individuo).`,
       criterios_dx: 'El criterio E (evolución) es el de mayor sensibilidad individual: un melanoma temprano puede no cumplir aún claramente A, B, C o D, pero SIEMPRE está cambiando en el tiempo.',
-      dx_diferencial: 'Un nevo melanocítico común es simétrico, de borde regular, de un solo tono de color, generalmente &lt;6 mm, y estable en el tiempo — el incumplimiento de cualquiera de estos 5 criterios amerita evaluación dermatológica dirigida (dermatoscopia, biopsia).',
-      figura: 'abcde-melanoma'
+      dx_diferencial: 'Un nevo melanocítico común es simétrico, de borde regular, de un solo tono de color, generalmente &lt;6 mm, y estable en el tiempo — el incumplimiento de cualquiera de estos 5 criterios amerita evaluación dermatológica dirigida (dermatoscopia, biopsia).'
     },
     {
       nombre: 'Diferenciación clínica: carcinoma basocelular, espinocelular y melanoma',
       color: '#8c3a34',
-      definicion: 'Las 3 neoplasias cutáneas malignas más frecuentes, con presentaciones clínicas y riesgo de metástasis muy distintos (ver figura).',
+      definicion: 'Las 3 neoplasias cutáneas malignas más frecuentes, con presentaciones clínicas y riesgo de metástasis muy distintos (ver Tabla 2).',
       clinica: 'Carcinoma basocelular: pápula o placa perlada/translúcida, con telangiectasias superficiales y borde enrollado ("en rodete"), crecimiento lento, con frecuencia ulcerada en el centro (úlcera "roedora"). Carcinoma espinocelular: placa o nódulo hiperqueratósico, a menudo ulcerado, de base indurada, puede originarse de una queratosis actínica preexistente.',
-      fisiopatologia: 'El carcinoma basocelular rara vez metastatiza (crecimiento predominantemente local e invasivo, pero de bajo potencial metastásico) — el riesgo principal es la destrucción tisular local, no la diseminación. El carcinoma espinocelular tiene mayor potencial metastásico que el basocelular, especialmente en localizaciones de alto riesgo (labio, oreja, genitales) y en pacientes inmunosuprimidos. El melanoma tiene el mayor potencial de diseminación temprana, por vía linfática y hematógena, de los tres; su subtipo nodular es el más agresivo porque carece de una fase de crecimiento radial (horizontal) previa reconocible, invadiendo verticalmente casi desde el inicio.',
-      criterios_dx: 'El subtipo lentiginoso acral de melanoma (palmas, plantas, subungueal) es el más frecuente en personas de piel oscura y con frecuencia se diagnostica tarde porque esas localizaciones no se examinan activamente.',
-      dx_diferencial: 'Una "úlcera que no cicatriza" en la cara de un paciente añoso con exposición solar crónica es carcinoma basocelular hasta demostrar lo contrario.',
-      figura: 'neoplasias-cutaneas-tabla'
-    },
-    {
-      nombre: 'Exploración de uñas: hallazgos normales y patológicos',
-      color: '#8c3a34',
-      definicion: 'Inspección y palpación de las 20 uñas, incluyendo el pliegue proximal, la lúnula y el lecho ungueal (ver figura).',
-      clinica: 'Normal: superficie lisa, ángulo entre el pliegue proximal y la placa ungueal ≤160°, coloración rosada uniforme, sin surcos ni hemorragias.',
-      fisiopatologia: 'Acropaquia (dedos en palillo de tambor): pérdida del ángulo normal (&gt;180°) con abombamiento de la falange distal; se explora con el signo de Schamroth (al juntar dorso con dorso las falanges distales de dedos opuestos, normalmente se forma un rombo entre las uñas — en la acropaquia ese rombo desaparece). Mecanismo: en enfermedad pulmonar o cardiopatía con cortocircuito derecha-izquierda, megacariocitos y agregados plaquetarios que normalmente se fragmentan en el filtro capilar pulmonar escapan intactos a la circulación sistémica y se depositan en los lechos ungueales, liberando PDGF y VEGF que inducen hiperplasia del tejido conectivo subungueal. Es como un colador de cocina que normalmente detiene y desmenuza los grumos grandes antes de que pasen: si el colador está dañado o hay un "atajo" que lo evita (la enfermedad pulmonar o el cortocircuito), esos grumos intactos llegan enteros más adelante y ahí se acumulan, liberando su contenido en el lugar equivocado. Línea de Beau: surco transversal por interrupción temporal y sincrónica del crecimiento ungueal durante una enfermedad sistémica grave; la distancia desde la cutícula permite estimar cuándo ocurrió el evento (la uña crece ≈0.1 mm/día). Coiloniquia (uña en cuchara): anemia ferropénica severa. Líneas de Muehrcke (pares de líneas blancas transversales que NO se mueven con el crecimiento, porque reflejan un cambio del lecho vascular subyacente, no de la placa ungueal): hipoalbuminemia. Uñas de Terry: dos tercios proximales blancos con banda distal rosada/marrón estrecha — cirrosis, insuficiencia cardiaca, insuficiencia renal (también en el envejecimiento normal). Hemorragias en astilla: pequeñas líneas hemorrágicas longitudinales subungueales — microembolismos sépticos en endocarditis infecciosa, aunque inespecíficas (también por trauma local).',
-      criterios_dx: 'La distinción entre leuconiquia verdadera (se mueve con el crecimiento de la uña) y líneas de Muehrcke (fijas, no se mueven) es clave: solo las líneas de Muehrcke son un marcador confiable de hipoalbuminemia.',
-      dx_diferencial: 'Pitting ungueal (pequeñas depresiones puntiformes): psoriasis, alopecia areata.',
-      figura: 'hallazgos-ungueales-tabla'
-    },
-    {
-      nombre: 'Exploración de cabello y cuero cabelludo: patrones de alopecia',
-      color: '#8c3a34',
-      definicion: 'Inspección de la densidad, distribución y calidad del pelo, y del cuero cabelludo subyacente (presencia o ausencia de orificios foliculares visibles).',
-      clinica: 'La distinción más importante es entre alopecia CICATRICIAL (folículos destruidos, sin orificios foliculares visibles, pérdida permanente) y NO cicatricial (folículos preservados, pérdida potencialmente reversible).',
-      fisiopatologia: 'Alopecia androgenética: patrón (bitemporal/coronilla en hombres, difusa en la línea de partición en mujeres), por miniaturización progresiva del folículo mediada por dihidrotestosterona en folículos genéticamente susceptibles — no cicatricial. Alopecia areata: parches bien delimitados, redondos u ovales, de aparición súbita; en el borde activo se observan "pelos en signo de exclamación" (más delgados hacia la raíz que hacia la punta) — enfermedad autoinmune que ataca el folículo en fase anágena, no cicatricial. Efluvio telógeno: caída difusa y aguda, típicamente 2-3 meses DESPUÉS de un estrés fisiológico significativo (parto, cirugía mayor, fiebre alta, pérdida de peso severa), por el paso sincrónico y masivo de folículos de la fase anágena (crecimiento) a la telógena (reposo/caída) — prueba del tirón difusamente positiva. Tricotilomanía: parches irregulares, de bordes geográficos, con pelos de longitud variable (rotos, no arrancados de raíz) por arrancamiento compulsivo, SIN inflamación del cuero cabelludo.',
-      criterios_dx: 'La presencia o ausencia de orificios foliculares visibles en el cuero cabelludo afectado es la pregunta clínica más importante en cualquier alopecia, porque determina si el proceso es potencialmente reversible (no cicatricial) o permanente (cicatricial), y por tanto la urgencia de la biopsia.',
-      dx_diferencial: 'Alopecia areata (parches redondos, pelos en signo de exclamación, sin descamación) vs. tiña de la cabeza (parches con descamación, pelos rotos a ras del cuero cabelludo, posible adenopatía occipital asociada).'
-    }
-  ]
-};
-
-export const figuras = {
-  'lesiones-primarias-tabla': {
-    titulo: 'Lesiones elementales primarias',
-    html: `<div style="overflow-x:auto;">
-    <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
-      <thead><tr style="border-bottom:1px solid var(--line);">
-        <th style="text-align:left;padding:5px 6px;">Lesión</th>
-        <th style="text-align:left;padding:5px 6px;">Tamaño</th>
-        <th style="text-align:left;padding:5px 6px;">Palpable</th>
-        <th style="text-align:left;padding:5px 6px;">Descripción</th>
-      </tr></thead>
-      <tbody>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Mácula</strong></td><td style="padding:5px 6px;">&lt;1 cm</td><td style="padding:5px 6px;">No</td><td style="padding:5px 6px;">Cambio de color plano</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Mancha</strong></td><td style="padding:5px 6px;">&gt;1 cm</td><td style="padding:5px 6px;">No</td><td style="padding:5px 6px;">Cambio de color plano</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Pápula</strong></td><td style="padding:5px 6px;">&lt;1 cm</td><td style="padding:5px 6px;">Sí</td><td style="padding:5px 6px;">Sólida, elevada, bien delimitada</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Placa</strong></td><td style="padding:5px 6px;">&gt;1 cm</td><td style="padding:5px 6px;">Sí</td><td style="padding:5px 6px;">Elevación superficial, mayor diámetro que profundidad</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Nódulo</strong></td><td style="padding:5px 6px;">&gt;1 cm</td><td style="padding:5px 6px;">Sí</td><td style="padding:5px 6px;">Sólido, en dermis profunda/hipodermis</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Roncha/habón</strong></td><td style="padding:5px 6px;">Variable</td><td style="padding:5px 6px;">Sí</td><td style="padding:5px 6px;">Edema dérmico transitorio (&lt;24 h), pruriginoso</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Vesícula</strong></td><td style="padding:5px 6px;">&lt;1 cm</td><td style="padding:5px 6px;">Sí</td><td style="padding:5px 6px;">Contenido líquido claro</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Ampolla</strong></td><td style="padding:5px 6px;">&gt;1 cm</td><td style="padding:5px 6px;">Sí</td><td style="padding:5px 6px;">Contenido líquido claro</td></tr>
-        <tr><td style="padding:5px 6px;"><strong>Pústula</strong></td><td style="padding:5px 6px;">Variable</td><td style="padding:5px 6px;">Sí</td><td style="padding:5px 6px;">Contenido purulento</td></tr>
-      </tbody>
-    </table>
-    </div>`,
-    fuente: "Bates' Guide to Physical Examination; James et al., Andrews' Diseases of the Skin"
-  },
-  'erosion-ulcera-diagrama': {
-    titulo: 'Profundidad de la erosión y la úlcera',
-    html: erosionUlceraSVG(),
-    fuente: "Kang et al., Fitzpatrick's Dermatology; James et al., Andrews' Diseases of the Skin"
-  },
-  'patrones-distribucion': {
-    titulo: 'Patrones de distribución y configuración',
-    html: patronesDistribucionSVG(),
-    fuente: "Bates' Guide to Physical Examination; Kang et al., Fitzpatrick's Dermatology"
-  },
-  'abcde-melanoma': {
-    titulo: 'Nevo benigno vs. lesión sospechosa (ABCDE)',
-    html: abcdeMelanomaSVG(),
-    fuente: 'Friedman et al. CA Cancer J Clin 1985; Abbasi et al. JAMA 2004'
-  },
-  'neoplasias-cutaneas-tabla': {
-    titulo: 'Carcinoma basocelular, espinocelular y melanoma',
-    html: `<div style="overflow-x:auto;">
+      fisiopatologia: `${figBlock('Tabla 2', 'Carcinoma basocelular, espinocelular y melanoma', `<div style="overflow-x:auto;">
     <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
       <thead><tr style="border-bottom:1px solid var(--line);">
         <th style="text-align:left;padding:5px 6px;">Neoplasia</th>
@@ -283,12 +246,17 @@ export const figuras = {
         <tr><td style="padding:5px 6px;"><strong>Melanoma</strong></td><td style="padding:5px 6px;">Criterios ABCDE positivos</td><td style="padding:5px 6px;">Alto (diseminación linfática y hematógena temprana; subtipo nodular el más agresivo)</td></tr>
       </tbody>
     </table>
-    </div>`,
-    fuente: "Kang et al., Fitzpatrick's Dermatology; James et al., Andrews' Diseases of the Skin"
-  },
-  'hallazgos-ungueales-tabla': {
-    titulo: 'Hallazgos ungueales y su significado sistémico',
-    html: `<div style="overflow-x:auto;">
+    </div>`)}
+El carcinoma basocelular rara vez metastatiza (crecimiento predominantemente local e invasivo, pero de bajo potencial metastásico) — el riesgo principal es la destrucción tisular local, no la diseminación. El carcinoma espinocelular tiene mayor potencial metastásico que el basocelular, especialmente en localizaciones de alto riesgo (labio, oreja, genitales) y en pacientes inmunosuprimidos. El melanoma tiene el mayor potencial de diseminación temprana, por vía linfática y hematógena, de los tres; su subtipo nodular es el más agresivo porque carece de una fase de crecimiento radial (horizontal) previa reconocible, invadiendo verticalmente casi desde el inicio.`,
+      criterios_dx: 'El subtipo lentiginoso acral de melanoma (palmas, plantas, subungueal) es el más frecuente en personas de piel oscura y con frecuencia se diagnostica tarde porque esas localizaciones no se examinan activamente.',
+      dx_diferencial: 'Una "úlcera que no cicatriza" en la cara de un paciente añoso con exposición solar crónica es carcinoma basocelular hasta demostrar lo contrario.'
+    },
+    {
+      nombre: 'Exploración de uñas: hallazgos normales y patológicos',
+      color: '#8c3a34',
+      definicion: 'Inspección y palpación de las 20 uñas, incluyendo el pliegue proximal, la lúnula y el lecho ungueal (ver Tabla 3).',
+      clinica: 'Normal: superficie lisa, ángulo entre el pliegue proximal y la placa ungueal ≤160°, coloración rosada uniforme, sin surcos ni hemorragias.',
+      fisiopatologia: `${figBlock('Tabla 3', 'Hallazgos ungueales y su significado sistémico', `<div style="overflow-x:auto;">
     <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
       <thead><tr style="border-bottom:1px solid var(--line);">
         <th style="text-align:left;padding:5px 6px;">Hallazgo</th>
@@ -304,9 +272,21 @@ export const figuras = {
         <tr><td style="padding:5px 6px;"><strong>Hemorragias en astilla</strong></td><td style="padding:5px 6px;">Líneas hemorrágicas longitudinales subungueales</td><td style="padding:5px 6px;">Endocarditis infecciosa (microembolismos), trauma</td></tr>
       </tbody>
     </table>
-    </div>`,
-    fuente: "Bates' Guide to Physical Examination; DeGowin's Diagnostic Examination"
-  }
+    </div>`)}
+Acropaquia (dedos en palillo de tambor): pérdida del ángulo normal (&gt;180°) con abombamiento de la falange distal; se explora con el signo de Schamroth (al juntar dorso con dorso las falanges distales de dedos opuestos, normalmente se forma un rombo entre las uñas — en la acropaquia ese rombo desaparece). Mecanismo: en enfermedad pulmonar o cardiopatía con cortocircuito derecha-izquierda, megacariocitos y agregados plaquetarios que normalmente se fragmentan en el filtro capilar pulmonar escapan intactos a la circulación sistémica y se depositan en los lechos ungueales, liberando PDGF y VEGF que inducen hiperplasia del tejido conectivo subungueal. Es como un colador de cocina que normalmente detiene y desmenuza los grumos grandes antes de que pasen: si el colador está dañado o hay un "atajo" que lo evita (la enfermedad pulmonar o el cortocircuito), esos grumos intactos llegan enteros más adelante y ahí se acumulan, liberando su contenido en el lugar equivocado. Línea de Beau: surco transversal por interrupción temporal y sincrónica del crecimiento ungueal durante una enfermedad sistémica grave; la distancia desde la cutícula permite estimar cuándo ocurrió el evento (la uña crece ≈0.1 mm/día). Coiloniquia (uña en cuchara): anemia ferropénica severa. Líneas de Muehrcke (pares de líneas blancas transversales que NO se mueven con el crecimiento, porque reflejan un cambio del lecho vascular subyacente, no de la placa ungueal): hipoalbuminemia. Uñas de Terry: dos tercios proximales blancos con banda distal rosada/marrón estrecha — cirrosis, insuficiencia cardiaca, insuficiencia renal (también en el envejecimiento normal). Hemorragias en astilla: pequeñas líneas hemorrágicas longitudinales subungueales — microembolismos sépticos en endocarditis infecciosa, aunque inespecíficas (también por trauma local).`,
+      criterios_dx: 'La distinción entre leuconiquia verdadera (se mueve con el crecimiento de la uña) y líneas de Muehrcke (fijas, no se mueven) es clave: solo las líneas de Muehrcke son un marcador confiable de hipoalbuminemia.',
+      dx_diferencial: 'Pitting ungueal (pequeñas depresiones puntiformes): psoriasis, alopecia areata.'
+    },
+    {
+      nombre: 'Exploración de cabello y cuero cabelludo: patrones de alopecia',
+      color: '#8c3a34',
+      definicion: 'Inspección de la densidad, distribución y calidad del pelo, y del cuero cabelludo subyacente (presencia o ausencia de orificios foliculares visibles).',
+      clinica: 'La distinción más importante es entre alopecia CICATRICIAL (folículos destruidos, sin orificios foliculares visibles, pérdida permanente) y NO cicatricial (folículos preservados, pérdida potencialmente reversible).',
+      fisiopatologia: 'Alopecia androgenética: patrón (bitemporal/coronilla en hombres, difusa en la línea de partición en mujeres), por miniaturización progresiva del folículo mediada por dihidrotestosterona en folículos genéticamente susceptibles — no cicatricial. Alopecia areata: parches bien delimitados, redondos u ovales, de aparición súbita; en el borde activo se observan "pelos en signo de exclamación" (más delgados hacia la raíz que hacia la punta) — enfermedad autoinmune que ataca el folículo en fase anágena, no cicatricial. Efluvio telógeno: caída difusa y aguda, típicamente 2-3 meses DESPUÉS de un estrés fisiológico significativo (parto, cirugía mayor, fiebre alta, pérdida de peso severa), por el paso sincrónico y masivo de folículos de la fase anágena (crecimiento) a la telógena (reposo/caída) — prueba del tirón difusamente positiva. Tricotilomanía: parches irregulares, de bordes geográficos, con pelos de longitud variable (rotos, no arrancados de raíz) por arrancamiento compulsivo, SIN inflamación del cuero cabelludo.',
+      criterios_dx: 'La presencia o ausencia de orificios foliculares visibles en el cuero cabelludo afectado es la pregunta clínica más importante en cualquier alopecia, porque determina si el proceso es potencialmente reversible (no cicatricial) o permanente (cicatricial), y por tanto la urgencia de la biopsia.',
+      dx_diferencial: 'Alopecia areata (parches redondos, pelos en signo de exclamación, sin descamación) vs. tiña de la cabeza (parches con descamación, pelos rotos a ras del cuero cabelludo, posible adenopatía occipital asociada).'
+    }
+  ]
 };
 
 export const compCites = {

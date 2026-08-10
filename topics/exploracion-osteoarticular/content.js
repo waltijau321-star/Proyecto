@@ -37,11 +37,24 @@ export const bibliografia = [
 // Reetiqueta los 4 campos genéricos del motor para que encajen con contenido semiológico
 // (mismo criterio que los demás temas de Semiología).
 export const modalLabels = {
+  itemName: 'Punto de exploración',
   fisiopatologia: 'Mecanismo y clasificación',
   clinica: 'Técnica y hallazgos',
   criterios_dx: 'Significado clínico',
   algoritmo: 'Secuencia'
 };
+
+// Reproduce el marcado visual de .modal-figure que arma oneFiguraHTML() en engine/study-view.js,
+// para poder insertar una tabla/imagen EN LÍNEA justo debajo del párrafo que la menciona, en vez
+// de dejar que el motor la adjunte al final del modal vía `c.figura`. Numeración continua por
+// TEMA completo (no por tarjeta): Tabla y Imagen son contadores independientes que avanzan según
+// el orden de aparición al recorrer `complicaciones` de arriba a abajo.
+function figBlock(label, titulo, html) {
+  return `<div class="modal-field modal-figure" style="margin:10px 0 4px;">
+    <span class="flabel">${label} · ${titulo}</span>
+    <div class="figure-body">${html}</div>
+  </div>`;
+}
 
 // ---------------------------------------------------------------------------------------------
 // Helpers de figuras (SVG a mano, theme-aware vía var(--...) salvo colores clínicos ya
@@ -113,29 +126,59 @@ export const content = {
     {
       nombre: 'Derrame articular: choque rotuliano y signo de la oleada',
       color: '#8c3a34',
-      definicion: 'Maniobras para detectar líquido libre dentro de la articulación de la rodilla (ver figura).',
+      definicion: 'Maniobras para detectar líquido libre dentro de la articulación de la rodilla (ver Imagen 1).',
       clinica: 'Choque rotuliano (ballottement patelar): se comprime el receso suprarrotuliano con una mano para desplazar el líquido hacia el espacio retropatelar, y con la otra se presiona bruscamente la rótula contra el fémur. Signo de la oleada (bulge sign): se "ordeña" el líquido desde el lado medial hacia el lateral de la rodilla y luego se presiona el lado lateral, buscando que reaparezca una onda en el lado medial.',
-      fisiopatologia: 'El choque rotuliano requiere suficiente líquido para que la rótula "flote" y pueda chocar contra el fémur al presionarla — detecta derrames MODERADOS a GRANDES. Con poco líquido, la rótula no llega a flotar lo suficiente para el ballottement clásico, por lo que el signo de la oleada (más sensible a pequeños volúmenes, al movilizar visualmente el líquido de un lado a otro) detecta derrames PEQUEÑOS que el choque rotuliano puede pasar por alto. Es como la diferencia entre un cubo de hielo grande flotando en un vaso lleno de agua (se nota fácilmente al empujarlo) y una esquirla diminuta de hielo en apenas un dedo de agua (no flota lo suficiente para "chocar" contra nada, pero sigue siendo visible si se remueve el agua de un lado a otro).',
-      criterios_dx: 'Elegir la maniobra según el volumen sospechado: signo de la oleada para derrames sutiles, choque rotuliano para derrames evidentes.',
-      figura: 'derrame-rotuliano'
+      fisiopatologia: `${figBlock('Imagen 1', 'Choque rotuliano y signo de la oleada', derrameRotulianoSVG())}
+El choque rotuliano requiere suficiente líquido para que la rótula "flote" y pueda chocar contra el fémur al presionarla — detecta derrames MODERADOS a GRANDES. Con poco líquido, la rótula no llega a flotar lo suficiente para el ballottement clásico, por lo que el signo de la oleada (más sensible a pequeños volúmenes, al movilizar visualmente el líquido de un lado a otro) detecta derrames PEQUEÑOS que el choque rotuliano puede pasar por alto. Es como la diferencia entre un cubo de hielo grande flotando en un vaso lleno de agua (se nota fácilmente al empujarlo) y una esquirla diminuta de hielo en apenas un dedo de agua (no flota lo suficiente para "chocar" contra nada, pero sigue siendo visible si se remueve el agua de un lado a otro).`,
+      criterios_dx: 'Elegir la maniobra según el volumen sospechado: signo de la oleada para derrames sutiles, choque rotuliano para derrames evidentes.'
     },
     {
       nombre: 'Patrones de afectación articular',
       color: '#3d5a73',
-      definicion: 'La forma en que se distribuye el compromiso articular es tan diagnóstica como los hallazgos de cada articulación individual (ver figura).',
+      definicion: 'La forma en que se distribuye el compromiso articular es tan diagnóstica como los hallazgos de cada articulación individual (ver Tabla 1).',
       clinica: 'Monoarticular (1 articulación), oligoarticular (2-4), poliarticular (≥5); simétrico vs. asimétrico; axial (columna, sacroilíacas) vs. periférico; aditivo (se suman articulaciones sin resolver las previas) vs. migratorio (una articulación mejora mientras otra se afecta).',
-      fisiopatologia: 'Poliarticular simétrico: artritis reumatoide, lupus eritematoso sistémico. Poliarticular asimétrico: artritis psoriásica, gota poliarticular crónica. Axial: espondiloartropatías (espondilitis anquilosante). Migratorio: fiebre reumática, artritis gonocócica diseminada, algunas artritis virales — cada articulación se resuelve antes de que la siguiente se inflame. Aditivo: típico de la artritis reumatoide, donde las articulaciones se van sumando sin resolución de las previas.',
-      criterios_dx: 'El patrón migratorio (a diferencia del aditivo) es una pista diagnóstica específica que orienta a fiebre reumática o artritis gonocócica antes de cualquier estudio serológico.',
-      figura: 'patron-articular-tabla'
+      fisiopatologia: `${figBlock('Tabla 1', 'Patrones de afectación articular', `<div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
+      <thead><tr style="border-bottom:1px solid var(--line);">
+        <th style="text-align:left;padding:5px 6px;">Patrón</th>
+        <th style="text-align:left;padding:5px 6px;">Ejemplos</th>
+      </tr></thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Monoarticular agudo</strong></td><td style="padding:5px 6px;">Artritis séptica, gota, pseudogota (descartar primero)</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Poliarticular simétrico</strong></td><td style="padding:5px 6px;">Artritis reumatoide, lupus eritematoso sistémico</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Poliarticular asimétrico</strong></td><td style="padding:5px 6px;">Artritis psoriásica, gota poliarticular crónica</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Axial</strong></td><td style="padding:5px 6px;">Espondiloartropatías (espondilitis anquilosante)</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Migratorio</strong></td><td style="padding:5px 6px;">Fiebre reumática, artritis gonocócica diseminada</td></tr>
+        <tr><td style="padding:5px 6px;"><strong>Aditivo</strong></td><td style="padding:5px 6px;">Artritis reumatoide (no resuelve las previas)</td></tr>
+      </tbody>
+    </table>
+    </div>`)}
+Poliarticular simétrico: artritis reumatoide, lupus eritematoso sistémico. Poliarticular asimétrico: artritis psoriásica, gota poliarticular crónica. Axial: espondiloartropatías (espondilitis anquilosante). Migratorio: fiebre reumática, artritis gonocócica diseminada, algunas artritis virales — cada articulación se resuelve antes de que la siguiente se inflame. Aditivo: típico de la artritis reumatoide, donde las articulaciones se van sumando sin resolución de las previas.`,
+      criterios_dx: 'El patrón migratorio (a diferencia del aditivo) es una pista diagnóstica específica que orienta a fiebre reumática o artritis gonocócica antes de cualquier estudio serológico.'
     },
     {
       nombre: 'Maniobras articulares específicas frecuentes',
       color: '#8c3a34',
-      definicion: 'Pruebas dirigidas para estructuras concretas cuando la sospecha clínica es focal (ver figura).',
+      definicion: 'Pruebas dirigidas para estructuras concretas cuando la sospecha clínica es focal (ver Tabla 2).',
       clinica: 'Lachman: rodilla en 20-30° de flexión, se tracciona la tibia hacia adelante sobre el fémur fijo. McMurray: flexión máxima de rodilla con rotación tibial y extensión progresiva. Tinel: percusión sobre el nervio mediano en la muñeca. Phalen: flexión palmar sostenida de ambas muñecas. Finkelstein: desviación cubital de la muñeca con el pulgar flexionado dentro del puño.',
-      fisiopatologia: 'Lachman evalúa la integridad del ligamento cruzado anterior (LCA) y es más sensible que el cajón anterior clásico (a 90° de flexión), porque a 20-30° los isquiotibiales interfieren menos con el desplazamiento tibial. McMurray (un "clic" o resalte doloroso con la maniobra) sugiere lesión meniscal: rotación externa localiza el menisco medial, rotación interna el lateral. Tinel y Phalen reproducen parestesias en el territorio del nervio mediano por compresión dentro del túnel del carpo (síndrome del túnel carpiano). Finkelstein reproduce dolor en la tabaquera anatómica/estiloides radial por tenosinovitis de los tendones abductor largo y extensor corto del pulgar (tenosinovitis de De Quervain).',
-      criterios_dx: 'Cada maniobra localiza una estructura anatómica específica: Lachman → LCA, McMurray → menisco, Tinel/Phalen → nervio mediano, Finkelstein → tendones del primer compartimento extensor de la muñeca.',
-      figura: 'maniobras-especificas-tabla'
+      fisiopatologia: `${figBlock('Tabla 2', 'Maniobras articulares específicas', `<div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
+      <thead><tr style="border-bottom:1px solid var(--line);">
+        <th style="text-align:left;padding:5px 6px;">Maniobra</th>
+        <th style="text-align:left;padding:5px 6px;">Técnica</th>
+        <th style="text-align:left;padding:5px 6px;">Estructura evaluada</th>
+      </tr></thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Lachman</strong></td><td style="padding:5px 6px;">Rodilla a 20-30°, traccionar la tibia hacia adelante</td><td style="padding:5px 6px;">Ligamento cruzado anterior</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>McMurray</strong></td><td style="padding:5px 6px;">Flexión máxima + rotación tibial + extensión progresiva</td><td style="padding:5px 6px;">Menisco (medial/lateral según rotación)</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Tinel</strong></td><td style="padding:5px 6px;">Percusión sobre el nervio mediano en la muñeca</td><td style="padding:5px 6px;">Nervio mediano (túnel del carpo)</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Phalen</strong></td><td style="padding:5px 6px;">Flexión palmar sostenida de ambas muñecas</td><td style="padding:5px 6px;">Nervio mediano (túnel del carpo)</td></tr>
+        <tr><td style="padding:5px 6px;"><strong>Finkelstein</strong></td><td style="padding:5px 6px;">Desviación cubital con el pulgar dentro del puño</td><td style="padding:5px 6px;">Tendones del 1er compartimento extensor (De Quervain)</td></tr>
+      </tbody>
+    </table>
+    </div>`)}
+Lachman evalúa la integridad del ligamento cruzado anterior (LCA) y es más sensible que el cajón anterior clásico (a 90° de flexión), porque a 20-30° los isquiotibiales interfieren menos con el desplazamiento tibial. McMurray (un "clic" o resalte doloroso con la maniobra) sugiere lesión meniscal: rotación externa localiza el menisco medial, rotación interna el lateral. Tinel y Phalen reproducen parestesias en el territorio del nervio mediano por compresión dentro del túnel del carpo (síndrome del túnel carpiano). Finkelstein reproduce dolor en la tabaquera anatómica/estiloides radial por tenosinovitis de los tendones abductor largo y extensor corto del pulgar (tenosinovitis de De Quervain).`,
+      criterios_dx: 'Cada maniobra localiza una estructura anatómica específica: Lachman → LCA, McMurray → menisco, Tinel/Phalen → nervio mediano, Finkelstein → tendones del primer compartimento extensor de la muñeca.'
     },
     {
       nombre: 'Edema de miembros inferiores: mecanismo y clasificación',
@@ -162,7 +205,7 @@ export const content = {
       clinica: 'Progresión típica: varices (venas superficiales dilatadas y tortuosas) → edema vespertino que mejora con la elevación → dermatitis por estasis (eccema, hiperpigmentación ocre) → lipodermatoesclerosis (induración fibrótica, deformidad "en botella de champán invertida" del tercio distal de la pierna) → úlcera venosa.',
       fisiopatologia: 'La incompetencia valvular eleva crónicamente la presión venosa ambulatoria; la hiperpigmentación ocre se debe al depósito de hemosiderina de eritrocitos extravasados por la hipertensión venosa capilar crónica.',
       criterios_dx: 'La úlcera venosa característica se localiza en la región maleolar medial ("gaiter area"/zona de las polainas), con bordes irregulares y poco profundos, poco dolorosa, rodeada de cambios de estasis.',
-      dx_diferencial: 'Ver figura de úlceras venosas vs. arteriales para la comparación completa.'
+      dx_diferencial: 'Ver Tabla 3 (tarjeta "Úlceras venosas vs. arteriales", más abajo) para la comparación completa.'
     },
     {
       nombre: 'Exploración arterial periférica: pulsos e índice tobillo-brazo',
@@ -175,8 +218,8 @@ export const content = {
     {
       nombre: 'Isquemia arterial aguda: las 6 P',
       color: '#8c3a34',
-      definicion: 'Síndrome clínico de oclusión arterial aguda de una extremidad, reconocido por 6 hallazgos cardinales (ver figura).',
-      clinica: 'Pain (dolor súbito), Pallor (palidez), Pulselessness (ausencia de pulso), Paresthesia (parestesias), Paralysis (parálisis), Poiquilotermia (frialdad).',
+      definicion: 'Síndrome clínico de oclusión arterial aguda de una extremidad, reconocido por 6 hallazgos cardinales (ver Imagen 2).',
+      clinica: `Pain (dolor súbito), Pallor (palidez), Pulselessness (ausencia de pulso), Paresthesia (parestesias), Paralysis (parálisis), Poiquilotermia (frialdad).${figBlock('Imagen 2', 'Las 6 P de la isquemia arterial aguda', seisPIsquemiaSVG())}`,
       fisiopatologia: 'La parestesia es un signo TEMPRANO (las fibras nerviosas son muy sensibles a la isquemia, se afectan antes que el músculo); la parálisis es un signo TARDÍO que indica isquemia ya avanzada, con daño muscular establecido y menor probabilidad de recuperación completa incluso con revascularización.',
       criterios_dx: 'La aparición de parálisis (a diferencia de la parestesia aislada) marca la transición a isquemia con daño tisular ya establecido — es indicación de revascularización EMERGENTE, no solo urgente.',
       algoritmo: ['Evaluar dolor, color y temperatura de la extremidad', 'Palpar pulsos distales (ausentes en la isquemia aguda completa)', 'Evaluar sensibilidad (parestesia = signo temprano)', 'Evaluar función motora (parálisis = signo tardío, urgencia máxima)', 'Signo de Buerger si el cuadro es menos agudo: elevar la pierna 45-60° por 1 minuto (palidece) y luego dejarla colgar (rubor tardío intenso)']
@@ -184,69 +227,9 @@ export const content = {
     {
       nombre: 'Úlceras venosas vs. arteriales: diferenciación clínica',
       color: '#8c3a34',
-      definicion: 'Comparación de las características clave que distinguen el origen de una úlcera de extremidad inferior (ver figura).',
+      definicion: 'Comparación de las características clave que distinguen el origen de una úlcera de extremidad inferior (ver Tabla 3).',
       clinica: 'Localización, dolor, bordes, pulsos y piel circundante difieren de forma característica entre ambos tipos.',
-      fisiopatologia: 'El dolor arterial EMPEORA con la elevación de la pierna (reduce aún más la perfusión ya comprometida por la insuficiencia arterial) y MEJORA al dejarla colgando (favorece el flujo por gravedad) — el patrón opuesto al de la insuficiencia venosa, donde la elevación mejora el edema y el malestar.',
-      criterios_dx: 'Confundir una úlcera arterial con una venosa y aplicar compresión (tratamiento estándar de la úlcera venosa) puede empeorar significativamente la isquemia de una extremidad con enfermedad arterial no reconocida — de ahí la importancia de medir el ITB antes de indicar terapia compresiva.',
-      figura: 'ulceras-venosas-arteriales-tabla'
-    }
-  ]
-};
-
-export const figuras = {
-  'derrame-rotuliano': {
-    titulo: 'Choque rotuliano y signo de la oleada',
-    html: derrameRotulianoSVG(),
-    fuente: "Bates' Guide to Physical Examination and History Taking"
-  },
-  'patron-articular-tabla': {
-    titulo: 'Patrones de afectación articular',
-    html: `<div style="overflow-x:auto;">
-    <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
-      <thead><tr style="border-bottom:1px solid var(--line);">
-        <th style="text-align:left;padding:5px 6px;">Patrón</th>
-        <th style="text-align:left;padding:5px 6px;">Ejemplos</th>
-      </tr></thead>
-      <tbody>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Monoarticular agudo</strong></td><td style="padding:5px 6px;">Artritis séptica, gota, pseudogota (descartar primero)</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Poliarticular simétrico</strong></td><td style="padding:5px 6px;">Artritis reumatoide, lupus eritematoso sistémico</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Poliarticular asimétrico</strong></td><td style="padding:5px 6px;">Artritis psoriásica, gota poliarticular crónica</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Axial</strong></td><td style="padding:5px 6px;">Espondiloartropatías (espondilitis anquilosante)</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Migratorio</strong></td><td style="padding:5px 6px;">Fiebre reumática, artritis gonocócica diseminada</td></tr>
-        <tr><td style="padding:5px 6px;"><strong>Aditivo</strong></td><td style="padding:5px 6px;">Artritis reumatoide (no resuelve las previas)</td></tr>
-      </tbody>
-    </table>
-    </div>`,
-    fuente: "Bates' Guide to Physical Examination; DeGowin's Diagnostic Examination"
-  },
-  'maniobras-especificas-tabla': {
-    titulo: 'Maniobras articulares específicas',
-    html: `<div style="overflow-x:auto;">
-    <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
-      <thead><tr style="border-bottom:1px solid var(--line);">
-        <th style="text-align:left;padding:5px 6px;">Maniobra</th>
-        <th style="text-align:left;padding:5px 6px;">Técnica</th>
-        <th style="text-align:left;padding:5px 6px;">Estructura evaluada</th>
-      </tr></thead>
-      <tbody>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Lachman</strong></td><td style="padding:5px 6px;">Rodilla a 20-30°, traccionar la tibia hacia adelante</td><td style="padding:5px 6px;">Ligamento cruzado anterior</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>McMurray</strong></td><td style="padding:5px 6px;">Flexión máxima + rotación tibial + extensión progresiva</td><td style="padding:5px 6px;">Menisco (medial/lateral según rotación)</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Tinel</strong></td><td style="padding:5px 6px;">Percusión sobre el nervio mediano en la muñeca</td><td style="padding:5px 6px;">Nervio mediano (túnel del carpo)</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Phalen</strong></td><td style="padding:5px 6px;">Flexión palmar sostenida de ambas muñecas</td><td style="padding:5px 6px;">Nervio mediano (túnel del carpo)</td></tr>
-        <tr><td style="padding:5px 6px;"><strong>Finkelstein</strong></td><td style="padding:5px 6px;">Desviación cubital con el pulgar dentro del puño</td><td style="padding:5px 6px;">Tendones del 1er compartimento extensor (De Quervain)</td></tr>
-      </tbody>
-    </table>
-    </div>`,
-    fuente: "Bates' Guide to Physical Examination; DeGowin's Diagnostic Examination"
-  },
-  'seis-p-isquemia': {
-    titulo: 'Las 6 P de la isquemia arterial aguda',
-    html: seisPIsquemiaSVG(),
-    fuente: 'McGee, Evidence-Based Physical Diagnosis'
-  },
-  'ulceras-venosas-arteriales-tabla': {
-    titulo: 'Úlceras venosas vs. arteriales',
-    html: `<div style="overflow-x:auto;">
+      fisiopatologia: `${figBlock('Tabla 3', 'Úlceras venosas vs. arteriales', `<div style="overflow-x:auto;">
     <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
       <thead><tr style="border-bottom:1px solid var(--line);">
         <th style="text-align:left;padding:5px 6px;">Característica</th>
@@ -261,9 +244,11 @@ export const figuras = {
         <tr><td style="padding:5px 6px;"><strong>Piel circundante</strong></td><td style="padding:5px 6px;">Hiperpigmentación ocre, dermatitis por estasis</td><td style="padding:5px 6px;">Fría, brillante, sin vello, atrófica</td></tr>
       </tbody>
     </table>
-    </div>`,
-    fuente: 'Eberhardt, Raffetto. Circulation 2014'
-  }
+    </div>`)}
+El dolor arterial EMPEORA con la elevación de la pierna (reduce aún más la perfusión ya comprometida por la insuficiencia arterial) y MEJORA al dejarla colgando (favorece el flujo por gravedad) — el patrón opuesto al de la insuficiencia venosa, donde la elevación mejora el edema y el malestar.`,
+      criterios_dx: 'Confundir una úlcera arterial con una venosa y aplicar compresión (tratamiento estándar de la úlcera venosa) puede empeorar significativamente la isquemia de una extremidad con enfermedad arterial no reconocida — de ahí la importancia de medir el ITB antes de indicar terapia compresiva.'
+    }
+  ]
 };
 
 export const compCites = {

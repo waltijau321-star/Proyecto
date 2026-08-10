@@ -22,6 +22,18 @@ export const bibliografia = [
   'KDIGO Clinical Practice Guideline for Acute Kidney Injury. Kidney Int Suppl. 2012;2(1):1-138.'
 ];
 
+// Reproduce el marcado visual de .modal-figure que arma oneFiguraHTML() en engine/study-view.js,
+// para poder insertar una tabla EN LÍNEA justo debajo del párrafo que la menciona (aquí,
+// tx_farmacologico) en vez de dejar que el motor la adjunte donde cae `figuraHTML(c.figura)` por
+// defecto — justo tras criterios_dx, bloque `diagnóstico`, lejos de la dosis a la que se refiere,
+// que vive en el bloque `tratamiento`, más abajo en el modal.
+function figBlock(label, titulo, html) {
+  return `<div class="modal-field modal-figure" style="margin:10px 0 4px;">
+    <span class="flabel">${label} · ${titulo}</span>
+    <div class="figure-body">${html}</div>
+  </div>`;
+}
+
 export const content = {
   definicion: {
     conceptual: 'Disfunción orgánica por respuesta desregulada del huésped a la infección (Sepsis-3).',
@@ -72,14 +84,24 @@ export const content = {
       epidemiologia: 'Subconjunto más grave de la sepsis; mortalidad hospitalaria >40%.',
       factores_riesgo: ['Edad avanzada', 'Inmunosupresión', 'Retraso en antibióticos', 'Foco no controlado', 'Comorbilidad cardiovascular'],
       clinica: 'Hipotensión persistente, piel moteada, relleno capilar prolongado, oliguria, alteración del estado mental, acidosis láctica.',
-      figura: 'vasopresores-dosis',
       criterios_dx: 'Vasopresores para PAM ≥65 mmHg + lactato >2 mmol/L tras reanimación con volumen (Sepsis-3).',
       laboratorio: 'Lactato elevado, acidosis metabólica, disfunción orgánica múltiple.',
       imagen: 'Dirigida al foco; POCUS para valorar volemia y función cardiaca.',
       complementarios: 'Monitorización hemodinámica; tiempo de llenado capilar como parámetro adicional para guiar la reanimación (SSC 2026, evidencia de certeza baja).',
       dx_diferencial: 'Choque cardiogénico, hipovolémico, obstructivo, anafiláctico.',
       tx_medico: 'Cristaloides ≥30 mL/kg IV en las primeras 3h si hay hipoperfusión inducida por sepsis; iniciar vasopresor si la hipotensión persiste tras el bolo de líquidos (en choque inestable, considerar líquidos y vasopresor de forma simultánea). Meta de PAM inicial 65 mmHg (60-65 mmHg en ≥65 años, SSC 2026); control del foco idealmente dentro de las primeras 6h del diagnóstico.',
-      tx_farmacologico: 'Noradrenalina periférica de primera línea (no retrasar por falta de acceso central); si hay disfunción cardiaca concomitante, noradrenalina o adrenalina son opciones de primera línea (SSC 2026) — noradrenalina preferida si taquiarritmia, adrenalina si bradiarritmia. Si persiste hipotensión con dosis crecientes de noradrenalina (equivalente ≈0.3 mcg/kg/min), añadir vasopresina; si aun así la PAM es inadecuada, añadir adrenalina. Hidrocortisona 200 mg IV/día (dosis fraccionadas) si el choque es refractario. Antibióticos de amplio espectro inmediatos (dentro de la primera hora); considerar antibiótico prehospitalario si el traslado al hospital se prevé >60 min.',
+      tx_farmacologico: `Noradrenalina periférica de primera línea (no retrasar por falta de acceso central); si hay disfunción cardiaca concomitante, noradrenalina o adrenalina son opciones de primera línea (SSC 2026) — noradrenalina preferida si taquiarritmia, adrenalina si bradiarritmia. Si persiste hipotensión con dosis crecientes de noradrenalina (equivalente ≈0.3 mcg/kg/min), añadir vasopresina; si aun así la PAM es inadecuada, añadir adrenalina (ver Tabla 1). Hidrocortisona 200 mg IV/día (dosis fraccionadas) si el choque es refractario. Antibióticos de amplio espectro inmediatos (dentro de la primera hora); considerar antibiótico prehospitalario si el traslado al hospital se prevé >60 min.${figBlock('Tabla 1', 'Dosis de vasopresores en choque séptico', `
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Fármaco</th><th>Dosis</th><th>Rol</th></tr></thead>
+          <tbody>
+            <tr><td class="figure-org">Noradrenalina</td><td>0.05-0.5 mcg/kg/min IV, titulada; puede iniciarse por vía periférica</td><td>Primera línea</td></tr>
+            <tr><td class="figure-org">Vasopresina</td><td>0.03 U/min (dosis fija)</td><td>Añadir con noradrenalina en dosis crecientes (equivalente ≈0.3 mcg/kg/min)</td></tr>
+            <tr><td class="figure-org">Adrenalina</td><td>Titular según respuesta</td><td>Añadir si PAM inadecuada pese a noradrenalina + vasopresina; o alternativa de primera línea si hay disfunción cardiaca (preferir si bradiarritmia; noradrenalina si taquiarritmia)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="figure-grade-box">Meta de PAM: 65 mmHg (60-65 mmHg en ≥65 años). Considerar hidrocortisona 200 mg/día si el choque es refractario pese a vasopresores.</div>`)}`,
       tx_intervencionista: 'Control del foco: drenaje de colecciones, desbridamiento, retiro de catéteres infectados — idealmente dentro de las primeras 6h del diagnóstico (SSC 2026).',
       criterios_uci: 'Necesidad de vasopresores, ventilación o monitorización invasiva; se sugiere ingreso a UCI dentro de las primeras 6h.',
       criterios_tips: 'No aplica.',
@@ -283,21 +305,5 @@ export const figuras = {
         </table>
       </div>
       <div class="figure-grade-box">Los hemocultivos se obtienen antes del antibiótico, pero sin retrasar su inicio. Considerar antibiótico prehospitalario si el traslado al hospital se prevé &gt;60 min en choque séptico.</div>`
-  },
-  'vasopresores-dosis': {
-    titulo: 'Dosis de vasopresores en choque séptico',
-    fuente: 'Surviving Sepsis Campaign 2026 (Prescott HC, et al. Crit Care Med 2026;54(4):725-812).',
-    html: `
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Fármaco</th><th>Dosis</th><th>Rol</th></tr></thead>
-          <tbody>
-            <tr><td class="figure-org">Noradrenalina</td><td>0.05-0.5 mcg/kg/min IV, titulada; puede iniciarse por vía periférica</td><td>Primera línea</td></tr>
-            <tr><td class="figure-org">Vasopresina</td><td>0.03 U/min (dosis fija)</td><td>Añadir con noradrenalina en dosis crecientes (equivalente ≈0.3 mcg/kg/min)</td></tr>
-            <tr><td class="figure-org">Adrenalina</td><td>Titular según respuesta</td><td>Añadir si PAM inadecuada pese a noradrenalina + vasopresina; o alternativa de primera línea si hay disfunción cardiaca (preferir si bradiarritmia; noradrenalina si taquiarritmia)</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="figure-grade-box">Meta de PAM: 65 mmHg (60-65 mmHg en ≥65 años). Considerar hidrocortisona 200 mg/día si el choque es refractario pese a vasopresores.</div>`
   }
 };

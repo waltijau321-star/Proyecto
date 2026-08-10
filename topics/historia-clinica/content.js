@@ -63,10 +63,12 @@
 // - Todas las tablas e imágenes que colgaban de `complicaciones[].figura` (renderizadas siempre
 //   al final del modal por el motor, lejos del párrafo que las menciona) se insertaron en línea
 //   dentro del propio HTML de fisiopatologia/clinica/criterios_dx, inmediatamente debajo del
-//   párrafo donde se mencionan por primera vez. Se numeran dentro de su propia tarjeta ("Tabla 1",
-//   "Tabla 2"… / "Imagen 1", "Imagen 2"…, contadores independientes) y el texto las referencia por
-//   ese nombre. El export `figuras` (registro que el motor adjunta al final vía `c.figura`) ya no
-//   se usa en este tema y se quitó.
+//   párrafo donde se mencionan por primera vez. El export `figuras` (registro que el motor
+//   adjunta al final vía `c.figura`) ya no se usa en este tema y se quitó.
+// - Numeración de tablas/imágenes (revisión posterior, para que quede consistente con el resto de
+//   temas): UN SOLO conteo continuo por TEMA completo (no por tarjeta) — Tabla 1..7 e Imagen 1..5
+//   avanzan a través de las 11 tarjetas, en el orden en que aparecen al recorrer `complicaciones`
+//   de arriba a abajo; Tabla e Imagen son contadores independientes entre sí.
 
 export const meta = {
   id: 'historia-clinica',
@@ -291,8 +293,8 @@ ${figBlock('Tabla 2', 'Exposiciones ocupacionales de alto rendimiento diagnósti
 </div>
 <div style="margin-bottom:14px;">
 <strong style="color:#3d5a73;">Alergias</strong>
-<p style="margin:4px 0 0;">No basta con el nombre del fármaco o alimento: se especifica el <strong>tipo de reacción</strong>, porque cambia radicalmente el riesgo real de una reexposición. Las reacciones de hipersensibilidad se clasifican en 4 tipos (Gell y Coombs, ver Tabla 1): Tipo I (inmediata, mediada por IgE — urticaria, angioedema, anafilaxia, en minutos), Tipo II (citotóxica, IgG/IgM contra antígenos de superficie celular — anemia hemolítica inducida por fármacos), Tipo III (por inmunocomplejos — enfermedad del suero, vasculitis) y Tipo IV (mediada por células T, retardada — dermatitis de contacto, exantema morbiliforme por fármacos, días después). Una intolerancia gastrointestinal simple (náusea, diarrea sin otros datos) NO es una alergia verdadera y no debe registrarse como tal.</p>
-${figBlock('Tabla 1', 'Reacciones de hipersensibilidad (Gell y Coombs)', `<div style="overflow-x:auto;">
+<p style="margin:4px 0 0;">No basta con el nombre del fármaco o alimento: se especifica el <strong>tipo de reacción</strong>, porque cambia radicalmente el riesgo real de una reexposición. Las reacciones de hipersensibilidad se clasifican en 4 tipos (Gell y Coombs, ver Tabla 3): Tipo I (inmediata, mediada por IgE — urticaria, angioedema, anafilaxia, en minutos), Tipo II (citotóxica, IgG/IgM contra antígenos de superficie celular — anemia hemolítica inducida por fármacos), Tipo III (por inmunocomplejos — enfermedad del suero, vasculitis) y Tipo IV (mediada por células T, retardada — dermatitis de contacto, exantema morbiliforme por fármacos, días después). Una intolerancia gastrointestinal simple (náusea, diarrea sin otros datos) NO es una alergia verdadera y no debe registrarse como tal.</p>
+${figBlock('Tabla 3', 'Reacciones de hipersensibilidad (Gell y Coombs)', `<div style="overflow-x:auto;">
     <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
       <thead><tr style="border-bottom:1px solid var(--line);">
         <th style="text-align:left;padding:5px 6px;">Tipo</th>
@@ -355,7 +357,7 @@ ${figBlock('Tabla 1', 'Reacciones de hipersensibilidad (Gell y Coombs)', `<div s
       nombre: 'Interrogatorio por aparatos y sistemas',
       color: '#3d5a73',
       definicion: 'Revisión sistemática, aparato por aparato, preguntando activamente por síntomas que el paciente no mencionó espontáneamente en el padecimiento actual.',
-      clinica: `Se hace de cabeza a pies o por sistemas (ver Tabla 1 para el detalle de qué preguntar en cada uno), con preguntas breves y cerradas ("¿ha notado…?").${figBlock('Tabla 1', 'Interrogatorio por aparatos y sistemas: qué preguntar en cada uno', `<div style="overflow-x:auto;">
+      clinica: `Se hace de cabeza a pies o por sistemas (ver Tabla 4 para el detalle de qué preguntar en cada uno), con preguntas breves y cerradas ("¿ha notado…?").${figBlock('Tabla 4', 'Interrogatorio por aparatos y sistemas: qué preguntar en cada uno', `<div style="overflow-x:auto;">
     <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
       <thead><tr style="border-bottom:1px solid var(--line);">
         <th style="text-align:left;padding:5px 6px;">Sistema</th>
@@ -385,14 +387,14 @@ ${figBlock('Tabla 1', 'Reacciones de hipersensibilidad (Gell y Coombs)', `<div s
       nombre: 'Semiología del síntoma guía (ALICIA / SOCRATES)',
       color: '#3d5a73',
       definicion: 'Caracterización sistemática y completa del síntoma que motiva la consulta — junto con el padecimiento actual, la pieza de mayor rendimiento diagnóstico de toda la anamnesis.',
-      clinica: `Se apoya en dos mnemotecnias equivalentes. En español, <strong>ALICIA</strong>: Aparición, Localización, Intensidad, Carácter, Irradiación, Atenuantes/agravantes (ver Imagen 1).${figBlock('Imagen 1', 'ALICIA', letraLista('#3d5a73', [
+      clinica: `Se apoya en dos mnemotecnias equivalentes. En español, <strong>ALICIA</strong>: Aparición, Localización, Intensidad, Carácter, Irradiación, Atenuantes/agravantes (ver Imagen 2).${figBlock('Imagen 2', 'ALICIA', letraLista('#3d5a73', [
         ['A', 'parición', 'inicio: cuándo y cómo comenzó'],
         ['L', 'ocalización', 'dónde exactamente'],
         ['I', 'ntensidad', 'qué tan fuerte, habitualmente escala 0-10'],
         ['C', 'arácter', 'cualidad o tipo (opresivo, punzante, cólico, urente…)'],
         ['I', 'rradiación', 'hacia dónde se extiende'],
         ['A', 'tenuantes y agravantes', 'qué lo mejora o empeora']
-      ]))} En inglés, <strong>SOCRATES</strong> cubre lo mismo con dos componentes explícitos adicionales: Associations (síntomas acompañantes) y Time course (cronología) (ver Imagen 2).${figBlock('Imagen 2', 'SOCRATES', `<img src="topics/historia-clinica/assets/socrates-ilustracion.png" alt="Infografía SOCRATES: mnemotecnia para la evaluación sistemática del dolor. S — Site: localización, ¿dónde se localiza el dolor? O — Onset: inicio súbito o gradual, ¿cuándo comenzó el dolor? C — Character: calidad (opresivo, punzante, cólico, urente, etc.), ¿cómo es el dolor? R — Radiation: irradiación, ¿se irradia a alguna otra parte del cuerpo? A — Associations: síntomas acompañantes, ¿qué otros síntomas se presentan junto con el dolor? T — Time course: cronología (constante o intermitente, duración), ¿cuánto dura el dolor?, ¿cómo es su evolución? E — Exacerbating/relieving factors: factores agravantes y atenuantes, ¿qué lo empeora?, ¿qué lo alivia? S — Severity: intensidad, ¿qué tan intenso es el dolor?, habitualmente escala 0-10. Ilustración de un médico entrevistando a un paciente.">`)} Ejemplo aplicado a dolor torácico: inicio súbito vs. progresivo, localización retroesternal vs. costal, irradiación a brazo o mandíbula, calidad opresiva vs. punzante, relación con el esfuerzo o la respiración, síntomas acompañantes como diaforesis o disnea.`,
+      ]))} En inglés, <strong>SOCRATES</strong> cubre lo mismo con dos componentes explícitos adicionales: Associations (síntomas acompañantes) y Time course (cronología) (ver Imagen 3).${figBlock('Imagen 3', 'SOCRATES', `<img src="topics/historia-clinica/assets/socrates-ilustracion.png" alt="Infografía SOCRATES: mnemotecnia para la evaluación sistemática del dolor. S — Site: localización, ¿dónde se localiza el dolor? O — Onset: inicio súbito o gradual, ¿cuándo comenzó el dolor? C — Character: calidad (opresivo, punzante, cólico, urente, etc.), ¿cómo es el dolor? R — Radiation: irradiación, ¿se irradia a alguna otra parte del cuerpo? A — Associations: síntomas acompañantes, ¿qué otros síntomas se presentan junto con el dolor? T — Time course: cronología (constante o intermitente, duración), ¿cuánto dura el dolor?, ¿cómo es su evolución? E — Exacerbating/relieving factors: factores agravantes y atenuantes, ¿qué lo empeora?, ¿qué lo alivia? S — Severity: intensidad, ¿qué tan intenso es el dolor?, habitualmente escala 0-10. Ilustración de un médico entrevistando a un paciente.">`)} Ejemplo aplicado a dolor torácico: inicio súbito vs. progresivo, localización retroesternal vs. costal, irradiación a brazo o mandíbula, calidad opresiva vs. punzante, relación con el esfuerzo o la respiración, síntomas acompañantes como diaforesis o disnea.`,
       criterios_dx: 'No todos los síntomas completan las 6-8 características por igual — hay que reconocer cuándo un componente no aplica en vez de forzarlo. Ejemplos: la fiebre no tiene "localización" en el sentido clásico (no se puede señalar un punto); el prurito rara vez tiene irradiación definida; la astenia no tiene carácter ni localización aplicables. Aun así, siempre conviene intentar cada componente antes de descartarlo — cada uno modifica el diagnóstico diferencial y orienta qué estudios pedir primero.'
     },
     {
@@ -410,8 +412,8 @@ ${figBlock('Tabla 1', 'Reacciones de hipersensibilidad (Gell y Coombs)', `<div s
 <li style="margin-bottom:4px;"><strong>Nociceptivo visceral</strong> (vísceras huecas y sólidas): densidad de receptores mucho menor y representación cortical difusa, por lo que el dolor es mal localizado y el paciente típicamente lo señala con toda la mano abierta sobre una región amplia, no con un dedo — como intentar ubicar algo en una fotografía borrosa o fuera de foco.</li>
 <li><strong>Neuropático</strong> (lesión del propio sistema nervioso, no del tejido que duele): actividad ectópica de axones dañados, sin que exista ya ningún estímulo lesivo real en el territorio donde se siente — el dolor es quemante, con descargas eléctricas y disestesias. Es como un cable eléctrico pelado que sigue mandando señal aunque nadie lo esté tocando.</li>
 </ul>
-<p style="margin:8px 0 0;">El <strong>dolor referido</strong> se explica por el mecanismo de convergencia-proyección de Ruch: las neuronas de segundo orden del asta dorsal reciben aferencias viscerales y somáticas del mismo segmento medular, y la corteza interpreta la señal como proveniente del territorio somático, no del visceral real (ver Imagen 1) — dicho de otro modo, ambas vías comparten el mismo "cable" hacia el cerebro, que nunca aprendió a distinguir de cuál de los dos extremos vino la señal.</p>
-${figBlock('Imagen 1', 'Mapa de irradiación del dolor visceral (dolor referido)', `<img src="topics/historia-clinica/assets/dolor-referido-infografia.png" alt="Infografía de dolor referido con vista anterior y posterior del cuerpo. Tabla con 7 patrones clásicos: (1) infarto agudo de miocardio → hombro izquierdo, cara medial del brazo izquierdo hasta 4º y 5º dedos, cuello, mandíbula y región interescapular, por convergencia con aferentes somáticos de C4-T1; (2) colecistitis aguda → hipocondrio derecho, hombro y región escapular derechos, segmentos torácicos T7-T9; (3) pancreatitis aguda → epigastrio con irradiación directa a la región medio-dorsal, T7-T9 (T10 en ocasiones); (4) cólico renal → flanco, fosa ilíaca, ingle y región genital ipsilateral, T10-L2; (5) apendicitis aguda → dolor periumbilical inicial que migra a fosa ilíaca derecha, fibras viscerales T10 y somáticas L1; (6) úlcera péptica perforada → dolor epigástrico que irradia a la espalda, T6-T9; (7) irritación diafragmática/signo de Kehr → hombro ipsilateral, especialmente el izquierdo, vía nervio frénico C3-C5. Incluye diagrama del mecanismo: las fibras aferentes viscerales y somáticas convergen en la misma neurona de segundo orden de la médula espinal, y el cerebro interpreta la señal como proveniente del territorio somático.">`)}
+<p style="margin:8px 0 0;">El <strong>dolor referido</strong> se explica por el mecanismo de convergencia-proyección de Ruch: las neuronas de segundo orden del asta dorsal reciben aferencias viscerales y somáticas del mismo segmento medular, y la corteza interpreta la señal como proveniente del territorio somático, no del visceral real (ver Imagen 4) — dicho de otro modo, ambas vías comparten el mismo "cable" hacia el cerebro, que nunca aprendió a distinguir de cuál de los dos extremos vino la señal.</p>
+${figBlock('Imagen 4', 'Mapa de irradiación del dolor visceral (dolor referido)', `<img src="topics/historia-clinica/assets/dolor-referido-infografia.png" alt="Infografía de dolor referido con vista anterior y posterior del cuerpo. Tabla con 7 patrones clásicos: (1) infarto agudo de miocardio → hombro izquierdo, cara medial del brazo izquierdo hasta 4º y 5º dedos, cuello, mandíbula y región interescapular, por convergencia con aferentes somáticos de C4-T1; (2) colecistitis aguda → hipocondrio derecho, hombro y región escapular derechos, segmentos torácicos T7-T9; (3) pancreatitis aguda → epigastrio con irradiación directa a la región medio-dorsal, T7-T9 (T10 en ocasiones); (4) cólico renal → flanco, fosa ilíaca, ingle y región genital ipsilateral, T10-L2; (5) apendicitis aguda → dolor periumbilical inicial que migra a fosa ilíaca derecha, fibras viscerales T10 y somáticas L1; (6) úlcera péptica perforada → dolor epigástrico que irradia a la espalda, T6-T9; (7) irritación diafragmática/signo de Kehr → hombro ipsilateral, especialmente el izquierdo, vía nervio frénico C3-C5. Incluye diagrama del mecanismo: las fibras aferentes viscerales y somáticas convergen en la misma neurona de segundo orden de la médula espinal, y el cerebro interpreta la señal como proveniente del territorio somático.">`)}
 <p style="margin:8px 0 0;">La inflamación local sensibiliza los nociceptores (bradicinina, prostaglandinas, sustancia P — sensibilización periférica) y puede amplificar la respuesta a nivel medular (sensibilización central: hiperalgesia, alodinia, es decir, dolor ante un estímulo que normalmente no debería dolerlo). Es, en esencia, como bajar el volumen necesario para que la alarma se dispare: con sensibilización, estímulos cada vez más pequeños bastan para generar dolor.</p>
 </div>
 <div>
@@ -427,8 +429,8 @@ ${figBlock('Imagen 1', 'Mapa de irradiación del dolor visceral (dolor referido)
       color: '#8c3a34',
       icono: ICONOS.fiebre,
       modalLabels: { itemName: 'Síntoma cardinal' },
-      definicion: 'Elevación de la temperatura corporal por encima de 38.0 °C, mediada por pirógenos que reajustan el centro termorregulador hipotalámico (ver Tabla 1).',
-      fisiopatologia: `${figBlock('Tabla 1', 'Temperatura corporal: rangos y sitio de medición', `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:6px;">
+      definicion: 'Elevación de la temperatura corporal por encima de 38.0 °C, mediada por pirógenos que reajustan el centro termorregulador hipotalámico (ver Tabla 5).',
+      fisiopatologia: `${figBlock('Tabla 5', 'Temperatura corporal: rangos y sitio de medición', `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:6px;">
       <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Normal</strong><br>36.5-37.2°C</div>
       <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Febrícula</strong><br>37.3-38.0°C</div>
       <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Fiebre</strong><br>&gt;38.0°C</div>
@@ -449,8 +451,8 @@ ${figBlock('Imagen 1', 'Mapa de irradiación del dolor visceral (dolor referido)
 </div>
 <div style="margin-bottom:14px;">
 <strong style="color:#8c3a34;">Clasificación por patrón</strong>
-<p style="margin:4px 0 0;">Continua (oscila &lt;1 °C en 24 h, sin llegar a lo normal), remitente (oscila &gt;1 °C, sin llegar a lo normal), intermitente (llega a lo normal entre picos) y héctica o séptica (picos muy altos alternados con caídas a lo normal, típica de abscesos) (ver Imagen 1).</p>
-${figBlock('Imagen 1', 'Patrones de fiebre (esquemático)', `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
+<p style="margin:4px 0 0;">Continua (oscila &lt;1 °C en 24 h, sin llegar a lo normal), remitente (oscila &gt;1 °C, sin llegar a lo normal), intermitente (llega a lo normal entre picos) y héctica o séptica (picos muy altos alternados con caídas a lo normal, típica de abscesos) (ver Imagen 5).</p>
+${figBlock('Imagen 5', 'Patrones de fiebre (esquemático)', `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
       ${patronFiebreSVG('pat-cont', [38.6, 39.0, 38.7, 39.1, 38.5, 38.8], 'Continua')}
       ${patronFiebreSVG('pat-rem', [39.5, 38.2, 39.6, 38.1, 39.4, 38.3], 'Remitente')}
       ${patronFiebreSVG('pat-int', [39.5, 37.0, 39.6, 36.9, 39.3, 37.1], 'Intermitente')}
@@ -461,7 +463,7 @@ ${figBlock('Imagen 1', 'Patrones de fiebre (esquemático)', `<div style="display
 <strong style="color:#8c3a34;">Clasificación por duración</strong>
 <p style="margin:4px 0 0;">Aguda (&lt;2 semanas) vs. fiebre de origen desconocido (FOD). Los criterios clásicos de Petersdorf para FOD son: temperatura &gt;38.3 °C en varias ocasiones, duración &gt;3 semanas, y ausencia de diagnóstico pese a al menos una semana de estudio hospitalario adecuado (los criterios modernos de Durack y Street ya no exigen la hospitalización, y distinguen subcategorías: FOD clásica, nosocomial, neutropénica y asociada a VIH). Ante una FOD, el diferencial se amplía más allá de lo infeccioso, hacia causas neoplásicas (linfoma, hipernefroma), autoinmunes (arteritis de células gigantes, enfermedad de Still) y farmacológicas.</p>
 </div>`,
-      clinica: 'El umbral y la fiabilidad de la medición dependen del sitio donde se toma (ver Tabla 1, arriba); también se interrogan los síntomas acompañantes que orienten el foco (tos, disuria, cefalea, exantema, artralgias).',
+      clinica: 'El umbral y la fiabilidad de la medición dependen del sitio donde se toma (ver Tabla 5, arriba); también se interrogan los síntomas acompañantes que orienten el foco (tos, disuria, cefalea, exantema, artralgias).',
       criterios_dx: 'El patrón febril y los síntomas acompañantes orientan el foco infeccioso probable — un patrón héctico con escalofríos intensos, por ejemplo, sugiere colección purulenta (absceso, colangitis, pielonefritis complicada) más que una infección viral simple.',
       dx_diferencial: 'Infecciosa (la más frecuente), neoplásica, autoinmune/inflamatoria, medicamentosa (fiebre por fármacos), tromboembólica.'
     },
@@ -471,8 +473,8 @@ ${figBlock('Imagen 1', 'Patrones de fiebre (esquemático)', `<div style="display
       icono: ICONOS.disnea,
       modalLabels: { itemName: 'Síntoma cardinal' },
       definicion: 'Sensación subjetiva de falta de aire o dificultad para respirar, desproporcionada al esfuerzo realizado.',
-      fisiopatologia: `<p style="margin:0;">Mecanismo multifactorial e integrador: quimiorreceptores centrales (bulbares, sensibles a pCO2/pH del LCR) y periféricos (cuerpos carotídeos y aórticos, sensibles a pO2), mecanorreceptores pulmonares (receptores de estiramiento y receptores J yuxtacapilares, activados por congestión intersticial) y receptores de la pared torácica envían información aferente al tronco encefálico. La disnea surge por un desacople neuromecánico: discordancia entre el impulso ventilatorio eferente que emite el centro respiratorio y la respuesta mecánica real del sistema respiratorio. Esto explica sus 3 cualidades distintas: sensación de esfuerzo/trabajo respiratorio (enfermedad neuromuscular, obstrucción), opresión torácica (broncoconstricción, vía receptores de estiramiento) y hambre de aire/asfixia (hipercapnia y acidosis, vía quimiorreceptores). Se gradúa con escalas funcionales, la más usada es la mMRC (ver Tabla 1).</p>
-${figBlock('Tabla 1', 'Escala de disnea mMRC (Modified Medical Research Council)', `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px;">
+      fisiopatologia: `<p style="margin:0;">Mecanismo multifactorial e integrador: quimiorreceptores centrales (bulbares, sensibles a pCO2/pH del LCR) y periféricos (cuerpos carotídeos y aórticos, sensibles a pO2), mecanorreceptores pulmonares (receptores de estiramiento y receptores J yuxtacapilares, activados por congestión intersticial) y receptores de la pared torácica envían información aferente al tronco encefálico. La disnea surge por un desacople neuromecánico: discordancia entre el impulso ventilatorio eferente que emite el centro respiratorio y la respuesta mecánica real del sistema respiratorio. Esto explica sus 3 cualidades distintas: sensación de esfuerzo/trabajo respiratorio (enfermedad neuromuscular, obstrucción), opresión torácica (broncoconstricción, vía receptores de estiramiento) y hambre de aire/asfixia (hipercapnia y acidosis, vía quimiorreceptores). Se gradúa con escalas funcionales, la más usada es la mMRC (ver Tabla 6).</p>
+${figBlock('Tabla 6', 'Escala de disnea mMRC (Modified Medical Research Council)', `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px;">
       <div style="border:1px solid var(--line);border-radius:8px;padding:7px 9px;"><strong>Grado 0</strong><br>Disnea solo con actividad física intensa.</div>
       <div style="border:1px solid var(--line);border-radius:8px;padding:7px 9px;"><strong>Grado 1</strong><br>Al andar rápido en llano o subir una pendiente leve.</div>
       <div style="border:1px solid var(--line);border-radius:8px;padding:7px 9px;"><strong>Grado 2</strong><br>Camina más despacio que otros de su edad, o se detiene al caminar en llano.</div>
@@ -496,8 +498,8 @@ ${figBlock('Tabla 1', 'Escala de disnea mMRC (Modified Medical Research Council)
 </div>
 <div>
 <strong style="color:#8c3a34;">Clasificación</strong>
-<p style="margin:4px 0 0;">Por duración y por productividad (ver Tabla 1) — dos preguntas simples que, combinadas, ya acotan bastante el diagnóstico diferencial antes de pedir cualquier estudio.</p>
-${figBlock('Tabla 1', 'Clasificación de la tos', `<div style="overflow-x:auto;">
+<p style="margin:4px 0 0;">Por duración y por productividad (ver Tabla 7) — dos preguntas simples que, combinadas, ya acotan bastante el diagnóstico diferencial antes de pedir cualquier estudio.</p>
+${figBlock('Tabla 7', 'Clasificación de la tos', `<div style="overflow-x:auto;">
     <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
       <thead><tr style="border-bottom:1px solid var(--line);">
         <th style="text-align:left;padding:5px 6px;">Eje</th>
