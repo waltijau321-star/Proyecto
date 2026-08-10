@@ -45,6 +45,28 @@
 // - SOCRATES y Tos: el usuario pidió una imagen decorativa junto a cada uno; los PROMPTS para
 //   generarlas (vía tools/generar-figura.py, arte puramente decorativo, sin datos clínicos) se
 //   entregaron en el chat, no se insertó código de imagen todavía (el archivo no existe aún).
+//
+// Revisión (agosto 2026, ronda 2, a pedido del usuario):
+// - `modalLabels.itemName` ('Componente') reemplaza el "Complicación X / Y" genérico del motor;
+//   los 5 ítems de síntoma cardinal (Dolor, Fiebre, Disnea, Tos, Astenia) lo sobreescriben a
+//   'Síntoma cardinal' vía `modalLabels` por ítem (nueva capacidad genérica del motor: además del
+//   reetiquetado global de TOPIC.modalLabels, un ítem puntual puede reetiquetar solo para sí
+//   mismo — ver engine/study-view.js openModal()).
+// - `clinica` pasó de 'Aplicación práctica' a 'Cómo se interroga': en los 11 ítems ese campo
+//   describe consistentemente la técnica de interrogatorio, nunca una "aplicación práctica"
+//   distinta. `fisiopatologia` se sobreescribe por ítem a 'Detalle por rubro' en los dos
+//   Antecedentes (ahí ese campo no es clasificación/mecanismo — es un desglose rubro por rubro:
+//   vivienda, alcohol, ocupación… — el label genérico 'Clasificación y mecanismo' sí sigue
+//   describiendo bien ese campo en Dolor/Fiebre/Disnea/Tos/Astenia, donde queda como global).
+// - El párrafo de Alcohol ahora deletrea qué significa cada letra de CAGE (antes solo listaba las
+//   4 preguntas sin nombrar el acróstico).
+// - Todas las tablas e imágenes que colgaban de `complicaciones[].figura` (renderizadas siempre
+//   al final del modal por el motor, lejos del párrafo que las menciona) se insertaron en línea
+//   dentro del propio HTML de fisiopatologia/clinica/criterios_dx, inmediatamente debajo del
+//   párrafo donde se mencionan por primera vez. Se numeran dentro de su propia tarjeta ("Tabla 1",
+//   "Tabla 2"… / "Imagen 1", "Imagen 2"…, contadores independientes) y el texto las referencia por
+//   ese nombre. El export `figuras` (registro que el motor adjunta al final vía `c.figura`) ya no
+//   se usa en este tema y se quitó.
 
 export const meta = {
   id: 'historia-clinica',
@@ -87,8 +109,9 @@ export const bibliografia = [
 // encajen con contenido de semiología. Ninguna tarjeta de este tema debe mostrar ya
 // "Manifestaciones clínicas" — fue señalado dos veces como fuera de lugar acá.
 export const modalLabels = {
+  itemName: 'Componente',
   fisiopatologia: 'Clasificación y mecanismo',
-  clinica: 'Aplicación práctica',
+  clinica: 'Cómo se interroga',
   criterios_dx: 'Significado clínico',
   algoritmo: 'Secuencia'
 };
@@ -133,6 +156,17 @@ function patronFiebreSVG(id, valores, label) {
   </svg>`;
 }
 
+// Reproduce el marcado visual de .modal-figure que arma oneFiguraHTML() en engine/study-view.js,
+// para poder insertar una tabla/imagen EN LÍNEA dentro de fisiopatologia/clinica/criterios_dx
+// (justo debajo del párrafo que la menciona) en vez de dejar que el motor la adjunte al final del
+// modal vía `c.figura`. `label` ya trae el número dentro de su tarjeta, ej. "Tabla 1".
+function figBlock(label, titulo, html) {
+  return `<div class="modal-field modal-figure" style="margin:10px 0 4px;">
+    <span class="flabel">${label} · ${titulo}</span>
+    <div class="figure-body">${html}</div>
+  </div>`;
+}
+
 export const content = {
   diagnostico: {
     clinica: {
@@ -163,6 +197,7 @@ export const content = {
     {
       nombre: 'Antecedentes personales no patológicos',
       color: '#3d5a73',
+      modalLabels: { fisiopatologia: 'Detalle por rubro' },
       definicion: 'Información sobre el estilo de vida, la vivienda y el contexto social del paciente: dónde y con quién vive, en qué condiciones, su alimentación, hábitos, y su exposición a tabaco, alcohol, otras sustancias y agentes ocupacionales.',
       clinica: 'Se interroga de forma sistemática, no como una pregunta abierta única — cada rubro (vivienda, convivencia, hábitos, tabaco, alcohol, ocupación) tiene preguntas dirigidas propias, porque el paciente rara vez ofrece esta información de manera espontánea.',
       fisiopatologia: `<div style="margin-bottom:14px;">
@@ -191,255 +226,8 @@ export const content = {
 </div>
 <div style="margin-bottom:14px;">
 <strong style="color:#3d5a73;">Alcohol</strong>
-<p style="margin:4px 0 0;">Se cuantifica en <strong>unidades estándar de alcohol</strong> (~14 g de etanol puro cada una; ver figura). Se considera consumo de riesgo/elevado: en hombres, &gt;4 unidades en una sola ocasión o &gt;14 unidades por semana; en mujeres, &gt;3 unidades en una ocasión o &gt;7 por semana. También conviene aplicar el cuestionario CAGE (¿ha sentido necesidad de disminuir? ¿le ha molestado que critiquen su consumo? ¿se ha sentido culpable? ¿ha necesitado beber en la mañana para calmar los nervios o la resaca?) — 2 o más respuestas afirmativas sugieren un problema de dependencia.</p>
-</div>
-<div style="margin-bottom:14px;">
-<strong style="color:#3d5a73;">Toxicomanías</strong>
-<p style="margin:4px 0 0;">Uso de cualquier sustancia psicoactiva no prescrita (marihuana, cocaína, metanfetaminas, opioides no médicos, inhalables, entre otras): sustancia, vía de consumo, frecuencia y última vez que la usó — dato relevante para el diagnóstico diferencial de múltiples síndromes agudos (dolor torácico, alteración del estado de alerta, arritmias) y para la interacción con tratamientos.</p>
-</div>
-<div>
-<strong style="color:#3d5a73;">Ocupación y exposiciones laborales</strong>
-<p style="margin:4px 0 0;">Es uno de los rubros que más se subinterroga, y a menudo el de mayor rendimiento diagnóstico en enfermedad pulmonar y oncológica ocupacional (ver figura). Ejemplos de alto rendimiento clínico: <strong>asbesto</strong> (construcción, aislamiento térmico, minería) — mesotelioma pleural y asbestosis, con una latencia característicamente muy larga (20-40 años desde la exposición); <strong>sílice</strong> (minería, canteros, arenado) — silicosis; <strong>polvo de carbón</strong> (minería del carbón) — neumoconiosis del minero; <strong>algodón</strong> (industria textil) — bisinosis; <strong>berilio</strong> (aeroespacial, electrónica) — beriliosis; <strong>solventes orgánicos y plomo</strong> — hepatotoxicidad, neurotoxicidad y saturnismo; <strong>plaguicidas organofosforados</strong> (trabajo agrícola) — síndrome colinérgico agudo; <strong>radiación ionizante</strong> — mayor riesgo de leucemia y otras neoplasias; personal de salud — riesgo biológico (hepatitis B, VIH, tuberculosis).</p>
-</div>`,
-      criterios_dx: 'Estos antecedentes explican por qué un paciente desarrolla ciertas enfermedades y con frecuencia son la clave del diagnóstico diferencial epidemiológico: tos crónica en un minero orienta a neumoconiosis, disnea progresiva en una mujer rural sin tabaquismo orienta a EPOC por biomasa, fiebre tras contacto con un enfermo de tuberculosis (Combe positivo) orienta a tuberculosis activa, y una adenopatía en alguien con exposición ocupacional a asbesto obliga a descartar mesotelioma.',
-      figura: ['alcohol-unidades-tabla', 'exposicion-ocupacional-tabla']
-    },
-    {
-      nombre: 'Antecedentes personales patológicos',
-      color: '#3d5a73',
-      definicion: 'Enfermedades crónicas diagnosticadas previamente, cirugías, hospitalizaciones, alergias, antecedentes transfusionales y esquema de vacunación — cada uno con los detalles que cambian el manejo, no solo el nombre del diagnóstico.',
-      clinica: 'Se interroga activamente uno por uno — no basta con preguntar "¿tiene alguna enfermedad?", porque el paciente puede omitir por olvido o por no considerarlo relevante. Conviene recorrer un listado mental por sistemas (cardiovascular, endocrino, renal, hepático, respiratorio, oncológico) en vez de dejarlo abierto.',
-      fisiopatologia: `<div style="margin-bottom:14px;">
-<strong style="color:#3d5a73;">Enfermedades crónicas diagnosticadas</strong>
-<p style="margin:4px 0 0;">No basta con el nombre del diagnóstico (hipertensión, diabetes, cardiopatías, enfermedad renal, hepatopatías, neumopatías, neoplasias, enfermedades tiroideas): se documenta también <strong>cuándo</strong> fue diagnosticada (fecha o año aproximado), el <strong>tratamiento actual completo</strong> (fármaco, dosis, frecuencia) y el <strong>apego</strong> al tratamiento (bueno, regular o malo, y por qué si es malo — costo, efectos adversos, olvido, falta de comprensión de la enfermedad). Un apego deficiente cambia por completo el diagnóstico diferencial: una "descompensación" puede ser en realidad el resultado esperable de haber abandonado el tratamiento, no una progresión inexplicada de la enfermedad.</p>
-</div>
-<div style="margin-bottom:14px;">
-<strong style="color:#3d5a73;">Cirugías previas</strong>
-<p style="margin:4px 0 0;">Procedimiento, fecha aproximada, y si hubo o no <strong>complicaciones</strong> (sangrado, infección del sitio quirúrgico, reintervención, complicaciones anestésicas). Una cirugía previa complicada puede predecir mayor riesgo en una cirugía futura y orienta hacia adherencias, alergias a materiales o predisposición a ciertas complicaciones.</p>
-</div>
-<div style="margin-bottom:14px;">
-<strong style="color:#3d5a73;">Alergias</strong>
-<p style="margin:4px 0 0;">No basta con el nombre del fármaco o alimento: se especifica el <strong>tipo de reacción</strong>, porque cambia radicalmente el riesgo real de una reexposición. Las reacciones de hipersensibilidad se clasifican en 4 tipos (Gell y Coombs, ver figura): Tipo I (inmediata, mediada por IgE — urticaria, angioedema, anafilaxia, en minutos), Tipo II (citotóxica, IgG/IgM contra antígenos de superficie celular — anemia hemolítica inducida por fármacos), Tipo III (por inmunocomplejos — enfermedad del suero, vasculitis) y Tipo IV (mediada por células T, retardada — dermatitis de contacto, exantema morbiliforme por fármacos, días después). Una intolerancia gastrointestinal simple (náusea, diarrea sin otros datos) NO es una alergia verdadera y no debe registrarse como tal.</p>
-</div>
-<div style="margin-bottom:14px;">
-<strong style="color:#3d5a73;">Antecedentes transfusionales</strong>
-<p style="margin:4px 0 0;">Número de transfusiones, motivo, y si hubo alguna reacción transfusional.</p>
-</div>
-<div>
-<strong style="color:#3d5a73;">Esquema de vacunación</strong>
-<p style="margin:4px 0 0;">Esquema completo según la edad, y vacunas especiales del adulto (influenza anual, neumocócica, herpes zóster, COVID-19). Sobre esta última vale la pena conocer el contexto: las vacunas de vector viral adenoviral (ChAdOx1/AstraZeneca) se asociaron a un síndrome trombótico-trombocitopénico inmune infrecuente (VITT), con una incidencia estimada de aproximadamente 1 caso por cada 100,000 dosis administradas; las vacunas de ARN mensajero (Pfizer, Moderna) no mostraron esa asociación específica a una tasa relevante. El beneficio poblacional de la vacunación superó ampliamente ese riesgo infrecuente, pero es un ejemplo real y bien documentado de por qué preguntar el esquema completo de vacunación —no solo "si está vacunado"— sigue siendo relevante.</p>
-</div>`,
-      criterios_dx: 'Modifica directamente el diagnóstico diferencial (ej. disnea en un paciente con antecedente de insuficiencia cardiaca orienta distinto que en uno con antecedente de EPOC) y el manejo farmacológico (ajuste de dosis en falla renal/hepática, interacciones, alergias antes de prescribir). El apego real al tratamiento de una enfermedad crónica es, con frecuencia, más determinante para el cuadro actual que el diagnóstico en sí.',
-      figura: 'hipersensibilidad-tabla'
-    },
-    {
-      nombre: 'Padecimiento actual (PA): cómo se escribe',
-      color: '#3d5a73',
-      definicion: 'La narración cronológica, en prosa, del síntoma o motivo de consulta desde su inicio hasta el momento presente — la sección de mayor peso diagnóstico de toda la historia clínica.',
-      algoritmo: [
-        'Abrir indicando edad, sexo y tiempo total de evolución — "Paciente masculino de 45 años, con cuadro clínico de 3 días de evolución caracterizado por…"',
-        'Narrar en orden cronológico estricto, sin saltos hacia atrás y hacia adelante',
-        'Incluir los "negativos pertinentes": síntomas que el paciente NO presenta y que ayudan a descartar diagnósticos (ej. "niega fiebre, niega disnea")',
-        'Cerrar con el estado actual y el evento puntual que motivó la consulta hoy ("por qué hoy y no antes")'
-      ],
-      criterios_dx: 'Un PA bien escrito debería, por sí solo, permitir a otro médico que no vio al paciente generar una lista razonable de diagnósticos diferenciales — integra la caracterización semiológica completa del síntoma guía (ver ALICIA/SOCRATES) junto con los síntomas acompañantes y los tratamientos ya intentados. Es el estándar con el que se evalúa la calidad de una historia clínica en la práctica y en el examen.',
-      figura: 'pa-timeline'
-    },
-    {
-      nombre: 'Interrogatorio por aparatos y sistemas',
-      color: '#3d5a73',
-      definicion: 'Revisión sistemática, aparato por aparato, preguntando activamente por síntomas que el paciente no mencionó espontáneamente en el padecimiento actual.',
-      clinica: 'Se hace de cabeza a pies o por sistemas (ver figura para el detalle de qué preguntar en cada uno), con preguntas breves y cerradas ("¿ha notado…?").',
-      criterios_dx: 'Frecuentemente revela datos que cambian el diagnóstico diferencial — por ejemplo, un paciente que consulta por fatiga y en el interrogatorio dirigido refiere poliuria y polidipsia, orientando a diabetes mellitus no diagnosticada.',
-      figura: 'ipas-checklist'
-    },
-    {
-      nombre: 'Semiología del síntoma guía (ALICIA / SOCRATES)',
-      color: '#3d5a73',
-      definicion: 'Caracterización sistemática y completa del síntoma que motiva la consulta — junto con el padecimiento actual, la pieza de mayor rendimiento diagnóstico de toda la anamnesis.',
-      clinica: 'Se apoya en dos mnemotecnias equivalentes. En español, <strong>ALICIA</strong>: Aparición, Localización, Intensidad, Carácter, Irradiación, Atenuantes/agravantes (ver figura). En inglés, <strong>SOCRATES</strong> cubre lo mismo con dos componentes explícitos adicionales: Associations (síntomas acompañantes) y Time course (cronología) (ver figura). Ejemplo aplicado a dolor torácico: inicio súbito vs. progresivo, localización retroesternal vs. costal, irradiación a brazo o mandíbula, calidad opresiva vs. punzante, relación con el esfuerzo o la respiración, síntomas acompañantes como diaforesis o disnea.',
-      criterios_dx: 'No todos los síntomas completan las 6-8 características por igual — hay que reconocer cuándo un componente no aplica en vez de forzarlo. Ejemplos: la fiebre no tiene "localización" en el sentido clásico (no se puede señalar un punto); el prurito rara vez tiene irradiación definida; la astenia no tiene carácter ni localización aplicables. Aun así, siempre conviene intentar cada componente antes de descartarlo — cada uno modifica el diagnóstico diferencial y orienta qué estudios pedir primero.',
-      figura: ['alicia-list', 'socrates-ilustracion']
-    },
-    {
-      nombre: 'Dolor',
-      color: '#8c3a34',
-      icono: ICONOS.dolor,
-      definicion: 'Experiencia sensorial y emocional desagradable asociada a daño tisular real o potencial. Se caracteriza siempre con ALICIA/SOCRATES.',
-      fisiopatologia: `<div style="margin-bottom:14px;">
-<strong style="color:#8c3a34;">Mecanismo</strong>
-<p style="margin:4px 0 0;">Los nociceptores periféricos transducen el estímulo lesivo y lo transmiten por dos tipos de fibra: las <strong>Aδ</strong> (mielinizadas, conducción rápida) generan el "primer dolor" —agudo y bien localizado—; las <strong>C</strong> (amielínicas, conducción lenta) generan el "segundo dolor" —sordo, difuso y persistente—. Ambas hacen sinapsis en el asta dorsal medular, decusan, y ascienden por el tracto espinotalámico lateral hacia el tálamo y la corteza somatosensorial. Es la misma diferencia que hay entre la sensación instantánea y precisa de pisar una tachuela (Aδ) y el ardor sostenido que queda después (C).</p>
-<p style="margin:8px 0 0;">Según el territorio de origen, el mecanismo tiene 3 variantes con "personalidad" clínica distinta:</p>
-<ul style="margin:6px 0 0;padding-left:18px;">
-<li style="margin-bottom:4px;"><strong>Nociceptivo somático</strong> (piel, músculo, hueso, articulaciones): alta densidad de receptores y representación cortical precisa, por lo que el paciente puede señalar el punto exacto con un dedo y el dolor se agrava claramente con el movimiento o la presión local — es, en cierto modo, como tener un mapa de alta resolución (una fotografía nítida) de esa zona del cuerpo.</li>
-<li style="margin-bottom:4px;"><strong>Nociceptivo visceral</strong> (vísceras huecas y sólidas): densidad de receptores mucho menor y representación cortical difusa, por lo que el dolor es mal localizado y el paciente típicamente lo señala con toda la mano abierta sobre una región amplia, no con un dedo — como intentar ubicar algo en una fotografía borrosa o fuera de foco.</li>
-<li><strong>Neuropático</strong> (lesión del propio sistema nervioso, no del tejido que duele): actividad ectópica de axones dañados, sin que exista ya ningún estímulo lesivo real en el territorio donde se siente — el dolor es quemante, con descargas eléctricas y disestesias. Es como un cable eléctrico pelado que sigue mandando señal aunque nadie lo esté tocando.</li>
-</ul>
-<p style="margin:8px 0 0;">El <strong>dolor referido</strong> se explica por el mecanismo de convergencia-proyección de Ruch: las neuronas de segundo orden del asta dorsal reciben aferencias viscerales y somáticas del mismo segmento medular, y la corteza interpreta la señal como proveniente del territorio somático, no del visceral real (ver figura) — dicho de otro modo, ambas vías comparten el mismo "cable" hacia el cerebro, que nunca aprendió a distinguir de cuál de los dos extremos vino la señal. La inflamación local sensibiliza los nociceptores (bradicinina, prostaglandinas, sustancia P — sensibilización periférica) y puede amplificar la respuesta a nivel medular (sensibilización central: hiperalgesia, alodinia, es decir, dolor ante un estímulo que normalmente no debería dolerlo). Es, en esencia, como bajar el volumen necesario para que la alarma se dispare: con sensibilización, estímulos cada vez más pequeños bastan para generar dolor.</p>
-</div>
-<div>
-<strong style="color:#8c3a34;">Clasificación</strong>
-<p style="margin:4px 0 0;">Por duración: <strong>agudo</strong> (&lt;3 meses, cumple una función protectora clara) o <strong>crónico</strong> (≥3 meses, ya perdió buena parte de su valor de alarma y se convierte en la enfermedad misma).</p>
-</div>`,
-      clinica: 'Se interroga con ALICIA/SOCRATES completo, prestando especial atención a si el paciente puede señalar el punto exacto con un dedo (más compatible con somático) o solo señala una región amplia con la mano (más compatible con visceral).',
-      criterios_dx: 'La localización, la irradiación y la relación con desencadenantes (esfuerzo físico, alimentos, movimiento, respiración) son las variables con mayor rendimiento diagnóstico para orientar el origen del dolor.',
-      dx_diferencial: 'Dolor torácico: cardiovascular (isquémico, pericárdico, aórtico), pleuropulmonar, digestivo (esofágico, biliar), musculoesquelético, psicógeno. Dolor abdominal: según cuadrante y órgano subyacente.',
-      figura: ['dolor-referido']
-    },
-    {
-      nombre: 'Fiebre',
-      color: '#8c3a34',
-      icono: ICONOS.fiebre,
-      definicion: 'Elevación de la temperatura corporal por encima de 38.0 °C, mediada por pirógenos que reajustan el centro termorregulador hipotalámico (ver figura de rangos).',
-      fisiopatologia: `<div style="margin-bottom:14px;">
-<strong style="color:#8c3a34;">Mecanismo</strong>
-<p style="margin:4px 0 0;">Los pirógenos exógenos (lipopolisacárido bacteriano, toxinas, componentes virales) activan monocitos/macrófagos, que liberan pirógenos endógenos — principalmente IL-1β, IL-6 y TNF-α. Estas citocinas actúan sobre el órgano vascular de la lámina terminal (OVLT), una región del hipotálamo anterior con barrera hematoencefálica fenestrada, e inducen la expresión de COX-2 local, generando prostaglandina E2 (PGE2). La PGE2 se une a receptores EP3 en el núcleo preóptico ventromedial y eleva el punto de ajuste ("set point") termorregulador hipotalámico; el organismo responde generando y conservando calor (vasoconstricción cutánea, escalofríos, conducta de abrigo) hasta alcanzar ese nuevo set point. Es exactamente lo que ocurre al subir el termostato de una casa: el sistema de calefacción no está "descompuesto", simplemente persigue activamente una temperatura objetivo más alta, y no se apaga hasta llegar al número marcado.</p>
-<p style="margin:8px 0 0;">Los antipiréticos (AINEs, paracetamol) inhiben la COX y reducen la PGE2, devolviendo el set point a su valor normal. Por eso NO son eficaces en la <strong>hipertermia</strong>, donde el set point nunca cambió: el problema ahí es que el sistema de disipación de calor (sudoración, vasodilatación) falla o es insuficiente frente a una ganancia de calor excesiva (golpe de calor, hipertermia maligna, síndrome neuroléptico maligno, síndrome serotoninérgico). Siguiendo la misma analogía: es como intentar enfriar una casa bajando el número del termostato cuando en realidad el aire acondicionado está apagado — el termostato ya estaba bien puesto, lo que falla es el mecanismo de enfriamiento.</p>
-</div>
-<div style="margin-bottom:14px;">
-<strong style="color:#8c3a34;">Clasificación por patrón</strong>
-<p style="margin:4px 0 0;">Continua (oscila &lt;1 °C en 24 h, sin llegar a lo normal), remitente (oscila &gt;1 °C, sin llegar a lo normal), intermitente (llega a lo normal entre picos) y héctica o séptica (picos muy altos alternados con caídas a lo normal, típica de abscesos) (ver figura).</p>
-</div>
-<div>
-<strong style="color:#8c3a34;">Clasificación por duración</strong>
-<p style="margin:4px 0 0;">Aguda (&lt;2 semanas) vs. fiebre de origen desconocido (FOD). Los criterios clásicos de Petersdorf para FOD son: temperatura &gt;38.3 °C en varias ocasiones, duración &gt;3 semanas, y ausencia de diagnóstico pese a al menos una semana de estudio hospitalario adecuado (los criterios modernos de Durack y Street ya no exigen la hospitalización, y distinguen subcategorías: FOD clásica, nosocomial, neutropénica y asociada a VIH). Ante una FOD, el diferencial se amplía más allá de lo infeccioso, hacia causas neoplásicas (linfoma, hipernefroma), autoinmunes (arteritis de células gigantes, enfermedad de Still) y farmacológicas.</p>
-</div>`,
-      clinica: 'El umbral y la fiabilidad de la medición dependen del sitio donde se toma (ver figura); también se interrogan los síntomas acompañantes que orienten el foco (tos, disuria, cefalea, exantema, artralgias).',
-      criterios_dx: 'El patrón febril y los síntomas acompañantes orientan el foco infeccioso probable — un patrón héctico con escalofríos intensos, por ejemplo, sugiere colección purulenta (absceso, colangitis, pielonefritis complicada) más que una infección viral simple.',
-      dx_diferencial: 'Infecciosa (la más frecuente), neoplásica, autoinmune/inflamatoria, medicamentosa (fiebre por fármacos), tromboembólica.',
-      figura: ['fiebre-temperatura', 'fiebre-patrones']
-    },
-    {
-      nombre: 'Disnea',
-      color: '#8c3a34',
-      icono: ICONOS.disnea,
-      definicion: 'Sensación subjetiva de falta de aire o dificultad para respirar, desproporcionada al esfuerzo realizado.',
-      fisiopatologia: 'Mecanismo multifactorial e integrador: quimiorreceptores centrales (bulbares, sensibles a pCO2/pH del LCR) y periféricos (cuerpos carotídeos y aórticos, sensibles a pO2), mecanorreceptores pulmonares (receptores de estiramiento y receptores J yuxtacapilares, activados por congestión intersticial) y receptores de la pared torácica envían información aferente al tronco encefálico. La disnea surge por un desacople neuromecánico: discordancia entre el impulso ventilatorio eferente que emite el centro respiratorio y la respuesta mecánica real del sistema respiratorio. Esto explica sus 3 cualidades distintas: sensación de esfuerzo/trabajo respiratorio (enfermedad neuromuscular, obstrucción), opresión torácica (broncoconstricción, vía receptores de estiramiento) y hambre de aire/asfixia (hipercapnia y acidosis, vía quimiorreceptores). Se gradúa con escalas funcionales, la más usada es la mMRC (ver figura). También se caracteriza por su instalación (aguda vs. crónica) y por la posición que la mejora o empeora: ortopnea (empeora acostado), platipnea (empeora sentado/de pie) y trepopnea (empeora en decúbito lateral).',
-      clinica: 'Se interroga su relación con el esfuerzo (grado mMRC), su instalación temporal, la posición que la modifica, y los síntomas acompañantes (dolor torácico, tos, edema de miembros inferiores).',
-      criterios_dx: 'La ortopnea y la disnea paroxística nocturna orientan fuertemente a insuficiencia cardiaca; la disnea de instalación súbita orienta a tromboembolia pulmonar, neumotórax o edema agudo de pulmón.',
-      dx_diferencial: 'Cardiovascular (insuficiencia cardiaca, isquemia), respiratoria (EPOC, asma, neumonía, TEP), anemia, acidosis metabólica, causa psicógena (ansiedad).',
-      figura: 'mmrc-scale'
-    },
-    {
-      nombre: 'Tos',
-      color: '#8c3a34',
-      icono: ICONOS.tos,
-      definicion: 'Reflejo de defensa de la vía aérea ante un estímulo mecánico, químico o inflamatorio.',
-      fisiopatologia: `<div style="margin-bottom:14px;">
-<strong style="color:#8c3a34;">Mecanismo</strong>
-<p style="margin:4px 0 0;">El reflejo tusígeno se inicia en receptores de adaptación rápida (RARs) y fibras C sensibles a irritantes mecánicos/químicos, ubicados en laringe, tráquea y bronquios de gran calibre. La señal aferente viaja por el nervio vago hasta el centro de la tos en el bulbo raquídeo, que coordina 3 fases: inspiratoria (inspiración profunda), compresiva (cierre glótico con contracción espiratoria forzada, generando presión intratorácica elevada) y expulsiva (apertura súbita de la glotis con flujo espiratorio explosivo que arrastra secreciones o cuerpos extraños). Es la misma secuencia que disparar un extintor: primero se "carga" (inspiración), luego se "presuriza" (cierre glótico y contracción forzada), y por último se "dispara" (apertura súbita con flujo explosivo).</p>
-</div>
-<div>
-<strong style="color:#8c3a34;">Clasificación</strong>
-<p style="margin:4px 0 0;">Por duración y por productividad (ver figura) — dos preguntas simples que, combinadas, ya acotan bastante el diagnóstico diferencial antes de pedir cualquier estudio.</p>
-</div>`,
-      clinica: 'Se interroga duración, productividad, horario (nocturna vs. diurna), relación con la posición o los alimentos, y síntomas acompañantes.',
-      criterios_dx: 'La tos crónica productiva orienta a EPOC o bronquiectasias; la tos seca crónica en un paciente que toma IECA orienta a efecto adverso farmacológico; la hemoptisis siempre amerita descartar neoplasia pulmonar y tuberculosis.',
-      dx_diferencial: 'Infecciosa, EPOC/asma, reflujo gastroesofágico, goteo posnasal, efecto adverso de IECA, insuficiencia cardiaca, neoplasia pulmonar.',
-      figura: 'tos-clasificacion-tabla'
-    },
-    {
-      nombre: 'Astenia, fatiga y pérdida de peso involuntaria',
-      color: '#8c3a34',
-      icono: ICONOS.astenia,
-      definicion: 'Sensación subjetiva de falta de energía (astenia) o incapacidad de mantener un esfuerzo (fatiga). La pérdida de peso involuntaria significativa es &gt;5% del peso corporal en 6-12 meses, sin dieta intencional.',
-      fisiopatologia: 'Se distingue fatiga central (originada en el SNC, mediada por neurotransmisores como la serotonina y por citocinas proinflamatorias — IL-6, TNF-α — que inducen la llamada "conducta de enfermedad" o sickness behavior: el mismo eje inflamatorio que genera la fiebre, lo que explica por qué astenia y fiebre coexisten con frecuencia en procesos infecciosos, neoplásicos y autoinmunes) de fatiga periférica (falla neuromuscular: depleción de ATP/glucógeno, acumulación de metabolitos musculares). Si mejora con el descanso, orienta a una causa fisiológica o funcional; si no mejora con el reposo, orienta a causa orgánica (anemia, hipotiroidismo, neoplasia, enfermedad crónica sistémica).',
-      clinica: 'Se interroga la cronología, la relación con el sueño o el reposo, y siempre se acompaña de una búsqueda dirigida de síntomas de alarma como fiebre, sudoración nocturna profusa o sangrado.',
-      criterios_dx: 'La combinación de astenia, pérdida de peso involuntaria y sudoración nocturna (los llamados "síntomas B") es una tríada de alarma que obliga a descartar neoplasia, tuberculosis e infección por VIH.',
-      dx_diferencial: 'Anemia, hipotiroidismo, depresión, neoplasia, enfermedad crónica sistémica (renal, hepática), infecciones crónicas.'
-    }
-  ]
-};
-
-export const figuras = {
-  'alicia-list': {
-    titulo: 'ALICIA',
-    html: letraLista('#3d5a73', [
-      ['A', 'parición', 'inicio: cuándo y cómo comenzó'],
-      ['L', 'ocalización', 'dónde exactamente'],
-      ['I', 'ntensidad', 'qué tan fuerte, habitualmente escala 0-10'],
-      ['C', 'arácter', 'cualidad o tipo (opresivo, punzante, cólico, urente…)'],
-      ['I', 'rradiación', 'hacia dónde se extiende'],
-      ['A', 'tenuantes y agravantes', 'qué lo mejora o empeora']
-    ]),
-    fuente: 'Argente-Álvarez, Semiología Médica'
-  },
-  'socrates-ilustracion': {
-    titulo: 'SOCRATES',
-    html: `<img src="topics/historia-clinica/assets/socrates-ilustracion.png" alt="Infografía SOCRATES: mnemotecnia para la evaluación sistemática del dolor. S — Site: localización, ¿dónde se localiza el dolor? O — Onset: inicio súbito o gradual, ¿cuándo comenzó el dolor? C — Character: calidad (opresivo, punzante, cólico, urente, etc.), ¿cómo es el dolor? R — Radiation: irradiación, ¿se irradia a alguna otra parte del cuerpo? A — Associations: síntomas acompañantes, ¿qué otros síntomas se presentan junto con el dolor? T — Time course: cronología (constante o intermitente, duración), ¿cuánto dura el dolor?, ¿cómo es su evolución? E — Exacerbating/relieving factors: factores agravantes y atenuantes, ¿qué lo empeora?, ¿qué lo alivia? S — Severity: intensidad, ¿qué tan intenso es el dolor?, habitualmente escala 0-10. Ilustración de un médico entrevistando a un paciente.">`,
-    fuente: "Bates' Guide to Physical Examination and History Taking"
-  },
-  'fiebre-temperatura': {
-    titulo: 'Temperatura corporal: rangos y sitio de medición',
-    html: `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:6px;">
-      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Normal</strong><br>36.5-37.2°C</div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Febrícula</strong><br>37.3-38.0°C</div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Fiebre</strong><br>&gt;38.0°C</div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Hiperpirexia</strong><br>&gt;41.0°C</div>
-    </div>
-    <div style="font-size:10.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin:12px 0 6px;">Umbral de fiebre según el sitio</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:6px;">
-      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Axilar</strong><br>&gt;37.2°C</div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Oral</strong><br>&gt;37.5°C</div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Rectal</strong><br>&gt;38.0°C</div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Timpánico</strong><br>&gt;37.5-38.0°C</div>
-    </div>
-    <p style="font-size:11.5px;color:var(--ink-faint);margin:8px 0 0;">El axilar es el menos preciso pero el más usado en consulta; el rectal es el más cercano a la temperatura central; el oral se afecta por ingesta reciente de líquidos.</p>`,
-    fuente: "Bates' Guide to Physical Examination and History Taking; DeGowin's Diagnostic Examination"
-  },
-  'mmrc-scale': {
-    titulo: 'Escala de disnea mMRC (Modified Medical Research Council)',
-    html: `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px;">
-      <div style="border:1px solid var(--line);border-radius:8px;padding:7px 9px;"><strong>Grado 0</strong><br>Disnea solo con actividad física intensa.</div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:7px 9px;"><strong>Grado 1</strong><br>Al andar rápido en llano o subir una pendiente leve.</div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:7px 9px;"><strong>Grado 2</strong><br>Camina más despacio que otros de su edad, o se detiene al caminar en llano.</div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:7px 9px;"><strong>Grado 3</strong><br>Se detiene a respirar tras ~100 m o pocos minutos en llano.</div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:7px 9px;"><strong>Grado 4</strong><br>Le impide salir de casa, o aparece al vestirse.</div>
-    </div>`,
-    fuente: 'Bestall et al. 1999; escala usada por GOLD para EPOC'
-  },
-  'fiebre-patrones': {
-    titulo: 'Patrones de fiebre (esquemático)',
-    html: `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
-      ${patronFiebreSVG('pat-cont', [38.6, 39.0, 38.7, 39.1, 38.5, 38.8], 'Continua')}
-      ${patronFiebreSVG('pat-rem', [39.5, 38.2, 39.6, 38.1, 39.4, 38.3], 'Remitente')}
-      ${patronFiebreSVG('pat-int', [39.5, 37.0, 39.6, 36.9, 39.3, 37.1], 'Intermitente')}
-      ${patronFiebreSVG('pat-hec', [40.2, 36.5, 40.5, 36.3, 40.0, 36.8], 'Héctica/séptica')}
-    </div>`,
-    fuente: "Forma del patrón descrita en Surós y en DeGowin's Diagnostic Examination (curvas ilustrativas, no datos de un paciente real)"
-  },
-  'dolor-referido': {
-    titulo: 'Mapa de irradiación del dolor visceral (dolor referido)',
-    html: `<img src="topics/historia-clinica/assets/dolor-referido-infografia.png" alt="Infografía de dolor referido con vista anterior y posterior del cuerpo. Tabla con 7 patrones clásicos: (1) infarto agudo de miocardio → hombro izquierdo, cara medial del brazo izquierdo hasta 4º y 5º dedos, cuello, mandíbula y región interescapular, por convergencia con aferentes somáticos de C4-T1; (2) colecistitis aguda → hipocondrio derecho, hombro y región escapular derechos, segmentos torácicos T7-T9; (3) pancreatitis aguda → epigastrio con irradiación directa a la región medio-dorsal, T7-T9 (T10 en ocasiones); (4) cólico renal → flanco, fosa ilíaca, ingle y región genital ipsilateral, T10-L2; (5) apendicitis aguda → dolor periumbilical inicial que migra a fosa ilíaca derecha, fibras viscerales T10 y somáticas L1; (6) úlcera péptica perforada → dolor epigástrico que irradia a la espalda, T6-T9; (7) irritación diafragmática/signo de Kehr → hombro ipsilateral, especialmente el izquierdo, vía nervio frénico C3-C5. Incluye diagrama del mecanismo: las fibras aferentes viscerales y somáticas convergen en la misma neurona de segundo orden de la médula espinal, y el cerebro interpreta la señal como proveniente del territorio somático.">`,
-    fuente: null
-  },
-  'pa-timeline': {
-    titulo: 'Ejemplo: línea de tiempo de un padecimiento actual',
-    html: `<div style="display:flex;gap:14px;">
-      <div style="flex:1;border-top:2px solid var(--line);padding-top:10px;position:relative;">
-        <div style="width:9px;height:9px;border-radius:50%;background:#3d5a73;position:absolute;top:-5.5px;left:0;"></div>
-        <div style="font-size:11px;font-weight:700;color:var(--ink);">Hace 3 días</div>
-        <div style="font-size:11.5px;color:var(--ink-dim);margin-top:2px;">Inicio insidioso, dolor retroesternal opresivo leve.</div>
-      </div>
-      <div style="flex:1;border-top:2px solid var(--line);padding-top:10px;position:relative;">
-        <div style="width:9px;height:9px;border-radius:50%;background:#3d5a73;position:absolute;top:-5.5px;left:0;"></div>
-        <div style="font-size:11px;font-weight:700;color:var(--ink);">Hoy</div>
-        <div style="font-size:11.5px;color:var(--ink-dim);margin-top:2px;">Se intensifica con el esfuerzo, aparece diaforesis.</div>
-      </div>
-      <div style="flex:1;border-top:2px solid var(--line);padding-top:10px;position:relative;">
-        <div style="width:9px;height:9px;border-radius:50%;background:#8c3a34;position:absolute;top:-5.5px;left:0;"></div>
-        <div style="font-size:11px;font-weight:700;color:var(--ink);">Ahora</div>
-        <div style="font-size:11.5px;color:var(--ink-dim);margin-top:2px;">Acude a urgencias — motivo puntual de la consulta.</div>
-      </div>
-    </div>
-    <div style="margin-top:14px;padding:10px 12px;background:var(--panel);border:1px solid var(--line);border-radius:8px;font-size:12px;color:var(--ink-dim);">
-      <strong style="color:var(--ink);">Negativos pertinentes incluidos:</strong> "niega disnea, niega palpitaciones, niega dolor con la respiración" — ayuda a orientar entre causa cardiovascular y pleuropulmonar.
-    </div>`,
-    fuente: 'Adaptado del caso de dolor torácico usado en la autoevaluación de este tema'
-  },
-  'alcohol-unidades-tabla': {
-    titulo: 'Unidades estándar de alcohol por tipo de bebida',
-    html: `<div style="overflow-x:auto;">
+<p style="margin:4px 0 0;">Se cuantifica en <strong>unidades estándar de alcohol</strong> (~14 g de etanol puro cada una; ver Tabla 1). Se considera consumo de riesgo/elevado: en hombres, &gt;4 unidades en una sola ocasión o &gt;14 unidades por semana; en mujeres, &gt;3 unidades en una ocasión o &gt;7 por semana. También conviene aplicar el cuestionario <strong>CAGE</strong>: <strong>C</strong>ut down —¿ha sentido necesidad de disminuir su consumo?—, <strong>A</strong>nnoyed —¿le ha molestado que critiquen su consumo?—, <strong>G</strong>uilty —¿se ha sentido culpable por beber?— y <strong>E</strong>ye-opener —¿ha necesitado beber en la mañana para calmar los nervios o la resaca?—; 2 o más respuestas afirmativas sugieren un problema de dependencia.</p>
+${figBlock('Tabla 1', 'Unidades estándar de alcohol por tipo de bebida', `<div style="overflow-x:auto;">
     <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
       <thead><tr style="border-bottom:1px solid var(--line);">
         <th style="text-align:left;padding:5px 6px;">Bebida</th>
@@ -455,12 +243,16 @@ export const figuras = {
       </tbody>
     </table>
     </div>
-    <p style="font-size:11px;color:var(--ink-faint);margin:8px 0 0;">Consumo de riesgo: hombres &gt;4 unidades/ocasión o &gt;14/semana; mujeres &gt;3 unidades/ocasión o &gt;7/semana.</p>`,
-    fuente: 'World Health Organization, Global Status Report on Alcohol and Health 2018'
-  },
-  'exposicion-ocupacional-tabla': {
-    titulo: 'Exposiciones ocupacionales de alto rendimiento diagnóstico',
-    html: `<div style="overflow-x:auto;">
+    <p style="font-size:11px;color:var(--ink-faint);margin:8px 0 0;">Consumo de riesgo: hombres &gt;4 unidades/ocasión o &gt;14/semana; mujeres &gt;3 unidades/ocasión o &gt;7/semana.</p>`)}
+</div>
+<div style="margin-bottom:14px;">
+<strong style="color:#3d5a73;">Toxicomanías</strong>
+<p style="margin:4px 0 0;">Uso de cualquier sustancia psicoactiva no prescrita (marihuana, cocaína, metanfetaminas, opioides no médicos, inhalables, entre otras): sustancia, vía de consumo, frecuencia y última vez que la usó — dato relevante para el diagnóstico diferencial de múltiples síndromes agudos (dolor torácico, alteración del estado de alerta, arritmias) y para la interacción con tratamientos.</p>
+</div>
+<div>
+<strong style="color:#3d5a73;">Ocupación y exposiciones laborales</strong>
+<p style="margin:4px 0 0;">Es uno de los rubros que más se subinterroga, y a menudo el de mayor rendimiento diagnóstico en enfermedad pulmonar y oncológica ocupacional (ver Tabla 2). Ejemplos de alto rendimiento clínico: <strong>asbesto</strong> (construcción, aislamiento térmico, minería) — mesotelioma pleural y asbestosis, con una latencia característicamente muy larga (20-40 años desde la exposición); <strong>sílice</strong> (minería, canteros, arenado) — silicosis; <strong>polvo de carbón</strong> (minería del carbón) — neumoconiosis del minero; <strong>algodón</strong> (industria textil) — bisinosis; <strong>berilio</strong> (aeroespacial, electrónica) — beriliosis; <strong>solventes orgánicos y plomo</strong> — hepatotoxicidad, neurotoxicidad y saturnismo; <strong>plaguicidas organofosforados</strong> (trabajo agrícola) — síndrome colinérgico agudo; <strong>radiación ionizante</strong> — mayor riesgo de leucemia y otras neoplasias; personal de salud — riesgo biológico (hepatitis B, VIH, tuberculosis).</p>
+${figBlock('Tabla 2', 'Exposiciones ocupacionales de alto rendimiento diagnóstico', `<div style="overflow-x:auto;">
     <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
       <thead><tr style="border-bottom:1px solid var(--line);">
         <th style="text-align:left;padding:5px 6px;">Agente</th>
@@ -479,12 +271,28 @@ export const figuras = {
         <tr><td style="padding:5px 6px;">Plomo</td><td style="padding:5px 6px;">Fundición, baterías, pintura antigua</td><td style="padding:5px 6px;">Saturnismo</td><td style="padding:5px 6px;">Anemia con punteado basófilo</td></tr>
       </tbody>
     </table>
-    </div>`,
-    fuente: 'LaDou & Harrison, CURRENT Occupational and Environmental Medicine'
-  },
-  'hipersensibilidad-tabla': {
-    titulo: 'Reacciones de hipersensibilidad (Gell y Coombs)',
-    html: `<div style="overflow-x:auto;">
+    </div>`)}
+</div>`,
+      criterios_dx: 'Estos antecedentes explican por qué un paciente desarrolla ciertas enfermedades y con frecuencia son la clave del diagnóstico diferencial epidemiológico: tos crónica en un minero orienta a neumoconiosis, disnea progresiva en una mujer rural sin tabaquismo orienta a EPOC por biomasa, fiebre tras contacto con un enfermo de tuberculosis (Combe positivo) orienta a tuberculosis activa, y una adenopatía en alguien con exposición ocupacional a asbesto obliga a descartar mesotelioma.'
+    },
+    {
+      nombre: 'Antecedentes personales patológicos',
+      color: '#3d5a73',
+      modalLabels: { fisiopatologia: 'Detalle por rubro' },
+      definicion: 'Enfermedades crónicas diagnosticadas previamente, cirugías, hospitalizaciones, alergias, antecedentes transfusionales y esquema de vacunación — cada uno con los detalles que cambian el manejo, no solo el nombre del diagnóstico.',
+      clinica: 'Se interroga activamente uno por uno — no basta con preguntar "¿tiene alguna enfermedad?", porque el paciente puede omitir por olvido o por no considerarlo relevante. Conviene recorrer un listado mental por sistemas (cardiovascular, endocrino, renal, hepático, respiratorio, oncológico) en vez de dejarlo abierto.',
+      fisiopatologia: `<div style="margin-bottom:14px;">
+<strong style="color:#3d5a73;">Enfermedades crónicas diagnosticadas</strong>
+<p style="margin:4px 0 0;">No basta con el nombre del diagnóstico (hipertensión, diabetes, cardiopatías, enfermedad renal, hepatopatías, neumopatías, neoplasias, enfermedades tiroideas): se documenta también <strong>cuándo</strong> fue diagnosticada (fecha o año aproximado), el <strong>tratamiento actual completo</strong> (fármaco, dosis, frecuencia) y el <strong>apego</strong> al tratamiento (bueno, regular o malo, y por qué si es malo — costo, efectos adversos, olvido, falta de comprensión de la enfermedad). Un apego deficiente cambia por completo el diagnóstico diferencial: una "descompensación" puede ser en realidad el resultado esperable de haber abandonado el tratamiento, no una progresión inexplicada de la enfermedad.</p>
+</div>
+<div style="margin-bottom:14px;">
+<strong style="color:#3d5a73;">Cirugías previas</strong>
+<p style="margin:4px 0 0;">Procedimiento, fecha aproximada, y si hubo o no <strong>complicaciones</strong> (sangrado, infección del sitio quirúrgico, reintervención, complicaciones anestésicas). Una cirugía previa complicada puede predecir mayor riesgo en una cirugía futura y orienta hacia adherencias, alergias a materiales o predisposición a ciertas complicaciones.</p>
+</div>
+<div style="margin-bottom:14px;">
+<strong style="color:#3d5a73;">Alergias</strong>
+<p style="margin:4px 0 0;">No basta con el nombre del fármaco o alimento: se especifica el <strong>tipo de reacción</strong>, porque cambia radicalmente el riesgo real de una reexposición. Las reacciones de hipersensibilidad se clasifican en 4 tipos (Gell y Coombs, ver Tabla 1): Tipo I (inmediata, mediada por IgE — urticaria, angioedema, anafilaxia, en minutos), Tipo II (citotóxica, IgG/IgM contra antígenos de superficie celular — anemia hemolítica inducida por fármacos), Tipo III (por inmunocomplejos — enfermedad del suero, vasculitis) y Tipo IV (mediada por células T, retardada — dermatitis de contacto, exantema morbiliforme por fármacos, días después). Una intolerancia gastrointestinal simple (náusea, diarrea sin otros datos) NO es una alergia verdadera y no debe registrarse como tal.</p>
+${figBlock('Tabla 1', 'Reacciones de hipersensibilidad (Gell y Coombs)', `<div style="overflow-x:auto;">
     <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
       <thead><tr style="border-bottom:1px solid var(--line);">
         <th style="text-align:left;padding:5px 6px;">Tipo</th>
@@ -500,12 +308,54 @@ export const figuras = {
       </tbody>
     </table>
     </div>
-    <p style="font-size:11px;color:var(--ink-faint);margin:8px 0 0;">Una intolerancia gastrointestinal simple (náusea, diarrea sin otros datos) NO es una alergia verdadera y no debe registrarse como tal.</p>`,
-    fuente: 'Gell & Coombs, Clinical Aspects of Immunology, 1963'
-  },
-  'ipas-checklist': {
-    titulo: 'Interrogatorio por aparatos y sistemas: qué preguntar en cada uno',
-    html: `<div style="overflow-x:auto;">
+    <p style="font-size:11px;color:var(--ink-faint);margin:8px 0 0;">Una intolerancia gastrointestinal simple (náusea, diarrea sin otros datos) NO es una alergia verdadera y no debe registrarse como tal.</p>`)}
+</div>
+<div style="margin-bottom:14px;">
+<strong style="color:#3d5a73;">Antecedentes transfusionales</strong>
+<p style="margin:4px 0 0;">Número de transfusiones, motivo, y si hubo alguna reacción transfusional.</p>
+</div>
+<div>
+<strong style="color:#3d5a73;">Esquema de vacunación</strong>
+<p style="margin:4px 0 0;">Esquema completo según la edad, y vacunas especiales del adulto (influenza anual, neumocócica, herpes zóster, COVID-19). Sobre esta última vale la pena conocer el contexto: las vacunas de vector viral adenoviral (ChAdOx1/AstraZeneca) se asociaron a un síndrome trombótico-trombocitopénico inmune infrecuente (VITT), con una incidencia estimada de aproximadamente 1 caso por cada 100,000 dosis administradas; las vacunas de ARN mensajero (Pfizer, Moderna) no mostraron esa asociación específica a una tasa relevante. El beneficio poblacional de la vacunación superó ampliamente ese riesgo infrecuente, pero es un ejemplo real y bien documentado de por qué preguntar el esquema completo de vacunación —no solo "si está vacunado"— sigue siendo relevante.</p>
+</div>`,
+      criterios_dx: 'Modifica directamente el diagnóstico diferencial (ej. disnea en un paciente con antecedente de insuficiencia cardiaca orienta distinto que en uno con antecedente de EPOC) y el manejo farmacológico (ajuste de dosis en falla renal/hepática, interacciones, alergias antes de prescribir). El apego real al tratamiento de una enfermedad crónica es, con frecuencia, más determinante para el cuadro actual que el diagnóstico en sí.'
+    },
+    {
+      nombre: 'Padecimiento actual (PA): cómo se escribe',
+      color: '#3d5a73',
+      definicion: 'La narración cronológica, en prosa, del síntoma o motivo de consulta desde su inicio hasta el momento presente — la sección de mayor peso diagnóstico de toda la historia clínica.',
+      algoritmo: [
+        'Abrir indicando edad, sexo y tiempo total de evolución — "Paciente masculino de 45 años, con cuadro clínico de 3 días de evolución caracterizado por…"',
+        'Narrar en orden cronológico estricto, sin saltos hacia atrás y hacia adelante',
+        'Incluir los "negativos pertinentes": síntomas que el paciente NO presenta y que ayudan a descartar diagnósticos (ej. "niega fiebre, niega disnea")',
+        'Cerrar con el estado actual y el evento puntual que motivó la consulta hoy ("por qué hoy y no antes")'
+      ],
+      criterios_dx: `Un PA bien escrito debería, por sí solo, permitir a otro médico que no vio al paciente generar una lista razonable de diagnósticos diferenciales — integra la caracterización semiológica completa del síntoma guía (ver ALICIA/SOCRATES) junto con los síntomas acompañantes y los tratamientos ya intentados. Es el estándar con el que se evalúa la calidad de una historia clínica en la práctica y en el examen. La Imagen 1 muestra un ejemplo aplicado.${figBlock('Imagen 1', 'Ejemplo: línea de tiempo de un padecimiento actual', `<div style="display:flex;gap:14px;">
+      <div style="flex:1;border-top:2px solid var(--line);padding-top:10px;position:relative;">
+        <div style="width:9px;height:9px;border-radius:50%;background:#3d5a73;position:absolute;top:-5.5px;left:0;"></div>
+        <div style="font-size:11px;font-weight:700;color:var(--ink);">Hace 3 días</div>
+        <div style="font-size:11.5px;color:var(--ink-dim);margin-top:2px;">Inicio insidioso, dolor retroesternal opresivo leve.</div>
+      </div>
+      <div style="flex:1;border-top:2px solid var(--line);padding-top:10px;position:relative;">
+        <div style="width:9px;height:9px;border-radius:50%;background:#3d5a73;position:absolute;top:-5.5px;left:0;"></div>
+        <div style="font-size:11px;font-weight:700;color:var(--ink);">Hoy</div>
+        <div style="font-size:11.5px;color:var(--ink-dim);margin-top:2px;">Se intensifica con el esfuerzo, aparece diaforesis.</div>
+      </div>
+      <div style="flex:1;border-top:2px solid var(--line);padding-top:10px;position:relative;">
+        <div style="width:9px;height:9px;border-radius:50%;background:#8c3a34;position:absolute;top:-5.5px;left:0;"></div>
+        <div style="font-size:11px;font-weight:700;color:var(--ink);">Ahora</div>
+        <div style="font-size:11.5px;color:var(--ink-dim);margin-top:2px;">Acude a urgencias — motivo puntual de la consulta.</div>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:10px 12px;background:var(--panel);border:1px solid var(--line);border-radius:8px;font-size:12px;color:var(--ink-dim);">
+      <strong style="color:var(--ink);">Negativos pertinentes incluidos:</strong> "niega disnea, niega palpitaciones, niega dolor con la respiración" — ayuda a orientar entre causa cardiovascular y pleuropulmonar.
+    </div>`)}`
+    },
+    {
+      nombre: 'Interrogatorio por aparatos y sistemas',
+      color: '#3d5a73',
+      definicion: 'Revisión sistemática, aparato por aparato, preguntando activamente por síntomas que el paciente no mencionó espontáneamente en el padecimiento actual.',
+      clinica: `Se hace de cabeza a pies o por sistemas (ver Tabla 1 para el detalle de qué preguntar en cada uno), con preguntas breves y cerradas ("¿ha notado…?").${figBlock('Tabla 1', 'Interrogatorio por aparatos y sistemas: qué preguntar en cada uno', `<div style="overflow-x:auto;">
     <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
       <thead><tr style="border-bottom:1px solid var(--line);">
         <th style="text-align:left;padding:5px 6px;">Sistema</th>
@@ -528,12 +378,126 @@ export const figuras = {
         <tr><td style="padding:5px 6px;"><strong>Psiquiátrico</strong></td><td style="padding:5px 6px;">Estado de ánimo, ansiedad, alteraciones del sueño, ideación suicida</td></tr>
       </tbody>
     </table>
-    </div>`,
-    fuente: "Bates' Guide to Physical Examination and History Taking"
-  },
-  'tos-clasificacion-tabla': {
-    titulo: 'Clasificación de la tos',
-    html: `<div style="overflow-x:auto;">
+    </div>`)}`,
+      criterios_dx: 'Frecuentemente revela datos que cambian el diagnóstico diferencial — por ejemplo, un paciente que consulta por fatiga y en el interrogatorio dirigido refiere poliuria y polidipsia, orientando a diabetes mellitus no diagnosticada.'
+    },
+    {
+      nombre: 'Semiología del síntoma guía (ALICIA / SOCRATES)',
+      color: '#3d5a73',
+      definicion: 'Caracterización sistemática y completa del síntoma que motiva la consulta — junto con el padecimiento actual, la pieza de mayor rendimiento diagnóstico de toda la anamnesis.',
+      clinica: `Se apoya en dos mnemotecnias equivalentes. En español, <strong>ALICIA</strong>: Aparición, Localización, Intensidad, Carácter, Irradiación, Atenuantes/agravantes (ver Imagen 1).${figBlock('Imagen 1', 'ALICIA', letraLista('#3d5a73', [
+        ['A', 'parición', 'inicio: cuándo y cómo comenzó'],
+        ['L', 'ocalización', 'dónde exactamente'],
+        ['I', 'ntensidad', 'qué tan fuerte, habitualmente escala 0-10'],
+        ['C', 'arácter', 'cualidad o tipo (opresivo, punzante, cólico, urente…)'],
+        ['I', 'rradiación', 'hacia dónde se extiende'],
+        ['A', 'tenuantes y agravantes', 'qué lo mejora o empeora']
+      ]))} En inglés, <strong>SOCRATES</strong> cubre lo mismo con dos componentes explícitos adicionales: Associations (síntomas acompañantes) y Time course (cronología) (ver Imagen 2).${figBlock('Imagen 2', 'SOCRATES', `<img src="topics/historia-clinica/assets/socrates-ilustracion.png" alt="Infografía SOCRATES: mnemotecnia para la evaluación sistemática del dolor. S — Site: localización, ¿dónde se localiza el dolor? O — Onset: inicio súbito o gradual, ¿cuándo comenzó el dolor? C — Character: calidad (opresivo, punzante, cólico, urente, etc.), ¿cómo es el dolor? R — Radiation: irradiación, ¿se irradia a alguna otra parte del cuerpo? A — Associations: síntomas acompañantes, ¿qué otros síntomas se presentan junto con el dolor? T — Time course: cronología (constante o intermitente, duración), ¿cuánto dura el dolor?, ¿cómo es su evolución? E — Exacerbating/relieving factors: factores agravantes y atenuantes, ¿qué lo empeora?, ¿qué lo alivia? S — Severity: intensidad, ¿qué tan intenso es el dolor?, habitualmente escala 0-10. Ilustración de un médico entrevistando a un paciente.">`)} Ejemplo aplicado a dolor torácico: inicio súbito vs. progresivo, localización retroesternal vs. costal, irradiación a brazo o mandíbula, calidad opresiva vs. punzante, relación con el esfuerzo o la respiración, síntomas acompañantes como diaforesis o disnea.`,
+      criterios_dx: 'No todos los síntomas completan las 6-8 características por igual — hay que reconocer cuándo un componente no aplica en vez de forzarlo. Ejemplos: la fiebre no tiene "localización" en el sentido clásico (no se puede señalar un punto); el prurito rara vez tiene irradiación definida; la astenia no tiene carácter ni localización aplicables. Aun así, siempre conviene intentar cada componente antes de descartarlo — cada uno modifica el diagnóstico diferencial y orienta qué estudios pedir primero.'
+    },
+    {
+      nombre: 'Dolor',
+      color: '#8c3a34',
+      icono: ICONOS.dolor,
+      modalLabels: { itemName: 'Síntoma cardinal' },
+      definicion: 'Experiencia sensorial y emocional desagradable asociada a daño tisular real o potencial. Se caracteriza siempre con ALICIA/SOCRATES.',
+      fisiopatologia: `<div style="margin-bottom:14px;">
+<strong style="color:#8c3a34;">Mecanismo</strong>
+<p style="margin:4px 0 0;">Los nociceptores periféricos transducen el estímulo lesivo y lo transmiten por dos tipos de fibra: las <strong>Aδ</strong> (mielinizadas, conducción rápida) generan el "primer dolor" —agudo y bien localizado—; las <strong>C</strong> (amielínicas, conducción lenta) generan el "segundo dolor" —sordo, difuso y persistente—. Ambas hacen sinapsis en el asta dorsal medular, decusan, y ascienden por el tracto espinotalámico lateral hacia el tálamo y la corteza somatosensorial. Es la misma diferencia que hay entre la sensación instantánea y precisa de pisar una tachuela (Aδ) y el ardor sostenido que queda después (C).</p>
+<p style="margin:8px 0 0;">Según el territorio de origen, el mecanismo tiene 3 variantes con "personalidad" clínica distinta:</p>
+<ul style="margin:6px 0 0;padding-left:18px;">
+<li style="margin-bottom:4px;"><strong>Nociceptivo somático</strong> (piel, músculo, hueso, articulaciones): alta densidad de receptores y representación cortical precisa, por lo que el paciente puede señalar el punto exacto con un dedo y el dolor se agrava claramente con el movimiento o la presión local — es, en cierto modo, como tener un mapa de alta resolución (una fotografía nítida) de esa zona del cuerpo.</li>
+<li style="margin-bottom:4px;"><strong>Nociceptivo visceral</strong> (vísceras huecas y sólidas): densidad de receptores mucho menor y representación cortical difusa, por lo que el dolor es mal localizado y el paciente típicamente lo señala con toda la mano abierta sobre una región amplia, no con un dedo — como intentar ubicar algo en una fotografía borrosa o fuera de foco.</li>
+<li><strong>Neuropático</strong> (lesión del propio sistema nervioso, no del tejido que duele): actividad ectópica de axones dañados, sin que exista ya ningún estímulo lesivo real en el territorio donde se siente — el dolor es quemante, con descargas eléctricas y disestesias. Es como un cable eléctrico pelado que sigue mandando señal aunque nadie lo esté tocando.</li>
+</ul>
+<p style="margin:8px 0 0;">El <strong>dolor referido</strong> se explica por el mecanismo de convergencia-proyección de Ruch: las neuronas de segundo orden del asta dorsal reciben aferencias viscerales y somáticas del mismo segmento medular, y la corteza interpreta la señal como proveniente del territorio somático, no del visceral real (ver Imagen 1) — dicho de otro modo, ambas vías comparten el mismo "cable" hacia el cerebro, que nunca aprendió a distinguir de cuál de los dos extremos vino la señal.</p>
+${figBlock('Imagen 1', 'Mapa de irradiación del dolor visceral (dolor referido)', `<img src="topics/historia-clinica/assets/dolor-referido-infografia.png" alt="Infografía de dolor referido con vista anterior y posterior del cuerpo. Tabla con 7 patrones clásicos: (1) infarto agudo de miocardio → hombro izquierdo, cara medial del brazo izquierdo hasta 4º y 5º dedos, cuello, mandíbula y región interescapular, por convergencia con aferentes somáticos de C4-T1; (2) colecistitis aguda → hipocondrio derecho, hombro y región escapular derechos, segmentos torácicos T7-T9; (3) pancreatitis aguda → epigastrio con irradiación directa a la región medio-dorsal, T7-T9 (T10 en ocasiones); (4) cólico renal → flanco, fosa ilíaca, ingle y región genital ipsilateral, T10-L2; (5) apendicitis aguda → dolor periumbilical inicial que migra a fosa ilíaca derecha, fibras viscerales T10 y somáticas L1; (6) úlcera péptica perforada → dolor epigástrico que irradia a la espalda, T6-T9; (7) irritación diafragmática/signo de Kehr → hombro ipsilateral, especialmente el izquierdo, vía nervio frénico C3-C5. Incluye diagrama del mecanismo: las fibras aferentes viscerales y somáticas convergen en la misma neurona de segundo orden de la médula espinal, y el cerebro interpreta la señal como proveniente del territorio somático.">`)}
+<p style="margin:8px 0 0;">La inflamación local sensibiliza los nociceptores (bradicinina, prostaglandinas, sustancia P — sensibilización periférica) y puede amplificar la respuesta a nivel medular (sensibilización central: hiperalgesia, alodinia, es decir, dolor ante un estímulo que normalmente no debería dolerlo). Es, en esencia, como bajar el volumen necesario para que la alarma se dispare: con sensibilización, estímulos cada vez más pequeños bastan para generar dolor.</p>
+</div>
+<div>
+<strong style="color:#8c3a34;">Clasificación</strong>
+<p style="margin:4px 0 0;">Por duración: <strong>agudo</strong> (&lt;3 meses, cumple una función protectora clara) o <strong>crónico</strong> (≥3 meses, ya perdió buena parte de su valor de alarma y se convierte en la enfermedad misma).</p>
+</div>`,
+      clinica: 'Se interroga con ALICIA/SOCRATES completo, prestando especial atención a si el paciente puede señalar el punto exacto con un dedo (más compatible con somático) o solo señala una región amplia con la mano (más compatible con visceral).',
+      criterios_dx: 'La localización, la irradiación y la relación con desencadenantes (esfuerzo físico, alimentos, movimiento, respiración) son las variables con mayor rendimiento diagnóstico para orientar el origen del dolor.',
+      dx_diferencial: 'Dolor torácico: cardiovascular (isquémico, pericárdico, aórtico), pleuropulmonar, digestivo (esofágico, biliar), musculoesquelético, psicógeno. Dolor abdominal: según cuadrante y órgano subyacente.'
+    },
+    {
+      nombre: 'Fiebre',
+      color: '#8c3a34',
+      icono: ICONOS.fiebre,
+      modalLabels: { itemName: 'Síntoma cardinal' },
+      definicion: 'Elevación de la temperatura corporal por encima de 38.0 °C, mediada por pirógenos que reajustan el centro termorregulador hipotalámico (ver Tabla 1).',
+      fisiopatologia: `${figBlock('Tabla 1', 'Temperatura corporal: rangos y sitio de medición', `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:6px;">
+      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Normal</strong><br>36.5-37.2°C</div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Febrícula</strong><br>37.3-38.0°C</div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Fiebre</strong><br>&gt;38.0°C</div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Hiperpirexia</strong><br>&gt;41.0°C</div>
+    </div>
+    <div style="font-size:10.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin:12px 0 6px;">Umbral de fiebre según el sitio</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:6px;">
+      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Axilar</strong><br>&gt;37.2°C</div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Oral</strong><br>&gt;37.5°C</div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Rectal</strong><br>&gt;38.0°C</div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:6px 8px;"><strong>Timpánico</strong><br>&gt;37.5-38.0°C</div>
+    </div>
+    <p style="font-size:11.5px;color:var(--ink-faint);margin:8px 0 0;">El axilar es el menos preciso pero el más usado en consulta; el rectal es el más cercano a la temperatura central; el oral se afecta por ingesta reciente de líquidos.</p>`)}
+<div style="margin-bottom:14px;">
+<strong style="color:#8c3a34;">Mecanismo</strong>
+<p style="margin:4px 0 0;">Los pirógenos exógenos (lipopolisacárido bacteriano, toxinas, componentes virales) activan monocitos/macrófagos, que liberan pirógenos endógenos — principalmente IL-1β, IL-6 y TNF-α. Estas citocinas actúan sobre el órgano vascular de la lámina terminal (OVLT), una región del hipotálamo anterior con barrera hematoencefálica fenestrada, e inducen la expresión de COX-2 local, generando prostaglandina E2 (PGE2). La PGE2 se une a receptores EP3 en el núcleo preóptico ventromedial y eleva el punto de ajuste ("set point") termorregulador hipotalámico; el organismo responde generando y conservando calor (vasoconstricción cutánea, escalofríos, conducta de abrigo) hasta alcanzar ese nuevo set point. Es exactamente lo que ocurre al subir el termostato de una casa: el sistema de calefacción no está "descompuesto", simplemente persigue activamente una temperatura objetivo más alta, y no se apaga hasta llegar al número marcado.</p>
+<p style="margin:8px 0 0;">Los antipiréticos (AINEs, paracetamol) inhiben la COX y reducen la PGE2, devolviendo el set point a su valor normal. Por eso NO son eficaces en la <strong>hipertermia</strong>, donde el set point nunca cambió: el problema ahí es que el sistema de disipación de calor (sudoración, vasodilatación) falla o es insuficiente frente a una ganancia de calor excesiva (golpe de calor, hipertermia maligna, síndrome neuroléptico maligno, síndrome serotoninérgico). Siguiendo la misma analogía: es como intentar enfriar una casa bajando el número del termostato cuando en realidad el aire acondicionado está apagado — el termostato ya estaba bien puesto, lo que falla es el mecanismo de enfriamiento.</p>
+</div>
+<div style="margin-bottom:14px;">
+<strong style="color:#8c3a34;">Clasificación por patrón</strong>
+<p style="margin:4px 0 0;">Continua (oscila &lt;1 °C en 24 h, sin llegar a lo normal), remitente (oscila &gt;1 °C, sin llegar a lo normal), intermitente (llega a lo normal entre picos) y héctica o séptica (picos muy altos alternados con caídas a lo normal, típica de abscesos) (ver Imagen 1).</p>
+${figBlock('Imagen 1', 'Patrones de fiebre (esquemático)', `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
+      ${patronFiebreSVG('pat-cont', [38.6, 39.0, 38.7, 39.1, 38.5, 38.8], 'Continua')}
+      ${patronFiebreSVG('pat-rem', [39.5, 38.2, 39.6, 38.1, 39.4, 38.3], 'Remitente')}
+      ${patronFiebreSVG('pat-int', [39.5, 37.0, 39.6, 36.9, 39.3, 37.1], 'Intermitente')}
+      ${patronFiebreSVG('pat-hec', [40.2, 36.5, 40.5, 36.3, 40.0, 36.8], 'Héctica/séptica')}
+    </div>`)}
+</div>
+<div>
+<strong style="color:#8c3a34;">Clasificación por duración</strong>
+<p style="margin:4px 0 0;">Aguda (&lt;2 semanas) vs. fiebre de origen desconocido (FOD). Los criterios clásicos de Petersdorf para FOD son: temperatura &gt;38.3 °C en varias ocasiones, duración &gt;3 semanas, y ausencia de diagnóstico pese a al menos una semana de estudio hospitalario adecuado (los criterios modernos de Durack y Street ya no exigen la hospitalización, y distinguen subcategorías: FOD clásica, nosocomial, neutropénica y asociada a VIH). Ante una FOD, el diferencial se amplía más allá de lo infeccioso, hacia causas neoplásicas (linfoma, hipernefroma), autoinmunes (arteritis de células gigantes, enfermedad de Still) y farmacológicas.</p>
+</div>`,
+      clinica: 'El umbral y la fiabilidad de la medición dependen del sitio donde se toma (ver Tabla 1, arriba); también se interrogan los síntomas acompañantes que orienten el foco (tos, disuria, cefalea, exantema, artralgias).',
+      criterios_dx: 'El patrón febril y los síntomas acompañantes orientan el foco infeccioso probable — un patrón héctico con escalofríos intensos, por ejemplo, sugiere colección purulenta (absceso, colangitis, pielonefritis complicada) más que una infección viral simple.',
+      dx_diferencial: 'Infecciosa (la más frecuente), neoplásica, autoinmune/inflamatoria, medicamentosa (fiebre por fármacos), tromboembólica.'
+    },
+    {
+      nombre: 'Disnea',
+      color: '#8c3a34',
+      icono: ICONOS.disnea,
+      modalLabels: { itemName: 'Síntoma cardinal' },
+      definicion: 'Sensación subjetiva de falta de aire o dificultad para respirar, desproporcionada al esfuerzo realizado.',
+      fisiopatologia: `<p style="margin:0;">Mecanismo multifactorial e integrador: quimiorreceptores centrales (bulbares, sensibles a pCO2/pH del LCR) y periféricos (cuerpos carotídeos y aórticos, sensibles a pO2), mecanorreceptores pulmonares (receptores de estiramiento y receptores J yuxtacapilares, activados por congestión intersticial) y receptores de la pared torácica envían información aferente al tronco encefálico. La disnea surge por un desacople neuromecánico: discordancia entre el impulso ventilatorio eferente que emite el centro respiratorio y la respuesta mecánica real del sistema respiratorio. Esto explica sus 3 cualidades distintas: sensación de esfuerzo/trabajo respiratorio (enfermedad neuromuscular, obstrucción), opresión torácica (broncoconstricción, vía receptores de estiramiento) y hambre de aire/asfixia (hipercapnia y acidosis, vía quimiorreceptores). Se gradúa con escalas funcionales, la más usada es la mMRC (ver Tabla 1).</p>
+${figBlock('Tabla 1', 'Escala de disnea mMRC (Modified Medical Research Council)', `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px;">
+      <div style="border:1px solid var(--line);border-radius:8px;padding:7px 9px;"><strong>Grado 0</strong><br>Disnea solo con actividad física intensa.</div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:7px 9px;"><strong>Grado 1</strong><br>Al andar rápido en llano o subir una pendiente leve.</div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:7px 9px;"><strong>Grado 2</strong><br>Camina más despacio que otros de su edad, o se detiene al caminar en llano.</div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:7px 9px;"><strong>Grado 3</strong><br>Se detiene a respirar tras ~100 m o pocos minutos en llano.</div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:7px 9px;"><strong>Grado 4</strong><br>Le impide salir de casa, o aparece al vestirse.</div>
+    </div>`)}
+<p style="margin:8px 0 0;">También se caracteriza por su instalación (aguda vs. crónica) y por la posición que la mejora o empeora: ortopnea (empeora acostado), platipnea (empeora sentado/de pie) y trepopnea (empeora en decúbito lateral).</p>`,
+      clinica: 'Se interroga su relación con el esfuerzo (grado mMRC), su instalación temporal, la posición que la modifica, y los síntomas acompañantes (dolor torácico, tos, edema de miembros inferiores).',
+      criterios_dx: 'La ortopnea y la disnea paroxística nocturna orientan fuertemente a insuficiencia cardiaca; la disnea de instalación súbita orienta a tromboembolia pulmonar, neumotórax o edema agudo de pulmón.',
+      dx_diferencial: 'Cardiovascular (insuficiencia cardiaca, isquemia), respiratoria (EPOC, asma, neumonía, TEP), anemia, acidosis metabólica, causa psicógena (ansiedad).'
+    },
+    {
+      nombre: 'Tos',
+      color: '#8c3a34',
+      icono: ICONOS.tos,
+      modalLabels: { itemName: 'Síntoma cardinal' },
+      definicion: 'Reflejo de defensa de la vía aérea ante un estímulo mecánico, químico o inflamatorio.',
+      fisiopatologia: `<div style="margin-bottom:14px;">
+<strong style="color:#8c3a34;">Mecanismo</strong>
+<p style="margin:4px 0 0;">El reflejo tusígeno se inicia en receptores de adaptación rápida (RARs) y fibras C sensibles a irritantes mecánicos/químicos, ubicados en laringe, tráquea y bronquios de gran calibre. La señal aferente viaja por el nervio vago hasta el centro de la tos en el bulbo raquídeo, que coordina 3 fases: inspiratoria (inspiración profunda), compresiva (cierre glótico con contracción espiratoria forzada, generando presión intratorácica elevada) y expulsiva (apertura súbita de la glotis con flujo espiratorio explosivo que arrastra secreciones o cuerpos extraños). Es la misma secuencia que disparar un extintor: primero se "carga" (inspiración), luego se "presuriza" (cierre glótico y contracción forzada), y por último se "dispara" (apertura súbita con flujo explosivo).</p>
+</div>
+<div>
+<strong style="color:#8c3a34;">Clasificación</strong>
+<p style="margin:4px 0 0;">Por duración y por productividad (ver Tabla 1) — dos preguntas simples que, combinadas, ya acotan bastante el diagnóstico diferencial antes de pedir cualquier estudio.</p>
+${figBlock('Tabla 1', 'Clasificación de la tos', `<div style="overflow-x:auto;">
     <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
       <thead><tr style="border-bottom:1px solid var(--line);">
         <th style="text-align:left;padding:5px 6px;">Eje</th>
@@ -548,9 +512,24 @@ export const figuras = {
         <tr><td style="padding:5px 6px;"></td><td style="padding:5px 6px;">Productiva</td><td style="padding:5px 6px;">Describir color, cantidad y presencia de sangre del esputo</td></tr>
       </tbody>
     </table>
-    </div>`,
-    fuente: "Bates' Guide to Physical Examination; Canning et al. Chest 2014"
-  }
+    </div>`)}
+</div>`,
+      clinica: 'Se interroga duración, productividad, horario (nocturna vs. diurna), relación con la posición o los alimentos, y síntomas acompañantes.',
+      criterios_dx: 'La tos crónica productiva orienta a EPOC o bronquiectasias; la tos seca crónica en un paciente que toma IECA orienta a efecto adverso farmacológico; la hemoptisis siempre amerita descartar neoplasia pulmonar y tuberculosis.',
+      dx_diferencial: 'Infecciosa, EPOC/asma, reflujo gastroesofágico, goteo posnasal, efecto adverso de IECA, insuficiencia cardiaca, neoplasia pulmonar.'
+    },
+    {
+      nombre: 'Astenia, fatiga y pérdida de peso involuntaria',
+      color: '#8c3a34',
+      icono: ICONOS.astenia,
+      modalLabels: { itemName: 'Síntoma cardinal' },
+      definicion: 'Sensación subjetiva de falta de energía (astenia) o incapacidad de mantener un esfuerzo (fatiga). La pérdida de peso involuntaria significativa es &gt;5% del peso corporal en 6-12 meses, sin dieta intencional.',
+      fisiopatologia: 'Se distingue fatiga central (originada en el SNC, mediada por neurotransmisores como la serotonina y por citocinas proinflamatorias — IL-6, TNF-α — que inducen la llamada "conducta de enfermedad" o sickness behavior: el mismo eje inflamatorio que genera la fiebre, lo que explica por qué astenia y fiebre coexisten con frecuencia en procesos infecciosos, neoplásicos y autoinmunes) de fatiga periférica (falla neuromuscular: depleción de ATP/glucógeno, acumulación de metabolitos musculares). Si mejora con el descanso, orienta a una causa fisiológica o funcional; si no mejora con el reposo, orienta a causa orgánica (anemia, hipotiroidismo, neoplasia, enfermedad crónica sistémica).',
+      clinica: 'Se interroga la cronología, la relación con el sueño o el reposo, y siempre se acompaña de una búsqueda dirigida de síntomas de alarma como fiebre, sudoración nocturna profusa o sangrado.',
+      criterios_dx: 'La combinación de astenia, pérdida de peso involuntaria y sudoración nocturna (los llamados "síntomas B") es una tríada de alarma que obliga a descartar neoplasia, tuberculosis e infección por VIH.',
+      dx_diferencial: 'Anemia, hipotiroidismo, depresión, neoplasia, enfermedad crónica sistémica (renal, hepática), infecciones crónicas.'
+    }
+  ]
 };
 
 export const compCites = {
