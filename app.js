@@ -9,6 +9,7 @@ import { generalCalculators } from './engine/general-calc.js';
 import { mountCalendar } from './engine/calendar.js';
 import { mountProtocols } from './engine/protocols.js';
 import { mountHome } from './engine/home.js';
+import { remainingToComplete } from './engine/quiz-srs.js';
 import { initAuth } from './engine/auth.js';
 import { initCloudSync } from './engine/cloud-sync.js';
 import { isAdmin, mountAdmin } from './engine/admin.js';
@@ -132,15 +133,19 @@ async function selectTopic(id, { reflectUrl = true } = {}) {
 async function mountHomeSection() {
   const topics = [];
   let totalQuestions = 0;
+  let answeredQuestions = 0;
   for (const t of registry) {
     const topic = await loadTopic(t.id);
     if (!topic) continue;
     const quizCount = (topic.study && topic.study.quiz && topic.study.quiz.length) || 0;
     totalQuestions += quizCount;
+    // "Contestada" = ya se respondió al menos una vez (mismo criterio que desbloquea las fichas
+    // de repaso del tema, ver engine/quiz-srs.js), no el total de intentos.
+    if (quizCount) answeredQuestions += quizCount - remainingToComplete(t.id, quizCount);
     topics.push({ id: t.id, titulo: topic.meta.titulo, subtitulo: topic.meta.subtitulo, accent: topic.meta.accent, quizCount });
   }
   mountHome(document.getElementById('home-root'), {
-    topics, totalQuestions, temarioBlocks,
+    topics, totalQuestions, answeredQuestions, temarioBlocks,
     navigateToTopic: async (id) => {
       await selectTopic(id);
       showSection('estudio');

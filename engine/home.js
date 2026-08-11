@@ -228,6 +228,41 @@ function examSectionHTML() {
     <button class="home-reset" onclick="rmEditExamDate()">Cambiar fecha</button>
   </div>`;
 }
+/* ---------------- Modales de ayuda ("?" junto a cada bloque de Inicio) ---------------- */
+const HELP_CONTENT = {
+  progreso: {
+    color: '#3d5a73',
+    tag: 'Cómo funciona',
+    title: 'Tu progreso',
+    body: `<p class="fbody" style="color:var(--ink-dim);">"Preguntas en el banco" es el total de preguntas de opción múltiple de todos los temas construidos. "Contestadas" cuenta cuántas de esas ya respondiste al menos una vez (sin importar si acertaste); ese mismo conteo, por tema, es el que desbloquea las fichas de repaso de cada tema. "Correctas"/"Incorrectas" acumulan todos tus intentos históricos, incluyendo reintentos. El aro central muestra tu % de acierto sobre esos intentos.</p>`
+  },
+  fichas: {
+    color: '#5c4a73',
+    tag: 'Cómo funciona',
+    title: 'Fichas de repaso',
+    body: `<p class="fbody" style="color:var(--ink-dim);">Cada tema tiene su propio mazo de fichas, pero permanece bloqueado hasta que respondas, al menos una vez, todas las preguntas del banco de ese tema. Una vez desbloqueado, las fichas usan repetición espaciada (sistema Leitner de 5 cajas): al calificar "Bien" una ficha sube de caja y tarda más en volver a aparecer (0, 1, 3, 7 y 14 días); calificarla "Otra vez" o "Difícil" la regresa a la caja 1 y vuelve a aparecer pronto. Cada sesión prioriza las fichas vencidas.</p>`
+  },
+  examen: {
+    color: '#8c3a34',
+    tag: 'Cómo funciona',
+    title: 'Exámenes simulados',
+    body: `<p class="fbody" style="color:var(--ink-dim);">Mezcla preguntas de los temas que elijas (a diferencia del banco de preguntas, que vive dentro de un solo tema) en un examen cronometrado. Puedes fijar cuántas preguntas y la dificultad: por nivel (Fácil/Intermedio/Difícil), Mixta (de todo un poco) o Repaso inteligente (prioriza lo que ya respondiste antes y está vencido para repaso; si no hay nada vencido, arma un examen mixto). Cada examen queda guardado en tu historial con fecha, puntaje y dificultad.</p>`
+  }
+};
+function openHelp(key) {
+  const info = HELP_CONTENT[key];
+  if (!info) return;
+  const m = document.getElementById('modal');
+  m.style.setProperty('--modal-accent', info.color);
+  m.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <span class="modal-tag" style="color:${info.color};">${info.tag}</span>
+    <h2>${info.title}</h2>
+    ${info.body}`;
+  document.getElementById('overlay').classList.remove('auth-page');
+  document.getElementById('overlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
 function editExamDate() { examEditMode = true; if (LAST_ROOT) mountHome(LAST_ROOT, LAST_OPTS); }
 function saveExamDateNow() {
   const input = document.getElementById('home-exam-input');
@@ -240,7 +275,7 @@ function saveExamDateNow() {
 export function mountHome(root, opts = {}) {
   LAST_ROOT = root;
   LAST_OPTS = opts;
-  const { topics = [], totalQuestions = 0, navigateToTopic, temarioBlocks = [] } = opts;
+  const { topics = [], totalQuestions = 0, answeredQuestions = 0, navigateToTopic, temarioBlocks = [] } = opts;
   const topicsById = {};
   topics.forEach(t => { topicsById[t.id] = t; });
   window.rmGoTopic = (id) => navigateToTopic && navigateToTopic(id);
@@ -249,10 +284,12 @@ export function mountHome(root, opts = {}) {
   window.rmEditExamDate = editExamDate;
   window.rmSaveExamDate = saveExamDateNow;
   window.rmOpenWip = openWip;
+  window.rmOpenHelp = openHelp;
   window.rmToggleReviewed = (id) => { setTopicReviewed(id, !isTopicReviewed(id)); if (LAST_ROOT) mountHome(LAST_ROOT, LAST_OPTS); };
 
   const { correct, incorrect, answered } = getAnsweredSummary();
   const pct = answered ? Math.round((correct / answered) * 100) : null;
+  const bankPct = totalQuestions ? Math.round((answeredQuestions / totalQuestions) * 100) : 0;
 
   root.innerHTML = `
     <div class="home-hero">
@@ -263,13 +300,14 @@ export function mountHome(root, opts = {}) {
     <div class="sec-body">
       <div class="grid home-dash-row">
         <div class="home-dash-card">
-          <h2 class="home-subhead">Tu progreso</h2>
+          <h2 class="home-subhead">Tu progreso <button class="home-help-btn" onclick="rmOpenHelp('progreso')" aria-label="Cómo funciona tu progreso" title="Cómo funciona">?</button></h2>
           <div class="home-progress">
             <div class="home-progress-ring">${ring(correct, incorrect)}
               <div class="home-progress-center">${pct !== null ? pct + '%' : 'Sin datos'}${pct !== null ? '<span>acierto</span>' : ''}</div>
             </div>
             <div class="home-progress-stats">
               <div class="home-stat"><span class="home-stat-n">${totalQuestions}</span><span class="home-stat-l">Preguntas en el banco</span></div>
+              <div class="home-stat"><span class="home-stat-n">${answeredQuestions}</span><span class="home-stat-l">Contestadas <span class="mono" style="color:var(--ink-faint);">(${bankPct}%)</span></span></div>
               <div class="home-stat"><span class="home-stat-n" style="color:#2f6f5e;">${correct}</span><span class="home-stat-l">Correctas</span></div>
               <div class="home-stat"><span class="home-stat-n" style="color:#8c3a34;">${incorrect}</span><span class="home-stat-l">Incorrectas</span></div>
             </div>
@@ -283,11 +321,11 @@ export function mountHome(root, opts = {}) {
           <h2 class="home-subhead">Repasa y practica</h2>
           <div class="home-study-box">
             <div class="home-study-col">
-              <h3 class="home-study-col-title">Fichas de repaso</h3>
+              <h3 class="home-study-col-title">Fichas de repaso <button class="home-help-btn" onclick="rmOpenHelp('fichas')" aria-label="Cómo funcionan las fichas de repaso" title="Cómo funciona">?</button></h3>
               <div id="fc-deck-root">${loadingSkeleton()}</div>
             </div>
             <div class="home-study-col">
-              <h3 class="home-study-col-title">Exámenes simulados</h3>
+              <h3 class="home-study-col-title">Exámenes simulados <button class="home-help-btn" onclick="rmOpenHelp('examen')" aria-label="Cómo funcionan los exámenes simulados" title="Cómo funciona">?</button></h3>
               <div id="exam-root">${loadingSkeleton()}</div>
             </div>
           </div>
