@@ -73,6 +73,17 @@ established semantic clinical colors) or an `<img>` pointing at `topics/<topic>/
 never for anything asserting a clinical fact, and never disclosed as AI-generated anywhere in the
 app's visible text (explicit product decision).
 
+**Quiz questions** (`topic.study.quiz`, from each topic's `study.js`): a flat array mixing
+plain questions (`{ q, options, correct, explanation, dificultad }`) and multi-step cascade cases
+(`{ type: 'cascade', vignette, steps: [{ q, options, correct }], explanation, dificultad }`). Any
+task that writes or edits an `study.js` `quiz` array — new topic, revision, added questions —
+**must** follow `.claude/skills/reglas-preguntas/SKILL.md` (option-writing rules: same logical
+category across options, comparable length/detail so the correct answer isn't identifiable by
+being the longest/most technical, plausible distractors, no grammatical/semantic tells, and the
+position of `correct` distributed with no discernible pattern across the whole array — check by
+listing all `correct` indices in order before considering the file done). This applies always,
+not only when the user explicitly asks for it.
+
 **Calculator contract** (`engine/calculators.js` consumes this from every topic's
 `calculators.js`, plus `engine/general-calc.js` for MI-wide calculators and
 `protocols/vpo-calc.js` for VPO): a descriptor

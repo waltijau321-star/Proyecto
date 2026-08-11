@@ -2,7 +2,7 @@
    Estrategia: cache-first para el "app shell" y los módulos, con actualización en segundo plano.
    CACHE_VERSION se calcula automáticamente a partir del contenido de CORE: correr
    .claude/bump-cache-version.ps1 después de cambiar cualquier archivo cacheado. */
-const CACHE_VERSION = 'residentemed-b6c0b71a5a';
+const CACHE_VERSION = 'residentemed-df335d4175';
 const CORE = [
   './',
   './index.html',
@@ -41,9 +41,35 @@ const CORE = [
   './topics/vasopresores-sedantes/content.js',
   './topics/vasopresores-sedantes/calculators.js',
   './topics/vasopresores-sedantes/study.js',
+  './topics/historia-clinica/content.js',
+  './topics/historia-clinica/calculators.js',
+  './topics/historia-clinica/study.js',
+  './topics/historia-clinica/assets/dolor-referido-infografia.png',
+  './topics/historia-clinica/assets/socrates-ilustracion.png',
+  './topics/exploracion-cardiovascular/content.js',
+  './topics/exploracion-cardiovascular/calculators.js',
+  './topics/exploracion-cardiovascular/study.js',
   './topics/exploracion-respiratoria/content.js',
   './topics/exploracion-respiratoria/calculators.js',
   './topics/exploracion-respiratoria/study.js',
+  './topics/exploracion-abdominal/content.js',
+  './topics/exploracion-abdominal/calculators.js',
+  './topics/exploracion-abdominal/study.js',
+  './topics/exploracion-neurologica/content.js',
+  './topics/exploracion-neurologica/calculators.js',
+  './topics/exploracion-neurologica/study.js',
+  './topics/exploracion-piel-faneras/content.js',
+  './topics/exploracion-piel-faneras/calculators.js',
+  './topics/exploracion-piel-faneras/study.js',
+  './topics/exploracion-osteoarticular/content.js',
+  './topics/exploracion-osteoarticular/calculators.js',
+  './topics/exploracion-osteoarticular/study.js',
+  './topics/exploracion-cabeza-cuello/content.js',
+  './topics/exploracion-cabeza-cuello/calculators.js',
+  './topics/exploracion-cabeza-cuello/study.js',
+  './topics/signos-clasicos/content.js',
+  './topics/signos-clasicos/calculators.js',
+  './topics/signos-clasicos/study.js',
   './protocols/protocols.js',
   './protocols/vpo-calc.js'
 ];

@@ -256,9 +256,8 @@ export function mountHome(root, opts = {}) {
 
   root.innerHTML = `
     <div class="home-hero">
-      <img src="icons/icon-192.png" alt="MIOsler" class="home-logo">
       <h1>MIOsler</h1>
-      <p class="home-desc">Plataforma de estudio para residentes de Medicina Interna. Incluye mapas conceptuales, calculadoras clínicas validadas, protocolos de manejo, valoración preoperatoria y autoevaluación por tema, todo basado en guías internacionales recientes.</p>
+      <img src="icons/icon-192.png" alt="MIOsler" class="home-logo">
     </div>
 
     <div class="sec-body">

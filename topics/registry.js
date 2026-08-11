@@ -37,11 +37,67 @@ export const registry = [
     ])
   },
   {
+    id: 'exploracion-cardiovascular', titulo: 'Exploración Cardiovascular',
+    load: () => Promise.all([
+      import('./exploracion-cardiovascular/content.js'),
+      import('./exploracion-cardiovascular/calculators.js'),
+      import('./exploracion-cardiovascular/study.js')
+    ])
+  },
+  {
     id: 'exploracion-respiratoria', titulo: 'Exploración Respiratoria',
     load: () => Promise.all([
       import('./exploracion-respiratoria/content.js'),
       import('./exploracion-respiratoria/calculators.js'),
       import('./exploracion-respiratoria/study.js')
+    ])
+  },
+  {
+    id: 'exploracion-abdominal', titulo: 'Exploración Abdominal',
+    load: () => Promise.all([
+      import('./exploracion-abdominal/content.js'),
+      import('./exploracion-abdominal/calculators.js'),
+      import('./exploracion-abdominal/study.js')
+    ])
+  },
+  {
+    id: 'exploracion-neurologica', titulo: 'Exploración Neurológica',
+    load: () => Promise.all([
+      import('./exploracion-neurologica/content.js'),
+      import('./exploracion-neurologica/calculators.js'),
+      import('./exploracion-neurologica/study.js')
+    ])
+  },
+  {
+    id: 'exploracion-piel-faneras', titulo: 'Exploración de Piel y Faneras',
+    load: () => Promise.all([
+      import('./exploracion-piel-faneras/content.js'),
+      import('./exploracion-piel-faneras/calculators.js'),
+      import('./exploracion-piel-faneras/study.js')
+    ])
+  },
+  {
+    id: 'exploracion-osteoarticular', titulo: 'Exploración Osteoarticular y de Extremidades',
+    load: () => Promise.all([
+      import('./exploracion-osteoarticular/content.js'),
+      import('./exploracion-osteoarticular/calculators.js'),
+      import('./exploracion-osteoarticular/study.js')
+    ])
+  },
+  {
+    id: 'exploracion-cabeza-cuello', titulo: 'Exploración de Cabeza, Cuello y Ganglios',
+    load: () => Promise.all([
+      import('./exploracion-cabeza-cuello/content.js'),
+      import('./exploracion-cabeza-cuello/calculators.js'),
+      import('./exploracion-cabeza-cuello/study.js')
+    ])
+  },
+  {
+    id: 'signos-clasicos', titulo: 'Signos y Maniobras Clásicas',
+    load: () => Promise.all([
+      import('./signos-clasicos/content.js'),
+      import('./signos-clasicos/calculators.js'),
+      import('./signos-clasicos/study.js')
     ])
   }
 ];

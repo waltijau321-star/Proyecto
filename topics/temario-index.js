@@ -14,16 +14,30 @@ const SEMIOLOGIA_CLUSTERS = [
   { name: 'Historia clínica y anamnesis dirigida', items: [
     { label: 'Historia clínica y anamnesis dirigida (estructura, interrogatorio por aparatos y sistemas, semiología del síntoma guía)', topicId: 'historia-clinica' }
   ] },
-  { name: 'Exploración cardiovascular', items: ['Inspección y palpación del precordio', 'Auscultación cardiaca: ruidos, soplos y extratonos', 'Pulsos arteriales periféricos', 'Presión venosa yugular y reflujo hepatoyugular'] },
+  { name: 'Exploración cardiovascular', items: [
+    { label: 'Exploración cardiovascular (precordio, pulsos, presión venosa yugular, ruidos, soplos y extratonos)', topicId: 'exploracion-cardiovascular' }
+  ] },
   { name: 'Exploración respiratoria', items: [
     { label: 'Exploración respiratoria (inspección, palpación, percusión y auscultación: ruidos normales y agregados)', topicId: 'exploracion-respiratoria' }
   ] },
-  { name: 'Exploración abdominal', items: ['Inspección y auscultación abdominal', 'Percusión: timpanismo, matidez, oleada ascítica', 'Palpación superficial y profunda', 'Signos específicos (Murphy, McBurney, Blumberg, Rovsing)', 'Hepatomegalia y esplenomegalia'] },
-  { name: 'Exploración neurológica', items: ['Estado mental y nivel de conciencia', 'Pares craneales', 'Fuerza, tono y reflejos osteotendinosos', 'Sensibilidad y coordinación', 'Marcha y equilibrio', 'Signos meníngeos (Kernig, Brudzinski)', 'Reflejo de Babinski y otros signos patológicos'] },
-  { name: 'Exploración de piel y faneras', items: ['Lesiones dermatológicas elementales', 'Regla ABCDE del melanoma', 'Exploración de uñas y cabello'] },
-  { name: 'Exploración osteoarticular y de extremidades', items: ['Inspección y palpación articular', 'Edema y signos de trombosis venosa profunda (Homans)', 'Exploración vascular periférica'] },
-  { name: 'Exploración de cabeza, cuello y ganglios', items: ['Palpación tiroidea', 'Cadenas ganglionares y adenopatías', 'Ingurgitación yugular'] },
-  { name: 'Signos y maniobras clásicas (referencia transversal)', items: ['Índice de signos con epónimo por especialidad (Murphy, Homans, Kernig, Brudzinski, McBurney, Rovsing, entre otros)'] }
+  { name: 'Exploración abdominal', items: [
+    { label: 'Exploración abdominal (IAPP, regiones, ascitis, hepatomegalia/esplenomegalia, signos de Murphy/McBurney/Rovsing/Blumberg)', topicId: 'exploracion-abdominal' }
+  ] },
+  { name: 'Exploración neurológica', items: [
+    { label: 'Exploración neurológica (estado mental, Glasgow, pares craneales, fuerza/tono/reflejos, sensibilidad, coordinación, marcha, signos meníngeos y de liberación piramidal)', topicId: 'exploracion-neurologica' }
+  ] },
+  { name: 'Exploración de piel y faneras', items: [
+    { label: 'Exploración de piel y faneras (lesiones elementales, patrones de distribución, ABCDE del melanoma, neoplasias cutáneas, uñas y cabello)', topicId: 'exploracion-piel-faneras' }
+  ] },
+  { name: 'Exploración osteoarticular y de extremidades', items: [
+    { label: 'Exploración osteoarticular y de extremidades (articular, derrame, patrones, edema, TVP, insuficiencia venosa, ITB, isquemia arterial aguda, úlceras)', topicId: 'exploracion-osteoarticular' }
+  ] },
+  { name: 'Exploración de cabeza, cuello y ganglios', items: [
+    { label: 'Exploración de cabeza, cuello y ganglios (tiroides, bocio, cadenas ganglionares, ganglio de Virchow, masas cervicales, soplo carotídeo)', topicId: 'exploracion-cabeza-cuello' }
+  ] },
+  { name: 'Signos y maniobras clásicas (referencia transversal)', items: [
+    { label: 'Signos y maniobras clásicas (índice maestro + tétrada de insuficiencia aórtica, Courvoisier, Kehr, Chvostek/Trousseau, Lhermitte, Battle, Hoover, Gowers, Auspitz, Darier, Levine)', topicId: 'signos-clasicos' }
+  ] }
 ];
 
 const FALLAS_ORGANICAS_ITEMS = [

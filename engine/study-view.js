@@ -237,7 +237,11 @@ function joinBlocks(blocks) {
 }
 function openModal(i) {
   const c = D.complicaciones[i];
-  const L = Object.assign({}, DEFAULT_LABELS, TOPIC.modalLabels || {});
+  // c.modalLabels permite que UN ítem puntual reetiquete un campo genérico para su propio caso
+  // (además del reetiquetado global de TOPIC.modalLabels), sin que el resto de ítems del mismo
+  // tema se vean afectados — necesario cuando un tema mezcla ítems de naturaleza distinta bajo
+  // los mismos campos genéricos (ej. historia-clinica: ítems de "metodología" vs. "síntoma").
+  const L = Object.assign({}, DEFAULT_LABELS, TOPIC.modalLabels || {}, c.modalLabels || {});
   const cites = COMP_CITES[c.nombre] || {};
   const pos = COMP_ORDER.indexOf(c.nombre);
   const prevIdx = findComp(COMP_ORDER[(pos - 1 + COMP_ORDER.length) % COMP_ORDER.length]);
