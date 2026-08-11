@@ -37,15 +37,24 @@ const SECTION_TITLES = {
   examen: ['Examen simulado', 'MIOsler']
 };
 
-/* ---------- Botón "Volver al temario" (reemplaza el selector de tema en Estudio) ---------- */
+/* ---------- Botones "Volver al temario" / "Siguiente tema" (reemplazan el selector de tema en
+   Estudio, que ya no tiene pestaña propia en el nav inferior) ---------- */
 function renderTopicSwitchSlot(sec) {
   const slot = document.getElementById('topic-switch-slot');
   if (!slot) return;
-  slot.innerHTML = sec === 'estudio'
-    ? `<button id="btn-volver-temario" class="home-quick">← Volver al temario</button>`
-    : '';
+  if (sec !== 'estudio' || !currentTopic) { slot.innerHTML = ''; return; }
+  // Siguiente tema = el que sigue a currentTopic en el orden de registry.js, con vuelta al
+  // inicio tras el último (mismo criterio de "anterior/siguiente" que ya usa el modal de
+  // complicaciones en study-view.js). Si solo hay un tema construido, no hay a dónde ir.
+  const idx = registry.findIndex(t => t.id === currentTopic.meta.id);
+  const next = idx >= 0 && registry.length > 1 ? registry[(idx + 1) % registry.length] : null;
+  slot.innerHTML = `
+    <button id="btn-volver-temario" class="home-quick">← Volver al temario</button>
+    ${next ? `<button id="btn-siguiente-tema" class="home-quick" title="${next.titulo}">Siguiente: ${next.titulo} →</button>` : ''}`;
   const btn = document.getElementById('btn-volver-temario');
   if (btn) btn.addEventListener('click', () => showSection('inicio'));
+  const btnNext = document.getElementById('btn-siguiente-tema');
+  if (btnNext && next) btnNext.addEventListener('click', async () => { await selectTopic(next.id); showSection('estudio'); });
 }
 
 /* ---------- Navegación de secciones ---------- */
