@@ -27,6 +27,12 @@ export const meta = {
 
 export const definicionText = 'La exploración cervical integra 3 estructuras anatómicamente vecinas pero funcionalmente independientes: la glándula tiroides (inspección y palpación, en busca de bocio o nódulos), las cadenas ganglionares linfáticas (cuya localización orienta directamente el sitio de drenaje afectado) y las estructuras vasculares del cuello (arterias carótidas, venas yugulares). A esto se suman las masas cervicales congénitas más frecuentes (quiste tirogloso, quiste branquial), distinguibles por su localización y su comportamiento con maniobras dinámicas simples. Es, además, uno de los pocos exámenes físicos capaces de sugerir una neoplasia interna oculta a distancia —el ganglio de Virchow es el ejemplo clásico— antes de cualquier estudio de imagen.';
 
+// Se omite el texto genérico del motor para "Abordaje Diagnóstico" ("Historia clínica,
+// laboratorio general, estudios dirigidos, métodos no invasivos e imagen, en orden de
+// invasividad creciente") — pensado para el abordaje diagnóstico de una ENFERMEDAD, no aplica
+// a un tema de técnica de exploración física (mismo criterio ya usado en historia-clinica/).
+export const diagnosticoIntro = '';
+
 export const bibliografia = [
   "Bickley LS, Szilagyi PG, Hoffman RM. Bates' Guide to Physical Examination and History Taking. 13th ed. Philadelphia: Wolters Kluwer; 2021.",
   'Argente HA, Álvarez ME. Semiología Médica: Fisiopatología, Semiotecnia y Propedéutica. 2nd ed. Buenos Aires: Editorial Médica Panamericana; 2013.',

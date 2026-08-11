@@ -19,6 +19,12 @@ export const meta = {
 
 export const definicionText = 'La exploración respiratoria sigue el orden clásico de la propedéutica torácica: inspección, palpación, percusión y auscultación (IPPA) — a diferencia de la exploración cardiovascular, aquí la percusión SÍ mantiene vigencia clínica plena porque delimita con precisión el aire, el líquido y la consolidación dentro del tórax. Cada uno de los 4 pasos aporta información distinta y ninguno sustituye a los demás: la inspección detecta el patrón y el trabajo respiratorio antes de tocar al paciente, la palpación confirma la simetría de la expansión y la transmisión de las vibraciones vocales, la percusión distingue aire/consolidación/líquido, y la auscultación integra todo lo anterior con el sonido del flujo aéreo. Bien ejecutada, permite reconocer a la cabecera los 4 grandes síndromes pleuropulmonares (consolidación, derrame, atelectasia, hiperinsuflación/neumotórax) antes de cualquier radiografía.';
 
+// Se omite el texto genérico del motor para "Abordaje Diagnóstico" ("Historia clínica,
+// laboratorio general, estudios dirigidos, métodos no invasivos e imagen, en orden de
+// invasividad creciente") — pensado para el abordaje diagnóstico de una ENFERMEDAD, no aplica
+// a un tema de técnica de exploración física (mismo criterio ya usado en historia-clinica/).
+export const diagnosticoIntro = '';
+
 export const bibliografia = [
   "Bickley LS, Szilagyi PG, Hoffman RM. Bates' Guide to Physical Examination and History Taking. 13th ed. Philadelphia: Wolters Kluwer; 2021.",
   'Argente HA, Álvarez ME. Semiología Médica: Fisiopatología, Semiotecnia y Propedéutica. 2nd ed. Buenos Aires: Editorial Médica Panamericana; 2013.',

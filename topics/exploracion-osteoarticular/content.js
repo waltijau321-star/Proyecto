@@ -22,6 +22,12 @@ export const meta = {
 
 export const definicionText = 'La exploración de las extremidades integra 3 sistemas de examen distintos sobre la misma región anatómica: el osteoarticular (inspección y palpación de articulaciones, rango de movimiento, maniobras específicas de estabilidad), el venoso (edema, signos de trombosis venosa profunda, insuficiencia venosa crónica) y el arterial (pulsos, índice tobillo-brazo, signos de isquemia). Cada uno responde preguntas clínicas distintas —¿es la articulación o la estructura periarticular? ¿es el edema de origen sistémico o local? ¿hay compromiso arterial agudo o crónico?— y ninguno sustituye a los otros, aunque coexistan en el mismo miembro explorado.';
 
+// Se omite el texto genérico del motor para "Abordaje Diagnóstico" ("Historia clínica,
+// laboratorio general, estudios dirigidos, métodos no invasivos e imagen, en orden de
+// invasividad creciente") — pensado para el abordaje diagnóstico de una ENFERMEDAD, no aplica
+// a un tema de técnica de exploración física (mismo criterio ya usado en historia-clinica/).
+export const diagnosticoIntro = '';
+
 export const bibliografia = [
   "Bickley LS, Szilagyi PG, Hoffman RM. Bates' Guide to Physical Examination and History Taking. 13th ed. Philadelphia: Wolters Kluwer; 2021.",
   'Argente HA, Álvarez ME. Semiología Médica: Fisiopatología, Semiotecnia y Propedéutica. 2nd ed. Buenos Aires: Editorial Médica Panamericana; 2013.',

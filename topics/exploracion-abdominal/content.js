@@ -23,6 +23,12 @@ export const meta = {
 
 export const definicionText = 'La exploración abdominal sigue un orden que invierte el de la exploración torácica: inspección, auscultación, percusión y palpación (IAPP), porque percutir o palpar antes de auscultar estimula mecánicamente el intestino y puede alterar de forma artificial la frecuencia y el carácter de los ruidos hidroaéreos que se busca evaluar. Integra información visual (contorno, cicatrices, red venosa), acústica (ruidos hidroaéreos, soplos vasculares), de percusión (timpanismo, matidez hepática y esplénica, ascitis) y táctil (tono de la pared, visceromegalias, puntos y signos dolorosos específicos), y sigue siendo la herramienta de mayor rendimiento y menor costo para orientar un abdomen agudo, una hepatopatía o una visceromegalia antes de cualquier estudio de imagen.';
 
+// Se omite el texto genérico del motor para "Abordaje Diagnóstico" ("Historia clínica,
+// laboratorio general, estudios dirigidos, métodos no invasivos e imagen, en orden de
+// invasividad creciente") — pensado para el abordaje diagnóstico de una ENFERMEDAD, no aplica
+// a un tema de técnica de exploración física (mismo criterio ya usado en historia-clinica/).
+export const diagnosticoIntro = '';
+
 export const bibliografia = [
   "Bickley LS, Szilagyi PG, Hoffman RM. Bates' Guide to Physical Examination and History Taking. 13th ed. Philadelphia: Wolters Kluwer; 2021.",
   'Argente HA, Álvarez ME. Semiología Médica: Fisiopatología, Semiotecnia y Propedéutica. 2nd ed. Buenos Aires: Editorial Médica Panamericana; 2013.',

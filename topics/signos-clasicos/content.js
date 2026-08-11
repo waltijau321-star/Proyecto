@@ -29,6 +29,12 @@ export const meta = {
 
 export const definicionText = 'Los signos con epónimo son atajos diagnósticos: cada uno condensa, en el nombre de quien lo describió, un mecanismo fisiopatológico específico y un patrón clínico reconocible. Muchos ya están construidos a fondo dentro de su tema de sistema correspondiente (Murphy en Abdominal, Kernig/Brudzinski en Neurológica, Homans en Osteoarticular, Pemberton en Cabeza y Cuello, Nikolsky en Piel y Faneras). Este tema cumple 2 funciones: sirve de índice maestro transversal para ubicar rápidamente cualquiera de ellos, y enseña —con la misma profundidad fisiopatológica del resto de Semiología— un grupo de signos clásicos de alto rendimiento que no vive en ningún otro tema: la tétrada periférica de la insuficiencia aórtica severa, Courvoisier, Kehr, Chvostek, los dos "signos de Trousseau" (una trampa de nomenclatura real y frecuente), Lhermitte, Battle/ojos de mapache, Hoover, Gowers, Auspitz, Darier y Levine.';
 
+// Se omite el texto genérico del motor para "Abordaje Diagnóstico" ("Historia clínica,
+// laboratorio general, estudios dirigidos, métodos no invasivos e imagen, en orden de
+// invasividad creciente") — pensado para el abordaje diagnóstico de una ENFERMEDAD, no aplica
+// a un tema de técnica de exploración física (mismo criterio ya usado en historia-clinica/).
+export const diagnosticoIntro = '';
+
 export const bibliografia = [
   "Bickley LS, Szilagyi PG, Hoffman RM. Bates' Guide to Physical Examination and History Taking. 13th ed. Philadelphia: Wolters Kluwer; 2021.",
   'Argente HA, Álvarez ME. Semiología Médica: Fisiopatología, Semiotecnia y Propedéutica. 2nd ed. Buenos Aires: Editorial Médica Panamericana; 2013.',

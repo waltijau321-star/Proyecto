@@ -21,6 +21,12 @@ export const meta = {
 
 export const definicionText = 'La exploración neurológica evalúa, en orden, el estado mental y el nivel de conciencia, los 12 pares craneales, el sistema motor (fuerza, tono, reflejos), el sistema sensitivo, la coordinación, la marcha y, cuando hay sospecha clínica, los signos meníngeos y los reflejos patológicos de liberación piramidal. A diferencia de otros sistemas, aquí la secuencia se adapta al motivo de consulta: ante alteración del estado de conciencia, este se valora primero y de forma prioritaria (con la Escala de Coma de Glasgow) antes de continuar con el resto. Bien ejecutada, permite localizar una lesión dentro del sistema nervioso central o periférico —muchas veces con precisión anatómica— antes de cualquier estudio de neuroimagen.';
 
+// Se omite el texto genérico del motor para "Abordaje Diagnóstico" ("Historia clínica,
+// laboratorio general, estudios dirigidos, métodos no invasivos e imagen, en orden de
+// invasividad creciente") — pensado para el abordaje diagnóstico de una ENFERMEDAD, no aplica
+// a un tema de técnica de exploración física (mismo criterio ya usado en historia-clinica/).
+export const diagnosticoIntro = '';
+
 export const bibliografia = [
   "Bickley LS, Szilagyi PG, Hoffman RM. Bates' Guide to Physical Examination and History Taking. 13th ed. Philadelphia: Wolters Kluwer; 2021.",
   'Argente HA, Álvarez ME. Semiología Médica: Fisiopatología, Semiotecnia y Propedéutica. 2nd ed. Buenos Aires: Editorial Médica Panamericana; 2013.',

@@ -21,6 +21,12 @@ export const meta = {
 
 export const definicionText = 'La exploración de piel y faneras evalúa, con inspección y palpación sistemáticas de toda la superficie cutánea (incluyendo mucosas, cuero cabelludo, uñas y pliegues), la morfología de las lesiones elementales (primarias y secundarias), su patrón de distribución y configuración, y las estructuras anexas (uñas y cabello). No es solo un examen "de superficie": la piel es frecuentemente el primer órgano donde se manifiestan enfermedades sistémicas (hepatopatía, cardiopatía, endocrinopatía, enfermedad autoinmune, neoplasia interna), y reconocer el patrón semiológico correcto —más que memorizar nombres de lesiones aisladas— permite localizar el mecanismo subyacente y distinguir un hallazgo benigno de uno que amerita biopsia urgente.';
 
+// Se omite el texto genérico del motor para "Abordaje Diagnóstico" ("Historia clínica,
+// laboratorio general, estudios dirigidos, métodos no invasivos e imagen, en orden de
+// invasividad creciente") — pensado para el abordaje diagnóstico de una ENFERMEDAD, no aplica
+// a un tema de técnica de exploración física (mismo criterio ya usado en historia-clinica/).
+export const diagnosticoIntro = '';
+
 export const bibliografia = [
   "Bickley LS, Szilagyi PG, Hoffman RM. Bates' Guide to Physical Examination and History Taking. 13th ed. Philadelphia: Wolters Kluwer; 2021.",
   'Argente HA, Álvarez ME. Semiología Médica: Fisiopatología, Semiotecnia y Propedéutica. 2nd ed. Buenos Aires: Editorial Médica Panamericana; 2013.',

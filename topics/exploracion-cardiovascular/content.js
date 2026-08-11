@@ -26,6 +26,12 @@ export const meta = {
 
 export const definicionText = 'La exploración cardiovascular es la evaluación sistemática del sistema circulatorio mediante inspección, palpación y auscultación (la percusión cardiaca cayó en desuso con la difusión del ecocardiograma). Sigue un orden fijo — precordio, pulsos arteriales periféricos, presión venosa yugular y, al final, auscultación en varias posiciones — porque cada maniobra acentúa hallazgos distintos y omitir una posición es la causa más frecuente de pasar por alto un hallazgo real (ej. un soplo diastólico que solo se ausculta sentado e inclinado hacia adelante). Bien ejecutada, sigue teniendo un rendimiento diagnóstico comparable al de muchos estudios de gabinete para valvulopatías, insuficiencia cardiaca y arritmias, y orienta qué estudio complementario (ecocardiograma, ECG, Holter) pedir primero y con qué prioridad.';
 
+// Se omite el texto genérico del motor para "Abordaje Diagnóstico" ("Historia clínica,
+// laboratorio general, estudios dirigidos, métodos no invasivos e imagen, en orden de
+// invasividad creciente") — pensado para el abordaje diagnóstico de una ENFERMEDAD, no aplica
+// a un tema de técnica de exploración física (mismo criterio ya usado en historia-clinica/).
+export const diagnosticoIntro = '';
+
 export const bibliografia = [
   "Bickley LS, Szilagyi PG, Hoffman RM. Bates' Guide to Physical Examination and History Taking. 13th ed. Philadelphia: Wolters Kluwer; 2021.",
   'Argente HA, Álvarez ME. Semiología Médica: Fisiopatología, Semiotecnia y Propedéutica. 2nd ed. Buenos Aires: Editorial Médica Panamericana; 2013.',
