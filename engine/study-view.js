@@ -329,7 +329,7 @@ function showOverlay() {
 // frente a las preguntas ya vencidas para repaso espaciado (dueQuestionIndices), sin sacar
 // ninguna del mazo.
 function itemWeight(item) { return item.type === 'cascade' ? item.steps.length : 1; }
-let quizState = { deck: [], qIndex: 0, score: 0, answered: false, subStep: 0, subAnswers: [] };
+let quizState = { deck: [], qIndex: 0, score: 0, answered: false, subStep: 0, subAnswers: [], selected: null };
 
 function priorityShuffle(arr, dueSet) {
   return arr.map((v, i) => [Math.random() * (dueSet.has(i) ? 0.5 : 1), v])
@@ -343,7 +343,7 @@ function openQuiz() {
 function startQuiz() {
   const due = new Set(dueQuestionIndices(TOPIC.meta.id, QUIZ_QUESTIONS.length));
   const deck = priorityShuffle(QUIZ_QUESTIONS, due);
-  quizState = { deck, qIndex: 0, score: 0, answered: false, subStep: 0, subAnswers: [] };
+  quizState = { deck, qIndex: 0, score: 0, answered: false, subStep: 0, subAnswers: [], selected: null };
   trackEvent('quizStart');
   renderQuiz();
 }
@@ -369,7 +369,8 @@ function renderQuiz() {
     <button class="modal-close" onclick="closeModal()">✕</button>
     <span class="modal-tag" style="color:#3d5a73;">Pregunta ${quizState.qIndex + 1} / ${deck.length} · Puntaje: ${quizState.score}</span>
     <h2 style="font-size:1.3rem;">${item.q}</h2>
-    <div class="quiz-options" id="quiz-options">${item.options.map((opt, i) => `<button class="quiz-opt" onclick="answerQuiz(${i})">${opt}</button>`).join('')}</div>
+    <div class="quiz-options" id="quiz-options">${item.options.map((opt, i) => `<button class="quiz-opt" onclick="selectQuizOption(${i})">${opt}</button>`).join('')}</div>
+    <button class="calc-copy" id="quiz-confirm-btn" disabled onclick="confirmQuizAnswer()">Confirmar elección</button>
     <div id="quiz-feedback"></div>`;
 }
 function renderCascadeStep(item) {
@@ -380,8 +381,23 @@ function renderCascadeStep(item) {
     <span class="modal-tag" style="color:#3d5a73;">Caso ${quizState.qIndex + 1} / ${quizState.deck.length} · Paso ${quizState.subStep + 1} / ${item.steps.length}</span>
     <div class="case-vignette">${item.vignette}</div>
     <h2 style="font-size:1.3rem;">${step.q}</h2>
-    <div class="quiz-options" id="quiz-options">${step.options.map((opt, i) => `<button class="quiz-opt" onclick="answerQuiz(${i})">${opt}</button>`).join('')}</div>
+    <div class="quiz-options" id="quiz-options">${step.options.map((opt, i) => `<button class="quiz-opt" onclick="selectQuizOption(${i})">${opt}</button>`).join('')}</div>
+    <button class="calc-copy" id="quiz-confirm-btn" disabled onclick="confirmQuizAnswer()">Confirmar elección</button>
     <div id="quiz-feedback"></div>`;
+}
+// Seleccionar una opción solo la marca (evita que un mis-clic la envíe de una vez); hay que
+// pulsar "Confirmar elección" para que en verdad se califique. Compartido entre pregunta única
+// y cada paso de una cascada, ya que ambas usan el mismo #quiz-options/quizState.
+function selectQuizOption(i) {
+  if (quizState.answered) return;
+  quizState.selected = i;
+  document.querySelectorAll('#quiz-options .quiz-opt').forEach((btn, idx) => btn.classList.toggle('selected', idx === i));
+  const confirmBtn = document.getElementById('quiz-confirm-btn');
+  if (confirmBtn) confirmBtn.disabled = false;
+}
+function confirmQuizAnswer() {
+  if (quizState.answered || quizState.selected === null) return;
+  answerQuiz(quizState.selected);
 }
 function answerQuiz(i) {
   if (quizState.answered) return;
@@ -394,9 +410,12 @@ function answerQuiz(i) {
   updateQuizSRS(TOPIC.meta.id, QUIZ_QUESTIONS.indexOf(item), correct);
   document.querySelectorAll('#quiz-options .quiz-opt').forEach((btn, idx) => {
     btn.disabled = true;
+    btn.classList.remove('selected');
     if (idx === item.correct) btn.classList.add('correct');
     else if (idx === i) btn.classList.add('incorrect');
   });
+  const confirmBtn1 = document.getElementById('quiz-confirm-btn');
+  if (confirmBtn1) confirmBtn1.remove();
   document.getElementById('quiz-feedback').innerHTML = `
     <div class="quiz-feedback-box ${correct ? 'correct' : 'incorrect'}"><strong>${correct ? 'Correcto.' : 'Incorrecto.'}</strong> ${item.explanation}</div>
     <button class="calc-copy" style="margin-top:14px;" onclick="nextQuiz()">${quizState.qIndex + 1 < quizState.deck.length ? 'Siguiente →' : 'Ver resultado →'}</button>`;
@@ -406,7 +425,9 @@ function answerQuiz(i) {
 // junta recién al terminar el último paso, como pidió el usuario.
 function answerCascade(item, i) {
   quizState.subAnswers[quizState.subStep] = i;
-  document.querySelectorAll('#quiz-options .quiz-opt').forEach(btn => { btn.disabled = true; });
+  document.querySelectorAll('#quiz-options .quiz-opt').forEach(btn => { btn.disabled = true; btn.classList.remove('selected'); });
+  const confirmBtn2 = document.getElementById('quiz-confirm-btn');
+  if (confirmBtn2) confirmBtn2.remove();
   const isLastStep = quizState.subStep + 1 >= item.steps.length;
   if (!isLastStep) {
     document.getElementById('quiz-feedback').innerHTML = `
@@ -430,8 +451,8 @@ function answerCascade(item, i) {
     <div class="quiz-feedback-box ${allCorrect ? 'correct' : 'incorrect'}"><strong>${correctCount} / ${item.steps.length} correctas en este caso.</strong> ${item.explanation}</div>
     <button class="calc-copy" style="margin-top:14px;" onclick="nextQuiz()">${quizState.qIndex + 1 < quizState.deck.length ? 'Siguiente →' : 'Ver resultado →'}</button>`;
 }
-function nextCascadeStep() { quizState.subStep++; quizState.answered = false; renderQuiz(); }
-function nextQuiz() { quizState.qIndex++; quizState.subStep = 0; quizState.subAnswers = []; quizState.answered = false; renderQuiz(); }
+function nextCascadeStep() { quizState.subStep++; quizState.answered = false; quizState.selected = null; renderQuiz(); }
+function nextQuiz() { quizState.qIndex++; quizState.subStep = 0; quizState.subAnswers = []; quizState.answered = false; quizState.selected = null; renderQuiz(); }
 
 /* ---------------- Progreso acumulado del quiz (persistencia sincronizada, para Inicio) ---------------- */
 const PROGRESS_KEY = 'rm:quiz-progress';
@@ -534,8 +555,8 @@ function rateFlashcard(rating) {
 }
 
 /* ---------------- Caso clínico ---------------- */
-let caseState = { step: 0, answered: false };
-function openCase() { caseState = { step: 0, answered: false }; trackEvent('caseStart'); renderCase(); showOverlay(); }
+let caseState = { step: 0, answered: false, selected: null };
+function openCase() { caseState = { step: 0, answered: false, selected: null }; trackEvent('caseStart'); renderCase(); showOverlay(); }
 function renderCase() {
   const m = document.getElementById('modal');
   m.style.setProperty('--modal-accent', '#8c3a34');
@@ -555,8 +576,20 @@ function renderCase() {
     <button class="modal-close" onclick="closeModal()">✕</button>
     <span class="modal-tag" style="color:#8c3a34;">Caso clínico · Paso ${caseState.step + 1} / ${CASE_STEPS.length}</span>
     <div class="case-vignette">${s.vignette}</div>
-    <div class="quiz-options" id="case-options">${s.options.map((opt, i) => `<button class="quiz-opt" onclick="answerCase(${i})">${opt}</button>`).join('')}</div>
+    <div class="quiz-options" id="case-options">${s.options.map((opt, i) => `<button class="quiz-opt" onclick="selectCaseOption(${i})">${opt}</button>`).join('')}</div>
+    <button class="calc-copy" id="case-confirm-btn" disabled onclick="confirmCaseAnswer()">Confirmar elección</button>
     <div id="case-feedback"></div>`;
+}
+function selectCaseOption(i) {
+  if (caseState.answered) return;
+  caseState.selected = i;
+  document.querySelectorAll('#case-options .quiz-opt').forEach((btn, idx) => btn.classList.toggle('selected', idx === i));
+  const confirmBtn = document.getElementById('case-confirm-btn');
+  if (confirmBtn) confirmBtn.disabled = false;
+}
+function confirmCaseAnswer() {
+  if (caseState.answered || caseState.selected === null) return;
+  answerCase(caseState.selected);
 }
 function answerCase(i) {
   if (caseState.answered) return;
@@ -565,14 +598,17 @@ function answerCase(i) {
   const correct = i === s.correct;
   document.querySelectorAll('#case-options .quiz-opt').forEach((btn, idx) => {
     btn.disabled = true;
+    btn.classList.remove('selected');
     if (idx === s.correct) btn.classList.add('correct');
     else if (idx === i) btn.classList.add('incorrect');
   });
+  const confirmBtn = document.getElementById('case-confirm-btn');
+  if (confirmBtn) confirmBtn.remove();
   document.getElementById('case-feedback').innerHTML = `
     <div class="quiz-feedback-box ${correct ? 'correct' : 'incorrect'}"><strong>${correct ? 'Correcto.' : 'Revisa esto:'}</strong> ${s.explanation}</div>
     <button class="calc-copy" style="margin-top:14px;" onclick="nextCase()">${caseState.step + 1 < CASE_STEPS.length ? 'Continuar caso →' : 'Ver resumen →'}</button>`;
 }
-function nextCase() { caseState.step++; caseState.answered = false; renderCase(); }
+function nextCase() { caseState.step++; caseState.answered = false; caseState.selected = null; renderCase(); }
 
 /* ---------------- Estigmas ---------------- */
 function openStigma(i) {
@@ -713,9 +749,9 @@ export function mountStudy(topic) {
 /* ---------------- Handlers globales (para onclick inline) ---------------- */
 Object.assign(window, {
   jumpTo, jumpToEscala, highlightBib, openModal, closeModal,
-  openQuiz, startQuiz, answerQuiz, nextQuiz, nextCascadeStep,
+  openQuiz, startQuiz, selectQuizOption, confirmQuizAnswer, answerQuiz, nextQuiz, nextCascadeStep,
   openFlashcards, lockedFlashcardsNotice, flipFlashcard, rateFlashcard,
-  openCase, answerCase, nextCase,
+  openCase, selectCaseOption, confirmCaseAnswer, answerCase, nextCase,
   openStigma, runSearch, clearSearch
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });

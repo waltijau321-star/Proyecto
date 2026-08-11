@@ -54,7 +54,7 @@ document.addEventListener('click', (e) => {
   if (authGateActive && e.target && e.target.id === 'overlay') e.stopImmediatePropagation();
 }, true);
 
-export const RESIDENCY_YEARS = ['R1 (primer año)', 'R2 (segundo año)', 'R3 (tercer año)', 'R4 (cuarto año)', 'Adscrito / otro'];
+export const RESIDENCY_YEARS = ['MIP (interno de pregrado)', 'R1 (primer año)', 'R2 (segundo año)', 'R3 (tercer año)', 'R4 (cuarto año)', 'Adscrito / otro'];
 const REFERRAL_SOURCES = ['Redes sociales (Instagram, Facebook, X)', 'Recomendación de un colega o profesor', 'Búsqueda en Google', 'Congreso o evento académico', 'Otro'];
 // Excluye el bloque "R1" (acceso rápido) de la cuenta: sus ítems son los mismos que ya
 // se cuentan en su bloque temático de siempre, no temas nuevos.

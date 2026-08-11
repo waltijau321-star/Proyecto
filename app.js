@@ -9,6 +9,7 @@ import { generalCalculators } from './engine/general-calc.js';
 import { mountProtocols } from './engine/protocols.js';
 import { mountHome } from './engine/home.js';
 import { remainingToComplete } from './engine/quiz-srs.js';
+import { maybeShowSplash } from './engine/logo-splash.js';
 import { initAuth } from './engine/auth.js';
 import { initCloudSync } from './engine/cloud-sync.js';
 import { isAdmin, mountAdmin } from './engine/admin.js';
@@ -215,7 +216,13 @@ async function init() {
     // Si la URL ya traía un ?tema= válido, se conserva. Si no, se elige un tema por defecto
     // internamente (el primero del registro) pero SIN escribirlo en la URL — la URL queda
     // limpia hasta que el usuario elija un tema de verdad.
-    await selectTopic(initial, { reflectUrl: hasValidTemaParam });
+    // El splash de bienvenida corre en paralelo con la carga del tema inicial (no uno
+    // después del otro) para no duplicar tiempo de espera; Inicio se muestra recién cuando
+    // ambos terminan.
+    await Promise.all([
+      selectTopic(initial, { reflectUrl: hasValidTemaParam }),
+      maybeShowSplash()
+    ]);
     showSection('inicio');
     buildAndSetGlobalIndex();
 
