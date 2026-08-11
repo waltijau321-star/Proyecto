@@ -6,7 +6,6 @@ import { temarioBlocks } from './topics/temario-index.js';
 import { mountStudy, setGlobalSearch, slugify } from './engine/study-view.js';
 import { setCalcTopic, setGeneralCalcs, mountCalculators, mountAllCalculators } from './engine/calculators.js';
 import { generalCalculators } from './engine/general-calc.js';
-import { mountCalendar } from './engine/calendar.js';
 import { mountProtocols } from './engine/protocols.js';
 import { mountHome } from './engine/home.js';
 import { remainingToComplete } from './engine/quiz-srs.js';
@@ -24,7 +23,7 @@ import { protocols } from './protocols/protocols.js';
 setGeneralCalcs(generalCalculators);
 
 const vpoTopic = { meta: { accent: '#3d5a73' }, calculators: vpoCalculators, combinedNote: vpoCombinedNote };
-const mounted = { calendario: false, protocolos: false, vpo: false, calc: false };
+const mounted = { protocolos: false, vpo: false, calc: false };
 let currentTopic = null;
 
 // Títulos de encabezado para las secciones que no giran en torno a un solo tema
@@ -33,7 +32,6 @@ const SECTION_TITLES = {
   inicio: ['Inicio', ''],
   calc: ['Calculadoras', 'MIOsler'],
   protocolos: ['Protocolos', 'MIOsler'],
-  calendario: ['Calendario', 'MIOsler'],
   vpo: ['Valoración preoperatoria', 'MIOsler'],
   admin: ['Admin', 'MIOsler'],
   examen: ['Examen simulado', 'MIOsler']
@@ -70,7 +68,6 @@ function showSection(sec) {
     document.getElementById('app-subtitle').textContent = subtitle;
   }
 
-  if (sec === 'calendario' && !mounted.calendario) { mountCalendar(document.getElementById('cal-root')); mounted.calendario = true; }
   if (sec === 'protocolos' && !mounted.protocolos) { mountProtocols(document.getElementById('proto-root')); mounted.protocolos = true; }
   if (sec === 'vpo') {
     if (!mounted.vpo) {

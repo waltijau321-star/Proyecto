@@ -60,7 +60,7 @@ function renderAbout() {
   openModal(`
     <span class="modal-tag">Acerca de</span>
     <h2>MIOsler</h2>
-    <p class="fbody" style="color:var(--ink-dim); margin-bottom:14px;">Plataforma de estudio y apoyo para residentes de Medicina Interna: temario completo, autoevaluación por tema, calculadoras clínicas validadas, protocolos de manejo y calendario de guardias.</p>
+    <p class="fbody" style="color:var(--ink-dim); margin-bottom:14px;">Plataforma de estudio y apoyo para residentes de Medicina Interna: temario completo, autoevaluación por tema, calculadoras clínicas validadas y protocolos de manejo.</p>
     <p class="auth-note">Es material educativo: no sustituye el juicio clínico ni las guías de práctica vigentes en tu institución. Elaborado por el Dr. Walter Jáuregui.</p>
   `);
 }

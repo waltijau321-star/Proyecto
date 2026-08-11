@@ -2,7 +2,7 @@
    Estrategia: cache-first para el "app shell" y los módulos, con actualización en segundo plano.
    CACHE_VERSION se calcula automáticamente a partir del contenido de CORE: correr
    .claude/bump-cache-version.ps1 después de cambiar cualquier archivo cacheado. */
-const CACHE_VERSION = 'residentemed-92c750ba25';
+const CACHE_VERSION = 'residentemed-87ea2182de';
 const CORE = [
   './',
   './index.html',
@@ -12,10 +12,8 @@ const CORE = [
   './engine/study-view.js',
   './engine/calculators.js',
   './engine/general-calc.js',
-  './engine/calendar.js',
   './engine/protocols.js',
   './engine/home.js',
-  './engine/schedule-import.js',
   './engine/infusion-calc.js',
   './engine/firebase-config.js',
   './engine/auth.js',
@@ -26,8 +24,6 @@ const CORE = [
   './engine/flashcard-deck.js',
   './engine/quiz-srs.js',
   './engine/usage-tracking.js',
-  './engine/vendor/pdfjs/pdf.min.mjs',
-  './engine/vendor/pdfjs/pdf.worker.min.mjs',
   './topics/registry.js',
   './topics/temario-index.js',
   './topics/cirrosis-hepatica/content.js',

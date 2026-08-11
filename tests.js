@@ -67,12 +67,6 @@ async function run() {
     assertEqual(mergeValue('rm:topics-reviewed', local, cloud), { sepsis: true, 'cirrosis-hepatica': true });
   });
 
-  test('merge: eventos de calendario se unen sin duplicar por fecha+tipo+etiqueta', () => {
-    const local = [{ date: '2026-01-01', type: 'guardia', label: 'A' }];
-    const cloud = [{ date: '2026-01-01', type: 'guardia', label: 'A' }, { date: '2026-01-02', type: 'clase', label: 'B' }];
-    assertEqual(mergeValue('rm:cal-events', local, cloud).length, 2);
-  });
-
   test('merge: valor escalar prefiere la nube si no está vacía, si no conserva lo local', () => {
     assertEqual(mergeValue('rm:exam-date', '2026-01-01', '2026-02-01'), '2026-02-01');
     assertEqual(mergeValue('rm:exam-date', '2026-01-01', ''), '2026-01-01');

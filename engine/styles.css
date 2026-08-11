@@ -551,7 +551,7 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
   .app-section.active{animation:none;}
 }
 
-/* Encabezado simple de sección (calc/protocolos/calendario/tools) */
+/* Encabezado simple de sección (calc/protocolos/tools) */
 .sec-header{max-width:1040px; margin:0 auto; padding:26px 20px 4px;}
 .sec-header h2{font-family:'Newsreader',serif; font-size:1.7rem; font-weight:600; margin:0; color:var(--ink);}
 .sec-header p{color:var(--ink-dim); font-size:14px; margin:6px 0 0; max-width:720px;}
@@ -579,54 +579,6 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 .calc-launch-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px;}
 @media (max-width:520px){ .calc-launch-grid{grid-template-columns:1fr 1fr;} }
 @media (max-width:360px){ .calc-launch-grid{grid-template-columns:1fr;} }
-
-/* ==========================================================================
-   CALENDARIO de guardias / clases
-   ========================================================================== */
-.cal-toolbar{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;}
-.cal-month{font-family:'Newsreader',serif; font-size:18px; font-weight:600; color:var(--ink);}
-.cal-arrow{
-  background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); width:34px; height:34px; cursor:pointer;
-  display:flex; align-items:center; justify-content:center; color:var(--ink); font-size:16px;
-}
-.cal-arrow:hover{border-color:var(--shell); color:var(--shell);}
-.cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:5px; margin-bottom:18px;}
-.cal-dayname{text-align:center; font-size:10.5px; text-transform:uppercase; letter-spacing:.03em; color:var(--ink-faint); padding:4px 0;}
-.cal-cell{
-  text-align:center; padding:7px 2px; border-radius:var(--radius); font-size:13.5px; cursor:pointer; min-height:40px;
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; border:1px solid transparent; color:var(--ink-dim);
-}
-.cal-cell:hover{background:var(--panel2);}
-.cal-cell.today{background:var(--shell-soft); color:var(--shell); font-weight:700;}
-.cal-cell.guardia{background:#f6e7cf; color:#8a5a1a; font-weight:600;}
-.cal-cell.clase{background:#e5e9f2; color:#3d5a73; font-weight:600;}
-.cal-cell.guardia.today, .cal-cell.clase.today{outline:2px solid var(--shell);}
-.cal-cell.other{color:var(--ink-faint); opacity:.5;}
-.cal-dot{width:5px; height:5px; border-radius:50%; background:#c98b2e;}
-.cal-legend{display:flex; gap:16px; flex-wrap:wrap; font-size:12px; color:var(--ink-dim); margin-bottom:16px;}
-.cal-legend span{display:flex; align-items:center; gap:6px;}
-.cal-legend i{width:11px; height:11px; border-radius:3px; display:inline-block;}
-.cal-add{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; align-items:flex-end;}
-.cal-add .calc-field{flex:1; min-width:120px;}
-.cal-add button{padding:9px 16px; background:var(--shell); color:#fff; border:none; border-radius:var(--radius); cursor:pointer; font-family:'Source Sans 3',sans-serif; font-size:13px; font-weight:600; height:38px;}
-.cal-add button:hover{background:var(--shell-dim);}
-.event-item{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:11px 14px; background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--c,var(--shell)); border-radius:var(--radius); margin-bottom:8px; font-size:13.5px; color:var(--ink);}
-.event-item .ev-del{background:none; border:none; cursor:pointer; color:var(--ink-faint); font-size:18px; line-height:1; padding:0 4px;}
-.event-item .ev-del:hover{color:var(--accent-fg);}
-.event-empty{text-align:center; font-size:13px; color:var(--ink-faint); padding:16px 0;}
-
-/* ==========================================================================
-   Importar guardias desde PDF
-   ========================================================================== */
-.cal-import{border:1px solid var(--line); border-radius:var(--radius); margin-bottom:18px; background:var(--panel);}
-.cal-import summary{cursor:pointer; padding:12px 16px; font-family:'Source Sans 3',sans-serif; font-weight:600; font-size:13.5px; color:var(--shell); list-style:none;}
-.cal-import summary::-webkit-details-marker{display:none;}
-.cal-import summary::before{content:"▸ "; display:inline-block; transition:transform .15s;}
-.cal-import[open] summary::before{transform:rotate(90deg);}
-.cal-import-body{padding:0 16px 16px;}
-.cal-import-hint{font-size:12.5px; color:var(--ink-faint); margin:0 0 12px;}
-.cal-import-status{font-size:12.5px; color:var(--ink-dim); margin:10px 0 0; min-height:16px;}
-.cal-import input[type="file"]{font-size:12.5px; color:var(--ink-dim);}
 
 /* ==========================================================================
    Filas nombre/valor (reutilizado en Protocolos para tablas de dosis)

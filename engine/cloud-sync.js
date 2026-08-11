@@ -35,7 +35,6 @@ function rawLocalSet(key, value) {
 function strategyFor(key) {
   if (key === 'rm:quiz-progress') return 'quiz';
   if (key.startsWith('flashcard-progress:')) return 'flashcards';
-  if (key === 'rm:cal-events') return 'events';
   if (key.startsWith('rm:proto:')) return 'bool-map';
   if (key === 'rm:topics-reviewed') return 'bool-map';
   return 'scalar';
@@ -75,16 +74,6 @@ export function mergeValue(key, localVal, cloudVal) {
     const merged = { ...(cloudVal || {}) };
     Object.keys(localVal || {}).forEach(k => {
       merged[k] = !!(localVal[k]) || !!(merged[k]);
-    });
-    return merged;
-  }
-
-  if (strategy === 'events') {
-    const seen = new Set();
-    const merged = [];
-    [...(cloudVal || []), ...(localVal || [])].forEach(ev => {
-      const sig = `${ev.date}|${ev.type}|${ev.label}`;
-      if (!seen.has(sig)) { seen.add(sig); merged.push(ev); }
     });
     return merged;
   }
