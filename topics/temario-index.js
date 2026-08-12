@@ -59,7 +59,11 @@ const FALLAS_ORGANICAS_ITEMS = [
 
 const NEUROLOGIA_CLUSTERS = [
   { name: 'Enfermedad cerebrovascular', items: ['Enfermedad vascular cerebral isquémica', 'Hemorragia intracraneal y subaracnoidea', 'Neoplasias del sistema nervioso central', 'Síndrome de hipertensión intracraneal', 'Traumatismo craneoencefálico', 'Vértigo central (síndrome vestibular agudo)'] },
-  { name: 'Trastornos paroxísticos y del movimiento', items: ['Estado epiléptico y epilepsia', 'Cefaleas', 'Enfermedad de Parkinson', 'Otros trastornos del movimiento', 'Esclerosis múltiple y otras enfermedades desmielinizantes'] },
+  { name: 'Trastornos paroxísticos y del movimiento', items: [
+    'Estado epiléptico y epilepsia',
+    { label: 'Cefaleas', topicId: 'cefaleas' },
+    'Enfermedad de Parkinson', 'Otros trastornos del movimiento', 'Esclerosis múltiple y otras enfermedades desmielinizantes'
+  ] },
   { name: 'Alteración de conciencia y enfermedad neuromuscular', items: ['Delirium y coma', 'Síndrome demencial', 'Deterioro cognitivo', 'Enfermedad por priones', 'Encefalopatías metabólicas', 'Neuropatías periféricas', 'Parálisis facial', 'Disautonomía', 'Síndrome de Guillain-Barré y miastenia gravis', 'Distrofias musculares', 'Esclerosis lateral amiotrófica', 'Meningoencefalitis infecciosa', 'Encefalitis autoinmune'] }
 ];
 

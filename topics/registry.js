@@ -99,6 +99,14 @@ export const registry = [
       import('./signos-clasicos/calculators.js'),
       import('./signos-clasicos/study.js')
     ])
+  },
+  {
+    id: 'cefaleas', titulo: 'Cefaleas',
+    load: () => Promise.all([
+      import('./cefaleas/content.js'),
+      import('./cefaleas/calculators.js'),
+      import('./cefaleas/study.js')
+    ])
   }
 ];
 
