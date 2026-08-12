@@ -99,6 +99,14 @@ export const registry = [
       import('./signos-clasicos/calculators.js'),
       import('./signos-clasicos/study.js')
     ])
+  },
+  {
+    id: 'estado-epileptico', titulo: 'Estado Epiléptico y Epilepsia',
+    load: () => Promise.all([
+      import('./estado-epileptico/content.js'),
+      import('./estado-epileptico/calculators.js'),
+      import('./estado-epileptico/study.js')
+    ])
   }
 ];
 
