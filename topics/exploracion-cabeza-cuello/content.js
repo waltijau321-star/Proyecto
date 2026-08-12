@@ -11,11 +11,19 @@
 // sus anomalías YA están construidas a fondo en topics/exploracion-cardiovascular/content.js, y
 // repetirlas aquí duplicaría contenido sin aportar nada nuevo.
 //
-// Las 4 figuras son TODAS código propio (SVG/HTML con var(--...) de tema) — nada de imágenes
-// externas ni asistidas por IA, mismo criterio ya establecido: cada una representa un dato
-// clínico exacto (cadenas ganglionares, comparación de adenopatías, drenaje del ganglio de
-// Virchow, masas cervicales, clasificación de bocio), y ese contenido va siempre a mano (ver
-// .claude/skills/figura-didactica/SKILL.md).
+// De las 4 figuras, 2 siguen siendo código propio (SVG/HTML con var(--...) de tema: masas
+// cervicales, clasificación de bocio). Las otras 2 (cadenas ganglionares, drenaje del ganglio de
+// Virchow) son infografías provistas directamente por el autor del contenido, mismo patrón que
+// exploracion-cardiovascular/content.js: se usan tal cual, sin marcar su origen en ningún texto
+// visible de la app. La infografía de cadenas ganglionares agrupa 6 de las 8 cadenas que cubre
+// el texto (preauricular, postauricular y occipital no aparecen marcadas ahí) — se dejó una nota
+// aclaratoria en el propio texto de la tarjeta.
+//
+// Video (revisión agosto 2026): `videoBlock()` incrusta 2 videos oficiales del canal de YouTube
+// Stanford Medicine 25 (exploración tiroidea, exploración de ganglios linfáticos) vía <iframe> —
+// no se descarga nada, requiere internet. No se agregó audio: este tema no tiene componente
+// auscultatorio propio (el soplo tiroideo/carotídeo se explica en texto, sin fuente clara de
+// audio equivalente a lo que se hizo en cardiovascular/respiratoria).
 
 export const meta = {
   id: 'exploracion-cabeza-cuello',
@@ -26,6 +34,12 @@ export const meta = {
 };
 
 export const definicionText = 'La exploración cervical integra 3 estructuras anatómicamente vecinas pero funcionalmente independientes: la glándula tiroides (inspección y palpación, en busca de bocio o nódulos), las cadenas ganglionares linfáticas (cuya localización orienta directamente el sitio de drenaje afectado) y las estructuras vasculares del cuello (arterias carótidas, venas yugulares). A esto se suman las masas cervicales congénitas más frecuentes (quiste tirogloso, quiste branquial), distinguibles por su localización y su comportamiento con maniobras dinámicas simples. Es, además, uno de los pocos exámenes físicos capaces de sugerir una neoplasia interna oculta a distancia —el ganglio de Virchow es el ejemplo clásico— antes de cualquier estudio de imagen.';
+
+// Se omite el texto genérico del motor para "Abordaje Diagnóstico" ("Historia clínica,
+// laboratorio general, estudios dirigidos, métodos no invasivos e imagen, en orden de
+// invasividad creciente") — pensado para el abordaje diagnóstico de una ENFERMEDAD, no aplica
+// a un tema de técnica de exploración física (mismo criterio ya usado en historia-clinica/).
+export const diagnosticoIntro = '';
 
 export const bibliografia = [
   "Bickley LS, Szilagyi PG, Hoffman RM. Bates' Guide to Physical Examination and History Taking. 13th ed. Philadelphia: Wolters Kluwer; 2021.",
@@ -60,50 +74,21 @@ function figBlock(label, titulo, html) {
   </div>`;
 }
 
+// Embebe un video de YouTube (canal oficial Stanford Medicine 25) dentro de un figBlock — no se
+// descarga ningún archivo, solo se reproduce desde YouTube (requiere internet, a diferencia del
+// resto del contenido de la app).
+function videoBlock(label, titulo, youtubeId, fuente) {
+  return figBlock(label, titulo, `<div style="width:100%;max-width:480px;aspect-ratio:16/9;margin:0 auto;border-radius:var(--radius);border:1px solid var(--line);overflow:hidden;">
+    <iframe src="https://www.youtube.com/embed/${youtubeId}" title="${titulo}" style="width:100%;height:100%;border:0;display:block;" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" loading="lazy"></iframe>
+  </div>
+  <p style="font-size:10.5px;color:var(--ink-faint);text-align:center;margin:8px 0 0;">${fuente}</p>`);
+}
+
 // ---------------------------------------------------------------------------------------------
 // Helpers de figuras (SVG a mano, theme-aware vía var(--...) salvo colores clínicos ya
 // establecidos en el proyecto: #3f6b52 = normal/reassuring, #8c3a34 = patológico/alarma).
 // ---------------------------------------------------------------------------------------------
 
-function cadenasGanglionaresSVG() {
-  return `<svg viewBox="0 0 220 260" role="img" aria-labelledby="cad-t cad-d" style="width:100%;max-width:220px;display:block;margin:0 auto;">
-    <title id="cad-t">Cadenas ganglionares cervicales</title>
-    <desc id="cad-d">Silueta de cabeza y cuello vista de perfil, con 8 puntos numerados marcando las cadenas ganglionares: preauricular, postauricular, occipital, submentoniano, submandibular, cervical anterior, cervical posterior y supraclavicular.</desc>
-    <path d="M120,15 Q155,15 158,55 Q160,75 150,90 L150,105 Q170,110 175,140 L180,230 L60,230 L65,150 Q68,120 90,108 L88,90 Q78,75 80,55 Q83,15 120,15 Z" fill="none" stroke="var(--line)" stroke-width="1.5"/>
-    <circle cx="150" cy="60" r="6" fill="#6b4a2e"/><text x="150" y="63" text-anchor="middle" font-size="7.5" fill="#fff" font-weight="700">1</text>
-    <circle cx="158" cy="82" r="6" fill="#6b4a2e"/><text x="158" y="85" text-anchor="middle" font-size="7.5" fill="#fff" font-weight="700">2</text>
-    <circle cx="140" cy="30" r="6" fill="#6b4a2e"/><text x="140" y="33" text-anchor="middle" font-size="7.5" fill="#fff" font-weight="700">3</text>
-    <circle cx="112" cy="95" r="6" fill="#6b4a2e"/><text x="112" y="98" text-anchor="middle" font-size="7.5" fill="#fff" font-weight="700">4</text>
-    <circle cx="95" cy="105" r="6" fill="#6b4a2e"/><text x="95" y="108" text-anchor="middle" font-size="7.5" fill="#fff" font-weight="700">5</text>
-    <circle cx="110" cy="150" r="6" fill="#6b4a2e"/><text x="110" y="153" text-anchor="middle" font-size="7.5" fill="#fff" font-weight="700">6</text>
-    <circle cx="150" cy="160" r="6" fill="#6b4a2e"/><text x="150" y="163" text-anchor="middle" font-size="7.5" fill="#fff" font-weight="700">7</text>
-    <circle cx="130" cy="215" r="6" fill="#6b4a2e"/><text x="130" y="218" text-anchor="middle" font-size="7.5" fill="#fff" font-weight="700">8</text>
-  </svg>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:4px;margin-top:8px;font-size:10.5px;">
-    <div><strong style="color:#6b4a2e;">1</strong> Preauricular</div>
-    <div><strong style="color:#6b4a2e;">2</strong> Postauricular</div>
-    <div><strong style="color:#6b4a2e;">3</strong> Occipital</div>
-    <div><strong style="color:#6b4a2e;">4</strong> Submentoniano</div>
-    <div><strong style="color:#6b4a2e;">5</strong> Submandibular</div>
-    <div><strong style="color:#6b4a2e;">6</strong> Cervical anterior</div>
-    <div><strong style="color:#6b4a2e;">7</strong> Cervical posterior</div>
-    <div><strong style="color:#6b4a2e;">8</strong> Supraclavicular</div>
-  </div>`;
-}
-
-function virchowSVG() {
-  return `<svg viewBox="0 0 220 220" role="img" aria-labelledby="vir-t vir-d" style="width:100%;max-width:220px;display:block;margin:0 auto;">
-    <title id="vir-t">Drenaje linfático del ganglio de Virchow</title>
-    <desc id="vir-d">Esquema del torso con el estómago marcado en el abdomen y una línea punteada que representa el conducto torácico ascendiendo hasta desembocar en la unión yugulo-subclavia izquierda, donde se marca el ganglio de Virchow.</desc>
-    <path d="M60,20 Q40,15 45,40 L40,190 Q40,205 60,205 L160,205 Q180,205 180,190 L175,40 Q180,15 160,20 Z" fill="none" stroke="var(--line)" stroke-width="1.5"/>
-    <ellipse cx="95" cy="150" rx="28" ry="20" fill="none" stroke="var(--ink-faint)" stroke-width="1.25"/>
-    <text x="95" y="154" text-anchor="middle" font-size="9" fill="var(--ink-faint)">estómago</text>
-    <path d="M110,140 Q140,100 140,60 Q140,40 155,28" fill="none" stroke="#8c3a34" stroke-width="2" stroke-dasharray="3,3" stroke-linecap="round"/>
-    <circle cx="155" cy="28" r="7" fill="#8c3a34"/>
-    <text x="155" y="15" text-anchor="middle" font-size="8.5" font-weight="700" fill="#8c3a34">Virchow</text>
-  </svg>
-  <p style="font-size:10.5px;color:var(--ink-faint);text-align:center;margin:6px 0 0;">El conducto torácico drena la linfa abdominal hacia la unión de las venas yugular interna y subclavia izquierdas — por eso una neoplasia abdominal puede manifestarse primero como una adenopatía supraclavicular izquierda.</p>`;
-}
 
 export const content = {
   diagnostico: {
@@ -136,7 +121,7 @@ export const content = {
       color: '#3d5a73',
       definicion: 'Palpación bimanual de la glándula, con el examinador de pie por detrás (técnica posterior de Crile) o de frente (técnica anterior de Lahey) al paciente.',
       clinica: 'Se evalúan tamaño, simetría, consistencia, superficie (lisa vs. nodular), movilidad, dolor y presencia de frémito. Se ausculta la glándula si se palpa aumentada de tamaño, buscando un soplo tiroideo continuo.',
-      fisiopatologia: 'Un soplo/frémito tiroideo refleja hipervascularización glandular por hiperfunción difusa (enfermedad de Graves), donde el flujo sanguíneo tiroideo aumenta varias veces respecto al normal, generando turbulencia audible/palpable — hallazgo que no se espera en un bocio nodular no hiperfuncionante ni en la tiroiditis.',
+      fisiopatologia: `Un soplo/frémito tiroideo refleja hipervascularización glandular por hiperfunción difusa (enfermedad de Graves), donde el flujo sanguíneo tiroideo aumenta varias veces respecto al normal, generando turbulencia audible/palpable — hallazgo que no se espera en un bocio nodular no hiperfuncionante ni en la tiroiditis.${videoBlock('Video 1', 'Cómo enseñar/explorar la tiroides', 'MXYAAvgyLf0', 'Stanford Medicine 25 (YouTube)')}`,
       criterios_dx: 'Un frémito o soplo tiroideo palpable/audible, en el contexto clínico adecuado (taquicardia, pérdida de peso, temblor), apoya fuertemente el diagnóstico de enfermedad de Graves sobre otras causas de bocio.'
     },
     {
@@ -165,8 +150,9 @@ Signo de Pemberton: se pide al paciente elevar ambos brazos por encima de la cab
       color: '#3d5a73',
       definicion: 'Sistema organizado de grupos ganglionares que drenan regiones específicas de cabeza y cuello, palpados sistemáticamente de arriba hacia abajo (ver Imagen 1).',
       clinica: 'Preauricular, postauricular (mastoideo), occipital, submentoniano, submandibular, cervical anterior (superficial y profundo, a lo largo del esternocleidomastoideo), cervical posterior (triángulo posterior), supraclavicular.',
-      fisiopatologia: `${figBlock('Imagen 1', 'Cadenas ganglionares cervicales', cadenasGanglionaresSVG())}
-Cada cadena drena un territorio anatómico específico, por lo que la localización de una adenopatía orienta directamente el sitio de origen probable: preauricular → conjuntiva/párpados/piel temporal; occipital → cuero cabelludo posterior; submentoniano → labio inferior/piso de la boca; submandibular → cavidad oral/dientes/glándula submandibular; cervical anterior → faringe/laringe/tiroides; supraclavicular → tórax/abdomen (ver ganglio de Virchow).`,
+      fisiopatologia: `${figBlock('Imagen 1', 'Cadenas ganglionares cervicales', `<img src="topics/exploracion-cabeza-cuello/assets/cadenas-ganglionares-cervicales.png" alt="Infografía de cadenas ganglionares cervicales, agrupaciones de ganglios linfáticos según su localización anatómica. 1) Submentoniana: debajo del mentón, entre los vientres anteriores del músculo digástrico; drena labio inferior, mentón, piso de la boca anterior. 2) Submandibular: debajo del cuerpo de la mandíbula, en el triángulo submandibular; drena mejilla, labio superior, dientes y encías superiores. 3) Yugular interna (profunda): a lo largo de la vena yugular interna, desde la base del cráneo hasta la clavícula; drena nasofaringe, cavidad oral, laringe, tiroides. 4) Yugular externa (superficial): sobre el músculo esternocleidomastoideo, desde el ángulo de la mandíbula hasta la clavícula; drena cuero cabelludo, piel de la cara, parótida, oído externo. 5) Cadena espinal accesoria (posterior): a lo largo del borde posterior del músculo esternocleidomastoideo, desde la mastoides hasta la clavícula; drena cuero cabelludo posterior, región mastoidea, cuello posterior. 6) Supraclavicular: en la fosa supraclavicular, por encima de la clavícula; drena pulmón, mediastino, abdomen superior, pelvis y abdomen inferior. La evaluación de adenopatías debe incluir tamaño, consistencia, movilidad, dolor y síntomas asociados; correlacionar siempre con la historia clínica.">`)}
+La imagen agrupa 6 de las cadenas (las de mayor rendimiento clínico); preauricular, postauricular y occipital —también palpables sistemáticamente— no aparecen marcadas ahí. Cada cadena drena un territorio anatómico específico, por lo que la localización de una adenopatía orienta directamente el sitio de origen probable: preauricular → conjuntiva/párpados/piel temporal; occipital → cuero cabelludo posterior; submentoniano → labio inferior/piso de la boca; submandibular → cavidad oral/dientes/glándula submandibular; cervical anterior → faringe/laringe/tiroides; supraclavicular → tórax/abdomen (ver ganglio de Virchow).
+${videoBlock('Video 2', 'Exploración de los ganglios linfáticos', 'rijL9bDrtPk', 'Stanford Medicine 25 (YouTube)')}`,
       criterios_dx: 'Examinar sistemáticamente TODAS las cadenas, no solo la región sintomática, porque una adenopatía "silente" en una cadena distante (ej. supraclavicular) puede ser el hallazgo más relevante de toda la exploración.'
     },
     {
@@ -190,7 +176,10 @@ Cada cadena drena un territorio anatómico específico, por lo que la localizaci
       </tbody>
     </table>
     </div>`)}
-Reactiva/inflamatoria: consistencia blanda o elástica, móvil (no fija a planos profundos ni a la piel), DOLOROSA a la palpación, superficie lisa, ganglio aislado — refleja hiperplasia folicular benigna en respuesta a un estímulo antigénico local. Neoplásica (metastásica o linfomatosa): consistencia dura/pétrea (metástasis carcinomatosa) o "gomosa" (linfoma), fija a planos profundos o a la piel suprayacente (invasión capsular), típicamente INDOLORA (el crecimiento neoplásico lento no genera la distensión capsular aguda y dolorosa de la inflamación), superficie irregular, con frecuencia confluente ("matted", varios ganglios fusionados entre sí).`,
+<ul style="margin:8px 0 0;padding-left:18px;">
+  <li><strong>Reactiva/inflamatoria</strong>: consistencia blanda o elástica, móvil (no fija a planos profundos ni a la piel), DOLOROSA a la palpación, superficie lisa, ganglio aislado — refleja hiperplasia folicular benigna en respuesta a un estímulo antigénico local.</li>
+  <li><strong>Neoplásica</strong> (metastásica o linfomatosa): consistencia dura/pétrea (metástasis carcinomatosa) o "gomosa" (linfoma), fija a planos profundos o a la piel suprayacente (invasión capsular), típicamente INDOLORA (el crecimiento neoplásico lento no genera la distensión capsular aguda y dolorosa de la inflamación), superficie irregular, con frecuencia confluente ("matted", varios ganglios fusionados entre sí).</li>
+</ul>`,
       criterios_dx: 'La combinación de consistencia pétrea/fija más ausencia de dolor más crecimiento progresivo es la más sugestiva de malignidad y amerita biopsia, independientemente del tamaño absoluto del ganglio.',
       dx_diferencial: 'Adenopatía dolorosa de inicio agudo con signos inflamatorios locales asociados (celulitis, faringitis): causa infecciosa/reactiva. Adenopatía indolora, de crecimiento lento, en un paciente añoso o con factores de riesgo oncológico: descartar malignidad.'
     },
@@ -198,7 +187,7 @@ Reactiva/inflamatoria: consistencia blanda o elástica, móvil (no fija a planos
       nombre: 'Ganglio de Virchow y signo de Troisier',
       color: '#8c3a34',
       definicion: 'Adenopatía supraclavicular izquierda, palpable en el ángulo formado por el borde posterior del esternocleidomastoideo y la clavícula (ver Imagen 2).',
-      fisiopatologia: `${figBlock('Imagen 2', 'Drenaje linfático del ganglio de Virchow', virchowSVG())}
+      fisiopatologia: `${figBlock('Imagen 2', 'Drenaje linfático del ganglio de Virchow', `<img src="topics/exploracion-cabeza-cuello/assets/ganglio-virchow.png" alt="Infografía de drenaje linfático del ganglio de Virchow. El ganglio de Virchow (supraclavicular izquierdo) recibe linfa del abdomen, tórax y estructuras infradiafragmáticas. Localización: situado en la fosa supraclavicular izquierda, por encima de la clavícula, en la unión del tronco yugular interno y el tronco subclavio. Drenaje linfático, recibe linfa de los conductos que drenan: conducto torácico (territorios infradiafragmáticos), hemitórax izquierdo, mediastino posterior, esófago. Relevancia clínica: la presencia de adenopatía en el ganglio de Virchow sugiere patología abdominal o torácica maligna; se le conoce como el "ganglio centinela abdominal" o "de Troisier". Patologías asociadas: cáncer gástrico, cáncer de páncreas, cáncer de colon y recto, otras neoplasias intraabdominales. Nota clínica: la palpación de adenopatías duras, fijas e indoloras en el ganglio de Virchow debe hacer sospechar malignidad intraabdominal hasta demostrar lo contrario.">`)}
 El conducto torácico —que drena la linfa de la mayor parte del cuerpo, incluido el abdomen— desemboca en la unión de las venas yugular interna y subclavia izquierdas. Una neoplasia abdominal (clásicamente gástrica, aunque también de páncreas, esófago u otras vísceras abdominales/pélvicas) puede diseminarse por esta vía linfática hasta ese punto final de drenaje, generando una adenopatía supraclavicular izquierda palpable incluso antes de que la neoplasia primaria sea evidente. Es como una gran cuenca hidrográfica en la que decenas de arroyos de todo el abdomen y la pelvis terminan confluyendo en un único río principal que desemboca siempre en el mismo punto: basta con vigilar ese punto de desembocadura para detectar señales de lo que ocurre río arriba, sin necesidad de rastrear cada arroyo por separado.`,
       criterios_dx: 'Un ganglio de Virchow palpable (signo de Troisier positivo) obliga a buscar activamente una neoplasia abdominal oculta, clásicamente gástrica, incluso en ausencia de síntomas digestivos.',
       dx_diferencial: 'Una adenopatía supraclavicular DERECHA sugiere con más frecuencia una neoplasia torácica (pulmón, mediastino, esófago) o linfoma, por drenar hacia el conducto linfático derecho, de trayecto más corto (tórax, brazo y cabeza derechos).'
@@ -208,7 +197,11 @@ El conducto torácico —que drena la linfa de la mayor parte del cuerpo, inclui
       color: '#3d5a73',
       definicion: 'Dos malformaciones congénitas frecuentes que se presentan como masas cervicales quísticas, distinguibles por su localización y su comportamiento con maniobras dinámicas.',
       clinica: 'Quiste tirogloso: línea media (o ligeramente paramedial), típicamente a la altura del hueso hioides. Quiste branquial (del segundo arco): lateral, en el borde anterior del esternocleidomastoideo, en la unión del tercio superior con los dos tercios inferiores.',
-      fisiopatologia: 'El quiste tirogloso es un remanente del conducto tirogloso (el trayecto embrionario que sigue la tiroides al descender desde la base de la lengua hasta su posición final), por lo que se ELEVA con la protrusión de la LENGUA —a diferencia de la glándula tiroides, que se eleva con la deglución—. El quiste branquial es un remanente del segundo arco branquial embrionario y NO se mueve ni con la deglución ni con la protrusión lingual. Es como 3 títeres distintos: la tiroides está "atada" a la tráquea y baila cuando ella se mueve (deglución); el quiste tirogloso está "atado" a la lengua y baila cuando ella se mueve (protrusión lingual); el quiste branquial no tiene ningún hilo atado a ninguna de las dos, así que se queda quieto pase lo que pase con la tráquea o la lengua.',
+      fisiopatologia: `<ul style="margin:0;padding-left:18px;">
+  <li><strong>Quiste tirogloso</strong>: remanente del conducto tirogloso (el trayecto embrionario que sigue la tiroides al descender desde la base de la lengua hasta su posición final), por lo que se ELEVA con la protrusión de la LENGUA —a diferencia de la glándula tiroides, que se eleva con la deglución—.</li>
+  <li><strong>Quiste branquial</strong>: remanente del segundo arco branquial embrionario, NO se mueve ni con la deglución ni con la protrusión lingual.</li>
+</ul>
+<p style="margin:8px 0 0;">Es como 3 títeres distintos: la tiroides está "atada" a la tráquea y baila cuando ella se mueve (deglución); el quiste tirogloso está "atado" a la lengua y baila cuando ella se mueve (protrusión lingual); el quiste branquial no tiene ningún hilo atado a ninguna de las dos, así que se queda quieto pase lo que pase con la tráquea o la lengua.</p>`,
       criterios_dx: 'La maniobra dinámica (protrusión lingual vs. deglución vs. ninguna respuesta) permite diferenciar clínicamente estas 3 masas cervicales —quiste tirogloso, tiroides, quiste branquial— antes de cualquier estudio de imagen.'
     },
     {

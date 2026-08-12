@@ -1,7 +1,7 @@
 {
   "name": "MIOsler — Medicina Interna",
   "short_name": "MIOsler",
-  "description": "Estudio, calculadoras, protocolos y calendario de guardias para residentes de Medicina Interna.",
+  "description": "Estudio, calculadoras y protocolos para residentes de Medicina Interna.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

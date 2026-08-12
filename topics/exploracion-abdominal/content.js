@@ -7,11 +7,20 @@
 // auscultar. Es el punto de confusión más frecuente para un residente que ya automatizó el orden
 // IPPA con tórax y pulmón, así que se remarca explícitamente en la primera tarjeta.
 //
-// Las 5 figuras son TODAS código propio (SVG/HTML con var(--...) de tema) — nada de imágenes
-// externas ni asistidas por IA, mismo criterio ya establecido: cada una representa un dato
-// clínico exacto (topografía de regiones, ubicación de puntos dolorosos, técnica de matidez
-// cambiante, tablas de signos), y ese contenido va siempre a mano (ver
-// .claude/skills/figura-didactica/SKILL.md).
+// 3 de las 5 figuras son código propio (SVG/HTML con var(--...) de tema) — mismo criterio ya
+// establecido: cada una representa un dato clínico exacto (puntos dolorosos, tablas de signos),
+// y ese contenido va a mano (ver .claude/skills/figura-didactica/SKILL.md). Imagen 1 (regiones
+// topográficas) e Imagen 2 (matidez cambiante) son infografías provistas directamente por el
+// autor del contenido, mismo patrón que exploracion-cardiovascular/content.js: se usan tal cual,
+// sin marcar su origen en ningún texto visible de la app.
+//
+// Video (revisión agosto 2026, ampliada): `videoBlock()` incrusta 2 videos vía <iframe> — no se
+// descarga nada, requiere internet. Video 1 (Stanford Medicine 25): guía completa de exploración
+// abdominal quirúrgica, en Secuencia y técnica. Video 2 (OMMinutes, canal más pequeño pero el
+// contenido es correcto y específico): demostración de Rovsing/psoas/obturador, en Signos de
+// apendicitis — Stanford no tiene un video dedicado a esos 3 signos. No se agregó audio: a
+// diferencia de cardiovascular/respiratoria, no se encontró una fuente equivalente con ruidos
+// hidroaéreos/soplos vasculares abdominales para enlazar o incrustar.
 
 export const meta = {
   id: 'exploracion-abdominal',
@@ -22,6 +31,12 @@ export const meta = {
 };
 
 export const definicionText = 'La exploración abdominal sigue un orden que invierte el de la exploración torácica: inspección, auscultación, percusión y palpación (IAPP), porque percutir o palpar antes de auscultar estimula mecánicamente el intestino y puede alterar de forma artificial la frecuencia y el carácter de los ruidos hidroaéreos que se busca evaluar. Integra información visual (contorno, cicatrices, red venosa), acústica (ruidos hidroaéreos, soplos vasculares), de percusión (timpanismo, matidez hepática y esplénica, ascitis) y táctil (tono de la pared, visceromegalias, puntos y signos dolorosos específicos), y sigue siendo la herramienta de mayor rendimiento y menor costo para orientar un abdomen agudo, una hepatopatía o una visceromegalia antes de cualquier estudio de imagen.';
+
+// Se omite el texto genérico del motor para "Abordaje Diagnóstico" ("Historia clínica,
+// laboratorio general, estudios dirigidos, métodos no invasivos e imagen, en orden de
+// invasividad creciente") — pensado para el abordaje diagnóstico de una ENFERMEDAD, no aplica
+// a un tema de técnica de exploración física (mismo criterio ya usado en historia-clinica/).
+export const diagnosticoIntro = '';
 
 export const bibliografia = [
   "Bickley LS, Szilagyi PG, Hoffman RM. Bates' Guide to Physical Examination and History Taking. 13th ed. Philadelphia: Wolters Kluwer; 2021.",
@@ -57,6 +72,16 @@ function figBlock(label, titulo, html) {
   </div>`;
 }
 
+// Embebe un video de YouTube (canal oficial Stanford Medicine 25) dentro de un figBlock — no se
+// descarga ningún archivo, solo se reproduce desde YouTube (requiere internet, a diferencia del
+// resto del contenido de la app).
+function videoBlock(label, titulo, youtubeId, fuente) {
+  return figBlock(label, titulo, `<div style="width:100%;max-width:480px;aspect-ratio:16/9;margin:0 auto;border-radius:var(--radius);border:1px solid var(--line);overflow:hidden;">
+    <iframe src="https://www.youtube.com/embed/${youtubeId}" title="${titulo}" style="width:100%;height:100%;border:0;display:block;" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" loading="lazy"></iframe>
+  </div>
+  <p style="font-size:10.5px;color:var(--ink-faint);text-align:center;margin:8px 0 0;">${fuente}</p>`);
+}
+
 // ---------------------------------------------------------------------------------------------
 // Helpers de figuras (SVG a mano, theme-aware vía var(--...) salvo colores clínicos ya
 // establecidos en el proyecto: #3f6b52 = normal/reassuring, #8c3a34 = patológico/alarma).
@@ -67,41 +92,6 @@ function abdomenOutline() {
   // de reborde costal (arriba) a pubis (abajo), en el mismo estilo esquemático que el torso de
   // exploracion-cardiovascular/exploracion-respiratoria.
   return 'M45,20 Q40,10 60,10 L200,10 Q220,10 215,20 L222,120 Q226,220 190,270 Q160,290 130,290 Q100,290 70,270 Q34,220 38,120 Z';
-}
-
-function regionesAbdominalesSVG() {
-  return `<svg viewBox="0 0 260 300" role="img" aria-labelledby="reg-t reg-d" style="width:100%;max-width:260px;display:block;margin:0 auto;">
-    <title id="reg-t">Las 9 regiones topográficas del abdomen</title>
-    <desc id="reg-d">Contorno abdominal dividido por dos líneas verticales (medioclaviculares) y dos horizontales (subcostal y transtubercular) en 9 regiones: hipocondrio derecho, epigastrio, hipocondrio izquierdo, flanco derecho, región umbilical, flanco izquierdo, fosa iliaca derecha, hipogastrio y fosa iliaca izquierda.</desc>
-    <path d="${abdomenOutline()}" transform="translate(4,0)" fill="none" stroke="var(--line)" stroke-width="1.5"/>
-    <line x1="110" y1="12" x2="110" y2="288" stroke="var(--line)" stroke-width="1" stroke-dasharray="2,3"/>
-    <line x1="42" y1="100" x2="222" y2="100" stroke="#7a4a23" stroke-width="1.25"/>
-    <line x1="42" y1="180" x2="222" y2="180" stroke="#7a4a23" stroke-width="1.25"/>
-    <line x1="88" y1="12" x2="88" y2="288" stroke="#7a4a23" stroke-width="1.25"/>
-    <line x1="176" y1="12" x2="176" y2="288" stroke="#7a4a23" stroke-width="1.25"/>
-    <text x="60" y="8" text-anchor="middle" font-size="9" font-weight="700" fill="var(--ink-faint)">DER.</text>
-    <text x="205" y="8" text-anchor="middle" font-size="9" font-weight="700" fill="var(--ink-faint)">IZQ.</text>
-    <text x="64" y="60" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink)">Hipocondrio D.</text>
-    <text x="64" y="72" text-anchor="middle" font-size="8" fill="var(--ink-faint)">hígado, vesícula</text>
-    <text x="132" y="60" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink)">Epigastrio</text>
-    <text x="132" y="72" text-anchor="middle" font-size="8" fill="var(--ink-faint)">estómago, páncreas</text>
-    <text x="199" y="60" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink)">Hipocondrio I.</text>
-    <text x="199" y="72" text-anchor="middle" font-size="8" fill="var(--ink-faint)">bazo</text>
-    <text x="64" y="136" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink)">Flanco D.</text>
-    <text x="64" y="148" text-anchor="middle" font-size="8" fill="var(--ink-faint)">colon ascendente</text>
-    <text x="132" y="136" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink)">Región</text>
-    <text x="132" y="148" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink)">umbilical</text>
-    <text x="132" y="160" text-anchor="middle" font-size="8" fill="var(--ink-faint)">delgado, aorta</text>
-    <text x="199" y="136" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink)">Flanco I.</text>
-    <text x="199" y="148" text-anchor="middle" font-size="8" fill="var(--ink-faint)">colon descendente</text>
-    <text x="64" y="215" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink)">Fosa iliaca D.</text>
-    <text x="64" y="227" text-anchor="middle" font-size="8" fill="var(--ink-faint)">ciego, apéndice</text>
-    <text x="132" y="215" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink)">Hipogastrio</text>
-    <text x="132" y="227" text-anchor="middle" font-size="8" fill="var(--ink-faint)">vejiga, útero</text>
-    <text x="199" y="215" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink)">Fosa iliaca I.</text>
-    <text x="199" y="227" text-anchor="middle" font-size="8" fill="var(--ink-faint)">sigmoides</text>
-  </svg>
-  <p style="font-size:10.5px;color:var(--ink-faint);text-align:center;margin:6px 0 0;">Vista anterior, paciente de frente al explorador (el lado derecho del paciente queda a la izquierda del dibujo). Líneas verticales: medioclaviculares. Líneas horizontales: subcostal (arriba) y transtubercular/bispinosa (abajo).</p>`;
 }
 
 function puntosDolorosSVG() {
@@ -125,32 +115,6 @@ function puntosDolorosSVG() {
   </div>`;
 }
 
-function ascitisTecnicaSVG() {
-  return `<svg viewBox="0 0 300 150" role="img" aria-labelledby="asc-t asc-d" style="width:100%;max-width:320px;display:block;margin:0 auto;">
-    <title id="asc-t">Matidez cambiante (shifting dullness)</title>
-    <desc id="asc-d">Dos paneles esquemáticos vistos en corte transversal: en decúbito supino el gas intestinal flota en el centro (timpanismo) y el líquido libre se acumula en ambos flancos, que quedan mate; al girar al paciente hacia decúbito lateral, el líquido se desplaza por gravedad hacia el nuevo lado declive y el punto que antes era mate se vuelve timpánico.</desc>
-    <ellipse cx="70" cy="75" rx="60" ry="55" fill="none" stroke="var(--line)" stroke-width="1.5"/>
-    <path d="M18,75 A52,48 0 0,1 40,32 A52,48 0 0,0 40,118 Z" fill="#8c3a34" opacity="0.25"/>
-    <path d="M122,75 A52,48 0 0,0 100,32 A52,48 0 0,1 100,118 Z" fill="#8c3a34" opacity="0.25"/>
-    <ellipse cx="70" cy="75" rx="22" ry="40" fill="none" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2,2"/>
-    <text x="70" y="79" text-anchor="middle" font-size="9" fill="var(--ink)">gas</text>
-    <text x="26" y="79" text-anchor="middle" font-size="8" fill="#8c3a34" font-weight="700">mate</text>
-    <text x="114" y="79" text-anchor="middle" font-size="8" fill="#8c3a34" font-weight="700">mate</text>
-    <circle cx="26" cy="90" r="3" fill="var(--ink)"/>
-    <text x="70" y="140" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink)">Decúbito supino</text>
-    <path d="M150,75 L172,68 M172,68 L166,63 M172,68 L166,74" stroke="var(--ink-faint)" stroke-width="1.5" fill="none"/>
-    <text x="161" y="90" text-anchor="middle" font-size="7.5" fill="var(--ink-faint)">gira</text>
-    <ellipse cx="235" cy="75" rx="60" ry="55" fill="none" stroke="var(--line)" stroke-width="1.5"/>
-    <path d="M183,75 A52,48 0 0,1 260,26 A52,48 0 0,0 220,120 Z" fill="#8c3a34" opacity="0.25"/>
-    <ellipse cx="222" cy="70" rx="26" ry="42" fill="none" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2,2"/>
-    <text x="212" y="72" text-anchor="middle" font-size="9" fill="var(--ink)">gas</text>
-    <circle cx="191" cy="90" r="3" fill="#3f6b52"/>
-    <text x="191" y="106" text-anchor="middle" font-size="8" fill="#3f6b52" font-weight="700">✓ ahora timpánico</text>
-    <text x="255" y="79" text-anchor="middle" font-size="8" fill="#8c3a34" font-weight="700">mate</text>
-    <text x="235" y="140" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink)">Decúbito lateral</text>
-  </svg>
-  <p style="font-size:10.5px;color:var(--ink-faint);text-align:center;margin:6px 0 0;">Corte transversal esquemático. El punto marcado (•) que era mate en supino se vuelve timpánico al girar al paciente, porque el líquido migró por gravedad al nuevo flanco declive.</p>`;
-}
 
 export const content = {
   diagnostico: {
@@ -166,7 +130,7 @@ export const content = {
       nombre: 'Secuencia y técnica de la exploración abdominal',
       color: '#3d5a73',
       definicion: 'Orden sistemático de la exploración abdominal: Inspección, Auscultación, Percusión y Palpación (IAPP) — el único de los grandes sistemas donde el orden clásico INVIERTE percusión/palpación respecto a auscultación.',
-      clinica: 'Paciente en decúbito supino, brazos a los lados (no detrás de la cabeza, eso tensa la pared), piernas ligeramente flexionadas para relajar la musculatura abdominal, abdomen descubierto de apéndice xifoides a sínfisis del pubis, manos e instrumentos tibios, buena iluminación tangencial para resaltar contornos y peristalsis visible.',
+      clinica: `Paciente en decúbito supino, brazos a los lados (no detrás de la cabeza, eso tensa la pared), piernas ligeramente flexionadas para relajar la musculatura abdominal, abdomen descubierto de apéndice xifoides a sínfisis del pubis, manos e instrumentos tibios, buena iluminación tangencial para resaltar contornos y peristalsis visible.${videoBlock('Video 1', 'Exploración abdominal quirúrgica, guía completa', 'vqiVwW9RBRw', 'Stanford Medicine 25 (YouTube)')}`,
       fisiopatologia: 'A diferencia del tórax (IPPA), en el abdomen la percusión y sobre todo la palpación estimulan mecánicamente las asas intestinales y pueden alterar de forma artificial la frecuencia y el carácter de los ruidos hidroaéreos si se realizan antes de auscultar — por eso la auscultación se hace inmediatamente después de la inspección, antes de tocar la pared.',
       criterios_dx: 'Percutir o palpar antes de auscultar invalida la valoración de los ruidos hidroaéreos: puede simular hiperperistaltismo donde no lo hay, o silenciar transitoriamente un abdomen que en realidad estaba hiperactivo.',
       algoritmo: ['Inspección', 'Auscultación (antes de tocar la pared)', 'Percusión', 'Palpación superficial', 'Palpación profunda']
@@ -175,7 +139,7 @@ export const content = {
       nombre: 'Regiones y cuadrantes abdominales',
       color: '#3d5a73',
       definicion: 'Dos sistemas de referencia topográfica de uso simultáneo: 4 cuadrantes (rápido, útil para localizar dolor a la cabecera) y 9 regiones (dos líneas medioclaviculares verticales y dos horizontales —subcostal y transtubercular— más precisas para correlacionar con una víscera concreta).',
-      clinica: `Hipocondrio derecho: hígado, vesícula. Epigastrio: estómago, páncreas, duodeno. Hipocondrio izquierdo: bazo. Flancos: colon ascendente/descendente, riñones. Región umbilical: intestino delgado, aorta. Fosas iliacas: ciego/apéndice (derecha), sigmoides (izquierda). Hipogastrio: vejiga, útero (ver Imagen 1).${figBlock('Imagen 1', 'Las 9 regiones topográficas del abdomen', regionesAbdominalesSVG())}`,
+      clinica: `Hipocondrio derecho: hígado, vesícula. Epigastrio: estómago, páncreas, duodeno. Hipocondrio izquierdo: bazo. Flancos: colon ascendente/descendente, riñones. Región umbilical: intestino delgado, aorta. Fosas iliacas: ciego/apéndice (derecha), sigmoides (izquierda). Hipogastrio: vejiga, útero (ver Imagen 1).${figBlock('Imagen 1', 'Las 9 regiones topográficas del abdomen', `<img src="topics/exploracion-abdominal/assets/regiones-topograficas-abdomen.png" alt="Infografía de las 9 regiones topográficas del abdomen y qué encontramos en cada una. 1) Hipocondrio derecho: hígado (lóbulo derecho), vesícula biliar, flexura hepática del colon, polo superior del riñón derecho, diafragma derecho. 2) Epigastrio: estómago, lóbulo izquierdo del hígado, páncreas (cuerpo), duodeno (porción superior), glándulas suprarrenales, grandes vasos (aorta, vena cava inferior). 3) Hipocondrio izquierdo: bazo, fondo gástrico, cola del páncreas, flexura esplénica del colon, polo superior del riñón izquierdo, diafragma izquierdo. 4) Flanco (lumbar) derecho: colon ascendente, riñón derecho, intestino delgado (asas), músculos de la pared abdominal, tejido graso retroperitoneal. 5) Región umbilical (centro). 6) Flanco (lumbar) izquierdo: colon descendente, riñón izquierdo, intestino delgado (asas), músculos de la pared abdominal, tejido graso retroperitoneal. 7) Fosa iliaca (inguinal) derecha: ciego, apéndice vermiforme, íleon terminal, ovario y trompa derecha (mujer), cordón espermático derecho (hombre). 8) Hipogastrio (púbica): vejiga urinaria, útero (mujer), intestino delgado (asas), colon sigmoides (porción inferior), próstata (hombre). 9) Fosa iliaca (inguinal) izquierda: colon sigmoides, porción distal del colon descendente, ovario y trompa izquierda (mujer), cordón espermático izquierdo (hombre). Las 9 regiones se delimitan con dos líneas verticales medioclaviculares y dos líneas horizontales: subcostal (borde inferior del cartílago costal) y transtubercular (por los tubérculos iliacos).">`)}`,
       criterios_dx: 'Localizar el dolor por región/cuadrante orienta el diagnóstico diferencial inicial antes de cualquier maniobra específica — un dolor en fosa iliaca derecha y uno en hipocondrio derecho comparten poco diagnóstico diferencial pese a estar en el mismo hemiabdomen.'
     },
     {
@@ -183,7 +147,11 @@ export const content = {
       color: '#3d5a73',
       definicion: 'Observación sistemática, de pie a la derecha del paciente y también tangencialmente (a nivel de los ojos del examinador con el abdomen), del contorno, la piel, el ombligo y los movimientos de la pared.',
       clinica: 'Normal: contorno plano o levemente convexo y simétrico, piel sin lesiones, ombligo centrado e invertido, sin masas ni peristalsis visibles en la mayoría de los adultos. Patológico: distensión (generalizada o localizada), asimetría, cicatrices, hernias, red venosa colateral, estrías, equimosis periumbilical o en flancos, peristalsis visible, pulsación epigástrica prominente.',
-      fisiopatologia: 'Red venosa colateral centrífuga desde el ombligo ("cabeza de medusa"): hipertensión portal con recanalización de la vena umbilical. Equimosis periumbilical (signo de Cullen) o en los flancos (signo de Grey Turner): hemorragia retroperitoneal o intraperitoneal disecando el tejido subcutáneo, clásicamente descritas en la pancreatitis aguda necrohemorrágica, pero inespecíficas (también en embarazo ectópico roto, traumatismo). La distensión generalizada se recuerda con la mnemotecnia de las "6 F": fat (grasa), fluid (líquido/ascitis), flatus (gas), feces (heces), fetus (embarazo), fatal tumor (masa/neoplasia).',
+      fisiopatologia: `<ul style="margin:0;padding-left:18px;">
+  <li><strong>Red venosa colateral</strong> centrífuga desde el ombligo ("cabeza de medusa"): hipertensión portal con recanalización de la vena umbilical.</li>
+  <li><strong>Equimosis periumbilical</strong> (signo de Cullen) <strong>o en los flancos</strong> (signo de Grey Turner): hemorragia retroperitoneal o intraperitoneal disecando el tejido subcutáneo, clásicamente descritas en la pancreatitis aguda necrohemorrágica, pero inespecíficas (también en embarazo ectópico roto, traumatismo).</li>
+</ul>
+<p style="margin:8px 0 0;">La distensión generalizada se recuerda con la mnemotecnia de las <strong>"6 F"</strong>: fat (grasa), fluid (líquido/ascitis), flatus (gas), feces (heces), fetus (embarazo), fatal tumor (masa/neoplasia).</p>`,
       criterios_dx: 'Cullen y Grey Turner son signos tardíos (24-72 h tras el inicio del sangrado) y poco sensibles: su ausencia no descarta una pancreatitis grave ni una hemorragia retroperitoneal.',
       dx_diferencial: 'Distensión generalizada (ascitis, obstrucción intestinal, íleo, embarazo, obesidad) vs. distensión localizada (masa, visceromegalia, hernia, globo vesical).'
     },
@@ -209,7 +177,14 @@ export const content = {
       </tbody>
     </table>
     </div>`)}`,
-      fisiopatologia: 'Ruidos aumentados, de tono agudo, en "ráfagas" coincidiendo con el cólico ("ruidos de lucha"): obstrucción mecánica temprana, el intestino proximal a la obstrucción hiperperistalta contra la resistencia. Ruidos disminuidos o ausentes: íleo paralítico/adinámico (posquirúrgico, peritonitis, hipopotasemia, opioides) donde el músculo liso intestinal pierde su actividad contráctil coordinada, o fase tardía de una obstrucción mecánica ya agotada. Soplo sistólico o sistodiastólico en epigastrio/flancos: estenosis de arteria renal (el componente diastólico sugiere mayor severidad). Soplo sobre el hígado: hepatocarcinoma o hepatitis alcohólica severa. Soplo venoso continuo, "en zumbido", periumbilical: síndrome de Cruveilhier-Baumgarten (hipertensión portal con recanalización de la vena umbilical, coincide con la cabeza de medusa). Roce/fricción hepático o esplénico: perihepatitis o periesplenitis (infarto, absceso).',
+      fisiopatologia: `<ul style="margin:0;padding-left:18px;">
+  <li><strong>Ruidos aumentados</strong>, de tono agudo, en "ráfagas" coincidiendo con el cólico ("ruidos de lucha"): obstrucción mecánica temprana, el intestino proximal a la obstrucción hiperperistalta contra la resistencia.</li>
+  <li><strong>Ruidos disminuidos o ausentes</strong>: íleo paralítico/adinámico (posquirúrgico, peritonitis, hipopotasemia, opioides) donde el músculo liso intestinal pierde su actividad contráctil coordinada, o fase tardía de una obstrucción mecánica ya agotada.</li>
+  <li><strong>Soplo sistólico o sistodiastólico</strong> en epigastrio/flancos: estenosis de arteria renal (el componente diastólico sugiere mayor severidad).</li>
+  <li><strong>Soplo sobre el hígado</strong>: hepatocarcinoma o hepatitis alcohólica severa.</li>
+  <li><strong>Soplo venoso continuo</strong>, "en zumbido", periumbilical: síndrome de Cruveilhier-Baumgarten (hipertensión portal con recanalización de la vena umbilical, coincide con la cabeza de medusa).</li>
+  <li><strong>Roce/fricción</strong> hepático o esplénico: perihepatitis o periesplenitis (infarto, absceso).</li>
+</ul>`,
       criterios_dx: 'Un soplo abdominal en un paciente con hipertensión arterial resistente al tratamiento obliga a descartar estenosis de arteria renal.',
       dx_diferencial: 'Silencio abdominal verdadero (íleo, peritonitis) vs. auscultación insuficiente (&lt;2 minutos, la causa más frecuente de un falso "abdomen silente").'
     },
@@ -218,7 +193,11 @@ export const content = {
       color: '#3d5a73',
       definicion: 'Percusión indirecta (dedo plexímetro) que mapea el contenido abdominal por diferencias de densidad acústica entre gas, líquido y sólido.',
       clinica: 'Normal: timpanismo predominante (gas intestinal) con matidez hepática en hipocondrio/flanco derecho y matidez esplénica limitada al espacio de Traube. Área de matidez hepática: se percute en línea medioclavicular derecha de arriba abajo (desde resonancia pulmonar hasta matidez = borde superior, ~5º espacio intercostal) y de abajo arriba (desde timpanismo intestinal hasta matidez = borde inferior, en el reborde costal); la distancia entre ambos bordes es normal entre 6 y 12 cm.',
-      fisiopatologia: 'Área de matidez hepática aumentada: hepatomegalia real, pero también puede aumentar por un derrame pleural derecho que eleva el borde superior sin que el hígado haya crecido. Área disminuida o ausente (timpanismo sobre el hígado): neumoperitoneo por víscera hueca perforada (signo de Jobert) o interposición de colon entre hígado y pared (síndrome de Chilaiditi). Espacio de Traube (6º espacio intercostal izquierdo, entre la línea axilar anterior y el reborde costal): normalmente timpánico por la cámara de aire gástrica; se vuelve mate con esplenomegalia, pero también con derrame pleural izquierdo, masa gástrica o alimento reciente — baja especificidad, por lo que el signo de Castell (percusión dinámica del último espacio intercostal en línea axilar anterior izquierda, comparando espiración e inspiración profunda) es más útil que la matidez estática de Traube.',
+      fisiopatologia: `<ul style="margin:0;padding-left:18px;">
+  <li><strong>Área de matidez hepática aumentada</strong>: hepatomegalia real, pero también puede aumentar por un derrame pleural derecho que eleva el borde superior sin que el hígado haya crecido.</li>
+  <li><strong>Área disminuida o ausente</strong> (timpanismo sobre el hígado): neumoperitoneo por víscera hueca perforada (signo de Jobert) o interposición de colon entre hígado y pared (síndrome de Chilaiditi).</li>
+  <li><strong>Espacio de Traube</strong> (6º espacio intercostal izquierdo, entre la línea axilar anterior y el reborde costal): normalmente timpánico por la cámara de aire gástrica; se vuelve mate con esplenomegalia, pero también con derrame pleural izquierdo, masa gástrica o alimento reciente — baja especificidad, por lo que el signo de Castell (percusión dinámica del último espacio intercostal en línea axilar anterior izquierda, comparando espiración e inspiración profunda) es más útil que la matidez estática de Traube.</li>
+</ul>`,
       criterios_dx: 'El signo de Castell positivo (el último espacio intercostal de la línea axilar anterior izquierda, timpánico en espiración, se vuelve mate en inspiración profunda) tiene mejor rendimiento que la percusión estática del espacio de Traube para detectar esplenomegalia.',
       algoritmo: ['Percutir el borde superior de la matidez hepática en línea medioclavicular derecha, de arriba hacia abajo, desde resonancia pulmonar', 'Percutir el borde inferior, de abajo hacia arriba, desde timpanismo intestinal', 'Medir la distancia entre ambos bordes (normal 6-12 cm)', 'Percutir el espacio de Traube y realizar el signo de Castell para el bazo']
     },
@@ -227,7 +206,7 @@ export const content = {
       color: '#8c3a34',
       definicion: 'Maniobras de percusión y palpación diseñadas para detectar líquido libre en la cavidad peritoneal (ver Imagen 2).',
       clinica: 'Matidez cambiante (shifting dullness): con el paciente en decúbito supino, percutir desde el ombligo hacia el flanco marcando el punto donde el timpanismo cambia a matidez; girar al paciente al decúbito lateral contrario, esperar unos segundos y repercutir el mismo punto — si lo que era mate se vuelve timpánico, la prueba es positiva. Oleada ascítica (fluid wave): un asistente aplica el borde cubital de su mano firmemente sobre la línea media del abdomen (para bloquear la transmisión de la onda a través de la grasa de la pared) mientras el examinador da un golpe seco en un flanco y palpa la transmisión de la onda en el flanco contrario.',
-      fisiopatologia: `${figBlock('Imagen 2', 'Matidez cambiante (shifting dullness)', ascitisTecnicaSVG())}
+      fisiopatologia: `${figBlock('Imagen 2', 'Matidez cambiante (shifting dullness)', `<img src="topics/exploracion-abdominal/assets/matidez-cambiante.png" alt="Infografía de matidez cambiante (shifting dullness), signo físico que indica presencia de líquido libre intraperitoneal (ascitis). Qué es: en presencia de líquido libre en la cavidad peritoneal, la matidez a la percusión se desplaza según la posición del paciente, mientras que el timpanismo se desplaza al área más declive. Cómo se explora: 1) percutir suavemente la línea media del abdomen desde el apéndice xifoides hacia la sínfisis del pubis para identificar el límite superior de matidez; 2) pedir al paciente que se recueste en decúbito lateral (derecho o izquierdo) durante 2-3 minutos; 3) percutir nuevamente la línea media en la misma forma y comparar el nivel superior de matidez. Interpretación: si el límite superior de la matidez se desplaza 2-3 cm o más hacia la dependencia de la posición, la prueba es positiva, sugestiva de líquido libre intraperitoneal. Por qué ocurre: en decúbito supino el líquido se distribuye en las porciones declives laterales e inferiores (timpanismo anterior, matidez en la porción inferior y lateral); en decúbito lateral el líquido se desplaza hacia el lado dependiente, haciendo que la matidez se eleve en el lado no dependiente (timpanismo en el lado no dependiente, matidez en el lado dependiente). Puntos clave: requiere una cantidad moderada o grande de líquido (aproximadamente ≥1-1.5 L); puede ser negativo en ascitis loculada o en obesidad marcada; es más útil cuando se combina con otros signos de ascitis. Importante: no confundir con matidez fija (masas, embarazo, hepatomegalia) que no cambia con la posición.">`)}
 En decúbito supino el gas intestinal flota en la región central-anterior (timpanismo periumbilical) mientras el líquido libre se acumula por gravedad en ambos flancos (matidez); al rotar al paciente, el líquido migra al nuevo flanco declive y el punto marcado que era mate se vuelve timpánico. Es el mismo principio que un vaso de agua con hielo: el hielo (el gas) siempre flota arriba y el agua (el líquido) ocupa la parte de abajo, sin importar cómo se incline el vaso — al girar al paciente, el "arriba" y el "abajo" cambian, y el contenido se redistribuye de inmediato por gravedad. La matidez cambiante requiere un volumen relativamente moderado de líquido libre (aprox. 1500 mL) para detectarse; la oleada ascítica solo es fiable con volúmenes grandes y, sin la mano bloqueadora del asistente, puede dar falsos positivos por transmisión a través de la grasa de la pared en pacientes obesos.`,
       criterios_dx: 'La ausencia de matidez cambiante hace poco probable una ascitis clínicamente detectable; su presencia junto con distensión abdominal difusa tiene mejor rendimiento diagnóstico que la oleada ascítica aislada.',
       dx_diferencial: 'Distensión sin matidez cambiante: obesidad, embarazo, meteorismo, o una masa quística gigante (ej. quiste de ovario), que clásicamente da matidez central fija en vez de matidez en ambos flancos.'
@@ -246,7 +225,12 @@ En decúbito supino el gas intestinal flota en la región central-anterior (timp
       color: '#8c3a34',
       definicion: 'Técnica bimanual (dedos "en gancho" bajo el reborde costal derecho, o técnica de Chauffard con la mano izquierda reforzando por detrás) para delimitar el borde inferior del hígado durante la inspiración.',
       clinica: 'Se pide al paciente inspirar profundamente mientras se palpa el reborde costal derecho; el borde hepático normal desciende con la inspiración y es liso, firme, indoloro, apenas palpable 1-2 cm bajo el reborde en personas delgadas. Hepatomegalia: el borde desciende &gt;2-3 cm bajo el reborde costal Y el área de matidez percutida también está aumentada — este segundo dato distingue el crecimiento real de un simple desplazamiento hacia abajo.',
-      fisiopatologia: 'La consistencia y el borde orientan la etiología más que el tamaño solo: borde blando, liso y doloroso (congestión pasiva por insuficiencia cardiaca derecha, hepatitis aguda); borde firme/duro, romo y nodular, indoloro (cirrosis, infiltración neoplásica); pulsatilidad sistólica transmitida al borde hepático, sincrónica con el pulso arterial (no con la respiración): insuficiencia tricuspídea severa, el reflujo sistólico se transmite en retrógrado por las venas suprahepáticas.',
+      fisiopatologia: `<p style="margin:0;">La consistencia y el borde orientan la etiología más que el tamaño solo:</p>
+<ul style="margin:8px 0 0;padding-left:18px;">
+  <li><strong>Borde blando, liso y doloroso</strong>: congestión pasiva por insuficiencia cardiaca derecha, hepatitis aguda.</li>
+  <li><strong>Borde firme/duro, romo y nodular, indoloro</strong>: cirrosis, infiltración neoplásica.</li>
+  <li><strong>Pulsatilidad sistólica</strong> transmitida al borde hepático, sincrónica con el pulso arterial (no con la respiración): insuficiencia tricuspídea severa, el reflujo sistólico se transmite en retrógrado por las venas suprahepáticas.</li>
+</ul>`,
       criterios_dx: 'Un hígado pulsátil, sincrónico con el pulso arterial, en un paciente con ingurgitación yugular, sugiere insuficiencia tricuspídea severa.',
       dx_diferencial: 'Hepatomegalia real (área de matidez percutida aumentada) vs. desplazamiento del hígado hacia abajo sin crecimiento verdadero (hiperinsuflación pulmonar/EPOC), donde el área de matidez percutida es normal, solo está más baja.'
     },
@@ -290,7 +274,8 @@ Requiere que la vesícula inflamada realmente descienda hasta contactar los dedo
       </tbody>
     </table>
     </div>`)}
-A diferencia del ciego, que es móvil, la base apendicular tiene posición anatómica relativamente constante, de ahí la utilidad del punto de McBurney. Rovsing se explica por el desplazamiento del gas/contenido intestinal y la tracción indirecta del peritoneo parietal inflamado al comprimir a distancia — como tirar de una esquina de una sábana bien estirada: el jalón se siente también en la esquina opuesta, porque toda la tela (aquí, el peritoneo) es una superficie continua. El psoas es positivo cuando un apéndice retrocecal contacta el músculo psoas ilíaco y su estiramiento irrita el peritoneo adyacente. El obturador es positivo cuando un apéndice pélvico contacta el músculo obturador interno, irritado por su rotación.`,
+A diferencia del ciego, que es móvil, la base apendicular tiene posición anatómica relativamente constante, de ahí la utilidad del punto de McBurney. Rovsing se explica por el desplazamiento del gas/contenido intestinal y la tracción indirecta del peritoneo parietal inflamado al comprimir a distancia — como tirar de una esquina de una sábana bien estirada: el jalón se siente también en la esquina opuesta, porque toda la tela (aquí, el peritoneo) es una superficie continua. El psoas es positivo cuando un apéndice retrocecal contacta el músculo psoas ilíaco y su estiramiento irrita el peritoneo adyacente. El obturador es positivo cuando un apéndice pélvico contacta el músculo obturador interno, irritado por su rotación.
+${videoBlock('Video 2', 'Signos de Rovsing, psoas y obturador', '6LrL4ysi_AE', 'OMMinutes (YouTube)')}`,
       criterios_dx: 'Ningún signo aislado tiene sensibilidad suficiente para descartar apendicitis por sí solo; su valor es acumulativo junto con la localización del dolor, la secuencia típica (dolor periumbilical migrando a fosa iliaca derecha) y los signos de irritación peritoneal directa.',
       dx_diferencial: 'Psoas y obturador positivos no son exclusivos de apendicitis: también aparecen en abscesos del psoas de otro origen o en procesos inflamatorios pélvicos (ej. anexitis) que irritan los mismos músculos.'
     },

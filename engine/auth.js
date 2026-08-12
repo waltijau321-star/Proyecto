@@ -54,7 +54,7 @@ document.addEventListener('click', (e) => {
   if (authGateActive && e.target && e.target.id === 'overlay') e.stopImmediatePropagation();
 }, true);
 
-export const RESIDENCY_YEARS = ['R1 (primer año)', 'R2 (segundo año)', 'R3 (tercer año)', 'R4 (cuarto año)', 'Adscrito / otro'];
+export const RESIDENCY_YEARS = ['MIP (interno de pregrado)', 'R1 (primer año)', 'R2 (segundo año)', 'R3 (tercer año)', 'R4 (cuarto año)', 'Adscrito / otro'];
 const REFERRAL_SOURCES = ['Redes sociales (Instagram, Facebook, X)', 'Recomendación de un colega o profesor', 'Búsqueda en Google', 'Congreso o evento académico', 'Otro'];
 // Excluye el bloque "R1" (acceso rápido) de la cuenta: sus ítems son los mismos que ya
 // se cuentan en su bloque temático de siempre, no temas nuevos.
@@ -82,7 +82,7 @@ function renderLoginPage(errorMsg) {
         <img src="icons/icon-192.png" alt="MIOsler" class="auth-logo">
         <span class="auth-kicker">Plataforma de estudio y apoyo para residentes de Medicina Interna</span>
         <h1>MIOsler</h1>
-        <p class="auth-desc">Temario completo, autoevaluación por tema, calculadoras clínicas validadas, protocolos de manejo y calendario de guardias, todo respaldado por guías internacionales vigentes.</p>
+        <p class="auth-desc">Temario completo, autoevaluación por tema, calculadoras clínicas validadas y protocolos de manejo, todo respaldado por guías internacionales vigentes.</p>
 
         <div class="home-features">
           <div class="home-feature">
@@ -94,11 +94,6 @@ function renderLoginPage(errorMsg) {
             <svg viewBox="0 0 24 24"><path d="M7 18a4.5 4.5 0 0 1-1-8.9A6 6 0 0 1 17.6 8H18a4 4 0 0 1 0 8H7z"/><path d="M12 11v6M9.5 14.5 12 12l2.5 2.5"/></svg>
             <h3>Progreso sincronizado</h3>
             <p>Tu cuenta guarda tu avance en la nube: estudia desde tu computadora, celular o tablet sin perder nada.</p>
-          </div>
-          <div class="home-feature">
-            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/><path d="M7.5 14.5h2M11 14.5h2M14.5 14.5h2M7.5 17.5h2M11 17.5h2"/></svg>
-            <h3>Calendario de guardias</h3>
-            <p>Sube el horario de tus guardias y llévalo junto con la cuenta regresiva de tu examen, siempre a la mano.</p>
           </div>
           <div class="home-feature">
             <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M16 3v4M8 3v4M4 11h16"/><path d="M9 15l2 2 4-4"/></svg>
@@ -270,7 +265,7 @@ function termsAndConditionsHTML() {
       <p>Eres responsable de la veracidad de los datos que proporcionas (nombre, hospital, año de residencia, país, etc.) y de mantener la confidencialidad de tu contraseña. Puedes solicitar la eliminación de tu cuenta y tus datos escribiendo a waltijau321@gmail.com.</p>
 
       <h3>4. Datos y sincronización</h3>
-      <p>Tu progreso de estudio (temas completados, resultados de autoevaluación, fichas, calendario de guardias) y los datos de tu perfil se guardan de forma asociada a tu cuenta mediante Firebase, para que puedas acceder a ellos desde distintos dispositivos.</p>
+      <p>Tu progreso de estudio (temas completados, resultados de autoevaluación, fichas) y los datos de tu perfil se guardan de forma asociada a tu cuenta mediante Firebase, para que puedas acceder a ellos desde distintos dispositivos.</p>
 
       <h3>5. Analítica de uso</h3>
       <p>MIOsler comparte de forma anónima qué secciones y funciones usas, para ayudarme a mejorar la app. No se comparte el contenido de tus respuestas ni tu identidad. Al crear tu cuenta aceptas esta analítica como parte del funcionamiento de la plataforma.</p>

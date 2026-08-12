@@ -5,7 +5,7 @@
 // Migrado desde el prototipo de Cirrosis y parametrizado.
 
 import { syncGet, syncSet } from './cloud-sync.js';
-import { updateQuizSRS, dueQuestionIndices } from './quiz-srs.js';
+import { updateQuizSRS, dueQuestionIndices, isQuizCompleted, remainingToComplete } from './quiz-srs.js';
 import { trackEvent } from './usage-tracking.js';
 
 // Datos del tema activo (poblados por mountStudy)
@@ -194,12 +194,19 @@ function buildSeguimiento() {
 }
 
 function buildAutoevaluacion() {
+  // Las fichas de repaso quedan bloqueadas hasta que el usuario responda, al menos una vez cada
+  // una, todas las preguntas del banco del tema (acumulado entre sesiones). Sin banco de
+  // preguntas (tema nuevo sin quiz aún) no hay nada que bloquear.
+  const fcLocked = FLASHCARDS.length > 0 && QUIZ_QUESTIONS.length > 0 && !isQuizCompleted(TOPIC.meta.id, QUIZ_QUESTIONS.length);
+  const remaining = fcLocked ? remainingToComplete(TOPIC.meta.id, QUIZ_QUESTIONS.length) : 0;
   const cards = [
     { key: 'quiz', title: 'Banco de preguntas', sub: QUIZ_QUESTIONS.length + ' preguntas de opción múltiple · casos clínicos y teoría', color: '#3d5a73', fn: 'openQuiz()' },
-    { key: 'flashcards', title: 'Fichas de repaso', sub: FLASHCARDS.length + ' fichas · repetición espaciada, se adapta a tu progreso', color: '#5c4a73', fn: 'openFlashcards()' },
+    fcLocked
+      ? { key: 'flashcards', title: '🔒 Fichas de repaso', sub: `Responde ${remaining} pregunta${remaining === 1 ? '' : 's'} más del banco para desbloquear`, color: '#5c4a73', fn: 'lockedFlashcardsNotice()', locked: true }
+      : { key: 'flashcards', title: 'Fichas de repaso', sub: FLASHCARDS.length + ' fichas · repetición espaciada, se adapta a tu progreso', color: '#5c4a73', fn: 'openFlashcards()' },
     { key: 'case', title: 'Caso clínico interactivo', sub: 'Un caso completo, paso a paso, con decisiones y retroalimentación', color: '#8c3a34', fn: 'openCase()' }
   ].filter(c => c.key === 'quiz' ? QUIZ_QUESTIONS.length : c.key === 'flashcards' ? FLASHCARDS.length : CASE_STEPS.length)
-    .map(c => `<div class="comp-card" style="--c:${c.color}" onclick="${c.fn}"><h4>${c.title}</h4><p>${c.sub}</p><div class="open-hint">Comenzar →</div></div>`).join('');
+    .map(c => `<div class="comp-card${c.locked ? ' comp-card-locked' : ''}" style="--c:${c.color}" onclick="${c.fn}"><h4>${c.title}</h4><p>${c.sub}</p><div class="open-hint">${c.locked ? 'Bloqueado' : 'Comenzar →'}</div></div>`).join('');
   const autoevalLabel = (CATEGORIES.find(c => c.id === 'autoevaluacion') || {}).label || 'Autoevaluación';
   return section('autoevaluacion', '06', autoevalLabel, 'Pon a prueba lo aprendido. Se irá ampliando con más preguntas y casos.', `<div class="comp-grid">${cards}</div>`);
 }
@@ -308,77 +315,62 @@ function showOverlay() {
 }
 
 /* ---------------- Quiz ---------------- */
-const DIFF_LABEL = { facil: 'Fácil', intermedio: 'Intermedio', dificil: 'Difícil', inteligente: 'Repaso inteligente' };
-const DIFF_ORDER = ['facil', 'intermedio', 'dificil'];
 // Un ítem del banco puede ser una pregunta única (misma forma de siempre: {q, options, correct,
 // explanation}) o una pregunta en cascada ({type:'cascade', vignette, steps:[{q,options,correct}],
 // explanation}) — 2-3 preguntas que comparten una viñeta y dan retroalimentación consolidada al
 // final, en vez de una por una. itemWeight() cuenta cada paso de una cascada como una pregunta
 // para el puntaje final, sin romper el conteo de temas que ya usan solo preguntas únicas.
+//
+// No hay selector de dificultad: cada sesión siempre juega el banco completo del tema (todas las
+// preguntas, únicas + casos clínicos + teoría). El campo `dificultad` de cada pregunta se
+// conserva en los datos solo para que el contenido se genere balanceado, y lo sigue usando el
+// examen simulado (engine/exam-mode.js). El único filtro/orden es priorityShuffle(): mezcla todo
+// de nuevo en cada sesión (nunca el mismo orden dos veces) y da un pequeño empujón hacia el
+// frente a las preguntas ya vencidas para repaso espaciado (dueQuestionIndices), sin sacar
+// ninguna del mazo.
 function itemWeight(item) { return item.type === 'cascade' ? item.steps.length : 1; }
-let quizState = { level: 'todas', deck: [], qIndex: 0, score: 0, answered: false, subStep: 0, subAnswers: [] };
+let quizState = { deck: [], qIndex: 0, score: 0, answered: false, subStep: 0, subAnswers: [], selected: null };
 
-function quizByLevel(level) {
-  if (level === 'todas') return QUIZ_QUESTIONS;
-  if (level === 'inteligente') {
-    const due = dueQuestionIndices(TOPIC.meta.id, QUIZ_QUESTIONS.length);
-    const idx = due.length ? due : QUIZ_QUESTIONS.map((_, i) => i);
-    return idx.map(i => QUIZ_QUESTIONS[i]);
-  }
-  return QUIZ_QUESTIONS.filter(q => (q.dificultad || 'facil') === level);
+function priorityShuffle(arr, dueSet) {
+  return arr.map((v, i) => [Math.random() * (dueSet.has(i) ? 0.5 : 1), v])
+    .sort((a, b) => a[0] - b[0]).map(([, v]) => v);
 }
 
 function openQuiz() {
-  const m = document.getElementById('modal');
-  m.style.setProperty('--modal-accent', '#3d5a73');
-  const dueCount = dueQuestionIndices(TOPIC.meta.id, QUIZ_QUESTIONS.length).length;
-  const levelButtons = DIFF_ORDER.filter(lvl => quizByLevel(lvl).length > 0)
-    .map(lvl => `<button class="quiz-opt" onclick="startQuiz('${lvl}')">${DIFF_LABEL[lvl]} <span class="mono" style="color:var(--ink-faint);">(${quizByLevel(lvl).length})</span></button>`)
-    .join('');
-  m.innerHTML = `
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <span class="modal-tag" style="color:#3d5a73;">Banco de preguntas</span>
-    <h2>Elige la dificultad</h2>
-    <div class="quiz-options">
-      <button class="quiz-opt" onclick="startQuiz('inteligente')">Repaso inteligente <span class="mono" style="color:var(--ink-faint);">(${dueCount})</span></button>
-      ${levelButtons}
-      <button class="quiz-opt" onclick="startQuiz('todas')">Todas <span class="mono" style="color:var(--ink-faint);">(${QUIZ_QUESTIONS.length})</span></button>
-    </div>
-    <p class="auth-note" style="margin-top:14px;">"Repaso inteligente" prioriza las preguntas que has fallado o no has repasado recientemente, con el mismo sistema de repetición espaciada que las fichas.</p>`;
+  startQuiz();
   showOverlay();
 }
-function startQuiz(level) {
-  const deck = level === 'inteligente' ? shuffleQuiz(quizByLevel(level)) : quizByLevel(level);
-  quizState = { level, deck, qIndex: 0, score: 0, answered: false, subStep: 0, subAnswers: [] };
+function startQuiz() {
+  const due = new Set(dueQuestionIndices(TOPIC.meta.id, QUIZ_QUESTIONS.length));
+  const deck = priorityShuffle(QUIZ_QUESTIONS, due);
+  quizState = { deck, qIndex: 0, score: 0, answered: false, subStep: 0, subAnswers: [], selected: null };
   trackEvent('quizStart');
   renderQuiz();
 }
-function shuffleQuiz(arr) { return arr.map(v => [Math.random(), v]).sort((a, b) => a[0] - b[0]).map(([, v]) => v); }
 function renderQuiz() {
   const m = document.getElementById('modal');
   m.style.setProperty('--modal-accent', '#3d5a73');
   const deck = quizState.deck;
-  const levelTag = quizState.level !== 'todas' ? ` · ${DIFF_LABEL[quizState.level]}` : '';
   if (quizState.qIndex >= deck.length) {
     const total = deck.reduce((s, it) => s + itemWeight(it), 0);
     const pct = total ? Math.round((quizState.score / total) * 100) : 0;
     trackEvent('quizComplete');
     m.innerHTML = `
       <button class="modal-close" onclick="closeModal()">✕</button>
-      <span class="modal-tag" style="color:#3d5a73;">Resultado final${levelTag}</span>
+      <span class="modal-tag" style="color:#3d5a73;">Resultado final</span>
       <h2>${quizState.score} / ${total} correctas (${pct}%)</h2>
       <p class="fbody" style="color:var(--ink-dim);margin-bottom:20px;">${pct >= 80 ? 'Excelente dominio del tema.' : pct >= 60 ? 'Buen desempeño, repasa los temas fallados.' : 'Conviene repasar las secciones de Complicaciones y Escalas antes de reintentar.'}</p>
-      <button class="calc-copy" onclick="startQuiz('${quizState.level}')">Reintentar →</button>
-      <button class="calc-copy" style="margin-left:8px;" onclick="openQuiz()">Cambiar dificultad</button>`;
+      <button class="calc-copy" onclick="startQuiz()">Reintentar →</button>`;
     return;
   }
   const item = deck[quizState.qIndex];
   if (item.type === 'cascade') { renderCascadeStep(item); return; }
   m.innerHTML = `
     <button class="modal-close" onclick="closeModal()">✕</button>
-    <span class="modal-tag" style="color:#3d5a73;">Pregunta ${quizState.qIndex + 1} / ${deck.length}${levelTag} · Puntaje: ${quizState.score}</span>
+    <span class="modal-tag" style="color:#3d5a73;">Pregunta ${quizState.qIndex + 1} / ${deck.length} · Puntaje: ${quizState.score}</span>
     <h2 style="font-size:1.3rem;">${item.q}</h2>
-    <div class="quiz-options" id="quiz-options">${item.options.map((opt, i) => `<button class="quiz-opt" onclick="answerQuiz(${i})">${opt}</button>`).join('')}</div>
+    <div class="quiz-options" id="quiz-options">${item.options.map((opt, i) => `<button class="quiz-opt" onclick="selectQuizOption(${i})">${opt}</button>`).join('')}</div>
+    <button class="calc-copy" id="quiz-confirm-btn" disabled onclick="confirmQuizAnswer()">Confirmar elección</button>
     <div id="quiz-feedback"></div>`;
 }
 function renderCascadeStep(item) {
@@ -389,8 +381,23 @@ function renderCascadeStep(item) {
     <span class="modal-tag" style="color:#3d5a73;">Caso ${quizState.qIndex + 1} / ${quizState.deck.length} · Paso ${quizState.subStep + 1} / ${item.steps.length}</span>
     <div class="case-vignette">${item.vignette}</div>
     <h2 style="font-size:1.3rem;">${step.q}</h2>
-    <div class="quiz-options" id="quiz-options">${step.options.map((opt, i) => `<button class="quiz-opt" onclick="answerQuiz(${i})">${opt}</button>`).join('')}</div>
+    <div class="quiz-options" id="quiz-options">${step.options.map((opt, i) => `<button class="quiz-opt" onclick="selectQuizOption(${i})">${opt}</button>`).join('')}</div>
+    <button class="calc-copy" id="quiz-confirm-btn" disabled onclick="confirmQuizAnswer()">Confirmar elección</button>
     <div id="quiz-feedback"></div>`;
+}
+// Seleccionar una opción solo la marca (evita que un mis-clic la envíe de una vez); hay que
+// pulsar "Confirmar elección" para que en verdad se califique. Compartido entre pregunta única
+// y cada paso de una cascada, ya que ambas usan el mismo #quiz-options/quizState.
+function selectQuizOption(i) {
+  if (quizState.answered) return;
+  quizState.selected = i;
+  document.querySelectorAll('#quiz-options .quiz-opt').forEach((btn, idx) => btn.classList.toggle('selected', idx === i));
+  const confirmBtn = document.getElementById('quiz-confirm-btn');
+  if (confirmBtn) confirmBtn.disabled = false;
+}
+function confirmQuizAnswer() {
+  if (quizState.answered || quizState.selected === null) return;
+  answerQuiz(quizState.selected);
 }
 function answerQuiz(i) {
   if (quizState.answered) return;
@@ -403,9 +410,12 @@ function answerQuiz(i) {
   updateQuizSRS(TOPIC.meta.id, QUIZ_QUESTIONS.indexOf(item), correct);
   document.querySelectorAll('#quiz-options .quiz-opt').forEach((btn, idx) => {
     btn.disabled = true;
+    btn.classList.remove('selected');
     if (idx === item.correct) btn.classList.add('correct');
     else if (idx === i) btn.classList.add('incorrect');
   });
+  const confirmBtn1 = document.getElementById('quiz-confirm-btn');
+  if (confirmBtn1) confirmBtn1.remove();
   document.getElementById('quiz-feedback').innerHTML = `
     <div class="quiz-feedback-box ${correct ? 'correct' : 'incorrect'}"><strong>${correct ? 'Correcto.' : 'Incorrecto.'}</strong> ${item.explanation}</div>
     <button class="calc-copy" style="margin-top:14px;" onclick="nextQuiz()">${quizState.qIndex + 1 < quizState.deck.length ? 'Siguiente →' : 'Ver resultado →'}</button>`;
@@ -415,7 +425,9 @@ function answerQuiz(i) {
 // junta recién al terminar el último paso, como pidió el usuario.
 function answerCascade(item, i) {
   quizState.subAnswers[quizState.subStep] = i;
-  document.querySelectorAll('#quiz-options .quiz-opt').forEach(btn => { btn.disabled = true; });
+  document.querySelectorAll('#quiz-options .quiz-opt').forEach(btn => { btn.disabled = true; btn.classList.remove('selected'); });
+  const confirmBtn2 = document.getElementById('quiz-confirm-btn');
+  if (confirmBtn2) confirmBtn2.remove();
   const isLastStep = quizState.subStep + 1 >= item.steps.length;
   if (!isLastStep) {
     document.getElementById('quiz-feedback').innerHTML = `
@@ -439,8 +451,8 @@ function answerCascade(item, i) {
     <div class="quiz-feedback-box ${allCorrect ? 'correct' : 'incorrect'}"><strong>${correctCount} / ${item.steps.length} correctas en este caso.</strong> ${item.explanation}</div>
     <button class="calc-copy" style="margin-top:14px;" onclick="nextQuiz()">${quizState.qIndex + 1 < quizState.deck.length ? 'Siguiente →' : 'Ver resultado →'}</button>`;
 }
-function nextCascadeStep() { quizState.subStep++; quizState.answered = false; renderQuiz(); }
-function nextQuiz() { quizState.qIndex++; quizState.subStep = 0; quizState.subAnswers = []; quizState.answered = false; renderQuiz(); }
+function nextCascadeStep() { quizState.subStep++; quizState.answered = false; quizState.selected = null; renderQuiz(); }
+function nextQuiz() { quizState.qIndex++; quizState.subStep = 0; quizState.subAnswers = []; quizState.answered = false; quizState.selected = null; renderQuiz(); }
 
 /* ---------------- Progreso acumulado del quiz (persistencia sincronizada, para Inicio) ---------------- */
 const PROGRESS_KEY = 'rm:quiz-progress';
@@ -475,7 +487,11 @@ let fcState = { deck: [], index: 0, showBack: false };
 function fcKey() { return 'flashcard-progress:' + TOPIC.meta.id; }
 function loadFlashcardProgress() { return syncGet(fcKey(), {}); }
 function saveFlashcardProgress(progress) { syncSet(fcKey(), progress); }
+// Guard defensivo: aunque buildAutoevaluacion() ya cablea la tarjeta bloqueada a
+// lockedFlashcardsNotice() en vez de a esta función, openFlashcards queda exportada en window
+// (para onclick inline), así que se revisa el candado también aquí por si se invoca directo.
 function openFlashcards() {
+  if (QUIZ_QUESTIONS.length && !isQuizCompleted(TOPIC.meta.id, QUIZ_QUESTIONS.length)) { lockedFlashcardsNotice(); return; }
   const progress = loadFlashcardProgress();
   const now = Date.now();
   let due = FLASHCARDS.map((c, i) => ({ ...c, id: i, prog: progress[i] || { box: 1, next: 0 } })).filter(c => c.prog.next <= now);
@@ -484,6 +500,18 @@ function openFlashcards() {
   fcState = { deck: due, index: 0, showBack: false };
   trackEvent('flashcardStart');
   renderFlashcard();
+  showOverlay();
+}
+function lockedFlashcardsNotice() {
+  const remaining = remainingToComplete(TOPIC.meta.id, QUIZ_QUESTIONS.length);
+  const m = document.getElementById('modal');
+  m.style.setProperty('--modal-accent', '#5c4a73');
+  m.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <span class="modal-tag" style="color:#5c4a73;">Fichas de repaso bloqueadas</span>
+    <h2>Completa primero el banco de preguntas</h2>
+    <p class="fbody" style="color:var(--ink-dim);margin-bottom:20px;">Responde ${remaining} pregunta${remaining === 1 ? '' : 's'} más del banco (al menos una vez cada una) para desbloquear las fichas de este tema.</p>
+    <button class="calc-copy" onclick="openQuiz()">Ir al banco de preguntas →</button>`;
   showOverlay();
 }
 function renderFlashcard() {
@@ -527,8 +555,8 @@ function rateFlashcard(rating) {
 }
 
 /* ---------------- Caso clínico ---------------- */
-let caseState = { step: 0, answered: false };
-function openCase() { caseState = { step: 0, answered: false }; trackEvent('caseStart'); renderCase(); showOverlay(); }
+let caseState = { step: 0, answered: false, selected: null };
+function openCase() { caseState = { step: 0, answered: false, selected: null }; trackEvent('caseStart'); renderCase(); showOverlay(); }
 function renderCase() {
   const m = document.getElementById('modal');
   m.style.setProperty('--modal-accent', '#8c3a34');
@@ -548,8 +576,20 @@ function renderCase() {
     <button class="modal-close" onclick="closeModal()">✕</button>
     <span class="modal-tag" style="color:#8c3a34;">Caso clínico · Paso ${caseState.step + 1} / ${CASE_STEPS.length}</span>
     <div class="case-vignette">${s.vignette}</div>
-    <div class="quiz-options" id="case-options">${s.options.map((opt, i) => `<button class="quiz-opt" onclick="answerCase(${i})">${opt}</button>`).join('')}</div>
+    <div class="quiz-options" id="case-options">${s.options.map((opt, i) => `<button class="quiz-opt" onclick="selectCaseOption(${i})">${opt}</button>`).join('')}</div>
+    <button class="calc-copy" id="case-confirm-btn" disabled onclick="confirmCaseAnswer()">Confirmar elección</button>
     <div id="case-feedback"></div>`;
+}
+function selectCaseOption(i) {
+  if (caseState.answered) return;
+  caseState.selected = i;
+  document.querySelectorAll('#case-options .quiz-opt').forEach((btn, idx) => btn.classList.toggle('selected', idx === i));
+  const confirmBtn = document.getElementById('case-confirm-btn');
+  if (confirmBtn) confirmBtn.disabled = false;
+}
+function confirmCaseAnswer() {
+  if (caseState.answered || caseState.selected === null) return;
+  answerCase(caseState.selected);
 }
 function answerCase(i) {
   if (caseState.answered) return;
@@ -558,14 +598,17 @@ function answerCase(i) {
   const correct = i === s.correct;
   document.querySelectorAll('#case-options .quiz-opt').forEach((btn, idx) => {
     btn.disabled = true;
+    btn.classList.remove('selected');
     if (idx === s.correct) btn.classList.add('correct');
     else if (idx === i) btn.classList.add('incorrect');
   });
+  const confirmBtn = document.getElementById('case-confirm-btn');
+  if (confirmBtn) confirmBtn.remove();
   document.getElementById('case-feedback').innerHTML = `
     <div class="quiz-feedback-box ${correct ? 'correct' : 'incorrect'}"><strong>${correct ? 'Correcto.' : 'Revisa esto:'}</strong> ${s.explanation}</div>
     <button class="calc-copy" style="margin-top:14px;" onclick="nextCase()">${caseState.step + 1 < CASE_STEPS.length ? 'Continuar caso →' : 'Ver resumen →'}</button>`;
 }
-function nextCase() { caseState.step++; caseState.answered = false; renderCase(); }
+function nextCase() { caseState.step++; caseState.answered = false; caseState.selected = null; renderCase(); }
 
 /* ---------------- Estigmas ---------------- */
 function openStigma(i) {
@@ -703,18 +746,46 @@ export function mountStudy(topic) {
   overlay.onclick = e => { if (e.target.id === 'overlay') closeModal(); };
 }
 
+/* ---------------- Lightbox de imágenes ---------------- */
+// Cualquier <img> dentro de una figura didáctica (.modal-figure) o de un estigma (.stigma-embed)
+// se puede ampliar a pantalla completa con un clic — útil sobre todo para las infografías
+// grandes (focos de auscultación, regiones abdominales, etc.) que se ven pequeñas dentro del
+// modal. #img-lightbox es un overlay propio (index.html), separado de #overlay/#modal, con
+// z-index mayor para quedar por encima del modal de contenido que sigue abierto detrás.
+function openImgLightbox(src, alt) {
+  const lb = document.getElementById('img-lightbox');
+  if (!lb) return;
+  document.getElementById('img-lightbox-img').src = src;
+  document.getElementById('img-lightbox-img').alt = alt || '';
+  lb.classList.add('active');
+}
+function closeImgLightbox() {
+  const lb = document.getElementById('img-lightbox');
+  if (!lb) return;
+  lb.classList.remove('active');
+  document.getElementById('img-lightbox-img').src = '';
+}
+
 /* ---------------- Handlers globales (para onclick inline) ---------------- */
 Object.assign(window, {
   jumpTo, jumpToEscala, highlightBib, openModal, closeModal,
-  openQuiz, startQuiz, answerQuiz, nextQuiz, nextCascadeStep,
-  openFlashcards, flipFlashcard, rateFlashcard,
-  openCase, answerCase, nextCase,
-  openStigma, runSearch, clearSearch
+  openQuiz, startQuiz, selectQuizOption, confirmQuizAnswer, answerQuiz, nextQuiz, nextCascadeStep,
+  openFlashcards, lockedFlashcardsNotice, flipFlashcard, rateFlashcard,
+  openCase, selectCaseOption, confirmCaseAnswer, answerCase, nextCase,
+  openStigma, runSearch, clearSearch,
+  openImgLightbox, closeImgLightbox
 });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  const lb = document.getElementById('img-lightbox');
+  if (lb && lb.classList.contains('active')) closeImgLightbox();
+  else closeModal();
+});
 document.addEventListener('click', e => {
   if (!e.target.closest('.searchbar')) {
     const box = document.getElementById('search-results');
     if (box) box.classList.remove('active');
   }
+  const img = e.target.closest('.modal-figure img, .stigma-embed img');
+  if (img) openImgLightbox(img.currentSrc || img.src, img.alt);
 });

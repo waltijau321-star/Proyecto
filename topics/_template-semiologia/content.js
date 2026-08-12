@@ -31,6 +31,12 @@ export const meta = {
 
 export const definicionText = 'Párrafo integral: qué información aporta la exploración de este sistema, en qué orden se hace (inspección → palpación → percusión → auscultación) y por qué es relevante clínicamente…';
 
+// El motor trae un texto genérico por defecto para "Abordaje Diagnóstico" ("Historia clínica,
+// laboratorio general, estudios dirigidos, métodos no invasivos e imagen, en orden de
+// invasividad creciente") pensado para el abordaje diagnóstico de una ENFERMEDAD — no aplica a
+// un tema de técnica de exploración física. Se deja siempre en '' en los temas de Semiología.
+export const diagnosticoIntro = '';
+
 export const bibliografia = [
   'Autor A, Autor B. Título del texto de semiología/propedéutica. Editorial. Año.'
 ];

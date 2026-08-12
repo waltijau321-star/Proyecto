@@ -6,9 +6,10 @@ import { temarioBlocks } from './topics/temario-index.js';
 import { mountStudy, setGlobalSearch, slugify } from './engine/study-view.js';
 import { setCalcTopic, setGeneralCalcs, mountCalculators, mountAllCalculators } from './engine/calculators.js';
 import { generalCalculators } from './engine/general-calc.js';
-import { mountCalendar } from './engine/calendar.js';
 import { mountProtocols } from './engine/protocols.js';
 import { mountHome } from './engine/home.js';
+import { remainingToComplete } from './engine/quiz-srs.js';
+import { maybeShowSplash } from './engine/logo-splash.js';
 import { initAuth } from './engine/auth.js';
 import { initCloudSync } from './engine/cloud-sync.js';
 import { isAdmin, mountAdmin } from './engine/admin.js';
@@ -23,7 +24,7 @@ import { protocols } from './protocols/protocols.js';
 setGeneralCalcs(generalCalculators);
 
 const vpoTopic = { meta: { accent: '#3d5a73' }, calculators: vpoCalculators, combinedNote: vpoCombinedNote };
-const mounted = { calendario: false, protocolos: false, vpo: false, calc: false };
+const mounted = { protocolos: false, vpo: false, calc: false };
 let currentTopic = null;
 
 // Títulos de encabezado para las secciones que no giran en torno a un solo tema
@@ -32,21 +33,29 @@ const SECTION_TITLES = {
   inicio: ['Inicio', ''],
   calc: ['Calculadoras', 'MIOsler'],
   protocolos: ['Protocolos', 'MIOsler'],
-  calendario: ['Calendario', 'MIOsler'],
   vpo: ['Valoración preoperatoria', 'MIOsler'],
   admin: ['Admin', 'MIOsler'],
   examen: ['Examen simulado', 'MIOsler']
 };
 
-/* ---------- Botón "Volver al temario" (reemplaza el selector de tema en Estudio) ---------- */
+/* ---------- Botones "Volver al temario" / "Siguiente tema" (reemplazan el selector de tema en
+   Estudio, que ya no tiene pestaña propia en el nav inferior) ---------- */
 function renderTopicSwitchSlot(sec) {
   const slot = document.getElementById('topic-switch-slot');
   if (!slot) return;
-  slot.innerHTML = sec === 'estudio'
-    ? `<button id="btn-volver-temario" class="home-quick">← Volver al temario</button>`
-    : '';
+  if (sec !== 'estudio' || !currentTopic) { slot.innerHTML = ''; return; }
+  // Siguiente tema = el que sigue a currentTopic en el orden de registry.js, con vuelta al
+  // inicio tras el último (mismo criterio de "anterior/siguiente" que ya usa el modal de
+  // complicaciones en study-view.js). Si solo hay un tema construido, no hay a dónde ir.
+  const idx = registry.findIndex(t => t.id === currentTopic.meta.id);
+  const next = idx >= 0 && registry.length > 1 ? registry[(idx + 1) % registry.length] : null;
+  slot.innerHTML = `
+    <button id="btn-volver-temario" class="home-quick">← Volver al temario</button>
+    ${next ? `<button id="btn-siguiente-tema" class="home-quick" title="${next.titulo}">Siguiente: ${next.titulo} →</button>` : ''}`;
   const btn = document.getElementById('btn-volver-temario');
   if (btn) btn.addEventListener('click', () => showSection('inicio'));
+  const btnNext = document.getElementById('btn-siguiente-tema');
+  if (btnNext && next) btnNext.addEventListener('click', async () => { await selectTopic(next.id); showSection('estudio'); });
 }
 
 /* ---------- Navegación de secciones ---------- */
@@ -69,7 +78,6 @@ function showSection(sec) {
     document.getElementById('app-subtitle').textContent = subtitle;
   }
 
-  if (sec === 'calendario' && !mounted.calendario) { mountCalendar(document.getElementById('cal-root')); mounted.calendario = true; }
   if (sec === 'protocolos' && !mounted.protocolos) { mountProtocols(document.getElementById('proto-root')); mounted.protocolos = true; }
   if (sec === 'vpo') {
     if (!mounted.vpo) {
@@ -132,15 +140,19 @@ async function selectTopic(id, { reflectUrl = true } = {}) {
 async function mountHomeSection() {
   const topics = [];
   let totalQuestions = 0;
+  let answeredQuestions = 0;
   for (const t of registry) {
     const topic = await loadTopic(t.id);
     if (!topic) continue;
     const quizCount = (topic.study && topic.study.quiz && topic.study.quiz.length) || 0;
     totalQuestions += quizCount;
+    // "Contestada" = ya se respondió al menos una vez (mismo criterio que desbloquea las fichas
+    // de repaso del tema, ver engine/quiz-srs.js), no el total de intentos.
+    if (quizCount) answeredQuestions += quizCount - remainingToComplete(t.id, quizCount);
     topics.push({ id: t.id, titulo: topic.meta.titulo, subtitulo: topic.meta.subtitulo, accent: topic.meta.accent, quizCount });
   }
   mountHome(document.getElementById('home-root'), {
-    topics, totalQuestions, temarioBlocks,
+    topics, totalQuestions, answeredQuestions, temarioBlocks,
     navigateToTopic: async (id) => {
       await selectTopic(id);
       showSection('estudio');
@@ -204,7 +216,13 @@ async function init() {
     // Si la URL ya traía un ?tema= válido, se conserva. Si no, se elige un tema por defecto
     // internamente (el primero del registro) pero SIN escribirlo en la URL — la URL queda
     // limpia hasta que el usuario elija un tema de verdad.
-    await selectTopic(initial, { reflectUrl: hasValidTemaParam });
+    // El splash de bienvenida corre en paralelo con la carga del tema inicial (no uno
+    // después del otro) para no duplicar tiempo de espera; Inicio se muestra recién cuando
+    // ambos terminan.
+    await Promise.all([
+      selectTopic(initial, { reflectUrl: hasValidTemaParam }),
+      maybeShowSplash()
+    ]);
     showSection('inicio');
     buildAndSetGlobalIndex();
 

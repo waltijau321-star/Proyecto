@@ -15,7 +15,7 @@ const HISTORY_KEY = 'rm:exam-history';
 const HISTORY_MAX = 50;
 
 let TOPIC_POOL = null; // [{id, titulo, accent, quiz:[...]}]
-let examState = { deck: [], qIndex: 0, score: 0, answered: false, startedAt: 0 };
+let examState = { deck: [], qIndex: 0, score: 0, answered: false, startedAt: 0, selected: null };
 let timerInterval = null;
 let EXAM_ROOT = null;
 
@@ -142,7 +142,7 @@ async function openExamConfigModal() {
 function startExam(numQuestions, difficulty, topicIds) {
   const bag = shuffle(buildPool(TOPIC_POOL, difficulty, topicIds));
   const deck = bag.slice(0, numQuestions);
-  examState = { deck, qIndex: 0, score: 0, answered: false, difficulty, startedAt: Date.now() };
+  examState = { deck, qIndex: 0, score: 0, answered: false, difficulty, startedAt: Date.now(), selected: null };
   trackEvent('examStart');
   if (window.rmGoToExam) window.rmGoToExam();
 }
@@ -193,10 +193,24 @@ function renderExamPage() {
   EXAM_ROOT.innerHTML = pageShellHTML(`
     <span class="modal-tag" style="color:#3d5a73;">Pregunta ${examState.qIndex + 1} / ${deck.length} · ${q.topicTitulo} · Puntaje: ${examState.score}</span>
     <h2 style="font-size:1.3rem;">${q.q}</h2>
-    <div class="quiz-options" id="exam-options">${q.options.map((opt, i) => `<button class="quiz-opt" onclick="rmAnswerExam(${i})">${opt}</button>`).join('')}</div>
+    <div class="quiz-options" id="exam-options">${q.options.map((opt, i) => `<button class="quiz-opt" onclick="rmSelectExamOption(${i})">${opt}</button>`).join('')}</div>
+    <button class="calc-copy" id="exam-confirm-btn" disabled onclick="rmConfirmExamAnswer()">Confirmar elección</button>
     <div id="exam-feedback"></div>`);
 }
 
+// Seleccionar solo marca la opción (evita que un mis-clic la envíe de una vez); hace falta
+// "Confirmar elección" para que se califique de verdad — mismo patrón que study-view.js.
+function selectExamOption(i) {
+  if (examState.answered) return;
+  examState.selected = i;
+  document.querySelectorAll('#exam-options .quiz-opt').forEach((btn, idx) => btn.classList.toggle('selected', idx === i));
+  const confirmBtn = document.getElementById('exam-confirm-btn');
+  if (confirmBtn) confirmBtn.disabled = false;
+}
+function confirmExamAnswer() {
+  if (examState.answered || examState.selected === null) return;
+  answerExam(examState.selected);
+}
 function answerExam(i) {
   if (examState.answered) return;
   examState.answered = true;
@@ -207,14 +221,17 @@ function answerExam(i) {
   updateQuizSRS(q.topicId, q.srsIndex, correct);
   document.querySelectorAll('#exam-options .quiz-opt').forEach((btn, idx) => {
     btn.disabled = true;
+    btn.classList.remove('selected');
     if (idx === q.correct) btn.classList.add('correct');
     else if (idx === i) btn.classList.add('incorrect');
   });
+  const confirmBtn = document.getElementById('exam-confirm-btn');
+  if (confirmBtn) confirmBtn.remove();
   document.getElementById('exam-feedback').innerHTML = `
     <div class="quiz-feedback-box ${correct ? 'correct' : 'incorrect'}"><strong>${correct ? 'Correcto.' : 'Incorrecto.'}</strong> ${q.explanation}</div>
     <button class="calc-copy" style="margin-top:14px;" onclick="rmNextExam()">${examState.qIndex + 1 < examState.deck.length ? 'Siguiente →' : 'Ver resultado →'}</button>`;
 }
-function nextExam() { examState.qIndex++; examState.answered = false; renderExamPage(); }
+function nextExam() { examState.qIndex++; examState.answered = false; examState.selected = null; renderExamPage(); }
 
 export function mountExamPage(root) {
   EXAM_ROOT = root;
@@ -285,4 +302,4 @@ export async function mountExamSummary(root) {
   if (historyBtn) historyBtn.addEventListener('click', openHistoryModal);
 }
 
-Object.assign(window, { rmAnswerExam: answerExam, rmNextExam: nextExam, rmExitExam: exitExam });
+Object.assign(window, { rmSelectExamOption: selectExamOption, rmConfirmExamAnswer: confirmExamAnswer, rmAnswerExam: answerExam, rmNextExam: nextExam, rmExitExam: exitExam });

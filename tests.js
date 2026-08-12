@@ -67,12 +67,6 @@ async function run() {
     assertEqual(mergeValue('rm:topics-reviewed', local, cloud), { sepsis: true, 'cirrosis-hepatica': true });
   });
 
-  test('merge: eventos de calendario se unen sin duplicar por fecha+tipo+etiqueta', () => {
-    const local = [{ date: '2026-01-01', type: 'guardia', label: 'A' }];
-    const cloud = [{ date: '2026-01-01', type: 'guardia', label: 'A' }, { date: '2026-01-02', type: 'clase', label: 'B' }];
-    assertEqual(mergeValue('rm:cal-events', local, cloud).length, 2);
-  });
-
   test('merge: valor escalar prefiere la nube si no está vacía, si no conserva lo local', () => {
     assertEqual(mergeValue('rm:exam-date', '2026-01-01', '2026-02-01'), '2026-02-01');
     assertEqual(mergeValue('rm:exam-date', '2026-01-01', ''), '2026-01-01');
@@ -82,7 +76,7 @@ async function run() {
   localStorage.removeItem('rm:test-obj');
 
   /* ---------------- Repetición espaciada de preguntas (engine/quiz-srs.js) ---------------- */
-  const { updateQuizSRS, dueQuestionIndices, loadQuizSRS } = await import('./engine/quiz-srs.js');
+  const { updateQuizSRS, dueQuestionIndices, loadQuizSRS, isQuizCompleted, remainingToComplete } = await import('./engine/quiz-srs.js');
   const T = 'rm-test-topic';
 
   test('quiz-srs: responder bien sube de caja y programa el próximo repaso a futuro', () => {
@@ -106,7 +100,27 @@ async function run() {
     updateQuizSRS(T, 2, true);
     const due = dueQuestionIndices(T, 5);
     assert(!due.includes(2), 'la pregunta 2 no debería estar vencida justo después de acertarla');
-    assertEqual(due.length, 4);
+  });
+
+  test('quiz-srs: una pregunta nunca respondida no cuenta como vencida (hay que responderla primero)', () => {
+    syncSet('rm:quiz-srs:' + T, {});
+    updateQuizSRS(T, 0, false);
+    const due = dueQuestionIndices(T, 5);
+    assertEqual(due.length, 1);
+    assert(due.includes(0), 'la pregunta 0, fallada, sí debería estar vencida');
+  });
+
+  test('quiz-srs: isQuizCompleted exige que cada pregunta se haya respondido al menos una vez', () => {
+    syncSet('rm:quiz-srs:' + T, {});
+    assertEqual(isQuizCompleted(T, 3), false);
+    assertEqual(remainingToComplete(T, 3), 3);
+    updateQuizSRS(T, 0, true);
+    updateQuizSRS(T, 1, false);
+    assertEqual(isQuizCompleted(T, 3), false);
+    assertEqual(remainingToComplete(T, 3), 1);
+    updateQuizSRS(T, 2, true);
+    assertEqual(isQuizCompleted(T, 3), true);
+    assertEqual(remainingToComplete(T, 3), 0);
   });
 
   localStorage.removeItem('rm:quiz-srs:' + T);

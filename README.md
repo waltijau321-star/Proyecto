@@ -1,6 +1,6 @@
 # ResidenteMed — Plataforma de estudio para residentes de Medicina Interna
 
-App unificada (PWA instalable, sin herramientas de build) con un **motor reutilizable** y **contenido separado por tema**. Combina el módulo de estudio profundo (Cirrosis, Sepsis…) con calculadoras, protocolos académicos con checklist y calendario de guardias.
+App unificada (PWA instalable, sin herramientas de build) con un **motor reutilizable** y **contenido separado por tema**. Combina el módulo de estudio profundo (Cirrosis, Sepsis…) con calculadoras y protocolos académicos con checklist.
 
 Autor del contenido clínico: **Dr. Walter Jáuregui**. Material educativo — no sustituye el juicio clínico ni las guías vigentes.
 
@@ -31,9 +31,6 @@ engine/                 Motor genérico (no conoce ningún tema)
   study-view.js         Render del módulo de estudio (mapa, modales, quiz, fichas, caso, buscador, citas)
   calculators.js        Motor declarativo de calculadoras + nota combinada
   general-calc.js       Calculadoras generales de MI (CURB-65, CKD-EPI, Wells, CHA₂DS₂-VASc)
-  calendar.js           Calendario de guardias/clases (localStorage)
-  schedule-import.js     Importa guardias desde un PDF de rol (pdf.js local, busca tu nombre)
-  vendor/pdfjs/          pdf.js vendorizado (sin CDN) para leer PDFs en el navegador
   protocols.js          Protocolos académicos (teoría + fármacos + checklist interactivo)
 topics/
   registry.js           Catálogo de temas (carga perezosa + composición)

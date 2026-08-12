@@ -309,6 +309,10 @@ tr.flash td{background:var(--panel2);}
 .comp-card h4{margin:0 0 6px; font-size:14.5px; color:var(--ink); font-weight:600; padding-left:6px; font-family:'Source Sans 3',sans-serif;}
 .comp-card p{margin:0; font-size:12.5px; color:var(--ink-faint); padding-left:6px; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;}
 .comp-card .open-hint{margin-top:10px; padding-left:6px; font-family:'Source Sans 3',sans-serif; font-size:11px; letter-spacing:.02em; color:var(--c); font-weight:600;}
+/* Fichas de repaso bloqueadas hasta completar el banco de preguntas del tema (study-view.js) */
+.comp-card-locked{opacity:.6;}
+.comp-card-locked:hover{border-color:var(--line); box-shadow:none;}
+.comp-card-locked .open-hint{color:var(--ink-faint);}
 
 /* ---------- MODAL ---------- */
 .overlay{
@@ -365,7 +369,7 @@ tr.flash td{background:var(--panel2);}
 .figure-body{margin-top:2px;}
 .figure-body table{font-size:12.5px;}
 .figure-body th{background:transparent;}
-.figure-body img{max-width:100%; height:auto; display:block; margin:0 auto; border-radius:var(--radius); border:1px solid var(--line); background:#fff;}
+.figure-body img{max-width:100%; height:auto; display:block; margin:0 auto; border-radius:var(--radius); border:1px solid var(--line); background:#fff; cursor:zoom-in;}
 .figure-body svg{max-width:100%; height:auto; display:block; margin:0 auto;}
 .figure-org{font-weight:600; color:var(--ink);}
 .figure-tag{display:inline-block; padding:2px 8px; border-radius:20px; font-size:11px; font-weight:600; white-space:nowrap;}
@@ -374,6 +378,22 @@ tr.flash td{background:var(--panel2);}
 .figure-grade-box{margin-top:14px; padding:12px 14px; background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); font-size:12.5px; color:var(--ink-dim); line-height:1.6;}
 .figure-grade-box strong{color:var(--ink);}
 .figure-source{font-size:11px; color:var(--ink-faint); font-style:italic; margin-top:10px;}
+
+/* Lightbox de imágenes: overlay propio (no reutiliza #overlay/#modal, que ya ocupa un modal de
+   contenido detrás) para ampliar a pantalla completa cualquier imagen de .figure-body/.stigma-embed
+   (ver openImgLightbox/closeImgLightbox en engine/study-view.js). z-index por encima de .overlay. */
+.img-lightbox{
+  position:fixed; inset:0; background:rgba(10,9,7,.92); z-index:200;
+  display:none; align-items:center; justify-content:center; padding:32px; cursor:zoom-out;
+}
+.img-lightbox.active{display:flex;}
+.img-lightbox img{max-width:100%; max-height:100%; object-fit:contain; border-radius:var(--radius); box-shadow:var(--shadow-lg); cursor:zoom-out;}
+.img-lightbox-close{
+  position:fixed; top:18px; right:18px; z-index:201; width:36px; height:36px; border-radius:50%;
+  border:1px solid rgba(255,255,255,.3); background:rgba(0,0,0,.4); color:#fff; cursor:pointer;
+  font-size:16px; display:flex; align-items:center; justify-content:center;
+}
+.img-lightbox-close:hover{border-color:#fff;}
 
 /* Diagrama de flujo/algoritmo (recreado en HTML) */
 .algo-flow{display:flex; flex-direction:column; align-items:center; gap:0;}
@@ -443,6 +463,8 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
   font-size:12px; font-weight:600; padding:8px 14px; border-radius:var(--radius); cursor:pointer;
 }
 .calc-copy:hover{border-color:var(--modal-accent-fg); color:var(--modal-accent-fg);}
+.calc-copy:disabled{opacity:.4; cursor:not-allowed;}
+.calc-copy:disabled:hover{border-color:var(--line); color:var(--ink-dim);}
 .calc-note{font-size:12.5px; color:var(--ink-faint); margin-top:4px; font-style:italic;}
 .nc-block{border-top:1px solid var(--line); padding-top:14px; margin-top:14px;}
 .nc-block:first-of-type{border-top:none; margin-top:0; padding-top:0;}
@@ -457,6 +479,7 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 }
 .quiz-opt:hover:not(:disabled){border-color:var(--modal-accent-fg); background:var(--panel2);}
 .quiz-opt:disabled{cursor:default;}
+.quiz-opt.selected{border-color:var(--modal-accent-fg); background:var(--panel2); box-shadow:inset 0 0 0 1px var(--modal-accent-fg); font-weight:600;}
 .quiz-opt.correct{border-color:#3f6b52; background:#3f6b5214; color:#3f6b52; font-weight:600;}
 .quiz-opt.incorrect{border-color:#8c3a34; background:#8c3a3414; color:#8c3a34; font-weight:600;}
 .quiz-feedback-box{padding:14px 16px; border-radius:var(--radius); font-size:14px; line-height:1.55; margin-top:4px;}
@@ -497,13 +520,14 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 }
 .app-header .brand-mark{
   width:38px; height:38px; border-radius:10px; flex:none; display:flex; align-items:center; justify-content:center;
-  background:#fff; overflow:hidden; border:1px solid var(--line);
+  background:transparent; overflow:hidden; border:1px solid var(--line);
 }
 .app-header .brand-mark img{width:100%; height:100%; object-fit:cover;}
 .app-header .brand-txt{display:flex; flex-direction:column; line-height:1.15; min-width:0;}
 .app-header .brand-txt h1{font-family:'Newsreader',serif; font-size:17px; font-weight:600; margin:0; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
 .app-header .brand-txt span{font-size:11.5px; color:var(--ink-faint);}
-.app-header .topic-switch{margin-left:auto; flex:none;}
+.app-header .topic-switch{margin-left:auto; flex:0 1 auto; min-width:0; display:flex; gap:8px; align-items:center;}
+.app-header .topic-switch .home-quick{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:46vw;}
 
 .account-menu{position:relative; flex:none; margin-left:8px;}
 .account-gear-btn{
@@ -547,7 +571,7 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
   .app-section.active{animation:none;}
 }
 
-/* Encabezado simple de sección (calc/protocolos/calendario/tools) */
+/* Encabezado simple de sección (calc/protocolos/tools) */
 .sec-header{max-width:1040px; margin:0 auto; padding:26px 20px 4px;}
 .sec-header h2{font-family:'Newsreader',serif; font-size:1.7rem; font-weight:600; margin:0; color:var(--ink);}
 .sec-header p{color:var(--ink-dim); font-size:14px; margin:6px 0 0; max-width:720px;}
@@ -575,54 +599,6 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 .calc-launch-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px;}
 @media (max-width:520px){ .calc-launch-grid{grid-template-columns:1fr 1fr;} }
 @media (max-width:360px){ .calc-launch-grid{grid-template-columns:1fr;} }
-
-/* ==========================================================================
-   CALENDARIO de guardias / clases
-   ========================================================================== */
-.cal-toolbar{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;}
-.cal-month{font-family:'Newsreader',serif; font-size:18px; font-weight:600; color:var(--ink);}
-.cal-arrow{
-  background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); width:34px; height:34px; cursor:pointer;
-  display:flex; align-items:center; justify-content:center; color:var(--ink); font-size:16px;
-}
-.cal-arrow:hover{border-color:var(--shell); color:var(--shell);}
-.cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:5px; margin-bottom:18px;}
-.cal-dayname{text-align:center; font-size:10.5px; text-transform:uppercase; letter-spacing:.03em; color:var(--ink-faint); padding:4px 0;}
-.cal-cell{
-  text-align:center; padding:7px 2px; border-radius:var(--radius); font-size:13.5px; cursor:pointer; min-height:40px;
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; border:1px solid transparent; color:var(--ink-dim);
-}
-.cal-cell:hover{background:var(--panel2);}
-.cal-cell.today{background:var(--shell-soft); color:var(--shell); font-weight:700;}
-.cal-cell.guardia{background:#f6e7cf; color:#8a5a1a; font-weight:600;}
-.cal-cell.clase{background:#e5e9f2; color:#3d5a73; font-weight:600;}
-.cal-cell.guardia.today, .cal-cell.clase.today{outline:2px solid var(--shell);}
-.cal-cell.other{color:var(--ink-faint); opacity:.5;}
-.cal-dot{width:5px; height:5px; border-radius:50%; background:#c98b2e;}
-.cal-legend{display:flex; gap:16px; flex-wrap:wrap; font-size:12px; color:var(--ink-dim); margin-bottom:16px;}
-.cal-legend span{display:flex; align-items:center; gap:6px;}
-.cal-legend i{width:11px; height:11px; border-radius:3px; display:inline-block;}
-.cal-add{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; align-items:flex-end;}
-.cal-add .calc-field{flex:1; min-width:120px;}
-.cal-add button{padding:9px 16px; background:var(--shell); color:#fff; border:none; border-radius:var(--radius); cursor:pointer; font-family:'Source Sans 3',sans-serif; font-size:13px; font-weight:600; height:38px;}
-.cal-add button:hover{background:var(--shell-dim);}
-.event-item{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:11px 14px; background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--c,var(--shell)); border-radius:var(--radius); margin-bottom:8px; font-size:13.5px; color:var(--ink);}
-.event-item .ev-del{background:none; border:none; cursor:pointer; color:var(--ink-faint); font-size:18px; line-height:1; padding:0 4px;}
-.event-item .ev-del:hover{color:var(--accent-fg);}
-.event-empty{text-align:center; font-size:13px; color:var(--ink-faint); padding:16px 0;}
-
-/* ==========================================================================
-   Importar guardias desde PDF
-   ========================================================================== */
-.cal-import{border:1px solid var(--line); border-radius:var(--radius); margin-bottom:18px; background:var(--panel);}
-.cal-import summary{cursor:pointer; padding:12px 16px; font-family:'Source Sans 3',sans-serif; font-weight:600; font-size:13.5px; color:var(--shell); list-style:none;}
-.cal-import summary::-webkit-details-marker{display:none;}
-.cal-import summary::before{content:"▸ "; display:inline-block; transition:transform .15s;}
-.cal-import[open] summary::before{transform:rotate(90deg);}
-.cal-import-body{padding:0 16px 16px;}
-.cal-import-hint{font-size:12.5px; color:var(--ink-faint); margin:0 0 12px;}
-.cal-import-status{font-size:12.5px; color:var(--ink-dim); margin:10px 0 0; min-height:16px;}
-.cal-import input[type="file"]{font-size:12.5px; color:var(--ink-dim);}
 
 /* ==========================================================================
    Filas nombre/valor (reutilizado en Protocolos para tablas de dosis)
@@ -680,7 +656,16 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 
 /* ---------- INICIO (home) ---------- */
 .home-hero{padding:44px 24px 32px; display:flex; flex-direction:column; align-items:center; text-align:center; border-bottom:1px solid var(--line);}
-.home-logo{width:clamp(140px,32vw,220px); height:clamp(140px,32vw,220px); border-radius:28px; border:1px solid var(--line); background:#fff; object-fit:cover; margin-top:16px;}
+.home-logo{
+  width:clamp(140px,32vw,220px); height:clamp(140px,32vw,220px); border-radius:28px; border:1px solid var(--line);
+  background:transparent; object-fit:cover; margin-top:16px;
+  animation:home-logo-in .55s cubic-bezier(.16,1,.3,1) both;
+}
+/* Como Inicio se vuelve a montar entero cada vez que se navega ahí (mountHome() rehace el
+   <img> desde cero), esta animación se repite sola en cada visita — no necesita JS ni
+   sessionStorage, a diferencia del splash de bienvenida que sí es un evento único. */
+@keyframes home-logo-in{ from{opacity:0; transform:scale(.85);} to{opacity:1; transform:scale(1);} }
+@media (prefers-reduced-motion:reduce){ .home-logo{animation:none;} }
 .home-hero h1{font-family:'Newsreader',serif; font-weight:600; font-size:clamp(1.9rem,5vw,2.6rem); margin:0; color:var(--ink);}
 .home-progress{
   display:flex; align-items:center; gap:26px; flex-wrap:wrap; margin:24px 0 6px; padding:18px 20px;
@@ -697,7 +682,13 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 .home-stat-n{font-family:'Newsreader',serif; font-size:1.6rem; font-weight:600; color:var(--ink);}
 .home-stat-l{font-size:11.5px; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.03em;}
 .home-stat-n.skeleton, .home-stat-l.skeleton{padding:2px 8px; display:inline-block;}
-.home-subhead{font-family:'Newsreader',serif; font-size:1.25rem; font-weight:600; margin:0; color:var(--ink);}
+.home-subhead{font-family:'Newsreader',serif; font-size:1.25rem; font-weight:600; margin:0; color:var(--ink); display:flex; align-items:center; gap:8px;}
+.home-help-btn{
+  flex:none; width:19px; height:19px; border-radius:50%; border:1px solid var(--line); background:var(--panel);
+  color:var(--ink-faint); font-size:11.5px; font-weight:700; line-height:1; cursor:pointer; padding:0;
+  display:inline-flex; align-items:center; justify-content:center; font-family:'Source Sans 3',sans-serif;
+}
+.home-help-btn:hover{border-color:var(--shell); color:var(--shell);}
 .home-subhead-note{color:var(--ink-dim); font-size:13.5px; margin:6px 0 14px;}
 .home-quick{background:var(--panel); border:1px solid var(--line); color:var(--ink-dim); font-size:12.5px; font-weight:600; padding:9px 16px; border-radius:var(--radius); cursor:pointer;}
 .home-quick:hover{border-color:var(--shell); color:var(--shell);}
@@ -735,7 +726,7 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 .home-study-col + .home-study-col{border-left:1px solid var(--line); padding-left:20px;}
 .home-study-col-title{
   font-family:'Source Sans 3',sans-serif; font-size:11.5px; font-weight:700; text-transform:uppercase;
-  letter-spacing:.03em; color:var(--shell); margin:0 0 12px;
+  letter-spacing:.03em; color:var(--shell); margin:0 0 12px; display:flex; align-items:center; gap:8px;
 }
 @media (max-width:640px){
   .home-study-col + .home-study-col{border-left:none; border-top:1px solid var(--line); padding-left:0; padding-top:16px;}
@@ -831,6 +822,7 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 #study-root .bib-list li{scroll-margin-top:112px;}
 @media (max-width:640px){
   .app-header{padding:10px 14px;}
+  .app-header .topic-switch .home-quick{max-width:30vw; padding:9px 10px; font-size:11.5px;}
   .sec-header, .sec-body{padding-left:16px; padding-right:16px;}
   #study-root .hero{padding:24px 14px 22px;}
   #study-root .pillbar{top:52px;}
@@ -856,7 +848,7 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 }
 .auth-page-inner{display:flex; flex-direction:column; align-items:center; padding:48px 24px 40px;}
 .auth-brand{display:flex; flex-direction:column; align-items:center; text-align:center; max-width:640px;}
-.auth-logo{width:clamp(90px,20vw,120px); height:clamp(90px,20vw,120px); border-radius:22px; border:1px solid var(--line); background:#fff; object-fit:cover;}
+.auth-logo{width:clamp(90px,20vw,120px); height:clamp(90px,20vw,120px); border-radius:22px; border:1px solid var(--line); background:transparent; object-fit:cover;}
 .auth-kicker{margin-top:16px; font-family:'Source Sans 3',sans-serif; font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--shell);}
 .auth-brand h1{font-family:'Newsreader',serif; font-weight:600; font-size:clamp(2rem,6vw,3rem); margin:8px 0 0; color:var(--ink);}
 .auth-desc{max-width:560px; margin:12px 0 0; color:var(--ink-dim); font-size:14.5px; line-height:1.6;}
@@ -943,4 +935,30 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 }
 .ti-review.checked{background:#3f6b5214; border-color:#3f6b52; color:#3f6b52;}
 .ti-review:hover{border-color:var(--shell); color:var(--shell);}
+
+/* ==========================================================================
+   SPLASH de bienvenida (engine/logo-splash.js) — piezas del logo entrando y
+   ensamblándose, una sola vez por sesión, mientras arranca la app.
+   ========================================================================== */
+.splash-overlay{
+  position:fixed; inset:0; z-index:9999; display:flex; flex-direction:column; align-items:center;
+  justify-content:center; gap:20px; background:var(--bg); opacity:1; transition:opacity .42s ease;
+}
+.splash-overlay.leaving{opacity:0;}
+.splash-stage{position:relative;}
+.splash-piece{
+  position:absolute; opacity:0; will-change:transform, opacity;
+  transform:translate(var(--dx),var(--dy)) scale(.72) rotate(var(--rot));
+  transition:transform .75s cubic-bezier(.16,1,.3,1), opacity .5s ease;
+}
+.splash-piece.in{opacity:1; transform:translate(0,0) scale(1) rotate(0deg);}
+.splash-word{
+  font-family:'Newsreader',serif; font-size:1.5rem; font-weight:600; color:var(--ink);
+  letter-spacing:.01em; opacity:0; animation:splash-word-in .6s ease forwards; animation-delay:.85s;
+}
+@keyframes splash-word-in{ to{opacity:1;} }
+@media (prefers-reduced-motion:reduce){
+  .splash-piece{transition:none;}
+  .splash-word{animation:none; opacity:1;}
+}
 
