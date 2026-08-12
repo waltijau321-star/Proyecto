@@ -522,7 +522,11 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
   width:38px; height:38px; border-radius:10px; flex:none; display:flex; align-items:center; justify-content:center;
   background:transparent; overflow:hidden; border:1px solid var(--line);
 }
-.app-header .brand-mark img{width:100%; height:100%; object-fit:cover;}
+/* Reutiliza home-logo-in (misma entrada de fundido+escala): a diferencia de .home-logo, este
+   <img> vive en el shell estático de index.html y nunca se re-monta, así que la animación
+   solo se dispara una vez, al cargar la página (mismo momento que el splash de bienvenida,
+   con el que corre en simultáneo la primera vez). */
+.app-header .brand-mark img{width:100%; height:100%; object-fit:cover; animation:home-logo-in .55s cubic-bezier(.16,1,.3,1) both;}
 .app-header .brand-txt{display:flex; flex-direction:column; line-height:1.15; min-width:0;}
 .app-header .brand-txt h1{font-family:'Newsreader',serif; font-size:17px; font-weight:600; margin:0; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
 .app-header .brand-txt span{font-size:11.5px; color:var(--ink-faint);}
@@ -665,7 +669,7 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
    <img> desde cero), esta animación se repite sola en cada visita — no necesita JS ni
    sessionStorage, a diferencia del splash de bienvenida que sí es un evento único. */
 @keyframes home-logo-in{ from{opacity:0; transform:scale(.85);} to{opacity:1; transform:scale(1);} }
-@media (prefers-reduced-motion:reduce){ .home-logo{animation:none;} }
+@media (prefers-reduced-motion:reduce){ .home-logo, .app-header .brand-mark img{animation:none;} }
 .home-hero h1{font-family:'Newsreader',serif; font-weight:600; font-size:clamp(1.9rem,5vw,2.6rem); margin:0; color:var(--ink);}
 .home-progress{
   display:flex; align-items:center; gap:26px; flex-wrap:wrap; margin:24px 0 6px; padding:18px 20px;
