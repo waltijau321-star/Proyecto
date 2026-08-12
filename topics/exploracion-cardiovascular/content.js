@@ -303,8 +303,8 @@ ${videoBlock('Video 4', 'Desdoblamiento fijo de R2 (comunicación interauricular
   <li><strong>Chasquido de apertura</strong>: ruido agudo en la diástole temprana, propio de la estenosis mitral, por el frenado brusco de una valva mitral estenótica pero todavía móvil al abrirse; el intervalo R2-chasquido se acorta cuanto más severa es la estenosis (mayor presión auricular izquierda).</li>
 </ul>
 <p style="margin:10px 0 0;"><a class="stigma-photo-link secondary" href="https://depts.washington.edu/physdx/heart/demo.html" target="_blank" rel="noopener noreferrer">Escuchar R3, R4 y desdoblamiento de R2 (audio, Univ. of Washington) ↗</a></p>
-${videoBlock('Video 7', 'Galope S3 — grabación real', 'FQ2zYpxC8wo', 'AMBOSS (YouTube)')}
-${videoBlock('Video 8', 'Galope S4 — grabación real con forma de onda', 'EPWPzCSYagY', 'Eko Health (YouTube) — estetoscopio digital')}`,
+${videoBlock('Video 5', 'Galope S3 — grabación real', 'FQ2zYpxC8wo', 'AMBOSS (YouTube)')}
+${videoBlock('Video 6', 'Galope S4 — grabación real con forma de onda', 'EPWPzCSYagY', 'Eko Health (YouTube) — estetoscopio digital')}`,
       criterios_dx: 'R3 en un adulto &gt;40 años es virtualmente diagnóstico de disfunción ventricular o sobrecarga de volumen. R4 indica un ventrículo no distensible y desaparece si el paciente entra en fibrilación auricular. Un chasquido de apertura con intervalo corto tras R2 sugiere estenosis mitral severa.',
       dx_diferencial: 'R3 fisiológico (joven, embarazada, gasto alto) vs. R3 patológico (falla ventricular, sobrecarga de volumen) — se distinguen por el contexto clínico, no por el sonido en sí.'
     },
@@ -343,8 +343,8 @@ ${figBlock('Tabla 1', 'Soplos orgánicos más frecuentes', `<div style="overflow
     </div>`)}
 <p style="margin:8px 0 0;">Los soplos inocentes/funcionales (frecuentes en niños y estados de gasto alto) son siempre sistólicos, suaves (grado ≤2/6), sin frémito, sin síntomas ni alteración de R2 asociada.</p>
 <p style="margin:10px 0 0;"><a class="stigma-photo-link secondary" href="https://depts.washington.edu/physdx/heart/demo.html" target="_blank" rel="noopener noreferrer">Escuchar los soplos orgánicos de la Tabla 1 (audio, Univ. of Washington) ↗</a></p>
-${videoBlock('Video 5', 'Abordaje del soplo diastólico', '9u0bhcYYd-8', 'Stanford Medicine 25 (YouTube) — paciente real')}
-${videoBlock('Video 6', 'Abordaje de la insuficiencia aórtica', 'Cb-EXdLlGGs', 'Stanford Medicine 25 (YouTube) — paciente real')}`,
+${videoBlock('Video 7', 'Abordaje del soplo diastólico', '9u0bhcYYd-8', 'Stanford Medicine 25 (YouTube) — paciente real')}
+${videoBlock('Video 8', 'Abordaje de la insuficiencia aórtica', 'Cb-EXdLlGGs', 'Stanford Medicine 25 (YouTube) — paciente real')}`,
       criterios_dx: 'Cualquier soplo diastólico, cualquier soplo sistólico ≥3/6, holosistólico, con frémito asociado, con irradiación amplia, o que se acompañe de un R2 anormal, se considera orgánico y amerita ecocardiograma.',
       dx_diferencial: 'Soplo inocente/funcional (sistólico, suave, sin frémito, sin síntomas) vs. soplo orgánico (ver criterios arriba). Ver Tabla 1, arriba, para el mapeo de los soplos orgánicos más frecuentes por tiempo, foco e irradiación.'
     },
