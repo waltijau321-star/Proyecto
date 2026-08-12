@@ -115,6 +115,14 @@ export const registry = [
       import('./estado-epileptico/calculators.js'),
       import('./estado-epileptico/study.js')
     ])
+  },
+  {
+    id: 'cefaleas', titulo: 'Cefaleas',
+    load: () => Promise.all([
+      import('./cefaleas/content.js'),
+      import('./cefaleas/calculators.js'),
+      import('./cefaleas/study.js')
+    ])
   }
 ];
 
