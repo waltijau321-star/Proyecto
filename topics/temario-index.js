@@ -63,7 +63,10 @@ const NEUROLOGIA_CLUSTERS = [
     { label: 'Hemorragia intracraneal y subaracnoidea', topicId: 'enfermedad-cerebrovascular' },
     'Neoplasias del sistema nervioso central', 'Síndrome de hipertensión intracraneal', 'Traumatismo craneoencefálico', 'Vértigo central (síndrome vestibular agudo)'
   ] },
-  { name: 'Trastornos paroxísticos y del movimiento', items: ['Estado epiléptico y epilepsia', 'Cefaleas', 'Enfermedad de Parkinson', 'Otros trastornos del movimiento', 'Esclerosis múltiple y otras enfermedades desmielinizantes'] },
+  { name: 'Trastornos paroxísticos y del movimiento', items: [
+    { label: 'Estado epiléptico y epilepsia', topicId: 'estado-epileptico' },
+    'Cefaleas', 'Enfermedad de Parkinson', 'Otros trastornos del movimiento', 'Esclerosis múltiple y otras enfermedades desmielinizantes'
+  ] },
   { name: 'Alteración de conciencia y enfermedad neuromuscular', items: ['Delirium y coma', 'Síndrome demencial', 'Deterioro cognitivo', 'Enfermedad por priones', 'Encefalopatías metabólicas', 'Neuropatías periféricas', 'Parálisis facial', 'Disautonomía', 'Síndrome de Guillain-Barré y miastenia gravis', 'Distrofias musculares', 'Esclerosis lateral amiotrófica', 'Meningoencefalitis infecciosa', 'Encefalitis autoinmune'] }
 ];
 
