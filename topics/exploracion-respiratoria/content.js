@@ -4,10 +4,22 @@
 // natural con el orden clásico IPPA (Inspección, Palpación, Percusión, Auscultación), así que se
 // usa tal cual como esqueleto de compGroups.
 //
-// Las 5 figuras son TODAS código propio (SVG/HTML con var(--...) de tema) — nada de imágenes
-// externas ni asistidas por IA, mismo criterio ya establecido: cada una representa un dato
-// clínico exacto (topografía torácica, forma de un patrón respiratorio, tabla de síndromes), y
-// ese contenido va siempre a mano (ver .claude/skills/figura-didactica/SKILL.md).
+// 3 de las 5 figuras son código propio (SVG/HTML con var(--...) de tema) — mismo criterio ya
+// establecido: cada una representa un dato clínico exacto (ruidos normales, tabla de ruidos
+// agregados, tabla de síndromes), y ese contenido va a mano (ver .claude/skills/
+// figura-didactica/SKILL.md). Imagen 1 (topografía/auscultación) e Imagen 2 (patrones
+// respiratorios patológicos) son infografías provistas directamente por el autor del contenido,
+// mismo patrón que la Imagen 1 de exploracion-cardiovascular/content.js: se usan tal cual, sin
+// marcar su origen en ningún texto visible de la app.
+//
+// Audio y video (revisión agosto 2026, ampliada): mismo criterio que
+// exploracion-cardiovascular/content.js (ver esa nota completa). No se descargó audio: sin
+// fuente con licencia libre que cubra el set completo de ruidos respiratorios, se enlaza (no se
+// aloja) a Practical Clinical Skills — link externo, requiere internet. `videoBlock()` incrusta
+// 7 videos vía <iframe>: 2 de Stanford Medicine 25 (percusión, estigmas de EPOC) más 5 grabaciones
+// reales de ruidos pulmonares específicos (Medzcool, AMBOSS, Eko Health con forma de onda) que
+// Stanford no cubre — mismo criterio de "otra fuente si aporta valor real" ya usado en
+// exploracion-cardiovascular/content.js.
 
 export const meta = {
   id: 'exploracion-respiratoria',
@@ -56,25 +68,19 @@ function figBlock(label, titulo, html) {
   </div>`;
 }
 
+// Embebe un video de YouTube (canal oficial Stanford Medicine 25, exploración física con
+// pacientes reales) dentro de un figBlock — no se descarga ningún archivo, solo se reproduce
+// desde YouTube (requiere conexión a internet, a diferencia del resto del contenido de la app).
+function videoBlock(label, titulo, youtubeId, fuente) {
+  return figBlock(label, titulo, `<div style="width:100%;max-width:480px;aspect-ratio:16/9;margin:0 auto;border-radius:var(--radius);border:1px solid var(--line);overflow:hidden;">
+    <iframe src="https://www.youtube.com/embed/${youtubeId}" title="${titulo}" style="width:100%;height:100%;border:0;display:block;" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" loading="lazy"></iframe>
+  </div>
+  <p style="font-size:10.5px;color:var(--ink-faint);text-align:center;margin:8px 0 0;">${fuente}</p>`);
+}
+
 // ---------------------------------------------------------------------------------------------
 // Helpers de figuras (mismo criterio que exploracion-cardiovascular/content.js).
 // ---------------------------------------------------------------------------------------------
-
-function toraxTopografiaSVG() {
-  return `<svg viewBox="0 0 220 240" role="img" aria-labelledby="tor-t tor-d" style="width:100%;max-width:220px;display:block;margin:0 auto;">
-    <title id="tor-t">Puntos de comparación torácica (vista posterior)</title>
-    <desc id="tor-d">Torso esquemático visto por la espalda, con 6 puntos numerados en 3 niveles (vértices, campos medios, bases) a ambos lados de la línea media, ilustrando el patrón en "escalera" de percusión y auscultación comparativa.</desc>
-    <path d="M55,25 Q35,10 110,8 Q185,10 165,25 L172,90 Q178,180 155,220 Q135,238 110,238 Q85,238 65,220 Q42,180 48,90 Z" fill="none" stroke="var(--line)" stroke-width="1.5"/>
-    <line x1="110" y1="15" x2="110" y2="235" stroke="var(--line)" stroke-width="1" stroke-dasharray="2,3"/>
-    <circle cx="80" cy="55" r="7" fill="#2f6b5e"/><text x="80" y="59" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">1</text>
-    <circle cx="140" cy="55" r="7" fill="#2f6b5e"/><text x="140" y="59" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">1</text>
-    <circle cx="76" cy="120" r="7" fill="#2f6b5e"/><text x="76" y="124" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">2</text>
-    <circle cx="144" cy="120" r="7" fill="#2f6b5e"/><text x="144" y="124" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">2</text>
-    <circle cx="80" cy="180" r="7" fill="#2f6b5e"/><text x="80" y="184" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">3</text>
-    <circle cx="140" cy="180" r="7" fill="#2f6b5e"/><text x="140" y="184" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">3</text>
-  </svg>
-  <p style="font-size:10.5px;color:var(--ink-faint);text-align:center;margin:6px 0 0;">Vista posterior — la más rica en campo pulmonar. El mismo patrón en "escalera" (comparar siempre el punto con su espejo del lado contrario antes de bajar al siguiente nivel) se repite en la cara anterior y en ambas axilas.</p>`;
-}
 
 function respPatronSVG(id, titulo, puntos, color, nota) {
   const pts = puntos.map(p => p.join(',')).join(' ');
@@ -129,22 +135,22 @@ export const content = {
       nombre: 'Topografía torácica y puntos de comparación',
       color: '#3d5a73',
       definicion: 'Líneas y referencias topográficas de la pared torácica que estandarizan dónde y cómo describir cada hallazgo, y el patrón sistemático ("en escalera") para compararlo entre ambos lados.',
-      clinica: `Líneas verticales de referencia: medioesternal, medioclavicular, axilares (anterior, media, posterior), escapular y paravertebral. La cara posterior concentra la mayor superficie pulmonar (incluye ambas bases) y suele explorarse primero; se recorre en 3 niveles — vértices/región interescapular alta, campos medios, bases — comparando siempre el punto con su espejo antes de bajar de nivel (ver Imagen 1).${figBlock('Imagen 1', 'Topografía torácica y patrón de comparación', toraxTopografiaSVG())}`,
+      clinica: `Líneas verticales de referencia: medioesternal, medioclavicular, axilares (anterior, media, posterior), escapular y paravertebral. La cara posterior concentra la mayor superficie pulmonar (incluye ambas bases) y suele explorarse primero; se recorre en 3 niveles — vértices/región interescapular alta, campos medios, bases — comparando siempre el punto con su espejo antes de bajar de nivel (ver Imagen 1).${figBlock('Imagen 1', 'Topografía torácica y patrón de comparación', `<img src="topics/exploracion-respiratoria/assets/auscultacion-pulmonar-topografia.png" alt="Infografía de auscultación pulmonar sistemática, comparativa y por niveles. Líneas verticales de referencia sobre torso visto de espalda y de frente: medioesternal (borde del esternón), medioclavicular (punto medio de la clavícula), axilar anterior (por delante del pliegue axilar anterior), axilar media (por el pliegue axilar medio, a nivel del húmero), axilar posterior (por detrás del pliegue axilar posterior), escapular o espinal (borde medial de la escápula), paravertebral (paralela a la columna, a 2-3 cm de los procesos espinosos). Exploración por 3 niveles: 1) vértices/región interescapular alta, desde la región supraespinosa hasta T2-T3 aproximadamente; 2) campos medios, desde T2-T3 hasta T6-T8 aproximadamente; 3) bases pulmonares, desde T8 hasta la base, incluyendo ambas bases. Cómo explorar: pedir al paciente que respire por la boca de manera tranquila y profunda, escuchar cada punto de 2 a 3 ciclos respiratorios completos, comparar siempre con el punto homólogo del lado contrario antes de descender.">`)}`,
       criterios_dx: 'Describir un hallazgo sin referencia topográfica ("se escucha algo raro a la derecha") no es útil clínicamente ni permite dar seguimiento; siempre se documenta con línea, espacio intercostal y cara (anterior/posterior/axilar).'
     },
     {
       nombre: 'Patrón respiratorio, frecuencia y signos de dificultad respiratoria',
       color: '#8c3a34',
       definicion: 'Ritmo, profundidad y frecuencia de la respiración, junto con los signos visibles de trabajo respiratorio aumentado.',
-      fisiopatologia: `<p style="margin:0;">Cheyne-Stokes: ciclos crescendo-decrescendo de profundidad separados por apnea, por un retraso ("delay") en la retroalimentación de los quimiorreceptores centrales al CO2 arterial — típico de insuficiencia cardiaca (tiempo de circulación prolongado) o daño cerebral bilateral. Es el mismo problema que regular la temperatura de una regadera con un termostato muy lejano al grifo: la señal tarda en llegar, así que la persona sobrecorrige en cada dirección (demasiado caliente, luego demasiado fría) en vez de estabilizarse, generando el patrón oscilante. Kussmaul: respiración profunda, rápida y sostenida, sin pausas — mecanismo compensador para eliminar CO2 y elevar el pH ante una acidosis metabólica severa (cetoacidosis diabética, acidosis láctica). Respiración atáxica (de Biot): completamente irregular en ritmo y profundidad, con pausas impredecibles — lesión del centro respiratorio bulbar, signo de mal pronóstico. Respiración apnéustica: pausa inspiratoria prolongada antes de la espiración — lesión pontina (ver Imagen 2).</p>
-${figBlock('Imagen 2', 'Patrones respiratorios patológicos', `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;">
-      ${respPatronSVG('rp-cs', 'Cheyne-Stokes', [[5,35],[20,28],[35,15],[50,10],[65,15],[80,28],[95,35],[105,35],[115,35],[130,28],[145,15],[160,10],[175,15]], '#8c3a34', 'insuficiencia cardiaca, daño cerebral bilateral')}
-      ${respPatronSVG('rp-ku', 'Kussmaul', [[5,35],[15,8],[25,35],[35,8],[45,35],[55,8],[65,35],[75,8],[85,35],[95,8],[105,35],[115,8],[125,35],[135,8],[145,35],[155,8],[165,35],[175,8]], '#8c3a34', 'acidosis metabólica severa')}
-      ${respPatronSVG('rp-bi', 'Atáxica (Biot)', [[5,35],[15,20],[25,35],[35,35],[45,10],[55,35],[65,35],[75,35],[85,25],[95,35],[105,5],[115,35],[125,35],[135,18],[145,35],[155,35],[165,12],[175,35]], '#8c3a34', 'lesión bulbar, mal pronóstico')}
-      ${respPatronSVG('rp-ap', 'Apnéustica', [[5,35],[15,12],[25,10],[65,10],[75,30],[85,35],[95,35],[105,12],[115,10],[155,10],[165,30],[175,35]], '#8c3a34', 'lesión pontina')}
-    </div>
-    <p style="font-size:11px;color:var(--ink-faint);margin:8px 0 0;">Curvas esquemáticas de profundidad respiratoria vs. tiempo (patrón descrito en los textos clásicos, no un trazo de un paciente real).</p>`)}
-<p style="margin:8px 0 0;">Uso de músculos accesorios (esternocleidomastoideo, escalenos) y tiraje (intercostal, supraclavicular, subcostal): reflejan una presión pleural negativa exagerada necesaria para vencer una resistencia de la vía aérea aumentada o una distensibilidad pulmonar disminuida. Disociación toracoabdominal (movimiento paradójico del abdomen hacia adentro en inspiración): signo de fatiga/claudicación diafragmática inminente — indica falla respiratoria inminente, no solo dificultad.</p>`,
+      fisiopatologia: `<p style="margin:0;">Antes de los patrones patológicos, 3 términos describen solo frecuencia/amplitud sin alterar el ritmo: <strong>eupnea</strong> (patrón normal, 12-20 rpm), <strong>taquipnea</strong> (&gt;20 rpm) y <strong>bradipnea</strong> (&lt;12 rpm) — ver Imagen 2. Los patrones realmente patológicos alteran además el ritmo o la regularidad:</p>
+<ul style="margin:8px 0 0;padding-left:18px;">
+  <li><strong>Cheyne-Stokes</strong>: ciclos crescendo-decrescendo de profundidad separados por apnea, por un retraso ("delay") en la retroalimentación de los quimiorreceptores centrales al CO2 arterial — típico de insuficiencia cardiaca (tiempo de circulación prolongado) o daño cerebral bilateral. Es el mismo problema que regular la temperatura de una regadera con un termostato muy lejano al grifo: la señal tarda en llegar, así que la persona sobrecorrige en cada dirección (demasiado caliente, luego demasiado fría) en vez de estabilizarse, generando el patrón oscilante.</li>
+  <li><strong>Kussmaul</strong>: respiración profunda, rápida y sostenida, sin pausas — mecanismo compensador para eliminar CO2 y elevar el pH ante una acidosis metabólica severa (cetoacidosis diabética, acidosis láctica).</li>
+  <li><strong>Respiración atáxica</strong> (de Biot): completamente irregular en ritmo y profundidad, con pausas impredecibles — lesión del centro respiratorio bulbar, signo de mal pronóstico.</li>
+  <li><strong>Respiración apnéustica</strong>: pausa inspiratoria prolongada antes de la espiración — lesión pontina.</li>
+</ul>
+${figBlock('Imagen 2', 'Patrones respiratorios patológicos', `<img src="topics/exploracion-respiratoria/assets/patrones-respiratorios-patologicos.png" alt="Infografía de patrones respiratorios patológicos: curvas esquemáticas de profundidad respiratoria vs. tiempo para 8 patrones. Eupnea (respiración normal): ritmo y profundidad normales, frecuencia 12-20 rpm en reposo, ritmo regular, amplitud normal. Taquipnea: aumento de la frecuencia respiratoria con amplitud normal, frecuencia mayor a 20 rpm; ejemplos: fiebre, ansiedad, hipoxia, sepsis. Bradipnea: disminución de la frecuencia respiratoria con amplitud normal, frecuencia menor a 12 rpm; ejemplos: aumento de la presión intracraneal, hipotiroidismo, fármacos. Kussmaul: respiración profunda, rápida y regular, sin pausas; ejemplo: acidosis metabólica (cetoacidosis diabética, insuficiencia renal). Cheyne-Stokes: ciclos de aumento progresivo de la amplitud y luego disminución hasta apnea, que se repiten, patrón cíclico con pausas de apnea entre ciclos; ejemplos: insuficiencia cardiaca avanzada, daño neurológico. Biot: respiraciones irregulares con pausas de apnea abruptas e impredecibles; ejemplos: meningitis, hemorragia intracraneal, lesión medular alta. Apnéustico: inspiración prolongada en meseta seguida de espiración breve; ejemplo: lesión del puente (por encima del centro neumotáxico). Atáxico: respiración totalmente irregular e impredecible, sin patrón definido, muy irregular, sin patrón ni periodicidad, pronóstico grave; ejemplo: lesión bulbar grave.">`)}
+<p style="margin:8px 0 0;"><strong>Uso de músculos accesorios</strong> (esternocleidomastoideo, escalenos) y <strong>tiraje</strong> (intercostal, supraclavicular, subcostal): reflejan una presión pleural negativa exagerada necesaria para vencer una resistencia de la vía aérea aumentada o una distensibilidad pulmonar disminuida. <strong>Disociación toracoabdominal</strong> (movimiento paradójico del abdomen hacia adentro en inspiración): signo de fatiga/claudicación diafragmática inminente — indica falla respiratoria inminente, no solo dificultad.</p>`,
       criterios_dx: 'La disociación toracoabdominal es uno de los signos físicos de mayor valor para anticipar la necesidad de ventilación mecánica, antes de que caigan los gases arteriales.',
       dx_diferencial: 'Cheyne-Stokes: insuficiencia cardiaca, daño cerebral bilateral, altitud. Kussmaul: acidosis metabólica. Atáxica/apnéustica: lesión de tronco encefálico.'
     },
@@ -152,7 +158,15 @@ ${figBlock('Imagen 2', 'Patrones respiratorios patológicos', `<div style="displ
       nombre: 'Morfología del tórax',
       color: '#8c3a34',
       definicion: 'Forma y simetría de la caja torácica; sus deformidades reflejan enfermedad pulmonar crónica, esquelética o traumática subyacente.',
-      fisiopatologia: 'Tórax en tonel (enfisematoso): aumento del diámetro anteroposterior con horizontalización de las costillas, por atrapamiento aéreo crónico que hiperinsufla el tórax de forma sostenida (EPOC/enfisema). Pectus excavatum: hundimiento esternal, congénito, rara vez compromete la función pulmonar salvo que sea severo. Pectus carinatum: protrusión esternal ("en quilla"), también congénito. Cifoescoliosis: restringe la caja torácica de forma asimétrica, puede generar patrón restrictivo e hipertensión pulmonar si es severa. Tórax paralítico: aplanamiento de los campos superiores, secuela clásica de tuberculosis apical crónica. Tórax inestable (flail chest): fracturas costales múltiples en 2 o más puntos por costilla, que aíslan un segmento de la pared torácica del resto de la caja; ese segmento se mueve de forma paradójica — hacia adentro durante la inspiración y hacia afuera durante la espiración — porque ya no está mecánicamente acoplado a los cambios de presión intrapleural generados por el resto del tórax.',
+      fisiopatologia: `<ul style="margin:0;padding-left:18px;">
+  <li><strong>Tórax en tonel</strong> (enfisematoso): aumento del diámetro anteroposterior con horizontalización de las costillas, por atrapamiento aéreo crónico que hiperinsufla el tórax de forma sostenida (EPOC/enfisema).</li>
+  <li><strong>Pectus excavatum</strong>: hundimiento esternal, congénito, rara vez compromete la función pulmonar salvo que sea severo.</li>
+  <li><strong>Pectus carinatum</strong>: protrusión esternal ("en quilla"), también congénito.</li>
+  <li><strong>Cifoescoliosis</strong>: restringe la caja torácica de forma asimétrica, puede generar patrón restrictivo e hipertensión pulmonar si es severa.</li>
+  <li><strong>Tórax paralítico</strong>: aplanamiento de los campos superiores, secuela clásica de tuberculosis apical crónica.</li>
+  <li><strong>Tórax inestable</strong> (flail chest): fracturas costales múltiples en 2 o más puntos por costilla, que aíslan un segmento de la pared torácica del resto de la caja; ese segmento se mueve de forma paradójica — hacia adentro durante la inspiración y hacia afuera durante la espiración — porque ya no está mecánicamente acoplado a los cambios de presión intrapleural generados por el resto del tórax.</li>
+</ul>
+${videoBlock('Video 1', 'Estigmas de la EPOC', 'f5ydW0hnMcg', 'Stanford Medicine 25 (YouTube) — paciente real')}`,
       criterios_dx: 'El tórax inestable con respiración paradójica es una urgencia: compromete gravemente la ventilación efectiva y suele acompañarse de contusión pulmonar subyacente.',
       dx_diferencial: 'Tórax en tonel: EPOC/enfisema. Cifoescoliosis severa: enfermedad pulmonar restrictiva. Tórax paralítico: secuela de TB apical.'
     },
@@ -169,7 +183,11 @@ ${figBlock('Imagen 2', 'Patrones respiratorios patológicos', `<div style="displ
       color: '#3d5a73',
       definicion: 'Vibraciones palpables en la pared torácica generadas por la fonación, transmitidas desde las cuerdas vocales a través del árbol bronquial y el parénquima pulmonar.',
       clinica: 'Se palpa con el borde cubital de la mano (o la palma completa) mientras el paciente repite una palabra con muchas consonantes graves ("treinta y tres", "33"), comparando simétricamente punto por punto.',
-      fisiopatologia: 'El tejido consolidado (denso, homogéneo, lleno de exudado en vez de aire) transmite las vibraciones mejor que el parénquima aireado normal — el mismo principio por el que un sólido transmite el sonido mejor que un gas — por eso el frémito AUMENTA sobre una consolidación. Está DISMINUIDO o ABOLIDO cuando algo se interpone entre el pulmón y la pared torácica (líquido pleural, que amortigua; aire pleural en el neumotórax, que no transmite) o cuando disminuye la cantidad de tejido pulmonar aireado transmisor (atelectasia obstructiva completa — la vía aérea ocluida ya ni siquiera deja llegar la vibración generada en la laringe; enfisema, por menor densidad tisular).',
+      fisiopatologia: `<p style="margin:0;">El tejido consolidado (denso, homogéneo, lleno de exudado en vez de aire) transmite las vibraciones mejor que el parénquima aireado normal — el mismo principio por el que un sólido transmite el sonido mejor que un gas.</p>
+<ul style="margin:8px 0 0;padding-left:18px;">
+  <li><strong>AUMENTA</strong> sobre una consolidación.</li>
+  <li><strong>DISMINUIDO o ABOLIDO</strong> cuando algo se interpone entre el pulmón y la pared torácica (líquido pleural, que amortigua; aire pleural en el neumotórax, que no transmite) o cuando disminuye la cantidad de tejido pulmonar aireado transmisor (atelectasia obstructiva completa — la vía aérea ocluida ya ni siquiera deja llegar la vibración generada en la laringe; enfisema, por menor densidad tisular).</li>
+</ul>`,
       criterios_dx: 'El frémito aumentado localiza consolidación con alta especificidad; el frémito abolido en un hemitórax obliga a diferenciar entre derrame masivo, neumotórax y atelectasia obstructiva completa — la percusión y la auscultación del mismo punto resuelven cuál de las tres es.',
       dx_diferencial: 'Aumentado: consolidación (neumonía). Disminuido/abolido: derrame pleural, neumotórax, atelectasia obstructiva, enfisema, obesidad/pared torácica gruesa.'
     },
@@ -178,7 +196,14 @@ ${figBlock('Imagen 2', 'Patrones respiratorios patológicos', `<div style="displ
       color: '#3d5a73',
       definicion: 'Maniobra que genera un sonido audible y palpable al golpear la pared torácica, cuya calidad depende de la proporción de aire, líquido o tejido sólido subyacente.',
       clinica: 'Percusión dígito-digital: el dedo medio de la mano no dominante (plexímetro) se aplica firme y plano sobre el espacio intercostal, paralelo a las costillas; se golpea su falange distal con la punta del dedo medio de la mano dominante, con un movimiento seco de muñeca (no de todo el brazo), comparando siempre puntos simétricos.',
-      fisiopatologia: 'Resonancia: sonido normal del pulmón aireado. Hiperresonancia/timpanismo: exceso de aire con menos tejido que lo amortigüe — neumotórax, enfisema bulloso, crisis asmática severa con atrapamiento aéreo agudo. Matidez: ausencia de aire bajo el punto percutido — consolidación (matidez franca pero "elástica") o, de forma aún más marcada ("pétrea", sin ningún componente resonante), derrame pleural. Submatidez: grado intermedio, típico de colapso parcial o derrame de poco volumen. Es el mismo fenómeno que golpear con los nudillos una caja de cartón vacía (resonante, "hueca"), la misma caja llena de arena (mate) o un tambor (hiperresonante, timpánico) — el sonido no depende de la caja en sí, sino de lo que hay adentro.',
+      fisiopatologia: `<ul style="margin:0;padding-left:18px;">
+  <li><strong>Resonancia</strong>: sonido normal del pulmón aireado.</li>
+  <li><strong>Hiperresonancia/timpanismo</strong>: exceso de aire con menos tejido que lo amortigüe — neumotórax, enfisema bulloso, crisis asmática severa con atrapamiento aéreo agudo.</li>
+  <li><strong>Matidez</strong>: ausencia de aire bajo el punto percutido — consolidación (matidez franca pero "elástica") o, de forma aún más marcada ("pétrea", sin ningún componente resonante), derrame pleural.</li>
+  <li><strong>Submatidez</strong>: grado intermedio, típico de colapso parcial o derrame de poco volumen.</li>
+</ul>
+<p style="margin:8px 0 0;">Es el mismo fenómeno que golpear con los nudillos una caja de cartón vacía (resonante, "hueca"), la misma caja llena de arena (mate) o un tambor (hiperresonante, timpánico) — el sonido no depende de la caja en sí, sino de lo que hay adentro.</p>
+${videoBlock('Video 2', 'Percusión del tórax', '48nzLXnEHvg', 'Stanford Medicine 25 (YouTube)')}`,
       criterios_dx: 'La matidez pétrea (a diferencia de la matidez elástica de la consolidación) es prácticamente diagnóstica de líquido pleural; combinarla con el frémito y la auscultación del mismo punto permite reconocer el síndrome de derrame sin necesidad de imagen.'
     },
     {
@@ -186,7 +211,11 @@ ${figBlock('Imagen 2', 'Patrones respiratorios patológicos', `<div style="displ
       color: '#8c3a34',
       definicion: 'Desplazamiento del límite inferior de matidez hepática/esplénica entre la inspiración y la espiración máximas, y otros signos percutorios que orientan a patología pleural específica.',
       clinica: 'Se percute la línea escapular de arriba hacia abajo hasta identificar el límite de matidez en espiración máxima sostenida, se marca, y se repite en inspiración máxima sostenida; la diferencia normal es de 3-5 cm.',
-      fisiopatologia: 'Excursión diafragmática disminuida: EPOC/enfisema (diafragma ya aplanado y en desventaja mecánica), parálisis o paresia frénica unilateral, derrame pleural voluminoso. Signo de Skoda: una franja de timpanismo por ENCIMA del nivel superior de un derrame pleural, por compresión pasiva del parénquima pulmonar adyacente sin llenarse de líquido. Línea de Damoiseau-Ellis: el límite superior de la matidez en un derrame pleural no es horizontal sino una curva cóncava hacia arriba y medial, más alta en la línea axilar que en la columna o el esternón — refleja la distribución del líquido por gravedad y la resistencia relativa del pulmón a colapsarse por completo en su porción medial.',
+      fisiopatologia: `<ul style="margin:0;padding-left:18px;">
+  <li><strong>Excursión diafragmática disminuida</strong>: EPOC/enfisema (diafragma ya aplanado y en desventaja mecánica), parálisis o paresia frénica unilateral, derrame pleural voluminoso.</li>
+  <li><strong>Signo de Skoda</strong>: una franja de timpanismo por ENCIMA del nivel superior de un derrame pleural, por compresión pasiva del parénquima pulmonar adyacente sin llenarse de líquido.</li>
+  <li><strong>Línea de Damoiseau-Ellis</strong>: el límite superior de la matidez en un derrame pleural no es horizontal sino una curva cóncava hacia arriba y medial, más alta en la línea axilar que en la columna o el esternón — refleja la distribución del líquido por gravedad y la resistencia relativa del pulmón a colapsarse por completo en su porción medial. Es como llenar de agua una tina que tiene una esponja fija pegada a una de sus paredes: el agua sube más alto lejos de la esponja (línea axilar) porque ahí no hay nada que le "gane" espacio, mientras que junto a la esponja (línea medial, cerca del mediastino) el nivel queda más bajo porque parte del volumen ya está ocupado.</li>
+</ul>`,
       criterios_dx: 'La curva de Damoiseau-Ellis distingue a la percusión un derrame pleural libre de una consolidación (cuyo límite superior de matidez sí es horizontal).',
       dx_diferencial: 'Excursión diafragmática abolida unilateral: parálisis frénica, derrame masivo, elevación diafragmática por patología subdiafragmática.'
     },
@@ -194,20 +223,33 @@ ${figBlock('Imagen 2', 'Patrones respiratorios patológicos', `<div style="displ
       nombre: 'Ruidos respiratorios normales',
       color: '#3d5a73',
       definicion: 'Sonidos generados por el flujo de aire turbulento en la vía aérea durante el ciclo respiratorio, cuyo timbre y relación inspiración:espiración cambian según el sitio donde se ausculten.',
-      fisiopatologia: `<p style="margin:0;">Murmullo vesicular: suave, de tono grave, se ausculta en la mayor parte de ambos campos pulmonares; la inspiración se escucha más larga e intensa que la espiración (casi inaudible). Se genera por turbulencia en los bronquios de mediano calibre, pero el parénquima alveolar circundante actúa como un filtro que atenúa selectivamente las frecuencias altas — de ahí su timbre suave. Respiración bronquial (tubárica): más ruda, hueca, de tono agudo; la espiración es tan larga o más larga que la inspiración, con una pausa audible entre ambas. Se genera por turbulencia directa en la vía aérea grande (tráquea, bronquios principales), SIN el filtro alveolar, por lo que normalmente solo se ausculta sobre la tráquea y el manubrio esternal. Es la misma diferencia que hay entre escuchar una voz a través de una puerta cerrada, amortiguada y sin los agudos (vesicular, filtrada por el alvéolo) y escucharla directamente, sin ningún obstáculo de por medio (bronquial, sin filtro). Respiración broncovesicular: timbre e I:E intermedios, normal sobre el 1er-2do espacio intercostal anterior y la región interescapular alta posterior, donde los bronquios de mayor calibre se aproximan a la pared torácica (ver Imagen 3).</p>
+      fisiopatologia: `<ul style="margin:0;padding-left:18px;">
+  <li><strong>Murmullo vesicular</strong>: suave, de tono grave, se ausculta en la mayor parte de ambos campos pulmonares; la inspiración se escucha más larga e intensa que la espiración (casi inaudible). Se genera por turbulencia en los bronquios de mediano calibre, pero el parénquima alveolar circundante actúa como un filtro que atenúa selectivamente las frecuencias altas — de ahí su timbre suave.</li>
+  <li><strong>Respiración bronquial</strong> (tubárica): más ruda, hueca, de tono agudo; la espiración es tan larga o más larga que la inspiración, con una pausa audible entre ambas. Se genera por turbulencia directa en la vía aérea grande (tráquea, bronquios principales), SIN el filtro alveolar, por lo que normalmente solo se ausculta sobre la tráquea y el manubrio esternal.</li>
+  <li><strong>Respiración broncovesicular</strong>: timbre e I:E intermedios, normal sobre el 1er-2do espacio intercostal anterior y la región interescapular alta posterior, donde los bronquios de mayor calibre se aproximan a la pared torácica (ver Imagen 3).</li>
+</ul>
+<p style="margin:8px 0 0;">Es la misma diferencia que hay entre escuchar una voz a través de una puerta cerrada, amortiguada y sin los agudos (vesicular, filtrada por el alvéolo) y escucharla directamente, sin ningún obstáculo de por medio (bronquial, sin filtro).</p>
 ${figBlock('Imagen 3', 'Ruidos respiratorios normales: relación inspiración:espiración', `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;">
       ${sonidoBarSVG('rn-ves', 'Vesicular', 90, 30, 8, '#3f6b52', 'suave, grave — la mayor parte de ambos campos')}
       ${sonidoBarSVG('rn-bv', 'Broncovesicular', 60, 55, 8, '#3d5a73', 'intermedio — 1º-2º EIC anterior y región interescapular')}
       ${sonidoBarSVG('rn-br', 'Bronquial (tubárico)', 40, 75, 14, '#8c3a34', 'ruda, hueca, con pausa — normal solo sobre la tráquea')}
     </div>
-    <p style="font-size:11px;color:var(--ink-faint);margin:8px 0 0;">Barras esquemáticas (duración relativa de inspiración vs. espiración descrita en los textos clásicos, no un trazo real). Un ruido bronquial fuera de la tráquea = soplo tubárico = signo de consolidación.</p>`)}`,
+    <p style="font-size:11px;color:var(--ink-faint);margin:8px 0 0;">Barras esquemáticas (duración relativa de inspiración vs. espiración descrita en los textos clásicos, no un trazo real). Un ruido bronquial fuera de la tráquea = soplo tubárico = signo de consolidación.</p>`)}
+<p style="margin:10px 0 0;"><a class="stigma-photo-link secondary" href="https://www.practicalclinicalskills.com/lung-sounds-audio" target="_blank" rel="noopener noreferrer">Escuchar vesicular, broncovesicular y bronquial (audio, Practical Clinical Skills) ↗</a></p>
+${videoBlock('Video 3', 'Murmullo vesicular — grabación real', 'VtnMRG0ORLs', 'Medzcool (YouTube)')}
+${videoBlock('Video 4', 'Respiración bronquial — grabación real', 'WfkWMfE9VTY', 'Medzcool (YouTube)')}`,
       criterios_dx: 'Auscultar un ruido de tipo bronquial en un sitio donde debería ser vesicular ("soplo tubárico") es un signo mayor de consolidación: el tejido consolidado, sin aire alveolar que lo filtre, transmite el sonido bronquial generado en la vía aérea grande directamente hasta la pared torácica — el mismo mecanismo que explica el frémito aumentado en el mismo contexto.'
     },
     {
       nombre: 'Ruidos agregados continuos: sibilancias y roncus',
       color: '#8c3a34',
       definicion: 'Sonidos musicales, prolongados y superpuestos al murmullo vesicular normal, generados por flujo de aire turbulento a través de una vía aérea estrechada.',
-      fisiopatologia: 'Sibilancias: agudas, musicales, por el paso de aire a alta velocidad a través de vías aéreas de pequeño-mediano calibre estrechadas de forma difusa (broncoespasmo, edema de la mucosa, tapones de moco) — más audibles en la espiración porque la vía aérea se estrecha dinámicamente al espirar (la presión pleural positiva comprime bronquios ya de por sí obstruidos). Roncus: más graves, similares a un ronquido, por vibración de secreciones en vías aéreas de mayor calibre — a diferencia de las sibilancias, suelen cambiar de tono o desaparecer transitoriamente después de toser, porque la tos moviliza las secreciones que los generan.',
+      fisiopatologia: `<ul style="margin:0;padding-left:18px;">
+  <li><strong>Sibilancias</strong>: agudas, musicales, por el paso de aire a alta velocidad a través de vías aéreas de pequeño-mediano calibre estrechadas de forma difusa (broncoespasmo, edema de la mucosa, tapones de moco) — más audibles en la espiración porque la vía aérea se estrecha dinámicamente al espirar (la presión pleural positiva comprime bronquios ya de por sí obstruidos).</li>
+  <li><strong>Roncus</strong>: más graves, similares a un ronquido, por vibración de secreciones en vías aéreas de mayor calibre — a diferencia de las sibilancias, suelen cambiar de tono o desaparecer transitoriamente después de toser, porque la tos moviliza las secreciones que los generan.</li>
+</ul>
+<p style="margin:10px 0 0;"><a class="stigma-photo-link secondary" href="https://www.practicalclinicalskills.com/lung-sounds-audio" target="_blank" rel="noopener noreferrer">Escuchar sibilancias y roncus (audio, Practical Clinical Skills) ↗</a></p>
+${videoBlock('Video 5', 'Sibilancia espiratoria — grabación real', 'T4qNgi4Vrvo', 'Medzcool (YouTube)')}`,
       criterios_dx: 'Sibilancias difusas en ambos campos → obstrucción de vía aérea generalizada (asma, EPOC exacerbado). Sibilancia localizada, fija, que no cambia con la tos → sospecha de obstrucción endobronquial focal (cuerpo extraño, tumor endobronquial) hasta demostrar lo contrario.',
       dx_diferencial: 'Asma, EPOC exacerbado, bronquitis, edema pulmonar cardiogénico en fase temprana ("asma cardial"), obstrucción endobronquial focal.'
     },
@@ -215,7 +257,12 @@ ${figBlock('Imagen 3', 'Ruidos respiratorios normales: relación inspiración:es
       nombre: 'Ruidos agregados discontinuos: estertores y roce pleural',
       color: '#8c3a34',
       definicion: 'Sonidos breves, no musicales, "crepitantes" (estertores/crackles), y el roce áspero generado por la fricción de las hojas pleurales inflamadas.',
-      fisiopatologia: `<p style="margin:0;">Estertores finos (tipo "velcro"): se generan por la apertura súbita y en cascada de pequeñas vías aéreas y alvéolos previamente colapsados, típicamente al final de la inspiración; no cambian con la tos. Característicos de fibrosis pulmonar (bibasales, persistentes) y de las fases tempranas de edema pulmonar o neumonía. Estertores gruesos: por el paso de aire a través de secreciones en vías aéreas de mayor calibre; SÍ se modifican o desaparecen con la tos (a diferencia de los finos) — típicos de bronquiectasias, EPOC con abundantes secreciones, o edema pulmonar avanzado. Roce pleural: sonido áspero, descrito como "cuero nuevo" o "pisar sobre nieve", por la fricción de las hojas pleurales inflamadas que han perdido su lubricación normal; se ausculta tanto en inspiración como en espiración, no se modifica con la tos, y característicamente DESAPARECE si se acumula suficiente derrame pleural entre ambas hojas (que deja de haber fricción directa). La Tabla 1 resume la clasificación y el mecanismo de cada ruido agregado.</p>
+      fisiopatologia: `<ul style="margin:0;padding-left:18px;">
+  <li><strong>Estertores finos</strong> (tipo "velcro"): se generan por la apertura súbita y en cascada de pequeñas vías aéreas y alvéolos previamente colapsados, típicamente al final de la inspiración; no cambian con la tos. Característicos de fibrosis pulmonar (bibasales, persistentes) y de las fases tempranas de edema pulmonar o neumonía.</li>
+  <li><strong>Estertores gruesos</strong>: por el paso de aire a través de secreciones en vías aéreas de mayor calibre; SÍ se modifican o desaparecen con la tos (a diferencia de los finos) — típicos de bronquiectasias, EPOC con abundantes secreciones, o edema pulmonar avanzado.</li>
+  <li><strong>Roce pleural</strong>: sonido áspero, descrito como "cuero nuevo" o "pisar sobre nieve", por la fricción de las hojas pleurales inflamadas que han perdido su lubricación normal; se ausculta tanto en inspiración como en espiración, no se modifica con la tos, y característicamente DESAPARECE si se acumula suficiente derrame pleural entre ambas hojas (que deja de haber fricción directa).</li>
+</ul>
+<p style="margin:8px 0 0;">La Tabla 1 resume la clasificación y el mecanismo de cada ruido agregado.</p>
 ${figBlock('Tabla 1', 'Ruidos agregados: clasificación y mecanismo', `<div style="overflow-x:auto;">
     <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
       <thead><tr style="border-bottom:1px solid var(--line);">
@@ -232,7 +279,10 @@ ${figBlock('Tabla 1', 'Ruidos agregados: clasificación y mecanismo', `<div styl
         <tr><td style="padding:5px 6px;"><strong>Roce pleural</strong></td><td style="padding:5px 6px;">Áspero, "cuero nuevo"</td><td style="padding:5px 6px;">Fricción de hojas pleurales inflamadas</td><td style="padding:5px 6px;">No (desaparece si aparece derrame)</td></tr>
       </tbody>
     </table>
-    </div>`)}`,
+    </div>`)}
+<p style="margin:10px 0 0;"><a class="stigma-photo-link secondary" href="https://www.practicalclinicalskills.com/lung-sounds-audio" target="_blank" rel="noopener noreferrer">Escuchar estertores finos, gruesos y roce pleural (audio, Practical Clinical Skills) ↗</a></p>
+${videoBlock('Video 6', 'Estertores gruesos — grabación real', 'hr6xn702-QU', 'AMBOSS (YouTube)')}
+${videoBlock('Video 7', 'Estertores (crepitantes) — grabación real con forma de onda', 'kwltwuAPn1o', 'Eko Health (YouTube) — estetoscopio digital')}`,
       criterios_dx: 'Estertores finos que NO cambian con la tos → orientan a fibrosis intersticial o edema pulmonar temprano. Estertores gruesos que SÍ cambian con la tos → orientan a secreciones en vía aérea grande. Un roce pleural que desaparece en la evolución de un cuadro con dolor pleurítico sugiere que se está formando un derrame.',
       dx_diferencial: 'Estertores finos bibasales persistentes: fibrosis pulmonar. Estertores finos que aparecen y evolucionan: edema pulmonar, neumonía temprana. Estertores gruesos: bronquiectasias, EPOC con secreciones. Roce pleural: pleuritis (infecciosa, autoinmune, urémica, postinfarto).'
     },
@@ -240,7 +290,11 @@ ${figBlock('Tabla 1', 'Ruidos agregados: clasificación y mecanismo', `<div styl
       nombre: 'Transmisión de la voz: broncofonía, pectoriloquia áfona y egofonía',
       color: '#8c3a34',
       definicion: 'Pruebas de auscultación de la voz que exploran el mismo fenómeno físico que el frémito táctil, pero con el oído en vez de la mano.',
-      clinica: 'Broncofonía: se pide al paciente decir "33" en voz normal mientras se ausculta; positiva cuando las palabras se escuchan anormalmente claras e intensas. Pectoriloquia áfona: se pide al paciente susurrar "33"; positiva cuando incluso la voz susurrada se transmite con una claridad excepcional, distinguiéndose las sílabas. Egofonía: se pide al paciente decir una "e" sostenida; positiva cuando se ausculta como una "a" nasal y cambiada de timbre ("voz de cabra").',
+      clinica: `<ul style="margin:0;padding-left:18px;">
+  <li><strong>Broncofonía</strong>: se pide al paciente decir "33" en voz normal mientras se ausculta; positiva cuando las palabras se escuchan anormalmente claras e intensas.</li>
+  <li><strong>Pectoriloquia áfona</strong>: se pide al paciente susurrar "33"; positiva cuando incluso la voz susurrada se transmite con una claridad excepcional, distinguiéndose las sílabas.</li>
+  <li><strong>Egofonía</strong>: se pide al paciente decir una "e" sostenida; positiva cuando se ausculta como una "a" nasal y cambiada de timbre ("voz de cabra").</li>
+</ul>`,
       fisiopatologia: 'Las tres comparten el mismo mecanismo que el frémito aumentado: el tejido consolidado transmite mejor las vibraciones sonoras que el parénquima aireado normal, que normalmente filtra y atenúa las frecuencias altas de la voz. La egofonía tiene un matiz adicional: se ausculta característicamente en el límite superior de un derrame pleural, donde el pulmón subyacente está comprimido pero no completamente consolidado — esa combinación filtra selectivamente ciertas frecuencias y cambia el timbre percibido de la "e" a una "a".',
       criterios_dx: `Las tres pruebas son positivas sobre consolidación y negativas sobre pulmón normal o derrame franco (donde el líquido, a diferencia del tejido sólido, amortigua la transmisión); la egofonía específicamente marca el borde superior de un derrame. La Tabla 2 compara los hallazgos de expansión, frémito, percusión, auscultación y posición traqueal en los 4 grandes síndromes pleuropulmonares descritos a lo largo de este tema.${figBlock('Tabla 2', 'Los 4 grandes síndromes pleuropulmonares: hallazgos comparados', `<div style="overflow-x:auto;">
     <table style="width:100%;border-collapse:collapse;font-size:11.5px;">

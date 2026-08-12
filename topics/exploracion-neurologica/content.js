@@ -5,11 +5,21 @@
 // tema de enfermedad) para la Escala de Coma de Glasgow — es una escala de exploración validada,
 // justo el caso de uso que contempla topics/_template-semiologia/content.js.
 //
-// Las 6 figuras (5 en complicaciones + 1 en clasificacion) son TODAS código propio (SVG/HTML con
-// var(--...) de tema) — nada de imágenes externas ni asistidas por IA, mismo criterio ya
-// establecido: cada una representa un dato clínico exacto (dermatomas, asimetría facial,
-// maniobras meníngeas, tablas de marcha/UMN-LMN/Glasgow), y ese contenido va siempre a mano (ver
-// .claude/skills/figura-didactica/SKILL.md).
+// De las 6 figuras (5 en complicaciones + 1 en clasificacion), 3 son código propio (SVG/HTML con
+// var(--...) de tema, mismo criterio ya establecido: asimetría facial, tablas de marcha y de
+// UMN/LMN). Las otras 3 (Escala de Glasgow en `figuras`, dermatomas e Imagen 3 de signos
+// meníngeos) son infografías provistas directamente por el autor del contenido, mismo patrón que
+// exploracion-cardiovascular/content.js: se usan tal cual, sin marcar su origen en ningún texto
+// visible de la app. La infografía de signos meníngeos trae 4 signos que el texto anterior no
+// cubría (Brudzinski inverso, Lasègue, trípode, Jolt accentuation) — se agregaron a `clinica` y
+// `fisiopatologia` de esa tarjeta para no dejarlos sin explicación.
+//
+// Video (revisión agosto 2026, ampliada): `videoBlock()` incrusta 4 videos vía <iframe> — no se
+// descarga nada, requiere internet. 3 son del canal Stanford Medicine 25 (reflejos
+// osteotendinosos, exploración cerebelosa, marcha); el 4º (Ortho Eval Pal) muestra Babinski y
+// Hoffmann positivos en un paciente real con esclerosis múltiple — Stanford no tiene un video
+// dedicado a esos 2 signos. No se agregó audio: la exploración neurológica no tiene un
+// componente auscultatorio equivalente al de cardiovascular/respiratoria/abdominal.
 
 export const meta = {
   id: 'exploracion-neurologica',
@@ -63,33 +73,21 @@ function figBlock(label, titulo, html) {
   </div>`;
 }
 
+// Embebe un video de YouTube (canal oficial Stanford Medicine 25) dentro de un figBlock — no se
+// descarga ningún archivo, solo se reproduce desde YouTube (requiere internet, a diferencia del
+// resto del contenido de la app).
+function videoBlock(label, titulo, youtubeId, fuente) {
+  return figBlock(label, titulo, `<div style="width:100%;max-width:480px;aspect-ratio:16/9;margin:0 auto;border-radius:var(--radius);border:1px solid var(--line);overflow:hidden;">
+    <iframe src="https://www.youtube.com/embed/${youtubeId}" title="${titulo}" style="width:100%;height:100%;border:0;display:block;" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" loading="lazy"></iframe>
+  </div>
+  <p style="font-size:10.5px;color:var(--ink-faint);text-align:center;margin:8px 0 0;">${fuente}</p>`);
+}
+
 // ---------------------------------------------------------------------------------------------
 // Helpers de figuras (SVG a mano, theme-aware vía var(--...) salvo colores clínicos ya
 // establecidos en el proyecto: #3f6b52 = normal/reassuring, #8c3a34 = patológico/alarma).
 // ---------------------------------------------------------------------------------------------
 
-function dermatomasSVG() {
-  return `<svg viewBox="0 0 220 320" role="img" aria-labelledby="derm-t derm-d" style="width:100%;max-width:220px;display:block;margin:0 auto;">
-    <title id="derm-t">Dermatomas de referencia clínica</title>
-    <desc id="derm-d">Silueta corporal esquemática de frente, con bandas horizontales marcando los dermatomas de referencia clínica más usados: C4 en el hombro, T4 en la línea intermamilar, T10 en el ombligo, L1 en la región inguinal, y L4-S1 en la pierna.</desc>
-    <path d="M110,8 a18,18 0 1,0 0.1,0 Z" fill="none" stroke="var(--line)" stroke-width="1.5"/>
-    <path d="M75,45 Q110,32 145,45 L155,110 Q158,180 145,230 L140,300 L118,300 L112,190 L108,190 L102,300 L80,300 L75,230 Q62,180 65,110 Z" fill="none" stroke="var(--line)" stroke-width="1.5"/>
-    <line x1="66" y1="60" x2="154" y2="60" stroke="#4a3d73" stroke-width="1.5"/>
-    <text x="160" y="63" font-size="9" font-weight="700" fill="#4a3d73">C4</text>
-    <line x1="63" y1="108" x2="157" y2="108" stroke="#4a3d73" stroke-width="1.5"/>
-    <text x="160" y="111" font-size="9" font-weight="700" fill="#4a3d73">T4</text>
-    <text x="110" y="105" text-anchor="middle" font-size="7.5" fill="var(--ink-faint)">línea intermamilar</text>
-    <line x1="63" y1="165" x2="157" y2="165" stroke="#4a3d73" stroke-width="1.5"/>
-    <text x="160" y="168" font-size="9" font-weight="700" fill="#4a3d73">T10</text>
-    <text x="110" y="162" text-anchor="middle" font-size="7.5" fill="var(--ink-faint)">ombligo</text>
-    <line x1="67" y1="215" x2="153" y2="215" stroke="#4a3d73" stroke-width="1.5"/>
-    <text x="156" y="218" font-size="9" font-weight="700" fill="#4a3d73">L1</text>
-    <text x="110" y="212" text-anchor="middle" font-size="7.5" fill="var(--ink-faint)">región inguinal</text>
-    <line x1="66" y1="295" x2="118" y2="295" stroke="#4a3d73" stroke-width="1.5"/>
-    <text x="30" y="298" font-size="9" font-weight="700" fill="#4a3d73">L4-S1</text>
-  </svg>
-  <p style="font-size:10.5px;color:var(--ink-faint);text-align:center;margin:6px 0 0;">Vista anterior. Landmarks de mayor uso clínico: C4 (hombro), T4 (línea intermamilar), T10 (ombligo), L1 (inguinal), L4-S1 (pierna) — no todos los dermatomas, solo los de referencia rápida a la cabecera.</p>`;
-}
 
 function paralisisFacialSVG() {
   function cara(id, titulo, frenteOk, ladoCaido) {
@@ -117,27 +115,6 @@ function paralisisFacialSVG() {
   <p style="font-size:10.5px;color:var(--ink-faint);text-align:center;margin:8px 0 0;">Central: frente simétrica (inervación bilateral de la porción superior del núcleo facial), solo cae la mitad inferior. Periférica: cae toda la hemicara, incluida la frente (no puede elevar la ceja ni cerrar el ojo de ese lado).</p>`;
 }
 
-function signosMeningeosSVG() {
-  return `<svg viewBox="0 0 300 140" role="img" aria-labelledby="men-t men-d" style="width:100%;max-width:320px;display:block;margin:0 auto;">
-    <title id="men-t">Maniobras de Kernig y Brudzinski</title>
-    <desc id="men-d">Dos figuras esquemáticas de un paciente en decúbito supino: a la izquierda la maniobra de Kernig (cadera flexionada a 90 grados, intento de extender la rodilla); a la derecha la maniobra de Brudzinski (flexión pasiva del cuello con flexión refleja de caderas y rodillas).</desc>
-    <line x1="10" y1="120" x2="140" y2="120" stroke="var(--line)" stroke-width="1"/>
-    <circle cx="30" cy="95" r="9" fill="none" stroke="var(--ink)" stroke-width="1.5"/>
-    <path d="M39,100 L70,110 L70,120" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/>
-    <path d="M70,120 L100,95" fill="none" stroke="#8c3a34" stroke-width="2" stroke-linecap="round"/>
-    <path d="M100,95 L128,100" fill="none" stroke="#8c3a34" stroke-width="2" stroke-linecap="round"/>
-    <path d="M110,88 A10,10 0 0,1 100,95" fill="none" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2,2"/>
-    <text x="70" y="135" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink)">Kernig</text>
-    <line x1="160" y1="120" x2="290" y2="120" stroke="var(--line)" stroke-width="1"/>
-    <circle cx="180" cy="103" r="9" fill="none" stroke="var(--ink)" stroke-width="1.5"/>
-    <path d="M175,111 Q160,108 152,100" fill="none" stroke="#8c3a34" stroke-width="2" stroke-linecap="round"/>
-    <path d="M188,110 L215,120" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/>
-    <path d="M215,120 L235,102 L255,110" fill="none" stroke="#8c3a34" stroke-width="2" stroke-linecap="round"/>
-    <path d="M215,120 L228,110" fill="none" stroke="#8c3a34" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
-    <text x="220" y="135" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink)">Brudzinski</text>
-  </svg>
-  <p style="font-size:10.5px;color:var(--ink-faint);text-align:center;margin:6px 0 0;">Kernig: dolor/resistencia al extender la rodilla con la cadera flexionada a 90°. Brudzinski: la flexión pasiva del cuello provoca flexión refleja e involuntaria de caderas y rodillas (líneas rojas).</p>`;
-}
 
 export const content = {
   diagnostico: {
@@ -154,7 +131,7 @@ export const content = {
   // y la sección "Escalas de exploración" (con la Escala de Coma de Glasgow) quedaba invisible,
   // pese a estar completamente escrita. Bug encontrado y corregido en esta revisión.
   clasificacion: {
-    compensada_descompensada: 'La Escala de Coma de Glasgow (ECG) cuantifica el nivel de conciencia mediante 3 componentes evaluados por separado —apertura ocular, respuesta verbal y respuesta motora— y es la única escala de exploración física de uso universal en este tema. Se reporta siempre desglosada (ej. "O2V2M4 = 8") y no solo como suma total, porque el mismo puntaje total puede corresponder a combinaciones clínicamente distintas.',
+    compensada_descompensada: 'La Escala de Coma de Glasgow (ECG) cuantifica el nivel de conciencia mediante 3 componentes evaluados por separado —apertura ocular, respuesta verbal y respuesta motora— y es la única escala de exploración física de uso universal en este tema. Se reporta siempre desglosada (ej. "O2V2M4 = 8") y no solo como suma total, porque el mismo puntaje total puede corresponder a combinaciones clínicamente distintas. La intubación no invalida el componente verbal (si el paciente no puede hablar por eso, se usa el valor de "sonidos incomprensibles", 2); la sedación, el alcohol, otras drogas o un trastorno metabólico agudo pueden deprimir artificialmente cualquiera de los 3 componentes, por lo que siempre debe reevaluarse la ECG una vez que estos factores se resuelven o se controlan.',
     escalas: [
       { nombre: 'Escala de Coma de Glasgow (ECG)', componentes: 'Apertura ocular (4) + Respuesta verbal (5) + Respuesta motora (6)', formula: 'Suma de los 3 componentes (mínimo 3, máximo 15)', interpretacion: '13-15: leve. 9-12: moderado. ≤8: severo — indicación clásica de manejo avanzado de la vía aérea ("8 = intuba").' }
     ]
@@ -173,7 +150,12 @@ export const content = {
       color: '#3d5a73',
       definicion: 'Evaluación de las funciones corticales superiores: orientación en persona, tiempo y espacio; atención (repetición de dígitos, deletrear una palabra al revés); lenguaje (fluencia, comprensión, repetición, denominación).',
       clinica: 'Normal: orientado en las 3 esferas, atento, lenguaje fluente, comprende órdenes y repite frases sin dificultad. Patológico: desorientación (típicamente se pierde primero el tiempo, luego el espacio, y por último la persona), inatención, o cualquier patrón de afasia.',
-      fisiopatologia: 'Las afasias se localizan por el patrón de 3 funciones —fluencia, comprensión, repetición— más que por el vocabulario perdido: afasia de Broca (no fluente, esforzada, comprensión relativamente conservada, repetición alterada; lesión frontal inferior, área de Broca) vs. afasia de Wernicke (fluente pero con parafasias y contenido vacío, comprensión alterada, repetición alterada; lesión temporal posterior, área de Wernicke) vs. afasia de conducción (fluente, comprensión conservada, pero repetición desproporcionadamente alterada; lesión del fascículo arcuato, que conecta ambas áreas).',
+      fisiopatologia: `<p style="margin:0;">Las afasias se localizan por el patrón de 3 funciones —fluencia, comprensión, repetición— más que por el vocabulario perdido:</p>
+<ul style="margin:8px 0 0;padding-left:18px;">
+  <li><strong>Afasia de Broca</strong>: no fluente, esforzada, comprensión relativamente conservada, repetición alterada; lesión frontal inferior, área de Broca.</li>
+  <li><strong>Afasia de Wernicke</strong>: fluente pero con parafasias y contenido vacío, comprensión alterada, repetición alterada; lesión temporal posterior, área de Wernicke.</li>
+  <li><strong>Afasia de conducción</strong>: fluente, comprensión conservada, pero repetición desproporcionadamente alterada; lesión del fascículo arcuato, que conecta ambas áreas.</li>
+</ul>`,
       criterios_dx: 'La repetición es la función que mejor distingue estos tres patrones: alterada en Broca y Wernicke (ambas afectan las áreas del circuito perisilviano), pero DESPROPORCIONADAMENTE alterada respecto a la fluencia y comprensión en la afasia de conducción.',
       dx_diferencial: 'Afasia (trastorno del lenguaje en sí) vs. disartria (trastorno de la articulación motora del habla, con lenguaje interno y comprensión intactos) — son entidades distintas que se confunden con frecuencia.'
     },
@@ -182,7 +164,13 @@ export const content = {
       color: '#3d5a73',
       definicion: 'I (olfatorio): olfato con cada narina por separado. II (óptico): agudeza visual, campos visuales por confrontación, fondo de ojo, reflejo fotomotor y consensual. III, IV, VI (oculomotor, troclear, abducens): movimientos oculares en las 6 posiciones cardinales, tamaño y simetría pupilar, ptosis palpebral.',
       clinica: 'Normal: pupilas isocóricas, redondas, reactivas a la luz de forma directa y consensual; movimientos oculares completos y conjugados, sin nistagmo ni diplopía; sin ptosis.',
-      fisiopatologia: 'Pupila de Argyll-Robertson: reacciona a la acomodación pero NO a la luz (descrita clásicamente como "prostitute pupil" en inglés — se acomoda pero no reacciona), clásica de neurosífilis, por lesión pretectal que respeta la vía de la acomodación. Pupila tónica de Adie: dilatada, reacción lenta y sostenida a la luz, con hiporreflexia osteotendinosa asociada. Parálisis del III par con pupila afectada (midriática, arreactiva) y ptosis, con el ojo desviado "abajo y afuera": sugiere causa COMPRESIVA (ej. aneurisma de la arteria comunicante posterior) — urgencia neuroquirúrgica. Parálisis del III par con pupila RESPETADA (reactiva): sugiere causa ISQUÉMICA/microvascular (ej. diabetes), porque las fibras pupilomotoras parasimpáticas viajan en la periferia del nervio y se afectan primero por compresión externa, mientras que la isquemia del vasa nervorum daña preferentemente el centro del nervio. Es como un cable eléctrico grueso con varios hilos internos: un pellizco externo (compresión) aplasta primero los hilos de la superficie, mientras que un problema de suministro (isquemia) afecta primero a los hilos del centro, que dependen de una irrigación más precaria.',
+      fisiopatologia: `<ul style="margin:0;padding-left:18px;">
+  <li><strong>Pupila de Argyll-Robertson</strong>: reacciona a la acomodación pero NO a la luz (descrita clásicamente como "prostitute pupil" en inglés — se acomoda pero no reacciona), clásica de neurosífilis, por lesión pretectal que respeta la vía de la acomodación.</li>
+  <li><strong>Pupila tónica de Adie</strong>: dilatada, reacción lenta y sostenida a la luz, con hiporreflexia osteotendinosa asociada.</li>
+  <li><strong>Parálisis del III par con pupila afectada</strong> (midriática, arreactiva) y ptosis, con el ojo desviado "abajo y afuera": sugiere causa COMPRESIVA (ej. aneurisma de la arteria comunicante posterior) — urgencia neuroquirúrgica.</li>
+  <li><strong>Parálisis del III par con pupila RESPETADA</strong> (reactiva): sugiere causa ISQUÉMICA/microvascular (ej. diabetes), porque las fibras pupilomotoras parasimpáticas viajan en la periferia del nervio y se afectan primero por compresión externa, mientras que la isquemia del vasa nervorum daña preferentemente el centro del nervio.</li>
+</ul>
+<p style="margin:8px 0 0;">Es como un cable eléctrico grueso con varios hilos internos: un pellizco externo (compresión) aplasta primero los hilos de la superficie, mientras que un problema de suministro (isquemia) afecta primero a los hilos del centro, que dependen de una irrigación más precaria.</p>`,
       criterios_dx: 'La afectación o no de la pupila en una parálisis del III par es el dato clínico más urgente de interpretar: pupila afectada obliga a descartar compresión aneurismática con neuroimagen urgente; pupila respetada orienta a causa microvascular, con seguimiento menos urgente.',
       dx_diferencial: 'Síndrome de Horner (ptosis + miosis + anhidrosis facial ipsilateral, por lesión de la vía oculosimpática de 3 neuronas) vs. parálisis del III par (ptosis + midriasis, no miosis) — la dirección del cambio pupilar (miosis vs. midriasis) distingue ambos síndromes con ptosis.'
     },
@@ -200,7 +188,11 @@ El núcleo facial recibe inervación cortical BILATERAL para la porción que con
       color: '#3d5a73',
       definicion: 'VIII (vestibulococlear): audición (pruebas de Rinne y Weber con diapasón), equilibrio. IX, X (glosofaríngeo, vago): reflejo nauseoso, elevación simétrica del paladar, voz y deglución. XI (espinal accesorio): fuerza del esternocleidomastoideo y trapecio. XII (hipogloso): motilidad de la lengua.',
       clinica: 'Prueba de Weber (diapasón en la línea media del cráneo): normalmente se percibe igual en ambos oídos. Prueba de Rinne (diapasón en la apófisis mastoides, luego frente al conducto auditivo): normalmente la conducción aérea dura más que la ósea (Rinne positivo).',
-      fisiopatologia: 'Hipoacusia conductiva (oído externo/medio): Weber lateraliza AL oído afectado (el hueso transmite mejor sin la competencia del ruido ambiental que ya no llega por esa vía aérea bloqueada), Rinne negativo en ese oído (conducción ósea &gt; aérea). Hipoacusia neurosensorial (coclear/nervio VIII): Weber lateraliza AL oído SANO, Rinne sigue siendo positivo en ambos oídos (aunque con menor percepción global en el afectado). Lesión del XII par (hipogloso) periférica: al protruir la lengua, se desvía HACIA el lado de la lesión (el geniogloso sano del lado contrario empuja la lengua hacia el lado débil).',
+      fisiopatologia: `<ul style="margin:0;padding-left:18px;">
+  <li><strong>Hipoacusia conductiva</strong> (oído externo/medio): Weber lateraliza AL oído afectado (el hueso transmite mejor sin la competencia del ruido ambiental que ya no llega por esa vía aérea bloqueada), Rinne negativo en ese oído (conducción ósea &gt; aérea). Es como taparte un oído con un dedo en un cuarto ruidoso: tu propia voz, que te llega por conducción ósea, de pronto se escucha más fuerte de ese lado, porque ya no compite con el ruido externo que normalmente entra por el aire.</li>
+  <li><strong>Hipoacusia neurosensorial</strong> (coclear/nervio VIII): Weber lateraliza AL oído SANO, Rinne sigue siendo positivo en ambos oídos (aunque con menor percepción global en el afectado).</li>
+  <li><strong>Lesión del XII par</strong> (hipogloso) periférica: al protruir la lengua, se desvía HACIA el lado de la lesión (el geniogloso sano del lado contrario empuja la lengua hacia el lado débil).</li>
+</ul>`,
       criterios_dx: 'La combinación Weber + Rinne permite clasificar una hipoacusia como conductiva o neurosensorial sin necesidad de audiometría inmediata.',
       algoritmo: ['Weber: diapasón vibrando en la línea media del cráneo — preguntar en qué oído se escucha más fuerte', 'Rinne: diapasón en la mastoides hasta que deje de percibirse, luego frente al conducto auditivo — preguntar si se sigue escuchando (Rinne positivo = conducción aérea > ósea, normal)']
     },
@@ -216,7 +208,12 @@ El núcleo facial recibe inervación cortical BILATERAL para la porción que con
       nombre: 'Tono muscular',
       color: '#3d5a73',
       definicion: 'Resistencia involuntaria al movimiento pasivo de una articulación, evaluada con el paciente relajado.',
-      fisiopatologia: 'Espasticidad: aumento del tono DEPENDIENTE de la velocidad del movimiento pasivo (mayor resistencia cuanto más rápido se mueve la articulación), con el característico "signo de la navaja" (resistencia inicial que cede bruscamente) — refleja lesión de la vía corticoespinal (neurona motora superior). Rigidez: aumento del tono INDEPENDIENTE de la velocidad, constante durante todo el arco de movimiento, en "rueda dentada" (con temblor superpuesto, típico de Parkinson) o "en tubo de plomo" (sin temblor) — refleja disfunción de los ganglios basales (sistema extrapiramidal). La diferencia se siente igual que la que hay entre abrir una navaja de resorte (cede de golpe tras un instante de resistencia, sin importar qué tan rápido se empuje: espasticidad) y girar una manija con trinquete o "rueda dentada" (una serie de pequeños clics parejos y constantes durante todo el recorrido, sin importar la velocidad: rigidez). Hipotonía/flacidez: tono disminuido — lesión de neurona motora inferior (nervio periférico, raíz, asta anterior) o lesión cerebelosa/de shock medular agudo.',
+      fisiopatologia: `<ul style="margin:0;padding-left:18px;">
+  <li><strong>Espasticidad</strong>: aumento del tono DEPENDIENTE de la velocidad del movimiento pasivo (mayor resistencia cuanto más rápido se mueve la articulación), con el característico "signo de la navaja" (resistencia inicial que cede bruscamente) — refleja lesión de la vía corticoespinal (neurona motora superior).</li>
+  <li><strong>Rigidez</strong>: aumento del tono INDEPENDIENTE de la velocidad, constante durante todo el arco de movimiento, en "rueda dentada" (con temblor superpuesto, típico de Parkinson) o "en tubo de plomo" (sin temblor) — refleja disfunción de los ganglios basales (sistema extrapiramidal).</li>
+  <li><strong>Hipotonía/flacidez</strong>: tono disminuido — lesión de neurona motora inferior (nervio periférico, raíz, asta anterior) o lesión cerebelosa/de shock medular agudo.</li>
+</ul>
+<p style="margin:8px 0 0;">La diferencia entre espasticidad y rigidez se siente igual que la que hay entre abrir una navaja de resorte (cede de golpe tras un instante de resistencia, sin importar qué tan rápido se empuje: espasticidad) y girar una manija con trinquete o "rueda dentada" (una serie de pequeños clics parejos y constantes durante todo el recorrido, sin importar la velocidad: rigidez).</p>`,
       criterios_dx: 'Distinguir espasticidad (dependiente de velocidad, signo de la navaja) de rigidez (independiente de velocidad, en rueda dentada o en tubo de plomo) diferencia una lesión piramidal de una extrapiramidal antes de cualquier estudio de imagen.',
       dx_diferencial: 'Hipotonía aguda con arreflexia en las 4 extremidades: considerar shock medular (fase aguda de una lesión medular, antes de que aparezca la espasticidad esperada) o síndrome de Guillain-Barré.'
     },
@@ -225,7 +222,11 @@ El núcleo facial recibe inervación cortical BILATERAL para la porción que con
       color: '#3d5a73',
       definicion: 'Respuesta motora refleja a la percusión brusca de un tendón con el martillo de reflejos (bicipital, tricipital, estilorradial, patelar, aquíleo), graduada de 0 a 4+.',
       clinica: 'Escala: 0 = ausente. 1+ = hipoactivo. 2+ = normal. 3+ = hiperactivo, sin clono. 4+ = hiperactivo con clono (contracciones rítmicas repetidas al estirar bruscamente el tendón y mantener la presión).',
-      fisiopatologia: 'Reflejos hiperactivos y simétricos con clono sostenido: lesión de neurona motora superior (interrupción de la inhibición corticoespinal descendente sobre el arco reflejo segmentario). Reflejos disminuidos o ausentes: lesión de neurona motora inferior en cualquier punto del arco reflejo (raíz, plexo, nervio periférico) o, transitoriamente, en la fase aguda de una lesión de neurona motora superior (shock medular/diasquisis).',
+      fisiopatologia: `<ul style="margin:0;padding-left:18px;">
+  <li><strong>Reflejos hiperactivos y simétricos con clono sostenido</strong>: lesión de neurona motora superior (interrupción de la inhibición corticoespinal descendente sobre el arco reflejo segmentario).</li>
+  <li><strong>Reflejos disminuidos o ausentes</strong>: lesión de neurona motora inferior en cualquier punto del arco reflejo (raíz, plexo, nervio periférico) o, transitoriamente, en la fase aguda de una lesión de neurona motora superior (shock medular/diasquisis).</li>
+</ul>
+${videoBlock('Video 1', 'Reflejos osteotendinosos profundos', '0sqCIzuotWo', 'Stanford Medicine 25 (YouTube)')}`,
       criterios_dx: 'Clono sostenido (≥ varias sacudidas rítmicas que no se agotan) es siempre patológico y confirma una lesión de neurona motora superior; unas pocas sacudidas que se agotan rápido pueden verse en personas ansiosas sanas.',
       algoritmo: ['Paciente relajado, tendón en tensión moderada', 'Percusión breve y directa sobre el tendón', 'Comparar siempre con el lado contrario', 'Si está abolido, reforzar con la maniobra de Jendrassik (traccionar las manos entrelazadas) mientras se percute']
     },
@@ -233,8 +234,12 @@ El núcleo facial recibe inervación cortical BILATERAL para la porción que con
       nombre: 'Sensibilidad: dermatomas y vías sensitivas',
       color: '#3d5a73',
       definicion: 'Evaluación de la sensibilidad superficial (táctil, dolorosa, térmica) y profunda (vibratoria con diapasón, posicional/propioceptiva) por dermatomas (ver Imagen 2).',
-      fisiopatologia: `${figBlock('Imagen 2', 'Dermatomas de referencia clínica', dermatomasSVG())}
-Dos vías anatómicamente distintas conducen la sensibilidad, lo que explica los patrones de pérdida disociada: la vía espinotalámica (dolor, temperatura) decusa de inmediato, a nivel medular, 1-2 segmentos por encima de su entrada; los cordones posteriores (vibración, posición/propiocepción) ascienden ipsilaterales sin decusar hasta el bulbo raquídeo. Síndrome de Brown-Séquard (hemisección medular): pérdida motora y de sensibilidad vibratoria/posicional IPSILATERAL a la lesión (los cordones posteriores aún no habían decusado), con pérdida de dolor y temperatura CONTRALATERAL (la vía espinotalámica ya había decusado antes de ser lesionada). Siringomielia: pérdida SUSPENDIDA y bilateral de dolor y temperatura en un nivel específico (afecta las fibras espinotalámicas que decusan justo en la comisura anterior, donde se forma la cavidad siringomiélica), con preservación de la sensibilidad vibratoria/posicional y del tacto fino (cordones posteriores, anatómicamente alejados de la comisura anterior).`,
+      fisiopatologia: `${figBlock('Imagen 2', 'Dermatomas de referencia clínica', `<img src="topics/exploracion-neurologica/assets/dermatomas-referencia-clinica.png" alt="Infografía de dermatomas de referencia clínica: áreas de piel inervadas por una raíz espinal específica con utilidad en la práctica clínica. C5: cara lateral del hombro y deltoides, cara lateral del brazo hasta el codo; lesión de C5 causa debilidad para abducción del hombro (deltoides) y alteración de la sensibilidad en la cara lateral del hombro. C6: cara lateral del antebrazo, pulgar y borde radial de la mano; lesión de C6 causa debilidad para extensión de la muñeca y alteración de la sensibilidad en pulgar e índice. C7: dorso del dedo medio y región central de la mano; lesión de C7 causa debilidad para extensión del codo y de los dedos, alteración sensitiva en dedo medio. T4: nivel del pezón (línea horizontal a nivel de T4); el nivel sensitivo se encuentra aproximadamente a la altura del pezón. T10: región umbilical; el nivel sensitivo se encuentra a la altura del ombligo. L4: cara medial de la pierna y maléolo medial; lesión de L4 causa debilidad para extensión de la rodilla y alteración sensitiva en cara medial de la pierna. S1: borde lateral del pie y talón, quinto dedo; lesión de S1 causa debilidad para flexión plantar del tobillo y alteración sensitiva en borde lateral del pie y talón.">`)}
+Dos vías anatómicamente distintas conducen la sensibilidad, lo que explica los patrones de pérdida disociada: la vía espinotalámica (dolor, temperatura) decusa de inmediato, a nivel medular, 1-2 segmentos por encima de su entrada; los cordones posteriores (vibración, posición/propiocepción) ascienden ipsilaterales sin decusar hasta el bulbo raquídeo. Es como dos escaleras en un edificio de oficinas: la escalera "espinotalámica" cruza al lado opuesto del edificio apenas uno o dos pisos después de entrar, mientras que la escalera "cordón posterior" sube derecho por el mismo lado hasta casi el último piso (el bulbo) antes de cruzar. Si el edificio se daña en un piso intermedio, a quienes ya cruzaron (espinotalámica) el daño los afecta del lado opuesto a donde entraron, mientras que a quienes todavía no habían cruzado (cordones posteriores) los afecta del mismo lado por el que iban subiendo.
+<ul style="margin:8px 0 0;padding-left:18px;">
+  <li><strong>Síndrome de Brown-Séquard</strong> (hemisección medular): pérdida motora y de sensibilidad vibratoria/posicional IPSILATERAL a la lesión (los cordones posteriores aún no habían decusado), con pérdida de dolor y temperatura CONTRALATERAL (la vía espinotalámica ya había decusado antes de ser lesionada).</li>
+  <li><strong>Siringomielia</strong>: pérdida SUSPENDIDA y bilateral de dolor y temperatura en un nivel específico (afecta las fibras espinotalámicas que decusan justo en la comisura anterior, donde se forma la cavidad siringomiélica), con preservación de la sensibilidad vibratoria/posicional y del tacto fino (cordones posteriores, anatómicamente alejados de la comisura anterior).</li>
+</ul>`,
       criterios_dx: 'Un patrón de pérdida sensitiva disociada (dolor/temperatura afectados, vibración/posición conservados, o viceversa) localiza la lesión a nivel medular con alta precisión, sin necesidad de neuroimagen para sospechar el diagnóstico.',
       dx_diferencial: 'Pérdida sensitiva en "guante y calceta" (distal, simétrica, en las 4 extremidades): polineuropatía periférica, no lesión medular.'
     },
@@ -243,7 +248,11 @@ Dos vías anatómicamente distintas conducen la sensibilidad, lo que explica los
       color: '#3d5a73',
       definicion: 'Dedo-nariz y talón-rodilla (coordinación apendicular), diadococinesia (movimientos alternantes rápidos), Romberg (equilibrio con ojos cerrados, pies juntos).',
       clinica: 'Normal: movimientos dedo-nariz y talón-rodilla precisos y suaves, diadococinesia rítmica, Romberg negativo (se mantiene estable con los ojos cerrados).',
-      fisiopatologia: 'Ataxia cerebelosa: dismetría (el dedo sobrepasa o no alcanza el blanco), disdiadococinesia, temblor de intención; el Romberg es negativo o solo levemente inestable, PORQUE la inestabilidad ya está presente incluso con los ojos abiertos (el problema no es la propiocepción, sino la coordinación cerebelosa en sí). Ataxia sensitiva (por pérdida de propiocepción, ej. degeneración combinada subaguda, tabes dorsal): Romberg POSITIVO (la inestabilidad aparece o empeora marcadamente al cerrar los ojos), porque el paciente compensaba la falta de propiocepción con la visión, y al eliminarla se pierde también esa compensación.',
+      fisiopatologia: `<ul style="margin:0;padding-left:18px;">
+  <li><strong>Ataxia cerebelosa</strong>: dismetría (el dedo sobrepasa o no alcanza el blanco), disdiadococinesia, temblor de intención; el Romberg es negativo o solo levemente inestable, PORQUE la inestabilidad ya está presente incluso con los ojos abiertos (el problema no es la propiocepción, sino la coordinación cerebelosa en sí).</li>
+  <li><strong>Ataxia sensitiva</strong> (por pérdida de propiocepción, ej. degeneración combinada subaguda, tabes dorsal): Romberg POSITIVO (la inestabilidad aparece o empeora marcadamente al cerrar los ojos), porque el paciente compensaba la falta de propiocepción con la visión, y al eliminarla se pierde también esa compensación.</li>
+</ul>
+${videoBlock('Video 2', 'Exploración cerebelosa', 'Imu1kk_gOKA', 'Stanford Medicine 25 (YouTube)')}`,
       criterios_dx: 'El Romberg no evalúa "todo el cerebelo": es específicamente una prueba de propiocepción/columna posterior — un Romberg negativo en un paciente con ataxia franca orienta a causa cerebelosa, no sensitiva.',
       dx_diferencial: 'Ataxia cerebelosa (Romberg negativo, dismetría, disartria escandida asociada) vs. ataxia sensitiva (Romberg positivo, arreflexia asociada si es polineuropática) vs. ataxia vestibular (Romberg positivo, con desviación lateral consistente y nistagmo asociado).'
     },
@@ -267,16 +276,25 @@ Dos vías anatómicamente distintas conducen la sensibilidad, lo que explica los
         <tr><td style="padding:5px 6px;"><strong>Miopática (anadeante)</strong></td><td style="padding:5px 6px;">"De pato", basculación pélvica lateral por debilidad de glúteos medios</td><td style="padding:5px 6px;">Miopatías proximales</td></tr>
       </tbody>
     </table>
-    </div>`)}`
+    </div>`)}
+${videoBlock('Video 3', 'Exploración de la marcha', 'FFki8FtaByw', 'Stanford Medicine 25 (YouTube)')}`
     },
     {
       nombre: 'Signos meníngeos',
       color: '#8c3a34',
       definicion: 'Maniobras que buscan reproducir dolor por irritación de las meninges inflamadas al estirar las raíces nerviosas o las estructuras meníngeas circundantes (ver Imagen 3).',
-      clinica: 'Rigidez de nuca: resistencia involuntaria a la flexión pasiva del cuello. Signo de Kernig: con la cadera flexionada a 90°, se intenta extender pasivamente la rodilla — positivo si genera dolor o resistencia. Signo de Brudzinski: la flexión pasiva del cuello provoca flexión refleja e involuntaria de caderas y rodillas.',
-      fisiopatologia: `${figBlock('Imagen 3', 'Maniobras de Kernig y Brudzinski', signosMeningeosSVG())}
-Ambas maniobras estiran las raíces lumbosacras (Kernig, indirectamente vía el nervio ciático) o generan un mecanismo reflejo protector (Brudzinski) cuando las meninges inflamadas irritan las raíces nerviosas al ser traccionadas por el movimiento.`,
-      criterios_dx: 'La sensibilidad de Kernig y Brudzinski para meningitis es baja (estudios de validación muestran sensibilidad de apenas 5-10% en series de adultos con meningitis confirmada por cultivo), por lo que su AUSENCIA no descarta meningitis — la decisión de realizar punción lumbar debe basarse en el cuadro clínico global, no en la negatividad aislada de estos signos.',
+      clinica: `${figBlock('Imagen 3', 'Maniobras de exploración meníngea', `<img src="topics/exploracion-neurologica/assets/signos-meningeos.png" alt="Infografía de signos meníngeos: exploración clínica que sugiere irritación meníngea. Rigidez de nuca: signo positivo es resistencia o dolor a la flexión pasiva del cuello; incapacidad para flexionar el cuello con el paciente en decúbito supino. Signo de Kernig: signo positivo es dolor o resistencia al extender la rodilla con la cadera flexionada; con la cadera a 90° de flexión, la incapacidad para extender la rodilla por dolor indica signo de Kernig positivo. Signo de Brudzinski: signo positivo es flexión involuntaria de caderas y rodillas al flexionar el cuello; al flexionar el cuello se produce flexión involuntaria de caderas y rodillas. Signo de Brudzinski inverso: signo positivo es extensión involuntaria de caderas y rodillas al presionar el pubis; al presionar sobre el pubis se produce extensión de caderas y rodillas. Signo de Lasègue: signo positivo es dolor al elevar la pierna extendida con la rodilla recta; dolor a 60-70° de elevación de la pierna extendida sugiere irritación meníngea. Signo del trípode: signo positivo es que el paciente adopta posición sentada con el tronco inclinado hacia adelante y la cabeza en flexión; posición que disminuye la tensión meníngea y el dolor. Signo de Jolt accessory (impacción): signo positivo es dolor intenso al realizar una rotación rápida de la cabeza en decúbito supino; la rotación horizontal rápida de la cabeza genera dolor por irritación meníngea. Importante: ningún signo meníngeo tiene 100% de sensibilidad o especificidad; evaluar en conjunto con la historia clínica y otros hallazgos; pueden estar ausentes en etapas tempranas o en pacientes inmunocomprometidos, ancianos o con alteración del estado mental.">`)}
+<ul style="margin:8px 0 0;padding-left:18px;">
+  <li><strong>Rigidez de nuca</strong>: resistencia involuntaria a la flexión pasiva del cuello.</li>
+  <li><strong>Signo de Kernig</strong>: con la cadera flexionada a 90°, se intenta extender pasivamente la rodilla — positivo si genera dolor o resistencia.</li>
+  <li><strong>Signo de Brudzinski</strong>: la flexión pasiva del cuello provoca flexión refleja e involuntaria de caderas y rodillas.</li>
+  <li><strong>Signo de Brudzinski inverso</strong>: al presionar sobre el pubis se produce extensión refleja de caderas y rodillas.</li>
+  <li><strong>Signo de Lasègue</strong>: dolor al elevar pasivamente la pierna extendida (rodilla recta), típicamente entre 60-70° — comparte mecanismo con la exploración de radiculopatía lumbosacra, no es exclusivo de meningitis.</li>
+  <li><strong>Signo del trípode</strong>: el paciente, al sentarse, adopta espontáneamente una postura con el tronco inclinado hacia adelante y los brazos extendidos hacia atrás como apoyo — posición que minimiza la tensión sobre las meninges y las raíces irritadas.</li>
+  <li><strong>Signo de Jolt accentuation</strong> ("acentuación por sacudida"): se pide al paciente rotar la cabeza horizontalmente de forma rápida (2-3 veces por segundo); positivo si empeora una cefalea preexistente.</li>
+</ul>`,
+      fisiopatologia: 'Todas estiran, comprimen o traccionan las meninges inflamadas o las raíces nerviosas adyacentes: Kernig y Lasègue lo hacen indirectamente vía el nervio ciático y las raíces lumbosacras; Brudzinski (y su inverso) generan un mecanismo reflejo protector al mover el cuello o la pelvis; el trípode es una postura antálgica adoptada espontáneamente por el mismo motivo; el Jolt accentuation moviliza bruscamente las estructuras intracraneales inflamadas.',
+      criterios_dx: 'La sensibilidad de Kernig y Brudzinski para meningitis es baja (estudios de validación muestran sensibilidad de apenas 5-10% en series de adultos con meningitis confirmada por cultivo), por lo que su AUSENCIA no descarta meningitis. El Jolt accentuation se describió con una sensibilidad más alta en su estudio original, pero validaciones posteriores mostraron resultados más modestos y variables — ningún signo meníngeo aislado, con cualquier resultado, sustituye al cuadro clínico global para decidir una punción lumbar.',
       dx_diferencial: 'Rigidez de nuca por patología cervical mecánica/artrósica (limita TODOS los movimientos del cuello, no solo la flexión) vs. rigidez de nuca meníngea (limita predominantemente la flexión, con relativa preservación de la rotación lateral).'
     },
     {
@@ -284,7 +302,9 @@ Ambas maniobras estiran las raíces lumbosacras (Kernig, indirectamente vía el 
       color: '#8c3a34',
       definicion: 'Signo de Babinski: se estimula el borde lateral de la planta del pie, de talón a la base de los dedos; respuesta patológica = extensión (dorsiflexión) del hallux con apertura en abanico de los demás dedos.',
       clinica: 'Normal en el adulto: flexión plantar de todos los dedos (respuesta "flexora" o "Babinski negativo"). Patológico: extensión del hallux con abanico de los otros dedos ("Babinski positivo"), fisiológico solo hasta los 2 años de edad (inmadurez de la mielinización corticoespinal).',
-      fisiopatologia: `El Babinski positivo es un signo de liberación piramidal: la lesión de la vía corticoespinal desinhibe un reflejo de retirada primitivo (flexor plantar de origen espinal) que normalmente está suprimido por la vía corticoespinal madura. El signo de Hoffmann (flexión brusca de la falange distal del dedo medio, positiva si genera flexión-aducción refleja del pulgar) es su equivalente funcional en el miembro superior. La Tabla 2 resume el patrón completo de hallazgos que distingue una lesión de neurona motora superior de una inferior.${figBlock('Tabla 2', 'Neurona motora superior vs. inferior: patrón de hallazgos', `<div style="overflow-x:auto;">
+      fisiopatologia: `El Babinski positivo es un signo de liberación piramidal: la lesión de la vía corticoespinal desinhibe un reflejo de retirada primitivo (flexor plantar de origen espinal) que normalmente está suprimido por la vía corticoespinal madura — es como un adulto que normalmente contiene el reflejo de retirar la mano bruscamente ante un pinchazo leve; si se "desconecta" ese control maduro, reaparece el reflejo primitivo sin filtrar. El signo de Hoffmann (flexión brusca de la falange distal del dedo medio, positiva si genera flexión-aducción refleja del pulgar) es su equivalente funcional en el miembro superior.
+${videoBlock('Video 4', 'Signos de Babinski y Hoffmann — paciente real con esclerosis múltiple', 'R6IqCGP1UUM', 'Ortho Eval Pal (YouTube)')}
+La Tabla 2 resume el patrón completo de hallazgos que distingue una lesión de neurona motora superior de una inferior.${figBlock('Tabla 2', 'Neurona motora superior vs. inferior: patrón de hallazgos', `<div style="overflow-x:auto;">
     <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
       <thead><tr style="border-bottom:1px solid var(--line);">
         <th style="text-align:left;padding:5px 6px;">Característica</th>
@@ -310,23 +330,7 @@ Ambas maniobras estiran las raíces lumbosacras (Kernig, indirectamente vía el 
 export const figuras = {
   'glasgow-detalle-tabla': {
     titulo: 'Escala de Coma de Glasgow: desglose por componente',
-    html: `<div style="overflow-x:auto;">
-    <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
-      <thead><tr style="border-bottom:1px solid var(--line);">
-        <th style="text-align:left;padding:5px 6px;">Apertura ocular (O)</th>
-        <th style="text-align:left;padding:5px 6px;">Respuesta verbal (V)</th>
-        <th style="text-align:left;padding:5px 6px;">Respuesta motora (M)</th>
-      </tr></thead>
-      <tbody>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;">4 — Espontánea</td><td style="padding:5px 6px;">5 — Orientada</td><td style="padding:5px 6px;">6 — Obedece órdenes</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;">3 — A la voz</td><td style="padding:5px 6px;">4 — Confusa</td><td style="padding:5px 6px;">5 — Localiza el dolor</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;">2 — Al dolor</td><td style="padding:5px 6px;">3 — Palabras inapropiadas</td><td style="padding:5px 6px;">4 — Retira al dolor</td></tr>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;">1 — Ausente</td><td style="padding:5px 6px;">2 — Sonidos incomprensibles</td><td style="padding:5px 6px;">3 — Flexión anormal (decorticación)</td></tr>
-        <tr><td style="padding:5px 6px;"></td><td style="padding:5px 6px;">1 — Ausente</td><td style="padding:5px 6px;">2 — Extensión anormal (descerebración)</td></tr>
-        <tr><td style="padding:5px 6px;"></td><td style="padding:5px 6px;"></td><td style="padding:5px 6px;">1 — Ausente</td></tr>
-      </tbody>
-    </table>
-    </div>`,
+    html: `<img src="topics/exploracion-neurologica/assets/escala-glasgow.png" alt="Infografía de la Escala de Glasgow, herramienta para evaluar el nivel de conciencia en pacientes agudos. 1) Apertura ocular (E): espontánea 4, a la orden verbal 3, al dolor 2, ninguna 1 — evalúa el estado de alerta del paciente. 2) Respuesta verbal (V): orientado (en tiempo, lugar y persona) 5, confuso (desorientado en tiempo o lugar) 4, palabras inapropiadas (habla incoherente o sin sentido) 3, sonidos incomprensibles (gemidos, quejidos) 2, ninguna 1 — evalúa la función cortical y del lenguaje. 3) Respuesta motora (M): obedece órdenes 6, localiza el dolor 5, retirada al dolor (flexión) 4, flexión anormal/decorticación 3, extensión anormal/descerebración 2, ninguna 1 — evalúa la función de las vías motoras. Puntuación total: 3-15 puntos, se obtiene sumando las tres respuestas (E+V+M). Interpretación: 13-15 lesión cerebral leve (alteración leve del estado de conciencia); 9-12 lesión cerebral moderada (compromiso moderado del estado de conciencia); 3-8 lesión cerebral grave (compromiso grave del estado de conciencia). Ejemplo de cálculo: apertura ocular al dolor (2) + respuesta verbal confusa (4) + respuesta motora localiza el dolor (5) = 11, lesión cerebral moderada. Consideraciones: intubar no afecta el puntaje verbal, usar sonidos incomprensibles (2) si no puede hablar; sedación, alcohol, drogas o trastornos metabólicos pueden alterar el resultado; reevaluar periódicamente. Usos clínicos: traumatismo craneoencefálico, hemorragia intracraneal, postparo cardiorrespiratorio, intoxicaciones, monitoreo neurológico en UCI y sala de urgencias.">`,
     fuente: 'Teasdale, Jennett. Lancet 1974'
   }
 };

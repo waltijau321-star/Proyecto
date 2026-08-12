@@ -746,18 +746,46 @@ export function mountStudy(topic) {
   overlay.onclick = e => { if (e.target.id === 'overlay') closeModal(); };
 }
 
+/* ---------------- Lightbox de imágenes ---------------- */
+// Cualquier <img> dentro de una figura didáctica (.modal-figure) o de un estigma (.stigma-embed)
+// se puede ampliar a pantalla completa con un clic — útil sobre todo para las infografías
+// grandes (focos de auscultación, regiones abdominales, etc.) que se ven pequeñas dentro del
+// modal. #img-lightbox es un overlay propio (index.html), separado de #overlay/#modal, con
+// z-index mayor para quedar por encima del modal de contenido que sigue abierto detrás.
+function openImgLightbox(src, alt) {
+  const lb = document.getElementById('img-lightbox');
+  if (!lb) return;
+  document.getElementById('img-lightbox-img').src = src;
+  document.getElementById('img-lightbox-img').alt = alt || '';
+  lb.classList.add('active');
+}
+function closeImgLightbox() {
+  const lb = document.getElementById('img-lightbox');
+  if (!lb) return;
+  lb.classList.remove('active');
+  document.getElementById('img-lightbox-img').src = '';
+}
+
 /* ---------------- Handlers globales (para onclick inline) ---------------- */
 Object.assign(window, {
   jumpTo, jumpToEscala, highlightBib, openModal, closeModal,
   openQuiz, startQuiz, selectQuizOption, confirmQuizAnswer, answerQuiz, nextQuiz, nextCascadeStep,
   openFlashcards, lockedFlashcardsNotice, flipFlashcard, rateFlashcard,
   openCase, selectCaseOption, confirmCaseAnswer, answerCase, nextCase,
-  openStigma, runSearch, clearSearch
+  openStigma, runSearch, clearSearch,
+  openImgLightbox, closeImgLightbox
 });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  const lb = document.getElementById('img-lightbox');
+  if (lb && lb.classList.contains('active')) closeImgLightbox();
+  else closeModal();
+});
 document.addEventListener('click', e => {
   if (!e.target.closest('.searchbar')) {
     const box = document.getElementById('search-results');
     if (box) box.classList.remove('active');
   }
+  const img = e.target.closest('.modal-figure img, .stigma-embed img');
+  if (img) openImgLightbox(img.currentSrc || img.src, img.alt);
 });

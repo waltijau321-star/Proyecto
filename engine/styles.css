@@ -369,7 +369,7 @@ tr.flash td{background:var(--panel2);}
 .figure-body{margin-top:2px;}
 .figure-body table{font-size:12.5px;}
 .figure-body th{background:transparent;}
-.figure-body img{max-width:100%; height:auto; display:block; margin:0 auto; border-radius:var(--radius); border:1px solid var(--line); background:#fff;}
+.figure-body img{max-width:100%; height:auto; display:block; margin:0 auto; border-radius:var(--radius); border:1px solid var(--line); background:#fff; cursor:zoom-in;}
 .figure-body svg{max-width:100%; height:auto; display:block; margin:0 auto;}
 .figure-org{font-weight:600; color:var(--ink);}
 .figure-tag{display:inline-block; padding:2px 8px; border-radius:20px; font-size:11px; font-weight:600; white-space:nowrap;}
@@ -378,6 +378,22 @@ tr.flash td{background:var(--panel2);}
 .figure-grade-box{margin-top:14px; padding:12px 14px; background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); font-size:12.5px; color:var(--ink-dim); line-height:1.6;}
 .figure-grade-box strong{color:var(--ink);}
 .figure-source{font-size:11px; color:var(--ink-faint); font-style:italic; margin-top:10px;}
+
+/* Lightbox de imágenes: overlay propio (no reutiliza #overlay/#modal, que ya ocupa un modal de
+   contenido detrás) para ampliar a pantalla completa cualquier imagen de .figure-body/.stigma-embed
+   (ver openImgLightbox/closeImgLightbox en engine/study-view.js). z-index por encima de .overlay. */
+.img-lightbox{
+  position:fixed; inset:0; background:rgba(10,9,7,.92); z-index:200;
+  display:none; align-items:center; justify-content:center; padding:32px; cursor:zoom-out;
+}
+.img-lightbox.active{display:flex;}
+.img-lightbox img{max-width:100%; max-height:100%; object-fit:contain; border-radius:var(--radius); box-shadow:var(--shadow-lg); cursor:zoom-out;}
+.img-lightbox-close{
+  position:fixed; top:18px; right:18px; z-index:201; width:36px; height:36px; border-radius:50%;
+  border:1px solid rgba(255,255,255,.3); background:rgba(0,0,0,.4); color:#fff; cursor:pointer;
+  font-size:16px; display:flex; align-items:center; justify-content:center;
+}
+.img-lightbox-close:hover{border-color:#fff;}
 
 /* Diagrama de flujo/algoritmo (recreado en HTML) */
 .algo-flow{display:flex; flex-direction:column; align-items:center; gap:0;}

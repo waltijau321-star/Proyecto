@@ -15,6 +15,11 @@ graphify-out/
 # PDFs de referencia sueltos en la raíz (no son parte del sitio, solo insumos de trabajo)
 /medinterna.pdf
 
+# Infografías originales que el usuario deja en la raíz para que se integren a un tema (se copian
+# a topics/<tema>/assets/ y se referencian desde ahí) — el original no es parte del sitio, solo
+# el insumo de trabajo. Carpeta creada para no ensuciar la raíz del repo.
+/imagenes-fuente/
+
 # Clave de la API gratuita de Gemini para tools/generar-figura.py — nunca se commitea
 # (ver .claude/skills/figura-didactica/SKILL.md). El script también acepta la variable de
 # entorno GEMINI_API_KEY como alternativa a este archivo.

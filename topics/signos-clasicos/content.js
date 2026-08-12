@@ -16,8 +16,21 @@
 //      Lhermitte, Battle/ojos de mapache, Hoover, Gowers, Auspitz, Darier y el signo de Levine —
 //      con la misma profundidad fisiopatológica que el resto de Semiología. Cero duplicación.
 //
-// Las 4 figuras son TODAS código propio (SVG/HTML con var(--...) de tema) — nada de imágenes
-// externas ni asistidas por IA, mismo criterio ya establecido en el proyecto.
+// De las 4 figuras, 3 siguen siendo código propio (SVG/HTML con var(--...) de tema). La Imagen 1
+// (signo de Battle y ojos de mapache) es una infografía provista directamente por el autor del
+// contenido, mismo patrón que exploracion-cardiovascular/content.js: se usa tal cual, sin marcar
+// su origen en ningún texto visible de la app.
+//
+// Video (revisión agosto 2026): `videoBlock()` incrusta 5 videos de YouTube con paciente real —
+// Video 1 (Stanford Medicine 25, abordaje de la insuficiencia aórtica, tétrada periférica; el
+// mismo video ya usado en exploracion-cardiovascular/content.js, reutilizar un video en dos temas
+// no tiene ningún problema), Video 2 (NEJM Group, Chvostek/Trousseau por hipoparatiroidismo
+// posquirúrgico), Video 3 (Doctors Hub, Gowers en distrofia de Duchenne), Video 4 (DR_VMP ENT,
+// Auspitz), Video 5 (Dr. Maddineni Srinivas, dermatólogo, Darier). Se priorizaron fuentes no
+// Stanford para diversificar, todas verificadas por oEmbed antes de incrustarse. No se agregó
+// audio: no se encontró fuente con licencia clara para los signos restantes de este tema
+// (Levine, Courvoisier, Kehr, tromboflebitis migratoria, Lhermitte, Battle/mapache, Hoover son
+// signos poco o nada demostrables en video, o sin grabación pública verificable de calidad).
 
 export const meta = {
   id: 'signos-clasicos',
@@ -69,27 +82,21 @@ function figBlock(label, titulo, html) {
   </div>`;
 }
 
+// Embebe un video de YouTube (canal oficial Stanford Medicine 25) dentro de un figBlock — no se
+// descarga ningún archivo, solo se reproduce desde YouTube (requiere internet, a diferencia del
+// resto del contenido de la app).
+function videoBlock(label, titulo, youtubeId, fuente) {
+  return figBlock(label, titulo, `<div style="width:100%;max-width:480px;aspect-ratio:16/9;margin:0 auto;border-radius:var(--radius);border:1px solid var(--line);overflow:hidden;">
+    <iframe src="https://www.youtube.com/embed/${youtubeId}" title="${titulo}" style="width:100%;height:100%;border:0;display:block;" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" loading="lazy"></iframe>
+  </div>
+  <p style="font-size:10.5px;color:var(--ink-faint);text-align:center;margin:8px 0 0;">${fuente}</p>`);
+}
+
 // ---------------------------------------------------------------------------------------------
 // Helpers de figuras (SVG a mano, theme-aware vía var(--...) salvo colores clínicos ya
 // establecidos en el proyecto: #3f6b52 = normal/reassuring, #8c3a34 = patológico/alarma).
 // ---------------------------------------------------------------------------------------------
 
-function battleMapacheSVG() {
-  return `<svg viewBox="0 0 200 220" role="img" aria-labelledby="bm-t bm-d" style="width:100%;max-width:200px;display:block;margin:0 auto;">
-    <title id="bm-t">Signo de Battle y ojos de mapache</title>
-    <desc id="bm-d">Silueta de cabeza vista de frente, con dos zonas marcadas: equimosis periorbitaria bilateral (ojos de mapache) alrededor de ambos ojos, y equimosis retroauricular (signo de Battle) detrás de cada oreja.</desc>
-    <ellipse cx="100" cy="110" rx="65" ry="85" fill="none" stroke="var(--line)" stroke-width="1.5"/>
-    <ellipse cx="72" cy="95" rx="18" ry="12" fill="#8c3a34" opacity="0.35"/>
-    <ellipse cx="128" cy="95" rx="18" ry="12" fill="#8c3a34" opacity="0.35"/>
-    <circle cx="72" cy="95" r="4" fill="var(--ink)"/>
-    <circle cx="128" cy="95" r="4" fill="var(--ink)"/>
-    <text x="100" y="60" text-anchor="middle" font-size="9.5" font-weight="700" fill="#8c3a34">Ojos de mapache</text>
-    <ellipse cx="35" cy="115" rx="10" ry="16" fill="#8c3a34" opacity="0.35"/>
-    <ellipse cx="165" cy="115" rx="10" ry="16" fill="#8c3a34" opacity="0.35"/>
-    <text x="100" y="205" text-anchor="middle" font-size="9.5" font-weight="700" fill="#8c3a34">Signo de Battle (retroauricular)</text>
-  </svg>
-  <p style="font-size:10.5px;color:var(--ink-faint);text-align:center;margin:6px 0 0;">Ambos son signos TARDÍOS (1-3 días tras el traumatismo) de fractura de la base del cráneo.</p>`;
-}
 
 export const content = {
   diagnostico: {
@@ -152,7 +159,12 @@ export const content = {
       nombre: 'Tétrada periférica de la insuficiencia aórtica severa: Musset, Duroziez, Traube y Quincke',
       color: '#8c3a34',
       definicion: 'Conjunto de signos periféricos clásicos, generados todos por el mismo mecanismo, hoy de valor más histórico/de examen que de utilidad diagnóstica de primera línea (el ecocardiograma los reemplazó) (ver Tabla 2).',
-      clinica: 'Signo de Musset: cabeceo rítmico y sincrónico con cada latido cardiaco, sin que el examinador toque al paciente. Signo de Duroziez: al comprimir progresivamente la arteria femoral con el estetoscopio, se ausculta un soplo tanto con la compresión proximal (sistólico, normal) como con la compresión distal (diastólico, anormal). Signo de Traube ("pistol shot"): ruido sistólico y diastólico intenso y seco sobre la arteria femoral, SIN necesidad de comprimirla. Signo de Quincke: pulsación capilar visible (alternancia de palidez y rubor) en el lecho ungueal al presionar suavemente la punta de la uña, o en el borde labial con transiluminación.',
+      clinica: `<ul style="margin:0;padding-left:18px;">
+  <li><strong>Signo de Musset</strong>: cabeceo rítmico y sincrónico con cada latido cardiaco, sin que el examinador toque al paciente.</li>
+  <li><strong>Signo de Duroziez</strong>: al comprimir progresivamente la arteria femoral con el estetoscopio, se ausculta un soplo tanto con la compresión proximal (sistólico, normal) como con la compresión distal (diastólico, anormal).</li>
+  <li><strong>Signo de Traube</strong> ("pistol shot"): ruido sistólico y diastólico intenso y seco sobre la arteria femoral, SIN necesidad de comprimirla.</li>
+  <li><strong>Signo de Quincke</strong>: pulsación capilar visible (alternancia de palidez y rubor) en el lecho ungueal al presionar suavemente la punta de la uña, o en el borde labial con transiluminación.</li>
+</ul>`,
       fisiopatologia: `${figBlock('Tabla 2', 'Tétrada periférica de la insuficiencia aórtica severa', `<div style="overflow-x:auto;">
     <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
       <thead><tr style="border-bottom:1px solid var(--line);">
@@ -168,7 +180,8 @@ export const content = {
       </tbody>
     </table>
     </div>`)}
-Los 4 comparten el mismo origen: la fuga diastólica masiva a través de la válvula aórtica insuficiente genera una presión de pulso muy amplia (sistólica alta, diastólica muy baja) que se transmite exageradamente a la periferia — el mismo mecanismo detrás del pulso celer et magnus/de Corrigan ya visto en Exploración Cardiovascular.`,
+Los 4 comparten el mismo origen: la fuga diastólica masiva a través de la válvula aórtica insuficiente genera una presión de pulso muy amplia (sistólica alta, diastólica muy baja) que se transmite exageradamente a la periferia — el mismo mecanismo detrás del pulso celer et magnus/de Corrigan ya visto en Exploración Cardiovascular.
+${videoBlock('Video 1', 'Abordaje de la insuficiencia aórtica', 'Cb-EXdLlGGs', 'Stanford Medicine 25 (YouTube) — paciente real')}`,
       criterios_dx: 'Su baja sensibilidad y especificidad comparadas con los hallazgos centrales (soplo diastólico, pulso celer et magnus) y el ecocardiograma les da hoy un valor más de reconocimiento clásico que de utilidad diagnóstica de primera línea.'
     },
     {
@@ -209,7 +222,8 @@ Los 4 comparten el mismo origen: la fuga diastólica masiva a través de la vál
       color: '#8c3a34',
       definicion: 'Espasmo carpal (flexión de la muñeca y las metacarpofalángicas, extensión de las interfalángicas, aducción del pulgar — "mano de partero") inducido por isquemia del antebrazo.',
       clinica: 'Se infla un manguito de presión arterial por encima de la presión sistólica durante 3 minutos.',
-      fisiopatologia: 'La isquemia local reduce aún más el calcio ionizado disponible a nivel de la membrana nerviosa periférica, desenmascarando o exacerbando la hiperexcitabilidad neuromuscular de la hipocalcemia subyacente.',
+      fisiopatologia: `La isquemia local reduce aún más el calcio ionizado disponible a nivel de la membrana nerviosa periférica, desenmascarando o exacerbando la hiperexcitabilidad neuromuscular de la hipocalcemia subyacente.
+${videoBlock('Video 2', 'Chvostek y Trousseau por hipoparatiroidismo posquirúrgico — paciente real', 'kvmwsTU0InQ', 'NEJM Group (YouTube)')}`,
       criterios_dx: 'Más sensible y específico que el signo de Chvostek para hipocalcemia clínicamente relevante.'
     },
     {
@@ -246,7 +260,7 @@ Fenómeno paraneoplásico por un estado de hipercoagulabilidad sistémica induci
       color: '#8c3a34',
       definicion: 'Dos signos de equimosis en localizaciones específicas, indicativos de fractura de la base del cráneo (ver Imagen 1).',
       clinica: 'Signo de Battle: equimosis retroauricular, sobre la apófisis mastoides. Ojos de mapache: equimosis periorbitaria bilateral.',
-      fisiopatologia: `${figBlock('Imagen 1', 'Signo de Battle y ojos de mapache', battleMapacheSVG())}
+      fisiopatologia: `${figBlock('Imagen 1', 'Signo de Battle y ojos de mapache', `<img src="topics/signos-clasicos/assets/battle-ojos-mapache.png" alt="Infografía del signo de Battle y ojos de mapache, signos clínicos de fractura de base de cráneo. Signo de Battle (equimosis mastoidea): equimosis o hematoma retroauricular, sobre la mastoides; se presenta como equimosis violácea o azulada detrás de la oreja, sobre la apófisis mastoides, puede aparecer horas después del trauma. Mecanismo: sangrado retroperióstico por fractura del hueso temporal, que se diseca hacia el tejido subcutáneo retroauricular. Fracturas asociadas: fractura de la porción petrosa del hueso temporal. Importancia clínica: indica fractura de base de cráneo y posible lesión intracraneal, requiere evaluación y vigilancia. Ojos de mapache (equimosis periorbitaria): equimosis periorbitaria bilateral que rodea los ojos; se presenta como equimosis violácea o amarillenta alrededor de ambos ojos, aparece 24-48 horas después del trauma. Mecanismo: sangrado que se diseca desde la base del cráneo hacia los párpados por gravedad a través del tejido subcutáneo. Fracturas asociadas: fractura de la base del cráneo (fosa anterior o media), especialmente del hueso frontal o etmoides. Importancia clínica: indica fractura de base de cráneo y posible fístula de LCR, requiere evaluación y vigilancia. A tener en cuenta: la ausencia de estos signos no descarta fractura de base de cráneo; solicitar TAC de cráneo ante sospecha clínica. Otros signos asociados: otorragia, rinorragia de LCR, hemotímpano, disminución del estado de alerta, déficit neurológico focal. Alerta: la presencia de estos signos es indicativa de fractura de base de cráneo; valorar vía aérea, estado neurológico y realizar TAC de cráneo.">`)}
 La sangre proveniente de una fractura de la fosa craneal media/posterior (Battle) o anterior (ojos de mapache) se extravasa y diseca a través de los planos fasciales hasta acumularse en el tejido subcutáneo laxo de esas regiones específicas, siguiendo el camino de menor resistencia anatómica — por eso aparecen en sitios predecibles y no aleatorios.`,
       criterios_dx: 'Ambos son signos TARDÍOS (aparecen 1-3 días después del traumatismo, no inmediatamente), por lo que su ausencia en la evaluación inicial NO descarta una fractura de base de cráneo.'
     },
@@ -254,28 +268,31 @@ La sangre proveniente de una fractura de la fosa craneal media/posterior (Battle
       nombre: 'Signo de Hoover',
       color: '#8c3a34',
       definicion: 'Movimiento paradójico HACIA ADENTRO del reborde costal inferior lateral durante la inspiración, en vez de expandirse hacia afuera como es normal.',
-      fisiopatologia: 'En la hiperinsuflación pulmonar severa (EPOC avanzado), el diafragma se aplana crónicamente y pierde su curvatura normal; al contraerse un diafragma ya aplanado, en vez de descender y expandir la caja torácica hacia afuera, tracciona el reborde costal inferior hacia ADENTRO y hacia arriba — un movimiento mecánicamente invertido respecto al normal.',
+      fisiopatologia: 'En la hiperinsuflación pulmonar severa (EPOC avanzado), el diafragma se aplana crónicamente y pierde su curvatura normal; al contraerse un diafragma ya aplanado, en vez de descender y expandir la caja torácica hacia afuera, tracciona el reborde costal inferior hacia ADENTRO y hacia arriba — un movimiento mecánicamente invertido respecto al normal. Es como la diferencia entre jalar una cuerda de un domo curvo (empuja los bordes hacia afuera al tensarse) y jalar esa misma cuerda ya cuando el domo se aplanó casi por completo (a esas alturas, tensarla ya solo levanta y jala los bordes hacia adentro, porque perdió la curvatura que generaba el efecto contrario).',
       criterios_dx: 'Indica hiperinsuflación severa con diafragma muy aplanado, y se correlaciona con mayor limitación funcional en la EPOC.'
     },
     {
       nombre: 'Signo de Gowers',
       color: '#8c3a34',
       definicion: 'Maniobra que el paciente utiliza para incorporarse desde el suelo hasta la posición de pie, "trepando" sobre su propio cuerpo con las manos (apoyándose primero en las rodillas y subiendo progresivamente las manos por los muslos) en vez de levantarse directamente.',
-      fisiopatologia: 'Refleja debilidad severa de la musculatura de la cintura pélvica y los muslos (glúteos, cuádriceps), insuficiente para extender caderas y rodillas contra la gravedad sin la ayuda mecánica adicional de "trepar" con los brazos. Clásicamente descrito en la distrofia muscular de Duchenne, aunque presente en cualquier miopatía proximal severa.',
+      fisiopatologia: `Refleja debilidad severa de la musculatura de la cintura pélvica y los muslos (glúteos, cuádriceps), insuficiente para extender caderas y rodillas contra la gravedad sin la ayuda mecánica adicional de "trepar" con los brazos. Clásicamente descrito en la distrofia muscular de Duchenne, aunque presente en cualquier miopatía proximal severa.
+${videoBlock('Video 3', 'Signo de Gowers en distrofia muscular de Duchenne — paciente real', 'fwMRWrSVxVw', 'Doctors Hub (YouTube)')}`,
       criterios_dx: 'Un signo de Gowers positivo en un niño pequeño (típicamente varón, por la herencia ligada al X de la distrofia de Duchenne) es una señal de alarma que amerita evaluación neuromuscular dirigida (creatina cinasa, estudio genético).'
     },
     {
       nombre: 'Signo de Auspitz',
       color: '#8c3a34',
       definicion: 'Sangrado puntiforme y difuso que aparece al desprender mecánicamente una escama de una placa de psoriasis.',
-      fisiopatologia: 'En la psoriasis, la hiperproliferación epidérmica acorta drásticamente el tiempo de recambio celular, generando una epidermis delgada sobre papilas dérmicas alargadas y muy vascularizadas que se acercan anormalmente a la superficie; al desprender la escama, estos capilares superficiales se rompen con facilidad.',
+      fisiopatologia: `En la psoriasis, la hiperproliferación epidérmica acorta drásticamente el tiempo de recambio celular, generando una epidermis delgada sobre papilas dérmicas alargadas y muy vascularizadas que se acercan anormalmente a la superficie; al desprender la escama, estos capilares superficiales se rompen con facilidad.
+${videoBlock('Video 4', 'Signo de Auspitz (sangrado puntiforme al desprender la escama) — paciente real', '7lNTr5eXzlg', 'DR_VMP ENT (YouTube)')}`,
       criterios_dx: 'Aunque clásico y de alto valor didáctico, no es indispensable para el diagnóstico de psoriasis (habitualmente clínico, por la morfología típica de las placas) y rara vez se provoca deliberadamente en la práctica actual.'
     },
     {
       nombre: 'Signo de Darier',
       color: '#8c3a34',
       definicion: 'Aparición de una roncha/habón eritematoso y pruriginoso al friccionar o rascar suavemente una lesión cutánea de mastocitosis.',
-      fisiopatologia: 'La fricción mecánica provoca la degranulación de los mastocitos anormalmente acumulados en la lesión, liberando histamina y otros mediadores que generan la roncha localizada de forma inmediata — un equivalente mecánico del dermografismo, pero limitado a la lesión mastocítica.',
+      fisiopatologia: `La fricción mecánica provoca la degranulación de los mastocitos anormalmente acumulados en la lesión, liberando histamina y otros mediadores que generan la roncha localizada de forma inmediata — un equivalente mecánico del dermografismo, pero limitado a la lesión mastocítica.
+${videoBlock('Video 5', 'Signo de Darier explicado por un dermatólogo, con ejemplo clínico', 'pSODv7kkLtU', 'Dr. Maddineni Srinivas, dermatólogo (YouTube)')}`,
       criterios_dx: 'Un signo de Darier positivo es prácticamente diagnóstico de mastocitosis cutánea (urticaria pigmentosa) y evita la necesidad de biopsia en la mayoría de los casos.'
     }
   ]

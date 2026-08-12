@@ -6,11 +6,20 @@
 // grupos en vez de forzarlos en 3, porque el sistema venoso y el arterial tienen técnica y
 // hallazgos completamente independientes aunque compartan la extremidad.
 //
-// Las 5 figuras son TODAS código propio (SVG/HTML con var(--...) de tema) — nada de imágenes
-// externas ni asistidas por IA, mismo criterio ya establecido: cada una representa un dato
-// clínico exacto (técnica de derrame, patrones articulares, maniobras específicas, las 6 P de
-// isquemia, comparación de úlceras), y ese contenido va siempre a mano (ver
-// .claude/skills/figura-didactica/SKILL.md).
+// De las 5 figuras, 3 siguen siendo código propio (SVG/HTML con var(--...) de tema: patrones
+// articulares, maniobras específicas, comparación de úlceras). Las otras 2 (derrame articular,
+// las 6 P de isquemia) son infografías provistas directamente por el autor del contenido, mismo
+// patrón que exploracion-cardiovascular/content.js: se usan tal cual, sin marcar su origen en
+// ningún texto visible de la app. Nota: el usuario también proveyó "Choque rotuliano.png", pero
+// esa imagen resultó estar mal etiquetada (describe el reflejo osteotendinoso rotuliano y la
+// oleada ascítica ABDOMINAL, no la maniobra de derrame de rodilla) — no se usó aquí; queda en
+// imagenes-fuente/ sin integrar, ver conversación de agosto 2026.
+//
+// Video (revisión agosto 2026, ampliada): `videoBlock()` incrusta 3 videos vía <iframe> — no se
+// descarga nada, requiere internet. 2 son del canal Stanford Medicine 25 (exploración de la
+// rodilla, índice tobillo-brazo); el 3º (TheraXPro) muestra el signo de Buerger (palidez a la
+// elevación, rubor de dependencia) en isquemia arterial aguda — Stanford no tiene un video
+// dedicado a ese signo. No se agregó audio: este tema no tiene componente auscultatorio.
 
 export const meta = {
   id: 'exploracion-osteoarticular',
@@ -62,46 +71,21 @@ function figBlock(label, titulo, html) {
   </div>`;
 }
 
+// Embebe un video de YouTube (canal oficial Stanford Medicine 25) dentro de un figBlock — no se
+// descarga ningún archivo, solo se reproduce desde YouTube (requiere internet, a diferencia del
+// resto del contenido de la app).
+function videoBlock(label, titulo, youtubeId, fuente) {
+  return figBlock(label, titulo, `<div style="width:100%;max-width:480px;aspect-ratio:16/9;margin:0 auto;border-radius:var(--radius);border:1px solid var(--line);overflow:hidden;">
+    <iframe src="https://www.youtube.com/embed/${youtubeId}" title="${titulo}" style="width:100%;height:100%;border:0;display:block;" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" loading="lazy"></iframe>
+  </div>
+  <p style="font-size:10.5px;color:var(--ink-faint);text-align:center;margin:8px 0 0;">${fuente}</p>`);
+}
+
 // ---------------------------------------------------------------------------------------------
 // Helpers de figuras (SVG a mano, theme-aware vía var(--...) salvo colores clínicos ya
 // establecidos en el proyecto: #3f6b52 = normal/reassuring, #8c3a34 = patológico/alarma).
 // ---------------------------------------------------------------------------------------------
 
-function derrameRotulianoSVG() {
-  return `<svg viewBox="0 0 300 150" role="img" aria-labelledby="der-t der-d" style="width:100%;max-width:320px;display:block;margin:0 auto;">
-    <title id="der-t">Choque rotuliano y signo de la oleada</title>
-    <desc id="der-d">Dos rodillas esquemáticas vistas de frente: a la izquierda el choque rotuliano, con una mano comprimiendo el receso suprarrotuliano y la otra presionando la rótula hacia el fémur; a la derecha el signo de la oleada, mostrando el líquido "ordeñado" del lado medial al lateral y de vuelta.</desc>
-    <ellipse cx="70" cy="75" rx="42" ry="60" fill="none" stroke="var(--line)" stroke-width="1.5"/>
-    <circle cx="70" cy="70" r="16" fill="none" stroke="#2e5f6b" stroke-width="2"/>
-    <path d="M50,35 Q45,30 40,32" stroke="var(--ink)" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <path d="M55,105 L65,118" stroke="var(--ink)" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <text x="70" y="140" text-anchor="middle" font-size="10" font-weight="700" fill="var(--ink)">Choque rotuliano</text>
-    <ellipse cx="225" cy="75" rx="42" ry="60" fill="none" stroke="var(--line)" stroke-width="1.5"/>
-    <path d="M195,70 Q210,60 225,70" stroke="#8c3a34" stroke-width="2.5" fill="none" stroke-linecap="round" marker-end="url(#arrow)"/>
-    <circle cx="225" cy="70" r="14" fill="none" stroke="#2e5f6b" stroke-width="2"/>
-    <text x="225" y="140" text-anchor="middle" font-size="10" font-weight="700" fill="var(--ink)">Signo de la oleada</text>
-    <defs><marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#8c3a34"/></marker></defs>
-  </svg>
-  <p style="font-size:10.5px;color:var(--ink-faint);text-align:center;margin:6px 0 0;">Choque rotuliano: detecta derrames moderados-grandes (la rótula "flota" y choca contra el fémur). Oleada: detecta derrames pequeños que el choque rotuliano puede pasar por alto.</p>`;
-}
-
-function seisPIsquemiaSVG() {
-  function p(letra, palabra, desc) {
-    return `<div style="text-align:center;border:1px solid var(--line);border-radius:8px;padding:8px 4px;">
-      <div style="font-size:20px;font-weight:800;color:#8c3a34;">${letra}</div>
-      <div style="font-size:10.5px;font-weight:700;color:var(--ink);margin-top:2px;">${palabra}</div>
-      <div style="font-size:9.5px;color:var(--ink-faint);margin-top:2px;">${desc}</div>
-    </div>`;
-  }
-  return `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
-    ${p('P', 'Pain', 'dolor súbito')}
-    ${p('P', 'Pallor', 'palidez')}
-    ${p('P', 'Pulselessness', 'ausencia de pulso')}
-    ${p('P', 'Paresthesia', 'parestesias — temprano')}
-    ${p('P', 'Paralysis', 'parálisis — tardío, irreversible')}
-    ${p('P', 'Poiquilotermia', 'frialdad')}
-  </div>`;
-}
 
 export const content = {
   diagnostico: {
@@ -134,8 +118,9 @@ export const content = {
       color: '#8c3a34',
       definicion: 'Maniobras para detectar líquido libre dentro de la articulación de la rodilla (ver Imagen 1).',
       clinica: 'Choque rotuliano (ballottement patelar): se comprime el receso suprarrotuliano con una mano para desplazar el líquido hacia el espacio retropatelar, y con la otra se presiona bruscamente la rótula contra el fémur. Signo de la oleada (bulge sign): se "ordeña" el líquido desde el lado medial hacia el lateral de la rodilla y luego se presiona el lado lateral, buscando que reaparezca una onda en el lado medial.',
-      fisiopatologia: `${figBlock('Imagen 1', 'Choque rotuliano y signo de la oleada', derrameRotulianoSVG())}
-El choque rotuliano requiere suficiente líquido para que la rótula "flote" y pueda chocar contra el fémur al presionarla — detecta derrames MODERADOS a GRANDES. Con poco líquido, la rótula no llega a flotar lo suficiente para el ballottement clásico, por lo que el signo de la oleada (más sensible a pequeños volúmenes, al movilizar visualmente el líquido de un lado a otro) detecta derrames PEQUEÑOS que el choque rotuliano puede pasar por alto. Es como la diferencia entre un cubo de hielo grande flotando en un vaso lleno de agua (se nota fácilmente al empujarlo) y una esquirla diminuta de hielo en apenas un dedo de agua (no flota lo suficiente para "chocar" contra nada, pero sigue siendo visible si se remueve el agua de un lado a otro).`,
+      fisiopatologia: `${figBlock('Imagen 1', 'Choque rotuliano y signo de la oleada', `<img src="topics/exploracion-osteoarticular/assets/maniobras-rodilla-liquido.png" alt="Infografía de maniobras para detectar líquido libre dentro de la articulación de la rodilla. 1) Choque rotuliano (señal del cepillo): percusión del tendón rotuliano que produce una onda de líquido que hace saltar la rótula si hay derrame intraarticular. Técnica: paciente en decúbito supino con la rodilla en ligera flexión (20-30°) y músculos relajados; colocar una mano sobre la rótula para estabilizarla con los dedos relajados; con la otra mano, percutir firmemente el tendón rotuliano con el borde cubital de la mano o con los dedos en forma de "cepillo" (golpe rápido hacia arriba); observar el movimiento de la rótula. Positivo: la rótula salta o se eleva momentáneamente al percutir el tendón rotuliano, indica presencia de líquido intraarticular (derrame articular). Negativo: no se observa movimiento de la rótula, puede indicar ausencia de derrame o una cantidad mínima de líquido. Mayor sensibilidad con rodilla en ligera flexión y músculos relajados; comparar siempre con la rodilla contralateral sana. 2) Signo de la oleada (ballotamiento rotuliano): desplazamiento de líquido dentro de la articulación que se transmite a través de la rótula al comprimir un receso y percutir el opuesto. Técnica: paciente en decúbito supino con la rodilla en extensión completa y músculos relajados; colocar una mano (mano percusora) sobre el receso suprapatelar o en el polo superior de la rótula (comprimir firmemente); con la otra mano (mano receptora), percutir o ballottear el polo inferior de la rótula con movimientos rápidos y cortos; sentir con la mano compresora si se transmite una onda de líquido ("oleada"). Positivo: se percibe una ola o impulso líquido en la mano compresora, indica presencia de líquido intraarticular. Negativo: no se percibe oleada, puede indicar ausencia de derrame o cantidad mínima de líquido. Más sensible para derrames moderados a grandes; relajar completamente la musculatura para mayor precisión.">`)}
+El choque rotuliano requiere suficiente líquido para que la rótula "flote" y pueda chocar contra el fémur al presionarla — detecta derrames MODERADOS a GRANDES. Con poco líquido, la rótula no llega a flotar lo suficiente para el ballottement clásico, por lo que el signo de la oleada (más sensible a pequeños volúmenes, al movilizar visualmente el líquido de un lado a otro) detecta derrames PEQUEÑOS que el choque rotuliano puede pasar por alto. Es como la diferencia entre un cubo de hielo grande flotando en un vaso lleno de agua (se nota fácilmente al empujarlo) y una esquirla diminuta de hielo en apenas un dedo de agua (no flota lo suficiente para "chocar" contra nada, pero sigue siendo visible si se remueve el agua de un lado a otro).
+${videoBlock('Video 1', 'Exploración de la rodilla', 'LqRrsVCpuBU', 'Stanford Medicine 25 (YouTube)')}`,
       criterios_dx: 'Elegir la maniobra según el volumen sospechado: signo de la oleada para derrames sutiles, choque rotuliano para derrames evidentes.'
     },
     {
@@ -159,7 +144,13 @@ El choque rotuliano requiere suficiente líquido para que la rótula "flote" y p
       </tbody>
     </table>
     </div>`)}
-Poliarticular simétrico: artritis reumatoide, lupus eritematoso sistémico. Poliarticular asimétrico: artritis psoriásica, gota poliarticular crónica. Axial: espondiloartropatías (espondilitis anquilosante). Migratorio: fiebre reumática, artritis gonocócica diseminada, algunas artritis virales — cada articulación se resuelve antes de que la siguiente se inflame. Aditivo: típico de la artritis reumatoide, donde las articulaciones se van sumando sin resolución de las previas.`,
+<ul style="margin:8px 0 0;padding-left:18px;">
+  <li><strong>Poliarticular simétrico</strong>: artritis reumatoide, lupus eritematoso sistémico.</li>
+  <li><strong>Poliarticular asimétrico</strong>: artritis psoriásica, gota poliarticular crónica.</li>
+  <li><strong>Axial</strong>: espondiloartropatías (espondilitis anquilosante).</li>
+  <li><strong>Migratorio</strong>: fiebre reumática, artritis gonocócica diseminada, algunas artritis virales — cada articulación se resuelve antes de que la siguiente se inflame.</li>
+  <li><strong>Aditivo</strong>: típico de la artritis reumatoide, donde las articulaciones se van sumando sin resolución de las previas.</li>
+</ul>`,
       criterios_dx: 'El patrón migratorio (a diferencia del aditivo) es una pista diagnóstica específica que orienta a fiebre reumática o artritis gonocócica antes de cualquier estudio serológico.'
     },
     {
@@ -183,7 +174,12 @@ Poliarticular simétrico: artritis reumatoide, lupus eritematoso sistémico. Pol
       </tbody>
     </table>
     </div>`)}
-Lachman evalúa la integridad del ligamento cruzado anterior (LCA) y es más sensible que el cajón anterior clásico (a 90° de flexión), porque a 20-30° los isquiotibiales interfieren menos con el desplazamiento tibial. McMurray (un "clic" o resalte doloroso con la maniobra) sugiere lesión meniscal: rotación externa localiza el menisco medial, rotación interna el lateral. Tinel y Phalen reproducen parestesias en el territorio del nervio mediano por compresión dentro del túnel del carpo (síndrome del túnel carpiano). Finkelstein reproduce dolor en la tabaquera anatómica/estiloides radial por tenosinovitis de los tendones abductor largo y extensor corto del pulgar (tenosinovitis de De Quervain).`,
+<ul style="margin:8px 0 0;padding-left:18px;">
+  <li><strong>Lachman</strong> evalúa la integridad del ligamento cruzado anterior (LCA) y es más sensible que el cajón anterior clásico (a 90° de flexión), porque a 20-30° los isquiotibiales interfieren menos con el desplazamiento tibial.</li>
+  <li><strong>McMurray</strong> (un "clic" o resalte doloroso con la maniobra) sugiere lesión meniscal: rotación externa localiza el menisco medial, rotación interna el lateral.</li>
+  <li><strong>Tinel y Phalen</strong> reproducen parestesias en el territorio del nervio mediano por compresión dentro del túnel del carpo (síndrome del túnel carpiano).</li>
+  <li><strong>Finkelstein</strong> reproduce dolor en la tabaquera anatómica/estiloides radial por tenosinovitis de los tendones abductor largo y extensor corto del pulgar (tenosinovitis de De Quervain).</li>
+</ul>`,
       criterios_dx: 'Cada maniobra localiza una estructura anatómica específica: Lachman → LCA, McMurray → menisco, Tinel/Phalen → nervio mediano, Finkelstein → tendones del primer compartimento extensor de la muñeca.'
     },
     {
@@ -191,7 +187,11 @@ Lachman evalúa la integridad del ligamento cruzado anterior (LCA) y es más sen
       color: '#3d5a73',
       definicion: 'Acumulación anormal de líquido en el espacio intersticial, clasificada por la presencia de fóvea y por la lateralidad.',
       clinica: 'Con fóvea (godet positivo): la presión sostenida deja una depresión que persiste varios segundos. Sin fóvea: la piel no se deprime, o se recupera de inmediato.',
-      fisiopatologia: 'El edema CON fóvea refleja líquido intersticial libre, que se desplaza fácilmente bajo presión — aumento de la presión hidrostática (insuficiencia cardiaca, insuficiencia venosa, sobrecarga de volumen) o disminución de la presión oncótica (hipoalbuminemia). El edema SIN fóvea refleja un intersticio con proteínas de alto peso molecular que fijan el líquido — linfedema (acumulación de proteínas que no pueden drenarse sin un sistema linfático funcional, con fibrosis progresiva) o mixedema (depósito de glucosaminoglicanos hidrofílicos en el hipotiroidismo severo). Es la diferencia entre presionar una esponja empapada en agua (el líquido se desplaza libremente y deja una marca que tarda en rellenarse: con fóvea) y presionar un gelatina firme (el "líquido" está atrapado dentro de una red que no lo deja escurrir, así que la superficie recupera su forma casi de inmediato: sin fóvea).',
+      fisiopatologia: `<ul style="margin:0;padding-left:18px;">
+  <li><strong>Edema CON fóvea</strong>: refleja líquido intersticial libre, que se desplaza fácilmente bajo presión — aumento de la presión hidrostática (insuficiencia cardiaca, insuficiencia venosa, sobrecarga de volumen) o disminución de la presión oncótica (hipoalbuminemia).</li>
+  <li><strong>Edema SIN fóvea</strong>: refleja un intersticio con proteínas de alto peso molecular que fijan el líquido — linfedema (acumulación de proteínas que no pueden drenarse sin un sistema linfático funcional, con fibrosis progresiva) o mixedema (depósito de glucosaminoglicanos hidrofílicos en el hipotiroidismo severo).</li>
+</ul>
+<p style="margin:8px 0 0;">Es la diferencia entre presionar una esponja empapada en agua (el líquido se desplaza libremente y deja una marca que tarda en rellenarse: con fóvea) y presionar una gelatina firme (el "líquido" está atrapado dentro de una red que no lo deja escurrir, así que la superficie recupera su forma casi de inmediato: sin fóvea).</p>`,
       criterios_dx: 'Edema UNILATERAL sugiere causa local (trombosis venosa profunda, insuficiencia venosa unilateral, obstrucción linfática/venosa focal, celulitis); edema BILATERAL sugiere causa sistémica (insuficiencia cardiaca, hepatopatía, hipoalbuminemia, insuficiencia venosa bilateral).',
       dx_diferencial: 'El signo de Stemmer (imposibilidad de pellizcar un pliegue de piel en la base del segundo dedo del pie) es específico de linfedema y lo distingue de otras causas de edema.'
     },
@@ -218,15 +218,15 @@ Lachman evalúa la integridad del ligamento cruzado anterior (LCA) y es más sen
       color: '#3d5a73',
       definicion: 'Palpación sistemática de los pulsos arteriales de la extremidad y medición del índice tobillo-brazo (ITB).',
       clinica: 'Se palpan y gradúan (0: ausente, 1+: disminuido, 2+: normal) los pulsos femoral, poplíteo, tibial posterior y pedio, comparando ambos lados. El ITB es el cociente entre la presión sistólica más alta obtenida con Doppler en el tobillo (tibial posterior o pedio) y la presión sistólica más alta de los brazos (braquial).',
-      fisiopatologia: 'ITB normal: 1.0-1.4. Enfermedad arterial periférica: ≤0.9. Un ITB &gt;1.4 sugiere arterias no compresibles por calcificación (típico en diabetes de larga evolución o enfermedad renal terminal), donde el índice deja de ser confiable y se requieren pruebas alternativas (índice dedo-brazo, ondas de volumen de pulso). Es la diferencia entre apretar una manguera de jardín flexible (se aplana con facilidad, y la presión necesaria refleja bien lo que hay adentro) y apretar un tubo de PVC rígido y calcificado (no se aplana casi nada sin importar cuánta presión se aplique, así que el número obtenido ya no dice nada confiable sobre el flujo real).',
+      fisiopatologia: `ITB normal: 1.0-1.4. Enfermedad arterial periférica: ≤0.9. Un ITB &gt;1.4 sugiere arterias no compresibles por calcificación (típico en diabetes de larga evolución o enfermedad renal terminal), donde el índice deja de ser confiable y se requieren pruebas alternativas (índice dedo-brazo, ondas de volumen de pulso). Es la diferencia entre apretar una manguera de jardín flexible (se aplana con facilidad, y la presión necesaria refleja bien lo que hay adentro) y apretar un tubo de PVC rígido y calcificado (no se aplana casi nada sin importar cuánta presión se aplique, así que el número obtenido ya no dice nada confiable sobre el flujo real).${videoBlock('Video 2', 'Cómo medir el índice tobillo-brazo', 'KnJDrmfIXGw', 'Stanford Medicine 25 (YouTube)')}`,
       criterios_dx: 'Un ITB anormalmente alto (&gt;1.4) NO significa ausencia de enfermedad — puede enmascarar una enfermedad arterial periférica significativa en arterias no compresibles, y obliga a un estudio alternativo.'
     },
     {
       nombre: 'Isquemia arterial aguda: las 6 P',
       color: '#8c3a34',
       definicion: 'Síndrome clínico de oclusión arterial aguda de una extremidad, reconocido por 6 hallazgos cardinales (ver Imagen 2).',
-      clinica: `Pain (dolor súbito), Pallor (palidez), Pulselessness (ausencia de pulso), Paresthesia (parestesias), Paralysis (parálisis), Poiquilotermia (frialdad).${figBlock('Imagen 2', 'Las 6 P de la isquemia arterial aguda', seisPIsquemiaSVG())}`,
-      fisiopatologia: 'La parestesia es un signo TEMPRANO (las fibras nerviosas son muy sensibles a la isquemia, se afectan antes que el músculo); la parálisis es un signo TARDÍO que indica isquemia ya avanzada, con daño muscular establecido y menor probabilidad de recuperación completa incluso con revascularización.',
+      clinica: `Pain (dolor súbito), Pallor (palidez), Pulselessness (ausencia de pulso), Paresthesia (parestesias), Paralysis (parálisis), Poiquilotermia (frialdad).${figBlock('Imagen 2', 'Las 6 P de la isquemia arterial aguda', `<img src="topics/exploracion-osteoarticular/assets/6p-isquemia-arterial.png" alt="Infografía de las 6 P de la isquemia arterial aguda, conjunto de hallazgos clínicos que indican disminución súbita del flujo arterial a un miembro y constituyen una emergencia vascular. 1) Pain (dolor): dolor súbito, intenso, desproporcionado al examen físico, empeora con la extensión pasiva de los dedos; la isquemia produce hipoxia tisular y estimula las terminaciones nerviosas. 2) Pallor (palidez): piel pálida, moteada o con aspecto ceroso, blanqueamiento con la elevación del miembro; disminución del flujo arterial reduce la perfusión y el aporte de oxígeno. 3) Pulselessness (ausencia de pulso): ausencia de pulsos distales (pedio, tibial posterior, poplíteo, femoral según el nivel); la obstrucción arterial impide que el pulso distal sea palpable. 4) Poikilothermia (temperatura fría): piel fría al tacto en comparación con el miembro contralateral; la disminución del flujo arterial reduce la perfusión y la temperatura de los tejidos. 5) Paresthesia (parestesia): sensación de hormigueo, adormecimiento o pérdida de sensibilidad; la isquemia afecta la función de los nervios periféricos. 6) Paralysis (parálisis): disminución o pérdida de la fuerza muscular, incapacidad para mover el miembro o los dedos; la isquemia prolongada produce disfunción neuromuscular y muerte celular. La presencia de estas 6 P indica isquemia arterial aguda hasta que se demuestre lo contrario; requiere evaluación vascular inmediata y tratamiento urgente para evitar pérdida del miembro.">`)}`,
+      fisiopatologia: `La parestesia es un signo TEMPRANO (las fibras nerviosas son muy sensibles a la isquemia, se afectan antes que el músculo); la parálisis es un signo TARDÍO que indica isquemia ya avanzada, con daño muscular establecido y menor probabilidad de recuperación completa incluso con revascularización.${videoBlock('Video 3', 'Signo de Buerger (palidez a la elevación, rubor de dependencia)', 'Y2BfibbYytQ', 'TheraXPro (YouTube)')}`,
       criterios_dx: 'La aparición de parálisis (a diferencia de la parestesia aislada) marca la transición a isquemia con daño tisular ya establecido — es indicación de revascularización EMERGENTE, no solo urgente.',
       algoritmo: ['Evaluar dolor, color y temperatura de la extremidad', 'Palpar pulsos distales (ausentes en la isquemia aguda completa)', 'Evaluar sensibilidad (parestesia = signo temprano)', 'Evaluar función motora (parálisis = signo tardío, urgencia máxima)', 'Signo de Buerger si el cuadro es menos agudo: elevar la pierna 45-60° por 1 minuto (palidece) y luego dejarla colgar (rubor tardío intenso)']
     },

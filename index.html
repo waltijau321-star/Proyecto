@@ -94,6 +94,14 @@
   <div class="modal terms-modal" id="terms-modal"></div>
 </div>
 
+<!-- Lightbox para ampliar a pantalla completa cualquier imagen dentro de una figura didáctica o
+     un estigma (ver openImgLightbox/closeImgLightbox en engine/study-view.js). Overlay propio,
+     independiente de #overlay/#modal, para quedar por encima de un modal de contenido abierto. -->
+<div class="img-lightbox" id="img-lightbox" onclick="closeImgLightbox()">
+  <button class="img-lightbox-close" onclick="closeImgLightbox()" aria-label="Cerrar imagen ampliada" title="Cerrar">✕</button>
+  <img id="img-lightbox-img" src="" alt="">
+</div>
+
 <script type="module" src="app.js"></script>
 </body>
 </html>
