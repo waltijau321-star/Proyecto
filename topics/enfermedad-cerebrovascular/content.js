@@ -204,7 +204,7 @@ export const content = {
       criterios_uci: 'No aplica de forma directa, salvo AIT en crescendo (recurrencia múltiple en 24 horas), donde se considera unidad de ictus/UCI por el riesgo inminente de ECV establecido.',
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'No aplica.',
-      seguimiento_hospitalario: 'Vigilancia neurológica seriada, telemetría para detectar fibrilación auricular paroxística, inicio del estudio etiológico completo.',
+      seguimiento_hospitalario: 'Vigilancia neurológica seriada, telemetría para detectar fibrilación auricular paroxística, inicio del estudio etiológico completo. Si el déficit no revierte por completo, reclasificar como ECV isquémico agudo (ver la tarjeta correspondiente) en vez de AIT.',
       seguimiento_ambulatorio: 'Control de factores de riesgo vascular, adherencia a la antiagregación/estatina, Holter prolongado si persiste alta sospecha de fibrilación auricular no detectada inicialmente.',
       pronostico: 'Con manejo urgente y prevención secundaria adecuada, el riesgo de ECV a 90 días se reduce de ~10-20% a ~1-2%.',
       algoritmo: ['Déficit focal transitorio ya resuelto → RM-difusión urgente', 'Sin infarto agudo → confirma AIT; calcular ABCD2', 'ABCD2 ≥4 o alto riesgo → hospitalizar/observación urgente + doble antiagregación 21 días', 'Estudio etiológico: angio de cuello, ecocardiograma, Holter', 'Estenosis carotídea ≥50-70% sintomática → revascularización dentro de 14 días']
@@ -247,7 +247,7 @@ export const content = {
       criterios_uci: 'Deterioro del estado de consciencia, infarto extenso con riesgo de edema maligno, necesidad de ventilación o soporte hemodinámico, post-trombectomía con riesgo de reperfusión.',
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'No aplica.',
-      seguimiento_hospitalario: 'Unidad de ictus con NIHSS seriado, monitorización de presión arterial/glucemia/temperatura, TC de control a las 24 horas (antes de iniciar antiagregación/anticoagulación post-trombólisis), tamizaje de disfagia antes de la vía oral, profilaxis de trombosis venosa profunda (mecánica desde el ingreso, farmacológica diferida 24 horas post-trombólisis), movilización temprana.',
+      seguimiento_hospitalario: 'Unidad de ictus con NIHSS seriado, monitorización de presión arterial/glucemia/temperatura, TC de control a las 24 horas (antes de iniciar antiagregación/anticoagulación post-trombólisis), tamizaje de disfagia antes de la vía oral, profilaxis de trombosis venosa profunda (mecánica desde el ingreso, farmacológica diferida 24 horas post-trombólisis), movilización temprana. Vigilar activamente dos complicaciones tempranas con tarjeta propia: transformación hemorrágica (más frecuente tras la reperfusión, primeras 24 horas) y edema cerebral maligno en infartos extensos (ventana días 2-5).',
       seguimiento_ambulatorio: 'Rehabilitación multidisciplinaria (fisioterapia, terapia del lenguaje, terapia ocupacional), control estricto de factores de riesgo vascular, prevención secundaria dirigida por etiología (TOAST).',
       pronostico: 'El NIHSS inicial y la edad son los predictores más fuertes del desenlace funcional (mRS a 90 días); la reperfusión oportuna (trombólisis/trombectomía) es el factor modificable más determinante.',
       algoritmo: ['Déficit focal agudo → activar código ictus, NIHSS, glucosa capilar', 'TC simple urgente → descarta hemorragia', 'Candidato a trombólisis (&lt;4.5h, sin contraindicación) → alteplasa/tenecteplasa IV', 'Angio-TC → oclusión de gran vaso → evaluar trombectomía (0-6h estándar, 6-24h con criterios de perfusión)', 'Ingreso a unidad de ictus, TC de control a 24h, iniciar antiagregación', 'Estudio etiológico (TOAST) y prevención secundaria dirigida']
@@ -255,9 +255,9 @@ export const content = {
     {
       nombre: 'Transformación hemorrágica del infarto',
       color: '#7a4363',
-      definicion: 'Conversión de un infarto isquémico en una lesión con componente hemorrágico, espontánea o precipitada por la reperfusión (trombólisis/trombectomía); espectro que va desde el petequial asintomático hasta el hematoma parenquimatoso sintomático.',
-      fisiopatologia: 'Disrupción de la barrera hematoencefálica por la propia isquemia, con reperfusión (espontánea por lisis del trombo, o farmacológica) hacia un lecho capilar dañado; el riesgo aumenta con infartos extensos (ASPECTS bajo), hiperglucemia, hipertensión arterial no controlada y uso de trombolítico o antitrombóticos.',
-      epidemiologia: 'La transformación hemorrágica asintomática ocurre hasta en 30-40% de los infartos con reperfusión; la forma sintomática (hemorragia intracraneal sintomática) ocurre en ~2-7% tras la trombólisis.',
+      definicion: 'Complicación del ECV isquémico agudo (ver la tarjeta correspondiente): conversión del infarto ya establecido en una lesión con componente hemorrágico sobreañadido, espontánea o precipitada por la reperfusión (trombólisis/trombectomía); espectro que va desde el petequial asintomático hasta el hematoma parenquimatoso sintomático.',
+      fisiopatologia: 'La isquemia ya descrita en el infarto de base daña la barrera hematoencefálica; al restablecerse el flujo, sea de forma espontánea por lisis del trombo o farmacológica, la sangre se extravasa hacia ese lecho capilar dañado. El riesgo es proporcional a la extensión del infarto (ASPECTS bajo) y aumenta con hiperglucemia, hipertensión arterial no controlada y el uso de trombolítico o antitrombóticos.',
+      epidemiologia: 'Complica hasta 30-40% de los infartos reperfundidos en su forma asintomática; la forma sintomática (hemorragia intracraneal sintomática) ocurre en ~2-7% tras la trombólisis.',
       factores_riesgo: ['Infarto extenso (ASPECTS bajo)', 'Hiperglucemia', 'Hipertensión arterial no controlada', 'Edad avanzada', 'Uso de trombolítico', 'Cardioembolismo (infartos grandes)'],
       clinica: 'Deterioro neurológico agudo (caída ≥4 puntos en el NIHSS) en las horas posteriores a un infarto ya diagnosticado, especialmente tras la trombólisis, con o sin cefalea, vómito o deterioro de la consciencia.',
       criterios_dx: 'Deterioro clínico más hemorragia de nueva aparición en la TC de control (clasificación ECASS: petequial HI1/HI2 vs. hematoma parenquimatoso PH1/PH2, este último con efecto de masa y peor pronóstico).',
@@ -279,9 +279,9 @@ export const content = {
     {
       nombre: 'Edema cerebral maligno / infarto maligno de la ACM',
       color: '#5c3d5c',
-      definicion: 'Edema citotóxico progresivo tras un infarto extenso (típicamente mayor al 50% del territorio de la arteria cerebral media) que provoca elevación crítica de la presión intracraneal, herniación y muerte si no se trata; la forma más temida de deterioro precoz tras el ECV isquémico.',
-      fisiopatologia: 'El infarto extenso genera edema citotóxico que alcanza su pico entre el día 2 y el 5; en el cráneo, un compartimento rígido, el aumento de volumen desplaza estructuras de la línea media y puede producir herniación subfalcina, transtentorial o amigdalina.',
-      epidemiologia: 'Ocurre en ~1-10% de todos los ECV isquémicos, con hasta 80% de mortalidad sin tratamiento quirúrgico en pacientes jóvenes con infarto maligno completo de la ACM.',
+      definicion: 'La complicación más temida del ECV isquémico agudo (ver la tarjeta correspondiente): edema citotóxico progresivo tras un infarto extenso, típicamente mayor al 50% del territorio de la arteria cerebral media, que provoca elevación crítica de la presión intracraneal, herniación y muerte si no se trata.',
+      fisiopatologia: 'Sobre el infarto extenso ya descrito se desarrolla edema citotóxico que alcanza su pico entre el día 2 y el 5; en el cráneo, un compartimento rígido, ese aumento de volumen desplaza estructuras de la línea media y puede producir herniación subfalcina, transtentorial o amigdalina.',
+      epidemiologia: 'Complica ~1-10% de todos los ECV isquémicos, con hasta 80% de mortalidad sin tratamiento quirúrgico en pacientes jóvenes con infarto maligno completo de la ACM.',
       factores_riesgo: ['Edad joven (menor atrofia cerebral, menos espacio de reserva)', 'Infarto de todo el territorio de la ACM ± ACA/ACP', 'Oclusión de la carótida interna terminal', 'NIHSS inicial alto', 'ASPECTS bajo'],
       clinica: 'Deterioro del estado de alerta, cefalea, vómito, midriasis unilateral progresiva (herniación uncal), respiración anormal en fases avanzadas; típicamente entre el 2º y el 5º día post-ictus.',
       criterios_dx: 'Infarto extenso confirmado en imagen más deterioro clínico compatible con hipertensión intracraneal, con o sin desplazamiento de la línea media en la TC de control.',
@@ -319,7 +319,7 @@ export const content = {
       criterios_uci: 'Deterioro de la consciencia, crisis convulsivas refractarias, signos de herniación.',
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'No aplica.',
-      seguimiento_hospitalario: 'Vigilancia neurológica, control de crisis, imagen de control para confirmar recanalización.',
+      seguimiento_hospitalario: 'Vigilancia neurológica, control de crisis convulsivas (ver la tarjeta de complicación transversal si aparecen), imagen de control para confirmar recanalización.',
       seguimiento_ambulatorio: 'Anticoagulación oral prolongada según la etiología, estudio de trombofilia diferido (≥6 semanas post-evento, fuera de anticoagulación si es posible), evitar estrógenos en el futuro si no hay una indicación médica imperiosa.',
       pronostico: 'Mejor pronóstico global que el ECV arterial (mortalidad ~5-10%); la mayoría recanaliza parcial o completamente con anticoagulación oportuna.',
       algoritmo: ['Cefalea subaguda + papiledema/crisis focal/déficit atípico → sospechar trombosis venosa', 'Angio-RM/angio-TC venosa confirmatoria', 'Anticoagulación inmediata (incluso con transformación hemorrágica)', 'Manejo de crisis/presión intracraneal si presentes', 'Estudio etiológico diferido + anticoagulación oral 3-12 meses']
@@ -343,7 +343,7 @@ export const content = {
       criterios_uci: 'Todo paciente con HIC requiere vigilancia neurocrítica; indicación absoluta si Glasgow ≤8, hematoma mayor a 30 cc, hemorragia intraventricular significativa, o deterioro progresivo.',
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'No aplica.',
-      seguimiento_hospitalario: 'TC de control a las 6 y 24 horas (o antes si hay deterioro) para vigilar la expansión; vigilancia neurológica horaria; manejo de la presión intracraneal si hay efecto de masa; profilaxis de trombosis venosa profunda mecánica desde el ingreso y farmacológica diferida 24-48 horas tras documentar la estabilidad de la hemorragia.',
+      seguimiento_hospitalario: 'TC de control a las 6 y 24 horas (o antes si hay deterioro) para vigilar la expansión; vigilancia neurológica horaria; manejo de la presión intracraneal si hay efecto de masa; profilaxis de trombosis venosa profunda mecánica desde el ingreso y farmacológica diferida 24-48 horas tras documentar la estabilidad de la hemorragia. Vigilar hidrocefalia si hay extensión intraventricular y crisis convulsivas, sobre todo en localización lobar (ver las tarjetas de complicaciones correspondientes).',
       seguimiento_ambulatorio: 'Rehabilitación; control estricto de la presión arterial a largo plazo (el factor modificable más importante para prevenir la recurrencia); reevaluación individualizada del riesgo-beneficio de reiniciar la anticoagulación si existía una indicación previa (fibrilación auricular, prótesis valvular).',
       pronostico: 'Mortalidad a 30 días de 30-50%; el volumen del hematoma, el Glasgow al ingreso y la presencia de hemorragia intraventricular son los predictores más fuertes (componentes del ICH Score). Se debe evitar el nihilismo terapéutico temprano basado únicamente en el score al ingreso, dado el riesgo documentado de que se convierta en una profecía autocumplida por limitación prematura del esfuerzo terapéutico.',
       algoritmo: ['Déficit focal + deterioro progresivo → TC simple urgente', 'Confirma hiperdensidad parenquimatosa → calcular ICH Score (no limitar cuidados solo por el score)', 'Revertir la anticoagulación de inmediato según el fármaco', 'Presión sistólica objetivo &lt;140 mmHg en la primera hora', 'Cerebelosa &gt;3cm o deterioro/hidrocefalia → evacuación quirúrgica urgente; supratentorial → manejo médico salvo deterioro/lobar superficial', 'UCI neurocrítica, TC de control a 6-24h']
@@ -367,7 +367,7 @@ export const content = {
       criterios_uci: 'Todo caso de HSA confirmada requiere manejo en UCI neurocrítica desde el diagnóstico, independientemente del grado clínico inicial.',
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'No aplica.',
-      seguimiento_hospitalario: 'Vigilancia neurológica horaria/cada 2 horas durante la ventana de mayor riesgo de resangrado y vasoespasmo (días 4-14), Doppler transcraneal seriado, manejo de euvolemia e hipertensión inducida si se desarrolla isquemia cerebral tardía tras el aseguramiento del aneurisma.',
+      seguimiento_hospitalario: 'Vigilancia neurológica horaria/cada 2 horas durante la ventana de mayor riesgo de resangrado (primeras 24 horas, ver la tarjeta de esa complicación) y de vasoespasmo (días 4-14, ver la tarjeta correspondiente), Doppler transcraneal seriado, manejo de euvolemia e hipertensión inducida si se desarrolla isquemia cerebral tardía tras el aseguramiento del aneurisma; vigilar también hidrocefalia aguda en las primeras 72 horas.',
       seguimiento_ambulatorio: 'Rehabilitación; cribado de aneurismas no rotos adicionales/familiares en casos con antecedente familiar; control de factores de riesgo (tabaquismo, hipertensión arterial).',
       pronostico: 'Mortalidad global ~25-50% (incluyendo la prehospitalaria); el grado clínico inicial (Hunt-Hess/WFNS) es el predictor pronóstico más fuerte; hasta un tercio de los sobrevivientes queda con déficit cognitivo residual pese a un buen desenlace motor.',
       algoritmo: ['Cefalea en trueno/"la peor de mi vida" → TC simple urgente', 'TC negativa + sospecha alta + &gt;6h → punción lumbar (xantocromía) o RM', 'Confirmada → angio-TC/angiografía para localizar el aneurisma, Hunt-Hess/WFNS y Fisher', 'UCI neurocrítica, nimodipino 60mg c/4h, presión sistólica &lt;160 hasta asegurar', 'Aseguramiento temprano &lt;24-72h: clipaje vs. coiling (equipo neurovascular)', 'Vigilancia de resangrado/vasoespasmo días 4-14 tras el aseguramiento']
@@ -375,8 +375,8 @@ export const content = {
     {
       nombre: 'Resangrado aneurismático',
       color: '#8a3030',
-      definicion: 'Nueva hemorragia por rerruptura del mismo aneurisma antes de su aseguramiento definitivo; la complicación más letal y potencialmente prevenible de la HSA en su fase temprana.',
-      fisiopatologia: 'El coágulo que sella transitoriamente el punto de rotura es inestable; fluctuaciones de la presión arterial, agitación, dolor no controlado o maniobras que aumenten la presión intracraneal/transmural pueden precipitar la rerruptura antes de que el aneurisma quede excluido de la circulación.',
+      definicion: 'Complicación temprana de la HSA aneurismática (ver la tarjeta correspondiente): nueva hemorragia por rerruptura del mismo aneurisma antes de su aseguramiento definitivo; la más letal y potencialmente prevenible de la fase aguda.',
+      fisiopatologia: 'El coágulo que sella transitoriamente el punto de rotura descrito en la HSA es inestable; fluctuaciones de la presión arterial, agitación, dolor no controlado o maniobras que aumenten la presión intracraneal/transmural pueden precipitar la rerruptura antes de que el aneurisma quede excluido de la circulación.',
       epidemiologia: 'Riesgo máximo en las primeras 24 horas (hasta 4-13.6% según series, mayor en las primeras 6 horas), con una segunda ventana de riesgo elevado en las primeras 2 semanas si el aneurisma no se asegura.',
       factores_riesgo: ['Retraso en el aseguramiento del aneurisma', 'Presión arterial no controlada', 'Aneurisma grande', 'Grado clínico inicial grave (Hunt-Hess alto)', 'Cefalea centinela previa no diagnosticada'],
       clinica: 'Deterioro neurológico súbito y grave (cefalea intensa recurrente, pérdida de consciencia, nuevo déficit focal) en un paciente con HSA ya diagnosticada, antes del aseguramiento del aneurisma.',
@@ -399,7 +399,7 @@ export const content = {
     {
       nombre: 'Vasoespasmo cerebral / isquemia cerebral tardía (DCI)',
       color: '#2d5f6b',
-      definicion: 'Estrechamiento reversible de las arterias cerebrales tras una HSA, que puede producir isquemia cerebral tardía sintomática (DCI, delayed cerebral ischemia): la principal causa de morbilidad tardía en los sobrevivientes del sangrado inicial.',
+      definicion: 'Complicación tardía de la HSA aneurismática (ver la tarjeta correspondiente): estrechamiento reversible de las arterias cerebrales que puede producir isquemia cerebral tardía sintomática (DCI, delayed cerebral ischemia), la principal causa de morbilidad tardía en los sobrevivientes del sangrado inicial.',
       fisiopatologia: 'Los productos de degradación de la sangre subaracnoidea (oxihemoglobina y sus derivados) desencadenan disfunción endotelial, inflamación de la pared vascular y alteración del tono vascular con vasoconstricción sostenida; el vasoespasmo angiográfico no siempre se correlaciona con la isquemia clínica (DCI), que además puede involucrar mecanismos de disfunción de la microcirculación y despolarizaciones corticales propagadas, independientes del calibre de los grandes vasos.',
       epidemiologia: 'Vasoespasmo angiográfico hasta en 50-70% de los pacientes con HSA; DCI sintomática en ~20-30%, con pico de incidencia entre los días 4 y 14 tras el sangrado.',
       factores_riesgo: ['Mayor cantidad de sangre subaracnoidea en la TC inicial (Fisher/Fisher modificada alto)', 'Hemorragia intraventricular', 'Grado clínico inicial grave', 'Tabaquismo', 'Hiperglucemia'],
@@ -423,8 +423,8 @@ export const content = {
     {
       nombre: 'Hidrocefalia aguda',
       color: '#3f6b52',
-      definicion: 'Dilatación aguda del sistema ventricular por alteración del flujo o la reabsorción del líquido cefalorraquídeo; complicación frecuente tanto de la HSA como de la HIC con extensión intraventricular.',
-      fisiopatologia: 'La sangre en el espacio subaracnoideo o intraventricular obstruye mecánicamente las vías de flujo del líquido cefalorraquídeo (hidrocefalia obstructiva aguda) o interfiere con su reabsorción a nivel de las granulaciones aracnoideas (hidrocefalia comunicante, más tardía/subaguda).',
+      definicion: 'Complicación mecánica que puede seguir tanto a la HIC espontánea con extensión intraventricular como a la HSA aneurismática (ver las tarjetas correspondientes): dilatación aguda del sistema ventricular por alteración del flujo o la reabsorción del líquido cefalorraquídeo.',
+      fisiopatologia: 'La sangre proveniente de cualquiera de esas dos hemorragias, al llegar al espacio subaracnoideo o intraventricular, obstruye mecánicamente las vías de flujo del líquido cefalorraquídeo (hidrocefalia obstructiva aguda) o interfiere con su reabsorción a nivel de las granulaciones aracnoideas (hidrocefalia comunicante, más tardía/subaguda).',
       epidemiologia: 'Hidrocefalia aguda hasta en 20-30% de las HSA en las primeras 72 horas; también complica hasta un tercio de las HIC con extensión intraventricular significativa, especialmente las de localización talámica/ganglios basales cercanas al sistema ventricular.',
       factores_riesgo: ['Mayor cantidad de sangre intraventricular', 'HSA de localización que obstruye el cuarto ventrículo/acueducto', 'Hemorragia cerebelosa'],
       clinica: 'Deterioro del estado de alerta (a menudo el signo más temprano y sensible), cefalea, vómito; en casos avanzados, tríada con alteración de la marcha e incontinencia, más típica de la forma crónica comunicante que de la aguda.',
@@ -447,7 +447,7 @@ export const content = {
     {
       nombre: 'Crisis convulsivas asociadas a ECV',
       color: '#6b4a2e',
-      definicion: 'Crisis epilépticas que ocurren en relación temporal con un ECV, ya sea en la fase aguda (crisis sintomáticas agudas, dentro de los primeros 7 días) o como epilepsia postictus establecida (crisis no provocadas tardías, después de la primera semana).',
+      definicion: 'Complicación transversal que puede seguir a cualquiera de las formas de ECV ya descritas (isquémico, HIC o HSA), más frecuente en la HSA y en la HIC lobar que en el isquémico: crisis epilépticas en relación temporal con el evento vascular, en la fase aguda (crisis sintomáticas agudas, dentro de los primeros 7 días) o como epilepsia postictus establecida (crisis no provocadas tardías, después de la primera semana).',
       fisiopatologia: 'En la fase aguda, la lesión cortical isquémica o hemorrágica genera irritabilidad neuronal directa (más frecuente en lesiones corticales que subcorticales, y en la HSA/HIC lobar que en el infarto profundo); las crisis tardías reflejan la formación de un foco epileptogénico cicatricial estable.',
       epidemiologia: 'Crisis en la fase aguda en ~5-9% de los ECV (más frecuentes en la HSA e HIC lobar que en el isquémico); el riesgo de epilepsia postictus a largo plazo es mayor tras la HIC lobar y la HSA que tras el ECV isquémico.',
       factores_riesgo: ['Localización cortical de la lesión', 'HIC lobar', 'HSA', 'Mayor gravedad/extensión de la lesión', 'Transformación hemorrágica'],
@@ -511,8 +511,11 @@ export const escalaCalc = {
   'Fisher / Fisher modificada': 'fishermod', 'ICH Score': 'ichscore'
 };
 export const compGroups = [
-  { title: 'ECV isquémico', items: ['Ataque isquémico transitorio (AIT)', 'ECV isquémico agudo', 'Transformación hemorrágica del infarto', 'Edema cerebral maligno / infarto maligno de la ACM', 'Trombosis de senos venosos cerebrales'] },
-  { title: 'Hemorragia intracraneal', items: ['Hemorragia intracerebral (HIC) espontánea', 'Hemorragia subaracnoidea (HSA) aneurismática', 'Resangrado aneurismático', 'Vasoespasmo cerebral / isquemia cerebral tardía (DCI)', 'Hidrocefalia aguda', 'Crisis convulsivas asociadas a ECV'] }
+  { title: 'ECV isquémico (enfermedades)', items: ['Ataque isquémico transitorio (AIT)', 'ECV isquémico agudo', 'Trombosis de senos venosos cerebrales'] },
+  { title: 'Complicaciones del ECV isquémico', items: ['Transformación hemorrágica del infarto', 'Edema cerebral maligno / infarto maligno de la ACM'] },
+  { title: 'Hemorragia intracraneal (enfermedades)', items: ['Hemorragia intracerebral (HIC) espontánea', 'Hemorragia subaracnoidea (HSA) aneurismática'] },
+  { title: 'Complicaciones de la hemorragia intracraneal', items: ['Resangrado aneurismático', 'Vasoespasmo cerebral / isquemia cerebral tardía (DCI)', 'Hidrocefalia aguda'] },
+  { title: 'Complicación transversal (cualquier ECV)', items: ['Crisis convulsivas asociadas a ECV'] }
 ];
 export const categories = [
   { id: 'definicion', label: 'Definición' },
