@@ -99,6 +99,14 @@ export const registry = [
       import('./signos-clasicos/calculators.js'),
       import('./signos-clasicos/study.js')
     ])
+  },
+  {
+    id: 'enfermedad-cerebrovascular', titulo: 'Enfermedad Cerebrovascular',
+    load: () => Promise.all([
+      import('./enfermedad-cerebrovascular/content.js'),
+      import('./enfermedad-cerebrovascular/calculators.js'),
+      import('./enfermedad-cerebrovascular/study.js')
+    ])
   }
 ];
 
