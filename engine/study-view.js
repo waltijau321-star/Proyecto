@@ -144,7 +144,7 @@ function buildDiagnostico() {
   const estigmas = (ESTIGMAS_FREQ || []).map((e, i) => `<div class="rank-item rank-clickable" onclick="openStigma(${i})"><span class="rank-num mono">${String(i + 1).padStart(2, '0')}</span><span class="rank-text">${e.s}</span><span class="rank-pct mono">${e.p}</span><span class="rank-icon">${e.photo || e.embed ? 'Foto' : 'Info'}</span></div>`).join('');
   const lab = (dg.laboratorio || []).map(l => `<tr><td style="color:var(--ink);font-weight:600;">${l.prueba}</td><td>${l.utilidad}</td></tr>`).join('');
   const etio = (dg.etiologicos || []).map(l => `<tr><td style="color:var(--ink);font-weight:600;">${l.prueba}</td><td>${l.utilidad}</td></tr>`).join('');
-  const ni = (dg.no_invasivos || []).map(m => `<tr><td style="color:var(--ink);font-weight:600;">${m.metodo}</td><td>${m.interpretacion}</td><td class="mono">${m.cutoff}</td><td>${(m.metodo === 'FIB-4' || m.metodo === 'APRI') ? calcBtn('fibrosis') : ''}</td></tr>`).join('');
+  const ni = (dg.no_invasivos || []).map(m => `<tr><td style="color:var(--ink);font-weight:600;">${m.metodo}</td><td>${m.interpretacion}</td><td>${m.cutoff}</td><td>${(m.metodo === 'FIB-4' || m.metodo === 'APRI') ? calcBtn('fibrosis') : ''}</td></tr>`).join('');
   const img = (dg.imagen || []).map(m => `<tr><td style="color:var(--ink);font-weight:600;">${m.modalidad}</td><td>${m.hallazgos}</td></tr>`).join('');
   const bio = BIOPSIA_LISTS ? `
     <h3 class="study-subhead">${biopsiaTitulo}${citeHTML(dc.biopsia)}</h3>
@@ -179,7 +179,7 @@ function buildDiagnostico() {
 function buildClasificacion() {
   const cl = D.clasificacion;
   if (!cl || !cl.escalas) return '';
-  const rows = cl.escalas.map(e => `<tr id="escala-${slugify(e.nombre)}"><td style="color:var(--ink);font-weight:600;">${e.nombre}</td><td>${e.componentes}</td><td class="mono">${e.formula}</td><td>${e.interpretacion}</td><td>${citeHTML(ESCALA_REFS[e.nombre] || [])}${ESCALA_CALC[e.nombre] ? calcBtn(ESCALA_CALC[e.nombre]) : ''}${e.expandHtml ? expandBtn(e) : ''}</td></tr>`).join('');
+  const rows = cl.escalas.map(e => `<tr id="escala-${slugify(e.nombre)}"><td style="color:var(--ink);font-weight:600;">${e.nombre}</td><td>${e.componentes}</td><td>${e.formula}</td><td>${e.interpretacion}</td><td>${citeHTML(ESCALA_REFS[e.nombre] || [])}${ESCALA_CALC[e.nombre] ? calcBtn(ESCALA_CALC[e.nombre]) : ''}${e.expandHtml ? expandBtn(e) : ''}</td></tr>`).join('');
   const clasifLabel = (CATEGORIES.find(c => c.id === 'clasificacion') || {}).label || 'Clasificación y Escalas Pronósticas';
   return section('clasificacion', '03', clasifLabel, (cl.compensada_descompensada || '') + citeHTML(TOPIC.clasificacionCite), `
     <div class="table-wrap"><table><thead><tr><th>Escala</th><th>Componentes</th><th>Fórmula</th><th>Interpretación</th><th>Ref.</th></tr></thead><tbody>${rows}</tbody></table></div>

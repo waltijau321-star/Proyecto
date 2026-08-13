@@ -226,7 +226,10 @@ textarea:focus-visible, summary:focus-visible, [tabindex]:focus-visible{
 .section-head{display:flex; align-items:baseline; gap:14px; margin-bottom:24px; border-bottom:1px solid var(--ink); padding-bottom:14px;}
 .section-num{font-family:'Newsreader',serif; font-style:italic; font-size:16px; color:var(--accent-fg);}
 .section-head h2{font-size:clamp(1.5rem,2.8vw,2rem); margin:0; color:var(--ink); font-weight:600;}
-.section-intro{color:var(--ink-dim); max-width:66ch; line-height:1.65; margin-bottom:26px;}
+/* Sin max-width: un intro corto (una oración) igual ocupa poco porque el texto no estira la
+   caja, pero un intro largo (varias oraciones, ej. complicacionesIntro) llenaba solo ~587px de
+   una sección de ~992px, dejando un bloque de espacio en blanco a la derecha bien visible. */
+.section-intro{color:var(--ink-dim); line-height:1.65; margin-bottom:26px;}
 
 /* Subtítulo reutilizable dentro de una sección de estudio (antes repetido como inline style
    en engine/study-view.js). El modificador solo cambia el margen exterior. */
