@@ -129,10 +129,13 @@ textarea:focus-visible, summary:focus-visible, [tabindex]:focus-visible{
 .tree ul{display:flex; padding-top:34px; position:relative;}
 .tree li{list-style:none; text-align:center; position:relative; padding:0 14px;}
 .tree > li > ul > li{padding:0 5px; position:relative;}
-.tree > li > ul > li:has(> ul){margin-bottom:145px;}
-.tree > li > ul > li > ul{
-  position:absolute; top:100%; left:50%; transform:translateX(-50%);
-}
+/* Las hojas de cada rama se quedan en el flujo normal (hereda display:flex de `.tree ul`
+   arriba), NO position:absolute: con position:absolute quedaban centradas bajo su propia rama
+   sin que el navegador reservara espacio horizontal para ellas, así que en cualquier árbol con
+   2+ ramas que a su vez tuvieran 2+ hojas cada una, los grupos de hojas de ramas vecinas se
+   superponían visualmente (bug real, encontrado revisando el árbol de Enfermedad Cerebrovascular:
+   2 ramas × 2 hojas). En flujo normal, flexbox les da a las ramas el ancho que necesitan sin
+   overlap, sin importar cuántas hojas tenga cada una. */
 .tree ul li{padding-top:0;}
 .tree > li > ul{padding-top:34px;}
 .tree li ul li::before{
@@ -165,7 +168,6 @@ textarea:focus-visible, summary:focus-visible, [tabindex]:focus-visible{
   .tree > li > ul{padding-top:22px;}
   .tree li{padding:0 6px;}
   .tree > li > ul > li{padding:0 3px;}
-  .tree > li > ul > li:has(> ul){margin-bottom:190px;}
   .tree li ul li::before{height:22px; top:-22px;}
   .tree li ul li:first-child::after, .tree li ul li:last-child::after{top:-22px;}
   .tree-node{min-width:92px; max-width:112px; padding:8px 7px; gap:2px;}
@@ -622,7 +624,7 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 .proto-theory p{color:var(--ink-dim); font-size:14.5px; line-height:1.6; margin:0 0 10px;}
 .proto-keypoints{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px;}
 .proto-keypoints li{display:flex; gap:10px; align-items:flex-start; font-size:14px; color:var(--ink-dim); line-height:1.5;}
-.proto-keypoints li::before{content:"—"; flex:none; color:var(--modal-accent-fg); font-weight:700;}
+.proto-keypoints li::before{content:"•"; flex:none; color:var(--modal-accent-fg); font-weight:700;}
 .proto-drugs{border:1px solid var(--line); border-radius:var(--radius); padding:4px 16px; background:var(--panel);}
 .proto-divider{border:none; border-top:1px solid var(--line); margin:30px 0 22px;}
 .proto-checklist-head{display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:14px;}

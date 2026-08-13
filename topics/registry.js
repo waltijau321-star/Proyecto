@@ -150,6 +150,7 @@ function compose(c, calc, study) {
     figurasDefinicion: c.figurasDefinicion,
     modalLabels: c.modalLabels,
     diagnosticoIntro: c.diagnosticoIntro,
+    complicacionesIntro: c.complicacionesIntro,
     calculators: calc.calculators || [],
     combinedNote: calc.combinedNote || null,
     study: {

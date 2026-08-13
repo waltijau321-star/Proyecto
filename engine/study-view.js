@@ -135,7 +135,7 @@ function buildDiagnostico() {
       <div class="biopsy-card negative"><h3>Contraindicaciones</h3><ul class="biopsy-list">${BIOPSIA_LISTS.contraindicaciones.map(x => `<li><span class="bio-mark stop">✕</span>${x}</li>`).join('')}</ul></div>
     </div>` : '';
   const diagLabel = (CATEGORIES.find(c => c.id === 'diagnostico') || {}).label || 'Abordaje Diagnóstico';
-  const diagIntro = TOPIC.diagnosticoIntro !== undefined ? TOPIC.diagnosticoIntro : 'Historia clínica, laboratorio general, estudios dirigidos, métodos no invasivos e imagen — en ese orden de invasividad creciente.';
+  const diagIntro = TOPIC.diagnosticoIntro !== undefined ? TOPIC.diagnosticoIntro : 'Historia clínica, laboratorio general, estudios dirigidos, métodos no invasivos e imagen: en ese orden de invasividad creciente.';
   return section('diagnostico', '02', diagLabel, diagIntro, `
     <div class="grid" style="margin-bottom:18px;">
       <div class="card"><h3>${tituloA}</h3><p>${dg.clinica ? dg.clinica.compensada : ''}</p></div>
@@ -180,7 +180,7 @@ function buildComplicaciones() {
     }).join('');
     return `${g.title ? `<h3 class="study-subhead study-subhead--loose">${g.title}</h3>` : ''}<div class="comp-grid">${cards}</div>`;
   }).join('');
-  return section('complicaciones', '04', catLabel, null, groupsHTML);
+  return section('complicaciones', '04', catLabel, TOPIC.complicacionesIntro || null, groupsHTML);
 }
 
 function buildSeguimiento() {
