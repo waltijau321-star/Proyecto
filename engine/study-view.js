@@ -61,6 +61,26 @@ function figuraHTML(keys) {
 function calcBtn(key) {
   return `<button type="button" class="calc-btn" onclick="openCalc('${key}')" title="Abrir calculadora">Calcular</button>`;
 }
+// Botón "Ver tabla" para una escala con expandHtml: evita incrustar una tabla grande dentro de
+// la celda <td> de la tabla de escalas (una tabla anidada dentro de otra tabla ya anidada en un
+// <td> rompe el parseo HTML del navegador: las filas de la tabla interna "se escapan" y terminan
+// como filas sueltas de la tabla exterior). En vez de eso, el contenido vive en un modal aparte.
+function expandBtn(e) {
+  return `<button type="button" class="calc-btn" onclick="openEscalaExpand('${slugify(e.nombre)}')" title="Ver tabla ampliada">Ver tabla ↗</button>`;
+}
+function openEscalaExpand(slug) {
+  const cl = D.clasificacion;
+  const e = (cl && cl.escalas || []).find(x => slugify(x.nombre) === slug);
+  if (!e || !e.expandHtml) return;
+  const m = document.getElementById('modal');
+  m.style.setProperty('--modal-accent', '#3d5a73');
+  m.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <span class="modal-tag" style="color:#3d5a73;">Escala · tabla ampliada</span>
+    <h2>${e.expandTitulo || e.nombre}</h2>
+    <div class="modal-field"><div class="fbody">${e.expandHtml}</div></div>`;
+  showOverlay();
+}
 function findComp(nombre) { return D.complicaciones.findIndex(c => c.nombre === nombre); }
 function jumpTo(id) { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
 function section(id, num, title, intro, body) {
@@ -159,7 +179,7 @@ function buildDiagnostico() {
 function buildClasificacion() {
   const cl = D.clasificacion;
   if (!cl || !cl.escalas) return '';
-  const rows = cl.escalas.map(e => `<tr id="escala-${slugify(e.nombre)}"><td style="color:var(--ink);font-weight:600;">${e.nombre}</td><td>${e.componentes}</td><td class="mono">${e.formula}</td><td>${e.interpretacion}</td><td>${citeHTML(ESCALA_REFS[e.nombre] || [])}${ESCALA_CALC[e.nombre] ? calcBtn(ESCALA_CALC[e.nombre]) : ''}</td></tr>`).join('');
+  const rows = cl.escalas.map(e => `<tr id="escala-${slugify(e.nombre)}"><td style="color:var(--ink);font-weight:600;">${e.nombre}</td><td>${e.componentes}</td><td class="mono">${e.formula}</td><td>${e.interpretacion}</td><td>${citeHTML(ESCALA_REFS[e.nombre] || [])}${ESCALA_CALC[e.nombre] ? calcBtn(ESCALA_CALC[e.nombre]) : ''}${e.expandHtml ? expandBtn(e) : ''}</td></tr>`).join('');
   const clasifLabel = (CATEGORIES.find(c => c.id === 'clasificacion') || {}).label || 'Clasificación y Escalas Pronósticas';
   return section('clasificacion', '03', clasifLabel, (cl.compensada_descompensada || '') + citeHTML(TOPIC.clasificacionCite), `
     <div class="table-wrap"><table><thead><tr><th>Escala</th><th>Componentes</th><th>Fórmula</th><th>Interpretación</th><th>Ref.</th></tr></thead><tbody>${rows}</tbody></table></div>
@@ -778,7 +798,7 @@ Object.assign(window, {
   openFlashcards, lockedFlashcardsNotice, flipFlashcard, rateFlashcard,
   openCase, selectCaseOption, confirmCaseAnswer, answerCase, nextCase,
   openStigma, runSearch, clearSearch,
-  openImgLightbox, closeImgLightbox
+  openImgLightbox, closeImgLightbox, openEscalaExpand
 });
 document.addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;

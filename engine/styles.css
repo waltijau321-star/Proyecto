@@ -348,7 +348,10 @@ tr.flash td{background:var(--panel2);}
    figuras, sin hueco. */
 .modal-field .fbody{color:var(--ink-dim); font-size:14.5px; line-height:1.65;}
 .modal-field ul{margin:6px 0 0; padding-left:18px; color:var(--ink-dim); font-size:14px; line-height:1.6;}
-.modal-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px 26px;}
+/* align-items:start evita que una columna corta se estire para igualar la altura de su pareja
+   cuando la otra columna trae una figura/tabla incrustada (ver fieldHTML/figBlock): sin esto,
+   el texto corto queda "flotando" arriba con un espacio en blanco enorme debajo. */
+.modal-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px 26px; align-items:start;}
 .modal-divider{border:none; border-top:1px solid var(--line); margin:24px 0;}
 .modal-algo{display:flex; flex-direction:column; gap:8px;}
 .algo-step{display:flex; gap:10px; align-items:flex-start; font-size:13.5px; color:var(--ink-dim);}
