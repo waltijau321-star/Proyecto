@@ -103,8 +103,13 @@ function buildDefinicion() {
   const defLabel = (CATEGORIES.find(c => c.id === 'definicion') || {}).label || 'Definición';
   // Mismo patrón que TOPIC.figurasClasificacion en buildClasificacion(): un tema puede adjuntar
   // 0+ figuras a la sección de Definición (p. ej. un diagrama de mecanismo/fisiopatología).
+  // El contenedor es un <div>, no un <p>: definicionText puede ser un solo párrafo plano (la
+  // mayoría de los temas) o un mini-capítulo con varios <p> propios y rótulos en negrita
+  // (Epidemiología/Etiología/Factores de riesgo/Fisiopatología...) cuando el tema lo amerita —
+  // un <p> no puede contener otros bloques sin que el navegador lo cierre a la fuerza. line-height
+  // igual al que tenía la regla CSS `.card p` para que los temas de un solo párrafo se vean igual.
   return section('definicion', '01', defLabel, null, `
-    <div class="card"><p style="font-size:15.5px; color:var(--ink);">${txt}${citeHTML([1])}</p></div>
+    <div class="card"><div style="font-size:15.5px; color:var(--ink); line-height:1.6;">${txt}${citeHTML([1])}</div></div>
     ${figuraHTML(TOPIC.figurasDefinicion)}`);
 }
 
