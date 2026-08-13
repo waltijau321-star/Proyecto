@@ -11,7 +11,28 @@ export const meta = {
   accentDim: '#8a5a78'
 };
 
-export const definicionText = 'La crisis epiléptica es una descarga neuronal excesiva y sincrónica que produce signos o síntomas transitorios, motores, sensitivos, autonómicos o cognitivos. El estado epiléptico es la emergencia neurológica en la que esa crisis se prolonga (5 minutos o más en su forma convulsiva) o se repite sin recuperación completa de la consciencia entre episodios, un punto operacional a partir del cual es poco probable que ceda espontáneamente y debe iniciarse tratamiento sin demora. La epilepsia, en cambio, es una enfermedad crónica definida por la tendencia persistente a generar crisis no provocadas (al menos dos separadas por más de 24 horas, o una crisis con alto riesgo de recurrencia, o un síndrome epiléptico reconocido), distinta de un episodio agudo aislado. Las tres entidades comparten un marco de clasificación común (ILAE) y una premisa clínica central: la semiología del evento (cómo empieza, cómo evoluciona y qué queda después) es la herramienta diagnóstica más valiosa, muchas veces más que cualquier estudio complementario.';
+export const definicionText = `<p style="margin:0 0 14px;">La crisis epiléptica es una descarga neuronal excesiva y sincrónica que produce signos o síntomas transitorios, motores, sensitivos, autonómicos o cognitivos. El estado epiléptico es la emergencia neurológica en la que esa crisis se prolonga (5 minutos o más en su forma convulsiva) o se repite sin recuperación completa de la consciencia entre episodios, un punto operacional a partir del cual es poco probable que ceda espontáneamente y debe iniciarse tratamiento sin demora. La epilepsia, en cambio, es una enfermedad crónica definida por la tendencia persistente a generar crisis no provocadas (al menos dos separadas por más de 24 horas, o una crisis con alto riesgo de recurrencia, o un síndrome epiléptico reconocido), distinta de un episodio agudo aislado. Las tres entidades comparten un marco de clasificación común (ILAE) y una premisa clínica central: la semiología del evento (cómo empieza, cómo evoluciona y qué queda después) es la herramienta diagnóstica más valiosa, muchas veces más que cualquier estudio complementario.</p>
+<p style="margin:0 0 14px;"><strong style="color:var(--accent-fg);">Epidemiología.</strong> La epilepsia afecta a cerca de 50 millones de personas en el mundo (prevalencia 0.5-1%), una de las enfermedades neurológicas crónicas más frecuentes. El estado epiléptico tiene una incidencia de 10-40 casos por 100,000 habitantes al año, con distribución bimodal por edad (pico en la infancia y otro en el adulto mayor) y una mortalidad global de 10-20%, mayor en el estado refractario y en causas estructurales agudas que en la subdosificación de un fármaco antiepiléptico en un paciente ya epiléptico. Tras una primera crisis no provocada, el riesgo de recurrencia a 2 años es de 40-50% en conjunto, variable según los factores de riesgo presentes.</p>
+<p style="margin:0 0 14px;"><strong style="color:var(--accent-fg);">Etiología y clasificación.</strong> El marco de la ILAE clasifica en tres niveles jerárquicos: el tipo de crisis (focal, generalizada, o de inicio desconocido), el tipo de epilepsia (focal, generalizada, combinada, o desconocida), y el síndrome epiléptico específico cuando es reconocible. En cada nivel se busca la etiología, en 6 categorías: estructural, genética, infecciosa, metabólica, inmune, o desconocida, con frecuencia superpuestas en un mismo paciente. El estado epiléptico, por su parte, se clasifica operacionalmente por el tiempo transcurrido (T1 y T2) y por la respuesta al tratamiento escalonado (refractario, superrefractario).</p>
+<div style="margin:0 0 14px;"><strong style="color:var(--accent-fg);">Factores de riesgo.</strong>
+  <p style="margin:6px 0 4px;color:var(--ink-dim);font-size:13.5px;">Modificables:</p>
+  <ul style="margin:0 0 8px;padding-left:20px;color:var(--ink);font-size:14.5px;line-height:1.7;">
+    <li>Privación de sueño</li>
+    <li>Consumo de alcohol, tanto la intoxicación aguda como la abstinencia</li>
+    <li>Abandono o subdosificación del fármaco antiepiléptico en el paciente ya epiléptico: la causa precipitante más frecuente y más prevenible de estado epiléptico</li>
+    <li>Fotoestimulación, en los síndromes fotosensibles</li>
+  </ul>
+  <p style="margin:6px 0 4px;color:var(--ink-dim);font-size:13.5px;">No modificables:</p>
+  <ul style="margin:0;padding-left:20px;color:var(--ink);font-size:14.5px;line-height:1.7;">
+    <li>Lesión cerebral estructural previa (ECV, traumatismo craneoencefálico, tumor, malformación del desarrollo cortical)</li>
+    <li>Antecedente familiar o predisposición genética</li>
+    <li>Infección del sistema nervioso central previa</li>
+    <li>Antecedente de crisis febriles complejas en la infancia</li>
+    <li>Enfermedad neurodegenerativa</li>
+  </ul>
+</div>
+<p style="margin:0 0 14px;"><strong style="color:var(--accent-fg);">Fisiopatología general.</strong> La crisis refleja un desequilibrio entre la excitación (glutamatérgica, mediada por receptores NMDA/AMPA) y la inhibición (GABAérgica) de una red neuronal, ya sea por una lesión estructural focal, una canalopatía genética que altera directamente la excitabilidad de membrana, o un insulto agudo (metabólico, tóxico, infeccioso) que reduce transitoriamente el umbral convulsivo. Cuando la crisis se prolonga (estado epiléptico), ese desequilibrio se retroalimenta: los receptores GABA-A sinápticos se internalizan progresivamente mientras se sobreexpresan receptores NMDA, lo que explica por qué las benzodiacepinas pierden eficacia cuanto más tiempo pasa sin tratarla y por qué el estado epiléptico se vuelve progresivamente más resistente.</p>
+<p style="margin:0;"><strong style="color:var(--accent-fg);">Panorama clínico.</strong> La crisis epiléptica se reconoce por su semiología característica (inicio súbito, evolución estereotipada, estado postictal), que difiere sustancialmente según el tipo (focal, generalizada) y se detalla en Diagnóstico. El estado epiléptico añade a esa semiología el criterio de duración o recurrencia sin recuperación; su forma no convulsiva, sin actividad motora evidente, solo se reconoce por electroencefalograma. La epilepsia, en cambio, no es un hallazgo de un único momento sino un patrón a lo largo del tiempo: el mismo tipo de crisis repitiéndose de forma estereotipada en el mismo paciente. El detalle operativo de cada entidad y de sus complicaciones (diagnóstico diferencial específico, dosis, criterios de UCI, algoritmo) se desarrolla como recurso de consulta en la sección Complicaciones.</p>`;
 
 export const bibliografia = [
   'Glauser T, Shinnar S, Gloss D, et al. Evidence-Based Guideline: Treatment of Convulsive Status Epilepticus in Children and Adults: Report of the Guideline Committee of the American Epilepsy Society. Epilepsy Curr. 2016;16(1):48-61.',
@@ -153,7 +174,7 @@ export const content = {
       criterios_uci: 'Todo estado epiléptico que no cede con la primera línea, todo paciente que requiere segunda línea o anestésicos, y todo paciente que requiere intubación.',
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'No aplica.',
-      seguimiento_hospitalario: 'EEG continuo durante la infusión de anestésicos y en el destete, vigilancia de complicaciones sistémicas (rabdomiólisis, acidosis, hipertermia, aspiración), estudio etiológico completo en paralelo.',
+      seguimiento_hospitalario: 'EEG continuo durante la infusión de anestésicos y en el destete, vigilancia de complicaciones sistémicas (rabdomiólisis, acidosis, hipertermia, aspiración), estudio etiológico completo en paralelo. Si no responde a la benzodiacepina más la segunda línea, reclasificar como estado epiléptico refractario (ver la tarjeta correspondiente) e iniciar anestesia general sin demora.',
       seguimiento_ambulatorio: 'Ajuste del FAE de mantenimiento, educación sobre adherencia si la causa fue subdosificación, seguimiento en clínica de epilepsia.',
       pronostico: 'Determinado principalmente por la causa subyacente y la edad, más que por la duración del estado en sí; el STESS calculado al ingreso ayuda a estratificar el riesgo.',
       algoritmo: ['Crisis ≥5 minutos → tratar como estado epiléptico, no esperar más', 'Glucosa capilar + vía aérea/oxigenación + acceso IV', 'Benzodiacepina (lorazepam IV o midazolam IM si no hay acceso)', 'Persiste a los 20 min → segunda línea (fosfenitoína, ácido valproico o levetiracetam IV)', 'Persiste a los 40 min → anestesia general (midazolam/propofol/pentobarbital) + intubación + EEG continuo', 'Estudio etiológico en paralelo, nunca después']
@@ -177,7 +198,7 @@ export const content = {
       criterios_uci: 'El EEG continuo generalmente requiere monitorización en UCI o en una unidad de cuidados intermedios con capacidad de neuromonitoreo.',
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'No aplica.',
-      seguimiento_hospitalario: 'EEG continuo seriado para confirmar la resolución electrográfica, no solo la mejoría clínica, ya que ambas pueden disociarse.',
+      seguimiento_hospitalario: 'EEG continuo seriado para confirmar la resolución electrográfica, no solo la mejoría clínica, ya que ambas pueden disociarse. Sin respuesta al escalamiento farmacológico, reclasificar como estado epiléptico refractario o superrefractario (ver la tarjeta correspondiente).',
       seguimiento_ambulatorio: 'FAE de mantenimiento y seguimiento neurológico según la etiología identificada.',
       pronostico: 'Peor que el estado convulsivo cuando se asocia a coma, en gran parte reflejo de la gravedad de la lesión cerebral subyacente más que del estado no convulsivo en sí mismo.',
       algoritmo: ['Alteración del estado mental inexplicada, sobre todo tras un estado convulsivo tratado o en el paciente crítico → sospechar estado no convulsivo', 'EEG urgente (criterios de Salzburg)', 'Corregir factores metabólicos concomitantes', 'Benzodiacepina IV ± FAE de segunda línea', 'Individualizar el escalamiento a anestesia general según el contexto clínico', 'EEG de control para confirmar la resolución electrográfica']
@@ -185,8 +206,8 @@ export const content = {
     {
       nombre: 'Estado epiléptico refractario y superrefractario',
       color: '#5c2d4a',
-      definicion: 'El estado epiléptico refractario es aquel que persiste pese a haber recibido una benzodiacepina adecuada más un fármaco antiepiléptico de segunda línea; el superrefractario es aquel que continúa o recurre 24 horas o más después del inicio de la anestesia general, incluidos los casos que recurren al reducir o suspender la anestesia.',
-      fisiopatologia: 'Representa el extremo del espectro de farmacorresistencia descrito para el estado convulsivo: internalización casi completa de receptores GABA-A sinápticos, sobreexpresión de receptores NMDA y, en el superrefractario, cambios plásticos más profundos que perpetúan la excitabilidad incluso bajo anestesia profunda.',
+      definicion: 'Complicación evolutiva del estado epiléptico (convulsivo o no convulsivo, ver las tarjetas correspondientes) cuando no responde al tratamiento escalonado: el refractario es aquel que persiste pese a haber recibido una benzodiacepina adecuada más un fármaco antiepiléptico de segunda línea; el superrefractario es aquel que continúa o recurre 24 horas o más después del inicio de la anestesia general, incluidos los casos que recurren al reducir o suspender la anestesia.',
+      fisiopatologia: 'Representa el extremo del espectro de farmacorresistencia ya descrito para el estado epiléptico en general (internalización de receptores GABA-A, sobreexpresión de receptores NMDA); en el superrefractario se suman cambios plásticos más profundos que perpetúan la excitabilidad incluso bajo anestesia profunda.',
       epidemiologia: 'El estado refractario ocurre en 23-43% de los episodios de estado epiléptico; el superrefractario en aproximadamente 15% de los que llegan a requerir anestesia general.',
       factores_riesgo: ['Retraso en el inicio del tratamiento de primera línea', 'Causa estructural aguda grave (encefalitis, anoxia)', 'Edad joven en algunas series (encefalitis autoinmune)', 'Ausencia de epilepsia previa conocida'],
       clinica: 'Persistencia de crisis clínicas o electrográficas pese al tratamiento escalonado adecuado; en el superrefractario, recurrencia de la actividad epiléptica al intentar reducir la anestesia tras 24 horas o más de tratamiento.',
@@ -262,7 +283,10 @@ export const content = {
       epidemiologia: 'Las epilepsias generalizadas genéticas representan hasta 15-20% de todas las epilepsias, con inicio típico en la infancia o adolescencia, aunque el diagnóstico puede hacerse por primera vez en la edad adulta.',
       factores_riesgo: ['Antecedente familiar de epilepsia generalizada genética', 'Privación de sueño y fotoestimulación como precipitantes típicos', 'Consumo de alcohol'],
       clinica: 'Tónico-clónica (pérdida súbita de consciencia, fase tónica seguida de clónica, con mordedura lateral de lengua y relajación de esfínteres frecuentes, y confusión postictal prolongada); ausencias (interrupción breve y súbita de la actividad, sin aura ni confusión postictal, típica de la infancia); mioclónicas (sacudidas breves, bilaterales, sin pérdida de consciencia, frecuentes al despertar); atónicas (pérdida súbita del tono postural, con riesgo de caídas y lesión).',
-      criterios_dx: 'Semiología característica más EEG con descargas generalizadas de punta-onda (típicamente 3 Hz en las ausencias, polipunta-onda en las mioclónicas).',
+      criterios_dx: `Semiología característica más EEG con descargas generalizadas de punta-onda (típicamente 3 Hz en las ausencias, polipunta-onda en las mioclónicas).${figBlock('Imagen 2', 'EEG: descargas generalizadas de punta-onda a 3 Hz (crisis de ausencia)', `
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Spike-waves.png" alt="EEG con descargas generalizadas de punta-onda a 3 Hz, bilaterales y sincrónicas en todos los canales, características de una crisis de ausencia" style="width:100%; max-width:520px; display:block; margin:0 auto; border-radius:6px;">
+        <p style="font-size:12px; color:var(--ink-dim); text-align:center; margin-top:6px;">Trazado bilateral y sincrónico en todos los canales, sin lateralización, la firma electroencefalográfica de una crisis generalizada. Autor: Der Lange, Wikimedia Commons, CC BY-SA 2.0.</p>
+      `)}`,
       laboratorio: 'No aplica de forma directa.',
       imagen: 'RM cerebral generalmente normal en las epilepsias generalizadas genéticas, a diferencia de las focales, aunque suele solicitarse para excluir causa estructural, especialmente si el debut es en la edad adulta.',
       complementarios: 'EEG con maniobras de activación (hiperventilación, fotoestimulación, privación de sueño), que aumenta significativamente el rendimiento diagnóstico en las epilepsias generalizadas genéticas.',
@@ -337,14 +361,14 @@ export const content = {
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'No aplica.',
       seguimiento_hospitalario: 'No aplica de forma directa fuera del contexto de crisis agudas o de la evaluación prequirúrgica.',
-      seguimiento_ambulatorio: 'Control periódico en clínica de epilepsia con ajuste del FAE, vigilancia de efectos adversos, niveles séricos cuando estén indicados (no de rutina en todos los FAE), y reevaluación periódica de la necesidad de tratamiento a largo plazo.',
+      seguimiento_ambulatorio: 'Control periódico en clínica de epilepsia con ajuste del FAE, vigilancia de efectos adversos, niveles séricos cuando estén indicados (no de rutina en todos los FAE), y reevaluación periódica de la necesidad de tratamiento a largo plazo. Si fallan 2 FAE apropiados, reclasificar como epilepsia farmacorresistente (ver la tarjeta correspondiente) y referir a evaluación prequirúrgica.',
       pronostico: 'Hasta 70% logra remisión con el tratamiento adecuado; los predictores de mal pronóstico incluyen causa estructural identificable, inicio en la infancia con encefalopatía epiléptica, y falta de respuesta a los dos primeros FAE ensayados de forma adecuada.',
       algoritmo: ['2 o más crisis no provocadas, o 1 crisis de alto riesgo de recurrencia, o síndrome reconocido → diagnóstico de epilepsia', 'Clasificar el tipo de crisis y el tipo de epilepsia (marco ILAE 2017)', 'Buscar la etiología (estructural, genética, infecciosa, metabólica, inmune, desconocida)', 'Monoterapia con FAE de primera línea según el tipo de crisis', 'Falla → segundo FAE en monoterapia antes de combinar', 'Farmacorresistencia (fallo de 2 FAE adecuados) → reevaluar el diagnóstico y considerar terapias no farmacológicas']
     },
     {
       nombre: 'Epilepsia farmacorresistente',
       color: '#5c4a73',
-      definicion: 'Fallo para lograr la ausencia sostenida de crisis pese al ensayo adecuado (dosis correcta, tiempo suficiente, tolerado) de dos esquemas de fármacos antiepilépticos, en monoterapia o combinación, apropiadamente seleccionados y utilizados (definición de consenso de la ILAE).',
+      definicion: 'Complicación evolutiva de la epilepsia (ver la tarjeta correspondiente): fallo para lograr la ausencia sostenida de crisis pese al ensayo adecuado (dosis correcta, tiempo suficiente, tolerado) de dos esquemas de fármacos antiepilépticos, en monoterapia o combinación, apropiadamente seleccionados y utilizados (definición de consenso de la ILAE).',
       fisiopatologia: 'Los mecanismos propuestos incluyen la hipótesis del transportador (sobreexpresión de glicoproteína P y otros transportadores de eflujo que reducen la concentración del fármaco en el tejido epileptogénico) y la hipótesis del blanco farmacológico (alteración de los propios canales o receptores que son el blanco de los FAE, reduciendo su sensibilidad).',
       epidemiologia: 'Afecta a cerca de 30% de los pacientes con epilepsia; la probabilidad de lograr control completo cae drásticamente después del segundo FAE fallido, de aproximadamente 50% tras el primer fármaco a menos de 5% tras el cuarto o quinto intento farmacológico secuencial.',
       factores_riesgo: ['Causa estructural identificable, especialmente la esclerosis mesial temporal y las malformaciones del desarrollo cortical', 'Inicio temprano en la infancia', 'Alta frecuencia de crisis antes del tratamiento', 'Estado epiléptico como forma de presentación', 'Comorbilidad cognitiva o del neurodesarrollo'],
@@ -404,10 +428,13 @@ export const escalaRefs = {
 };
 export const escalaCalc = { 'STESS': 'stess' };
 export const compGroups = [
-  { title: 'Estado epiléptico', items: ['Estado epiléptico convulsivo', 'Estado epiléptico no convulsivo', 'Estado epiléptico refractario y superrefractario'] },
-  { title: 'Crisis epilépticas', items: ['Primera crisis epiléptica no provocada', 'Crisis focales', 'Crisis generalizadas', 'Crisis psicógenas no epilépticas (pseudocrisis)'] },
-  { title: 'Epilepsia', items: ['Epilepsia: diagnóstico y clasificación', 'Epilepsia farmacorresistente'] }
+  { title: 'Crisis epilépticas (enfermedades)', items: ['Primera crisis epiléptica no provocada', 'Crisis focales', 'Crisis generalizadas', 'Crisis psicógenas no epilépticas (pseudocrisis)'] },
+  { title: 'Estado epiléptico (enfermedades)', items: ['Estado epiléptico convulsivo', 'Estado epiléptico no convulsivo'] },
+  { title: 'Complicación del estado epiléptico', items: ['Estado epiléptico refractario y superrefractario'] },
+  { title: 'Epilepsia (enfermedad)', items: ['Epilepsia: diagnóstico y clasificación'] },
+  { title: 'Complicación de la epilepsia', items: ['Epilepsia farmacorresistente'] }
 ];
+export const complicacionesIntro = 'El panorama general (epidemiología, etiología, factores de riesgo, fisiopatología) ya se cubrió en Definición. Estas tarjetas son el recurso de consulta con el detalle operativo de cada entidad: diagnóstico diferencial específico, dosis, criterios de UCI y el algoritmo paso a paso. Los grupos "(enfermedades)" son las entidades principales; los grupos "Complicación de..." son una evolución o desenlace posible de esa enfermedad ya diagnosticada, no un diagnóstico independiente.';
 export const categories = [
   { id: 'definicion', label: 'Definición' },
   { id: 'diagnostico', label: 'Diagnóstico' },
