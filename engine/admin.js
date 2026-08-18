@@ -145,6 +145,11 @@ export async function mountAdmin(root) {
     return;
   }
 
+  // La cuenta del propio administrador no debe contarse en estadísticas ni en
+  // el listado de registros: es la cuenta de prueba/autoría, no un residente real.
+  const me = getCurrentUser();
+  if (me && me.email) users = users.filter(u => u.email !== me.email);
+
   users.sort((a, b) => {
     const ta = a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0;
     const tb = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0;
