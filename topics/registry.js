@@ -123,6 +123,14 @@ export const registry = [
       import('./cefaleas/calculators.js'),
       import('./cefaleas/study.js')
     ])
+  },
+  {
+    id: 'miocardiopatias', titulo: 'Miocardiopatías',
+    load: () => Promise.all([
+      import('./miocardiopatias/content.js'),
+      import('./miocardiopatias/calculators.js'),
+      import('./miocardiopatias/study.js')
+    ])
   }
 ];
 
