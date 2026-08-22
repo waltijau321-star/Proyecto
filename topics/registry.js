@@ -139,6 +139,14 @@ export const registry = [
       import('./sindromes-mielodisplasicos/calculators.js'),
       import('./sindromes-mielodisplasicos/study.js')
     ])
+  },
+  {
+    id: 'sindromes-mieloproliferativos', titulo: 'Síndromes Mieloproliferativos',
+    load: () => Promise.all([
+      import('./sindromes-mieloproliferativos/content.js'),
+      import('./sindromes-mieloproliferativos/calculators.js'),
+      import('./sindromes-mieloproliferativos/study.js')
+    ])
   }
 ];
 
