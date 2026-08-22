@@ -39,7 +39,33 @@ export const definicionText = `<p style="margin:0 0 14px;">Los síndromes mielod
     <li>Antecedente de anemia aplásica que evoluciona a SMD</li>
   </ul>
 </div>
-<p style="margin:0 0 14px;"><strong style="color:var(--accent-fg);">Fisiopatología general.</strong> Expansión clonal de una célula madre hematopoyética con mutaciones somáticas adquiridas secuenciales (genes de splicing: SF3B1, SRSF2, U2AF1; epigenéticos: TET2, DNMT3A, ASXL1; de señalización: RAS, JAK2; supresores/reparación del ADN: TP53, RUNX1) que confieren ventaja proliferativa al clon pero con maduración defectuosa: aumento de la apoptosis intramedular de precursores displásicos pese a una médula ósea celular, la paradoja que explica citopenias periféricas con médula normo/hipercelular. Alteraciones citogenéticas recurrentes (del(5q), monosomía 7/del(7q), trisomía 8, cariotipo complejo) definen subgrupos pronósticos, y la adquisición de mutaciones adicionales (particularmente TP53 bialélico) impulsa la progresión a LMA.</p>
+<p style="margin:0 0 14px;"><strong style="color:var(--accent-fg);">Fisiopatología general.</strong> Expansión clonal de una célula madre hematopoyética con mutaciones somáticas adquiridas secuenciales (genes de splicing: SF3B1, SRSF2, U2AF1; epigenéticos: TET2, DNMT3A, ASXL1; de señalización: RAS, JAK2; supresores/reparación del ADN: TP53, RUNX1) que confieren ventaja proliferativa al clon pero con maduración defectuosa: aumento de la apoptosis intramedular de precursores displásicos pese a una médula ósea celular, la paradoja que explica citopenias periféricas con médula normo/hipercelular. Alteraciones citogenéticas recurrentes (del(5q), monosomía 7/del(7q), trisomía 8, cariotipo complejo) definen subgrupos pronósticos, y la adquisición de mutaciones adicionales (particularmente TP53 bialélico) impulsa la progresión a LMA.${figBlock('Imagen 1', 'Hematopoyesis eficaz vs. ineficaz: la paradoja del SMD', `
+<div style="display:flex;flex-direction:column;gap:12px;max-width:560px;margin:0 auto;">
+  <div>
+    <div style="font-size:11px;font-weight:700;color:var(--accent-fg);margin-bottom:4px;">HEMATOPOYESIS NORMAL</div>
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+      <div style="background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:10.5px;color:var(--ink);">Célula madre</div>
+      <div style="color:var(--ink-dim);">→</div>
+      <div style="background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:10.5px;color:var(--ink);">Precursores en médula</div>
+      <div style="color:var(--ink-dim);">→</div>
+      <div style="background:#3f6b5233;border:1px solid #3f6b52;border-radius:6px;padding:6px 10px;font-size:10.5px;color:var(--ink);">Células maduras → sangre periférica</div>
+    </div>
+  </div>
+  <div>
+    <div style="font-size:11px;font-weight:700;color:var(--accent-fg);margin-bottom:4px;">HEMATOPOYESIS INEFICAZ (SMD)</div>
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+      <div style="background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:10.5px;color:var(--ink);">Célula madre clonal (mutada)</div>
+      <div style="color:var(--ink-dim);">→</div>
+      <div style="background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:10.5px;color:var(--ink);">Precursores displásicos (médula normo/hipercelular)</div>
+      <div style="color:var(--ink-dim);">→</div>
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <div style="background:#8c3a3433;border:1px solid #8c3a34;border-radius:6px;padding:6px 10px;font-size:10.5px;color:var(--ink);">Apoptosis intramedular (la mayoría)</div>
+        <div style="background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:4px 10px;font-size:9.5px;color:var(--ink-dim);">Pocas células maduras → sangre (citopenia)</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="figure-grade-box">La paradoja central del SMD: médula ósea celular (o hipercelular) con citopenias periféricas, por el exceso de apoptosis intramedular de los precursores displásicos.</div>`)}</p>
 <p style="margin:0;"><strong style="color:var(--accent-fg);">Panorama clínico.</strong> El espectro va desde el hallazgo incidental de citopenia(s) asintomática(s) en una biometría hemática de rutina hasta fatiga/disnea por anemia, infecciones recurrentes por neutropenia (cuantitativa y cualitativa), y sangrado/equimosis por trombocitopenia. Ningún síntoma aislado es específico: el diagnóstico definitivo, el manejo específico de cada subtipo y de sus complicaciones se desarrollan en Diagnóstico y Complicaciones.</p>`;
 
 export const bibliografia = [
@@ -94,7 +120,50 @@ export const content = {
     },
     laboratorio: [
       { prueba: 'Biometría hemática completa con diferencial e índices eritrocitarios', utilidad: 'Documenta la(s) citopenia(s); el volumen corpuscular medio (VCM) con frecuencia está elevado (macrocitosis) sin deficiencia de vitamina B12/folato, un patrón sugestivo del diagnóstico.' },
-      { prueba: 'Frotis de sangre periférica', utilidad: 'Busca displasia morfológica (neutrófilos hipogranulares/hipolobulados —anomalía pseudo-Pelger-Huët—, plaquetas gigantes) y cuantifica blastos circulantes.' },
+      { prueba: 'Frotis de sangre periférica', utilidad: `Busca displasia morfológica (neutrófilos hipogranulares/hipolobulados —anomalía pseudo-Pelger-Huët—, plaquetas gigantes) y cuantifica blastos circulantes.${figBlock('Imagen 2', 'Neutrófilo normal vs. displásico', `
+      <svg viewBox="0 0 560 300" role="img" aria-labelledby="neu-title neu-desc" style="width:100%;max-width:480px;display:block;margin:0 auto;">
+        <title id="neu-title">Neutrófilo normal vs. displásico (anomalía pseudo-Pelger-Huët)</title>
+        <desc id="neu-desc">Comparación esquemática de un neutrófilo maduro normal, con núcleo multilobulado y citoplasma con gránulos abundantes, frente a un neutrófilo displásico característico del síndrome mielodisplásico, con núcleo bilobulado (pseudo-Pelger-Huët) y citoplasma hipogranular.</desc>
+        <line x1="280" y1="10" x2="280" y2="290" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <text x="140" y="24" text-anchor="middle" fill="var(--accent-fg)" font-size="14" font-weight="700">NORMAL</text>
+        <text x="420" y="24" text-anchor="middle" fill="var(--accent-fg)" font-size="14" font-weight="700">DISPLÁSICO</text>
+        <g>
+          <circle cx="140" cy="168" r="86" fill="var(--panel)" stroke="var(--ink)" stroke-width="2.5"/>
+          <line x1="108" y1="128" x2="163" y2="116" stroke="var(--ink)" stroke-width="5" opacity="0.68"/>
+          <line x1="163" y1="116" x2="193" y2="163" stroke="var(--ink)" stroke-width="5" opacity="0.68"/>
+          <line x1="193" y1="163" x2="153" y2="203" stroke="var(--ink)" stroke-width="5" opacity="0.68"/>
+          <circle cx="108" cy="128" r="19" fill="var(--ink)" opacity="0.68"/>
+          <circle cx="163" cy="116" r="19" fill="var(--ink)" opacity="0.68"/>
+          <circle cx="193" cy="163" r="19" fill="var(--ink)" opacity="0.68"/>
+          <circle cx="153" cy="203" r="19" fill="var(--ink)" opacity="0.68"/>
+          <circle cx="72" cy="150" r="2.6" fill="var(--ink-dim)"/>
+          <circle cx="76" cy="190" r="2.6" fill="var(--ink-dim)"/>
+          <circle cx="92" cy="222" r="2.6" fill="var(--ink-dim)"/>
+          <circle cx="122" cy="238" r="2.6" fill="var(--ink-dim)"/>
+          <circle cx="160" cy="240" r="2.6" fill="var(--ink-dim)"/>
+          <circle cx="195" cy="225" r="2.6" fill="var(--ink-dim)"/>
+          <circle cx="213" cy="192" r="2.6" fill="var(--ink-dim)"/>
+          <circle cx="215" cy="152" r="2.6" fill="var(--ink-dim)"/>
+          <circle cx="200" cy="118" r="2.6" fill="var(--ink-dim)"/>
+          <circle cx="175" cy="92" r="2.6" fill="var(--ink-dim)"/>
+          <circle cx="140" cy="85" r="2.6" fill="var(--ink-dim)"/>
+          <circle cx="100" cy="90" r="2.6" fill="var(--ink-dim)"/>
+          <text x="140" y="266" text-anchor="middle" fill="var(--ink-dim)" font-size="10.5">Núcleo multilobulado (3-5 lóbulos)</text>
+          <text x="140" y="280" text-anchor="middle" fill="var(--ink-dim)" font-size="10.5">Citoplasma con gránulos normales</text>
+        </g>
+        <g transform="translate(280,0)">
+          <circle cx="140" cy="168" r="86" fill="var(--panel)" stroke="var(--ink)" stroke-width="2.5"/>
+          <line x1="115" y1="148" x2="168" y2="173" stroke="var(--ink)" stroke-width="5" opacity="0.68"/>
+          <circle cx="115" cy="148" r="25" fill="var(--ink)" opacity="0.68"/>
+          <circle cx="168" cy="173" r="25" fill="var(--ink)" opacity="0.68"/>
+          <circle cx="72" cy="118" r="2.6" fill="var(--ink-dim)"/>
+          <circle cx="203" cy="100" r="2.6" fill="var(--ink-dim)"/>
+          <circle cx="207" cy="222" r="2.6" fill="var(--ink-dim)"/>
+          <circle cx="80" cy="228" r="2.6" fill="var(--ink-dim)"/>
+          <text x="140" y="266" text-anchor="middle" fill="var(--ink-dim)" font-size="10.5">Núcleo bilobulado (pseudo-Pelger-Huët)</text>
+          <text x="140" y="280" text-anchor="middle" fill="var(--ink-dim)" font-size="10.5">Citoplasma hipogranular</text>
+        </g>
+      </svg>`)}` },
       { prueba: 'Vitamina B12, folato, ferritina, cobre sérico, TSH', utilidad: 'Excluye causas reversibles de citopenia/displasia (deficiencia de cobre, hipotiroidismo, deficiencia de B12/folato) antes de atribuir el cuadro a un SMD.' },
       { prueba: 'Serología VIH; panel viral (parvovirus B19 si hay aplasia pura de células rojas)', utilidad: 'Excluye causas infecciosas de citopenia/displasia.' },
       { prueba: 'Eritropoyetina sérica', utilidad: 'Un nivel basal &lt;500 mU/mL predice mejor respuesta a los agentes estimulantes de la eritropoyesis, y guía la elección terapéutica en el bajo riesgo.' }
@@ -132,7 +201,9 @@ export const content = {
       clinica: 'Anemia sintomática (fatiga, disnea de esfuerzo) como manifestación dominante, con frecuencia dependiente de transfusiones crónicas; neutropenia y trombocitopenia generalmente más leves que en el alto riesgo, aunque pueden predominar en subtipos específicos.',
       criterios_dx: 'Citopenia(s) persistente(s) (&gt;4 meses) más displasia morfológica ≥10% en una o más líneas en médula ósea, o alteración citogenética típica, o mutación de SF3B1 con ≥5% sideroblastos en anillo, con &lt;5% blastos en médula y &lt;1% en sangre periférica, tras excluir otras causas.',
       laboratorio: 'Igual que el panel general del tema, con FISH/cariotipo dirigido a del(5q) y NGS dirigido a SF3B1 cuando la morfología sugiere sideroblastos en anillo.',
-      imagen: 'Aspirado/biopsia de médula ósea con tinción de hierro (sideroblastos en anillo) y cariotipo; en la variante del(5q), el cariotipo muestra la deleción como anormalidad única o con una alteración adicional (excepto monosomía 7/del(7q), que reclasifica el caso).',
+      imagen: `Aspirado/biopsia de médula ósea con tinción de hierro (sideroblastos en anillo) y cariotipo; en la variante del(5q), el cariotipo muestra la deleción como anormalidad única o con una alteración adicional (excepto monosomía 7/del(7q), que reclasifica el caso).${figBlock('Imagen 3', 'Sideroblastos en anillo (tinción de Perls/Prusia azul)', `
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Ring_Sideroblast_smear_2010-01-13.JPG/960px-Ring_Sideroblast_smear_2010-01-13.JPG" alt="Frotis de médula ósea con tinción de Perls (azul de Prusia) mostrando sideroblastos en anillo: gránulos de hierro dispuestos en anillo alrededor del núcleo de precursores eritroides." style="width:100%;max-width:420px;display:block;margin:0 auto;border-radius:var(--radius);border:1px solid var(--line);">
+      <p style="font-size:10.5px;color:var(--ink-faint);text-align:center;margin:8px 0 0;">Depósito anormal de hierro en las mitocondrias de precursores eritroides, formando un anillo alrededor del núcleo. Paulo Henrique Orlandi Mourao, Wikimedia Commons, CC BY-SA 3.0.</p>`)}`,
       complementarios: 'IPSS-R/IPSS-M para confirmar la categoría de bajo riesgo.',
       dx_diferencial: 'Deficiencia de cobre, exposición a zinc, deficiencia de vitamina B12/folato, hipotiroidismo, consumo de alcohol, infección por VIH, mielodisplasia inducida por fármacos (micofenolato, ácido valproico), otras neoplasias mieloides (LMMC si hay monocitosis, mielofibrosis primaria si hay fibrosis marcada).',
       tx_medico: 'Soporte transfusional guiado por síntomas (no por un umbral fijo de hemoglobina), con vigilancia de sobrecarga de hierro ante transfusiones repetidas (ver Complicaciones).',
@@ -154,7 +225,9 @@ export const content = {
       epidemiologia: 'Representa una minoría de los casos al diagnóstico, pero una proporción creciente entre los SMD secundarios/relacionados a tratamiento (t-MDS), que con frecuencia se presentan ya con exceso de blastos y cariotipo complejo.',
       factores_riesgo: ['Antecedente de quimioterapia/radioterapia previa (t-MDS)', 'Mutación de TP53', 'Cariotipo complejo', 'Edad avanzada'],
       clinica: 'Citopenias más profundas y sintomáticas que en el bajo riesgo, con mayor tasa de infecciones y sangrado; puede debutar ya con blastos circulantes o manifestaciones de leucemia mieloide aguda franca si progresa rápidamente.',
-      criterios_dx: 'Blastos en médula ósea 5-19% (o 2-19% en sangre periférica) sin cumplir el umbral de LMA (≥20% blastos, salvo alteraciones citogenéticas/moleculares definitorias de LMA independientemente del porcentaje), con o sin bastones de Auer (su presencia clasifica automáticamente en la categoría de mayor riesgo, independientemente del porcentaje exacto).',
+      criterios_dx: `Blastos en médula ósea 5-19% (o 2-19% en sangre periférica) sin cumplir el umbral de LMA (≥20% blastos, salvo alteraciones citogenéticas/moleculares definitorias de LMA independientemente del porcentaje), con o sin bastones de Auer (su presencia clasifica automáticamente en la categoría de mayor riesgo, independientemente del porcentaje exacto).${figBlock('Imagen 4', 'Blastos mieloides con bastones de Auer', `
+      <img src="https://upload.wikimedia.org/wikipedia/commons/d/db/Two_myeloblasts_with_Auer_rods.jpg" alt="Dos mieloblastos con un bastón de Auer prominente cada uno, teñidos con Wright-Giemsa." style="width:100%;max-width:280px;display:block;margin:0 auto;border-radius:var(--radius);border:1px solid var(--line);">
+      <p style="font-size:10.5px;color:var(--ink-faint);text-align:center;margin:8px 0 0;">Dos mieloblastos con un bastón de Auer prominente cada uno (tinción de Wright-Giemsa); su presencia reclasifica automáticamente el caso en la categoría de mayor riesgo, independientemente del porcentaje exacto de blastos. The Armed Forces Institute of Pathology (AFIP), Wikimedia Commons, dominio público.</p>`)}`,
       laboratorio: 'Igual que el panel general; NGS obligado para descartar mutaciones definitorias de LMA (NPM1, alteraciones de CBF) que reclasificarían el caso pese al porcentaje de blastos.',
       imagen: 'Aspirado/biopsia de médula ósea con recuento diferencial de 500 células para el porcentaje exacto de blastos; cariotipo/FISH para estratificación citogenética completa del IPSS-R.',
       complementarios: 'IPSS-R/IPSS-M para confirmar la categoría de alto riesgo; tipificación HLA temprana del paciente y de posibles donantes ante la eventual necesidad de trasplante.',
