@@ -147,6 +147,14 @@ export const registry = [
       import('./sindromes-mieloproliferativos/calculators.js'),
       import('./sindromes-mieloproliferativos/study.js')
     ])
+  },
+  {
+    id: 'anemia-aplasica', titulo: 'Anemia Aplásica',
+    load: () => Promise.all([
+      import('./anemia-aplasica/content.js'),
+      import('./anemia-aplasica/calculators.js'),
+      import('./anemia-aplasica/study.js')
+    ])
   }
 ];
 
