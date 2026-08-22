@@ -131,6 +131,14 @@ export const registry = [
       import('./miocardiopatias/calculators.js'),
       import('./miocardiopatias/study.js')
     ])
+  },
+  {
+    id: 'sindromes-mielodisplasicos', titulo: 'Síndromes Mielodisplásicos',
+    load: () => Promise.all([
+      import('./sindromes-mielodisplasicos/content.js'),
+      import('./sindromes-mielodisplasicos/calculators.js'),
+      import('./sindromes-mielodisplasicos/study.js')
+    ])
   }
 ];
 
