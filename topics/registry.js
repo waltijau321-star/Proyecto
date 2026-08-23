@@ -171,6 +171,14 @@ export const registry = [
       import('./anemias-hemoliticas-adquiridas/calculators.js'),
       import('./anemias-hemoliticas-adquiridas/study.js')
     ])
+  },
+  {
+    id: 'anemia-megaloblastica', titulo: 'Anemia Megaloblástica',
+    load: () => Promise.all([
+      import('./anemia-megaloblastica/content.js'),
+      import('./anemia-megaloblastica/calculators.js'),
+      import('./anemia-megaloblastica/study.js')
+    ])
   }
 ];
 
