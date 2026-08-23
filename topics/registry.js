@@ -227,6 +227,14 @@ export const registry = [
       import('./hemoglobinopatias/calculators.js'),
       import('./hemoglobinopatias/study.js')
     ])
+  },
+  {
+    id: 'leucemia-aguda', titulo: 'Leucemia Aguda',
+    load: () => Promise.all([
+      import('./leucemia-aguda/content.js'),
+      import('./leucemia-aguda/calculators.js'),
+      import('./leucemia-aguda/study.js')
+    ])
   }
 ];
 
