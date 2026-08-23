@@ -195,6 +195,14 @@ export const registry = [
       import('./anemia-enfermedad-cronica/calculators.js'),
       import('./anemia-enfermedad-cronica/study.js')
     ])
+  },
+  {
+    id: 'policitemia-secundaria', titulo: 'Policitemia Secundaria',
+    load: () => Promise.all([
+      import('./policitemia-secundaria/content.js'),
+      import('./policitemia-secundaria/calculators.js'),
+      import('./policitemia-secundaria/study.js')
+    ])
   }
 ];
 
