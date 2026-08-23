@@ -203,6 +203,14 @@ export const registry = [
       import('./policitemia-secundaria/calculators.js'),
       import('./policitemia-secundaria/study.js')
     ])
+  },
+  {
+    id: 'alteraciones-serie-blanca', titulo: 'Alteraciones de la Serie Blanca',
+    load: () => Promise.all([
+      import('./alteraciones-serie-blanca/content.js'),
+      import('./alteraciones-serie-blanca/calculators.js'),
+      import('./alteraciones-serie-blanca/study.js')
+    ])
   }
 ];
 
