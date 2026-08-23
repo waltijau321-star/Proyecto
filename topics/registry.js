@@ -219,6 +219,14 @@ export const registry = [
       import('./porfirias/calculators.js'),
       import('./porfirias/study.js')
     ])
+  },
+  {
+    id: 'hemoglobinopatias', titulo: 'Hemoglobinopatías',
+    load: () => Promise.all([
+      import('./hemoglobinopatias/content.js'),
+      import('./hemoglobinopatias/calculators.js'),
+      import('./hemoglobinopatias/study.js')
+    ])
   }
 ];
 
