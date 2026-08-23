@@ -171,6 +171,14 @@ export const registry = [
       import('./anemias-hemoliticas-adquiridas/calculators.js'),
       import('./anemias-hemoliticas-adquiridas/study.js')
     ])
+  },
+  {
+    id: 'anemia-ferropenica', titulo: 'Anemia Ferropénica',
+    load: () => Promise.all([
+      import('./anemia-ferropenica/content.js'),
+      import('./anemia-ferropenica/calculators.js'),
+      import('./anemia-ferropenica/study.js')
+    ])
   }
 ];
 
