@@ -235,6 +235,14 @@ export const registry = [
       import('./leucemia-aguda/calculators.js'),
       import('./leucemia-aguda/study.js')
     ])
+  },
+  {
+    id: 'leucemia-linfocitica-cronica', titulo: 'Leucemia Linfocítica Crónica',
+    load: () => Promise.all([
+      import('./leucemia-linfocitica-cronica/content.js'),
+      import('./leucemia-linfocitica-cronica/calculators.js'),
+      import('./leucemia-linfocitica-cronica/study.js')
+    ])
   }
 ];
 
