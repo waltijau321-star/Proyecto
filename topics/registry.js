@@ -163,6 +163,14 @@ export const registry = [
       import('./anemias-hemoliticas-hereditarias/calculators.js'),
       import('./anemias-hemoliticas-hereditarias/study.js')
     ])
+  },
+  {
+    id: 'anemias-hemoliticas-adquiridas', titulo: 'Anemias Hemolíticas Adquiridas',
+    load: () => Promise.all([
+      import('./anemias-hemoliticas-adquiridas/content.js'),
+      import('./anemias-hemoliticas-adquiridas/calculators.js'),
+      import('./anemias-hemoliticas-adquiridas/study.js')
+    ])
   }
 ];
 
