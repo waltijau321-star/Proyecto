@@ -179,6 +179,14 @@ export const registry = [
       import('./anemia-ferropenica/calculators.js'),
       import('./anemia-ferropenica/study.js')
     ])
+  },
+  {
+    id: 'anemia-megaloblastica', titulo: 'Anemia Megaloblástica',
+    load: () => Promise.all([
+      import('./anemia-megaloblastica/content.js'),
+      import('./anemia-megaloblastica/calculators.js'),
+      import('./anemia-megaloblastica/study.js')
+    ])
   }
 ];
 
