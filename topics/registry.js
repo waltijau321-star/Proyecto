@@ -187,6 +187,14 @@ export const registry = [
       import('./anemia-megaloblastica/calculators.js'),
       import('./anemia-megaloblastica/study.js')
     ])
+  },
+  {
+    id: 'anemia-enfermedad-cronica', titulo: 'Anemia de la Enfermedad Crónica',
+    load: () => Promise.all([
+      import('./anemia-enfermedad-cronica/content.js'),
+      import('./anemia-enfermedad-cronica/calculators.js'),
+      import('./anemia-enfermedad-cronica/study.js')
+    ])
   }
 ];
 
