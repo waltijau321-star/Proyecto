@@ -7,7 +7,7 @@
 export const meta = {
   id: 'sindromes-mielodisplasicos',
   titulo: 'Síndromes Mielodisplásicos',
-  subtitulo: 'Módulo 6 · Medicina Interna',
+  subtitulo: 'Módulo 8 · Medicina Interna',
   accent: '#2d5c47',
   accentDim: '#5c8a72'
 };
@@ -40,32 +40,9 @@ export const definicionText = `<p style="margin:0 0 14px;">Los síndromes mielod
   </ul>
 </div>
 <p style="margin:0 0 14px;"><strong style="color:var(--accent-fg);">Fisiopatología general.</strong> Expansión clonal de una célula madre hematopoyética con mutaciones somáticas adquiridas secuenciales (genes de splicing: SF3B1, SRSF2, U2AF1; epigenéticos: TET2, DNMT3A, ASXL1; de señalización: RAS, JAK2; supresores/reparación del ADN: TP53, RUNX1) que confieren ventaja proliferativa al clon pero con maduración defectuosa: aumento de la apoptosis intramedular de precursores displásicos pese a una médula ósea celular, la paradoja que explica citopenias periféricas con médula normo/hipercelular. Alteraciones citogenéticas recurrentes (del(5q), monosomía 7/del(7q), trisomía 8, cariotipo complejo) definen subgrupos pronósticos, y la adquisición de mutaciones adicionales (particularmente TP53 bialélico) impulsa la progresión a LMA.${figBlock('Imagen 1', 'Hematopoyesis eficaz vs. ineficaz: la paradoja del SMD', `
-<div style="display:flex;flex-direction:column;gap:12px;max-width:560px;margin:0 auto;">
-  <div>
-    <div style="font-size:11px;font-weight:700;color:var(--accent-fg);margin-bottom:4px;">HEMATOPOYESIS NORMAL</div>
-    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-      <div style="background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:10.5px;color:var(--ink);">Célula madre</div>
-      <div style="color:var(--ink-dim);">→</div>
-      <div style="background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:10.5px;color:var(--ink);">Precursores en médula</div>
-      <div style="color:var(--ink-dim);">→</div>
-      <div style="background:#3f6b5233;border:1px solid #3f6b52;border-radius:6px;padding:6px 10px;font-size:10.5px;color:var(--ink);">Células maduras → sangre periférica</div>
-    </div>
-  </div>
-  <div>
-    <div style="font-size:11px;font-weight:700;color:var(--accent-fg);margin-bottom:4px;">HEMATOPOYESIS INEFICAZ (SMD)</div>
-    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-      <div style="background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:10.5px;color:var(--ink);">Célula madre clonal (mutada)</div>
-      <div style="color:var(--ink-dim);">→</div>
-      <div style="background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:10.5px;color:var(--ink);">Precursores displásicos (médula normo/hipercelular)</div>
-      <div style="color:var(--ink-dim);">→</div>
-      <div style="display:flex;flex-direction:column;gap:4px;">
-        <div style="background:#8c3a3433;border:1px solid #8c3a34;border-radius:6px;padding:6px 10px;font-size:10.5px;color:var(--ink);">Apoptosis intramedular (la mayoría)</div>
-        <div style="background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:4px 10px;font-size:9.5px;color:var(--ink-dim);">Pocas células maduras → sangre (citopenia)</div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="figure-grade-box">La paradoja central del SMD: médula ósea celular (o hipercelular) con citopenias periféricas, por el exceso de apoptosis intramedular de los precursores displásicos.</div>`)}</p>
+<img src="topics/sindromes-mielodisplasicos/assets/hematopoyesis-eficaz-vs-ineficaz.webp" alt="Comparación de la hematopoyesis normal (maduración ordenada, poca apoptosis, sangre periférica con números adecuados) frente a la hematopoyesis ineficaz del SMD (médula hipercelular con displasia y apoptosis intramedular aumentada, pero citopenias en sangre periférica): la paradoja de una médula que produce mucho pero madura poco." style="width:100%;max-width:480px;display:block;margin:0 auto;border-radius:var(--radius);">
+<div class="figure-grade-box">La paradoja central del SMD: médula ósea celular (o hipercelular) con citopenias periféricas, por el exceso de apoptosis intramedular de los precursores displásicos.</div>
+<p style="margin:10px 0 0;font-size:13.5px;color:var(--ink-dim);">Analogía: imagina una fábrica que contrata y pone a trabajar a muchísimos empleados (médula hipercelular, mucha producción iniciada), pero por una falla en el control de calidad de la línea de ensamblaje, la mayoría de los productos se descarta antes de salir de la planta (apoptosis intramedular). El resultado es una bodega de despacho casi vacía (citopenias en sangre periférica) pese a que adentro la fábrica luce llena de actividad. Por eso un hemograma con pocas células no siempre significa poca producción: en el SMD, significa mala calidad de lo que se produce.</p>`)}</p>
 <p style="margin:0;"><strong style="color:var(--accent-fg);">Panorama clínico.</strong> El espectro va desde el hallazgo incidental de citopenia(s) asintomática(s) en una biometría hemática de rutina hasta fatiga/disnea por anemia, infecciones recurrentes por neutropenia (cuantitativa y cualitativa), y sangrado/equimosis por trombocitopenia. Ningún síntoma aislado es específico: el diagnóstico definitivo, el manejo específico de cada subtipo y de sus complicaciones se desarrollan en Diagnóstico y Complicaciones.</p>`;
 
 export const bibliografia = [
@@ -120,50 +97,8 @@ export const content = {
     },
     laboratorio: [
       { prueba: 'Biometría hemática completa con diferencial e índices eritrocitarios', utilidad: 'Documenta la(s) citopenia(s); el volumen corpuscular medio (VCM) con frecuencia está elevado (macrocitosis) sin deficiencia de vitamina B12/folato, un patrón sugestivo del diagnóstico.' },
-      { prueba: 'Frotis de sangre periférica', utilidad: `Busca displasia morfológica (neutrófilos hipogranulares/hipolobulados —anomalía pseudo-Pelger-Huët—, plaquetas gigantes) y cuantifica blastos circulantes.${figBlock('Imagen 2', 'Neutrófilo normal vs. displásico', `
-      <svg viewBox="0 0 560 300" role="img" aria-labelledby="neu-title neu-desc" style="width:100%;max-width:480px;display:block;margin:0 auto;">
-        <title id="neu-title">Neutrófilo normal vs. displásico (anomalía pseudo-Pelger-Huët)</title>
-        <desc id="neu-desc">Comparación esquemática de un neutrófilo maduro normal, con núcleo multilobulado y citoplasma con gránulos abundantes, frente a un neutrófilo displásico característico del síndrome mielodisplásico, con núcleo bilobulado (pseudo-Pelger-Huët) y citoplasma hipogranular.</desc>
-        <line x1="280" y1="10" x2="280" y2="290" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="4 4"/>
-        <text x="140" y="24" text-anchor="middle" fill="var(--accent-fg)" font-size="14" font-weight="700">NORMAL</text>
-        <text x="420" y="24" text-anchor="middle" fill="var(--accent-fg)" font-size="14" font-weight="700">DISPLÁSICO</text>
-        <g>
-          <circle cx="140" cy="168" r="86" fill="var(--panel)" stroke="var(--ink)" stroke-width="2.5"/>
-          <line x1="108" y1="128" x2="163" y2="116" stroke="var(--ink)" stroke-width="5" opacity="0.68"/>
-          <line x1="163" y1="116" x2="193" y2="163" stroke="var(--ink)" stroke-width="5" opacity="0.68"/>
-          <line x1="193" y1="163" x2="153" y2="203" stroke="var(--ink)" stroke-width="5" opacity="0.68"/>
-          <circle cx="108" cy="128" r="19" fill="var(--ink)" opacity="0.68"/>
-          <circle cx="163" cy="116" r="19" fill="var(--ink)" opacity="0.68"/>
-          <circle cx="193" cy="163" r="19" fill="var(--ink)" opacity="0.68"/>
-          <circle cx="153" cy="203" r="19" fill="var(--ink)" opacity="0.68"/>
-          <circle cx="72" cy="150" r="2.6" fill="var(--ink-dim)"/>
-          <circle cx="76" cy="190" r="2.6" fill="var(--ink-dim)"/>
-          <circle cx="92" cy="222" r="2.6" fill="var(--ink-dim)"/>
-          <circle cx="122" cy="238" r="2.6" fill="var(--ink-dim)"/>
-          <circle cx="160" cy="240" r="2.6" fill="var(--ink-dim)"/>
-          <circle cx="195" cy="225" r="2.6" fill="var(--ink-dim)"/>
-          <circle cx="213" cy="192" r="2.6" fill="var(--ink-dim)"/>
-          <circle cx="215" cy="152" r="2.6" fill="var(--ink-dim)"/>
-          <circle cx="200" cy="118" r="2.6" fill="var(--ink-dim)"/>
-          <circle cx="175" cy="92" r="2.6" fill="var(--ink-dim)"/>
-          <circle cx="140" cy="85" r="2.6" fill="var(--ink-dim)"/>
-          <circle cx="100" cy="90" r="2.6" fill="var(--ink-dim)"/>
-          <text x="140" y="266" text-anchor="middle" fill="var(--ink-dim)" font-size="10.5">Núcleo multilobulado (3-5 lóbulos)</text>
-          <text x="140" y="280" text-anchor="middle" fill="var(--ink-dim)" font-size="10.5">Citoplasma con gránulos normales</text>
-        </g>
-        <g transform="translate(280,0)">
-          <circle cx="140" cy="168" r="86" fill="var(--panel)" stroke="var(--ink)" stroke-width="2.5"/>
-          <line x1="115" y1="148" x2="168" y2="173" stroke="var(--ink)" stroke-width="5" opacity="0.68"/>
-          <circle cx="115" cy="148" r="25" fill="var(--ink)" opacity="0.68"/>
-          <circle cx="168" cy="173" r="25" fill="var(--ink)" opacity="0.68"/>
-          <circle cx="72" cy="118" r="2.6" fill="var(--ink-dim)"/>
-          <circle cx="203" cy="100" r="2.6" fill="var(--ink-dim)"/>
-          <circle cx="207" cy="222" r="2.6" fill="var(--ink-dim)"/>
-          <circle cx="80" cy="228" r="2.6" fill="var(--ink-dim)"/>
-          <text x="140" y="266" text-anchor="middle" fill="var(--ink-dim)" font-size="10.5">Núcleo bilobulado (pseudo-Pelger-Huët)</text>
-          <text x="140" y="280" text-anchor="middle" fill="var(--ink-dim)" font-size="10.5">Citoplasma hipogranular</text>
-        </g>
-      </svg>`)}` },
+      { prueba: 'Frotis de sangre periférica', utilidad: `Busca displasia morfológica (neutrófilos hipogranulares/hipolobulados, anomalía pseudo-Pelger-Huët; plaquetas gigantes) y cuantifica blastos circulantes.${figBlock('Imagen 2', 'Neutrófilo normal vs. displásico', `
+      <img src="topics/sindromes-mielodisplasicos/assets/neutrofilo-normal-vs-displasico.webp" alt="Comparación de un neutrófilo maduro normal (núcleo segmentado en 3-5 lóbulos, granulación fina normal, función conservada) frente a un neutrófilo displásico del SMD (hiposegmentación nuclear o núcleo bilobulado, anomalía pseudo-Pelger-Huët, hipogranulación, función alterada)." style="width:100%;max-width:480px;display:block;margin:0 auto;border-radius:var(--radius);">`)}` },
       { prueba: 'Vitamina B12, folato, ferritina, cobre sérico, TSH', utilidad: 'Excluye causas reversibles de citopenia/displasia (deficiencia de cobre, hipotiroidismo, deficiencia de B12/folato) antes de atribuir el cuadro a un SMD.' },
       { prueba: 'Serología VIH; panel viral (parvovirus B19 si hay aplasia pura de células rojas)', utilidad: 'Excluye causas infecciosas de citopenia/displasia.' },
       { prueba: 'Eritropoyetina sérica', utilidad: 'Un nivel basal &lt;500 mU/mL predice mejor respuesta a los agentes estimulantes de la eritropoyesis, y guía la elección terapéutica en el bajo riesgo.' }

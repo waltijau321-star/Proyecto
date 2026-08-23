@@ -6,12 +6,12 @@
 export const meta = {
   id: 'anemia-aplasica',
   titulo: 'Anemia Aplásica',
-  subtitulo: 'Módulo 8 · Medicina Interna',
+  subtitulo: 'Módulo 10 · Medicina Interna',
   accent: '#8c4a3d',
   accentDim: '#b87a6a'
 };
 
-export const definicionText = `<p style="margin:0 0 14px;">La anemia aplásica (AA) es un síndrome de falla medular caracterizado por pancitopenia periférica con médula ósea hipocelular, sin infiltración por células anormales (blastos, fibrosis, tumor) ni displasia significativa que sugiera un síndrome mielodisplásico. El mecanismo predominante en la forma adquirida es la destrucción inmunomediada de la célula madre hematopoyética por linfocitos T citotóxicos autorreactivos. Se clasifica según su origen en adquirida (idiopática/autoinmune, la más frecuente; o secundaria a fármacos, tóxicos, radiación o infección viral) y congénita (síndromes de falla medular hereditaria, con la anemia de Fanconi como prototipo), una distinción con implicaciones terapéuticas radicalmente distintas: la inmunosupresión es eficaz en la forma adquirida pero inútil —y contraindicada— en la congénita, donde el trasplante o los andrógenos son la única opción.</p>
+export const definicionText = `<p style="margin:0 0 14px;">La anemia aplásica (AA) es un síndrome de falla medular caracterizado por pancitopenia periférica con médula ósea hipocelular, sin infiltración por células anormales (blastos, fibrosis, tumor) ni displasia significativa que sugiera un síndrome mielodisplásico. El mecanismo predominante en la forma adquirida es la destrucción inmunomediada de la célula madre hematopoyética por linfocitos T citotóxicos autorreactivos. Se clasifica según su origen en adquirida (idiopática/autoinmune, la más frecuente; o secundaria a fármacos, tóxicos, radiación o infección viral) y congénita (síndromes de falla medular hereditaria, con la anemia de Fanconi como prototipo), una distinción con implicaciones terapéuticas radicalmente distintas: la inmunosupresión es eficaz en la forma adquirida pero inútil (y contraindicada) en la congénita, donde el trasplante o los andrógenos son la única opción.</p>
 <p style="margin:0 0 14px;"><strong style="color:var(--accent-fg);">Epidemiología.</strong> Incidencia baja (~2 casos por millón de habitantes al año en países occidentales, hasta 3 veces mayor en Asia oriental), con distribución bimodal por edad: un pico en adultos jóvenes (15-25 años) y un segundo pico en mayores de 60 años.</p>
 <div style="margin:0 0 14px;"><strong style="color:var(--accent-fg);">Etiología y clasificación.</strong>
   <ul style="margin:6px 0 0;padding-left:20px;color:var(--ink);font-size:14.5px;line-height:1.7;">
@@ -29,29 +29,9 @@ export const definicionText = `<p style="margin:0 0 14px;">La anemia aplásica (
   </ul>
 </div>
 <p style="margin:0 0 14px;"><strong style="color:var(--accent-fg);">Fisiopatología general.</strong> En la forma adquirida, un desencadenante (infeccioso, farmacológico, o no identificado) expone neoantígenos o altera la célula madre hematopoyética, activando una respuesta oligoclonal de linfocitos T citotóxicos (predominantemente Th1, con producción de interferón-gamma y factor de necrosis tumoral alfa) que destruye la célula madre y sus progenitores, con preservación relativa del estroma medular; esto explica la respuesta a la inmunosupresión. Una proporción de los pacientes tiene, al diagnóstico o durante el seguimiento, una pequeña clona de hemoglobinuria paroxística nocturna (HPN) que escapa a este ataque por carecer de las proteínas ancladas a GPI reconocidas por él, y puede expandirse con el tiempo. En la forma congénita, el mecanismo es un defecto intrínseco (reparación del ADN en Fanconi, mantenimiento telomérico en disqueratosis congénita, biogénesis ribosomal en Shwachman-Diamond/Diamond-Blackfan) que lleva al agotamiento progresivo de la reserva de células madre, sin componente inmunomediado.${figBlock('Imagen 1', 'Dos caminos hacia la médula vacía: adquirida vs. congénita', `
-<div style="display:flex;gap:16px;max-width:600px;margin:0 auto;flex-wrap:wrap;justify-content:center;">
-  <div style="flex:1;min-width:250px;display:flex;flex-direction:column;align-items:center;gap:5px;">
-    <div style="font-size:11px;font-weight:700;color:#8c3a34;text-align:center;">FORMA ADQUIRIDA (inmunomediada)</div>
-    <div style="background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:10px;color:var(--ink);text-align:center;">Desencadenante (viral, fármaco, o no identificado)</div>
-    <div style="color:var(--ink-dim);">↓</div>
-    <div style="background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:10px;color:var(--ink);text-align:center;">Linfocitos T citotóxicos activados (Th1: IFN-γ, TNF-α)</div>
-    <div style="color:var(--ink-dim);">↓</div>
-    <div style="background:#8c3a3433;border:1px solid #8c3a34;border-radius:6px;padding:6px 10px;font-size:10px;color:var(--ink);text-align:center;">Destrucción de la célula madre hematopoyética</div>
-    <div style="color:var(--ink-dim);">↓</div>
-    <div style="background:#3f6b5233;border:1px solid #3f6b52;border-radius:6px;padding:6px 10px;font-size:10px;color:var(--ink);text-align:center;">Médula vacía → RESPONDE a inmunosupresión</div>
-  </div>
-  <div style="flex:1;min-width:250px;display:flex;flex-direction:column;align-items:center;gap:5px;">
-    <div style="font-size:11px;font-weight:700;color:#5c6b8c;text-align:center;">FORMA CONGÉNITA (defecto intrínseco)</div>
-    <div style="background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:10px;color:var(--ink);text-align:center;">Mutación germinal (FANC, TERT/TERC/DKC1, SBDS)</div>
-    <div style="color:var(--ink-dim);">↓</div>
-    <div style="background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:10px;color:var(--ink);text-align:center;">Defecto de reparación del ADN / mantenimiento telomérico / biogénesis ribosomal</div>
-    <div style="color:var(--ink-dim);">↓</div>
-    <div style="background:#5c6b8c33;border:1px solid #5c6b8c;border-radius:6px;padding:6px 10px;font-size:10px;color:var(--ink);text-align:center;">Agotamiento progresivo de la célula madre</div>
-    <div style="color:var(--ink-dim);">↓</div>
-    <div style="background:#8c3a3433;border:1px solid #8c3a34;border-radius:6px;padding:6px 10px;font-size:10px;color:var(--ink);text-align:center;">Médula vacía → NO responde a inmunosupresión (andrógenos/trasplante)</div>
-  </div>
-</div>`)}</p>
-<p style="margin:0;"><strong style="color:var(--accent-fg);">Panorama clínico.</strong> Síntomas de las 3 citopenias (fatiga por anemia, infecciones por neutropenia, sangrado por trombocitopenia) de instalación insidiosa o subaguda, sin adenopatías, hepatoesplenomegalia ni dolor óseo significativos —su presencia obliga a reconsiderar el diagnóstico—. En las formas congénitas, buscar activamente rasgos fenotípicos asociados (talla baja, anomalías del pulgar/radio, manchas café con leche en Fanconi; leucoplasia oral, distrofia ungueal, pigmentación reticular en disqueratosis congénita). El diagnóstico definitivo, el manejo específico de cada forma y de sus complicaciones se desarrollan en Diagnóstico y Complicaciones.</p>`;
+<img src="topics/anemia-aplasica/assets/dos-caminos-medula-vacia.webp" alt="Comparación de las 2 vías fisiopatológicas hacia la médula vacía: la forma adquirida (inmunomediada, con destrucción de la célula madre por linfocitos T citotóxicos y respuesta a inmunosupresión) frente a la forma congénita (defecto intrínseco de reparación del ADN o mantenimiento telomérico, con agotamiento progresivo de la célula madre y sin respuesta a inmunosupresión)." style="width:100%;max-width:420px;display:block;margin:0 auto;border-radius:var(--radius);">
+<p style="margin:10px 0 0;font-size:13.5px;color:var(--ink-dim);">Analogía: en la forma adquirida, es como si un ejército propio (los linfocitos T citotóxicos) confundiera de blanco y atacara la fábrica de células sanguíneas por error; quitando a ese ejército de encima (inmunosupresión), la fábrica, que estaba intacta, puede reactivarse. En la forma congénita no hay ningún ataque externo: la fábrica misma nació con planos defectuosos (un gen mutado que repara mal el ADN o mantiene mal los telómeros) y se va desgastando sola con el tiempo, por lo que quitar un "atacante" que nunca existió no sirve de nada; ahí la solución es reemplazar la fábrica entera (trasplante) o darle un sostén temporal (andrógenos).</p>`)}</p>
+<p style="margin:0;"><strong style="color:var(--accent-fg);">Panorama clínico.</strong> Síntomas de las 3 citopenias (fatiga por anemia, infecciones por neutropenia, sangrado por trombocitopenia) de instalación insidiosa o subaguda, sin adenopatías, hepatoesplenomegalia ni dolor óseo significativos (su presencia obliga a reconsiderar el diagnóstico). En las formas congénitas, buscar activamente rasgos fenotípicos asociados (talla baja, anomalías del pulgar/radio, manchas café con leche en Fanconi; leucoplasia oral, distrofia ungueal, pigmentación reticular en disqueratosis congénita). El diagnóstico definitivo, el manejo específico de cada forma y de sus complicaciones se desarrollan en Diagnóstico y Complicaciones.</p>`;
 
 export const bibliografia = [
   'Killick SB, Bown N, Cavenagh J, et al. Guidelines for the diagnosis and management of adult aplastic anaemia. Br J Haematol. 2016;172(2):187-207.',
@@ -101,55 +81,7 @@ export const content = {
     ],
     imagen: [
       { modalidad: 'Biopsia de médula ósea', hallazgos: `Estudio obligatorio (más informativo que el aspirado): celularidad &lt;25% (o &lt;50% con &lt;30% de células hematopoyéticas), sin fibrosis, sin infiltración blástica, sin displasia significativa; espacios grasos ocupando la mayor parte del espacio medular.${figBlock('Imagen 2', 'Médula ósea normal vs. aplásica', `
-      <svg viewBox="0 0 560 300" role="img" aria-labelledby="med-title med-desc" style="width:100%;max-width:480px;display:block;margin:0 auto;">
-        <title id="med-title">Médula ósea normal vs. aplásica</title>
-        <desc id="med-desc">Comparación esquemática de la celularidad medular: la médula normal muestra una mezcla de precursores de las 3 líneas hematopoyéticas con espacios grasos limitados, mientras que la médula aplásica muestra espacios grasos ocupando la mayor parte del espacio, con escasos precursores hematopoyéticos residuales.</desc>
-        <line x1="280" y1="10" x2="280" y2="290" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="4 4"/>
-        <text x="140" y="24" text-anchor="middle" fill="var(--accent-fg)" font-size="13" font-weight="700">MÉDULA NORMAL</text>
-        <text x="420" y="24" text-anchor="middle" fill="var(--accent-fg)" font-size="13" font-weight="700">MÉDULA APLÁSICA</text>
-        <g>
-          <rect x="20" y="35" width="240" height="215" rx="12" fill="var(--panel)" stroke="var(--ink)" stroke-width="2.5"/>
-          <circle cx="45" cy="60" r="14" fill="#8c3a34"/>
-          <circle cx="100" cy="60" r="14" fill="#3f6b52"/>
-          <circle cx="155" cy="60" r="14" fill="#8c3a34"/>
-          <ellipse cx="210" cy="60" rx="17" ry="14" fill="var(--panel2)" stroke="var(--line)" stroke-width="1.5"/>
-          <circle cx="45" cy="115" r="14" fill="#3f6b52"/>
-          <circle cx="100" cy="115" r="18" fill="#5c3d5c"/>
-          <circle cx="155" cy="115" r="14" fill="#3f6b52"/>
-          <circle cx="210" cy="115" r="14" fill="#8c3a34"/>
-          <ellipse cx="45" cy="170" rx="17" ry="14" fill="var(--panel2)" stroke="var(--line)" stroke-width="1.5"/>
-          <circle cx="100" cy="170" r="14" fill="#8c3a34"/>
-          <circle cx="155" cy="170" r="14" fill="#3f6b52"/>
-          <circle cx="210" cy="170" r="14" fill="#8c3a34"/>
-          <circle cx="45" cy="225" r="14" fill="#3f6b52"/>
-          <ellipse cx="100" cy="225" rx="17" ry="14" fill="var(--panel2)" stroke="var(--line)" stroke-width="1.5"/>
-          <circle cx="155" cy="225" r="14" fill="#8c3a34"/>
-          <circle cx="210" cy="225" r="14" fill="#3f6b52"/>
-          <text x="140" y="268" text-anchor="middle" fill="var(--ink-dim)" font-size="10">Las 3 líneas presentes,</text>
-          <text x="140" y="281" text-anchor="middle" fill="var(--ink-dim)" font-size="10">espacios grasos limitados</text>
-        </g>
-        <g transform="translate(280,0)">
-          <rect x="20" y="35" width="240" height="215" rx="12" fill="var(--panel)" stroke="var(--ink)" stroke-width="2.5"/>
-          <ellipse cx="45" cy="60" rx="17" ry="14" fill="var(--panel2)" stroke="var(--line)" stroke-width="1.5"/>
-          <ellipse cx="100" cy="60" rx="17" ry="14" fill="var(--panel2)" stroke="var(--line)" stroke-width="1.5"/>
-          <circle cx="155" cy="60" r="14" fill="#8c3a34"/>
-          <ellipse cx="210" cy="60" rx="17" ry="14" fill="var(--panel2)" stroke="var(--line)" stroke-width="1.5"/>
-          <ellipse cx="45" cy="115" rx="17" ry="14" fill="var(--panel2)" stroke="var(--line)" stroke-width="1.5"/>
-          <ellipse cx="100" cy="115" rx="17" ry="14" fill="var(--panel2)" stroke="var(--line)" stroke-width="1.5"/>
-          <ellipse cx="155" cy="115" rx="17" ry="14" fill="var(--panel2)" stroke="var(--line)" stroke-width="1.5"/>
-          <ellipse cx="210" cy="115" rx="17" ry="14" fill="var(--panel2)" stroke="var(--line)" stroke-width="1.5"/>
-          <circle cx="45" cy="170" r="14" fill="#3f6b52"/>
-          <ellipse cx="100" cy="170" rx="17" ry="14" fill="var(--panel2)" stroke="var(--line)" stroke-width="1.5"/>
-          <ellipse cx="155" cy="170" rx="17" ry="14" fill="var(--panel2)" stroke="var(--line)" stroke-width="1.5"/>
-          <ellipse cx="210" cy="170" rx="17" ry="14" fill="var(--panel2)" stroke="var(--line)" stroke-width="1.5"/>
-          <ellipse cx="45" cy="225" rx="17" ry="14" fill="var(--panel2)" stroke="var(--line)" stroke-width="1.5"/>
-          <ellipse cx="100" cy="225" rx="17" ry="14" fill="var(--panel2)" stroke="var(--line)" stroke-width="1.5"/>
-          <ellipse cx="155" cy="225" rx="17" ry="14" fill="var(--panel2)" stroke="var(--line)" stroke-width="1.5"/>
-          <ellipse cx="210" cy="225" rx="17" ry="14" fill="var(--panel2)" stroke="var(--line)" stroke-width="1.5"/>
-          <text x="140" y="268" text-anchor="middle" fill="var(--ink-dim)" font-size="10">Espacios grasos dominantes,</text>
-          <text x="140" y="281" text-anchor="middle" fill="var(--ink-dim)" font-size="10">escasos precursores residuales</text>
-        </g>
-      </svg>`)}${figBlock('Imagen 3', 'Biopsia de médula ósea hipocelular', `
+      <img src="topics/anemia-aplasica/assets/medula-normal-vs-aplasica.webp" alt="Comparación de la biopsia de médula ósea normal (celularidad conservada, precursores hematopoyéticos de las 3 líneas presentes, grasa en proporción normal) frente a la médula aplásica (hipocelularidad marcada, escasez de precursores, reemplazo graso dominante, correlato de pancitopenia periférica)." style="width:100%;max-width:480px;display:block;margin:0 auto;border-radius:var(--radius);">`)}${figBlock('Imagen 3', 'Biopsia de médula ósea hipocelular', `
       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/13256_2010_Article_1435_Fig1_HTML.webp/960px-13256_2010_Article_1435_Fig1_HTML.webp.png" alt="Biopsia de médula ósea hipocelular, mostrando escasa hematopoyesis y abundantes espacios grasos." style="width:100%;max-width:420px;display:block;margin:0 auto;border-radius:var(--radius);border:1px solid var(--line);">
       <p style="font-size:10.5px;color:var(--ink-faint);text-align:center;margin:8px 0 0;">Médula ósea hipocelular con escasa hematopoyesis y numerosos espacios grasos, el hallazgo histológico definitorio de la anemia aplásica. Stibbe KJM, Wildschut HIJ, Lugtenburg PJ, Wikimedia Commons, CC BY 4.0.</p>`)}` },
       { modalidad: 'Cariotipo/FISH de médula ósea', hallazgos: 'Descarta un síndrome mielodisplásico hipoplásico con clonalidad demostrable (ver ese diferencial en el tema de Síndromes Mielodisplásicos) y detecta alteraciones asociadas a Fanconi.' },

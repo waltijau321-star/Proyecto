@@ -2,7 +2,7 @@
    Estrategia: cache-first para el "app shell" y los módulos, con actualización en segundo plano.
    CACHE_VERSION se calcula automáticamente a partir del contenido de CORE: correr
    .claude/bump-cache-version.ps1 después de cambiar cualquier archivo cacheado. */
-const CACHE_VERSION = 'residentemed-8b0bbcea87';
+const CACHE_VERSION = 'residentemed-8bc2130bf8';
 const CORE = [
   './',
   './index.html',
@@ -108,12 +108,18 @@ const CORE = [
   './topics/sindromes-mielodisplasicos/content.js',
   './topics/sindromes-mielodisplasicos/calculators.js',
   './topics/sindromes-mielodisplasicos/study.js',
+  './topics/sindromes-mielodisplasicos/assets/hematopoyesis-eficaz-vs-ineficaz.webp',
+  './topics/sindromes-mielodisplasicos/assets/neutrofilo-normal-vs-displasico.webp',
   './topics/sindromes-mieloproliferativos/content.js',
   './topics/sindromes-mieloproliferativos/calculators.js',
   './topics/sindromes-mieloproliferativos/study.js',
+  './topics/sindromes-mieloproliferativos/assets/via-jak-stat.webp',
+  './topics/sindromes-mieloproliferativos/assets/espectro-evolutivo-nmp.webp',
   './topics/anemia-aplasica/content.js',
   './topics/anemia-aplasica/calculators.js',
   './topics/anemia-aplasica/study.js',
+  './topics/anemia-aplasica/assets/dos-caminos-medula-vacia.webp',
+  './topics/anemia-aplasica/assets/medula-normal-vs-aplasica.webp',
   './topics/anemias-hemoliticas-hereditarias/content.js',
   './topics/anemias-hemoliticas-hereditarias/calculators.js',
   './topics/anemias-hemoliticas-hereditarias/study.js',

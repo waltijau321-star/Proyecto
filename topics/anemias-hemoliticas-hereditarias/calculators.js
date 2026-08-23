@@ -34,7 +34,7 @@ export const calculators = [
       else interp = 'respuesta medular inadecuada (hipoproliferativa); reconsiderar el diagnóstico o sospechar una crisis aplásica sobreañadida';
       return { correctedRetic: Math.round(correctedRetic * 10) / 10, ipr: iprR, interp };
     },
-    format: r => `Reticulocitos corregidos: <strong>${r.correctedRetic}%</strong>. <strong>IPR: ${r.ipr}</strong> — ${r.interp}.`,
+    format: r => `Reticulocitos corregidos: <strong>${r.correctedRetic}%</strong>. <strong>IPR: ${r.ipr}</strong>, ${r.interp}.`,
     fragment: r => `IPR ${r.ipr}`
   },
   {

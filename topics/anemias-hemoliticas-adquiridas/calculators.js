@@ -38,7 +38,7 @@ export const calculators = [
       else { banda = 'alto riesgo'; prob = '~62-82%'; rec = 'iniciar plasmaféresis + corticoide de inmediato, sin esperar la confirmación de ADAMTS13'; }
       return { points, banda, prob, rec };
     },
-    format: r => `<strong>PLASMIC score: ${r.points}/7</strong> — ${r.banda} de deficiencia grave de ADAMTS13 (&lt;10%) (probabilidad ${r.prob}). Conducta: ${r.rec}.`,
+    format: r => `<strong>PLASMIC score: ${r.points}/7</strong>, ${r.banda} de deficiencia grave de ADAMTS13 (&lt;10%) (probabilidad ${r.prob}). Conducta: ${r.rec}.`,
     fragment: r => `PLASMIC: ${r.points}/7 (${r.banda})`
   }
 ];

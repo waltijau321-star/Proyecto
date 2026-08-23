@@ -11,7 +11,7 @@ function ipsetBanda(score) {
 function dipssBanda(score) {
   if (score === 0) return { banda: 'bajo', os: '11.3 años' };
   if (score <= 2) return { banda: 'intermedio-1', os: '7.9 años' };
-  if (score <= 3) return { banda: 'intermedio-2', os: '4.0 años' };
+  if (score <= 4) return { banda: 'intermedio-2', os: '4.0 años' };
   return { banda: 'alto', os: '2.3 años' };
 }
 
@@ -35,7 +35,7 @@ export const calculators = [
       else rec = 'citorreducción indicada, además de antiagregación';
       return { score, ...r, rec };
     },
-    format: r => `<strong>IPSET-trombosis: ${r.score} puntos</strong> — riesgo ${r.banda} (incidencia de trombosis ≈ ${r.tasa}). ${r.rec}.`,
+    format: r => `<strong>IPSET-trombosis: ${r.score} puntos</strong>, riesgo ${r.banda} (incidencia de trombosis ≈ ${r.tasa}). ${r.rec}.`,
     fragment: r => `IPSET-trombosis ${r.score} (${r.banda})`
   },
   {
@@ -57,7 +57,7 @@ export const calculators = [
       else rec = 'evaluar trasplante alogénico temprano en el paciente elegible: es la única opción curativa en este riesgo';
       return { score, ...r, rec };
     },
-    format: r => `<strong>DIPSS: ${r.score} puntos</strong> — riesgo ${r.banda} (supervivencia mediana ≈ ${r.os}). ${r.rec}.`,
+    format: r => `<strong>DIPSS: ${r.score} puntos</strong>, riesgo ${r.banda} (supervivencia mediana ≈ ${r.os}). ${r.rec}.`,
     fragment: r => `DIPSS ${r.score} (${r.banda})`
   }
 ];

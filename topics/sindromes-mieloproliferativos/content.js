@@ -7,7 +7,7 @@
 export const meta = {
   id: 'sindromes-mieloproliferativos',
   titulo: 'Síndromes Mieloproliferativos',
-  subtitulo: 'Módulo 7 · Medicina Interna',
+  subtitulo: 'Módulo 9 · Medicina Interna',
   accent: '#4a6b8c',
   accentDim: '#7a9cb8'
 };
@@ -22,19 +22,7 @@ export const definicionText = `<p style="margin:0 0 14px;">Las neoplasias mielop
     <li><strong>Mielofibrosis manifiesta</strong>: fibrosis reticulínica o colágena de grado ≥2, de novo o secundaria a PV/TE previas (post-PV MF, post-ET MF).</li>
   </ul>
   ${figBlock('Imagen 2', 'El espectro evolutivo de las NMP clásicas', `
-  <div style="display:flex;align-items:flex-start;justify-content:center;gap:20px;max-width:560px;margin:0 auto;flex-wrap:wrap;">
-    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-      <div style="background:#966b3533;border:1px solid #966b35;border-radius:8px;padding:10px 14px;font-size:10.5px;color:var(--ink);text-align:center;min-width:150px;"><strong>Trombocitemia esencial</strong><br>Trombocitosis aislada</div>
-      <div style="color:var(--ink-dim);font-size:12.5px;text-align:center;">↓ progresión<br>(~5-10% a 15-20 años)</div>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-      <div style="background:#8c3a3433;border:1px solid #8c3a34;border-radius:8px;padding:10px 14px;font-size:10.5px;color:var(--ink);text-align:center;min-width:150px;"><strong>Policitemia vera</strong><br>Eritrocitosis ± leucocitosis/trombocitosis</div>
-      <div style="color:var(--ink-dim);font-size:12.5px;text-align:center;">↓ progresión<br>(~10-20% a 15-20 años)</div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:center;margin-top:4px;">
-    <div style="background:#7a1f3d33;border:1px solid #7a1f3d;border-radius:8px;padding:10px 16px;font-size:10.5px;color:var(--ink);text-align:center;max-width:340px;"><strong>Mielofibrosis</strong> (post-ET / post-PV / primaria)<br>Fibrosis progresiva, esplenomegalia, citopenias</div>
-  </div>
+  <img src="topics/sindromes-mieloproliferativos/assets/espectro-evolutivo-nmp.webp" alt="Las 3 entidades (policitemia vera, trombocitemia esencial, mielofibrosis primaria) comparten el mismo origen clonal y sustrato molecular JAK2/CALR/MPL; tanto la PV como la TE pueden progresar con el tiempo a mielofibrosis (post-PV MF, post-ET MF), que junto con la mielofibrosis primaria de novo comparten el mismo punto de convergencia evolutivo: fibrosis medular, citopenias y esplenomegalia." style="width:100%;max-width:560px;display:block;margin:0 auto;border-radius:var(--radius);">
   <div class="figure-grade-box">Las 3 entidades comparten el mismo sustrato molecular (JAK2/CALR/MPL); la mielofibrosis es el punto de convergencia evolutivo de todo el grupo, sea primaria o secundaria a una PV/TE previa.</div>`)}
 </div>
 <div style="margin:0 0 14px;"><strong style="color:var(--accent-fg);">Factores de riesgo.</strong>
@@ -46,20 +34,8 @@ export const definicionText = `<p style="margin:0 0 14px;">Las neoplasias mielop
   </ul>
 </div>
 <p style="margin:0 0 14px;"><strong style="color:var(--accent-fg);">Fisiopatología general.</strong> Las tres mutaciones driver convergen en la activación constitutiva de la vía JAK-STAT independiente de citocinas: JAK2 V617F (dominio pseudocinasa JH2, pierde su función autoinhibitoria) es la más frecuente y la única presente en las tres entidades; CALR (exón 9, genera una nueva secuencia C-terminal que activa el receptor de trombopoyetina MPL de forma constitutiva, mecanismo casi exclusivo de la trombocitemia esencial y la mielofibrosis); MPL (dominio transmembrana/yuxtamembrana, activación constitutiva directa del receptor de trombopoyetina). El resultado es proliferación clonal excesiva con maduración conservada (hematopoyesis eficaz), a diferencia de la apoptosis intramedular del síndrome mielodisplásico. El fenotipo clínico depende de la carga alélica de la mutación y de mutaciones adicionales cooperantes; en la mielofibrosis, los megacariocitos atípicos liberan un exceso de citocinas profibróticas (TGF-β, PDGF) que estimulan a fibroblastos medulares policlonales (no parte del clon neoplásico) a depositar colágeno y reticulina en exceso.${figBlock('Imagen 1', 'Vía JAK-STAT y las 3 mutaciones driver', `
-<div style="display:flex;flex-direction:column;align-items:center;gap:8px;max-width:440px;margin:0 auto;">
-  <div style="background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 16px;font-size:11.5px;font-weight:600;color:var(--ink);text-align:center;">Receptor de trombopoyetina (MPL)<br><span style="font-weight:400;color:var(--ink-dim);font-size:10px;">membrana celular</span></div>
-  <div style="color:var(--ink-dim);font-size:16px;">↓</div>
-  <div style="background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 16px;font-size:11.5px;font-weight:600;color:var(--ink);">JAK2</div>
-  <div style="color:var(--ink-dim);font-size:16px;">↓</div>
-  <div style="background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 16px;font-size:11.5px;font-weight:600;color:var(--ink);text-align:center;">STAT<br><span style="font-weight:400;color:var(--ink-dim);font-size:10px;">fosforilado, dimeriza y migra al núcleo</span></div>
-  <div style="color:var(--ink-dim);font-size:16px;">↓</div>
-  <div style="background:#3f6b5233;border:1px solid #3f6b52;border-radius:8px;padding:10px 16px;font-size:11.5px;font-weight:600;color:var(--ink);text-align:center;">NÚCLEO<br><span style="font-weight:400;font-size:10.5px;">Transcripción de genes de proliferación y supervivencia clonal</span></div>
-</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:520px;margin:14px auto 0;">
-  <div style="background:#8c3a3422;border:1px solid #8c3a34;border-radius:6px;padding:8px 10px;font-size:10.5px;color:var(--ink);grid-column:span 2;"><strong style="color:#8c3a34;">JAK2 V617F</strong> (dominio pseudocinasa JH2): pierde la autoinhibición. La ÚNICA mutación presente en las 3 entidades (PV, TE, mielofibrosis).</div>
-  <div style="background:#966b3522;border:1px solid #966b35;border-radius:6px;padding:8px 10px;font-size:10.5px;color:var(--ink);"><strong style="color:#966b35;">CALR</strong> (~20-25% de TE/mielofibrosis): genera una secuencia nueva que activa a MPL de forma anómala.</div>
-  <div style="background:#5c6b8c22;border:1px solid #5c6b8c;border-radius:6px;padding:8px 10px;font-size:10.5px;color:var(--ink);"><strong style="color:#5c6b8c;">Mutación de MPL</strong> (~3-8% de TE/mielofibrosis): activa el receptor directamente, sin necesidad de su ligando.</div>
-</div>`)}</p>
+<img src="topics/sindromes-mieloproliferativos/assets/via-jak-stat.webp" alt="Los 5 pasos de la vía JAK-STAT (activación del receptor, fosforilación de JAK, activación de STAT, translocación al núcleo, transcripción génica) y cómo las 3 mutaciones driver (JAK2 V617F, CALR mutada, mutación de MPL) convergen todas en la activación sostenida de esta vía, con proliferación, supervivencia y diferenciación clonal como resultado común." style="width:100%;max-width:460px;display:block;margin:0 auto;border-radius:var(--radius);">
+<p style="margin:10px 0 0;font-size:13.5px;color:var(--ink-dim);">Analogía: la vía JAK-STAT normalmente funciona como el acelerador de un auto, que solo avanza cuando el pie (la citocina, por ejemplo la trombopoyetina) presiona el pedal. Las 3 mutaciones driver son 3 formas distintas de dejar ese pedal trabado a fondo sin que nadie lo esté pisando: la célula recibe la señal de "seguir proliferando" de manera continua e independiente del estímulo real, y por eso el clon se expande sin control aunque la maduración celular en sí siga siendo normal.</p>`)}</p>
 <p style="margin:0;"><strong style="color:var(--accent-fg);">Panorama clínico.</strong> El espectro va desde el hallazgo incidental en una biometría hemática de rutina hasta síntomas constitucionales (sudoración nocturna, pérdida de peso, prurito acuagénico en la policitemia vera, saciedad precoz por esplenomegalia), y el evento trombótico (arterial o venoso, incluyendo sitios atípicos como la trombosis esplácnica) como manifestación inicial en hasta un tercio de los casos de policitemia vera/trombocitemia esencial. El diagnóstico definitivo, el manejo específico de cada subtipo y de sus complicaciones se desarrollan en Diagnóstico y Complicaciones.</p>`;
 
 export const bibliografia = [
@@ -110,7 +86,7 @@ export const content = {
     clinica: {
       tituloA: 'PV y TE (fase proliferativa)',
       tituloB: 'Mielofibrosis (fase fibrótica / esplenomegalia sintomática)',
-      compensada: 'Muchos pacientes están asintomáticos, con hallazgo incidental en una biometría hemática de rutina. Cuando hay síntomas: cefalea, mareo, acúfenos, visión borrosa transitoria (hiperviscosidad, más típico de la policitemia vera), eritromelalgia (dolor/eritema/calor quemante en manos o pies, por microvasculopatía), prurito acuagénico (tras el baño, muy específico de la policitemia vera, por activación de basófilos/mastocitos), plétora facial, y esplenomegalia leve-moderada. El evento trombótico (arterial o venoso, incluyendo la trombosis esplácnica —Budd-Chiari, porta, mesentérica—) puede ser la manifestación inicial en hasta un tercio de los casos; la trombosis esplácnica en un paciente joven sin otro factor de riesgo evidente es especialmente sugestiva de una neoplasia mieloproliferativa subyacente.',
+      compensada: 'Muchos pacientes están asintomáticos, con hallazgo incidental en una biometría hemática de rutina. Cuando hay síntomas: cefalea, mareo, acúfenos, visión borrosa transitoria (hiperviscosidad, más típico de la policitemia vera), eritromelalgia (dolor/eritema/calor quemante en manos o pies, por microvasculopatía), prurito acuagénico (tras el baño, muy específico de la policitemia vera, por activación de basófilos/mastocitos), plétora facial, y esplenomegalia leve-moderada. El evento trombótico (arterial o venoso, incluyendo la trombosis esplácnica: Budd-Chiari, porta, mesentérica) puede ser la manifestación inicial en hasta un tercio de los casos; la trombosis esplácnica en un paciente joven sin otro factor de riesgo evidente es especialmente sugestiva de una neoplasia mieloproliferativa subyacente.',
       descompensada: 'Síntomas constitucionales marcados (sudoración nocturna profusa, pérdida de peso &gt;10% en 6 meses, fiebre de bajo grado sin infección), fatiga intensa por anemia progresiva, esplenomegalia masiva sintomática (saciedad precoz, dolor/plenitud en hipocondrio izquierdo, infartos esplénicos con dolor referido al hombro izquierdo), y hematopoyesis extramedular (hepatomegalia y, con menor frecuencia, masas paravertebrales o derrames serosos). A diferencia de la fase proliferativa temprana (hemograma elevado), predominan las citopenias progresivas por insuficiencia medular avanzada.'
     },
     laboratorio: [
@@ -169,7 +145,7 @@ export const content = {
       nombre: 'Trombocitemia esencial',
       color: '#966b35',
       definicion: 'NMP caracterizada por proliferación clonal predominantemente megacariocítica con trombocitosis sostenida (plaquetas ≥450x10⁹/L), sin eritrocitosis, fibrosis significativa, ni otra neoplasia mieloide que la explique.',
-      fisiopatologia: 'Activación constitutiva de la vía JAK-STAT por una de tres mutaciones driver mutuamente excluyentes: JAK2 V617F (~50-60%), CALR (~20-25%, con dos tipos —1/like y 2/like— de valor pronóstico distinto), o MPL (~3-5%); ~10-15% son "triple negativas" (sin mutación driver identificable). El efecto dominante sobre la línea megacariocítica, sin la panmielosis de la PV, explica la trombocitosis relativamente aislada.',
+      fisiopatologia: 'Activación constitutiva de la vía JAK-STAT por una de tres mutaciones driver mutuamente excluyentes: JAK2 V617F (~50-60%), CALR (~20-25%, con dos tipos, 1/like y 2/like, de valor pronóstico distinto), o MPL (~3-5%); ~10-15% son "triple negativas" (sin mutación driver identificable). El efecto dominante sobre la línea megacariocítica, sin la panmielosis de la PV, explica la trombocitosis relativamente aislada.',
       epidemiologia: 'Incidencia similar a la PV; distribución bimodal por edad, con un segundo pico en mujeres jóvenes en edad reproductiva, relevante para la planificación de embarazo.',
       factores_riesgo: ['Edad avanzada (primer pico)', 'Sexo femenino (segundo pico, mujeres jóvenes)', 'Mutación driver de alto riesgo (triple negativa o CALR tipo 2/like) asociada a peor pronóstico'],
       clinica: 'Frecuentemente asintomática, hallazgo incidental de trombocitosis; cuando hay síntomas, predominan los vasomotores (eritromelalgia, cefalea, alteraciones visuales transitorias) sobre los constitucionales; el evento trombótico (arterial más que venoso, a diferencia de la PV) puede ser la manifestación inicial; sangrado paradójico infrecuente pero posible con trombocitosis extrema (ver Complicaciones).',
@@ -244,7 +220,7 @@ export const content = {
     {
       nombre: 'Trombosis arterial y venosa',
       color: '#3f6b52',
-      definicion: 'Complicación transversal que puede ocurrir sobre cualquiera de las 4 entidades de esta sección (ver cada tarjeta), particularmente frecuente en la policitemia vera y la trombocitemia esencial: evento trombótico arterial (ACV, IAM, isquemia arterial periférica) o venoso (trombosis venosa profunda, tromboembolia pulmonar, trombosis venosa esplácnica —Budd-Chiari, porta, mesentérica, esplénica—), esta última especialmente característica y sugestiva de una NMP subyacente incluso antes de que se manifieste la alteración hematológica franca.',
+      definicion: 'Complicación transversal que puede ocurrir sobre cualquiera de las 4 entidades de esta sección (ver cada tarjeta), particularmente frecuente en la policitemia vera y la trombocitemia esencial: evento trombótico arterial (ACV, IAM, isquemia arterial periférica) o venoso (trombosis venosa profunda, tromboembolia pulmonar, trombosis venosa esplácnica: Budd-Chiari, porta, mesentérica, esplénica), esta última especialmente característica y sugestiva de una NMP subyacente incluso antes de que se manifieste la alteración hematológica franca.',
       fisiopatologia: 'No repite el mecanismo de base de cada subtipo (ya descrito en su tarjeta); refleja el estado protrombótico intrínseco de las NMP: activación endotelial y leucocitaria mediada por la señalización JAK-STAT constitutiva, formación de trampas extracelulares de neutrófilos (NETs) protrombóticas, agregación plaquetaria aumentada, y micropartículas procoagulantes circulantes, independientemente (aunque agravado) del recuento absoluto de células.',
       epidemiologia: 'La trombosis es la manifestación inicial en hasta un tercio de los casos de PV/TE, y la principal causa de morbimortalidad en la PV; la trombosis venosa esplácnica tiene una prevalencia de NMP subyacente de hasta 30-40% cuando se investiga sistemáticamente, particularmente en el paciente joven sin otro factor de riesgo evidente.',
       factores_riesgo: ['Edad &gt;60 años', 'Antecedente de trombosis previa (el predictor más fuerte de recurrencia)', 'Mutación de JAK2 (mayor riesgo trombótico que CALR/MPL)', 'Leucocitosis marcada', 'Factores de riesgo cardiovascular tradicionales concomitantes'],
