@@ -211,6 +211,14 @@ export const registry = [
       import('./alteraciones-serie-blanca/calculators.js'),
       import('./alteraciones-serie-blanca/study.js')
     ])
+  },
+  {
+    id: 'porfirias', titulo: 'Porfirias',
+    load: () => Promise.all([
+      import('./porfirias/content.js'),
+      import('./porfirias/calculators.js'),
+      import('./porfirias/study.js')
+    ])
   }
 ];
 
