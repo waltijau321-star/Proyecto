@@ -353,11 +353,20 @@ export const compGroups = [
 export const complicacionesIntro = 'Las 4 primeras tarjetas organizan el síndrome de hiperviscosidad por su mecanismo causal: 2 plasmáticas (paraproteína) y 2 celulares (exceso de leucocitos o eritrocitos); las siguientes 4 son complicaciones de órgano transversales, independientes del mecanismo causal específico.';
 export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
 export const arbol = {
-  root: { label: 'SÍNDROME DE HIPERVISCOSIDAD', color: '#6b3d5c' },
+  root: { title: 'SÍNDROME DE HIPERVISCOSIDAD', color: '#6b3d5c', target: 'definicion' },
   branches: [
-    { label: 'Plasmática', color: '#3d5a73', leaves: ['Waldenström (IgM)', 'Mieloma múltiple (IgA/IgG)'] },
-    { label: 'Celular', color: '#8a6a1f', leaves: ['Leucostasis', 'Eritrocitosis/policitemia'] },
-    { label: 'Complicaciones de órgano', color: '#7a1f3d', leaves: ['Neurológicas', 'Oftalmológicas', 'Cardiovasculares', 'Hemorrágicas'] }
+    { title: 'Por mecanismo (enfermedades)', sub: '2 plasmáticas + 2 celulares', color: '#3d5a73', target: 'diagnostico', leaves: [
+      { title: 'Por Macroglobulinemia de Waldenström', sub: 'IgM, causa clásica', color: '#3d5a73', target: 'complicaciones' },
+      { title: 'Por Mieloma Múltiple', sub: 'IgA/IgG', color: '#7a1f3d', target: 'complicaciones' },
+      { title: 'Celular por Leucostasis', sub: 'Hiperleucocitosis', color: '#8a6a1f', target: 'complicaciones' },
+      { title: 'Celular por Eritrocitosis/Policitemia', sub: 'Hematocrito elevado', color: '#3f6b52', target: 'complicaciones' }
+    ] },
+    { title: 'Complicaciones de órgano', sub: 'Transversales, independientes del mecanismo', color: '#8c3a34', target: 'complicaciones', leaves: [
+      { title: 'Neurológicas', sub: 'Ictus, hemorragia, encefalopatía', color: '#7a1f3d', target: 'complicaciones' },
+      { title: 'Oftalmológicas', sub: 'Fondo de ojo "en salchicha"', color: '#3d5a73', target: 'complicaciones' },
+      { title: 'Cardiovasculares', sub: 'Sobrecarga transfusional', color: '#8c3a34', target: 'complicaciones' },
+      { title: 'Hemorrágicas mucocutáneas', sub: 'Disfunción plaquetaria', color: '#6b4a2e', target: 'complicaciones' }
+    ] }
   ]
 };
 export const diagCites = { laboratorio: [0, 3], no_invasivos: [0, 9] };

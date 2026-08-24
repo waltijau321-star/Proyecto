@@ -365,11 +365,20 @@ export const compGroups = [
 export const complicacionesIntro = 'Las 4 primeras tarjetas cubren el espectro clínico de células plasmáticas (MGUS, smoldering, mieloma activo) y 2 entidades relacionadas (amiloidosis AL, plasmocitoma solitario); las siguientes 4 son complicaciones transversales que pueden surgir en el mieloma activo, desde la enfermedad ósea hasta las complicaciones neurológicas.';
 export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
 export const arbol = {
-  root: { label: 'MIELOMA MÚLTIPLE', color: '#7a1f3d' },
+  root: { title: 'MIELOMA MÚLTIPLE', color: '#7a1f3d', target: 'definicion' },
   branches: [
-    { label: 'Espectro asintomático', color: '#3f6b52', leaves: ['MGUS', 'Smoldering'] },
-    { label: 'Enfermedad activa', color: '#7a1f3d', leaves: ['Criterios CRAB', 'Biomarcadores SLiM'] },
-    { label: 'Entidades relacionadas', color: '#6b4a2e', leaves: ['Amiloidosis AL', 'Plasmocitoma solitario'] }
+    { title: 'Por espectro clínico (enfermedades)', sub: 'De asintomático a activo', color: '#3f6b52', target: 'diagnostico', leaves: [
+      { title: 'Gammapatía Monoclonal de Significado Incierto', sub: 'MGUS, asintomática', color: '#3f6b52', target: 'complicaciones' },
+      { title: 'Mieloma Múltiple Smoldering', sub: 'Mayor volumen, asintomático', color: '#8a6a1f', target: 'complicaciones' },
+      { title: 'Mieloma Múltiple Activo', sub: 'Criterios CRAB/SLiM', color: '#7a1f3d', target: 'complicaciones' },
+      { title: 'Amiloidosis de Cadenas Ligeras y Plasmocitoma Solitario', sub: 'Entidades relacionadas', color: '#6b4a2e', target: 'complicaciones' }
+    ] },
+    { title: 'Complicaciones transversales', sub: 'Del mieloma activo', color: '#8c3a34', target: 'complicaciones', leaves: [
+      { title: 'Enfermedad ósea mielomatosa', sub: 'Lesiones líticas', color: '#8c3a34', target: 'complicaciones' },
+      { title: 'Nefropatía por cilindros', sub: 'Riñón de mieloma', color: '#3d5a73', target: 'complicaciones' },
+      { title: 'Infecciones recurrentes', sub: 'Hipogammaglobulinemia funcional', color: '#8a6a1f', target: 'complicaciones' },
+      { title: 'Hiperviscosidad y complicaciones neurológicas', sub: 'IgA/IgG elevada', color: '#6b3d5c', target: 'complicaciones' }
+    ] }
   ]
 };
 export const diagCites = { laboratorio: [1, 3], no_invasivos: [3, 5] };

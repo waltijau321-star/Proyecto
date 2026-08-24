@@ -364,10 +364,20 @@ export const compGroups = [
 export const complicacionesIntro = 'Las 4 primeras tarjetas cubren las entidades principales de este tema, tanto talasemias como formas falciformes; las siguientes 4 son complicaciones transversales específicas de la enfermedad de células falciformes (y, en menor grado, sus formas heterocigotas compuestas), desde la crisis dolorosa más frecuente hasta las complicaciones crónicas acumulativas.';
 export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
 export const arbol = {
-  root: { label: 'HEMOGLOBINOPATÍAS', color: '#7a1f3d' },
+  root: { title: 'HEMOGLOBINOPATÍAS', color: '#7a1f3d', target: 'definicion' },
   branches: [
-    { label: 'Defecto cuantitativo (talasemias)', color: '#3d6b8c', leaves: ['Talasemia Alfa', 'Talasemia Beta'] },
-    { label: 'Defecto cualitativo (falciformes)', color: '#7a1f3d', leaves: ['Enfermedad de Células Falciformes', 'HbSC / HbS-beta talasemia / rasgo'] }
+    { title: 'Por entidad (enfermedades)', sub: 'Cuantitativas y cualitativas', color: '#3d6b8c', target: 'diagnostico', leaves: [
+      { title: 'Talasemia Alfa', sub: 'Defecto cuantitativo', color: '#3d6b8c', target: 'complicaciones' },
+      { title: 'Talasemia Beta', sub: 'Defecto cuantitativo', color: '#5c6b8c', target: 'complicaciones' },
+      { title: 'Enfermedad de Células Falciformes', sub: 'Defecto cualitativo', color: '#7a1f3d', target: 'complicaciones' },
+      { title: 'Otros Síndromes Falciformes y Rasgo Falciforme', sub: 'HbSC, HbS-beta talasemia', color: '#8c3a34', target: 'complicaciones' }
+    ] },
+    { title: 'Complicaciones transversales', sub: 'De la enfermedad de células falciformes', color: '#966b35', target: 'complicaciones', leaves: [
+      { title: 'Crisis vaso-oclusiva dolorosa', sub: 'Más frecuente', color: '#966b35', target: 'complicaciones' },
+      { title: 'Síndrome torácico agudo', sub: 'Urgencia', color: '#8c3a34', target: 'complicaciones' },
+      { title: 'ACV y complicaciones neurológicas', sub: 'Prevención con Doppler', color: '#5c3d8c', target: 'complicaciones' },
+      { title: 'Asplenia funcional y complicaciones crónicas', sub: 'Riesgo infeccioso', color: '#6b4a2e', target: 'complicaciones' }
+    ] }
   ]
 };
 export const diagCites = { laboratorio: [1, 4], no_invasivos: [5] };

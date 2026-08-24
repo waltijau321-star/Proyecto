@@ -364,11 +364,20 @@ export const compGroups = [
 export const complicacionesIntro = 'Las 4 primeras tarjetas cubren los tipos principales de linfoma; las siguientes 4 son complicaciones transversales que pueden surgir al diagnóstico o durante el tratamiento, desde urgencias oncológicas agudas hasta la toxicidad tardía del tratamiento.';
 export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
 export const arbol = {
-  root: { label: 'LINFOMAS', color: '#6b3d5c' },
+  root: { title: 'LINFOMAS', color: '#6b3d5c', target: 'definicion' },
   branches: [
-    { label: 'Linfoma de Hodgkin', color: '#6b3d5c', leaves: ['Clásico', 'Predominio linfocítico nodular'] },
-    { label: 'No Hodgkin agresivo', color: '#7a1f3d', leaves: ['Difuso de células B grandes', 'Burkitt'] },
-    { label: 'No Hodgkin indolente', color: '#8a6a1f', leaves: ['Folicular', 'Zona marginal'] }
+    { title: 'Por tipo (enfermedades)', sub: 'Hodgkin y no Hodgkin', color: '#6b3d5c', target: 'diagnostico', leaves: [
+      { title: 'Linfoma de Hodgkin', sub: 'Célula de Reed-Sternberg', color: '#6b3d5c', target: 'complicaciones' },
+      { title: 'Linfoma No Hodgkin Agresivo', sub: 'Difuso de células B grandes', color: '#7a1f3d', target: 'complicaciones' },
+      { title: 'Linfoma No Hodgkin Indolente', sub: 'Folicular, zona marginal', color: '#8a6a1f', target: 'complicaciones' },
+      { title: 'Linfoma de Burkitt y Linfomas Altamente Agresivos', sub: 'Crecimiento más rápido', color: '#8c3a34', target: 'complicaciones' }
+    ] },
+    { title: 'Complicaciones transversales', sub: 'Al diagnóstico o durante el tratamiento', color: '#3d5a73', target: 'complicaciones', leaves: [
+      { title: 'Síndrome de vena cava superior', sub: 'Masa mediastínica', color: '#3d5a73', target: 'complicaciones' },
+      { title: 'Síndrome de lisis tumoral', sub: 'Urgencia metabólica', color: '#8a6a1f', target: 'complicaciones' },
+      { title: 'Compresión medular y otras urgencias', sub: 'Oncológicas', color: '#7a1f3d', target: 'complicaciones' },
+      { title: 'Complicaciones del tratamiento', sub: 'Toxicidad de esquemas', color: '#6b4a2e', target: 'complicaciones' }
+    ] }
   ]
 };
 export const diagCites = { laboratorio: [6, 10], no_invasivos: [6, 7] };

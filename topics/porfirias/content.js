@@ -355,10 +355,20 @@ export const compGroups = [
 export const complicacionesIntro = 'Las 4 primeras tarjetas cubren los tipos principales de porfiria según la enzima deficiente; las siguientes 4 son complicaciones transversales que pueden surgir sobre cualquiera de ellas (según corresponda a la categoría hepática aguda o cutánea), desde la urgencia de la crisis aguda hasta el riesgo hepático a largo plazo.';
 export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
 export const arbol = {
-  root: { label: 'PORFIRIAS', color: '#6b3d5c' },
+  root: { title: 'PORFIRIAS', color: '#6b3d5c', target: 'definicion' },
   branches: [
-    { label: 'Hepáticas agudas', color: '#6b3d5c', leaves: ['Porfiria Aguda Intermitente', 'Coproporfiria hereditaria/Porfiria variegata'] },
-    { label: 'Cutáneas', color: '#8c6b2d', leaves: ['Porfiria Cutánea Tarda', 'Protoporfiria Eritropoyética'] }
+    { title: 'Por tipo (enfermedades)', sub: 'Según la enzima deficiente', color: '#6b3d5c', target: 'diagnostico', leaves: [
+      { title: 'Porfiria Aguda Intermitente', sub: 'Hepática aguda', color: '#6b3d5c', target: 'complicaciones' },
+      { title: 'Otras porfirias hepáticas agudas', sub: 'Coproporfiria/variegata', color: '#5c3d8c', target: 'complicaciones' },
+      { title: 'Porfiria Cutánea Tarda', sub: 'Cutánea', color: '#8c6b2d', target: 'complicaciones' },
+      { title: 'Protoporfiria Eritropoyética', sub: 'Cutánea', color: '#8a6a1f', target: 'complicaciones' }
+    ] },
+    { title: 'Complicaciones transversales', sub: 'Agudas y crónicas', color: '#7a1f3d', target: 'complicaciones', leaves: [
+      { title: 'Crisis porfírica aguda', sub: 'Urgencia', color: '#7a1f3d', target: 'complicaciones' },
+      { title: 'Neuropatía y complicaciones neurológicas', sub: 'Hepáticas agudas', color: '#8c3a34', target: 'complicaciones' },
+      { title: 'Complicaciones hepáticas a largo plazo', sub: 'Riesgo acumulado', color: '#6b4a2e', target: 'complicaciones' },
+      { title: 'Fotosensibilidad y complicaciones cutáneas', sub: 'Cutáneas', color: '#8a6a1f', target: 'complicaciones' }
+    ] }
   ]
 };
 export const diagCites = { laboratorio: [1, 6], no_invasivos: [1] };

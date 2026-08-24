@@ -350,11 +350,20 @@ export const compGroups = [
 export const complicacionesIntro = 'Las 4 primeras tarjetas organizan el hiperesplenismo por su causa subyacente (hipertensión portal, enfermedad hematológica primaria, infecciosa, o de depósito/inflamatoria); las siguientes 4 son complicaciones transversales, tanto del bazo aumentado de tamaño en sí como de su tratamiento definitivo (esplenectomía).';
 export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
 export const arbol = {
-  root: { label: 'HIPERESPLENISMO', color: '#5c6b2d' },
+  root: { title: 'HIPERESPLENISMO', color: '#5c6b2d', target: 'definicion' },
   branches: [
-    { label: 'Causa vascular/infiltrativa', color: '#3d5a73', leaves: ['Hipertensión portal', 'Enf. hematológica primaria'] },
-    { label: 'Causa infecciosa/inflamatoria', color: '#8a6a1f', leaves: ['Infecciosa', 'Depósito/inflamatoria'] },
-    { label: 'Complicaciones del bazo grande', color: '#8c3a34', leaves: ['Rotura esplénica', 'Infarto esplénico'] }
+    { title: 'Por etiología (enfermedades)', sub: 'Tétrada de Dameshek', color: '#3d5a73', target: 'diagnostico', leaves: [
+      { title: 'Por Hipertensión Portal', sub: 'Causa más frecuente', color: '#3d5a73', target: 'complicaciones' },
+      { title: 'Por Enfermedad Hematológica Primaria', sub: 'Mielofibrosis, LLC, linfoma', color: '#7a1f3d', target: 'complicaciones' },
+      { title: 'Por Enfermedad Infecciosa', sub: 'Malaria, endocarditis, TB', color: '#8a6a1f', target: 'complicaciones' },
+      { title: 'Por Enfermedad de Depósito/Inflamatoria', sub: 'Gaucher, Felty', color: '#6b4a2e', target: 'complicaciones' }
+    ] },
+    { title: 'Complicaciones transversales', sub: 'Del bazo grande y su tratamiento', color: '#8c3a34', target: 'complicaciones', leaves: [
+      { title: 'Rotura esplénica', sub: 'Traumática o espontánea', color: '#8c3a34', target: 'complicaciones' },
+      { title: 'Sepsis post-esplenectomía (OPSI)', sub: 'Profilaxis vacunal', color: '#7a1f3d', target: 'complicaciones' },
+      { title: 'Trombosis venosa post-esplenectomía', sub: 'Trombocitosis reactiva', color: '#8a6a1f', target: 'complicaciones' },
+      { title: 'Infarto esplénico', sub: 'Embólico o trombótico', color: '#6b4a2e', target: 'complicaciones' }
+    ] }
   ]
 };
 export const diagCites = { laboratorio: [0, 3], no_invasivos: [0, 4] };

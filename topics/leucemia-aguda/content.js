@@ -84,7 +84,7 @@ export const definicionText = `<p style="margin:0 0 14px;">La leucemia aguda es 
     <li>Antecedente familiar de leucemia o de un síndrome de predisposición hereditaria</li>
   </ul>
 </div>
-<p style="margin:0 0 14px;"><strong style="color:var(--accent-fg);">Fisiopatología general.</strong> Una o más mutaciones somáticas adquiridas en una célula progenitora hematopoyética alteran simultáneamente 2 procesos: la proliferación (aumentada, con expansión clonal del blasto mutado) y la diferenciación (bloqueada, impidiendo que el blasto madure a una célula funcional).${figBlock('Imagen 1', 'Bloqueo de maduración', bloqueoMaduracionHtml)} Los blastos acumulados infiltran la médula ósea, desplazando físicamente a los precursores hematopoyéticos normales de las 3 líneas (eritroide, mieloide/granulocítica, megacariocítica), lo que produce la citopenia característica de cada línea; en las formas con recuento leucocitario muy elevado, los blastos circulantes en sangre periférica pueden además ocluir la microcirculación (leucostasis, ver Complicaciones) e infiltrar tejidos extramedulares. El patrón específico de mutaciones (citogenéticas y moleculares) determina tanto el subtipo específico de leucemia como su pronóstico y su respuesta esperada al tratamiento, de ahí la importancia central de la caracterización citogenética/molecular completa al diagnóstico.</p>
+<p style="margin:0 0 14px;"><strong style="color:var(--accent-fg);">Fisiopatología general.</strong> Una o más mutaciones somáticas adquiridas en una célula progenitora hematopoyética alteran simultáneamente 2 procesos: la proliferación (aumentada, con expansión clonal del blasto mutado) y la diferenciación (bloqueada, impidiendo que el blasto madure a una célula funcional).${figBlock('Imagen 1', 'Bloqueo de maduración', bloqueoMaduracionHtml)} Los blastos acumulados infiltran la médula ósea, desplazando físicamente a los precursores hematopoyéticos normales de las 3 líneas (eritroide, mieloide/granulocítica, megacariocítica), lo que produce la citopenia característica de cada línea; en las formas con recuento leucocitario muy elevado, los blastos circulantes en sangre periférica pueden además ocluir la microcirculación (leucostasis, ver Complicaciones) e infiltrar tejidos extramedulares. El patrón específico de mutaciones (citogenéticas y moleculares) determina tanto el subtipo específico de leucemia como su pronóstico y su respuesta esperada al tratamiento, de ahí la importancia central de la caracterización citogenética/molecular completa al diagnóstico. Analogía: la médula ósea normal es como una fábrica con una línea de ensamblaje bien calibrada, donde cada trabajador nuevo (célula progenitora) avanza por las estaciones hasta graduarse como un producto terminado y funcional; en la leucemia aguda, la fábrica sigue contratando trabajadores nuevos a toda velocidad (proliferación aumentada), pero una falla en la línea de ensamblaje impide que ninguno de ellos llegue a graduarse (diferenciación bloqueada), de modo que se acumulan sin terminar, ocupan todo el espacio de la planta, y desplazan físicamente a los pocos trabajadores normales que todavía intentaban completar su turno.</p>
 <p style="margin:0;"><strong style="color:var(--accent-fg);">Panorama clínico.</strong> Espectro desde el hallazgo incidental de citopenias leves hasta la presentación aguda grave con fatiga marcada por anemia, fiebre/infección por neutropenia, sangrado por trombocitopenia (o coagulopatía específica en la LPA), y síntomas de leucostasis o de infiltración extramedular en los casos con hiperleucocitosis; el diagnóstico por biometría, frotis, y caracterización citogenética/molecular completa, la clasificación por subtipo y riesgo, y el manejo de cada complicación se desarrollan en Diagnóstico y Complicaciones.</p>`;
 
 export const bibliografia = [
@@ -367,11 +367,20 @@ export const compGroups = [
 export const complicacionesIntro = 'Las 4 primeras tarjetas cubren los tipos principales de leucemia aguda; las siguientes 4 son complicaciones transversales que pueden surgir sobre cualquiera de ellas al diagnóstico o durante la inducción, desde urgencias metabólicas hasta la infiltración de sitios extramedulares.';
 export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
 export const arbol = {
-  root: { label: 'LEUCEMIA AGUDA', color: '#8c3a34' },
+  root: { title: 'LEUCEMIA AGUDA', color: '#8c3a34', target: 'definicion' },
   branches: [
-    { label: 'Linaje mieloide', color: '#8c3a34', leaves: ['Leucemia Mieloide Aguda', 'Leucemia Promielocítica Aguda'] },
-    { label: 'Linaje linfoide', color: '#5c3d8c', leaves: ['Leucemia Linfoblástica Aguda'] },
-    { label: 'Secundaria', color: '#6b4a2e', leaves: ['Relacionada a tratamiento', 'Evolución de SMD/NMP'] }
+    { title: 'Por tipo (enfermedades)', sub: 'Linaje mieloide, linfoide, secundaria', color: '#8c3a34', target: 'diagnostico', leaves: [
+      { title: 'Leucemia Mieloide Aguda', sub: 'Linaje mieloide', color: '#8c3a34', target: 'complicaciones' },
+      { title: 'Leucemia Promielocítica Aguda', sub: 'Riesgo de CID', color: '#7a1f3d', target: 'complicaciones' },
+      { title: 'Leucemia Linfoblástica Aguda', sub: 'Linaje linfoide', color: '#5c3d8c', target: 'complicaciones' },
+      { title: 'Leucemia Aguda Secundaria/Relacionada a Tratamiento', sub: 'Evolución de SMD/NMP', color: '#6b4a2e', target: 'complicaciones' }
+    ] },
+    { title: 'Complicaciones transversales', sub: 'Al diagnóstico o durante inducción', color: '#3d5a73', target: 'complicaciones', leaves: [
+      { title: 'Síndrome de lisis tumoral', sub: 'Urgencia metabólica', color: '#3d5a73', target: 'complicaciones' },
+      { title: 'Coagulopatía y CID', sub: 'Particularmente LPA', color: '#7a1f3d', target: 'complicaciones' },
+      { title: 'Leucostasis e hiperleucocitosis', sub: 'Urgencia oncológica', color: '#8a6a1f', target: 'complicaciones' },
+      { title: 'Infiltración extramedular', sub: 'Sitios santuario', color: '#6b4a2e', target: 'complicaciones' }
+    ] }
   ]
 };
 export const diagCites = { laboratorio: [1, 7], no_invasivos: [3, 9] };
