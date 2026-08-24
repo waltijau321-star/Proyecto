@@ -291,6 +291,14 @@ export const registry = [
       import('./coagulacion-trombofilias/calculators.js'),
       import('./coagulacion-trombofilias/study.js')
     ])
+  },
+  {
+    id: 'alteraciones-plaquetarias-cuantitativas', titulo: 'Alteraciones Plaquetarias Cuantitativas',
+    load: () => Promise.all([
+      import('./alteraciones-plaquetarias-cuantitativas/content.js'),
+      import('./alteraciones-plaquetarias-cuantitativas/calculators.js'),
+      import('./alteraciones-plaquetarias-cuantitativas/study.js')
+    ])
   }
 ];
 
