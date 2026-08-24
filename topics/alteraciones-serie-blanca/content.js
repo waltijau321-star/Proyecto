@@ -364,11 +364,20 @@ export const compGroups = [
 export const complicacionesIntro = 'Las 4 primeras tarjetas cubren las alteraciones cuantitativas benignas/reactivas de cada línea celular de la serie blanca; las siguientes 4 son complicaciones transversales que pueden surgir con cualquiera de ellas, desde la distinción con un proceso neoplásico hasta la urgencia de la neutropenia febril.';
 export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
 export const arbol = {
-  root: { label: 'ALTERACIONES DE LA SERIE BLANCA', color: '#3d6b8c' },
+  root: { title: 'ALTERACIONES DE LA SERIE BLANCA', color: '#3d6b8c', target: 'definicion' },
   branches: [
-    { label: 'Leucocitosis', color: '#3d6b8c', leaves: ['Neutrofilia reactiva', 'Reacción leucemoide'] },
-    { label: 'Leucopenia', color: '#8c3a34', leaves: ['Neutropenia', 'Neutropenia febril'] },
-    { label: 'Otras líneas', color: '#8c6b2d', leaves: ['Eosinofilia', 'Linfocitosis/monocitosis reactivas'] }
+    { title: 'Por línea celular', sub: 'Alteraciones cuantitativas reactivas', color: '#3d6b8c', target: 'diagnostico', leaves: [
+      { title: 'Leucocitosis reactiva y neutrofilia', sub: 'Neutrofilia', color: '#3d6b8c', target: 'complicaciones' },
+      { title: 'Neutropenia', sub: 'Neutrófilos bajos', color: '#8c3a34', target: 'complicaciones' },
+      { title: 'Eosinofilia', sub: 'Eosinófilos elevados', color: '#8c6b2d', target: 'complicaciones' },
+      { title: 'Linfocitosis y monocitosis reactivas', sub: 'Otras líneas', color: '#5c6b8c', target: 'complicaciones' }
+    ] },
+    { title: 'Complicaciones transversales', sub: 'Urgencias y diagnóstico diferencial', color: '#7a1f3d', target: 'complicaciones', leaves: [
+      { title: 'Diferencial reacción leucemoide vs. LMC', sub: 'Reactiva vs. neoplásica', color: '#7a1f3d', target: 'complicaciones' },
+      { title: 'Neutropenia febril', sub: 'Urgencia oncológica', color: '#8c3a34', target: 'complicaciones' },
+      { title: 'Síndrome hipereosinofílico', sub: 'Daño de órgano', color: '#8c6b2d', target: 'complicaciones' },
+      { title: 'Enfoque diagnóstico del hemograma anormal', sub: 'Abordaje general', color: '#3f6b52', target: 'complicaciones' }
+    ] }
   ]
 };
 export const diagCites = { laboratorio: [1, 2], no_invasivos: [9] };

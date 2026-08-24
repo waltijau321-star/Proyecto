@@ -362,11 +362,20 @@ export const compGroups = [
 export const complicacionesIntro = 'Las 4 primeras tarjetas organizan el enfoque clínico de la linfadenopatía por localización (localizada vs. generalizada) y riesgo (bajo vs. alto); las siguientes 4 son complicaciones transversales, tanto de la enfermedad subyacente como del propio proceso diagnóstico.';
 export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
 export const arbol = {
-  root: { label: 'LINFADENOPATÍA', color: '#2d6b5c' },
+  root: { title: 'LINFADENOPATÍA', color: '#2d6b5c', target: 'definicion' },
   branches: [
-    { label: 'Localizada', color: '#3f6b52', leaves: ['Reactiva/benigna', 'Alto riesgo'] },
-    { label: 'Generalizada', color: '#7a1f3d', leaves: ['Infecciosa/autoinmune', 'Neoplasia diseminada'] },
-    { label: 'Del proceso diagnóstico', color: '#6b4a2e', leaves: ['Complicaciones de biopsia', 'Retraso diagnóstico'] }
+    { title: 'Por localización y riesgo (enfermedades)', sub: 'Localizada vs. generalizada', color: '#3f6b52', target: 'diagnostico', leaves: [
+      { title: 'Localizada Reactiva/Benigna', sub: 'Bajo riesgo', color: '#3f6b52', target: 'complicaciones' },
+      { title: 'Localizada de Alto Riesgo', sub: 'Criterios de alarma', color: '#8c3a34', target: 'complicaciones' },
+      { title: 'Generalizada Infecciosa/Autoinmune', sub: 'VIH, VEB, tuberculosis', color: '#3d5a73', target: 'complicaciones' },
+      { title: 'Generalizada por Neoplasia Diseminada', sub: 'Leucemia, linfoma avanzado', color: '#7a1f3d', target: 'complicaciones' }
+    ] },
+    { title: 'Complicaciones transversales', sub: 'De la enfermedad y del proceso diagnóstico', color: '#6b4a2e', target: 'complicaciones', leaves: [
+      { title: 'Complicaciones de la biopsia ganglionar', sub: 'Sangrado, lesión nerviosa', color: '#6b4a2e', target: 'complicaciones' },
+      { title: 'Síndrome de vena cava superior', sub: 'Adenopatía mediastínica masiva', color: '#7a1f3d', target: 'complicaciones' },
+      { title: 'Linfadenitis supurativa', sub: 'Absceso, requiere drenaje', color: '#8a6a1f', target: 'complicaciones' },
+      { title: 'Retraso diagnóstico de malignidad', sub: 'Falla del proceso', color: '#3d3d3d', target: 'complicaciones' }
+    ] }
   ]
 };
 export const diagCites = { laboratorio: [0, 1], no_invasivos: [0, 2] };

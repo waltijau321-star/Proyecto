@@ -367,11 +367,20 @@ export const compGroups = [
 export const complicacionesIntro = 'Las 4 primeras tarjetas cubren el espectro clínico de la misma enfermedad biológica (LLC/SLL/MBL), no 4 entidades independientes; las siguientes 4 son complicaciones transversales que pueden surgir en cualquier punto de ese espectro, desde las citopenias autoinmunes hasta la transformación a un linfoma agresivo.';
 export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
 export const arbol = {
-  root: { label: 'LLC / SLL / MBL', color: '#5c3d8c' },
+  root: { title: 'LLC / SLL / MBL', color: '#5c3d8c', target: 'definicion' },
   branches: [
-    { label: 'Por volumen del clon', color: '#8c6b2d', leaves: ['MBL (&lt;5,000/µL)', 'LLC (≥5,000/µL)'] },
-    { label: 'Por actividad clínica', color: '#7a1f3d', leaves: ['Bajo riesgo (vigilar y esperar)', 'Requiere tratamiento (iwCLL)'] },
-    { label: 'Por distribución', color: '#6b4a2e', leaves: ['Leucémica (LLC)', 'Ganglionar/tisular (SLL)'] }
+    { title: 'Por espectro clínico (enfermedades)', sub: 'Misma entidad biológica', color: '#8c6b2d', target: 'diagnostico', leaves: [
+      { title: 'LLC de bajo riesgo', sub: 'Vigilar y esperar', color: '#3f6b52', target: 'complicaciones' },
+      { title: 'LLC que requiere tratamiento', sub: 'Criterios iwCLL', color: '#7a1f3d', target: 'complicaciones' },
+      { title: 'Linfoma Linfocítico Pequeño', sub: 'Ganglionar/tisular', color: '#8c6b2d', target: 'complicaciones' },
+      { title: 'Linfocitosis B Monoclonal', sub: 'Precursora, &lt;5,000/µL', color: '#3d5a73', target: 'complicaciones' }
+    ] },
+    { title: 'Complicaciones transversales', sub: 'En cualquier punto del espectro', color: '#6b4a2e', target: 'complicaciones', leaves: [
+      { title: 'Citopenias autoinmunes', sub: 'AHAI, PTI', color: '#6b4a2e', target: 'complicaciones' },
+      { title: 'Hipogammaglobulinemia e infecciones recurrentes', sub: 'Inmunodeficiencia', color: '#3d5a73', target: 'complicaciones' },
+      { title: 'Transformación de Richter', sub: 'A linfoma agresivo', color: '#7a1f3d', target: 'complicaciones' },
+      { title: 'Segundas neoplasias y complicaciones del tratamiento', sub: 'Toxicidad tardía', color: '#8a6a1f', target: 'complicaciones' }
+    ] }
   ]
 };
 export const diagCites = { laboratorio: [1, 2], no_invasivos: [3, 4] };
