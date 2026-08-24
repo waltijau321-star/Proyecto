@@ -259,6 +259,14 @@ export const registry = [
       import('./mieloma-multiple/calculators.js'),
       import('./mieloma-multiple/study.js')
     ])
+  },
+  {
+    id: 'linfadenopatias', titulo: 'Linfadenopatías',
+    load: () => Promise.all([
+      import('./linfadenopatias/content.js'),
+      import('./linfadenopatias/calculators.js'),
+      import('./linfadenopatias/study.js')
+    ])
   }
 ];
 
