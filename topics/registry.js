@@ -267,6 +267,14 @@ export const registry = [
       import('./linfadenopatias/calculators.js'),
       import('./linfadenopatias/study.js')
     ])
+  },
+  {
+    id: 'hiperesplenismo', titulo: 'Hiperesplenismo',
+    load: () => Promise.all([
+      import('./hiperesplenismo/content.js'),
+      import('./hiperesplenismo/calculators.js'),
+      import('./hiperesplenismo/study.js')
+    ])
   }
 ];
 
