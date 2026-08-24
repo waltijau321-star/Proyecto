@@ -251,6 +251,14 @@ export const registry = [
       import('./linfomas/calculators.js'),
       import('./linfomas/study.js')
     ])
+  },
+  {
+    id: 'mieloma-multiple', titulo: 'Mieloma Múltiple',
+    load: () => Promise.all([
+      import('./mieloma-multiple/content.js'),
+      import('./mieloma-multiple/calculators.js'),
+      import('./mieloma-multiple/study.js')
+    ])
   }
 ];
 
