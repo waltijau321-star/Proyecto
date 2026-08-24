@@ -243,6 +243,14 @@ export const registry = [
       import('./leucemia-linfocitica-cronica/calculators.js'),
       import('./leucemia-linfocitica-cronica/study.js')
     ])
+  },
+  {
+    id: 'linfomas', titulo: 'Linfomas',
+    load: () => Promise.all([
+      import('./linfomas/content.js'),
+      import('./linfomas/calculators.js'),
+      import('./linfomas/study.js')
+    ])
   }
 ];
 
