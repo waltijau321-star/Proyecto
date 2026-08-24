@@ -275,6 +275,14 @@ export const registry = [
       import('./hiperesplenismo/calculators.js'),
       import('./hiperesplenismo/study.js')
     ])
+  },
+  {
+    id: 'sindrome-hiperviscosidad', titulo: 'Síndrome de Hiperviscosidad',
+    load: () => Promise.all([
+      import('./sindrome-hiperviscosidad/content.js'),
+      import('./sindrome-hiperviscosidad/calculators.js'),
+      import('./sindrome-hiperviscosidad/study.js')
+    ])
   }
 ];
 
