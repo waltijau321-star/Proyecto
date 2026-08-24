@@ -283,6 +283,14 @@ export const registry = [
       import('./sindrome-hiperviscosidad/calculators.js'),
       import('./sindrome-hiperviscosidad/study.js')
     ])
+  },
+  {
+    id: 'coagulacion-trombofilias', titulo: 'Trastornos de la Coagulación y Trombofilias',
+    load: () => Promise.all([
+      import('./coagulacion-trombofilias/content.js'),
+      import('./coagulacion-trombofilias/calculators.js'),
+      import('./coagulacion-trombofilias/study.js')
+    ])
   }
 ];
 
