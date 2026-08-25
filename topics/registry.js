@@ -299,6 +299,14 @@ export const registry = [
       import('./alteraciones-plaquetarias-cuantitativas/calculators.js'),
       import('./alteraciones-plaquetarias-cuantitativas/study.js')
     ])
+  },
+  {
+    id: 'transfusion-hemoderivados', titulo: 'Transfusión de Hemoderivados',
+    load: () => Promise.all([
+      import('./transfusion-hemoderivados/content.js'),
+      import('./transfusion-hemoderivados/calculators.js'),
+      import('./transfusion-hemoderivados/study.js')
+    ])
   }
 ];
 
