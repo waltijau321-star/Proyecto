@@ -307,6 +307,14 @@ export const registry = [
       import('./transfusion-hemoderivados/calculators.js'),
       import('./transfusion-hemoderivados/study.js')
     ])
+  },
+  {
+    id: 'coagulacion-intravascular-diseminada', titulo: 'Coagulación Intravascular Diseminada',
+    load: () => Promise.all([
+      import('./coagulacion-intravascular-diseminada/content.js'),
+      import('./coagulacion-intravascular-diseminada/calculators.js'),
+      import('./coagulacion-intravascular-diseminada/study.js')
+    ])
   }
 ];
 
