@@ -68,7 +68,7 @@ const NEUROLOGIA_CLUSTERS = [
   { name: 'Enfermedad cerebrovascular', items: [
     { label: 'Enfermedad vascular cerebral isquémica', topicId: 'enfermedad-cerebrovascular' },
     { label: 'Hemorragia intracraneal y subaracnoidea', topicId: 'enfermedad-cerebrovascular' },
-    'Neoplasias del sistema nervioso central', 'Síndrome de hipertensión intracraneal', 'Traumatismo craneoencefálico', 'Vértigo central (síndrome vestibular agudo)'
+    'Neoplasias del sistema nervioso central', 'Síndrome de hipertensión intracraneal', { label: 'Traumatismo craneoencefálico', topicId: 'traumatismo-craneoencefalico' }, 'Vértigo central (síndrome vestibular agudo)'
   ] },
   { name: 'Trastornos paroxísticos y del movimiento', items: [
     { label: 'Estado epiléptico y epilepsia', topicId: 'estado-epileptico' },
