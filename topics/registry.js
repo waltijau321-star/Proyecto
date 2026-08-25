@@ -315,6 +315,14 @@ export const registry = [
       import('./coagulacion-intravascular-diseminada/calculators.js'),
       import('./coagulacion-intravascular-diseminada/study.js')
     ])
+  },
+  {
+    id: 'traumatismo-craneoencefalico', titulo: 'Traumatismo Craneoencefálico',
+    load: () => Promise.all([
+      import('./traumatismo-craneoencefalico/content.js'),
+      import('./traumatismo-craneoencefalico/calculators.js'),
+      import('./traumatismo-craneoencefalico/study.js')
+    ])
   }
 ];
 
