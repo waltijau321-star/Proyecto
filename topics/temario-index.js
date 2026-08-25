@@ -1,5 +1,5 @@
 // topics/temario-index.js
-// Temario holístico completo de Medicina Interna (15 bloques numerados + un bloque de
+// Temario holístico completo de Medicina Interna (21 bloques numerados + un bloque de
 // acceso rápido "R1" al inicio), usado por la sección "Temario" de Inicio para mostrar el
 // desglose completo del programa. Cada ítem que ya tiene un tema construido en el motor
 // (ver topics/registry.js) trae `topicId`; el resto se muestra como "en desarrollo" hasta
@@ -9,6 +9,13 @@
 // Neurología, Neumología, Dermatología) se definen una sola vez como constantes y se
 // reutilizan tanto en su bloque temático de siempre como en el bloque "R1" de acceso
 // rápido — así no hay dos copias del mismo dato que se puedan desincronizar.
+//
+// Nota de reorganización (petición explícita del usuario): Neumología y Medicina Crítica,
+// y Hematología y Oncología, eran cada una 1 solo bloque combinado y se separaron en 2
+// bloques independientes; Salud de la Mujer y Embarazo, Psiquiatría, Dermatología, y
+// Oftalmología y Otorrinolaringología eran clusters dentro de "Medicina Interna Ambulatoria
+// y Preventiva" y se extrajeron como bloques propios. Esto obligó a renumerar todos los
+// bloques romanos, de 15 a 21.
 
 const SEMIOLOGIA_CLUSTERS = [
   { name: 'Historia clínica y anamnesis dirigida', items: [
@@ -72,7 +79,7 @@ const NEUROLOGIA_CLUSTERS = [
 ];
 
 // Solo los clusters de enfermedad respiratoria propiamente dicha (no medicina crítica
-// general, que vive en Choque/Sepsis/Fallas orgánicas dentro del mismo bloque II).
+// general, que vive en su propio bloque de Medicina Crítica).
 const NEUMOLOGIA_R1_CLUSTERS = [
   { name: 'Enfermedad respiratoria crónica', items: ['EPOC estable y exacerbación', 'Asma', 'Enfermedad pulmonar intersticial e hipertensión pulmonar', 'Enfermedad pulmonar restrictiva', 'Nódulo pulmonar solitario y cáncer de pulmón', 'Apnea obstructiva del sueño', 'Sarcoidosis y otras enfermedades granulomatosas', 'Bronquiectasias', 'Neumoconiosis'] },
   { name: 'Infecciones respiratorias', items: ['Neumonía adquirida en la comunidad y nosocomial', 'Neumonía por aspiración', 'Tuberculosis', 'Absceso pulmonar', 'COVID-19 y sus complicaciones', 'Influenza y neumonía viral', 'Bronquitis aguda'] },
@@ -99,7 +106,7 @@ export const temarioBlocks = [
   {
     title: 'R1',
     quickAccess: true,
-    intro: 'Acceso rápido a los 5 temas evaluados en el kardex de primer año (Semiología y Exploración Física, Fallas orgánicas, Neurología, Neumología, Dermatología). Son los mismos subtemas que ya están en su bloque de siempre más abajo — esto es solo un atajo, no un temario aparte. Cada uno se abre por separado.',
+    intro: 'Acceso rápido a los 5 temas evaluados en el kardex de primer año (Semiología y Exploración Física, Fallas orgánicas, Neurología, Neumología, Dermatología). Son los mismos subtemas que ya están en su bloque de siempre más abajo: esto es solo un atajo, no un temario aparte. Cada uno se abre por separado.',
     groups: [
       { name: 'Semiología y Exploración Física', clusters: SEMIOLOGIA_CLUSTERS },
       { name: 'Fallas orgánicas', clusters: [{ name: 'Fallas orgánicas', items: FALLAS_ORGANICAS_ITEMS }] },
@@ -125,10 +132,14 @@ export const temarioBlocks = [
     ]
   },
   {
-    title: 'III. Neumología y Medicina Crítica',
-    intro: 'Del manejo ambulatorio de la enfermedad respiratoria crónica al soporte vital del paciente críticamente enfermo.',
+    title: 'III. Neumología',
+    intro: 'Del manejo ambulatorio de la enfermedad respiratoria crónica a la insuficiencia respiratoria aguda.',
+    clusters: NEUMOLOGIA_R1_CLUSTERS
+  },
+  {
+    title: 'IV. Medicina Crítica',
+    intro: 'Soporte vital del paciente críticamente enfermo: choque, sepsis, falla orgánica múltiple y emergencias traumáticas y ambientales.',
     clusters: [
-      ...NEUMOLOGIA_R1_CLUSTERS,
       { name: 'Choque, sepsis y soporte vital', items: [
         { label: 'Sepsis y choque séptico', topicId: 'sepsis' },
         'Estado de choque (hipovolémico y distributivo)',
@@ -141,7 +152,7 @@ export const temarioBlocks = [
     ]
   },
   {
-    title: 'IV. Gastroenterología y Hepatología',
+    title: 'V. Gastroenterología y Hepatología',
     intro: 'Enfermedades del tubo digestivo, hígado y vía biliar, con énfasis en las complicaciones agudas que definen el ingreso hospitalario.',
     clusters: [
       { name: 'Tubo digestivo alto y bajo', items: ['ERGE y trastornos esofágicos', 'Enfermedad ácido-péptica y H. pylori', 'Enfermedad inflamatoria intestinal y síndrome de intestino irritable', 'Hemorragia digestiva alta y baja', 'Enfermedad diverticular del colon', 'Enfermedad vascular del intestino (isquemia mesentérica)', 'Neoplasias del esófago, estómago y colon-recto', 'Síndrome diarreico crónico y malabsorción intestinal', 'Constipación', 'Disfagia'] },
@@ -159,7 +170,7 @@ export const temarioBlocks = [
     ]
   },
   {
-    title: 'V. Nefrología y Trastornos Hidroelectrolíticos',
+    title: 'VI. Nefrología y Trastornos Hidroelectrolíticos',
     intro: 'Función renal, equilibrio ácido-base y electrolítico, ejes transversales a prácticamente todo paciente hospitalizado.',
     clusters: [
       { name: 'Función renal', items: ['Lesión renal aguda', 'Enfermedad renal crónica y sus complicaciones', 'Glomerulopatías', 'Síndrome nefrótico y síndrome nefrítico', 'Hematuria (enfoque diagnóstico)', 'Proteinuria (enfoque diagnóstico)', 'Nefropatía diabética e hipertensiva', 'Litiasis urinaria y nefropatía obstructiva', 'Enfermedad renal poliquística', 'Enfermedades de la próstata y neoplasias urológicas (riñón, vejiga, próstata)', 'Trasplante renal', 'Nefrotoxicidad por fármacos', 'Nefropatía túbulo-intersticial'] },
@@ -168,7 +179,7 @@ export const temarioBlocks = [
     ]
   },
   {
-    title: 'VI. Endocrinología y Metabolismo',
+    title: 'VII. Endocrinología y Metabolismo',
     intro: 'Diabetes, tiroides y eje hormonal, con sus urgencias metabólicas características.',
     clusters: [
       { name: 'Diabetes mellitus', items: ['Diagnóstico y metas de control en tipo 1 y tipo 2', 'Cetoacidosis diabética y estado hiperosmolar hiperglucémico', 'Complicaciones crónicas microvasculares y macrovasculares', 'Pie diabético', 'Hipoglucemia y diabetes gestacional'] },
@@ -178,17 +189,23 @@ export const temarioBlocks = [
     ]
   },
   {
-    title: 'VII. Hematología y Oncología',
-    intro: 'Trastornos de las líneas celulares sanguíneas y principios oncológicos esenciales para el internista.',
+    title: 'VIII. Hematología',
+    intro: 'Trastornos de las 3 líneas celulares sanguíneas: anemias, hemostasia/trombosis, y neoplasias hematológicas.',
     clusters: [
       { name: 'Anemias y trastornos de la serie roja', items: [{ label: 'Anemia ferropénica (pérdida de sangre, aporte/absorción, embarazo, refractaria)', topicId: 'anemia-ferropenica' }, { label: 'Anemia megaloblástica (deficiencia de B12 y folato)', topicId: 'anemia-megaloblastica' }, { label: 'Anemias hemolíticas hereditarias (esferocitosis, eliptocitosis, deficiencia de G6PD, deficiencia de piruvato cinasa)', topicId: 'anemias-hemoliticas-hereditarias' }, { label: 'Anemias hemolíticas adquiridas (autoinmunes, microangiopáticas, HPN)', topicId: 'anemias-hemoliticas-adquiridas' }, { label: 'Anemia de la enfermedad crónica (AEC clásica, enfermedad renal crónica, combinada, paciente crítico)', topicId: 'anemia-enfermedad-cronica' }, { label: 'Policitemia secundaria (eritrocitosis)', topicId: 'policitemia-secundaria' }, { label: 'Alteraciones de la serie blanca (leucocitosis, leucopenia, eosinofilia)', topicId: 'alteraciones-serie-blanca' }, { label: 'Porfirias', topicId: 'porfirias' }, { label: 'Anemia aplásica (idiopática, no grave, secundaria, congénita)', topicId: 'anemia-aplasica' }, { label: 'Hemoglobinopatías (talasemias, drepanocitosis)', topicId: 'hemoglobinopatias' }] },
       { name: 'Hemostasia y trombosis', items: [{ label: 'Trastornos de la coagulación y trombofilias', topicId: 'coagulacion-trombofilias' }, { label: 'Alteraciones plaquetarias cuantitativas (trombocitopenia y púrpuras, trombocitosis reactiva)', topicId: 'alteraciones-plaquetarias-cuantitativas' }, { label: 'Transfusión de hemoderivados', topicId: 'transfusion-hemoderivados' }, { label: 'Coagulación intravascular diseminada', topicId: 'coagulacion-intravascular-diseminada' }] },
-      { name: 'Neoplasias hematológicas', items: [{ label: 'Síndromes mielodisplásicos (bajo riesgo, alto riesgo, hipoplásico, relacionado a tratamiento)', topicId: 'sindromes-mielodisplasicos' }, { label: 'Neoplasias mieloproliferativas (policitemia vera, trombocitemia esencial, mielofibrosis)', topicId: 'sindromes-mieloproliferativos' }, { label: 'Leucemia aguda (LMA, LPA, LLA)', topicId: 'leucemia-aguda' }, { label: 'Leucemia linfocítica crónica (LLC, SLL, MBL)', topicId: 'leucemia-linfocitica-cronica' }, { label: 'Linfomas, incluyendo linfoma de Hodgkin', topicId: 'linfomas' }, { label: 'Mieloma múltiple', topicId: 'mieloma-multiple' }, { label: 'Linfadenopatías', topicId: 'linfadenopatias' }, { label: 'Hiperesplenismo', topicId: 'hiperesplenismo' }, { label: 'Síndrome de hiperviscosidad', topicId: 'sindrome-hiperviscosidad' }] },
-      { name: 'Oncología general', items: ['Urgencias oncológicas (síndrome de lisis tumoral, compresión medular, síndrome de vena cava superior)', 'Neutropenia febril', 'Cuidados de soporte y control de síntomas en cáncer', 'Síndromes paraneoplásicos y metástasis de primario desconocido', 'Complicaciones de quimioterapia y radioterapia'] }
+      { name: 'Neoplasias hematológicas', items: [{ label: 'Síndromes mielodisplásicos (bajo riesgo, alto riesgo, hipoplásico, relacionado a tratamiento)', topicId: 'sindromes-mielodisplasicos' }, { label: 'Neoplasias mieloproliferativas (policitemia vera, trombocitemia esencial, mielofibrosis)', topicId: 'sindromes-mieloproliferativos' }, { label: 'Leucemia aguda (LMA, LPA, LLA)', topicId: 'leucemia-aguda' }, { label: 'Leucemia linfocítica crónica (LLC, SLL, MBL)', topicId: 'leucemia-linfocitica-cronica' }, { label: 'Linfomas, incluyendo linfoma de Hodgkin', topicId: 'linfomas' }, { label: 'Mieloma múltiple', topicId: 'mieloma-multiple' }, { label: 'Linfadenopatías', topicId: 'linfadenopatias' }, { label: 'Hiperesplenismo', topicId: 'hiperesplenismo' }, { label: 'Síndrome de hiperviscosidad', topicId: 'sindrome-hiperviscosidad' }] }
     ]
   },
   {
-    title: 'VIII. Enfermedades Infecciosas',
+    title: 'IX. Oncología',
+    intro: 'Principios oncológicos esenciales para el internista: urgencias oncológicas, cuidados de soporte, y complicaciones del tratamiento.',
+    clusters: [
+      { name: 'Principios oncológicos generales', items: ['Urgencias oncológicas (síndrome de lisis tumoral, compresión medular, síndrome de vena cava superior)', 'Neutropenia febril', 'Cuidados de soporte y control de síntomas en cáncer', 'Síndromes paraneoplásicos y metástasis de primario desconocido', 'Complicaciones de quimioterapia y radioterapia'] }
+    ]
+  },
+  {
+    title: 'X. Enfermedades Infecciosas',
     intro: 'Diagnóstico sindrómico, uso racional de antimicrobianos y manejo del huésped inmunocomprometido.',
     clusters: [
       { name: 'Infecciones frecuentes por sistema', items: ['Infecciones del tracto urinario', 'Infecciones de piel y tejidos blandos', 'Micosis superficiales (tiña, pitiriasis versicolor, onicomicosis)', 'Infecciones osteoarticulares', 'Endocarditis infecciosa', 'Infecciones de transmisión sexual (sífilis, uretritis)', 'Infecciones por herpesvirus (herpes simple, herpes zóster, mononucleosis infecciosa)'] },
@@ -208,7 +225,7 @@ export const temarioBlocks = [
     ]
   },
   {
-    title: 'IX. Reumatología e Inmunología Clínica',
+    title: 'XI. Reumatología e Inmunología Clínica',
     intro: 'Enfermedades autoinmunes sistémicas y artropatías, frecuentemente subdiagnosticadas fuera de la subespecialidad.',
     clusters: [
       { name: 'Artropatías inflamatorias', items: ['Artritis reumatoide', 'Espondiloartritis', 'Gota y enfermedad por depósito de cristales', 'Osteoartritis y artritis séptica'] },
@@ -218,12 +235,12 @@ export const temarioBlocks = [
     ]
   },
   {
-    title: 'X. Neurología',
+    title: 'XII. Neurología',
     intro: 'Reconocimiento y manejo agudo de la enfermedad neurológica tiempo-dependiente.',
     clusters: NEUROLOGIA_CLUSTERS
   },
   {
-    title: 'XI. Geriatría',
+    title: 'XIII. Geriatría',
     intro: 'Particularidades fisiológicas y síndromes propios del adulto mayor hospitalizado.',
     clusters: [
       { name: 'Valoración y síndromes geriátricos', items: ['Valoración geriátrica integral', 'Biología del envejecimiento', 'Caídas, fragilidad y sarcopenia', 'Polifarmacia y deprescripción', 'Abdomen agudo en el adulto mayor'] },
@@ -231,20 +248,25 @@ export const temarioBlocks = [
     ]
   },
   {
-    title: 'XII. Medicina Interna Ambulatoria y Preventiva',
+    title: 'XIV. Medicina Interna Ambulatoria y Preventiva',
     intro: 'El internista como médico de cabecera del adulto: prevención, cribado y problemas frecuentes en consulta externa.',
     clusters: [
       { name: 'Prevención y cribado', items: ['Control de factores de riesgo cardiovascular', 'Tamizaje oncológico', 'Vacunación y medicina preventiva del adulto'] },
-      { name: 'Salud de la mujer y embarazo', items: [
-        'Salud de la mujer (climaterio, anticoncepción, cribado ginecológico)',
-        'Complicaciones médicas del embarazo (preeclampsia-eclampsia, síndrome de HELLP) y cáncer ginecológico',
-        'Cardiopatía y embarazo',
-        'Lupus eritematoso y embarazo',
-        'Convulsiones y embarazo',
-        'Tiroiditis posparto',
-        'Sepsis posaborto',
-        'Cáncer de mama'
-      ] },
+      { name: 'Otros problemas frecuentes', items: ['Desnutrición y evaluación del estado nutricional'] }
+    ]
+  },
+  {
+    title: 'XV. Salud de la Mujer y Embarazo',
+    intro: 'Problemas médicos específicos de la salud de la mujer y las complicaciones médicas del embarazo que el internista debe reconocer.',
+    clusters: [
+      { name: 'Salud de la mujer', items: ['Salud de la mujer (climaterio, anticoncepción, cribado ginecológico)', 'Cáncer de mama'] },
+      { name: 'Complicaciones médicas del embarazo', items: ['Complicaciones médicas del embarazo (preeclampsia-eclampsia, síndrome de HELLP) y cáncer ginecológico', 'Cardiopatía y embarazo', 'Lupus eritematoso y embarazo', 'Convulsiones y embarazo', 'Tiroiditis posparto', 'Sepsis posaborto'] }
+    ]
+  },
+  {
+    title: 'XVI. Psiquiatría',
+    intro: 'Trastornos psiquiátricos frecuentes que el internista debe reconocer y manejar inicialmente en el paciente hospitalizado o ambulatorio.',
+    clusters: [
       { name: 'Trastornos psiquiátricos frecuentes', items: [
         'Trastornos psiquiátricos frecuentes (depresión, ansiedad)',
         'Esquizofrenia',
@@ -252,15 +274,26 @@ export const temarioBlocks = [
         'Síndromes somatomorfos',
         'Anorexia nerviosa',
         'Otros trastornos psiquiátricos frecuentes (trastornos del sueño, adicciones y alcoholismo, riesgo suicida)'
-      ] },
-      { name: 'Otros problemas frecuentes', items: ['Dermatología básica para el internista', 'Desnutrición y evaluación del estado nutricional'] },
-      { name: 'Dermatología', items: DERMATOLOGIA_ITEMS },
+      ] }
+    ]
+  },
+  {
+    title: 'XVII. Dermatología',
+    intro: 'Enfermedades cutáneas frecuentes y manifestaciones dermatológicas de enfermedad sistémica que el internista debe reconocer.',
+    clusters: [
+      { name: 'Dermatología', items: DERMATOLOGIA_ITEMS }
+    ]
+  },
+  {
+    title: 'XVIII. Oftalmología y Otorrinolaringología',
+    intro: 'Problemas oftalmológicos y otorrinolaringológicos frecuentes, y sus manifestaciones de enfermedad sistémica, relevantes para el internista.',
+    clusters: [
       { name: 'Oftalmología', items: ['Oftalmología básica (ojo rojo y manifestaciones oculares de enfermedad sistémica)', 'Coriorretinitis'] },
       { name: 'Otorrinolaringología', items: ['Otorrinolaringología básica (rinosinusitis, otitis media, vértigo)', 'Laberintitis', 'Cáncer de laringe', 'Rinitis alérgica'] }
     ]
   },
   {
-    title: 'XIII. Cuidados Paliativos, Bioética y Comunicación',
+    title: 'XIX. Cuidados Paliativos, Bioética y Comunicación',
     intro: 'Competencias esenciales para el acompañamiento integral del paciente y su familia.',
     clusters: [
       { name: 'Control de síntomas', items: ['Manejo del dolor y síntomas al final de la vida', 'Sedación paliativa'] },
@@ -269,7 +302,7 @@ export const temarioBlocks = [
     ]
   },
   {
-    title: 'XIV. Farmacología Clínica y Toxicología',
+    title: 'XX. Farmacología Clínica y Toxicología',
     intro: 'Uso seguro del medicamento y reconocimiento de las intoxicaciones más frecuentes.',
     clusters: [
       { name: 'Prescripción segura', items: ['Reconciliación medicamentosa', 'Interacciones farmacológicas relevantes', 'Ajuste de dosis en falla renal y hepática', 'Reacciones adversas a medicamentos y farmacovigilancia'] },
@@ -277,7 +310,7 @@ export const temarioBlocks = [
     ]
   },
   {
-    title: 'XV. Habilidades Transversales y Procedimientos',
+    title: 'XXI. Habilidades Transversales y Procedimientos',
     intro: 'Competencias prácticas e interpretativas que atraviesan todas las subespecialidades.',
     clusters: [
       { name: 'Procedimientos', items: ['Paracentesis, toracocentesis y punción lumbar', 'Colocación de accesos venosos centrales', 'Artrocentesis (aspiración articular)'] },
