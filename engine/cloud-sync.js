@@ -37,6 +37,12 @@ function strategyFor(key) {
   if (key.startsWith('flashcard-progress:')) return 'flashcards';
   if (key.startsWith('rm:proto:')) return 'bool-map';
   if (key === 'rm:topics-reviewed') return 'bool-map';
+  // VPO: lo marcado para la nota (fármacos y estudios) es acumulativo y se une entre dispositivos
+  // (marcar en el celular durante el pase y terminar la nota en la computadora). No vale
+  // marcar todo el prefijo 'rm:vpo:' como bool-map: 'rm:vpo:tab' guarda una cadena y
+  // 'rm:vpo:ruta' un camino de decisiones, y unir dos caminos daría ramas contradictorias.
+  // Para esos dos la estrategia escalar es la correcta: gana el último dispositivo.
+  if (key === 'rm:vpo:farmacos' || key === 'rm:vpo:estudios') return 'bool-map';
   return 'scalar';
 }
 

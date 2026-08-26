@@ -61,6 +61,34 @@ async function run() {
     assertEqual(mergeValue('flashcard-progress:sepsis', local, cloud), { 0: { box: 4, next: 500 } });
   });
 
+  test('merge: los fármacos marcados para la nota de VPO se unen entre dispositivos', () => {
+    // Acumulativo, no "gana la nube": marcar en el celular y en la computadora debe sumar.
+    assertEqual(mergeValue('rm:vpo:farmacos', { apixaban: true }, { isglt2: true }),
+      { apixaban: true, isglt2: true });
+  });
+
+  test('merge: los estudios marcados para la nota de VPO se unen entre dispositivos', () => {
+    assertEqual(mergeValue('rm:vpo:estudios', { ecg: true }, { biomarcadores: true }),
+      { ecg: true, biomarcadores: true });
+  });
+
+  test('merge: la pestaña activa de VPO es escalar, no un mapa de banderas', () => {
+    assertEqual(mergeValue('rm:vpo:tab', 'escalas', 'farmacos'), 'farmacos');
+  });
+
+  test('merge: las escalas calculadas de VPO son escalares (foto de un paciente, no un acumulado)', () => {
+    const local = { leeindex: { titulo: 'Índice de Lee (RCRI)', frase: 'grupo III', ts: 1 } };
+    const nube = { ariscat: { titulo: 'ARISCAT', frase: '40 puntos', ts: 2 } };
+    assertEqual(mergeValue('rm:vpo:escalas', local, nube), nube);
+  });
+
+  test('merge: la ruta perioperatoria es escalar, no se unen dos caminos distintos', () => {
+    // Unir dos recorridos daría ramas contradictorias: gana el último dispositivo, entero.
+    const local = { camino: [{ paso: 'urgencia', label: 'Emergencia' }], veredicto: 'emergencia' };
+    const nube = { camino: [{ paso: 'urgencia', label: 'Sensible al tiempo o electiva' }], veredicto: null };
+    assertEqual(mergeValue('rm:vpo:ruta', local, nube), nube);
+  });
+
   test('merge: temas repasados es un OR booleano entre dispositivos', () => {
     const local = { sepsis: true };
     const cloud = { 'cirrosis-hepatica': true };
@@ -180,6 +208,528 @@ async function run() {
     const r = childPugh.compute({ bili: 3, alb: 3, inr: 3, asc: 3, he: 3 });
     assertEqual(r.sum, 15);
     assertEqual(r.cls, 'C');
+  });
+
+  /* ---------------- Calculadoras clínicas: VPO (protocols/vpo-calc.js) ----------------
+     Son las de fórmula más compleja del proyecto (dos regresiones logísticas). Los coeficientes
+     están verificados contra la Tabla de Gupta PK, et al. Circulation 2011;124(4):381-387, y los
+     porcentajes fijados aquí son los que produce esa fórmula para el caso descrito: si alguien
+     toca un coeficiente por accidente, estas pruebas lo atrapan. */
+  const vpoModule = await import('./protocols/vpo-calc.js');
+  const vpoCalc = vpoModule.calculators;
+  const vpo = k => vpoCalc.find(c => c.key === k);
+
+  test('VPO ASA: la clase y el sufijo de emergencia se propagan al resultado', () => {
+    assertEqual(vpo('asa').compute({ clase: 'III', emergencia: true }), { clase: 'III', e: true });
+  });
+
+  test('VPO Gupta-MICA: varón de 65 años, ASA III, independiente, creatinina normal, hernia', () => {
+    // 'hernia' es la categoría de referencia del modelo (coeficiente 0).
+    const r = vpo('guptamica').compute({ age: 65, asa: '3', func: 'independent', creat: false, surg: 'hernia' });
+    assert(Math.abs(r.pct - 0.2815) < 0.001, `esperaba ≈0.2815%, obtuve ${r.pct}`);
+  });
+
+  test('VPO Gupta-MICA: el riesgo sube al empeorar todos los predictores', () => {
+    const r = vpo('guptamica').compute({ age: 80, asa: '4', func: 'total', creat: true, surg: 'aortic' });
+    assert(Math.abs(r.pct - 20.424) < 0.01, `esperaba ≈20.42%, obtuve ${r.pct}`);
+  });
+
+  test('VPO Gupta-MICA: sin edad no calcula (retorna null)', () => {
+    assertEqual(vpo('guptamica').compute({ age: null, asa: '3', func: 'independent', creat: false, surg: 'hernia' }), null);
+  });
+
+  test('VPO Gupta (falla respiratoria): 65 años, ASA III, independiente, sin sepsis, electiva, hernia', () => {
+    const r = vpo('guptaprf').compute({ age: 65, asa: '3', func: 'independent', sepsis: 'none', electiva: true, surg: 'hernia' });
+    assert(Math.abs(r.pct - 2.3714) < 0.001, `esperaba ≈2.3714%, obtuve ${r.pct}`);
+  });
+
+  test('VPO Gupta (falla respiratoria): sin edad no calcula (retorna null)', () => {
+    assertEqual(vpo('guptaprf').compute({ age: null, asa: '3', func: 'independent', sepsis: 'none', electiva: true, surg: 'hernia' }), null);
+  });
+
+  test('VPO Lee (RCRI): sin factores de riesgo es clase I con 0.4%', () => {
+    assertEqual(vpo('leeindex').compute({}), { n: 0, cls: 'I', risk: '0.4%' });
+  });
+
+  test('VPO Lee (RCRI): 3 factores ya son clase IV', () => {
+    assertEqual(vpo('leeindex').compute({ rf1: true, rf2: true, rf3: true }), { n: 3, cls: 'IV', risk: '11%' });
+  });
+
+  test('VPO Lee (RCRI): con más de 3 factores la clase se mantiene en IV, pero n sigue contando', () => {
+    const r = vpo('leeindex').compute({ rf1: true, rf2: true, rf3: true, rf4: true, rf5: true, rf6: true });
+    assertEqual(r.n, 6);
+    assertEqual(r.cls, 'IV');
+    assertEqual(r.risk, '11%');
+  });
+
+  test('VPO Detsky: sin factores son 0 puntos, clase I', () => {
+    const r = vpo('detsky').compute({ mi: '0', angina: '0', edema: '0' });
+    assertEqual(r.score, 0);
+    assertEqual(r.cls, 'I');
+  });
+
+  test('VPO Detsky: IAM reciente + angina clase IV + emergencia suman 40 puntos, clase III', () => {
+    const r = vpo('detsky').compute({ mi: '10', angina: '20', edema: '0', emergency: true });
+    assertEqual(r.score, 40);
+    assertEqual(r.cls, 'III');
+  });
+
+  test('VPO Caprini: sin factores son 0 puntos y la categoría más baja', () => {
+    const r = vpo('caprini').compute({ age: '0', surgery: '0', mobility: '0' });
+    assertEqual(r.total, 0);
+    assertEqual(r.cat, 'el más bajo');
+  });
+
+  test('VPO Caprini: ≥75 años + artroplastia + ACV + neoplasia suman 15 puntos (categoría más alta)', () => {
+    const r = vpo('caprini').compute({ age: '3', surgery: '5', mobility: '0', acv: true, malignancy: true });
+    assertEqual(r.total, 3 + 5 + 5 + 2);
+    assertEqual(r.cat, 'el más alto');
+    assert(/30 días/.test(r.rec), 'a partir de 9 puntos la profilaxis recomendada es de 30 días');
+  });
+
+  test('VPO: la nota combinada declara las 6 escalas de riesgo y las trae expandidas por defecto', () => {
+    assertEqual(vpoModule.combinedNote.items, ['asa', 'guptaprf', 'guptamica', 'detsky', 'leeindex', 'caprini']);
+    assertEqual(vpoModule.combinedNote.defaultChecked, true);
+    // El puente de anticoagulación es una herramienta aparte y a propósito no entra en la nota
+    // combinada: no se calcula para todo paciente preoperatorio, solo para el anticoagulado.
+    const keys = vpoCalc.map(c => c.key);
+    vpoModule.combinedNote.items.forEach(k => assert(keys.includes(k), `la nota combinada referencia '${k}', que no existe entre las calculadoras`));
+  });
+
+  test('VPO puente: warfarina se suspende 5 días y acenocumarol 3, sin puente', () => {
+    const w = vpo('puenteac').compute({ farmaco: 'warfarina', sangrado: 'bajo', tfg: null, indicacion: 'fa' });
+    assertEqual(w.dias, 5);
+    assertEqual(w.puente, false);
+    assertEqual(vpo('puenteac').compute({ farmaco: 'acenocumarol', sangrado: 'alto', tfg: null, indicacion: 'fa' }).dias, 3);
+  });
+
+  test('VPO puente: apixabán, rivaroxabán y edoxabán son 1 día si el sangrado es bajo y 2 si es alto', () => {
+    ['apixaban', 'rivaroxaban', 'edoxaban'].forEach(f => {
+      assertEqual(vpo('puenteac').compute({ farmaco: f, sangrado: 'bajo', tfg: 90, indicacion: 'fa' }).dias, 1, f);
+      assertEqual(vpo('puenteac').compute({ farmaco: f, sangrado: 'alto', tfg: 90, indicacion: 'fa' }).dias, 2, f);
+    });
+  });
+
+  test('VPO puente: dabigatrán sigue la tabla 1/2/2/4 según riesgo hemorrágico y TFG', () => {
+    const d = (sangrado, tfg) => vpo('puenteac').compute({ farmaco: 'dabigatran', sangrado, tfg, indicacion: 'fa' }).dias;
+    assertEqual(d('bajo', 60), 1, 'bajo-moderado con TFG ≥50');
+    assertEqual(d('bajo', 40), 2, 'bajo-moderado con TFG <50');
+    assertEqual(d('alto', 60), 2, 'alto con TFG ≥50');
+    assertEqual(d('alto', 40), 4, 'alto con TFG <50');
+  });
+
+  test('VPO puente: dabigatrán sin aclaramiento no calcula (retorna null)', () => {
+    assertEqual(vpo('puenteac').compute({ farmaco: 'dabigatran', sangrado: 'alto', tfg: null, indicacion: 'fa' }), null);
+    // Los demás DOAC sí resuelven sin TFG, porque su intervalo no depende de la función renal.
+    assert(vpo('puenteac').compute({ farmaco: 'apixaban', sangrado: 'alto', tfg: null, indicacion: 'fa' }) !== null);
+  });
+
+  test('VPO puente: con marcapasos o desfibrilador el antagonista de vitamina K no se interrumpe', () => {
+    const r = vpo('puenteac').compute({ farmaco: 'warfarina', sangrado: 'bajo', tfg: null, indicacion: 'dispositivo' });
+    assertEqual(r.continuar, true);
+    assertEqual(r.dias, null);
+    // Un DOAC en el mismo escenario sí se interrumpe: la recomendación de continuar es de los AVK.
+    assertEqual(vpo('puenteac').compute({ farmaco: 'apixaban', sangrado: 'bajo', tfg: 90, indicacion: 'dispositivo' }).continuar, false);
+  });
+
+  test('VPO puente: ninguna combinación recomienda puente con heparina', () => {
+    ['warfarina', 'acenocumarol', 'apixaban', 'rivaroxaban', 'edoxaban', 'dabigatran'].forEach(f => {
+      ['bajo', 'alto'].forEach(s => {
+        Object.keys({ fa: 1, valvula: 1, etv: 1, dispositivo: 1, colonoscopia: 1 }).forEach(i => {
+          const r = vpo('puenteac').compute({ farmaco: f, sangrado: s, tfg: 60, indicacion: i });
+          assertEqual(r.puente, false, `${f}/${s}/${i}`);
+        });
+      });
+    });
+  });
+
+  test('VPO DASI: marcar las 12 actividades da 58.2 puntos y cerca de 9.9 MET', () => {
+    const todo = {};
+    ['cuidarse','caminarCasa','caminarCuadra','escaleras','correr','trabajoLigero','trabajoModerado',
+     'trabajoPesado','jardin','sexuales','recreativoModerado','deporteIntenso'].forEach(k => { todo[k] = true; });
+    const r = vpo('dasi').compute(todo);
+    assertEqual(r.total, 58.2);
+    assert(Math.abs(r.mets - 9.89) < 0.01, `esperaba ≈9.89 MET, obtuve ${r.mets}`);
+    assertEqual(r.buena, true);
+  });
+
+  test('VPO DASI: sin ninguna actividad quedan 0 puntos y el piso de 2.74 MET de la fórmula', () => {
+    const r = vpo('dasi').compute({});
+    assertEqual(r.total, 0);
+    // VO2 = 0.43×0 + 9.6 = 9.6; 9.6/3.5 = 2.74 MET. La fórmula tiene un piso, no llega a cero.
+    assert(Math.abs(r.mets - 2.74) < 0.01, `esperaba ≈2.74 MET, obtuve ${r.mets}`);
+    assertEqual(r.buena, false);
+  });
+
+  test('VPO DASI: informa los dos umbrales de la guía, que no coinciden entre sí', () => {
+    // La guía define mala capacidad funcional como menos de 4 MET O un DASI de 34 o menos.
+    // Por la fórmula, 4 MET equivalen a un DASI de apenas 10.2, así que entre 11 y 34 los dos
+    // criterios discrepan. Elegir uno en silencio daría por buena una capacidad que la guía
+    // considera mala, así que la calculadora lo dice.
+    const bajo = vpo('dasi').compute({ escaleras: true, caminarCuadra: true }); // DASI 8.25
+    assertEqual(bajo.buenaMet, false);
+    assertEqual(bajo.buenaDasi, false);
+    assertEqual(bajo.discrepan, false);
+    assertEqual(bajo.buena, false);
+
+    const medio = vpo('dasi').compute({ escaleras: true, correr: true }); // DASI 13.5
+    assertEqual(medio.buenaMet, true, 'supera 4 MET por la fórmula');
+    assertEqual(medio.buenaDasi, false, 'pero no supera el DASI de 34');
+    assertEqual(medio.discrepan, true);
+    assertEqual(medio.buena, false, 'con criterios discrepantes no se declara conservada');
+    assert(/zona intermedia/.test(vpo('dasi').format(medio)), 'debe avisar de la discrepancia');
+
+    const alto = vpo('dasi').compute({ escaleras: true, correr: true, trabajoPesado: true, jardin: true, sexuales: true, recreativoModerado: true, deporteIntenso: true }); // DASI 44.75
+    assertEqual(alto.buenaMet, true);
+    assertEqual(alto.buenaDasi, true);
+    assertEqual(alto.buena, true);
+  });
+
+  test('VPO ARISCAT: los tres estratos caen donde marca la cohorte de validación', () => {
+    const r = (edad, extra) => vpo('ariscat').compute(Object.assign({ edad, spo2: 0, incision: 0, duracion: 0 }, extra || {}));
+    assertEqual(r(45), { total: 0, cat: 'bajo', riesgo: '1.6%', ptsEdad: 0 });
+    // 3 (edad 51-80) + 8 (SpO2 91-95) + 15 (abdominal alta) = 26, justo en el corte intermedio.
+    const inter = r(65, { spo2: 8, incision: 15 });
+    assertEqual(inter.total, 26);
+    assertEqual(inter.cat, 'intermedio');
+    const alto = r(85, { spo2: 24, infeccion: true, anemia: true, incision: 24, duracion: 23, emergencia: true });
+    assertEqual(alto.total, 16 + 24 + 17 + 11 + 24 + 23 + 8);
+    assertEqual(alto.cat, 'alto');
+  });
+
+  test('VPO ARISCAT: sin edad no calcula (retorna null)', () => {
+    assertEqual(vpo('ariscat').compute({ edad: null, spo2: 0, incision: 0, duracion: 0 }), null);
+  });
+
+  test('VPO STOP-BANG: los ocho ítems valen 1 y los cortes son 2 y 4', () => {
+    assertEqual(vpo('stopbang').compute({}), { total: 0, cat: 'bajo' });
+    assertEqual(vpo('stopbang').compute({ s: 1, t: 1 }).cat, 'bajo');
+    assertEqual(vpo('stopbang').compute({ s: 1, t: 1, o: 1 }).cat, 'intermedio');
+    assertEqual(vpo('stopbang').compute({ s: 1, t: 1, o: 1, p: 1, b: 1 }).cat, 'alto');
+    assertEqual(vpo('stopbang').compute({ s: 1, t: 1, o: 1, p: 1, b: 1, a: 1, n: 1, g: 1 }).total, 8);
+  });
+
+  test('VPO Apfel: los cinco riesgos son los publicados (10, 21, 39, 61 y 79%)', () => {
+    const esperado = ['10%', '21%', '39%', '61%', '79%'];
+    const claves = ['mujer', 'noFumador', 'antecedente', 'opioides'];
+    esperado.forEach((riesgo, n) => {
+      const v = {};
+      claves.slice(0, n).forEach(k => { v[k] = true; });
+      assertEqual(vpo('apfel').compute(v), { total: n, riesgo });
+    });
+  });
+
+  test('VPO Charlson: el ajuste por edad suma 1 punto por década desde los 50', () => {
+    const p = edad => vpo('charlson').compute({ edad }).ptsEdad;
+    assertEqual(p(40), 0);
+    assertEqual(p(49), 0);
+    assertEqual(p(50), 1);
+    assertEqual(p(65), 2);
+    assertEqual(p(75), 3);
+    assertEqual(p(85), 4);
+    assertEqual(p(99), 4, 'el ajuste por edad se topa en 4');
+  });
+
+  test('VPO Charlson: las comorbilidades pesan 1, 2, 3 y 6 según su categoría', () => {
+    const c = extra => vpo('charlson').compute(Object.assign({ edad: 40 }, extra)).total;
+    assertEqual(c({}), 0);
+    assertEqual(c({ iam: true }), 1);
+    assertEqual(c({ renal: true }), 2);
+    assertEqual(c({ hepatoGrave: true }), 3);
+    assertEqual(c({ metastasico: true }), 6);
+    assertEqual(c({ sida: true }), 6);
+    assertEqual(c({ iam: true, renal: true, hepatoGrave: true, metastasico: true }), 1 + 2 + 3 + 6);
+  });
+
+  test('VPO Charlson: un puntaje alto no informa "0%" de supervivencia', () => {
+    // La exponencial de la fórmula subdesborda con puntajes altos; mostrar un 0% literal diría
+    // más de lo que el índice puede sostener.
+    const r = vpo('charlson').compute({ edad: 85, iam: true, icc: true, metastasico: true });
+    assert(r.total >= 12, 'el caso de prueba debe dar un puntaje alto');
+    const texto = vpo('charlson').format(r);
+    assert(/menos de 1%/.test(texto), `esperaba "menos de 1%", obtuve: ${texto.slice(0, 120)}`);
+    assert(!/ 0%/.test(texto), 'no debe mostrar 0% literal');
+  });
+
+  test('VPO Charlson: sin edad no calcula (retorna null)', () => {
+    assertEqual(vpo('charlson').compute({ edad: null }), null);
+  });
+
+  test('VPO fragilidad: los 9 grados existen y el corte de riesgo está en 5', () => {
+    for (let i = 1; i <= 9; i++) {
+      const r = vpo('fragilidad').compute({ grado: String(i) });
+      assert(r && r.label, `falta el grado ${i}`);
+    }
+    assertEqual(vpo('fragilidad').compute({ grado: '4' }).riesgo, 'intermedio');
+    assertEqual(vpo('fragilidad').compute({ grado: '6' }).riesgo, 'alto');
+    assertEqual(vpo('fragilidad').compute({ grado: '99' }), null, 'un grado fuera de rango no calcula');
+  });
+
+  test('VPO delirium: separa predisponentes de precipitantes y sube a alto con 3 predisponentes', () => {
+    assertEqual(vpo('delirium').compute({}), { pre: 0, precip: 0, total: 0, cat: 'bajo' });
+    // 3 predisponentes bastan para riesgo alto aunque no haya precipitantes: cuanta más carga
+    // basal, menor el estímulo que hace falta para desencadenarlo.
+    const soloPre = vpo('delirium').compute({ edad70: 1, cognitivo: 1, fragil: 1 });
+    assertEqual(soloPre, { pre: 3, precip: 0, total: 3, cat: 'alto' });
+    // La misma cuenta repartida entre las dos listas no llega a alto.
+    assertEqual(vpo('delirium').compute({ edad70: 1, mayor: 1, dolor: 1 }).cat, 'intermedio');
+  });
+
+  test('VPO: todas las escalas comparten el contrato del motor de calculadoras', () => {
+    vpoCalc.forEach(c => {
+      ['key', 'title', 'accent', 'subtitle'].forEach(k => assert(c[k], `'${c.key || '(sin key)'}' no tiene '${k}'`));
+      assert(typeof c.compute === 'function', `'${c.key}' no tiene compute`);
+      assert(typeof c.format === 'function', `'${c.key}' no tiene format`);
+      assert(Array.isArray(c.fields) && c.fields.length, `'${c.key}' no tiene campos`);
+      c.fields.forEach(f => {
+        if (f.type === 'note') { assert(f.text, `'${c.key}' tiene una nota vacía`); return; }
+        assert(f.name && f.id && f.label, `'${c.key}' tiene un campo incompleto`);
+      });
+    });
+  });
+
+  test('VPO: no hay key ni id de campo repetidos entre escalas', () => {
+    const keys = vpoCalc.map(c => c.key);
+    assertEqual(keys.length, new Set(keys).size, 'hay keys de calculadora duplicadas');
+    // Los id son atributos del DOM: repetirlos entre escalas rompería el autocompletado de
+    // campos compartidos, que busca por id.
+    const ids = vpoCalc.flatMap(c => c.fields.filter(f => f.id).map(f => f.id));
+    const repetidos = ids.filter((v, i) => ids.indexOf(v) !== i);
+    assertEqual(repetidos, [], 'hay id de campo duplicados');
+  });
+
+  /* ---------------- Manejo perioperatorio de fármacos (protocols/vpo-farmacos.js) ---------------- */
+  const vpoFarm = await import('./protocols/vpo-farmacos.js');
+  const temaVpo = await (await import('./topics/registry.js')).loadTopic('valoracion-preoperatoria');
+
+  test('VPO fármacos: cada entrada tiene los campos obligatorios del contrato', () => {
+    vpoFarm.farmacos.forEach(f => {
+      ['id', 'grupo', 'farmaco', 'conducta', 'resumen', 'preop', 'postop', 'fuente'].forEach(k => {
+        assert(f[k] && String(f[k]).trim(), `'${f.id || '(sin id)'}' no tiene '${k}'`);
+      });
+    });
+  });
+
+  test('VPO fármacos: los id no se repiten', () => {
+    const ids = vpoFarm.farmacos.map(f => f.id);
+    assertEqual(ids.length, new Set(ids).size, 'hay id duplicados');
+  });
+
+  test('VPO fármacos: cada grupo declarado existe y cada grupo tiene al menos un fármaco', () => {
+    const gruposValidos = vpoFarm.grupos.map(g => g.id);
+    vpoFarm.farmacos.forEach(f => assert(gruposValidos.includes(f.grupo), `'${f.id}' apunta al grupo inexistente '${f.grupo}'`));
+    gruposValidos.forEach(g => assert(vpoFarm.farmacos.some(f => f.grupo === g), `el grupo '${g}' quedó vacío`));
+  });
+
+  test('VPO fármacos: cada conducta es una de las declaradas en CONDUCTAS', () => {
+    vpoFarm.farmacos.forEach(f => {
+      assert(vpoFarm.CONDUCTAS[f.conducta], `'${f.id}' tiene la conducta desconocida '${f.conducta}'`);
+    });
+  });
+
+  test('VPO fármacos: los datos clave de las guías 2022-2024 están en su entrada', () => {
+    const get = id => vpoFarm.farmacos.find(f => f.id === id);
+    assert(/3 a 4/.test(get('isglt2').preop), 'iSGLT2 debe suspenderse 3 a 4 días antes');
+    assert(/semana/.test(get('arglp1').preop), 'arGLP-1 semanal se suspende una semana antes');
+    assertEqual(get('metformina').conducta, 'continuar');
+    assertEqual(get('betabloqueadores').conducta, 'continuar');
+    assertEqual(get('estatinas').conducta, 'continuar');
+    assert(/12 meses/.test(get('tiempos-icp').preop), 'stent farmacoactivo por SCA: diferir ≥12 meses');
+    assert(/2 horas/.test(get('ayuno').preop) && /8 horas/.test(get('ayuno').preop), 'ayuno: 2 h líquidos claros, 8 h comida grasa');
+  });
+
+  test('VPO fármacos: cada entrada declara si su respaldo es guía o consenso', () => {
+    // Decir "práctica estándar" no es citar una fuente. O hay una recomendación formal que se
+    // nombra, o se declara que es consenso, para que el lector sepa cuánto peso darle.
+    vpoFarm.farmacos.forEach(f => {
+      assert(f.evidencia === 'guia' || f.evidencia === 'consenso', `'${f.id}' tiene evidencia '${f.evidencia}'`);
+      assert(!/pr[áa]ctica .* est[áa]ndar/i.test(f.fuente), `'${f.id}' sigue citando una "práctica estándar" en vez de una fuente`);
+      if (f.evidencia === 'guia') {
+        // Año, o bien la marca explícita de documento vivo (las revisiones Cochrane se
+        // actualizan y fijarles un año sería inventarlo). Lo que no vale es una fuente vaga.
+        assert(/\d{4}/.test(f.fuente) || /revision viva|revisión viva/i.test(f.fuente),
+          `'${f.id}' dice ser recomendación de guía pero su fuente no lleva año ni se declara documento vivo`);
+      } else {
+        assert(/[Cc]onsenso/.test(f.fuente), `'${f.id}' es consenso pero su fuente no lo dice`);
+      }
+    });
+  });
+
+  test('VPO: la herramienta y el tema no se contradicen en los datos que repiten', () => {
+    // Los mismos números viven como prosa en protocols/ y en topics/. Si la guía cambia un
+    // umbral y solo se actualiza un lado, el residente lee dos cosas distintas.
+    const texto = JSON.stringify(vpoFarm.farmacos) + JSON.stringify(temaVpo.content) + JSON.stringify(temaVpo.study.quiz);
+    const enTema = JSON.stringify(temaVpo.content) + JSON.stringify(temaVpo.study.quiz);
+    const enHerramienta = JSON.stringify(vpoFarm.farmacos);
+    [
+      ['3 a 4 días', 'suspensión de los inhibidores de SGLT2'],
+      ['12 meses', 'espera tras stent farmacoactivo por síndrome coronario agudo'],
+      ['5 días', 'suspensión de warfarina y de clopidogrel']
+    ].forEach(([dato, que]) => {
+      assert(enHerramienta.includes(dato), `la herramienta ya no dice "${dato}" para ${que}`);
+      assert(enTema.includes(dato), `el tema ya no dice "${dato}" para ${que}: quedó desincronizado`);
+    });
+    assert(texto.length > 0);
+  });
+
+  // Las escalas que VPO enlaza de otros temas se resuelven aquí, fuera del test: el runner es
+  // síncrono y una promesa rechazada dentro de un test() pasaría inadvertida.
+  const enlacesVpo = [['cirrosis-hepatica', 'childpugh'], ['cirrosis-hepatica', 'meldna']];
+  const registroVpo = await import('./topics/registry.js');
+  const temasEnlazados = {};
+  for (const [topicId] of enlacesVpo) {
+    if (!temasEnlazados[topicId]) temasEnlazados[topicId] = await registroVpo.loadTopic(topicId);
+  }
+  // Todos los temas menos el propio VPO, para comprobar que no hay keys compartidas.
+  const temasParaColision = {};
+  for (const t of registroVpo.registry) {
+    if (t.id === 'valoracion-preoperatoria') continue;
+    const topic = await registroVpo.loadTopic(t.id);
+    if (topic) temasParaColision[t.id] = topic;
+  }
+
+  test('VPO: ninguna key de VPO colisiona con la de otro tema', () => {
+    // La nota de VPO decide qué resultado le pertenece comparando solo la key. Si un tema
+    // usara una key genérica como 'charlson' o 'apfel', calcularla desde la sección Calc
+    // metería su resultado en la nota de un paciente que nada tiene que ver.
+    const vpoKeys = new Set(vpoCalc.map(c => c.key));
+    Object.entries(temasParaColision).forEach(([id, topic]) => {
+      (topic.calculators || []).forEach(c => {
+        assert(!vpoKeys.has(c.key), `el tema '${id}' usa la key '${c.key}', que ya es de VPO`);
+      });
+    });
+  });
+
+  test('VPO: las escalas que VPO enlaza de otros temas siguen existiendo ahí', () => {
+    // Se enlazan en vez de duplicarse. Si alguien renombra la key en el tema de origen, el
+    // enlace queda muerto y no falla en voz alta: simplemente no abre nada.
+    enlacesVpo.forEach(([topicId, key]) => {
+      const topic = temasEnlazados[topicId];
+      assert(topic, `el tema '${topicId}' no carga`);
+      assert((topic.calculators || []).some(c => c.key === key),
+        `'${topicId}' ya no tiene la calculadora '${key}' que VPO enlaza`);
+    });
+  });
+
+  const vpoEngine = await import('./engine/vpo.js');
+
+  test('VPO nota: el orden de la nota incluye todas las escalas, ninguna se queda fuera', () => {
+    // Si se añade una escala a vpo-calc.js y se olvida ORDEN_NOTA, esa escala se calcularía
+    // pero jamás aparecería en la nota, y el fallo sería invisible.
+    const keys = vpoCalc.map(c => c.key);
+    keys.forEach(k => assert(vpoEngine.ORDEN_NOTA.includes(k), `la escala '${k}' no está en ORDEN_NOTA: no saldría en la nota`));
+    vpoEngine.ORDEN_NOTA.forEach(k => assert(keys.includes(k), `ORDEN_NOTA cita '${k}', que ya no existe`));
+    assertEqual(vpoEngine.ORDEN_NOTA.length, new Set(vpoEngine.ORDEN_NOTA).size, 'ORDEN_NOTA tiene claves repetidas');
+  });
+
+  /* ---------------- Estudios preoperatorios (protocols/vpo-estudios.js) ---------------- */
+  const vpoEst = await import('./protocols/vpo-estudios.js');
+
+  test('VPO estudios: cada entrada tiene los campos obligatorios del contrato', () => {
+    vpoEst.estudios.forEach(e => {
+      ['id', 'grupo', 'estudio', 'resumen', 'noIndicado', 'fuente'].forEach(k => {
+        assert(e[k] && String(e[k]).trim(), `'${e.id || '(sin id)'}' no tiene '${k}'`);
+      });
+      assert(Array.isArray(e.indicaciones) && e.indicaciones.length, `'${e.id}' no declara indicaciones`);
+      // El resumen es lo único que se lee sin abrir el detalle: si es tan largo como el
+      // "cuándo no", la lista deja de ser escaneable y vuelve al problema que resolvía.
+      assert(e.resumen.length <= 70, `el resumen de '${e.id}' es demasiado largo para la lista (${e.resumen.length})`);
+    });
+  });
+
+  test('VPO estudios: los id no se repiten y cada grupo existe y tiene contenido', () => {
+    const ids = vpoEst.estudios.map(e => e.id);
+    assertEqual(ids.length, new Set(ids).size, 'hay id duplicados');
+    const grupos = vpoEst.gruposEstudio.map(g => g.id);
+    vpoEst.estudios.forEach(e => assert(grupos.includes(e.grupo), `'${e.id}' apunta al grupo inexistente '${e.grupo}'`));
+    grupos.forEach(g => assert(vpoEst.estudios.some(e => e.grupo === g), `el grupo '${g}' quedó vacío`));
+  });
+
+  test('VPO estudios: ninguno se declara como estudio de rutina', () => {
+    // Es la tesis del módulo: no hay estudio preoperatorio que se pida a todo paciente sin más.
+    vpoEst.estudios.forEach(e => assertEqual(e.rutina, false, `'${e.id}' se declara de rutina`));
+  });
+
+  test('VPO estudios: los "no de rutina" clave de la guía están donde corresponde', () => {
+    const get = id => vpoEst.estudios.find(e => e.id === id);
+    assert(/bajo riesgo/i.test(get('ecg').noIndicado), 'ECG: no indicado en procedimiento de bajo riesgo');
+    assert(/estable/i.test(get('ecocardiograma').noIndicado), 'ecocardiograma: no indicado en paciente estable');
+    assert(/capacidad funcional adecuada/i.test(get('estres').noIndicado), 'prueba de estrés: no indicada con capacidad funcional adecuada');
+    assert(/sin antecedente hemorr/i.test(get('coagulacion').noIndicado), 'coagulación: no indicada como cribado sin antecedente');
+  });
+
+  /* ---------------- Ruta perioperatoria (protocols/vpo-ruta.js) ----------------
+     El algoritmo es un grafo declarativo: un destino mal escrito no rompe nada al cargar, solo
+     deja al usuario en una pantalla en blanco a mitad de la ruta. Estas pruebas recorren el grafo
+     completo para que eso no llegue a producción. */
+  const ruta = await import('./protocols/vpo-ruta.js');
+
+  test('VPO ruta: el primer paso existe y cada paso declara al menos dos opciones', () => {
+    assert(ruta.pasos[ruta.PRIMER_PASO], `PRIMER_PASO '${ruta.PRIMER_PASO}' no existe`);
+    Object.values(ruta.pasos).forEach(p => {
+      assert(p.pregunta && p.titulo, `el paso '${p.id}' no tiene título o pregunta`);
+      assert(p.opciones && p.opciones.length >= 2, `el paso '${p.id}' tiene menos de 2 opciones`);
+    });
+  });
+
+  test('VPO ruta: cada id de paso coincide con su clave en el mapa', () => {
+    Object.keys(ruta.pasos).forEach(k => assertEqual(ruta.pasos[k].id, k, `la clave '${k}' no coincide con su id`));
+  });
+
+  test('VPO ruta: todo destino apunta a un paso o a un veredicto que existe', () => {
+    Object.values(ruta.pasos).forEach(p => {
+      p.opciones.forEach(o => {
+        const d = o.destino || {};
+        assert(d.paso || d.veredicto, `'${p.id}' → "${o.label}" no declara destino`);
+        assert(!(d.paso && d.veredicto), `'${p.id}' → "${o.label}" declara paso y veredicto a la vez`);
+        if (d.paso) assert(ruta.pasos[d.paso], `'${p.id}' → "${o.label}" apunta al paso inexistente '${d.paso}'`);
+        if (d.veredicto) assert(ruta.veredictos[d.veredicto], `'${p.id}' → "${o.label}" apunta al veredicto inexistente '${d.veredicto}'`);
+      });
+    });
+  });
+
+  test('VPO ruta: todos los pasos y veredictos son alcanzables desde el primer paso', () => {
+    const vistosPaso = new Set([ruta.PRIMER_PASO]);
+    const vistosVeredicto = new Set();
+    const cola = [ruta.PRIMER_PASO];
+    while (cola.length) {
+      const p = ruta.pasos[cola.shift()];
+      p.opciones.forEach(o => {
+        const d = o.destino || {};
+        if (d.veredicto) vistosVeredicto.add(d.veredicto);
+        if (d.paso && !vistosPaso.has(d.paso)) { vistosPaso.add(d.paso); cola.push(d.paso); }
+      });
+    }
+    Object.keys(ruta.pasos).forEach(k => assert(vistosPaso.has(k), `el paso '${k}' quedó huérfano: no se llega a él`));
+    Object.keys(ruta.veredictos).forEach(k => assert(vistosVeredicto.has(k), `el veredicto '${k}' quedó huérfano: ninguna opción lleva a él`));
+  });
+
+  test('VPO ruta: el grafo no tiene ciclos, así que toda ruta termina en un veredicto', () => {
+    // Recorrido en profundidad marcando la rama activa: si se vuelve a pisar un paso que ya
+    // está en la rama, hay un ciclo y el usuario quedaría dando vueltas sin conclusión.
+    const enRama = new Set();
+    (function visitar(id) {
+      assert(!enRama.has(id), `ciclo en la ruta al volver a '${id}'`);
+      enRama.add(id);
+      ruta.pasos[id].opciones.forEach(o => { if (o.destino.paso) visitar(o.destino.paso); });
+      enRama.delete(id);
+    })(ruta.PRIMER_PASO);
+  });
+
+  test('VPO ruta: cada veredicto tiene tono válido, texto y acciones', () => {
+    Object.entries(ruta.veredictos).forEach(([k, v]) => {
+      assert(ruta.TONOS[v.tono], `el veredicto '${k}' tiene el tono desconocido '${v.tono}'`);
+      assert(v.titulo && v.texto, `el veredicto '${k}' no tiene título o texto`);
+      assert(v.acciones && v.acciones.length, `el veredicto '${k}' no propone ninguna acción`);
+    });
+  });
+
+  test('VPO ruta: la urgencia se resuelve sin pasar por la estratificación de riesgo', () => {
+    // Es la propiedad clínica que justifica que la urgencia sea el primer filtro.
+    const primero = ruta.pasos[ruta.PRIMER_PASO];
+    const salidas = primero.opciones.filter(o => o.destino.veredicto).map(o => o.destino.veredicto);
+    assert(salidas.length >= 2, 'emergencia y urgencia deben salir directo a un veredicto');
+    salidas.forEach(v => assertEqual(ruta.veredictos[v].tono, 'proceder', `'${v}' debería concluir en proceder`));
   });
 
   /* ---------------- Integridad de esquema: temas registrados (topics/registry.js) ----------------

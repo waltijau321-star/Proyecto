@@ -1,0 +1,62 @@
+June 29, 2023
+American Society of Anesthesiologists
+Consensus-Based Guidance on 
+Preoperative Management of Patients
+on Glucagon-Like Peptide-1 (GLP-1) 
+Receptor Agonists
+Glucagon-like peptide-1 (GLP-1) receptor agonists are approved by the Food and Drug Administration for treatment of 
+type 2 diabetes mellitus and cardiovascular risk reduction in this cohort. In addition, GLP-1 receptor agonists are also 
+used for weight loss. 
+The GLP-1 agonists are associated with adverse gastrointestinal effects such as nausea, vomiting and delayed gastric 
+emptying. Based on recent anecdotal reports, there are concerns that delayed gastric emptying from GLP-1 agonists 
+can increase the risk of regurgitation and pulmonary aspiration of gastric contents during general anesthesia and deep 
+sedation. The presence of adverse gastrointestinal symptoms (nausea, vomiting, dyspepsia, abdominal distension) in 
+patients taking GLP-1 agonists are predictive of increased residual gastric contents. The effects on gastric emptying are 
+reported to be reduced with long-term use.
+The use of GLP-1 agonists in pediatrics has primarily been reported for the management of type 2 diabetes mellitus 
+and obesity. The published literature on GLP-1 agonists in pediatrics is predominantly from pediatric patients 10-18 
+years old; concerns are like those reported in adults. 
+The American Society of Anesthesiologists (ASA) Task Force on Preoperative Fasting reviewed the available literature 
+on GLP-1 agonists and associated gastrointestinal adverse effects, including the consequences of delayed gastric 
+emptying. The evidence to provide guidance for preoperative management of these drugs to prevent regurgitation and 
+pulmonary aspiration of gastric contents is sparse limited only to several case reports. Nevertheless, given the 
+concerns of GLP-1 agonists- induced delayed gastric emptying and associated high risk of regurgitation and aspiration 
+of gastric contents, the task force suggests the following for elective procedures. For patients requiring urgent or 
+emergent procedures, proceed and treat the patient as ‘full stomach’ and manage accordingly. 
+ 
+For patients scheduled for elective procedures consider the following: 
+DAY(S) PRIOR TO THE PROCEDURE: 
+•
+•
+•
+For patients on daily dosing consider holding GLP-1 agonists on the day of the
+procedure/surgery. For patients on weekly dosing consider holding GLP-1
+agonists a week prior to the procedure/surgery
+This suggestion is irrespective of the indication (type 2 diabetes mellitus or weight
+loss), dose, or the type of procedure/surgery
+If GLP-1 agonists prescribed for diabetes management are held for longer than
+the dosing schedule, consider consulting an endocrinologist for bridging the
+antidiabetic therapy to avoid hyperglycemia
+DAY OF THE PROCEDURE: 
+•
+•
+•
+•
+If gastrointestinal (GI) symptoms such as severe nausea/vomiting/retching,
+abdominal bloating, or abdominal pain are present, consider delaying elective
+procedure, and discuss the concerns of potential risk of regurgitation and
+pulmonary aspiration of gastric contents with the proceduralist/surgeon and the
+patient
+If the patient has no GI symptoms, and the GLP-1 agonists have been held as
+advised, proceed as usual
+If the patient has no GI symptoms, but the GLP-1 agonists were not held as
+advised, proceed with ‘full stomach’ precautions, or consider evaluating gastric
+volume by ultrasound, if possible and if proficient with the technique. If the
+stomach is empty, proceed as usual. If the stomach is full or if gastric ultrasound
+inconclusive or not possible, consider delaying the procedure or treat the patient
+as ‘full stomach’ and manage accordingly. Discuss the concerns of potential risk of
+regurgitation and pulmonary aspiration of gastric contents with the
+proceduralist/surgeon and the patient
+There is no evidence to suggest the optimal duration of fasting for patients on
+GLP-1 agonists. Therefore, until we have adequate evidence, we suggest
+following the current ASA fasting guidelines

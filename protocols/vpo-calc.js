@@ -1,9 +1,9 @@
 // protocols/vpo-calc.js
 // Calculadoras de Valoración Preoperatoria (VPO), en el contrato declarativo del motor
-// (engine/calculators.js). No es un tema de estudio (no tiene mapa conceptual ni quiz);
-// se monta como una sección propia del shell, igual que Calendario/Protocolos.
+// (engine/calculators.js). Alimentan la pestaña Escalas de la sección VPO, que monta
+// engine/vpo.js.
 //
-// Fuentes primarias (ver carpeta VPO/ para los PDF originales):
+// Fuentes primarias (ver Bibliografia/XV. VPO/ para los PDF originales):
 //  - ASA Physical Status Classification System. Anesthesiology Open. 2026 (rev. oct 2025).
 //  - Gupta PK, et al. Circulation. 2011;124(4):381-387. (Gupta-MICA)
 //  - Gupta H, et al. Chest. 2011;140(5):1207-1215. (Gupta, falla respiratoria posoperatoria)
@@ -194,6 +194,273 @@ function capriniCompute(v) {
 const fragCaprini = r => `<strong>Caprini ${r.total} puntos</strong> — riesgo de TEV ${r.cat}`;
 const fmtCaprini = r => `${fragCaprini(r)}. Se recomienda ${r.rec} <span style="color:var(--ink-faint);font-size:12px;">El umbral de "riesgo muy alto" varía por especialidad (≥5 cirugía general, ≥9-10 la mayoría de otros grupos, ≥10 artroplastia, ≥12 fractura de cadera); valorar siempre el riesgo de sangrado antes de indicar profilaxis farmacológica (Caprini 2005; MDCalc).</span>`;
 
+/* ===== Puente de anticoagulación (protocolo PAUSE, CHEST 2022) =====
+   Los intervalos de DOAC salen de las recomendaciones 22-25 de Douketis 2022: apixabán,
+   edoxabán y rivaroxabán 1 día (riesgo hemorrágico bajo-moderado) o 2 días (alto), sin
+   depender de la función renal; dabigatrán 1/2/2/4 días según riesgo y TFG ≥ o < 50. La
+   recomendación en contra del puente es fuerte en fibrilación auricular y condicional en
+   válvula mecánica, ETV y DOAC. */
+const AC_VKA = { warfarina: 5, acenocumarol: 3, fenprocumon: 11 };
+// CHEST 2022 da un rango para acenocumarol y fenprocumón, no una cifra exacta. El cálculo usa
+// el extremo superior (el que deja al paciente seguro), pero se informa el rango: decir
+// "11 días" sería más preciso de lo que la fuente sostiene.
+const AC_RANGO = { acenocumarol: '2 a 3', fenprocumon: '10 a 12' };
+const diasTexto = f => AC_RANGO[f] || null;
+const AC_LABEL = {
+  warfarina: 'warfarina', acenocumarol: 'acenocumarol', fenprocumon: 'fenprocumón',
+  apixaban: 'apixabán', rivaroxaban: 'rivaroxabán', edoxaban: 'edoxabán', dabigatran: 'dabigatrán'
+};
+const AC_INDIC = {
+  fa: { label: 'fibrilación auricular', fuerza: 'recomendación <strong>fuerte</strong> en contra del puente (certeza moderada, ensayo BRIDGE)' },
+  valvula: { label: 'válvula cardiaca mecánica', fuerza: 'sugerencia en contra del puente' },
+  etv: { label: 'enfermedad tromboembólica venosa como única indicación', fuerza: 'sugerencia en contra del puente' },
+  // La recomendación de continuar sin interrumpir es específica de los antagonistas de vitamina
+  // K: para un DOAC no existe, así que se declara aparte y se elige según el fármaco. Imprimir
+  // la de los AVK junto a un "suspender apixabán" producía una nota que se contradice sola.
+  dispositivo: {
+    label: 'implante de marcapasos o desfibrilador',
+    fuerza: 'recomendación fuerte a favor de <strong>continuar</strong> el antagonista de vitamina K, en vez de interrumpirlo y puentear',
+    fuerzaNoVKA: 'sugerencia en contra del puente. La recomendación de continuar sin interrumpir el anticoagulante en el implante de dispositivos se estableció para los antagonistas de vitamina K, no para los anticoagulantes orales directos'
+  },
+  colonoscopia: { label: 'colonoscopia con polipectomía prevista', fuerza: 'sugerencia en contra del puente durante la interrupción' }
+};
+function puenteCompute(v) {
+  const esVKA = v.farmaco in AC_VKA;
+  const alto = v.sangrado === 'alto';
+  const indBase = AC_INDIC[v.indicacion] || AC_INDIC.fa;
+  // Con un fármaco que no es antagonista de vitamina K se usa el texto alternativo cuando la
+  // indicación lo declara, para no citar una recomendación que no aplica a ese fármaco.
+  const ind = (!esVKA && indBase.fuerzaNoVKA)
+    ? { label: indBase.label, fuerza: indBase.fuerzaNoVKA }
+    : indBase;
+
+  // Marcapasos/DAI con antagonista de vitamina K: no se interrumpe.
+  if (esVKA && v.indicacion === 'dispositivo') {
+    return { farmaco: AC_LABEL[v.farmaco], esVKA, continuar: true, dias: null, puente: false,
+      reinicio: 'No aplica: el anticoagulante no se interrumpe.', ind, alto, tfg: v.tfg, diasTexto: null };
+  }
+
+  let dias;
+  if (esVKA) dias = AC_VKA[v.farmaco];
+  else if (v.farmaco === 'dabigatran') {
+    if (v.tfg === null || v.tfg === undefined) return null;
+    dias = v.tfg >= 50 ? (alto ? 2 : 1) : (alto ? 4 : 2);
+  } else dias = alto ? 2 : 1;
+
+  const reinicio = esVKA
+    ? 'Reiniciar 12 a 24 horas después de la cirugía, con hemostasia adecuada.'
+    : (alto ? 'Reiniciar 48 a 72 horas después de la cirugía.' : 'Reiniciar alrededor de 24 horas después de la cirugía.');
+  return { farmaco: AC_LABEL[v.farmaco], esVKA, continuar: false, dias, puente: false, reinicio, ind, alto, tfg: v.tfg, diasTexto: diasTexto(v.farmaco) };
+}
+const fragPuente = r => r.continuar
+  ? `<strong>Continuar ${r.farmaco}</strong> sin interrupción, sin puente con heparina`
+  : `<strong>Suspender ${r.farmaco} ${r.diasTexto || r.dias} día${r.dias > 1 ? 's' : ''} antes</strong>, sin puente con heparina`;
+const fmtPuente = r => `${fragPuente(r)} (${r.continuar ? '' : `riesgo hemorrágico del procedimiento ${r.alto ? 'alto' : 'bajo-moderado'}, `}indicación: ${r.ind.label}). ${r.reinicio} Para esta indicación existe ${r.ind.fuerza}.` +
+  `<span style="color:var(--ink-faint);font-size:12px;display:block;margin-top:8px;">El puente con HBPM queda para casos individualizados de riesgo trombótico muy alto, no como conducta por defecto: el puente sistemático multiplica el sangrado mayor sin reducir los eventos tromboembólicos. No medir anti-Xa de rutina (CHEST 2022).</span>`;
+
+/* ===== DASI / MET (capacidad funcional) =====
+   Tabla 5 de la guía ACC/AHA 2024, tomada de Hlatky MA, et al. Am J Cardiol.
+   1989;64(10):651-654. La conversión a consumo de oxígeno es la del artículo original:
+   VO2 pico (mL/kg/min) = 0.43 × DASI + 9.6, y 1 MET = 3.5 mL/kg/min. El umbral de mala
+   capacidad funcional son 4 MET (guía 2024, sección 3.2). */
+const DASI_ITEMS = [
+  { key: 'cuidarse', pts: 2.75, label: '¿Puede cuidar de sí mismo (comer, vestirse, bañarse, usar el sanitario)?' },
+  { key: 'caminarCasa', pts: 1.75, label: '¿Puede caminar bajo techo, por ejemplo dentro de su casa?' },
+  { key: 'caminarCuadra', pts: 2.75, label: '¿Puede caminar una o dos cuadras en terreno plano?' },
+  { key: 'escaleras', pts: 5.5, label: '¿Puede subir un piso de escaleras o caminar cuesta arriba?' },
+  { key: 'correr', pts: 8, label: '¿Puede correr una distancia corta?' },
+  { key: 'trabajoLigero', pts: 2.7, label: '¿Puede hacer trabajo ligero en casa (sacudir, lavar los platos)?' },
+  { key: 'trabajoModerado', pts: 3.5, label: '¿Puede hacer trabajo moderado en casa (aspirar, barrer, cargar el mandado)?' },
+  { key: 'trabajoPesado', pts: 8, label: '¿Puede hacer trabajo pesado en casa (tallar pisos, mover muebles)?' },
+  { key: 'jardin', pts: 4.5, label: '¿Puede hacer trabajo de jardín (rastrillar, deshierbar, podar el césped)?' },
+  { key: 'sexuales', pts: 5.25, label: '¿Puede tener relaciones sexuales?' },
+  { key: 'recreativoModerado', pts: 6, label: '¿Puede hacer actividad recreativa moderada (golf, boliche, baile, tenis en dobles)?' },
+  { key: 'deporteIntenso', pts: 7.5, label: '¿Puede practicar deportes intensos (natación, tenis individual, básquetbol, esquí)?' }
+];
+const DASI_MAX = DASI_ITEMS.reduce((s, i) => s + i.pts, 0); // 58.2
+// La guía de 2024 define mala capacidad funcional como "menos de 4 MET O un DASI de 34 o
+// menos" (nota al pie de la sección 4.3). Los dos criterios no coinciden: 4 MET por la fórmula
+// de Hlatky equivalen a un DASI de apenas 10.2, así que hay una franja ancha (DASI de 11 a 34)
+// que la fórmula daría por buena y el umbral de la guía por mala. Se informan ambos y, cuando
+// discrepan, se dice explícitamente, en vez de elegir uno en silencio.
+const DASI_CORTE = 34;
+function dasiCompute(v) {
+  const total = DASI_ITEMS.reduce((s, i) => s + (v[i.key] ? i.pts : 0), 0);
+  const vo2 = 0.43 * total + 9.6;
+  const mets = vo2 / 3.5;
+  const buenaMet = mets >= 4;
+  const buenaDasi = total > DASI_CORTE;
+  return { total: Math.round(total * 100) / 100, vo2, mets, buenaMet, buenaDasi,
+    buena: buenaMet && buenaDasi, discrepan: buenaMet !== buenaDasi };
+}
+const fragDasi = r => `<strong>DASI ${r.total} de ${DASI_MAX}</strong> (${r.mets.toFixed(1)} MET estimados), capacidad funcional ${r.buena ? 'conservada' : (r.discrepan ? 'en zona intermedia' : 'reducida')}`;
+const fmtDasi = r => `${fragDasi(r)}. VO₂ pico estimado ${r.vo2.toFixed(1)} mL/kg/min. ${
+  r.buena
+    ? 'Cumple los dos criterios de la guía (4 MET o más y DASI mayor de 34): la ruta perioperatoria permite proceder sin estudios cardiacos adicionales aunque el riesgo calculado sea elevado.'
+    : r.discrepan
+      ? 'Los dos criterios de la guía discrepan en este paciente: alcanza 4 MET por la fórmula, pero su DASI es de 34 o menos, que la guía también cuenta como mala capacidad funcional. Conviene apoyarse en la evaluación clínica y en la pregunta de los dos pisos de escaleras antes de decidir.'
+      : 'No alcanza ninguno de los dos umbrales: la capacidad funcional es mala y la ruta pasa a preguntar si un estudio adicional cambiaría el manejo.'
+} <span style="color:var(--ink-faint);font-size:12px;">La guía define mala capacidad funcional como menos de 4 MET o un DASI de 34 o menos. Evaluarla de forma estructurada en cirugía de riesgo elevado es recomendación clase 2a. La pregunta de cabecera equivalente es si el paciente sube dos pisos de escaleras.</span>`;
+
+/* ===== ARISCAT (complicaciones pulmonares posoperatorias) =====
+   Canet J, et al. Anesthesiology. 2010;113(6):1338-1350. */
+function ariscatCompute(v) {
+  if (v.edad === null || v.edad === undefined) return null;
+  const ptsEdad = v.edad <= 50 ? 0 : (v.edad <= 80 ? 3 : 16);
+  const total = ptsEdad + (+v.spo2) + (v.infeccion ? 17 : 0) + (v.anemia ? 11 : 0) +
+    (+v.incision) + (+v.duracion) + (v.emergencia ? 8 : 0);
+  let cat, riesgo;
+  if (total < 26) { cat = 'bajo'; riesgo = '1.6%'; }
+  else if (total < 45) { cat = 'intermedio'; riesgo = '13.3%'; }
+  else { cat = 'alto'; riesgo = '42.1%'; }
+  return { total, cat, riesgo, ptsEdad };
+}
+const fragAriscat = r => `<strong>ARISCAT ${r.total} puntos</strong>, riesgo ${r.cat} de complicación pulmonar posoperatoria (${r.riesgo})`;
+const fmtAriscat = r => `${fragAriscat(r)}. Predice el conjunto de insuficiencia respiratoria, infección respiratoria, derrame pleural, atelectasia, neumotórax, broncoespasmo y neumonitis por aspiración. <span style="color:var(--ink-faint);font-size:12px;">Puntos de corte de la cohorte de validación: &lt;26 bajo, 26-44 intermedio, ≥45 alto (Canet 2010).</span>`;
+
+/* ===== STOP-BANG (apnea obstructiva del sueño) =====
+   Chung F, et al. Anesthesiology. 2008;108(5):812-821. */
+const STOPBANG_ITEMS = [
+  { key: 's', label: '<strong>S</strong>noring: ¿ronca fuerte, más que al hablar o audible desde otra habitación?' },
+  { key: 't', label: '<strong>T</strong>ired: ¿se siente cansado, fatigado o somnoliento durante el día?' },
+  { key: 'o', label: '<strong>O</strong>bserved: ¿alguien ha observado que deja de respirar mientras duerme?' },
+  { key: 'p', label: '<strong>P</strong>ressure: ¿tiene hipertensión arterial o está en tratamiento para ella?' },
+  { key: 'b', label: '<strong>B</strong>MI: índice de masa corporal mayor de 35 kg/m²' },
+  { key: 'a', label: '<strong>A</strong>ge: edad mayor de 50 años' },
+  { key: 'n', label: '<strong>N</strong>eck: circunferencia del cuello mayor de 40 cm' },
+  { key: 'g', label: '<strong>G</strong>ender: sexo masculino' }
+];
+function stopbangCompute(v) {
+  const total = STOPBANG_ITEMS.reduce((s, i) => s + (v[i.key] ? 1 : 0), 0);
+  let cat;
+  if (total <= 2) cat = 'bajo';
+  else if (total <= 4) cat = 'intermedio';
+  else cat = 'alto';
+  return { total, cat };
+}
+const fragStopbang = r => `<strong>STOP-BANG ${r.total} de 8</strong>, riesgo ${r.cat} de apnea obstructiva del sueño`;
+const fmtStopbang = r => `${fragStopbang(r)}. ${r.total >= 5
+  ? 'Con 5 puntos o más conviene avisar a anestesiología antes de la cirugía: son pacientes con vía aérea difícil más probable y sensibilidad aumentada a opioides y sedantes.'
+  : 'Aun con riesgo bajo o intermedio, mantener precaución con opioides y sedantes si hay síntomas sugestivos.'} <span style="color:var(--ink-faint);font-size:12px;">Es una herramienta de cribado, no diagnóstica: el diagnóstico de apnea del sueño requiere polisomnografía (Chung 2008).</span>`;
+
+/* ===== Apfel (náusea y vómito posoperatorios) =====
+   Apfel CC, et al. Anesthesiology. 1999;91(3):693-700. */
+const APFEL_RIESGO = ['10%', '21%', '39%', '61%', '79%'];
+function apfelCompute(v) {
+  const total = ['mujer', 'noFumador', 'antecedente', 'opioides'].reduce((s, k) => s + (v[k] ? 1 : 0), 0);
+  return { total, riesgo: APFEL_RIESGO[total] };
+}
+const fragApfel = r => `<strong>Apfel ${r.total} de 4</strong>, riesgo de náusea y vómito posoperatorios ${r.riesgo}`;
+const fmtApfel = r => `${fragApfel(r)}. ${r.total >= 2
+  ? 'Con 2 factores o más se recomienda profilaxis antiemética multimodal: la estrategia habitual es un antiemético por cada factor de riesgo presente.'
+  : 'Con 0 o 1 factor no suele hacer falta profilaxis de rutina; basta el tratamiento de rescate.'}`;
+
+/* ===== Charlson (carga de comorbilidad) =====
+   Charlson ME, et al. J Chronic Dis. 1987;40(5):373-383. La supervivencia estimada a 10 años
+   usa la fórmula publicada 0.983^(e^(puntaje × 0.9)). */
+const CHARLSON_1 = [
+  { key: 'iam', label: 'Infarto de miocardio previo' },
+  { key: 'icc', label: 'Insuficiencia cardiaca congestiva' },
+  { key: 'vascular', label: 'Enfermedad vascular periférica' },
+  { key: 'cerebrovascular', label: 'Enfermedad cerebrovascular (ACV o AIT)' },
+  { key: 'demencia', label: 'Demencia' },
+  { key: 'epoc', label: 'Enfermedad pulmonar crónica' },
+  { key: 'conectivopatia', label: 'Enfermedad del tejido conectivo' },
+  { key: 'ulcera', label: 'Enfermedad ulcerosa péptica' },
+  { key: 'hepatoLeve', label: 'Hepatopatía leve' },
+  { key: 'dm', label: 'Diabetes sin daño a órgano blanco' }
+];
+const CHARLSON_2 = [
+  { key: 'hemiplejia', label: 'Hemiplejía' },
+  { key: 'renal', label: 'Enfermedad renal moderada o grave' },
+  { key: 'dmComplicada', label: 'Diabetes con daño a órgano blanco' },
+  { key: 'tumor', label: 'Tumor sólido sin metástasis (diagnosticado en los últimos 5 años)' },
+  { key: 'leucemia', label: 'Leucemia' },
+  { key: 'linfoma', label: 'Linfoma' }
+];
+function charlsonCompute(v) {
+  if (v.edad === null || v.edad === undefined) return null;
+  let total = 0;
+  CHARLSON_1.forEach(i => { if (v[i.key]) total += 1; });
+  CHARLSON_2.forEach(i => { if (v[i.key]) total += 2; });
+  if (v.hepatoGrave) total += 3;
+  if (v.metastasico) total += 6;
+  if (v.sida) total += 6;
+  // Ajuste por edad: +1 punto por cada década a partir de los 50 años.
+  const ptsEdad = v.edad < 50 ? 0 : Math.min(Math.floor((v.edad - 40) / 10), 4);
+  total += ptsEdad;
+  const superv = 100 * Math.pow(0.983, Math.exp(total * 0.9));
+  return { total, ptsEdad, superv };
+}
+// Con puntajes altos la exponencial de la fórmula lleva la supervivencia por debajo de lo que
+// el redondeo puede mostrar, y un "0%" literal diría más de lo que el índice puede sostener.
+const survTexto = s => (s < 1 ? 'menos de 1%' : s.toFixed(0) + '%');
+const fragCharlson = r => `<strong>Charlson ${r.total} puntos</strong> (incluye ${r.ptsEdad} por edad), supervivencia estimada a 10 años ${survTexto(r.superv)}`;
+const fmtCharlson = r => `${fragCharlson(r)}. <span style="color:var(--ink-faint);font-size:12px;">La supervivencia procede de la fórmula publicada del índice y refleja la carga de comorbilidad, no el riesgo del procedimiento. En la valoración preoperatoria sirve para dimensionar cuánto beneficio puede esperar el paciente de una cirugía electiva (Charlson 1987).</span>`;
+
+/* ===== Fragilidad clínica =====
+   Escala clínica de fragilidad de Rockwood (Rockwood K, et al. CMAJ. 2005;173(5):489-495).
+   Las etiquetas están resumidas en español; la escala original y sus descriptores completos
+   pertenecen a Dalhousie University y su uso formal requiere permiso. */
+const FRAGILIDAD = {
+  '1': { label: 'Muy en forma', riesgo: 'bajo' },
+  '2': { label: 'En forma', riesgo: 'bajo' },
+  '3': { label: 'Se maneja bien', riesgo: 'bajo' },
+  '4': { label: 'Fragilidad muy leve', riesgo: 'intermedio' },
+  '5': { label: 'Fragilidad leve', riesgo: 'intermedio' },
+  '6': { label: 'Fragilidad moderada', riesgo: 'alto' },
+  '7': { label: 'Fragilidad grave', riesgo: 'alto' },
+  '8': { label: 'Fragilidad muy grave', riesgo: 'muy alto' },
+  '9': { label: 'Enfermedad terminal', riesgo: 'muy alto' }
+};
+function fragilidadCompute(v) {
+  const g = FRAGILIDAD[v.grado];
+  return g ? { grado: v.grado, label: g.label, riesgo: g.riesgo } : null;
+}
+const fragFragilidad = r => `<strong>Fragilidad clínica ${r.grado} de 9</strong> (${r.label}), riesgo perioperatorio asociado ${r.riesgo}`;
+const fmtFragilidad = r => `${fragFragilidad(r)}. ${+r.grado >= 5
+  ? 'A partir del grado 5 la fragilidad predice de forma independiente mortalidad, complicaciones, delirium, estancia prolongada e institucionalización al alta. Conviene una valoración geriátrica integral y una conversación explícita sobre objetivos de la cirugía.'
+  : 'Por debajo del grado 5 la fragilidad no añade riesgo perioperatorio sustancial por sí misma.'} <span style="color:var(--ink-faint);font-size:12px;">Se puntúa según la situación basal de dos semanas antes de la enfermedad actual, no según cómo está el paciente hoy en cama.</span>`;
+
+/* ===== Delirium posoperatorio =====
+   No es un puntaje validado: es una lista de factores predisponentes y precipitantes con
+   respaldo consistente en la literatura perioperatoria y geriátrica. Se presenta como conteo
+   de factores, igual que otras ayudas clínicas no numéricas de la app. */
+const DELIRIUM_PRE = [
+  { key: 'edad70', label: 'Edad ≥70 años' },
+  { key: 'cognitivo', label: 'Deterioro cognitivo o demencia previos' },
+  { key: 'delirioPrevio', label: 'Episodio previo de delirium' },
+  { key: 'fragil', label: 'Fragilidad o dependencia funcional' },
+  { key: 'sensorial', label: 'Déficit visual o auditivo no corregido' },
+  { key: 'depresion', label: 'Depresión' },
+  { key: 'alcohol', label: 'Consumo de alcohol de riesgo' },
+  { key: 'comorbilidad', label: 'Comorbilidad múltiple o polifarmacia' }
+];
+const DELIRIUM_PRECIP = [
+  { key: 'mayor', label: 'Cirugía mayor, cardiaca, vascular o de cadera' },
+  { key: 'urgente', label: 'Cirugía urgente o de emergencia' },
+  { key: 'anticolinergicos', label: 'Fármacos anticolinérgicos, benzodiacepinas o meperidina' },
+  { key: 'dolor', label: 'Dolor mal controlado' },
+  { key: 'metabolico', label: 'Alteración hidroelectrolítica, anemia o hipoxemia' },
+  { key: 'infeccion', label: 'Infección activa' },
+  { key: 'sondas', label: 'Sonda vesical, restricción física o inmovilidad' },
+  { key: 'sueno', label: 'Privación de sueño o desorientación ambiental' }
+];
+function deliriumCompute(v) {
+  const pre = DELIRIUM_PRE.reduce((s, i) => s + (v[i.key] ? 1 : 0), 0);
+  const precip = DELIRIUM_PRECIP.reduce((s, i) => s + (v[i.key] ? 1 : 0), 0);
+  const total = pre + precip;
+  let cat;
+  if (pre >= 3 || total >= 6) cat = 'alto';
+  else if (total >= 3) cat = 'intermedio';
+  else cat = 'bajo';
+  return { pre, precip, total, cat };
+}
+const fragDelirium = r => `<strong>Riesgo ${r.cat} de delirium posoperatorio</strong> (${r.pre} factores predisponentes y ${r.precip} precipitantes)`;
+const fmtDelirium = r => `${fragDelirium(r)}. ${r.cat === 'bajo'
+  ? 'Mantener las medidas no farmacológicas básicas: orientación, movilización temprana, lentes y auxiliar auditivo puestos, higiene del sueño.'
+  : 'Indicar un paquete de prevención no farmacológica multicomponente, que es lo único que ha demostrado reducir la incidencia: orientación repetida, movilización temprana, hidratación, control del dolor sin anticolinérgicos ni benzodiacepinas, lentes y auxiliar auditivo, y protección del sueño. Evitar antipsicóticos como profilaxis.'} <span style="color:var(--ink-faint);font-size:12px;">Ayuda clínica basada en factores de riesgo reconocidos; no es un puntaje numérico validado. Cuanto mayor sea la carga predisponente basal, menor es el estímulo precipitante que basta para desencadenar el delirium.</span>`;
+
 /* ===== Calculadoras ===== */
 export const calculators = [
   {
@@ -327,6 +594,136 @@ export const calculators = [
     fields: capriniFields(),
     compute: capriniCompute,
     format: fmtCaprini, fragment: fragCaprini
+  },
+  {
+    key: 'puenteac', title: 'Puente de anticoagulación', accent: '#3d5a73',
+    subtitle: 'Cuántos días suspender y si procede puentear',
+    incompleteMsg: 'Con dabigatrán hace falta el aclaramiento de creatinina.',
+    fields: [
+      { name: 'farmaco', id: 'vp-farmaco', type: 'select', label: 'Anticoagulante', options: [
+        { value: 'warfarina', label: 'Warfarina', selected: true },
+        { value: 'acenocumarol', label: 'Acenocumarol' },
+        { value: 'fenprocumon', label: 'Fenprocumón' },
+        { value: 'apixaban', label: 'Apixabán' },
+        { value: 'rivaroxaban', label: 'Rivaroxabán' },
+        { value: 'edoxaban', label: 'Edoxabán' },
+        { value: 'dabigatran', label: 'Dabigatrán' }
+      ] },
+      { name: 'sangrado', id: 'vp-sangrado', type: 'select', label: 'Riesgo hemorrágico del procedimiento', row: 'a', options: [
+        { value: 'bajo', label: 'Bajo o moderado', selected: true },
+        { value: 'alto', label: 'Alto' }
+      ] },
+      { name: 'tfg', id: 'vp-tfg', type: 'number', label: 'Aclaramiento de creatinina (mL/min)', placeholder: 'ej. 60', row: 'a', required: false },
+      { name: 'indicacion', id: 'vp-indicacion', type: 'select', label: 'Indicación de la anticoagulación', options: [
+        { value: 'fa', label: 'Fibrilación auricular', selected: true },
+        { value: 'valvula', label: 'Válvula cardiaca mecánica' },
+        { value: 'etv', label: 'Enfermedad tromboembólica venosa' },
+        { value: 'dispositivo', label: 'Implante de marcapasos o desfibrilador' },
+        { value: 'colonoscopia', label: 'Colonoscopia con polipectomía prevista' }
+      ] },
+      { type: 'note', text: 'El aclaramiento solo cambia el resultado con dabigatrán: es el único DOAC cuyo intervalo depende de la función renal. Los demás usan 1 día si el riesgo hemorrágico es bajo o moderado y 2 si es alto.' }
+    ],
+    compute: puenteCompute,
+    format: fmtPuente, fragment: fragPuente
+  },
+  {
+    key: 'dasi', title: 'DASI / MET', accent: '#3f6b52',
+    subtitle: 'Capacidad funcional, el paso 4 de la ruta perioperatoria',
+    fields: [
+      { type: 'note', text: 'Marca solo las actividades que el paciente <strong>sí</strong> puede hacer. El umbral de mala capacidad funcional son 4 MET.' },
+      ...DASI_ITEMS.map(i => ({ name: i.key, id: 'vdasi-' + i.key, type: 'checkbox', label: i.label }))
+    ],
+    compute: dasiCompute,
+    format: fmtDasi, fragment: fragDasi
+  },
+  {
+    key: 'ariscat', title: 'ARISCAT (riesgo pulmonar)', accent: '#8c3a34',
+    subtitle: 'Complicaciones pulmonares posoperatorias',
+    incompleteMsg: 'Completa la edad y el resto de los campos.',
+    fields: [
+      { name: 'edad', id: 'var-edad', type: 'number', label: 'Edad (años)', placeholder: 'ej. 65', row: 'a', shared: 'age' },
+      { name: 'spo2', id: 'var-spo2', type: 'select', numeric: true, label: 'SpO₂ preoperatoria (aire ambiente)', row: 'a', options: [
+        { value: '0', label: '≥96% (+0)', selected: true },
+        { value: '8', label: '91-95% (+8)' },
+        { value: '24', label: '≤90% (+24)' }
+      ] },
+      { name: 'infeccion', id: 'var-infeccion', type: 'checkbox', label: 'Infección respiratoria en el último mes (+17)' },
+      { name: 'anemia', id: 'var-anemia', type: 'checkbox', label: 'Anemia preoperatoria, hemoglobina ≤10 g/dL (+11)' },
+      { name: 'incision', id: 'var-incision', type: 'select', numeric: true, label: 'Incisión quirúrgica', options: [
+        { value: '0', label: 'Periférica (+0)', selected: true },
+        { value: '15', label: 'Abdominal alta (+15)' },
+        { value: '24', label: 'Intratorácica (+24)' }
+      ] },
+      { name: 'duracion', id: 'var-duracion', type: 'select', numeric: true, label: 'Duración prevista de la cirugía', options: [
+        { value: '0', label: 'Menos de 2 horas (+0)', selected: true },
+        { value: '16', label: 'De 2 a 3 horas (+16)' },
+        { value: '23', label: 'Más de 3 horas (+23)' }
+      ] },
+      { name: 'emergencia', id: 'var-emergencia', type: 'checkbox', label: 'Procedimiento de emergencia (+8)' }
+    ],
+    compute: ariscatCompute,
+    format: fmtAriscat, fragment: fragAriscat
+  },
+  {
+    key: 'stopbang', title: 'STOP-BANG', accent: '#5c4a73',
+    subtitle: 'Cribado de apnea obstructiva del sueño',
+    fields: STOPBANG_ITEMS.map(i => ({ name: i.key, id: 'vsb-' + i.key, type: 'checkbox', label: i.label })),
+    compute: stopbangCompute,
+    format: fmtStopbang, fragment: fragStopbang
+  },
+  {
+    key: 'apfel', title: 'Apfel (náusea y vómito)', accent: '#966b35',
+    subtitle: 'Riesgo de náusea y vómito posoperatorios',
+    fields: [
+      { name: 'mujer', id: 'vap-mujer', type: 'checkbox', label: 'Sexo femenino' },
+      { name: 'noFumador', id: 'vap-nofumador', type: 'checkbox', label: 'No fumador' },
+      { name: 'antecedente', id: 'vap-antecedente', type: 'checkbox', label: 'Antecedente de náusea o vómito posoperatorios, o de cinetosis' },
+      { name: 'opioides', id: 'vap-opioides', type: 'checkbox', label: 'Uso previsto de opioides en el posoperatorio' }
+    ],
+    compute: apfelCompute,
+    format: fmtApfel, fragment: fragApfel
+  },
+  {
+    key: 'fragilidad', title: 'Fragilidad clínica', accent: '#4a5c73',
+    subtitle: 'Situación basal previa a la enfermedad actual',
+    fields: [
+      { name: 'grado', id: 'vfr-grado', type: 'select', label: 'Grado', options: Object.keys(FRAGILIDAD).map(k => ({
+        value: k, label: `${k} — ${FRAGILIDAD[k].label}`, selected: k === '3'
+      })) },
+      { type: 'note', text: 'Se puntúa según cómo estaba el paciente <strong>dos semanas antes</strong> de la enfermedad actual, no según cómo está hoy en cama.' }
+    ],
+    compute: fragilidadCompute,
+    format: fmtFragilidad, fragment: fragFragilidad
+  },
+  {
+    key: 'charlson', title: 'Índice de Charlson', accent: '#7c2d2d',
+    subtitle: 'Carga de comorbilidad ajustada por edad',
+    incompleteMsg: 'Completa la edad.',
+    fields: [
+      { name: 'edad', id: 'vch-edad', type: 'number', label: 'Edad (años)', placeholder: 'ej. 65', shared: 'age' },
+      { type: 'note', text: 'Un punto cada uno' },
+      ...CHARLSON_1.map(i => ({ name: i.key, id: 'vch-' + i.key, type: 'checkbox', label: i.label })),
+      { type: 'note', text: 'Dos puntos cada uno' },
+      ...CHARLSON_2.map(i => ({ name: i.key, id: 'vch-' + i.key, type: 'checkbox', label: i.label })),
+      { type: 'note', text: 'Puntajes mayores' },
+      { name: 'hepatoGrave', id: 'vch-hepatograve', type: 'checkbox', label: 'Hepatopatía moderada o grave (+3)' },
+      { name: 'metastasico', id: 'vch-metastasico', type: 'checkbox', label: 'Tumor sólido metastásico (+6)' },
+      { name: 'sida', id: 'vch-sida', type: 'checkbox', label: 'Sida (+6)' }
+    ],
+    compute: charlsonCompute,
+    format: fmtCharlson, fragment: fragCharlson
+  },
+  {
+    key: 'delirium', title: 'Riesgo de delirium posoperatorio', accent: '#5c4a73',
+    subtitle: 'Factores predisponentes y precipitantes',
+    fields: [
+      { type: 'note', text: 'Factores predisponentes (el terreno del paciente)' },
+      ...DELIRIUM_PRE.map(i => ({ name: i.key, id: 'vdel-' + i.key, type: 'checkbox', label: i.label })),
+      { type: 'note', text: 'Factores precipitantes (lo que aporta el episodio quirúrgico)' },
+      ...DELIRIUM_PRECIP.map(i => ({ name: i.key, id: 'vdel-' + i.key, type: 'checkbox', label: i.label }))
+    ],
+    compute: deliriumCompute,
+    format: fmtDelirium, fragment: fragDelirium
   }
 ];
 

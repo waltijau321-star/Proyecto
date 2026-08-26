@@ -1,0 +1,3741 @@
+Perioperative Management of
+Antithrombotic Therapy
+An American College of Chest Physicians Clinical Practice Guideline
+James D. Douketis, MD, FCCP; Alex C. Spyropoulos, MD, FCCP; M. Hassan Murad, MD, MPH; Juan I. Arcelus, MD;
+William E. Dager, PharmD; Andrew S. Dunn, MD, MPH; Ramiz A. Fargo, MD, FCCP; Jerrold H. Levy, MD;
+C. Marc Samama, MD; Sahrish H. Shah, MBBS; Matthew W. Sherwood, MD; Alfonso J. Tafur, MD; Liang V. Tang, MD;
+and Lisa K. Moores, MD, FCCP
+BACKGROUND: The American College of Chest Physicians Clinical Practice Guideline on the
+Perioperative Management of Antithrombotic Therapy addresses 43 Patients-Interventions-
+Comparators-Outcomes (PICO) questions related to the perioperative management of pa-
+tients who are receiving long-term oral anticoagulant or antiplatelet therapy and require an
+elective surgery/procedure. This guideline is separated into four broad categories, encom-
+passing the management of patients who are receiving: (1) a vitamin K antagonist (VKA),
+mainly warfarin; (2) if receiving a VKA, the use of perioperative heparin bridging, typically
+with a low-molecular-weight heparin; (3) a direct oral anticoagulant (DOAC); and (4) an
+antiplatelet drug.
+METHODS: Strong or conditional practice recommendations are generated based on high, mod-
+erate, low, and very low certainty of evidence using the Grading of Recommendations, Assess-
+ment, Development, and Evaluation (GRADE) methodology for clinical practice guidelines.
+RESULTS: A multidisciplinary panel generated 44 guideline recommendations for the peri-
+operative management of VKAs, heparin bridging, DOACs, and antiplatelet drugs, of which
+two are strong recommendations: (1) against the use of heparin bridging in patients with
+atrial ﬁbrillation; and (2) continuation of VKA therapy in patients having a pacemaker or
+internal cardiac de ﬁbrillator implantation. There are separate recommendations on the
+perioperative management of patients who are undergoing minor procedures, comprising
+dental, dermatologic, ophthalmologic, pacemaker/internal cardiac de ﬁbrillator implantation,
+and GI (endoscopic) procedures.
+CONCLUSIONS: Substantial new evidence has emerged since the 2012 iteration of these
+guidelines, especially to inform best practices for the perioperative management of patients
+who are receiving a VKA and may require heparin bridging, for the perioperative manage-
+ment of patients who are receiving a DOAC, and for patients who are receiving one or more
+antiplatelet drugs. Despite this new knowledge, uncertainty remains as to best practices for
+the majority of perioperative management questions. CHEST 2022; 162(5):e207-e243
+KEY WORDS: antithrombotic therapy; bleeding; perioperative care; surgery; thrombosis
+ABBREVIATIONS: aPTT = activated partial thromboplastin time;
+ASA = aspirin; ATE = arterial thromboembolism; CABG = coronary
+artery bypass graft; CHADS 2 = congestive heart failure, hypertension,
+age $ 75 years, diabetes mellitus, prior stroke or transient ischemic
+attack; CHA2DS2VASc = congestive heart failure, hypertension, age $
+75 years, diabetes mellitus, prior stroke or transient ischemic attack,
+vascular disease history, age $ 65 years, female sex; COI = con ﬂicts of
+interest; CrCl = creatinine clearance; DOAC = direct oral
+anticoagulant; GRADE = Grading of Recommendations, Assessment,
+Development, and Evaluation; HR = hazard ratio; INR = international
+normalized ratio; LMWH = low-molecular-weight heparin; PICO =
+Patients-Interventions-Comparators-Outcomes; RR = relative risk;
+UFH = unfractionated heparin; VKA = vitamin K antagonist
+AFFILIATIONS: From the Department of Medicine (J. D. D.), St.
+Joseph’s Healthcare Hamilton and McMaster University, Hamilton,
+[ Education and Clinical Practice Guidelines and Consensus Statements ]
+chestjournal.org e207
+i An update to this article is included at the end
+Summary of Key Recommendations
+5. In patients receiving VKA therapy for a mechanical
+heart valve who require VKA interruption for an
+elective surgery/procedure, we suggest against heparin
+bridging (Conditional Recommendation, Very Low
+Certainty of Evidence).
+6. In patients receiving VKA therapy for atrial
+ﬁbrillation who require VKA interruption for an
+elective surgery/procedure, we recommend against
+heparin bridging (Strong Recommendation, Moderate
+Certainty of Evidence).
+7. In patients receiving VKA therapy for VTE as the
+sole clinical indication who require VKA interruption
+for an elective surgery/procedure, we suggest against
+heparin bridging (Conditional Recommendation, Very
+Low Certainty of Evidence).
+14. In patients receiving VKA therapy who require a
+pacemaker or ICD implantation, we recommend
+continuation of VKA over VKA interruption and
+heparin bridging (Strong Recommendation, Moderate
+Certainty of Evidence).
+15. In patients receiving VKA therapy who require
+VKA interruption for a colonoscopy with
+anticipated polypectomy, we suggest against heparin
+bridging during the period of VKA interruption
+(Conditional Recommendation, Very Low Certainty of
+Evidence).
+21. In patients receiving LMWH bridging for an
+elective surgery/procedure, we suggest against
+routine measurement of anti-factor Xa levels to
+guide perioperative LMWH management
+(Conditional Recommendation, Very Low Certainty of
+Evidence).
+22. In patients receiving apixaban who require an
+elective surgery/procedure, we suggest stopping
+apixaban for 1 to 2 days before the surgery/procedure
+over apixaban continuation (Conditional
+Recommendation, Very Low Certainty of Evidence).
+23. In patients receiving dabigatran who require an
+elective surgery/procedure, we suggest stopping
+dabigatran for 1 to 4 days before the surgery/
+procedure over dabigatran continuation
+(Conditional Recommendation, Very Low Certainty
+of Evidence).
+24. In patients receiving edoxaban who require an
+elective surgery/procedure, we suggest stopping
+edoxaban for 1 to 2 days before the surgery/procedure
+over edoxaban continuation (Conditional
+Recommendation, Very Low Certainty of Evidence).
+25. In patients receiving rivaroxaban who require an
+elective surgery/procedure, we suggest stopping
+rivaroxaban for 1 to 2 days before the surgery/
+procedure over rivaroxaban continuation
+(Conditional Recommendation, Very Low Certainty of
+Evidence).
+26. In patients who require DOAC interruption for an
+elective surgery/procedure, we suggest against
+perioperative heparin bridging (Conditional
+Recommendation, Very Low Certainty of Evidence).
+27. In patients who had DOAC interruption for an
+elective surgery/procedure, we suggest resuming
+DOACs > 24 hours after a surgery/procedure over
+resuming DOACs within 24 hours (Conditional
+Recommendation, Very Low Certainty of Evidence).
+28. In patients who had DOAC interruption for an
+elective surgery/procedure, we suggest against
+routine DOAC coagulation function testing to guide
+ON, Canada; Department of Medicine (A. C. S.), Northwell Health at
+Lenox Hill Hospital, New York, NY; Donald and Barbara Zucker
+School of Medicine at Hofstra/Northwell (A. C. S.), Hempstead, NY;
+Institute of Health Systems Science at The Feinstein Institutes for
+Medical Research (A. C. S.), Manhasset, NY; Mayo Clinic Evidence-
+Based Practice Center (M. H. M. and S. H. S.), Rochester, MN;
+Department of Surgery (J. I. A.), Facultad de Medicina, University of
+Granada, Granada, Spain; Department of Pharmacy (W. E. D.), Uni-
+versity of California-Davis, Sacramento, CA; Division of Hospital
+Medicine (A. S. D.), Department of Medicine, Mt. Sinai Health System,
+New York, NY; Department of Internal Medicine (R. A. F.), Loma
+Linda University Medical Center, Loma Linda, CA; Department of
+Internal Medicine (R. A. F.), Riverside University Health System
+Medical Center, Moreno Valley, CA; Department of Anesthesiology,
+Critical Care, and Surgery (Cardiothoracic) (J. H. L.), Duke University
+School of Medicine, Durham, NC; Department of Anaesthesia,
+Intensive Care and Perioperative Medicine (C. M. S.), GHU AP-HP,
+Centre-Université Paris-Cité-Cochin Hospital, Paris, France; Inova
+Heart and Vascular Institute (M. W. S.), Falls Church, VA; Department
+of Medicine (A. J. T.), Cardiovascular, NorthShore University
+HealthSystem, Evanston, IL; Institute of Hematology (L. V. T.), Union
+Hospital, Tongji Medical College, Huazhong, University of Science and
+Technology, Wuhan, China; and the F. Edward Hébert School of
+Medicine (L. K. M.), Uniformed Services University of the Health
+Sciences, Bethesda, MD.
+Drs Douketis and Spyropoulos served as co-primary authors.
+DISCLAIMER: American College of Chest Physician guidelines are
+intended for general information only, are not medical advice, and do
+not replace professional medical care and physician advice, which al-
+ways should be sought for any medical condition. The complete
+disclaimer for this guideline can be accessed at https://www.chestnet.
+org/Guidelines-and-Resources.
+CORRESPONDENCE TO: James D. Douketis, MD; email: jdouket@
+mcmaster.ca
+Copyright /C2112022 American College of Chest Physicians. Published by
+Elsevier Inc. All rights reserved.
+DOI: https://doi.org/10.1016/j.chest.2022.07.025
+e208 Guidelines and Consensus Statements [ 162#5 CHEST NOVEMBER 2022 ]
+perioperative DOAC management (Conditional
+Recommendation, Very Low Certainty of Evidence).
+29a. In patients receiving ASA who are undergoing
+elective non-cardiac surgery, we suggest ASA
+continuation over ASA interruption (Conditional
+Recommendation, Moderate Certainty of Evidence).
+34. In patients who are receiving ASA and
+undergoing CABG surgery, we suggest continuation
+of ASA over interruption; in patients receiving a
+P2Y12 inhibitor drug, we suggest interruption of the
+P2Y12 inhibitor over continuation perioperatively
+(Conditional Recommendation, Low Certainty of
+Evidence).
+36. In patients receiving antiplatelet drug therapy
+who are undergoing an elective surgery/procedure,
+we suggest against the routine use of platelet
+function testing prior to the surgery/procedure to
+guide perioperative antiplatelet management
+(Conditional Recommendation, Very Low Certainty of
+Evidence).
+38. In patients receiving ASA and a P2Y 12 inhibitor
+who had coronary stents placed within the last 3 to
+12 months and are undergoing an elective surgery/
+procedure, we suggest stopping the P2Y 12 inhibitor
+prior to surgery over continuation of the P2Y 12
+inhibitor (Conditional Recommendation, Very Low
+Certainty of Evidence).
+39. In patients with coronary stents who require
+interruption of antiplatelet drugs for an elective
+surgery/procedure, we suggest against routine
+bridging therapy with a glycoprotein IIb-IIIa
+inhibitor, cangrelor, or LMWH over routine use of
+bridging therapy (Conditional Recommendation, Low
+Certainty of Evidence).
+Introduction
+The perioperative management of antithrombotic
+therapy encompasses patients who are receiving a
+vitamin K antagonist (VKA), a direct oral
+anticoagulant (DOAC), or an antiplatelet drug and
+require surgery or an invasive procedure. 1 The scope
+of this problem is considerable because anticoagulant
+and antiplatelet drugs are widely used for clinical
+indications that include atrial ﬁbrillation, VTE,
+mechanical heart valves, coronary artery disease, and
+peripheral arterial disease. 2 Moreover, this clinical
+problem is likely to increase due to an aging
+population in whom antithrombotic therapy is widely
+used and in whom the need for a surgery/procedure is
+most common. 3-7 Approximately 15% to 20% of
+patients who are receiving anticoagulant therapy will
+require a surgery/procedure annually, 7-10 and 10% to
+15% of patients with coronary stents will require
+surgery within 2 years of implantation. 11,12
+The current American College of Chest Physicians
+(CHEST) guidelines on perioperative antithrombotic
+management have expanded from previous iterations to
+address 43 Patients-Interventions-Comparators-
+Outcomes (PICO) questions. New domains that are
+addressed include the perioperative management of
+patients who are receiving DOACs (also referred to as non-
+vitamin K oral anticoagulants), P2Y12 inhibitor antiplatelet
+drugs, and guidance on perioperative laboratory
+testing.13-15 The target audience for this guideline is the
+wide array of clinicians involved in perioperative patient
+care, but it is also relevant for researchers to identify areas
+of future study, for patients to access a reliable information
+resource, and for clinical managers to facilitate the
+development of standardized patient care paths.16,17 This
+guideline will be updated as new evidence emerges in the
+ﬁeld of perioperative antithrombotic management in
+accordance with CHEST guideline policies.18
+The aims of this practice guideline are: (1) to provide
+evidence-based recommendations for the perioperative
+management of patients who are receiving antithrombotic
+therapy; and (2) to provide practical guidance to clinicians
+for managing such patients in the perioperative period.
+The PICO questions and guideline statements are
+separated into four broad categories to re ﬂect the
+dominant patient groups assessed in clinical practice:
+/C15 Patients receiving a VKA, focused on warfarin.
+/C15 Among patients receiving a VKA, the use of periop-
+erative heparin bridging.
+/C15 Patients receiving a DOAC.
+/C15 Patients receiving an antiplatelet drug.
+The PICO questions are further arranged to re ﬂect
+practical aspects of perioperative antithrombotic
+management, which include:
+/C15 Interruption and resumption of VKAs before and
+after an elective surgery/procedure, and need for
+perioperative heparin bridging.
+/C15 For patients in whom heparin bridging is considered,
+how to manage pre- and post-operative bridging
+during VKA interruption.
+chestjournal.org e209
+/C15 Interruption and resumption of DOACs before and
+after an elective surgery/procedure.
+/C15 Perioperative management of antiplatelet therapy
+around non-cardiac surgery, coronary artery bypass
+graft (CABG) surgery, and in patients with cardiac
+stents.
+/C15 Management of VKAs, DOACs, and antiplatelet
+drugs around minor procedures (dental, dermato-
+logic, ophthalmologic, GI endoscopy, and cardiac
+device implantation, the latter comprising pacemakers
+and internal cardiac de ﬁbrillators [ICDs]).
+Deﬁnitions of Patient Groups, Antithrombotic
+Agents, and Qualifying Remarks
+The following de ﬁnitions and qualifying remarks are
+aimed at facilitating an understanding of this practice
+guideline and the accompanying recommendations.
+Patient Groups
+For patients who are receiving oral anticoagulant
+therapy, the recommendations will pertain to those
+patients who have one (or more) of the following clinical
+conditions: chronic atrial ﬁbrillation; a mechanical
+prosthetic heart valve; or VTE. Although there may be
+patients who are receiving anticoagulant therapy for
+other conditions (eg, dilated cardiomyopathy), we focus
+on the most common indications for anticoagulant
+therapy. For patients who are receiving antiplatelet
+therapy, the recommendations pertain mainly to
+patients who have coronary artery disease and require
+non-cardiac surgery, CABG surgery, or percutaneous
+coronary interventions and, to a lesser extent, to patients
+receiving antiplatelet therapy for secondary prevention
+of cardiovascular disease (eg, peripheral or
+cerebrovascular disease) who need non-cardiac surgery.
+VKAs
+Although there are several VKAs available for clinical
+use, including warfarin, acenocoumarol, ﬂuindione,
+phenprocoumon, and anisindione, 19 the PICO questions
+and associated recommendations herein will refer to
+warfarin when the term VKA is used because most
+evidence has assessed warfarin-treated patients, with few
+or no studies involving patients who are receiving other
+VKAs.13,14
+DOACs
+DOACs that are in clinical use comprise the factor Xa
+inhibitors apixaban, edoxaban, and rivaroxaban, and the
+factor IIa (thrombin) inhibitor dabigatran. 20 As these
+drugs differ in pharmacokinetic and pharmacodynamic
+properties,21 recommendations that are speci ﬁc for each
+DOAC will be made whenever possible based on
+evidence from patients who are taking a speci ﬁc DOAC.
+Where appropriate, recommendations will be made for
+DOACs collectively.
+Heparin Bridging
+We deﬁne “heparin bridging ” as the administration of a
+short-acting anticoagulant, typically a low-molecular-
+weight heparin (LMWH) or, less often, unfractionated
+heparin (UFH), for an 8- to 10-day perioperative period
+during interruption of a VKA when the international
+normalized ratio (INR) is below the therapeutic range. 14
+We de ﬁne a heparin bridging regimen as a therapeutic-
+dose (or full-dose) LMWH (eg, enoxaparin 1 mg/kg bid
+or 1.5 mg/kg daily, dalteparin 100 IU/kg bid or 200 IU/
+kg daily) or full-dose UFH (eg, to achieve a target
+activated partial thromboplastin time [aPTT] of 1.5- to
+2-times the control aPTT or a target anti-factor Xa level
+of 0.35-0.70 IU/mL). 22 Although there are intermediate-
+dose LMWH regimens (eg, enoxaparin 40 mg bid) that
+have been referred to as “bridging,” our de ﬁnition and
+associated recommendations pertain to use of
+therapeutic-dose heparin bridging where the intent is to
+prevent stroke and systemic embolism, referred to in this
+guideline as arterial thromboembolism (ATE);
+moreover, this is the bridging dose regimen that has
+been most widely studied. 1,23 Heparin bridging should
+also be distinguished from perioperative use of low-dose
+LMWH (eg, enoxaparin 40 mg daily, dalteparin 5,000 IU
+daily) that is administered for prophylaxis against
+postoperative VTE rather than for the prevention of
+ATE.24
+Other De ﬁnitions
+We de ﬁne the “perioperative period ” or the term
+“perioperatively” as the period before and after a
+surgery/procedure that, in its entirety, spans from
+1 week before until 4 weeks after a surgery/procedure.
+This 5-week period is when most adverse thrombotic
+and bleeding outcomes may be attributed to
+perioperative antithrombotic management. 25 A
+“surgery” will refer to an intervention that requires
+anesthesia (ie, general, neuraxial, regional block, local)
+and may take place with or without overnight
+hospitalization, whereas a “procedure” will refer to a
+diagnostic, therapeutic, or device-related intervention
+that, typically, does not require overnight
+hospitalization.
+e210 Guidelines and Consensus Statements [ 162#5 CHEST NOVEMBER 2022 ]
+Qualifying Remarks
+This guideline pertains to patients who are receiving
+anticoagulant or antiplatelet therapy and require an
+elective, non-urgent, surgery/procedure and does not
+address patients who require an urgent surgery/
+procedure, in whom the management paradigm differs
+considerably from that of the elective clinical
+setting.26-28 This guideline further pertains to patients
+who are receiving long-term, typically $ 3 months,
+antithrombotic therapy and focuses on VKAs (warfarin),
+DOACs (apixaban, dabigatran, edoxaban, rivaroxaban),
+and antiplatelet drugs (aspirin [ASA], clopidogrel,
+prasugrel, ticagrelor). This guideline does not address
+the management of drugs with anticoagulant or
+antiplatelet properties that are used infrequently (eg,
+cilostazol, dipyridamole, pentoxifylline); that, in the case
+of DOACs, are used as low-dose regimens (eg,
+rivaroxaban 2.5 mg bid); or that, typically, are used for
+short periods (eg, nonsteroidal antiin ﬂammatory
+drugs).13 Finally, this guideline does not address the
+perioperative use of low-dose LWMHs, low-dose
+DOACs, or other antithrombotic strategies that are
+intended as prophylaxis against postoperative VTE. 24
+Practical Aspects of Perioperative
+Antithrombotic Management
+The management approach described below provides the
+foundation upon which the guideline recommendations
+have been applied. This perioperative antithrombotic
+management approach aims to deliver individualized,
+patient-centric care with the intent of minimizing
+perioperative thromboembolism and bleeding.
+Perioperative antithrombotic management is anchored
+on the assessment of patients ’risk for thromboembolism
+and surgery/procedure-related bleeding. 1,13,14 The risk
+classiﬁcation schemes herein are empiric, requiring
+prospective validation, but aim to provide individualized
+perioperative management, in particular to help
+determine if perioperative anticoagulation interruption
+is needed and, if so, among VKA-treated patients, if
+heparin bridging is needed.
+Assessing Perioperative Risk for Thromboembolism
+This involves estimating the risk for ATE, encompassing
+stroke and systemic embolism for patients with atrial
+ﬁbrillation or a mechanical heart valve, and the risk for
+recurrent VTE for patients with a history of VTE with
+perioperative interruption of anticoagulant drugs. The
+risk classi ﬁcation in Table 1 is empiric and separates
+patients according to estimated risk for ATE (high risk:
+> 10%/year; intermediate risk: 4%-10%/year; low
+risk: < 4%/year) and estimated risk for VTE (high risk:
+> 10%/month; intermediate risk: 4%-10%/month; low
+risk: < 2%/month); it is derived mainly from studies in a
+non-perioperative setting that involved patients with
+atrial ﬁbrillation,29-32 a mechanical heart valve, 33-35 or
+VTE36-38 who were not receiving anticoagulant therapy
+(eg, placebo instead of a VKA in patients with atrial
+ﬁbrillation) or less effective antithrombotic therapy (eg,
+ASA instead of a VKA in patients with a mechanical
+heart valve). 13,14,25 A perioperative risk classi ﬁcation for
+patients with coronary artery disease, particularly if they
+have coronary stents, is available elsewhere and is also
+empiric.39,40
+The following qualifying remarks apply to this empiric
+risk classi ﬁcation:
+/C15 The thromboembolic risk classi ﬁcation herein can
+be overridden based on individual patient charac-
+teristics. For example, a “low-risk” patient with atrial
+ﬁbrillation and a CHA 2DS2VASc score (congestive
+heart failure, hypertension, age $ 75 years, diabetes
+mellitus, prior stroke or transient ischemic attack,
+vascular disease history, age $ 65 years, female
+sex) # 4 or a CHADS 2 score (congestive heart
+failure, hypertension, age $ 75 years, diabetes
+mellitus, prior stroke or transient ischemic
+attack) # 2 with a history of perioperative stroke
+might be classi ﬁed as “high-risk” and managed
+accordingly.13,14
+/C15 The type of surgery can affect thromboembolic risk,
+especially for patients undergoing cardiovascular
+surgery, such as CABG surgery or carotid endarter-
+ectomy, in whom the risk for stroke or other
+thromboembolism may be higher irrespective of other
+patient-related factors. 41-43
+/C15 Patients’ thromboembolic risk may be less important
+in certain perioperative circumstances. This can occur
+in VKA- or DOAC-treated patients or those receiving
+antiplatelet therapy who are undergoing a procedure
+that does not require anticoagulant or antiplatelet
+interruption. Another situation is in patients who are
+receiving DOAC therapy, irrespective of the clinical
+indication (atrial ﬁbrillation or VTE). Since the peri-
+operative time period where such patients are not
+anticoagulated is short (1-3 days), this minimizes the
+risk for thromboembolism, irrespective of their
+baseline risk, as re ﬂected by the CHA 2DS2VASc or
+CHADS2 score or proximity of recent VTE and,
+similarly, obviates the rationale for administering
+heparin bridging.
+chestjournal.org e211
+Assessing Perioperative Risk for Surgery/
+Procedure-Related Bleeding
+This involves an assessment of the surgery/procedure-
+related bleed risk. The empiric risk classi ﬁcation shown
+in Table 2 separates patients into “high,”“ low-to-
+moderate,” or “minimal” bleed risk categories and is
+based on the expected 30-day post-operative risk of
+major bleeding (high-bleed-risk $ 2%, low-to-
+moderate-bleed-risk 0%-2%, and minimal-bleed-risk
+approximately 0%). 1,25,44,45
+/C15 Minimal-bleed-risk procedures and selected surgeries
+such as phacoemulsi ﬁcation (cataract) surgery are
+those in which anticoagulants may be continued
+perioperatively without any or with minimal (ie, day
+of procedure only) interruption. 1,46-50
+/C15 Low-to-moderate-bleed-risk surgeries/procedures
+encompass a broad range of interventions in which
+shorter periods of pre-operative anticoagulant inter-
+ruption and post-operative anticoagulant resumption
+intervals are acceptable due to an overall lower bleed
+risk.1
+/C15 High-bleed-risk surgeries/procedures are those which
+require suf ﬁcient pre-operative anticoagulant inter-
+ruption, so there is minimal-to-no residual
+anticoagulant effect at the time of the surgery, and
+delayed post-operative anticoagulant resumption, to
+account for the longer time required for surgical site
+hemostasis. Also included in this category are any
+surgeries performed with neuraxial (spinal or
+epidural) anesthesia or any other neuraxial (eg, pain
+management) intervention due to concerns about the
+risk for epidural hematoma, a rare but devastating
+complication that can result in lower limb
+paralysis.51,52
+The following qualifying remarks apply to this empiric
+risk classi ﬁcation:
+/C15 Selected minimal-bleed-risk procedures may require 1
+to 2 days of anticoagulant interruption if there is concern
+about bleeding: for example, a dental extraction may be
+more complex in a patient with poor dentition or
+compromised gingival integrity53; a screening colonos-
+copy in patients with a history of polyps that may require
+resection54; and coronary angiography with a femoral
+(instead of radial) artery access.48
+/C15 Surgical procedures (eg, an inguinal hernia repair 55)
+may vary widely in complexity and might be
+justiﬁably categorized as low-to-moderate- or high-
+bleed-risk.
+TABLE 1 ] Suggested Risk Strati ﬁcation for Patient-speci ﬁc Periprocedural Thromboembolism 13,14,25,a
+Risk Category Mechanical Heart Valve Atrial Fibrillation VTE
+High ( > 10%/y
+risk of ATE or >
+10%/mo risk of
+VTE)
+Mitral valve with major
+risk factors for stroke b
+Caged ball or tilting-disc
+valve in mitral/aortic
+position
+Recent ( < 3 mo) stroke
+or TIA
+CHA2DS2VASc score $ 7
+or CHADS2 score of 5 or 6
+Recent ( < 3 mo) stroke or
+TIA
+Rheumatic valvular heart
+disease
+Recent ( < 3 mo and especially 1 mo) VTE
+Severe thrombophilia (de ﬁciency of
+protein C, protein S or antithrombin;
+homozygous factor V Leiden or
+prothrombin gene G20210A mutation
+or double heterozygous for each
+mutation, multiple thrombophilias)
+Antiphospholipid antibodies
+Active cancer associated with high VTE
+riskc
+Moderate
+(4%-10%/y
+risk of ATE or
+4%-10%/mo
+risk of VTE)
+Mitral valve without major
+risk factors for stroke b
+Bileaﬂet AVR with major
+risk factors for stroke b
+CHA2DS2VASc score of 5 or 6
+or CHADS2 score of 3 or 4
+VTE within past 3-12 mo
+Recurrent VTE
+Non-severe thrombophilia (heterozygous
+factor V Leiden or prothrombin gene
+G20210A mutation)
+Active cancer or recent history of cancer
+Low ( < 4%/y risk
+of ATE or
+< 2%/mo risk
+of VTE)
+Bileaﬂet AVR without
+major risk factors for
+strokeb
+CHA2DS2VASc score of 1-4
+or CHADS 2 score of 0-2
+(and no prior stroke or
+TIA)
+VTE > 12 mo ago
+ATE, arterial thromboembolism; TIA, transient ischemic attack; CHADS 2 ¼ congestive heart failure, hypertension, age $ 75 years, diabetes mellitus, prior
+stroke or transient ischemic attack; CHA 2DS2VASc ¼ congestive heart failure, hypertension, age $ 75 years, diabetes mellitus, prior stroke or transient
+ischemic attack, vascular disease history, age $ 65 years, female sex. Adapted with permission from Douketis et al. 14
+aEmpiric risk strati ﬁcation that is a starting point for assessing perioperative thromboembolism risk; should be combined with clinical judgment that
+incorporates individual patient- and surgery/procedure-related factors.
+bIncludes: AF, prior stroke/TIA during anticoagulant interruption or other prior stroke/TIA, prior valve thrombosis, rheumatic heart disease, hyp ertension,
+diabetes, congestive heart failure, age $ 75 years.
+cIncludes pancreatic cancer, myeloproliferative disorders, primary brain cancer, gastric cancer, and esophageal cancer.
+e212 Guidelines and Consensus Statements [ 162#5 CHEST NOVEMBER 2022 ]
+/C15 Flexibility with the timing of post-operative DOAC
+and LMWH resumption is warranted because a peak
+anticoagulant effect occurs within 2 to 4 hours after
+administration21; this is especially pertinent if patients
+develop greater than expected post-operative
+bleeding.
+Practical Aspects of Heparin Bridging
+The following management points should be considered
+when administering heparin bridging:
+/C15 Bridging is most often done with an LMWH, typically
+with a therapeutic-dose regimen (eg, enoxaparin
+1 mg/kg bid, dalteparin 100 IU/kg bid), administered
+with the intent of preventing ATE. Bridging with
+therapeutic-dose IV UFH is another treatment option;
+for example, in patients with severe renal insuf ﬁciency
+or who are dialysis-dependent. 14 Other types of hep-
+arin bridging may include intermediate-dose regi-
+mens (eg, enoxaparin 40 mg bid). 14
+/C15 Heparin bridging should be administered in a manner
+to minimize the risk for bleeding that would require
+re-operation or another intervention (eg, wound
+packing). Avoidance of major bleeding is important
+because if it occurs, it typically requires a longer
+period of anticoagulant interruption that, in turn,
+exposes patients to an increased risk for thrombo-
+embolism.56 Speciﬁcally, post-operative heparin
+bridging should be initiated when there is adequate
+TABLE 2 ] Suggested Risk Strati ﬁcation for Procedural Bleed Risk, Based on ISTH Guidance Statements 25
+High-bleed-risk surgery/procedure a (30-d risk of
+major bleed $ 2%)
+Major surgery with extensive tissue injury
+Cancer surgery, especially solid tumor resection (lung, esophagus,
+gastric, colon, hepatobiliary, pancreatic)
+Major orthopedic surgery, including shoulder replacement surgery
+Reconstructive plastic surgery
+Major thoracic surgery
+Urologic or GI surgery, especially anastomosis surgery
+Transurethral prostate resection, bladder resection, or tumor ablation
+Nephrectomy, kidney biopsy
+Colonic polyp resection
+Bowel resection
+Percutaneous endoscopic gastrostomy placement, endoscopic
+retrograde cholangiopancreatography
+Surgery in highly vascular organs (kidneys, liver, spleen)
+Cardiac, intracranial, or spinal surgery
+Any major operation (procedure duration > 45 min)
+Neuraxial anesthesia b
+Epidural injections
+Low-to-moderate-bleed-risk surgery/procedure c
+(30-d risk of major bleed 0%-2%)
+Arthroscopy
+Cutaneous/lymph node biopsies
+Foot/hand surgery
+Coronary angiography d
+GI endoscopy /C6 biopsy
+Colonoscopy /C6 biopsy
+Abdominal hysterectomy
+Laparoscopic cholecystectomy
+Abdominal hernia repair
+Hemorrhoidal surgery
+Bronchoscopy /C6 biopsy
+Minimal-bleed-risk surgery/procedure e (30-d
+risk of major bleed approximately 0%)
+Minor dermatologic procedures (excision of basal and squamous cell
+skin cancers, actinic keratoses, and premalignant or cancerous skin
+nevi)
+Ophthalmologic (cataract) procedures
+Minor dental procedures (dental extractions, restorations, prosthetics,
+endodontics), dental cleanings, ﬁllings
+Pacemaker or cardioverter-de ﬁbrillator device implantation
+ISTH ¼ International Society on Thrombosis and Haemostasis.
+aMinimal to no residual anticoagulant effect at time of procedure (ie, four to ﬁve drug half-life interruptions pre-procedure).
+bIncludes spinal and epidural anesthesia or any other neuraxial (eg, pain management) intervention; consider not only absolute risk for major bleedi ng but
+potentially devastating consequences of epidural bleeding and associated lower limb paralysis.
+cSome residual anticoagulant effect allowed (ie, two to three drug half-life interruptions pre-procedure).
+dRadial approach may be considered minimal-bleed-risk compared with femoral approach.
+eProcedure can be safely done under full-dose anticoagulation (may consider holding DOAC dose day of procedure to avoid peak anticoagulant effects).
+chestjournal.org e213
+surgical/procedure-site hemostasis and the patient is
+at a relatively low risk for bleeding. Although sub-
+jective, this can be determined by assessing the
+amount, type (serous, serosanguinous, bloody), and
+progress (continuing, increasing, decreasing) of blood
+collection in wound bandages or surgical drains.
+/C15 The administration of heparin bridging, particularly if
+only used pre-operatively, does not preclude the
+administration of post-operative low-dose LMWH
+(eg, enoxaparin 40 mg daily); for example, in patients
+at high risk for bleeding (eg, intracranial or spinal or
+CABG surgery) in whom post-operative therapeutic-
+dose LMWH bridging might be avoided.
+Role of Low-Dose LMWH as VTE Prophylaxis in
+Perioperative Management
+In patients who require perioperative interruption of a
+VKA or a DOAC and are considered at high risk for
+post-operative VTE, the need to administer low-dose
+LMWH as VTE prophylaxis may be obviated once the
+VKA or DOAC is resumed. However, there may be
+circumstances when low-dose LMWH can be used in
+patients at high VTE risk; for example, those having
+abdominopelvic cancer surgery or hip or knee
+replacement surgery. 57,58 In such hospitalized patients,
+low-dose LMWH would be started, typically, 12 to 24
+hours post-operatively and continued for 2 to 3 days
+while the VKA takes effect or until resumption of
+DOAC therapy. In patients who resume antiplatelet
+therapy after a surgery, the addition of low-dose
+LMWH can be justi ﬁed in high VTE risk situations
+but is empiric and should consider the risk of
+bleeding.
+Communication and Standardization of
+Perioperative Management
+Perioperative antithrombotic management typically
+involves a team of health-care professionals, comprising
+one or more of a surgeon/proceduralist, an internist/
+cardiologist/hematologist, an intensivist, a pharmacist,
+an anesthesiologist, and a primary care physician, with
+multiple transitions of care. Consequently, it is
+important to have alignment of the proposed
+management plan among the health-care team and that
+it is communicated to and agreed upon by the surgeon/
+proceduralist, so as to avoid miscommunication that
+may lead to adverse outcomes or a delay of the surgery/
+procedure.17,59 This can be facilitated with perioperative
+antithrombotic clinics, 16,59 which can be administered
+in-person or virtually, 60 and with the support of online
+tools ( https://thrombosiscanada.ca, http://mappp.ipro.
+org, http://www.anticoagulationtoolkit.org/). At an
+institutional level, harmonization of perioperative
+anticoagulant management care paths that encompass
+multiple specialties (eg, surgery, internal medicine,
+anesthesia) will facilitate standardization of patient
+management.
+Standardized management is important because
+unstructured usual care varies widely, based on
+surveys,61-63 with the potential for confusion among
+clinicians and patients as to the planned management. If
+anticoagulants are not managed with evidence-based
+protocols or guidelines in the perioperative clinical
+setting, patients may be exposed to as much as a 0.5% to
+1.0% excess risk for disabling stroke (based on a
+benchmark risk # 0.5%) and a 3% to 6% excess risk for
+serious bleeding (based on a benchmark risk # 1.5%), if
+anticoagulant interruption is too short or too long or if
+excessive heparin bridging is used. 1,8,64,65
+Methodology
+Selection of Panel Members and Con ﬂicts of
+Interest Disclosure
+The guideline panel was selected to comprise a diverse,
+multidisciplinary group of clinicians that included
+internists, thrombosis specialists, cardiologists,
+anesthesiologists, surgeons, intensivists, and
+pharmacists, who worked alongside methodologists
+from the Mayo Clinic Evidence Center.
+The CHEST Guidelines Oversight Committee and
+Professional Standards Committee reviewed nominated
+panelists according to their quali ﬁcations and con ﬂicts
+of interest (COI) before they were approved to join the
+panel. Throughout the guideline process, panelists were
+required to update and disclose potential ﬁnancial or
+intellectual COI according to each PICO question. COI
+were reviewed and categorized as disqualifying,
+manageable, or approved without management, per
+CHEST policy ( https://www.chestnet.org/-/media/
+chesnetorg/About ACCP/Documents/
+Guidelines_COI_Policy.ashx). Panelists with
+manageable COI were required to abstain from voting
+on PICO recommendations where such COI were
+present but could participate in discussions, provided
+they refrained from strong advocacy. A complete list of
+the panelists ’ COI and their management is shown in
+e-Appendix 1 .
+e214 Guidelines and Consensus Statements [ 162#5 CHEST NOVEMBER 2022 ]
+Selection of PICO Questions
+The PICO questions that anchor these guidelines were
+based on those used with the last guideline iteration,
+supplemented by new PICOs p roposed by the guideline
+panel. All panelists voted on whether each PICO
+should be included in the guideline. For all PICOs,
+standardized questions were developed using the
+population-intervention -comparator-outcome
+format. A listing of all PICO questions is provided in
+e-Appendix 2 .
+Data Sources
+Multiple databases were searched using text words and
+controlled vocabulary as outlined in e-Appendix 2 .
+This search was done in two parts: the ﬁrst was the
+systematic review of the literature from 1970 to
+December 2011, used by the 9th Edition of the CHEST
+Perioperative Antithrombotic Therapy Practice
+Guidelines; the second was an update of this search
+strategy to include studies up until end-July 2021.
+Searches were limited to English-language articles and
+human subject studies, and by article type (clinical
+trial, randomized clinical trial, systematic review). The
+literature search was supplemented by conducting
+Internet-based searches of relevant studies identi ﬁed in
+ClinicalTrials.gov, meeting abstracts and conference
+proceedings, asking content experts, and reference lists
+of studies that satis ﬁed inclusion criteria. Indirect
+evidence was sought for questions that were not
+supported by direct evidence. Panel members
+collaborated with the systematic review team to
+identify and summarize indirect evidence.
+Guideline Framework
+The guideline followed the GRADE approach (Grading
+of Recommendations, Assessment, Development and
+Evaluation).66 For each PICO, the certainty of evidence
+was rated using GRADE, and an evidence-to-decision
+framework was developed using the GRADE evidence-
+to-decision criteria. 67 Certainty of evidence was de ﬁned
+as the extent to which our con ﬁdence in the effect
+estimate was adequate to support a recommendation.
+For each PICO, a recommendation was classi ﬁed as a
+strong, referred to as “we recommend, ” or conditional,
+referred to as “we suggest. ” Overall, evidence synthesis
+comprised direct evidence related to the PICO question
+and indirect evidence, the later especially when direct
+evidence was limited. In addition, factors that included
+the costs of the interventions and the avoidance of harm
+were also considered.
+Evidence Synthesis
+Outcomes from randomized trials and observational
+studies were expressed as a relative risk (RR) and
+associated 95% CI. Meta-analysis was conducted when
+feasible. For non-comparative studies, an overall
+proportion was determined using the Freeman-Tukey
+arcsine transformation method. All analyses were done
+using Open Meta-Analyst. Certainty of evidence was
+categorized as high, moderate, low, or very low,
+reﬂecting the strengths and limitations of evidence that
+were based on the study design, risk of bias, imprecision,
+inconsistency, indirectness of results, and likelihood of
+publication bias. Risk of bias in randomized trials was
+based on the Cochrane Collaboration ’s Risk of Bias 2
+tool,68 which considers the randomization process,
+deviations from intended interventions, missing
+outcome data, outcome measurement, reported result
+selection, and other sources of bias. Risk of bias in
+observational studies was based on the Newcastle-
+Ottawa Scale, which considers the representativeness of
+the exposed cohort, selection of the nonexposed cohort,
+ascertainment of exposure and outcomes, comparability
+of cohorts, and adequacy of follow-up. Precision was
+judged based on whether CIs crossed the null as a target
+of certainty. If there were few events ( < 10), we
+considered rating down by two to three levels unless the
+sample size was large ( > 2,000-4,000). An arbitrary RR
+reduction threshold of 25% was used as a cutoff for
+lowering certainty in precision by two levels. Sample
+Evidence Tables that formed the basis of
+recommendations are shown in e-Appendix 3 .
+Development of Recommendations
+We used a modi ﬁed Delphi technique to achieve
+consensus on guideline statements. 18,69 This method
+minimizes bias related to group interactions and enables
+anonymity among panelists. Panelists without a primary
+COI voted on approving PICO-speci ﬁc guideline
+statements using a standardized online survey tool
+(SurveyMonkey, Momentive Inc.). Each panelist could
+also suggest edits to the guideline statement wording and
+could suggest additional qualifying remarks or
+comments as to the implementation of the guideline in
+clinical practice. To achieve consensus and for inclusion
+in the ﬁnal guideline, each guidance statement required
+at least 80% agreement among at least 75% of eligible
+panel members (without primary COI).
+For the 43 PICO questions and 44 associated
+recommendations (two recommendations for PICO 29),
+39 recommendations achieved consensus in the ﬁrst
+chestjournal.org e215
+voting round, with the remainder achieving consensus
+in the second voting round. There were ﬁve guideline
+statements (2, 6, 20, 28, and 34) in which one panel
+member disagreed with either the strength or direction
+of the recommendation, and one guideline statement
+(29a) in which one panel member disagreed with both
+the strength and direction of the recommendation.
+Patients Who Are Receiving a VKA and
+Require an Elective Surgery or Procedure
+Background: The timing of VKA interruption before a
+surgery/procedure, decided upon with the intent of
+achieving a normal or near-normal INR at the time of a
+surgery/procedure, is based on the elimination half-life
+of VKAs that are typically observed in patients without
+major comorbidities (eg, impaired liver function),
+genetic polymorphisms, or drug-drug interactions that
+might affect VKA metabolism: 36 to 42 hours for
+warfarin, 8 to 11 hours for acenocoumarol, and 96 to
+104 hours for phenprocoumon. 70-73 For patients in
+whom the intent is to normalize the INR after
+interruption of warfarin, 5 days of interruption prior to
+the day of the surgery/procedure is needed for the
+anticoagulant effect to be eliminated or near-eliminated;
+6 or more days of interruption may be needed in
+selected patients, such as elderly patients or in patients
+with genetic polymorphisms that may delay warfarin
+metabolism,74,75 and in those with an elevated INR (ie,
+> 3.5) when assessed. The resumption of a VKA after a
+surgery/procedure implies that attainment of an
+anticoagulant effect is delayed after the initial two to
+three doses are given and that a full anticoagulant effect
+(INR > 2.0) will occur 4 to 8 days after VKA
+resumption.76 Given these considerations, routinely
+measuring the INR in the immediate pre-operative (day
+before) and post-operative (1-2 days after) period during
+a surgery/procedure would not be needed. There may be
+circumstances, however, when such testing may be
+warranted; for example, in patients with a pre-operative
+high (ie, > 3.5) INR, in patients who are known to have
+delayed warfarin elimination, or if after post-operative
+VKA resumption there is unexpected bleeding.
+For patients who require perioperative VKA interruption,
+the premise of heparin bridging has been to shorten the
+period before and after a surgery/procedure when patients
+are not therapeutically anticoagulated, with the aim of
+mitigating the risk for perioperative ATE primarily, as
+well as recurrent VTE. However, this premise can be
+questioned given the multiplicity of factors that can lead
+to perioperative thromboembolism, 41,77 including the
+surgery/procedure itself,43 and the limited capacity of
+heparin bridging to affect these factors and associated
+pathophysiological pathways.
+Perioperative Interruption and Resumption of VKAs
+PICO 1 : In patients requiring VKA interruption,
+should VKA be interrupted $ 5 days vs < 5 days before
+an elective surgery/procedure?
+Evidence. No randomized trials compared a 5-day and
+a < 5-day preoperative interruption of warfarin, and no
+study has compared the effect of a 5-day and > 5-day
+interruption on perioperative bleeding outcomes, relying
+instead on a surrogate outcome (ie, INR) at the time of
+surgery to determine the appropriateness of VKA
+interruption. In the non-perioperative setting, indirect
+evidence supports a 5-day warfarin interruption period to
+attain a normal or near-normal INR. 78 In a prospective
+cohort study of 224 patients in whom warfarin was
+stopped 5 days before a surgery/procedure and had INR
+testing the day before surgery, 15 (7%) patients had an
+INR > 1.5.56 In a randomized trial that compared a 5-day
+or 1-day pre-operative interruption of warfarin (with the
+1-day group receiving 1 mg oral vitamin K the day before
+surgery), the mean INR was 1.2 at surgery in the 5-day
+interruption group.79 A subanalysis of a randomized trial
+of DOAC vs warfarin therapy for atrial ﬁbrillation that
+assessed perioperative management found that longer
+vs shorter ( $ 3 days vs < 3 days) warfarin interruption
+conferred a decrease risk for major bleeding (RR ¼ 0.29;
+95% CI: 0.15-0.55) without affecting ATE risk (RR ¼
+0.49; 95% CI: 0.19-1.3). 80 Other observational studies
+support a longer ( $ 5-day) interruption interval, 81,82
+as do uncontrolled studies of perioperative warfarin
+management in which $ 5-day interruption was
+associated with low rates of major bleeding
+(approximately 2%) and ATE ( < 0.5%).8,10,56,83-94
+1. In patients requiring VKA (warfarin) interruption
+for an elective surgery/procedure, we suggest stopping
+VKAs (warfarin) ‡ 5 days over an interruption of <
+5 days before an elective surgery/procedure
+(Conditional Recommendation, Low Certainty of
+Evidence).
+Guideline Implementation Considerations :
+/C15 Providing a perioperative VKA management calendar
+that is distributed by paper or electronically to pa-
+tients and clinicians has the potential to minimize
+VKA dosing errors and optimize communication.
+e216 Guidelines and Consensus Statements [ 162#5 CHEST NOVEMBER 2022 ]
+/C15 In selected patients, especially the elderly with comor-
+bidities, patients with very low dose warfarin re-
+quirements, and those with a higher target INR range, a
+longer period of warfarin interruption may be needed.
+/C15 The interruption timing for non-warfarin VKAs will
+differ, as it is shorter for acenocoumarol (2-3 days)
+and longer for phenprocoumon (10-12 days).
+PICO 2 : In patients who interrupted warfarin before
+an elective surgery/procedure, should warfarin be
+resumed 12 to 24 hours after surgery (evening of, or
+next day) and when there is adequate hemostasis
+vs resuming warfarin further from the surgery/
+procedure?
+Evidence. There are no studies comparing early (12-24
+hours) with delayed ( > 24 hours) postoperative warfarin
+resumption. In uncontrolled observational studies,
+resuming warfarin within 24 hours after a surgery/
+procedure was associated with rates of major bleeding
+and ATE of 2.7% (95% CI: 1.6-3.9) and 0.1% (95% CI:
+0.1-1.8),56,83,87,90,91,95 whereas those that assessed
+delayed warfarin resumption reported rates of bleeding
+and ATE of 8.6% (95% CI: 0-17.7) and 2.4% (95% CI: 0-
+7.0), respectively. 88,89,96
+2. In patients requiring VKA (warfarin) interruption
+for an elective surgery/procedure, we suggest
+resuming VKA (warfarin) within 24 hours over a
+delay to > 24 hours after an elective surgery/procedure
+(Conditional Recommendation, Low Certainty of
+Evidence).
+Guideline Implementation Considerations:
+/C15 For most patients, resuming VKAs within 24 hours
+implies resumption on the evening of the surgery/
+procedure.
+/C15 Implicit in the early (within 24 hours) resumption of a
+VKA is that it takes, typically, 2 to 3 days for a partial
+anticoagulant effect and 4 to 8 days for a full anti-
+coagulant effect to occur.
+/C15 VKA resumption may be delayed in certain post-
+operative circumstances, such as inadequate surgery/
+procedure-site hemostasis, an anticipated need for
+additional intervention, or patient inability to take
+oral medications.
+PICO 3: In patients who interrupted warfarin before a
+surgery/procedure, should warfarin be resumed at
+double the usual maintenance dose for 1 to 2 days
+vs resuming warfarin with the usual maintenance dose?
+Evidence. One randomized trial of 98 patients
+compared post-operative resumption of warfarin at
+patients’ usual dose vs doubling the warfarin dose for
+the ﬁrst 2 post-operative days. 97 By the ﬁfth post-
+operative day, an INR $ 2.0 was attained in 13% of
+the usual-dose group and 50% of the doubling dose
+group (RR ¼ 0.27; 95% CI: 0.10 to 0.60); by the tenth
+post-operative day, this occurred in 68% and 87% of
+these groups (RR ¼ 0.87; 95% CI: 0.65 to 1.00). In a
+40-patient randomized trial that compared doubling
+vs usual-dose post-operative warfarin resumption, the
+median number of days to reach an INR $ 2.0 was
+not signi ﬁcantly different in the two groups (7.8
+vs 9.0 days; 95% CI: –3.1 to 4.9). 98 In observational
+studies that used post-operative VKA resumption with
+a double-dose or usual-dose regimen, the mean
+duration to attain an INR $ 2.0 was 4.6 and 5.1 days,
+respectively.56,95
+3. In patients requiring VKA (warfarin) interruption
+for an elective surgery/procedure, we suggest
+resuming the ﬁrst post-operative VKA dose at the
+patient’s usual dose over resuming VKA with double
+the usual dose (Conditional Recommendation, Very
+Low Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 Although post-operative doubling of the warfarin
+dose for 1 to 2 days may lead to a more rapid
+attainment of an INR $ 2.0 in some patients, there
+are concerns in applying this approach in practice; for
+example, in patients with variable warfarin dose reg-
+imens and those expected to be hospitalized for >
+1 day.
+PICO 4: In patients who interrupted warfarin before a
+surgery/procedure and have an elevated INR (ie, > 1.5)
+1 to 2 days before surgery/procedure, should vitamin K
+be administered vs not giving vitamin K?
+Evidence. Among patients who have interrupted VKAs 5
+to 6 days before a surgery/procedure, the practice of pre-
+operative INR measurement, typically on the day before
+or day of the surgery/procedure, may be done in selected
+patients; however, few studies have addressed the role of
+vitamin K in this clinical setting. In an uncontrolled
+observational study of 43 VKA-treated patients who had
+an INR of 1.4 to 1.9 on the day before elective surgery
+and received 1 mg oral vitamin K, the INR was
+normalized ( # 1.3) in 76.6% of patients on the day of
+chestjournal.org e217
+surgery.99 In another observational study of 82 VKA-
+treated patients who received 1 mg IV vitamin K, on
+average, 27 hours pre-operatively, a normalized INR for
+surgery was achieved in 54.9% of patients. 100 Other
+studies that have assessed vitamin K to normalize an
+elevated INR have been done in other clinical situations
+(eg, bleeding, urgent surgery) outside of the elective
+perioperative setting. 101-104
+4. In patients requiring VKA interruption for an
+elective surgery/procedure who have an elevated INR
+(ie, > 1.5) 1 to 2 days before the surgery/procedure, we
+suggest against routine use of pre-operative vitamin K
+(Conditional Recommendation, Very Low Certainty of
+Evidence).
+Guideline Implementation Considerations:
+/C15 Uncertainty about routine pre-operative vitamin K
+administration relates to the dose of vitamin K,
+limited availability of oral vitamin K formulations,
+and potential for resistance to post-operative re-
+anticoagulation.
+Bridging Anticoagulation During Interruption of
+VKA Therapy
+PICO 5: In patients with a mechanical prosthetic heart
+valve, should bridging anticoagulation during
+interruption of warfarin therapy be administered vs no
+bridging?
+Evidence . One randomized trial assessed the need for
+heparin bridging in patients with a mechanical
+prosthetic heart valve. In the PERIOP-2 trial
+involving warfarin-treated patients who required an
+elective surgery/procedure, 20.7% (304 of 1,471) of
+patients had a mechanic al heart valve, of whom
+9.0% had a mitral valve and 11.7% had an aortic
+valve prosthesis. 105 All patients received pre-
+operative bridging with o pen-label dalteparin, 200
+IU/kg daily (100 IU/kg daily on the day before the
+surgery/procedure). Pos t-operatively, patients
+received dalteparin 200 IU/kg daily ( ﬁxed-dose 5,000
+I Ud a i l yi np a t i e n t sa th i g h -bleed-risk) or placebo, in
+a double-blind manner, until the INR was $ 2.0;
+patient follow-up was for 12 weeks. In patients
+with a mechanical heart valve, there was no
+signiﬁcant difference in the no bridging and bridging
+groups for the outcomes of major thromboembolism
+(0% vs 0.67%; P ¼ .67) and major bleeding
+(1.96% vs 0.67%; P ¼ . 6 2 ) .I na no b s e r v a t i o n a ls t u d y
+assessing bridging vs no bridging management in
+VKA-treated patients which included patients with a
+mechanical heart valve, those who received
+perioperative bridging had an increased risk for
+major bleeding (3.6% vs 1.2%; P ¼ .0007). 106 In a
+meta-analysis of non-randomized studies totaling
+12,278 patients that compared bridging vs no
+bridging in a mixed population of patients, of whom
+24% had a mechanical heart valve, there was no
+signi ﬁcant difference in the risk of ATE in bridged
+and non-bridged groups (OR ¼ 0.80; 95% CI: 0.42-
+1.54), but bridging conferred an increased risk of
+major bleeding (OR ¼ 3.60; 95% CI: 1.52-8.50). 23 In
+non-randomized studies in which all patients with a
+mechanical heart valve received perioperative
+therapeutic-dose heparin bridging, this approach was
+associated with a pooled incidence of ATE and major
+bleeding of 0.9% (95% CI: 0.2-1.5) and 2.8% (0.8-
+4.8), respectively. 56,86-88 ,107-109
+5. In patients receiving VKA therapy for a mechanical
+heart valve who require VKA interruption for an
+elective surgery/procedure, we suggest against heparin
+bridging (Conditional Recommendation, Very Low
+Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 In selected patients considered at high risk for
+thromboembolism ( Table 1 ), as examples, those with
+(1) an older-generation mechanical heart valve [ie,
+tilting-disc valve]; (2) a mechanical mitral valve with
+one or more risk factors for stroke; (3) a recent
+(< 3 months) thromboembolic event; or (4) other
+high-risk patients (eg, prior perioperative stroke), pre-
+and post-operative heparin bridging is suggested (see
+Guideline Statement 8).
+PICO 6 : In patients with atrial ﬁbrillation, should
+bridging anticoagulation be administered during
+interruption of VKA therapy vs no bridging?
+Evidence. The BRIDGE trial assessed a heparin bridging
+vs no bridging strategy in patients with atrial ﬁbrillation
+who required warfarin interruption for an elective
+surgery/procedure.76 In a double-blind manner,
+patients received bridging with therapeutic-dose
+LMWH (dalteparin 100 IU/kg bid) for 3 days pre-
+operatively, with only the morning dose given on the
+day before surgery/procedure, and for at least 5 days
+post-operatively until the INR was $ 2.0. Patient
+follow-up was for 4 weeks post-operatively. This trial
+showed that no bridging was noninferior to LMWH
+e218 Guidelines and Consensus Statements [ 162#5 CHEST NOVEMBER 2022 ]
+bridging for the outcome of ATE (0.3% vs 0.4%; OR ¼
+0.80; 95% CI: 0.42-1.54), but bridging conferred a
+threefold increased risk for major bleeding
+(3.2% vs 1.3%; OR ¼ 3.60; 95% CI: 1.52-8.50). In the
+PERIOP-2 trial, there was no signi ﬁcant difference
+between the bridging (n ¼ 670) and no bridging (n ¼
+497) arms in the atrial ﬁbrillation subgroup for the
+outcomes of major thromboembolism (0.75% vs 1.41%)
+and major bleeding (1.64% vs 2.62%). 105 In a
+subanalysis of a randomized trial of DOAC vs VKA
+therapy for atrial ﬁbrillation that assessed perioperative
+management in 1,415 VKA-treated patients, those who
+received heparin bridging compared with those not
+bridged were at increased risk for major bleeding
+(6.8% vs 1.6%; OR ¼ 4.4; 95% CI: 2.4-8.1). 110 In an
+observational study of 2,200 patients with atrial
+ﬁbrillation who required perioperative VKA
+interruption, a multivariate analysis found that,
+compared with no bridging, heparin bridging was
+associated with higher rates of clinically important
+bleeding (5.0% vs 1.3%; OR ¼ 3.84; 95% CI: 2.07-7.14)
+and cardiovascular events (4.6% vs 2.5%; OR ¼ 1.62;
+95% CI: 0.95-2.78). 106 The aforementioned meta-
+analysis found no signi ﬁcant difference in ATE but an
+increased risk of bleeding for bridging vs no bridging in
+a mixed population of patients, of whom 44% had atrial
+ﬁbrillation.23
+6. In patients receiving VKA therapy for atrial
+ﬁbrillation who require VKA interruption for an
+elective surgery/procedure, we recommend against
+heparin bridging (Strong Recommendation, Moderate
+Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 In selected patients considered at high risk for
+thromboembolism ( Table 1 ), as examples (1) those
+with a recent [ < 3 month] history of stroke or tran-
+sient ischemic attack; (2) other high-risk patients (eg,
+prior perioperative stroke), or (3) with a CHA 2DS2-
+VASc score $ 7 or CHADS 2 score of 5 or 6), pre- and
+post-operative heparin bridging is suggested (see
+Guideline Statement 8).
+/C15 A perioperative VKA and heparin bridging calendar
+(paper or electronic) that provides patients and
+clinicians an easy-to-use timetable for VKA inter-
+ruption and resumption alongside the heparin
+bridging dosing regimen has the potential to
+minimize errors and optimize communication
+among caregivers.
+PICO 7 : In patients with VTE, should bridging
+anticoagulation be administered during interruption of
+VKA therapy vs no bridging?
+Evidence. In patients with a history of VTE, bridging
+anticoagulation has been used during VKA interruption
+for patients requiring an elective surgery/procedure, 111
+but there are no randomized trials to address its ef ﬁcacy
+and safety. In an observational study of 755 patients that
+assessed a bridging (n ¼ 214) vs no bridging (n ¼ 514)
+approach in VKA-treated patients with VTE who
+required a surgery/procedure, there was no signi ﬁcant
+difference in recurrent VTE or bleeding outcomes in the
+two groups. 112 Other observational studies found that
+heparin bridging increased the risk for major bleeding
+with bridging, 113,114 with no signi ﬁcant reduction in
+recurrent VTE. 113,115,116 In a systematic review totaling
+6,195 VKA-treated patients with VTE who required
+elective surgery, a heparin bridging vs no bridging
+approach was associated with a higher incidence of any
+bleeding (3.9% [95% CI: 2.0-7.4] vs 0.4% [95% CI: 0.1-
+1.7]) and no effect on recurrent VTE (0.7% [95% CI: 0.4-
+1.2] vs 0.5% [95% CI: 0.3-0.8]). 117
+7. In patients receiving VKA therapy for VTE as the
+sole clinical indication who require VKA interruption
+for an elective surgery/procedure, we suggest against
+heparin bridging (Conditional Recommendation, Very
+Low Certainty of Evidence).
+Guideline Implementation Considerations :
+/C15 Suggesting against bridging with a therapeutic-dose
+heparin regimen does not preclude the use of a low-
+dose heparin regimen, typically started within 24
+hours after surgery and continued for up to 5 days
+while VKA therapy is resumed, to decrease the risk
+for post-operative VTE.
+/C15 In selected patients considered at high risk for VTE
+(Table 1), as examples (1) those with a recent
+(< 3 months) history of VTE, 36,118 or (2) severe
+thrombophilia, or (3) selected types of active cancer,
+pre- and post-operative heparin bridging is suggested
+(see Guideline Statement 8).
+PICO 8: In VKA-treated patients who are considered at
+high risk for thromboembolism ( Table 1 ), should
+bridging anticoagulation be given during interruption
+of VKA therapy vs no bridging?
+PICO 9: In VKA-treated patients who are considered at
+low-to-moderate-risk for thromboembolism ( Table 1 ),
+chestjournal.org e219
+should bridging anticoagulation be given during
+interruption of VKA therapy vs no bridging?
+Evidence. Most studies assessing a bridging vs no
+bridging perioperative management strategy did not
+separate patients according to thromboembolic risk;
+consequently, evidence to inform these related PICOs is
+derived from studies referred to in the section entitled
+“Bridging Anticoagulation During Interruption of VKA
+Therapy,” supplemented by uncontrolled observational
+studies84,119,120 and meta-analyses23,121,122 that separated
+patients and associated management according to
+thromboembolic risk.
+8. In patients receiving VKA therapy who are
+classiﬁed as high risk for thromboembolism and who
+require VKA interruption for an elective surgery/
+procedure, we suggest heparin bridging over no
+heparin bridging (Conditional Recommendation, Very
+Low Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 Stratiﬁcation of patients according to perioperative
+thromboembolic risk, as shown in Table 1 , is empiric
+as there are no clinical prediction models that have
+been validated in this clinical setting. Accordingly, a
+patient’s individual risk pro ﬁle may inform decisions
+about heparin bridging. The type of surgery may also
+affect thromboembolic risk; for example, an antici-
+pated higher risk in patients having open cardiac or
+major vascular surgery.
+9. In patients receiving VKA therapy who are classi ﬁed
+as low-to-moderate-risk for thromboembolism and
+who require VKA interruption for an elective surgery/
+procedure, we suggest against heparin bridging
+(Conditional Recommendation, Very Low Certainty of
+Evidence).
+Guideline Implementation Considerations:
+/C15 Although patients may be classi ﬁed empirically as
+low-to-moderate-risk for thromboembolism, there
+may be selected patients within this classi ﬁcation
+grouping (Table 1) in whom heparin bridging may be
+considered.
+Management of Patients Who Are Receiving a VKA
+and Need Minor Procedures
+Dental Procedures: Minor dental procedures include
+single and multiple tooth extractions, and endodontic
+(root canal) procedures.
+PICO 10 : In patients who are having minor dental
+procedures and are receiving a VKA, should VKAs be
+continued vs stopped 5 to 6 days before the procedure?
+PICO 11 : In patients who are having minor dental
+procedures and are receiving a VKA, should VKAs be
+continued with a pro-hemostatic agent vs an
+alternative approach (interrupting VKA with or
+without heparin bridging or continuing VKA without
+pro-hemostatic agent or co-administering different pro-
+hemostatic agents)?
+Evidence. Multiple randomized trials and prospective
+cohort studies have evaluated perioperative
+anticoagulant management for dental procedures.
+Management strategies that have been assessed include:
+continuing VKAs, with or without co-administered pro-
+hemostatic interventions that comprise anti ﬁbrinolytic
+drugs (eg, tranexamic acid) or local measures (eg, ﬁbrin
+glue, topical hemostatic agents and sealants, sutures);
+partial (2-3 days ’pre-procedure) VKA interruption; and
+complete (5 days ’ pre-procedure) VKA interruption. 14
+These studies had limitations, with one or more of the
+following: small ( < 100 patients) study samples; variable
+deﬁnitions of bleeding and other outcomes; and
+uncertain outcome capture during follow-up. 123-148
+Among four randomized trials comparing VKA
+continuation vs interruption, none showed a signi ﬁcant
+increase in bleeding with VKA continuation. 123,128,129,131
+One meta-analysis (of two studies) comparing
+continuing vs interrupting VKAs found no signi ﬁcant
+increased intra-procedural bleeding (RR ¼ 1.67; 95% CI:
+0.97-2.89) or post-procedural bleeding (RR ¼ 1.44,
+95% CI: 0.71-2.92) with VKA continuation. 149 Taken
+together, these studies suggest that continuing VKAs is
+associated with a low (approximately 5%) risk for any
+bleeding, with such bleeding considered self-limiting.
+Another approach associated with a low risk for
+bleeding is partial interruption of the VKA for 2 to
+3 days before the dental procedure. In terms of
+thromboembolic outcomes, these appeared rare
+(< 0.1%), although it was uncertain if these outcomes
+were reliably identi ﬁed during follow-up. If tranexamic
+acid is used, 10 mL of a 5% mouthwash solution can be
+given just before the procedure and two to three times
+daily for 1 to 2 days ’ post-procedure.123,150
+10. In patients receiving VKA therapy who need a
+dental procedure, we suggest continuation of VKA
+over VKA interruption (Conditional Recommendation,
+Low Certainty of Evidence).
+e220 Guidelines and Consensus Statements [ 162#5 CHEST NOVEMBER 2022 ]
+Guideline Implementation Considerations:
+/C15 The risk for dental procedure-related bleeding may
+vary, being lower with single tooth extractions and
+higher with multiple tooth extractions or in patients
+with poor gingival health; accordingly, VKA inter-
+ruption may be preferred in situations where oral
+bleeding is expected to be considerable.
+11. In patients receiving VKA therapy who need a
+dental procedure, we suggest using a pro-hemostatic
+agent with continuation of VKA over alternative
+management options (eg, discontinuation of VKA
+with or without heparin bridging) (Conditional
+Recommendation, Low Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 Pro-hemostatic options include pre- and post-
+procedure administration of oral tranexamic acid
+mouthwash, two to three times daily, and
+intervention-speciﬁc measures (eg, extra sutures,
+gauze soaked in tranexamic acid).
+Minor Dermatologic Procedures: Minor skin
+procedures include excision of basal and squamous cell
+skin cancers, actinic keratoses, and premalignant or
+cancerous skin nevi.
+PICO 12 : In patients who are having a minor
+dermatologic procedure and are receiving a VKA,
+should VKA be continued around the time of the
+procedure vs stopping the VKA 5 to 6 days before the
+procedure?
+Evidence. No randomized trials have assessed
+perioperative anticoagulant management. Prospective,
+controlled cohort studies reported a higher incidence of
+bleeding in patients who continued VKAs compared
+with patients with VKA interruption, with most bleeds
+being self-limiting.151-154 The incidence of bleeding with
+the continuation of VKAs appears to be low ( < 5%),
+although there was uncertainty as to the reliability that
+events were identi ﬁed.
+12. In patients receiving VKA therapy who require a
+minor dermatologic procedure, we suggest
+continuation of VKA over VKA interruption
+(Conditional Recommendation, Very Low Certainty of
+Evidence).
+Guideline Implementation Considerations:
+/C15 The risk for dermatologic procedure-related bleeding
+may vary, being lower with resections of small (1-
+2 cm) skin cancers and biopsies, and higher with
+resections of larger ( > 3 cm) skin cancers, particularly
+if skin grafting is required; accordingly, VKA inter-
+ruption may be preferred in situations where site-
+related bleeding is expected to be considerable or if
+lengthy wound healing is expected (eg, skin graft).
+Minor Ophthalmologic Procedures: Minor
+ophthalmologic procedures include cataract surgery
+(phacoemulsiﬁcation), which is a largely avascular
+procedure, and surgery for glaucoma (iridotomy) and
+diabetic retinopathy (panretinal photocoagulation,
+vitrectomy). Whereas most eye surgery is done using
+sub-Tenon’s or topical anesthesia or a peribulbar
+(extraconal) block technique, retrobulbar (intraconal)
+anesthesia poses a concern in anticoagulated patients
+due to the potential complication of retrobulbar
+hematoma,155 which can lead to loss of vision.
+PICO 13 : In patients who are having a minor
+ophthalmologic procedure and are receiving a VKA,
+should VKA be continued around the time of the
+procedure vs stopping the VKA 5 to 6 days before the
+procedure?
+Evidence. No randomized trials have assessed
+perioperative management with cataract surgery. 156 In
+prospective cohort studies, the incidence of major and
+non-major bleeding was < 3%.157-166 In a meta-analysis
+of observational studies, patients who continued VKAs
+around cataract surgery had an increased risk for
+bleeding (OR ¼ 3.26; 95% CI: 1.73-6.16), with an overall
+incidence of bleeding of 10% (95% CI: 5-19). 46 However,
+almost all bleeds were self- limiting, consisting of dot
+hyphemas or subconjunctival bleeds, and no patient had
+compromised visual acuity related to bleeding.
+13. In patients receiving VKA therapy who require a
+minor ophthalmologic procedure, we suggest
+continuation of VKA over VKA interruption
+(Conditional Recommendation, Very Low Certainty of
+Evidence).
+Guideline Implementation Considerations:
+/C15 VKA interruption may be preferred in patients
+considered at higher risk for bleeding; for example,
+those having more complex retinal surgery or patients
+having surgery with retrobulbar anesthesia. Cataract
+surgery is done usually with topical anesthesia and,
+less commonly, with retrobulbar anesthesia.
+Cardiac Device Procedures: Commonly performed
+cardiac device procedures include implantation of a
+permanent cardiac pacemaker or an ICD.
+chestjournal.org e221
+PICO 14 : In patients who are having a cardiac device
+procedure and are receiving a VKA, should VKA be
+continued around the time of the procedure vs stopping
+the VKA 5 to 6 days before the procedure?
+Evidence. The BRUISE CONTROL trial assessed a
+warfarin interruption-bridging vs warfarin
+continuation-no bridging strategy in patients with atrial
+ﬁbrillation or a mechanical heart valve who required
+implantation of a pacemaker or ICD. 167 In the warfarin
+interruption-bridging group, patients received
+therapeutic-dose LMWH (89% of patients) or IV UFH
+(11% of patients) pre-procedure for 3 days. Post-
+procedure, bridging was resumed within 24 hours. The
+primary outcome of clinically signi ﬁcant pocket
+hematoma occurred in 3.5% (12 of 343) of patients in
+the warfarin continuation group, and in 16.0% (54 of
+338) of patients in the warfarin interruption-bridging
+group (RR ¼ 0.19; 95% CI: 0.10-0.36). Meta-analyses of
+observational studies where VKAs were continued
+around the time of pacemaker/ICD implantation
+demonstrated similar low (approximately 2% to 6%)
+rates of pacemaker pocket hematomas. 50,168,169 Smaller
+randomized trials also reported higher bleeding with
+VKA interruption and bridging compared with VKA
+continuation around pacemaker implantation, 170-172
+whereas a 467-patient retrospective cohort study
+reported a 1.6% incidence of major pocket hematomas
+in patients who did not interrupt warfarin for
+pacemaker implantation. 173
+14. In patients receiving VKA therapy who require a
+pacemaker or ICD implantation, we recommend
+continuation of VKA over VKA interruption and
+heparin bridging (Strong Recommendation, Moderate
+Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 Continuation of VKAs around cardiac device pro-
+cedures is based on the premise that the patient ’s INR
+at the time of the procedure is < 3.0.
+PICO 15 : In patients receiving VKA therapy who
+require VKA interruption for a colonoscopy with
+anticipated polypectomy, should heparin bridging be
+given vs no heparin bridging?
+Evidence. The management of patients undergoing
+polypectomy poses speci ﬁc challenges because of the
+potential for post-procedure bleeding, which can be
+delayed when the scar formed over the polyp stalk is
+dislodged with potential exposure of friable, vascular
+tissue.54 One randomized trial compared continuing
+VKAs with cold snare polypectomy vs VKA interruption
+and heparin bridging with hot snare polypectomy in 184
+patients who needed colonic polyp resection. 174 The
+incidence of polypectomy-related major bleeding was
+higher in the VKA interruption-heparin bridging group
+than in the VKA continuation group (12.0% [95% CI:
+5.0-19.1] vs 4.7% [95% CI: 0.2-9.2]); this difference was
+not statistically signi ﬁcant.
+15. In patients receiving VKA therapy who require
+VKA interruption for a colonoscopy with anticipated
+polypectomy, we suggest against heparin bridging
+during the period of VKA interruption (Conditional
+Recommendation, Very Low Certainty of Evidence).
+Perioperative Management of Patients Who
+Are Receiving Heparin Bridging
+Background: The perioperative management of patients
+who receive heparin bridging is informed by an
+understanding of the basic pharmacologic properties of
+bridging agents, LMWH and UFH. 22 LMWHs have an
+elimination half-life of 3 to 5 hours, which informs pre-
+operative interruption timing, and a peak action
+occurring 3 to 4 hours after administration, which
+informs post-operative initiation timing. 22 UFH has a
+dose-dependent elimination half-life that is
+approximately 90 minutes but can vary from 30 to 120
+minutes depending on the level of anticoagulation (as
+reﬂected by the aPTT or anti-factor Xa levels) at the time
+of interruption. 22
+Perioperative Use of IV UFH as Bridging
+Anticoagulation
+PICO 16 : In patients who are receiving bridging
+anticoagulation with therapeutic-dose IV UFH, should
+UFH be stopped 4 to 6 hours before surgery vs stopping
+UFH closer to surgery?
+PICO 17 : In patients who are receiving bridging
+anticoagulation with therapeutic-dose IV UFH, should
+UFH be resumed > 24 hours after a surgery/procedure
+vs within 24 hours after a surgery/procedure?
+Evidence. There are no studies assessing the timing of IV
+UFH interruption and resumption around the time of a
+surgery/procedure. Based on the elimination half-life, an
+infusion of UFH can be stopped 4 to 6 hours before
+surgery to eliminate any residual anticoagulant effect. 22
+Resumption of IV UFH after surgery follows the
+approach used for LMWH in terms of the timing of
+post-operative resumption, and with IV UFH resumed
+e222 Guidelines and Consensus Statements [ 162#5 CHEST NOVEMBER 2022 ]
+at the same or lower infusion rate as that used pre-
+operatively.175,176
+16. In patients receiving therapeutic-dose IV UFH
+bridging for an elective surgery/procedure, we suggest
+stopping UFH ‡ 4 hours before a surgery/procedure
+over stopping IV UFH < 4 hours before a surgery/
+procedure (Conditional Recommendation, Very Low
+Certainty of Evidence).
+17. In patients receiving therapeutic-dose IV UFH
+bridging for an elective surgery/procedure, we suggest
+resuming UFH ‡ 24 hours after a surgery/procedure
+over resuming UFH within 24 hours after a surgery/
+procedure (Conditional Recommendation, Very Low
+Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 When resuming UFH post-operatively, we suggest
+avoiding a bolus dose and commencing with a lower-
+intensity infusion that is associated with a lower target
+aPTT than that used for initiation of full-dose UFH
+administration.
+Perioperative Use of LMWH as Bridging
+Anticoagulation
+PICO 18 : In patients who are receiving LWMH
+bridging, should the last pre-operative dose of LMWH
+be given 24 hours before surgery vs 12 hours before
+surgery?
+Evidence. There are no studies assessing the timing of
+LMWH bridging interruption before a surgery/
+procedure and its effect on bleeding or other clinical
+outcomes. In observational studies assessing LMWH
+bridging, there were no apparent higher bleeding rates
+(compared with non-bridged controls from other
+studies) if the last dose of LMWH was given
+approximately 12 hours (evening) before surgery or
+approximately 24 hours before a surgery/procedure. 56,95
+In studies assessing a surrogate marker for bleeding
+(anti-factor Xa levels), > 90% of patients who received
+their last LMWH dose approximately 12 hours before a
+surgery/procedure had a detectable anticoagulant effect
+at surgery, with 34% of patients having an elevated
+(therapeutic level) anticoagulant effect (ie, anti-factor Xa
+level $ 0.50 IU/mL) at the time of surgery. 177,178
+18. In patients receiving LMWH bridging for an
+elective surgery/procedure, we suggest administering
+the last pre-operative LMWH bridging dose at
+approximately 24 hours over administering the last
+dose 10 to 12 hours before a surgery/procedure
+(Conditional Recommendation, Very Low Certainty of
+Evidence).
+PICO 19 : In patients who are receiving bridging with
+therapeutic-dose LMWH and are having high-bleed-
+risk surgery, should therapeutic-dose LMWH be
+resumed within 24 hours after surgery vs resuming
+LMWH > 24 hours after surgery ?
+Evidence. No randomized trials have compared an early
+(within 24 hours) or delayed ( > 24 hours) resumption of
+therapeutic-dose LMWH after a surgery/procedure,
+irrespective of the type of surgery. The BRIDGE trial
+used a standardized post-operative heparin resumption
+regimen where LMWH was resumed 24 hours after a
+low-to-moderate-bleed-risk surgery/procedure and 48 to
+72 hours after a high-bleed-risk surgery/procedure was
+associated with a 3.2% incidence of major bleeding. 76 In
+a subanalysis of the RE-LY trial, which compared
+warfarin and dabigatran for stroke prevention in atrial
+ﬁbrillation, patients who were receiving (open-label)
+warfarin and received perioperative LMWH bridging
+without a standardized bridging regimen had a
+6.8% incidence of major bleeding. 110 In an observational
+study in which all patients received LMWH bridging
+with enoxaparin 1.5 mg/kg daily, started 12 to 24 hours
+after all types of surgery, patients who had major ( > 1
+hour duration) surgery had a 20% (8 of 40) incidence of
+major bleeding, whereas major bleeding occurred in
+0.7% (1 of 148) of patients who had a minor ( < 1 hour
+duration) surgery or procedure. 179 Other observational
+studies that allowed a ﬂexible post-operative bridging
+regimen in high-bleed-risk patients, with either delayed
+resumption of therapeutic-dose LMWH or substitution
+of a low-dose regimen, found a low ( < 5%) incidence of
+major bleeding. 84,87,88,92,107,120,180,181 Taken together,
+these studies support ﬂexible postoperative resumption
+timing of LMWH bridging, to occur after 24 hours or
+after 48 to 72 hours depending on the surgery/
+procedure-related bleed risk, and when there is adequate
+surgical site hemostasis.
+19. In patients receiving LMWH bridging for an
+elective surgery/procedure, we suggest administering
+the ﬁrst post-operative LMWH bridging dose at
+least 24 hours after a surgery/procedure over
+administering it less than 24 hours after a surgery/
+procedure (Conditional Recommendation, Very Low
+Certainty of Evidence).
+chestjournal.org e223
+Guideline Implementation Considerations:
+/C15 We suggest waiting at least 24 hours before resuming
+LMWH bridging in patients having a low-to-
+moderate-bleed-risk surgery/procedure and waiting at
+least 48 to 72 hours before resuming LMWH bridging
+in patients having a high-bleed-risk surgery/proced-
+ure ( Table 2 ).
+/C15 For patients in whom the management plan is to
+delay resumption of LMWH bridging for 48 to 72
+hours and who are considered at high risk for post-
+operative VTE, low-dose LMWH can be administered
+for the initial 2 to 3 days before the transition to
+LMWH bridging.
+PICO 20 : In patients receiving LMWH bridging,
+should half the total daily dose of LMWH be given on
+the day before the surgery/procedure vs administering
+the full dose of LMWH?
+Evidence. The evidence for administering half the total
+dose of LMWH bridging on the day before the surgery/
+procedure incorporates the evidence used for Guideline
+Statement 18, shown above. 56,95,177,178 In addition, in the
+BRIDGE and PERIOP-2 trials, which gave half the total
+daily LMWH bridging dose on the day before the
+surgery/procedure in patients who received pre-
+operative bridging, this approach was associated with
+low rates of perioperative major bleeding (3.2%,
+1.6%).76,105
+20. In patients receiving LMWH bridging for an
+elective surgery/procedure, we suggest administering
+half the total daily dose of LMWH the day prior to the
+surgery/procedure over administering the full dose of
+LMWH the day prior (Conditional Recommendation,
+Very Low Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 This guidance may apply more to patients having a
+high-bleed-risk surgery, including patients having
+neuraxial (spinal or epidural) anesthesia, rather than
+in patients having a low-to-moderate-bleed-risk sur-
+gery/procedure ( Table 2 ).
+/C15 Administering half the total daily dose of LMWH can
+be done by giving, on the morning of the day before
+the surgery/procedure, only the morning dose of a
+twice-daily LMWH regimen or approximately 50% of
+the dose of a once-daily LWMH regimen.
+PICO 21 : In patients receiving LMWH bridging,
+should measurement of anti-factor Xa levels be
+routinely done vs no anti-factor Xa measurements ?
+Evidence. There are no studies that have compared a
+perioperative LMWH bridging strategy with and
+without pre-operative anti-factor Xa measurements.
+Large randomized trials and prospective cohort studies
+did not incorporate anti-factor Xa measurements as part
+of perioperative management. 23,76,105
+21. In patients receiving LMWH bridging for an
+elective surgery/procedure, we suggest against routine
+measurement of anti-factor Xa levels to guide
+perioperative LMWH management (Conditional
+Recommendation, Very Low Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 There may be select patients undergoing high-bleed-
+risk surgeries/procedures (ie, intracranial, spinal) or
+patients who require an urgent (nonelective) surgery/
+procedure where anti-factor Xa measurement may be
+considered.
+Patients Who Are Receiving a DOAC and
+Require an Elective Surgery/Procedure
+Background: The interruption of DOACs before an
+elective surgery/procedure can follow a
+pharmacokinetic-based approach, as used with the
+perioperative management of other anticoagulants,
+whereby the pre-operative interruption interval
+corresponds to four to ﬁve elimination half-lives of each
+DOAC.182,183 Given the DOAC half-lives of 9 to 14
+hours, withholding DOACs for 2 full days before a
+surgery/procedure, which corresponds more precisely to
+a 60- to 68-hour interval (or four to ﬁve half-lives) from
+the last DOAC dose until the surgery, should result in
+minimal to no residual anticoagulant effect at the time of
+surgery.184 This approach can be used for patients
+having a high-bleed-risk surgery/procedure, whereas for
+patients having a low-to-moderate-bleed-risk surgery/
+procedure, withholding DOACs for 1 full day before the
+procedure, which corresponds to a 30- to 36-hour
+interruption interval (or approximately three DOAC
+half-lives), should result in a residual anticoagulant
+effect which is acceptable clinically for lower bleed risk
+procedures. In all patients, no DOAC is taken on the day
+of the surgery/procedure.
+There are two important qualifying remarks to this
+pharmacokinetic-based DOAC interruption
+management strategy:
+/C15 In dabigatran-treated patients with impaired renal
+function (creatinine clearance [CrCl] < 50 mL/min),
+interruption for 3 to 4 full days is required to allow for
+e224 Guidelines and Consensus Statements [ 162#5 CHEST NOVEMBER 2022 ]
+the longer time required for drug clearance as 75% to
+80% of dabigatran clearance is by the kidney. 21,185
+/C15 There may be selected patients in whom a longer
+duration of pre-operative DOAC interruption may be
+required, irrespective of the DOAC used. This may
+include patients with severely impaired renal function
+(CrCl < 30 mL/min) or hepatic function, and in those
+who are taking drugs that, through inhibition of
+CYP3A4 or P-glycoprotein pathways, may interfere
+with DOAC clearance. 186-188
+An alternative pre-operative management strategy
+includes measurement of DOAC levels before the
+surgery/procedure,189,190 which may be considered in
+patients who require an urgent (ie, within 24 hours)
+surgery, such as hip fracture repair. 191 A practical issue
+with this approach is that routine coagulation function
+tests such as the INR or aPTT may be insensitive to
+exclude a residual preoperative DOAC effect, 192 thereby
+necessitating the need to measure DOAC levels with
+more sensitive but less widely available tests. These tests
+consist of DOAC-calibrated anti-factor Xa levels for
+apixaban, edoxaban, and rivaroxaban, and the dilute
+thrombin time or ecarin clotting time for dabigatran;
+however, questions remain as to their clinical
+utility.193-195
+Perioperative Interruption and Resumption of
+DOACs and Heparin Bridging
+PICOs 22-25 : In patients who are receiving a DOAC
+(apixaban, dabigatran, edoxaban, or rivaroxaban) and
+require an elective surgery/procedure, should DOACs
+be interrupted for 1 to 2 days (1-4 days for dabigatran)
+before a surgery/procedure vs interrupting DOACs
+earlier?
+Evidence. Two prospective studies assessed a
+standardized perioperative DOAC management, with
+standardized DOAC interruption. The ﬁrst was a
+prospective management study of 541 dabigatran-
+treated patients with atrial ﬁbrillation who required an
+elective surgery/procedure; 24- and 48-hour DOAC
+interruption intervals were adopted for low- and high-
+bleed-risk surgeries/procedures, respectively. 185 This
+approach was associated with low 30-day post-operative
+rates of ATE (0.2%; 95% CI: 0-0.5) and major bleeding
+(1.8%; 95% CI: 0.7-3.0). The second study, PAUSE, was
+a prospective management study of 3,007 patients with
+atrial ﬁbrillation taking a DOAC (apixaban, dabigatran,
+or rivaroxaban) who required an elective surgery/
+procedure and received standardized perioperative
+management196; patients with severe renal insuf ﬁciency,
+in whom DOAC therapy was not clinically indicated,
+were excluded (CrCl < 25 mL/min if taking apixaban or
+CrCl < 30 mL/min if taking dabigatran or rivaroxaban).
+DOACs were interrupted for 1 day before and 1 day
+after (2 days total) a low-to-moderate-bleed-risk
+surgery/procedure and for 2 days before and 2 days after
+(4 days total) a high-bleed-risk surgery/procedure. An
+exception to this management occurred in a small
+proportion of patients (2.7% [80 of 3,007]) who were
+receiving dabigatran and had a CrCl < 50 mL/min in
+whom the interruption interval was extended by 1 or
+2 days depending on the surgery/procedure bleed risk.
+With this overall management approach, 30-day post-
+operative incidences of ATE and major bleeding,
+respectively, were: 0.16% (95% CI: 0-0.48) and
+1.35% (95% CI: 0-2.0) in the apixaban cohort (n ¼
+1,257); 0.60% (95% CI: 0-1.33) and 0.9% (95% CI: 0-
+1.73) in the dabigatran cohort (n ¼ 668); and
+0.37% (95% CI: 0-0.82) and 1.85% (95% CI: 0-2.65) in
+the rivaroxaban cohort (n ¼ 1,082).
+Retrospective subanalyses of the major randomized
+trials assessing DOACs vs warfarin in atrial ﬁbrillation
+were done to assess perioperative DOAC management
+but, in general, such management was not standardized
+as the timing of DOAC interruption and resumption
+varied and 15% to 20% of patients received heparin
+bridging.8,10,80,85,197 A meta-analysis of > 19,000
+patients who underwent a procedure in the randomized
+trials comparing DOACs vs warfarin in atrial ﬁbrillation
+was reported as well. 198 Taken together, these studies
+reported rates of perioperative ATE of 0.5% to 1.0% and
+rates of major bleeding of 2% to 5%, which are
+comparable to rates observed in patients who receive
+non-standardized VKA interruption and
+resumption.23,198
+Additional evidence relating to pre-operative DOAC
+management involves patients undergoing catheter
+ablation for atrial ﬁbrillation. An observational study
+reported an increase in bleeding with periprocedural
+DOAC continuation 199 while another reported no
+difference in bleeding outcomes. 200 A 306-patient
+randomized trial that compared 1-day DOAC
+interruption vs no interruption found no signi ﬁcant
+difference in bleeding outcomes (11.3% vs 9.7%; risk
+difference ¼ 1.7%; 95% CI –5.5 to 8.8). 201 An
+observational study assessing pacemaker/ICD
+implantation and minimal DOAC interruption (ie,
+skipping or delaying the immediate pre-procedure dose)
+chestjournal.org e225
+reported a low rate (1.6%) of major pocket
+hematomas.173 A 25-patient observational study
+assessing DOAC continuation in patients having
+cataract surgery identi ﬁed no bleeding events. 202 An
+observational study comparing perioperative DOAC
+interruption and continuation in patients undergoing
+low-bleed-risk procedures reported lower rates of overall
+bleeding (OR ¼ 0.59; 95% CI: 0.39 to 0.91) and minor
+bleeding (OR ¼ 0.59; 95% CI: 0.37 to 0.93) with DOAC
+interruption, a ﬁnding that persisted after adjustment for
+confounders (OR ¼ 0.62; 95% CI: 0.41
+to 0.95). 203
+It is noteworthy that almost all evidence pertaining to
+perioperative DOAC management involves patients with
+atrial ﬁbrillation. Few studies, limited to retrospective case
+series, have assessed perioperative DOAC management in
+patients with VTE. 204,205 There are no studies assessing
+perioperative management in patients who are receiving
+low-dose DOAC therapy (rivaroxaban 2.5 mg bid) and
+ASA for stable coronary or peripheral arterial disease. 206
+22. In patients receiving apixaban who require an
+elective surgery/procedure, we suggest stopping
+apixaban for 1 to 2 days before the surgery/procedure
+over apixaban continuation (Conditional
+Recommendation, Very Low Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 The number of days of pre-operative apixaban
+interruption before the surgery/procedure will depend
+on the bleed risk associated with the surgery/
+procedure:
+o 1 day off before low-to-moderate-bleed-risk;
+o 2 days off before high-bleed-risk.
+/C15 This management may be applied irrespective of
+whether patients are receiving apixaban for atrial
+ﬁbrillation or VTE.
+23. In patients receiving dabigatran who require an
+elective surgery/procedure, we suggest stopping
+dabigatran for 1 to 4 days before the surgery/
+procedure over dabigatran continuation (Conditional
+Recommendation, Very Low Certainty of Evidence).
+Guideline Implementation Considerations :
+/C15 The number of days of pre-operative dabigatran
+interruption before the surgery/procedure will depend
+on the bleed risk associated with the surgery/pro-
+cedure and patient renal function:
+o 1 day off before low-to-moderate-bleed-risk if
+CrCl $ 50 mL/min;
+o 2 days off before low-to-moderate-bleed-risk if
+CrCl < 50 mL/min;
+o 2 days off before high-bleed-risk if CrCl $ 50 mL/
+min;
+o 4 days off for high-bleed-risk if CrCl < 50 mL/min
+(this extended duration of interruption of > 2 days
+reﬂects the unique management of patients who are
+receiving dabigatran and have a CrCl < 50 mL/min).
+/C15 This management may be applied irrespective of
+whether patients are receiving dabigatran for atrial
+ﬁbrillation or VTE.
+24. In patients receiving edoxaban who require an
+elective surgery/procedure, we suggest stopping
+edoxaban for 1 to 2 days before the surgery/procedure
+over edoxaban continuation (Conditional
+Recommendation, Very Low Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 The number of days of pre-operative edoxaban
+interruption before the surgery/procedure will depend
+on the bleed risk associated with the surgery/
+procedure:
+o 1 day off before low-to-moderate-bleed-risk;
+o 2 days off before high-bleed-risk.
+/C15 This management may be applied irrespective of
+whether patients are receiving edoxaban for atrial
+ﬁbrillation or VTE.
+25. In patients receiving rivaroxaban who require an
+elective surgery/procedure, we suggest stopping
+rivaroxaban for 1 to 2 days before the surgery/
+procedure over rivaroxaban continuation (Conditional
+Recommendation, Very Low Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 The number of days of pre-operative rivaroxaban
+interruption before the surgery/procedure will depend
+on the bleed risk associated with the surgery/
+procedure:
+o 1 day off before low-to-moderate-bleed-risk;
+o 2 days off before high-bleed-risk.
+/C15 This management may be applied irrespective of
+whether patients are receiving rivaroxaban for atrial
+ﬁbrillation or VTE.
+PICO 26 : In patients who require DOAC interruption
+for an elective surgery/procedure, should perioperative
+bridging be given vs no bridging?
+Evidence. In a subanalysis of the RE-LY trial that
+assessed patients with AF who were receiving open-
+e226 Guidelines and Consensus Statements [ 162#5 CHEST NOVEMBER 2022 ]
+label dabigatran (or warfarin) and required treatment
+interruption for an elective surgery/procedure, those
+who received perioperative LMWH bridging were at
+higher risk for major bleeding than those who did
+not receive bridging (6.5% vs 1.8%; P < .001), and
+use of bridging had no signi ﬁcant effect on stroke/
+systemic embolism outcomes (0.5% vs 0.3%; P ¼
+.46).110 In a prospective patient registry of 901
+DOAC-treated patients who required an elective
+surgery, perioperative LMWH bridging was
+associated with an increased risk for major bleeding
+(OR ¼ 4.6; 95% CI: 1.1-9.9) with no signi ﬁcant effect
+on thromboembolic outcomes (OR ¼ 1.9; 95% CI:
+0.7-5.4). 207 In the aforementioned DOAC meta-
+analysis, perioperative LMWH bridging was
+associated with a threefold higher incidence of major
+bleeding compared with the non-bridged group
+(4.8% [95% CI: 3.4-6.2] vs 1.6% [95% CI: 1.2-2.0%]),
+with no differences in the pooled rates of stroke/
+systemic embolism. 198
+26. In patients who require DOAC interruption for an
+elective surgery/procedure, we suggest against
+perioperative heparin bridging (Conditional
+Recommendation, Very Low Certainty of Evidence).
+Guideline Implementation Considerations :
+/C15 The rapid offset and rapid onset of action of DOACs
+obviate the need for heparin bridging with short-
+acting anticoagulants such as UFH or LMWH in a
+perioperative setting.
+PICO 27 : In patients who had DOAC interruption for
+an elective surgery/procedure, should DOACs be
+resumed > 24 hours after a surgery/procedure
+vs resuming DOACs within 24 hours?
+Evidence. One randomized trial of 662 DOAC-treated
+patients who required a pacemaker/ICD implantation
+compared perioperative DOAC continuation (median
+interval between pre- and post-procedure DOAC doses:
+12 hours) and DOAC interruption (median interval: 72
+hours) found no signi ﬁcant difference in pacemaker/ICD
+pocket hematomas (OR ¼ 1.02; 95% CI: 0.36-2.87). 208
+Evidence from the PAUSE study, as discussed above,
+informs the incidence of major bleeding and ATE when
+DOACs are resumed > 24 hours after a surgery/
+procedure. Other evidence regarding post-operative
+DOAC resumption timing is derived from the PAUSE
+trial in which resumption was standardized at
+approximately 24 hours (for a low-to-moderate-bleed-risk
+surgery/procedure) and 48 to 72 hours (for a high-bleed-
+risk surgery/procedure).
+27. In patients who had DOAC interruption for an
+elective surgery/procedure, we suggest resuming
+DOACs > 24 hours after a surgery/procedure over
+resuming DOACs within 24 hours (Conditional
+Recommendation, Very Low Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 The resumption of DOACs post-operatively will
+depend on the bleed risk associated with the surgery/
+procedure:
+o at least 24 hours after low-to-moderate-bleed-risk;
+o 48-72 hours after high-bleed-risk.
+/C15 DOACs have a rapid onset of action, with a peak
+effect occurring 1 to 3 hours after intake, thereby
+requiring cautious administration after a surgery/
+procedure.
+Perioperative Laboratory Measurement of DOAC
+Therapy
+Background: T h er o l eo fm e a s u r i n gD O A Cl e v e l s
+before a surgery/procedure, akin to a pre-operative
+measurement of the INR in VKA-treated patients, is
+uncertain. 45,209,210 Unlike with an INR measurement
+where a level < 1 . 5i sc o n s i d e r e ds a f et oa l l o wm o s t
+surgery/procedures to proceed, 51 such a threshold
+with DOACs is uncertain as levels of < 30 ng/mL
+(the lower limit of detection of DOAC levels for some
+assays) or < 50 ng/mL have been suggested. 211,212
+Although a subanalysis of the PAUSE study suggested
+that pre-operative DOAC levels < 30 ng/mL or 30 to
+50 ng/mL were not associated with an increased risk for
+perioperative bleeding, this study was underpowered to
+assess such an association, and additional research is
+needed to de ﬁne safe pre-operative DOAC levels
+according to the surgery/procedure-related risk for
+bleeding.213,214
+Potential barriers for the clinical use of DOAC assays,
+including relatively high costs and limited availability,
+can be mitigated if laboratories are con ﬁgured to run
+these assays with similar 20- to 30-minute turnaround
+times as with the INR and aPTT, and provide the
+requisite quality control measures. 215,216
+PICO 28: In patients who interrupted a DOAC before a
+surgery/procedure, should the anticoagulant effect of
+DOACs routinely be measured with coagulation
+chestjournal.org e227
+function tests vs not measuring the anticoagulant effect
+of DOACs?
+Evidence. Although DOAC-level testing has been assessed
+in various clinical settings,217-221 no studies have assessed
+the clinical utility of measuring the residual anticoagulant
+effect of a DOAC after its interruption before a surgery/
+procedure. Speciﬁcally, no study has compared the safety
+of a perioperative DOAC testing-driven strategy with a
+strategy that does not involve DOAC-level testing.184 One
+prospective registry assessed 422 patients who
+interrupted DOACs with non-standardized intervals
+(ranging from 1 to 218 hours), according to physician
+discretion, and had DOAC levels measured just before the
+surgery. In patients with a 49- to 72-hour interruption
+interval, only 5% had a residual DOAC level > 30 ng/mL,
+and none had a level > 50 ng/mL.222 A receiver-operator
+curve analysis identi ﬁed a DOAC interruption interval
+of 54 hours to best predict a residual anticoagulant
+level # 30 ng/mL. In the PAUSE study, 85% (n¼ 2,541) of
+patients had a DOAC level measured just before the
+surgery/procedure, but this was not available for
+clinical use and did not affect the DOAC interruption
+protocol. 196 In the overall study population,
+encompassing patients having a low-to-moderate-
+bleed-risk and high-bleed-risk surgery/procedure, the
+proportion of patients on apixaban (n ¼ 1,129),
+dabigatran (n ¼ 563), and rivaroxaban (n ¼ 965) with a
+pre-operative DOAC level < 50 ng/mL was 90.5%,
+95.1%, and 96.8%, respectively. Patients having a high-
+bleed-risk surgery/procedure or any neuraxial
+anesthesia, in whom the interval between the last
+DOAC dose and DOAC-level testing (just before the
+surgery/procedure) was approximately 60 to 68
+hours (corresponding to 2 full days off before the
+surgery/procedure [4 days off if on dabigatran and CrCl
+< 50 mL/min]), were consid ered separately given a
+heightened concern about bleeding in the event of a
+signiﬁcant residual DOAC level at surgery. In this
+subgroup, the proportion of patients on apixaban (n ¼
+335), dabigatran (n ¼ 183), and rivaroxaban (n ¼ 314)
+with a DOAC level < 50 ng/mL was 97.9%, 99.4%, and
+99.3%, respectively; the proportion with a DOAC
+level < 30 ng/mL was 93.1%, 98.9%, and 85.3%,
+respectively.
+28. In patients who had DOAC interruption for an
+elective surgery/procedure, we suggest against routine
+DOAC coagulation function testing to guide
+perioperative DOAC management (Conditional
+Recommendation, Very Low Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 DOAC-level testing may be considered, on a case-by-
+case basis, in nonelective perioperative clinical situa-
+tions; for example, in patients who require an urgent/
+emergency surgery/procedure in whom DOAC-level
+testing may inform the need for active DOAC reversal
+with administration of blood products or DOAC-
+speciﬁc reversal agents.
+Perioperative Management of Patients Who
+Are Receiving Antiplatelet Drugs
+Background: Knowledge of basic pharmacologic
+properties of antiplatelet drugs will inform the timing of
+perioperative interruption and resumption. When
+interrupting ASA and the P2Y 12 inhibitors clopidogrel
+and prasugrel, since these drugs irreversibly inhibit
+platelet function, 7 to 10 days (ie, platelet life span) of
+interruption is needed to restore platelet function. 223-225
+When interrupting the P2Y 12 inhibitor ticagrelor, which
+reversibly inhibits platelet function, at least 2 to 3 days of
+interruption is needed to restore platelet function. 226,227
+When resuming antiplatelet drugs post-operatively, a
+maximal antiplatelet effect occurs within minutes after
+taking ASA, within 2 hours after taking ticagrelor, and
+occurs 4 to 5 days after resuming clopidogrel with a
+(75 mg) maintenance dose only, and after 3 days after
+resuming prasugrel. 226,228,229 If a loading dose of
+clopidogrel is used, the maximal antiplatelet effect
+occurs between 2 and 6 hours. 230,231 Less commonly
+used reversible inhibitors of platelet function include
+cilostazol, dipyridamole, and pentoxifylline, with half-
+lives of 2 to 10 hours, 232-234 and vorapaxar, which has a
+prolonged, 3- to 15-day antiplatelet effect.235 Nonsteroidal
+antiinﬂammatory drugs have reversible antiplatelet
+properties with half-lives that vary from 2 to 6 hours
+(ibuprofen, ketoprofen, indomethacin), to 7 to 15 hours
+(celecoxib, naproxen, diﬂunisal), to approximately 20
+hours (meloxicam, nabumetone, piroxicam).236
+Patients Having Non-cardiac Surgery
+PICOs 29-32 : In patients receiving antiplatelet drugs
+who require non-cardiac surgery, should antiplatelet
+drugs be continued perioperatively vs stopping 7 to
+10 days before surgery?
+Evidence. One 80-patient trial compared 4 to 5 days
+vs 10 days of ASA interruption before surgery, with
+too few cardiovascular (n ¼ 1) or bleeding (n ¼ 0)
+events for adequate interruption. 237 The PEP trial
+involved 17,444 patients who required hip fracture
+e228 Guidelines and Consensus Statements [ 162#5 CHEST NOVEMBER 2022 ]
+repair or hip/knee joint replacement with patients
+randomized to receive ASA or placebo started pre-
+operatively and continued for 35 days. 238 ASA use was
+associated with a decreased risk for VTE (RR ¼ 0.71;
+95% CI: 0.54-0.94) and did not affect the risk for
+clinically overt myocardial ischemia (RR ¼ 1.57;
+95% CI: 0.93-2.65) or stroke (RR ¼ 1.13; 95% CI:
+0.69-1.85) but conferred an increased risk for major
+bleeding (2.9% vs 2.4%; P ¼ .04). In a randomized
+trial of 220 patients who were at high cardiovascular
+risk and were undergoing surgery, ASA (or placebo)
+was started 7 days before surgery and continued for
+30 days. 239 Patients in the ASA group had a lower
+risk for major cardiovascular events (1.8% vs 9.0%;
+95% CI: 1.3-13.0), but the study was underpowered to
+detect a difference in bleeding. POISE-2 was a
+randomized, placebo-controlled trial that assessed
+immediate pre-operative ASA initiation (200 mg) or
+ASA continuation in 10,010 patients with known or at
+risk for coronary artery disease who were having
+major non-cardiac surgery. 240 Perioperative ASA
+initiation/continuation did not reduce the risk for
+non-fatal myocardial infarction or death
+(7.0% vs 7.1%; RR ¼ 0.99; 95% CI: 0.86-1.2), a
+ﬁnding observed in both initiation and continuation
+strata, but increased the risk for major bleeding
+(4.6% vs 3.8%; RR ¼ 1.2; 95% CI: 1.01-1.50). The
+interpretation of these results involves consideration
+that post-operative nonsteroidal antiin ﬂammatory drug
+use occurred in 37% of patients, which may have
+impaired the cardioprotective effects of ASA 241;
+moreover, major bleeding was increased in the ASA
+initiation stratum (4.6% vs 3.5%; hazard ratio [HR] ¼
+1.34; 95% CI: 1.03-1.74) but not the ASA continuation
+stratum (4.6% vs 4.1%; HR ¼ 1.11; 95% CI: 0.84-
+1.48). Smaller, likely underpowered, trials assessing
+perioperative ASA interruption vs continuation or
+single-dose pre-operative ASA administration reported
+no signi ﬁcant difference in thromboembolic or
+bleeding events. 242-245
+No prospective studies have assessed perioperative
+management of clopidogrel, prasugrel, or ticagrelor in
+non-cardiac surgery. Retrospective cohort studies of
+clopidogrel suggest an increased risk of bleeding with
+perioperative clopidogrel continuation. 246-248
+29a. In patients receiving ASA who are
+undergoing elective non-cardiac surgery, we
+suggest ASA continuation over ASA interruption
+(Conditional Recommendation, Moderate Certainty
+of Evidence).
+Guideline Implementation Considerations:
+/C15 This guidance may be modi ﬁed on a case-by-case
+basis. For example, in select patients undergoing a
+non-cardiac surgery associated with a high-bleed-risk
+(eg, intracranial, spinal); if ASA interruption is
+adopted, we suggest interruption for # 7 days.
+29b. In patients receiving ASA therapy who are
+undergoing elective non-cardiac surgery and require
+ASA interruption , we suggest stopping ASA £ 7d a y s
+instead of 7 to 10 days before the surgery (Conditional
+Recommendation, Very Low Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 This suggestion may be modi ﬁed on a case-by-case
+basis, depending on individual patient circumstance;
+for example, surgery-related bleeding risk.
+30. In patients receiving clopidogrel who are
+undergoing an elective non-cardiac surgery, we
+suggest stopping clopidogrel 5 days instead of 7 to
+10 days before the surgery (Conditional
+Recommendation, Very Low Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 This suggestion may be modi ﬁed on a case-by-case
+basis, depending on individual patient circumstances;
+for example, surgery-related bleeding risk.
+31. In patients receiving ticagrelor who are
+undergoing an elective non-cardiac surgery, we
+suggest stopping ticagrelor 3 to 5 days instead of 7 to
+10 days before the surgery (Conditional
+Recommendation, Very Low Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 This suggestion may be modi ﬁed on a case-by-case
+basis, depending on individual patient circumstances;
+for example, surgery-related bleeding risk.
+32: In patients receiving prasugrel who are
+undergoing an elective non-cardiac surgery, we
+suggest stopping prasugrel 7 days instead of 7 to
+10 days before the surgery (Conditional
+Recommendation, Very Low Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 This suggestion may be modi ﬁed on a case-by-case
+basis, depending on individual patient circumstances;
+for example, surgery-related bleeding risk.
+PICO 33 : In patients receiving antiplatelet drugs who
+require non-cardiac surgery, should antiplatelet drugs
+be resumed # 24 hours or > 24 hours after surgery?
+chestjournal.org e229
+33. In patients who require antiplatelet drug
+interruption for an elective surgery/procedure, we
+suggest to resume antiplatelet drugs £ 24 hours
+instead of > 24 hours after the surgery/procedure
+(Conditional Recommendation, Very Low Certainty of
+Evidence).
+Patients Having Coronary Artery Bypass Graft
+Surgery
+PICO 34 : In patients receiving antiplatelet drugs who
+require CABG surgery, should antiplatelet drugs be
+continued perioperatively vs stopping antiplatelet drugs
+7 to 10 days before CABG surgery?
+PICO 35 : In patients receiving antiplatelet drugs who
+require CABG surgery, should antiplatelet drugs be
+resumed within 24 hours or $ 24 hours after CABG
+surgery?
+Evidence. Determining whether to continue or stop
+antiplatelet drugs before CABG surgery is important
+because of the need to minimize surgical-site bleeding,
+which can cause life-threatening pericardial tamponade.
+In a > 8,000-patient cohort study, ASA use within
+5 days prior to CABG was associated with a reduction in
+overall mortality without a concomitant increased risk
+for re-operation for pericardial bleeding or need for
+blood transfusion. 249 ATACAS was a randomized,
+placebo-controlled trial assessing perioperative ASA use
+in patients who required CABG surgery where patients
+received ASA 100 mg, starting 1 to 2 hours ’pre-CABG
+(prior ASA users stopped it 4 days ’ pre-surgery), or
+placebo, with resumption within 24 hours ’ post-
+CABG.250 After 30 days of follow-up, there was no
+signiﬁcant effect of ASA on the outcomes of myocardial
+infarction (13.8% vs 15.8%; RR ¼ 0.87; 95% CI: 0.71-
+1.07), death, and other cardiovascular outcomes; ASA
+use was not associated with an increased risk for re-
+operation related to bleeding (1.8% vs 2.1%; RR ¼ 0.87;
+95% CI: 0.47-1.6). Stopping ASA in prior users for at
+least 4 days and restarting it just before surgery may
+question the generalizability of the study results, whereas
+continuing ASA perioperatively without interruption (as
+in one of the treatment arms) may have better re ﬂected
+what is done in clinical practice.
+In patients who also are receiving the P2Y 12 inhibitor
+clopidogrel, subanalyses of large trials involving
+patients with acute coronary syndromes who
+subsequently required CABG reported a 50% higher
+risk for major bleeding and a 70% higher need for
+transfusion requirements in patients who received
+clopidogrel within 5 days before CABG. 251,252
+Observational studies have also found increased
+bleeding in patients who received clopidogrel within
+5 days of CABG surgery. 253-255 In a subanalysis of the
+PLATO trial, which compared ticagrelor with
+clopidogrel in ASA-treated patients with an acute
+coronary syndrome who needed CABG surgery, rates
+of bleeding were similar in patients stopping
+clopidogrel 7 days before surgery and those stopping
+ticagrelor 24 to 72 hours before surgery. 256 Am e t a -
+analysis of four randomized trials and one observational
+study totaling 2,632 patients undergoing CABG surgery
+that compared > 5d a y sv s < 5 days interruption of
+clopidogrel found patients with a longer interruption
+had a lower incidence of re-operation (1.8% vs 3.2%;
+OR ¼ 0.47; 95% CI: 0.25-0.91) and major bleeding
+(19.7% vs 30.2%; OR ¼ 0.71; 95% CI: 0.51-0.98) and
+cardiovascular events.257
+There are no randomized trials or trial subanalyses that
+address the resumption of antiplatelet drugs post-
+operatively. One 100-patient observational study
+compared resuming ASA 1 hour or 6 hours ’post-CABG
+surgery and reported no signi ﬁcant difference in
+bleeding or transfusion requirement outcomes. 258
+34. In patients who are receiving ASA and undergoing
+CABG surgery, we suggest continuation of ASA over
+interruption; in patients receiving a P2Y 12 inhibitor
+drug, we suggest interruption of the P2Y 12 inhibitor
+over continuation perioperatively (Conditional
+Recommendation, Low Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 For pre-operative P2Y 12 interruption prior to the day
+of surgery/procedure, we suggest:
+o 7 days for prasugrel;
+o 5 days for clopidogrel;
+o 3 to 5 days for ticagrelor.
+35. In patients receiving ASA or a P2Y 12 inhibitor
+who are undergoing CABG surgery, we suggest
+resuming the ASA or P2Y 12 inhibitor within 24 hours
+after surgery compared to ‡ 24 hours after surgery
+(Conditional Recommendation, Low Certainty of
+Evidence).
+Guideline Implementation Considerations :
+/C15 Resumption of antiplatelet therapy may be delayed in
+patients who develop post-CABG thrombocytopenia
+(platelet count < 50,000 /C2 109/L), typically occurring
+with on-pump surgery.
+e230 Guidelines and Consensus Statements [ 162#5 CHEST NOVEMBER 2022 ]
+Perioperative Measurement of Antiplatelet Therapy
+PICO 36 : In patients who are receiving antiplatelet
+therapy, should platelet function assays be routinely
+used to measure antiplatelet effect vs no routine use of
+antiplatelet function testing?
+Evidence. Several platelet function assays have been
+assessed mostly in patients having cardiac surgery or
+percutaneous coronary interventions. 259,260 One
+observational study (n ¼ 107) assessed platelet function
+in patients who received or did not receive ASA around
+the time of a colorectal surgery and found that impaired
+platelet function observed with ASA continuation did
+not affect the incidence of blood transfusion. 261 Other
+studies have not shown a correlation between platelet
+function assay results and clinical outcomes. 262,263
+36. In patients receiving antiplatelet drug therapy who
+are undergoing an elective surgery/procedure, we
+suggest against the routine use of platelet function
+testing prior to the surgery/procedure to guide
+perioperative antiplatelet management (Conditional
+Recommendation, Very Low Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 Platelet function testing could be used with a possible
+small beneﬁt and little harm in certain scenarios such
+as patients undergoing CABG surgery who have
+recently started taking a P2Y 12 inhibitor. Costs would
+be moderate for implementation.
+Patients With Coronary Stents Having Surgery
+PICOs 37-40 : In patients who require surgery within
+6 weeks of placement of a bare-metal coronary stent or
+within 12 months of placement of a drug-eluting
+coronary stent, should ASA and clopidogrel be
+continued vs stopping antiplatelet drugs 7 to 10 days
+before surgery ?
+Evidence. Perioperative antiplatelet management aims to
+minimize the risk for stent thrombosis, which occurs in
+2% to 5% of patients and is associated with mortality as
+high as 50%. 264-269 A subanalysis of the POISE-2 trial
+assessed 470 patients with a coronary stent who required
+major non-cardiac surgery, with patients who were
+allocated to continue ASA perioperatively exhibiting a
+decrease in the incidence of myocardial infarction
+(5.1% vs 11.0%; HR ¼ 0.44; 95% CI: 0.22-0.87) and a
+small increase in major bleeding (4.6% vs 3.8%; HR ¼
+1.22; 95% CI: 1.01-1.48). 270 In observational studies,
+perioperative antiplatelet therapy interruption for
+> 5 days was a predictor of major adverse
+cardiovascular events (OR ¼ 2.11; 95% CI: 1.23-3.63), 271
+as was no perioperative antiplatelet therapy (OR ¼ 3.73;
+95% CI: 1.26-11.07). 272 A systematic review of patients
+with coronary stents who required surgery found one
+randomized trial and 15 observational studies assessing
+at least six different perioperative antiplatelet
+management strategies with variable rates of adverse
+cardiovascular events (0%-21%) and bleeding (0%-22%),
+and reported no observable pattern of adverse outcome
+incidence using a given management strategy. 273
+The timing of surgery after coronary stenting balances
+the urgency of an elective surgery (eg, cancer
+resection) and the cardiovascular risk relating to the
+time interval since stenting. Observational studies of
+patients with coronary stents who required surgery
+provide evidence to inform this issue. In a
+retrospective study of 20,590 patients with coronary
+stents who underwent surgery, the risk for adverse
+cardiovascular outcomes appeared highest in the initial
+6 weeks after stent placement (8%10%) but appeared
+to plateau at 6 months (1%-2%) and remain stable at
+24 months. 274 In a linked administrative database
+study comparing post-operative rates of adverse
+cardiovascular outcomes in 4,303 patients with and
+20,232 patients without recent (within 1 year) drug-
+eluting coronary stent placement, stented patients had
+a higher risk for myocardial infarction (1.6% vs 0.2%;
+OR ¼ 4.82; 95% CI: 3.25-7.16) and cardiac death
+(1.0% vs 0.2%; OR ¼ 5.87; 95% CI: 3.60-9.58), and
+this increased risk was statistically signi ﬁcant only if
+surgery was done within 1 month of stenting. 275
+Bridging therapy during antiplatelet drug interruption
+has been assessed with multiple strategies and
+agents.276 One randomized trial assessed IV cangrelor,
+a reversible ultra-short-acting P2Y 12 inhibitor
+(elimination half-life of 3-6 minutes), as a bridging
+agent in patients who were receiving and interrupted
+P2Y12 inhibitor therapy prior to CABG surgery 277,278;
+this 198-patient study reported no effect of bridging
+on CABG-related bleeding (OR ¼ 1.15; 95% CI: 0.47-
+2.79) or other adverse events (7.8% vs 5.2%; P ¼ .45).
+Observational studies have investigated bridging with
+IV UFH 279 or subcutaneous LMWH, 280 and bridging
+with short-acting IV glycoprotein IIb/IIIa inhibitors
+(tiroﬁban, epti ﬁbatide) or cangrelor, with no clear
+beneﬁts of these approaches. 281-285
+We were unable to address management and outcomes
+in these studies according to the stent type, whether
+drug-eluting or bare-metal; consequently, the guideline
+chestjournal.org e231
+statements do not specify management according to
+stent type. However, coronary stents implanted in
+current practice are of the drug-eluting type.
+37. In patients receiving ASA and a P2Y 12 inhibitor
+with coronary stents placed within the last 6 to
+12 weeks who are undergoing an elective surgery/
+procedure, we suggest either continuation of both
+antiplatelet agents or stopping one antiplatelet agent
+within 7 to 10 days of surgery (Conditional
+Recommendation, Very Low Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 Either approach is reasonable depending on the
+bleeding risk associated with the surgery/procedure if
+antiplatelet therapy is continued and risk for acute
+coronary syndrome/coronary stent thrombosis if an-
+tiplatelet therapy is interrupted.
+/C15 Several factors will weigh in the decision about
+whether to continue dual antiplatelet therapy or
+interrupt one agent including: the timing of stent
+placement (whether closer to 6 weeks or 12 weeks);
+the type of stent (drug-eluting or bare-metal); the
+location of the stent (whether at a dominant coronary
+artery or not); and the number and length of stents
+implanted.
+38. In patients receiving ASA and a P2Y 12 inhibitor
+who had coronary stents placed within the last 3 to
+12 months and are undergoing an elective surgery/
+procedure, we suggest stopping the P2Y 12 inhibitor
+prior to surgery over continuation of the P2Y 12
+inhibitor (Conditional Recommendation, Very Low
+Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 This guidance is based on indirect evidence and
+expert-based consensus that stopping P2Y 12 in-
+hibitors in patients with stents > 3 months ’ post-
+implantation is likely safe.
+/C15 Several factors will weigh in the decision about
+whether to continue or interrupt the P2Y 12 inhibitor,
+including: the timing of stent placement (whether
+closer to 3 months or 12 months); the type of stent
+(drug-eluting or bare-metal); the location of the stent
+(whether at a dominant coronary artery or not); and
+the number and length of stents implanted.
+39. In patients with coronary stents who require
+interruption of antiplatelet drugs for an elective
+surgery/procedure, we suggest against routine
+bridging therapy with a glycoprotein IIb/IIIa
+inhibitor, cangrelor, or LMWH over routine use of
+bridging therapy (Conditional Recommendation, Low
+Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 A bridging approach may be considered in selected
+high-risk patients; for example, in those with a recent
+(within 3 months) coronary stent in a critical location.
+40. In patients with coronary stents who require
+continued dual antiplatelet therapy, we suggest
+delaying an elective surgery/procedure over not
+delaying the surgery/procedure (Conditional
+Recommendation, Very Low Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 The duration of surgery/procedure delay is addressed
+on a case-by-case basis and should consider the ur-
+gency of the surgery/procedure, the time elapsed since
+coronary stenting, and the risk pro ﬁle of the coronary
+stenting (eg, critical location, multiple stents).
+/C15 Regarding the timing of cessation of P2Y 12 inhibitors
+or ASA, we refer to Guideline Statements 29a/b
+through 33.
+Patients Having a Minor Dental, Dermatologic, or
+Ophthalmologic Procedure
+PICOs 41-43: In patients who are receiving antiplatelet
+drugs and require a minor dental, dermatologic, or
+ophthalmologic procedure, should antiplatelet drugs be
+continued vs stopping antiplatelet drugs 7 to 10 days
+before the procedure?
+Evidence. In patients having minor dental procedures,
+small ( < 100 patients) randomized trials and cohort
+studies suggest no increase in major bleeding with
+ASA continuation. 146,286-290 In patients having minor
+skin procedures, prospective cohort studies totaling
+about 200 patients suggest a low ( < 1%) risk for
+major bleeding with continuation of ASA. 291,292 In
+patients having phacoemulsi ﬁcation (cataract) surgery,
+prospective cohort studies have suggested a low
+(< 1%) incidence of major bleeding with perioperative
+ASA continuation. 159,160,293 In patients having eyelid
+surgery, one 42-patient randomized trial compared
+ASA continuation with no perioperative ASA use and
+reported no signi ﬁcant effect on bleeding or
+thromboembolic outcomes. 294 In patients having skin
+procedures, one meta-analysis of two randomized
+trials and 28 observational studies totaling > 14,000
+patients found no signi ﬁcant increase in bleeding with
+perioperative ASA continuation. 295 No studies have
+e232 Guidelines and Consensus Statements [ 162#5 CHEST NOVEMBER 2022 ]
+assessed the management of patients who are receiving
+P2Y12 inhibitors alone and require minor dental, skin,
+or eye procedures.
+41. In patients receiving an antiplatelet drug (ASA or
+P2Y12 inhibitor) who are undergoing a minor dental
+procedure, we suggest continuing the antiplatelet
+drug (ASA or the P2Y 12 inhibitor) over stopping the
+antiplatelet agent before the procedure (Conditional
+Recommendation, Very Low Certainty of Evidence).
+Guideline Implementation Considerations:
+/C15 Patients who are receiving dual antiplatelet therapy
+with ASA and a P2Y 12 inhibitor can continue ASA
+and interrupt the P2Y 12 inhibitor.
+42. In patients receiving an antiplatelet drug (ASA or
+P2Y12 inhibitor) who are undergoing a minor
+dermatologic procedure, we suggest continuing the
+antiplatelet drug (ASA or P2Y 12 inhibitor) over
+stopping the antiplatelet drug before the procedure
+(Conditional Recommendation, Very Low Certainty of
+Evidence).
+Guideline Implementation Considerations:
+/C15 Patients who are receiving dual antiplatelet therapy
+with ASA and a P2Y 12 inhibitor can continue ASA
+and interrupt the P2Y 12 inhibitor.
+43. In patients receiving an antiplatelet drug (ASA
+or P2Y 12 inhibitor) undergoing a minor
+ophthalmologic procedure, we suggest continuing the
+antiplatelet drug (ASA or P2Y 12 inhibitor)
+throughout the ophthalmologic procedure over
+stopping the antiplatelet agent before the procedure
+(Conditional Recommendation, Low Certainty of
+Evidence).
+Guideline Implementation Considerations:
+/C15 Patients who are receiving dual antiplatelet therapy
+with ASA and a P2Y 12 inhibitor can continue ASA
+and interrupt the P2Y 12 inhibitor.
+Perioperative Antithrombotic Patient Care
+Pathways
+Based on the evidence presented, perioperative
+antithrombotic patient care pathways are shown in
+Figure 1 , Figure 2 ,a n d Figure 3 . These pathways can be
+used to inform individual patient management and to
+develop standardized care paths for clinics or
+institutions. Figure 1 pertains to patients receiving a
+VKA and provides guidance on whether to interrupt
+VKA therapy perioperatively, how to interrupt VKA
+pre-operatively (if interruption is needed), whether to
+use heparin bridging therapy and how to bridge, and
+how to restart VKA and bridging therapy (if used) post-
+–7 –6 –5 –4 –3 –2 –1 0 1 2 3 4 5
+Minimal-bleed-risk
+Low-to-moderate-bleed-risk
+High-bleed-risk
+Warfarin
+Warfarin Warfarin*
+Warfarin
+LMWH** LMWH**  
+LMWH**
+Warfarin*
+LMWH**†  
+Legend
+*Warfarin can be resumed on the evening of procedure (D0) for most patients, or the day after procedure (i.e., D1) at the 
+patient’s usual maintenance dose.
+**Bridging suggested for high thrombotic risk populations with full-dose, subcutaneous LMWH (e.g., enoxaparin, 1 mg/kg bid or 
+1.5 mg/kg daily or dalteparin, 100 IU/kg bid or 200 IU/kg daily), with the last dose given the AM of the day prior to the procedure 
+(i.e., D-1) at half the total daily dose.
+†Low-dose LMWH (e.g., enoxaparin, 40 mg daily or dalteparin 5,000 IU daily) can be used for VTE prophylaxis for first 24-72 hours
+post-procedure, with full dose LMWH resumed 2-3 days post-procedure.
+Day of Surgery/Procedure 
+Figure 1 – Perioperative management of vitamin K antagonists (warfarin). LMWH ¼ low-molecular-weight heparin.
+chestjournal.org e233
+operatively. Figure 2 pertains to patients receiving a
+DOAC and provides guidance on whether to interrupt
+DOAC therapy perioperatively, and if interruption is
+needed, how to interrupt DOAC therapy based on
+surgical/procedural bleed risk in the pre- and post-
+operative period. Figure 3 pertains to patients who are
+Direct Oral
+Anticoagulant
+Procedure
+Bleeding
+Risk
+Pre-Procedure DOAC Interruption Post-Procedure Resumption*
+Day -6 Day -5 Day -4 Day -3 Day -2 Day -1 Day +1 Day +2 Day +3 Day +4
+Apixaban
+High
+Low/Mod
+Dabigatran 
+(CrCl ≥ 50
+ml/min)
+High
+Low/Mod
+Dabigatran
+(CrCl < 50
+ml/min)
+High
+Low/Mod
+Edoxaban High
+Low/Mod
+Rivaroxaban
+High
+Low/Mod
+No DOAC administered that day
+*DOAC can be resumed ~24 hours after low/moderate-bleed-risk procedures, and 48-72 hours after high-bleed-risk 
+procedures. In selected patients at high risk for VTE, low-dose anticoagulants (i.e., enoxaparin, 40 mg daily or 
+dalteparin, 5,000 IU daily) can be given for the first 48-72 hours post-procedure.
+Surgery/Procedure (Day 0)
+Figure 2 – Perioperative management of direct oral anticoagulants (DOACs). CrCl ¼ creatinine clearance.
+ASA continued* 
+Cangrelor** Cangrelor**
+Clopidogrel††
+Prasugrel§
+P2Y12 inhibitors***
+–9 –8 –7 –6 –5 –4 –3 –2 –1 –1–6 h 0 +4–6 h Day +1
+Legend:
+*Based on surgery/procedure bleed risk assessment.
+**Routine use not suggested. If used, initiate within 72 hours from P2Y12  inhibitor discontinuation at dose of 0.75 mg/kg/min;
+resume within 6 hours  post-procedure for minimum of 48 hours and maximum of 7 days total. Very low quality data for
+antiplatelet bridging with glycoprotein IIb/IIIa inhibitors  (e.g., eptifibatide, tirofiban).
+***P2Y12 inhibitors can be resumed within 24 hours post-procedure at a maintenance dose. 
+†For ticagrelor, 3-5 day interruption
+††For clopidogrel, 5 day interruption
+§For prasugrel, 7-10 day interruption.
+Day of Surgery/Procedure 
+Ticagrelor†
+Figure 3 – Perioperative management of antiplatelet drugs. ASA ¼ aspirin.
+e234 Guidelines and Consensus Statements [ 162#5 CHEST NOVEMBER 2022 ]
+receiving antiplatelet therapy and provides guidance on
+the timing of peri-operative interruption and
+resumption based on the type of antiplatelet agent (ie,
+ASA, clopidogrel, prasugrel, ticagrelor).
+Future Research
+Although there have been important advances in the
+perioperative management of anticoagulant and
+antiplatelet therapy, much work remains to bridge
+gaps in knowledge. In VKA-treated patients with a
+mechanical heart valve, there is a need for well-
+designed studies, especia lly randomized trials, to
+f u r t h e ra s s e s st h en e e df o rp e r i o p e r a t i v eh e p a r i n
+bridging during VKA interruption. In DOAC-treated
+patients, there is a need for additional research
+and consensus among clinicians as to safe DOAC
+interruption intervals before neuraxial anesthesia or
+regional nerve block procedures, and for patients with
+severe chronic kidney disease, with a CrCl < 30 mL/
+min. Further research is also needed as to the
+perioperative management of patients who are
+receiving low-dose DOAC regimens, whether in
+combination with ASA for chronic coronary or
+peripheral arterial dise ase or for the secondary
+prevention of VTE and those who are receiving
+antiplatelet monotherapy with a P2Y 12 inhibitor. A
+challenging area of research is the perioperative
+management of antiplatelet drugs, especially in those
+patients with coronary stents who are receiving ASA
+and a P2Y 12 inhibitor, as there are multiple factors
+(timing of stent placement, type of surgery, type of
+antiplatelet therapy) that make it dif ﬁcult to undertake
+randomized trials. In all patient groups, the role of
+perioperative laboratory testing that includes anti-
+factor Xa levels during heparin bridging, DOAC anti-
+factor Xa levels and dilute thrombin time testing,
+antiplatelet function testing, and viscoelastic testing,
+remains uncertain. Resea rch is also needed to inform
+perioperative anticoagulant management of special
+patient populations (eg, those who are dialysis-
+dependent). Finally, although beyond the scope of this
+guideline, research is needed in patients who require
+an urgent/emergency surgery to inform best practices,
+including the role of laboratory and point-of-care
+assays to measure DOAC levels, and the role of
+anticoagulant and antiplat elet reversal strategies.
+Acknowledgments
+Author contributions: J. D. D. and A. C. S. served as the co-principal
+authors; all authors contributed to the development of the guideline
+methodology, analysis of evidence and writing of the manuscript.
+Funding/support: The authors have reported to CHEST that no
+funding was received for this study.
+Financial/nonﬁnancial disclosures: A complete list of the
+panelists’ COI and their management is shown in e-Appendix 1 .
+Other contributions: The authors thank Dr Ioannis Koulas who is
+supported by the Broxmeyer Fellowship in Clinical Thrombosis, as well
+as Jennifer Cookingham, Andrew Dominello, Laura Hyppolite, and
+Ariana McGinn for their assistance with the tables and ﬁgures.
+Additional information: The e-Appendixes are available online under
+"Supplementary Data ."
+References
+1. Spyropoulos AC, Al-Badri A, Sherwood MW, Douketis JD.
+Periprocedural management of patients receiving a vitamin K
+antagonist or a direct oral anticoagulant requiring an elective
+procedure or surgery. J Thromb Haemost . 2016;14(5):875-885 .
+2. Colacci M, Tseng EK, Sacks CA, Fralick M. Oral anticoagulant
+utilization in the United States and United Kingdom. J Gen Intern
+Med. 2020;35(8):2505-2507 .
+3. Omling E, Jarnheimer A, Rose J, Bjork J, Meara JG, Hagander L.
+Population-based incidence rate of inpatient and outpatient
+surgical procedures in a high-income country. Br J Surg .
+2018;105(1):86-95.
+4. Gao L, Tadrous M, Knowles S, et al. Prior authorization and
+Canadian public utilization of direct-acting oral anticoagulants.
+Healthc Policy . 2017;13(2):68-78 .
+5. Proietti M, Laroche C, Opolski G, et al. ‘Real-world’ atrial
+ﬁbrillation management in Europe: observations from the 2-year
+follow-up of the EURObservational Research Programme-Atrial
+Fibrillation General Registry Pilot Phase. Europace. 2017;19(5):
+722-733.
+6. Steinberg BA, Gao H, Shrader P, et al. International trends in
+clinical characteristics and oral anticoagulation treatment for
+patients with atrial ﬁbrillation: results from the GARFIELD-AF,
+ORBIT-AF I, and ORBIT-AF II registries. Am Heart J . 2017;194:
+132-140.
+7. Williams BA, Honushefsky AM, Berger PB. Temporal trends in the
+incidence, prevalence, and survival of patients with atrial
+ﬁbrillation from 2004 to 2016. Am J Cardiol . 2017;120(11):
+1961-1965.
+8. Healey JS, Eikelboom J, Douketis J, et al. Periprocedural bleeding
+and thromboembolic events with dabigatran compared with
+warfarin: results from the Randomized Evaluation of Long-Term
+Anticoagulation Therapy (RE-LY) randomized trial. Circulation.
+2012;126(3):343-348.
+9. Zulkiﬂy H, Lip GYH, Lane DA. Epidemiology of atrial ﬁbrillation.
+Int J Clin Pract . 2018;72(3):e13070 .
+10. Sherwood MW, Douketis JD, Patel MR, et al. Outcomes of
+temporary interruption of rivaroxaban compared with warfarin in
+patients with nonvalvular atrial ﬁbrillation: results from the
+rivaroxaban once daily, oral, direct factor Xa inhibition compared
+with vitamin K antagonism for prevention of stroke and embolism
+trial in atrial ﬁbrillation (ROCKET AF). Circulation. 2014;129(18):
+1850-1859.
+11. Kristensen SD, Knuuti J, Saraste A, et al. 2014 ESC/ESA guidelines
+on non-cardiac surgery: cardiovascular assessment and
+management: the Joint Task Force on non-cardiac surgery:
+cardiovascular assessment and management of the European
+Society of Cardiology (ESC) and the European Society of
+Anaesthesiology (ESA). Eur Heart J . 2014;35(35):2383-2431 .
+12. Cruden NL, Harding SA, Flapan AD, et al. Previous coronary stent
+implantation and cardiac events in patients undergoing noncardiac
+surgery. Circ Cardiovasc Interv . 2010;3(3):236-242 .
+13. Douketis JD, Berger PB, Dunn AS, et al. The perioperative
+management of antithrombotic therapy: American College of Chest
+Physicians Evidence-Based Clinical Practice Guidelines (8th
+Edition). Chest. 2008;133(suppl 6):299S-339S .
+chestjournal.org e235
+14. Douketis JD, Spyropoulos AC, Spencer FA, et al. Perioperative
+management of antithrombotic therapy: Antithrombotic Therapy
+and Prevention of Thrombosis, 9th ed: American College of Chest
+Physicians Evidence-Based Clinical Practice Guidelines. Chest.
+2012;141(suppl 2):e326S-e350S .
+15. Barnes GD, Ageno W, Ansell J, Kaatz S. Recommendation on the
+nomenclature for oral anticoagulants: communication from the
+SSC of the ISTH: reply. J Thromb Haemost . 2015;13(11):2132-2133.
+16. Spencer NH, Sardo LA, Cordell JP, Douketis JD. Structure and
+function of a perioperative anticoagulation management clinic.
+Thromb Res . 2019;182:167-174 .
+17. Dager WE, Ansell J, Barnes GD, et al. Reduce the Likelihood of
+Patient Harm Associated with the Use of Anticoagulant Therapy":
+Commentary from the Anticoagulation Forum on the Updated
+Joint Commission NPSG.03.05.01 Elements of Performance. Jt
+Comm J Qual Patient Saf . 2020;46(3):173-180 .
+18. Lewis SZ, Diekemper R, Ornelas J, Casey KR. Methodologies for
+the development of CHEST guidelines and expert panel reports.
+Chest. 2014;146(1):182-192 .
+19. Holbrook A, Schulman S, Witt DM, et al. Evidence-based
+management of anticoagulant therapy: Antithrombotic Therapy
+and Prevention of Thrombosis, 9th ed: American College of Chest
+Physicians Evidence-Based Clinical Practice Guidelines. Chest.
+2012;141(suppl 2):e152S-e184S .
+20. Levy JH, Spyropoulos AC, Samama CM, Douketis J. Direct oral
+anticoagulants: new drugs and new concepts. JACC Cardiovasc
+Interv. 2014;7(12):1333-1351 .
+21. Douketis JD. Pharmacologic properties of the new oral
+anticoagulants: a clinician-oriented review with a focus on
+perioperative management. Current Pharm Des . 2010;16(31):
+3436-3441.
+22. Hirsh J, Raschke R. Heparin and low-molecular-weight heparin: the
+Seventh ACCP Conference on Antithrombotic and Thrombolytic
+Therapy. Chest. 2004;126(suppl 3):188S-203S .
+23. Siegal D, Yudin J, Kaatz S, Douketis JD, Lim W, Spyropoulos AC.
+Periprocedural heparin bridging in patients receiving vitamin K
+antagonists: systematic review and meta-analysis of bleeding and
+thromboembolic rates. Circulation. 2012;126(13):1630-1639 .
+24. Anderson DR, Morgano GP, Bennett C, et al. American Society of
+Hematology 2019 guidelines for management of venous
+thromboembolism: prevention of venous thromboembolism in
+surgical hospitalized patients. Blood Adv . 2019;3(23):3898-3944 .
+25. Spyropoulos AC, Brohi K, Caprini J, et al. Scienti ﬁc and
+Standardization Committee Communication: guidance document
+on the periprocedural management of patients on chronic oral
+anticoagulant therapy: recommendations for standardized
+reporting of procedural/surgical bleed risk and patient-speci ﬁc
+thromboembolic risk. J Thromb Haemost . 2019;17(11):1966-1972 .
+26. Levy JH, Douketis J, Weitz JI. Reversal agents for non-vitamin K
+antagonist oral anticoagulants. Nat Rev Cardiol . 2018;15(5):
+273-281.
+27. Douketis JD, Healey JS, Brueckmann M, et al. Urgent surgery or
+procedures in patients taking dabigatran or warfarin: analysis of
+perioperative outcomes from the RE-LY trial. Thromb Res .
+2016;139:77-81.
+28. Levy JH, Ageno W, Chan NC, et al. When and how to use antidotes
+for the reversal of direct oral anticoagulants: guidance from the SSC
+of the ISTH. J Thromb Haemost . 2016;14(3):623-627 .
+29. Hart RG, Benavente O, McBride R, Pearce LA. Antithrombotic
+therapy to prevent stroke in patients with atrial ﬁbrillation: a meta-
+analysis. Ann Intern Med . 1999;131(7):492-501 .
+30. Pearce LA, Hart RG, Halperin JL. Assessment of three schemes for
+stratifying stroke risk in patients with nonvalvular atrial ﬁbrillation.
+Am J Med . 2000;109(1):54. 51 .
+31. Gage BF, Fihn SD, White RH. Warfarin therapy for an
+octogenarian who has atrial ﬁbrillation. Ann Intern Med .
+2001;134(6):465-474.
+32. Gage BF, van Walraven C, Pearce L, et al. Selecting patients with
+atrial ﬁbrillation for anticoagulation: stroke risk strati ﬁcation in
+patients taking aspirin. Circulation. 2004;110(16):2287-2292 .
+33. Cannegieter SC, Rosendaal FR, Briet E. Thromboembolic and
+bleeding complications in patients with mechanical heart valve
+prostheses. Circulation. 1994;89(2):635-641 .
+34. Hering D, Piper C, Bergemann R, et al. Thromboembolic and
+bleeding complications following St. Jude medical valve
+replacement: results of the German Experience with Low-Intensity
+Anticoagulation Study. Chest. 2005;127(1):53-59 .
+35. Tominaga R, Kurisu K, Ochiai Y, et al. A 10-year experience with
+the Carbomedics cardiac prosthesis. Ann Thorac Surg . 2005;79(3):
+784-789.
+36. Douketis JD, Foster GA, Crowther MA, Prins MH, Ginsberg JS.
+Clinical risk factors and timing of recurrent venous
+thromboembolism during the initial 3 months of anticoagulant
+therapy. Arch Intern Med . 2000;160(22):3431-3436 .
+37. White R. The epidemiology of venous thromboembolism.
+Circulation. 2003;107(23 suppl 1):14-18 .
+38. Kyrle PA, Eichinger S. Deep vein thrombosis. Lancet.
+2005;365(9465):1163-1174.
+39. Mehta SR, Bainey KR, Cantor WJ, et al. 2018 Canadian
+Cardiovascular Society/Canadian Association of Interventional
+Cardiology Focused Update of the Guidelines for the Use of
+Antiplatelet Therapy. Can J Cardiol . 2018;34(3):214-233 .
+40. Valgimigli M, Bueno H, Byrne RA, et al. 2017 ESC focused update
+on dual antiplatelet therapy in coronary artery disease developed in
+collaboration with EACTS: the Task Force for dual antiplatelet
+therapy in coronary artery disease of the European Society of
+Cardiology (ESC) and of the European Association for Cardio-
+Thoracic Surgery (EACTS). Eur Heart J . 2018;39(3):213-260 .
+41. Leary MC, Varade P. Perioperative stroke. Curr Neurol Neurosci
+Rep. 2020;20(5):12 .
+42. Weiss AJ, Svensson LG, Bakaeen FG. Temporal improvements in
+perioperative stroke rates following coronary artery bypass grafting.
+Curr Opin Cardiol . 2020;35(6):679-686 .
+43. Kaatz S, Douketis JD, Zhou H, Gage BF, White RH. Risk of stroke
+after surgery in patients with and without chronic atrial ﬁbrillation.
+J Thromb Haemost . 2010;8(5):884-890 .
+44. Chen AT, Patel M, Douketis JD. Perioperative management of
+antithrombotic therapy: a case-based narrative review. Intern
+Emerg Med . 2022;17(1):25-35 .
+45. Shaw JR, Kaplovitch E, Douketis J. Periprocedural management of
+oral anticoagulation. Med Clin North Am . 2020;104(4):709-726 .
+46. Jamula E, Anderson J, Douketis JD. Safety of continuing warfarin
+therapy during cataract surgery: a systematic review and meta-
+analysis. Thromb Res . 2009;124(3):292-299 .
+47. Nematullah A, Alabousi A, Blanas N, et al. Dental surgery for
+patients on anticoagulant therapy with warfarin: a systematic
+review and meta-analysis. J Can Dent Assoc . 2009;75(1):41 .
+48. Jamula E, Lloyd NS, Schwalm JD, Airaksinen KE, Douketis JD.
+Safety of uninterrupted anticoagulation in patients requiring
+elective coronary angiography with or without percutaneous
+coronary intervention: a systematic review and metaanalysis. Chest.
+2010;138(4):840-847.
+49. Palamaras I, Semkova K. Perioperative management of and
+recommendations for antithrombotic medications in
+dermatological surgery. Br J Dermatol . 2015;172(3):597-605 .
+50. Jamula E, Douketis JD, Schulman S. Perioperative anticoagulation
+in patients having implantation of a cardiac pacemaker or
+deﬁbrillator: a systematic review and practical management guide.
+J Thromb Haemost . 2008;6(10):1615-1621 .
+51. Narouze S, Benzon HT, Provenzano D, et al. Interventional Spine
+and Pain Procedures in Patients on Antiplatelet and Anticoagulant
+Medications (Second Edition): guidelines from the American
+Society of Regional Anesthesia and Pain Medicine, the European
+Society of Regional Anaesthesia and Pain Therapy, the American
+Academy of Pain Medicine, the International Neuromodulation
+Society, the North American Neuromodulation Society, and the
+World Institute of Pain. Reg Anesth Pain Med . 2018;43(3):225-262.
+52. Bateman BT, Mhyre JM, Ehrenfeld J, et al. The risk and outcomes
+of epidural hematomas after perioperative and obstetric epidural
+e236 Guidelines and Consensus Statements [ 162#5 CHEST NOVEMBER 2022 ]
+catheterization: a report from the Multicenter Perioperative
+Outcomes Group Research Consortium. Anesth Analg .
+2013;116(6):1380-1385.
+53. Abayon M, Kolokythas A, Harrison S, Elad S. Dental management
+of patients on direct oral anticoagulants: case series and literature
+review. Quintessence Int . 2016;47(8):687-696 .
+54. Feagins LA. Colonoscopy, polypectomy, and the risk of bleeding.
+Med Clin North Am . 2019;103(1):125-135 .
+55. Zollinger RM Jr. An updated traditional classi ﬁcation of inguinal
+hernias. Hernia. 2004;8(4):318-322 .
+56. Kovacs MJ, Kearon C, Rodger M, et al. Single-arm study of
+bridging therapy with low-molecular-weight heparin for patients at
+risk of arterial embolism who require temporary interruption of
+warfarin. Circulation. 2004;110(12):1658-1663 .
+57. Douketis JD, Frere C, Farge D; International Thrombosis and
+Cancer Initiative members. 2019 International clinical practice
+guidelines for the treatment of venous thromboembolism —
+authors’ reply. Lancet Oncol . 2019;20(12):e656 .
+58. D’Astous J, Liederman Z, Douketis JD. Venous thromboembolism
+prophylaxis in high-risk orthopedic and cancer surgery. Postgrad
+Med. 2021;133(suppl 1):20-26 .
+59. Kataruka A, Renner E, Barnes GD. Evaluating the role of clinical
+pharmacists in pre-procedural anticoagulation management. Hosp
+Pract (1995) . 2018;46(1):16-21 .
+60. Mihalj M, Carrel T, Gregoric ID, et al. Telemedicine for
+preoperative assessment during a COVID-19 pandemic:
+recommendations for clinical care. Best Pract Res Clin Anaesthesiol .
+2020;34(2):345-351.
+61. Flaker GC, Theriot P, Binder LG, Dobesh PP, Cuker A,
+Doherty JU. Management of periprocedural anticoagulation: a
+survey of contemporary practice. JA mC o l lC a r d i o l. 2016;68(2):
+217-226.
+62. Douketis JD, Syed S, Li N, et al. A physician survey of perioperative
+neuraxial anesthesia management in patients on a direct oral
+anticoagulant. Res Pract Thromb Haemost . 2021;5(1):159-167 .
+63. Kurlander JE, Barnes GD, Anderson MA, et al. Mind the gap:
+results of a multispecialty survey on coordination of care for peri-
+procedural anticoagulation. J Thromb Thrombolysis . 2018;45(3):
+403-409.
+64. Broderick JP, Bonomo JB, Kissela BM, et al. Withdrawal of
+antithrombotic agents and its impact on ischemic stroke
+occurrence. Stroke. 2011;42(9):2509-2514 .
+65. Steinberg BA, Hellkamp AS, Lokhnygina Y, et al. Use and
+outcomes of antiarrhythmic therapy in patients with atrial
+ﬁbrillation receiving oral anticoagulation: results from the
+ROCKET AF trial. Heart Rhythm . 2014;11(6):925-932 .
+66. Guyatt GH, Oxman AD, Kunz R, et al. Going from evidence to
+recommendations. BMJ. 2008;336(7652):1049-1051 .
+67. Alonso-Coello P, Oxman AD, Moberg J, et al. GRADE Evidence to
+Decision (EtD) frameworks: a systematic and transparent approach
+to making well informed healthcare choices. 2: clinical practice
+guidelines. BMJ. 2016;353:i2089 .
+68. Higgins JP, Altman DG, Gotzsche PC, et al. The Cochrane
+Collaboration’s tool for assessing risk of bias in randomised trials.
+BMJ. 2011;343:d5928 .
+69. Jones J, Hunter D. Consensus methods for medical and health
+services research. BMJ. 1995;311(7001):376-380 .
+70. Ansell J, Hirsh J, Hylek E, Jacobson A, Crowther M, Palareti G.
+Pharmacology and management of the vitamin K antagonists:
+American College of Chest Physicians Evidence-Based Clinical
+Practice Guidelines (8th Edition). Chest. 2008;133(suppl 6):
+160S-198S.
+71. Palareti G, Legnani C. Warfarin withdrawal. Pharmacokinetic-
+pharmacodynamic considerations. Clin Pharmacokinet. 1996;30(4):
+300-313.
+72. Ufer M. Comparative pharmacokinetics of vitamin K antagonists:
+warfarin, phenprocoumon and acenocoumarol. Clin
+Pharmacokinet. 2005;44(12):1227-1246 .
+73. Gadisseur AP, van der Meer FJ, Adriaansen HJ, Fihn SD,
+Rosendaal FR. Therapeutic quality control of oral anticoagulant
+therapy comparing the short-acting acenocoumarol and the long-
+acting phenprocoumon. Br J Haematol . 2002;117(4):940-946 .
+74. Hylek EM, Regan S, Go AS, Hughes RA, Singer DE, Skates SJ.
+Clinical predictors of prolonged delay in return of the international
+normalized ratio to within the therapeutic range after excessive
+anticoagulation with warfarin. Ann Intern Med . 2001;135(6):
+393-400.
+75. Kamali F, Wynne H. Pharmacogenetics of warfarin. Annu Rev
+Med. 2010;61:63-75 .
+76. Douketis JD, Spyropoulos AC, Kaatz S, et al. Perioperative bridging
+anticoagulation in patients with atrial ﬁbrillation. N Engl J Med .
+2015;373(9):823-833.
+77. Selim M. Perioperative stroke. N Engl J Med . 2007;356(7):706-713 .
+78. White RH, McKittrick T, Hutchinson R, Twitchell J. Temporary
+discontinuation of warfarin therapy: changes in the international
+normalized ratio. Ann Intern Med . 1995;122(1):40-42 .
+79. Steib A, Barre J, Mertes M, et al. Can oral vitamin K before elective
+surgery substitute for preoperative heparin bridging in patients on
+vitamin K antagonists? J Thromb Haemost . 2010;8(3):499-503 .
+80. Douketis JD, Murphy SA, Antman EM, et al. Peri-operative adverse
+outcomes in patients with atrial ﬁbrillation taking warfarin or
+edoxaban: analysis of the ENGAGE AF-TIMI 48 Trial. Thromb
+Haemost. 2018;118(6):1001-1008 .
+81. Garcia DA, Regan S, Henault LE, et al. Risk of thromboembolism
+with short-term interruption of warfarin therapy. Arch Intern Med .
+2008;168(1):63-69.
+82. Qureshi AI, Jahangir N, Malik AA, Afzal MR, Or ﬁ F, Suri MF. Risk
+of ischemic stroke in high risk atrial ﬁbrillation patients during
+periods of warfarin discontinuation for surgical procedures.
+Cerebrovasc Dis . 2016;42(5-6):346-351 .
+83. Constans M, Santamaria A, Mateo J, Pujol N, Souto JC,
+Fontcuberta J. Low-molecular-weight heparin as bridging therapy
+during interruption of oral anticoagulation in patients who
+require colonoscopy or gastroscopy. Int J Clin Pract . 2007;61(2):
+212-217.
+84. Daniels PR, McBane RD, Litin SC, et al. Peri-procedural
+anticoagulation management of mechanical prosthetic heart valve
+patients. Thromb Res . 2009;124(3):300-305 .
+85. Garcia D, Alexander JH, Wallentin L, et al. Management and
+clinical outcomes in patients treated with apixaban vs warfarin
+undergoing procedures. Blood. 2014;124(25):3692-3698 .
+86. Hammerstingl C, Tripp C, Schmidt H, et al. Periprocedural
+bridging therapy with low-molecular-weight heparin in chronically
+anticoagulated patients with prosthetic mechanical heart valves:
+experience in 116 patients from the prospective BRAVE registry.
+J Heart Valve Dis . 2007;16(3):285-292 .
+87. Malato A, Saccullo G, Lo Coco L, et al. Patients requiring
+interruption of long-term oral anticoagulant therapy: the use of
+ﬁxed sub-therapeutic doses of low-molecular-weight heparin.
+J Thromb Haemost . 2010;8(1):107-113 .
+88. Pengo V, Cucchini U, Denas G, et al. Standardized low-molecular-
+weight heparin bridging regimen in outpatients on oral
+anticoagulants undergoing invasive procedure or surgery: an
+inception cohort management study. Circulation. 2009;119(22):
+2920-2927.
+89. Tinker JH, Tarhan S. Discontinuing anticoagulant therapy in
+surgical patients with cardiac valve prostheses. Observations in 180
+operations. JAMA. 1978;239(8):738-739 .
+90. Tinmouth AH, Morrow BH, Cruickshank MK, Moore PM,
+Kovacs MJ. Dalteparin as periprocedure anticoagulation for
+patients on warfarin and at high risk of thrombosis. Ann
+Pharmacother. 2001;35(6):669-674 .
+91. Witt DM, Delate T, McCool KH, et al. Incidence and predictors of
+bleeding or thrombosis after polypectomy in patients receiving and
+not receiving anticoagulation therapy. J Thromb Haemost .
+2009;7(12):1982-1989.
+chestjournal.org e237
+92. Wysokinski WE, McBane RD, Daniels PR, et al. Periprocedural
+anticoagulation management of patients with nonvalvular atrial
+ﬁbrillation. Mayo Clin Proc . 2008;83(6):639-645 .
+93. Spandorfer JM, Lynch S, Weitz HH, et al. Use of enoxaparin for the
+chronically anticoagulated patient before and after procedures. Am
+J Cardiol . 1999;84(4):478-480. A410 .
+94. Spyropoulos AC, Jenkins P, Bornikova L. A disease management
+protocol for outpatient perioperative bridge therapy with
+enoxaparin in patients requiring temporary interruption of long-
+term oral anticoagulation. Pharmacotherapy. 2004;24(5):649-658 .
+95. Douketis JD, Johnson JA, Turpie AG. Low-molecular-weight
+heparin as bridging anticoagulation during interruption of
+warfarin: assessment of a standardized periprocedural
+anticoagulation regimen. Arch Intern Med . 2004;164(12):
+1319-1326.
+96. Beldi G, Beng L, Siegel G, Bisch-Knaden S, Candinas D. Prevention
+of perioperative thromboembolism in patients with atrial
+ﬁbrillation. Br J Surg . 2007;94(11):1351-1355 .
+97. Schulman S, Hwang HG, Eikelboom JW, Kearon C, Pai M,
+Delaney J. Loading dose vs. maintenance dose of warfarin for
+reinitiation after invasive procedures: a randomized trial. J Thromb
+Haemost. 2014;12(8):1254-1259 .
+98. Bungard TJ, Mutch J, Ritchie B. A randomized trial of restarting
+warfarin at maintenance versus loading doses following an elective
+procedure. J Thromb Thrombolysis . 2017;44(4):507-515 .
+99. Woods K, Douketis JD, Kathirgamanathan K, Yi Q, Crowther MA.
+Low-dose oral vitamin K to normalize the international normalized
+ratio prior to surgery in patients who require temporary
+interruption of warfarin. J Thromb Thrombolysis . 2007;24(2):93-97.
+100. Shields RC, McBane RD, Kuiper JD, Li H, Heit JA. Ef ﬁcacy and
+safety of intravenous phytonadione (vitamin K1) in patients on
+long-term oral anticoagulant therapy. Mayo Clin Proc . 2001;76(3):
+260-266.
+101. Tsu LV, Dienes JE, Dager WE. Vitamin K dosing to reverse
+warfarin based on INR, route of administration, and home warfarin
+dose in the acute/critical care setting. Ann Pharmacother .
+2012;46(12):1617-1626.
+102. Kulig CE, Roberts AJ, Rowe AS, Kim H, Dager WE. INR response
+to low-dose vitamin K in warfarin patients. Ann Pharmacother .
+2021;55(10):1223-1229.
+103. Polito NB, Kanouse E, Jones CMC, McCann M, Refaai MA,
+Acquisto NM. Effect of vitamin K administration on rate of
+warfarin reversal. Transfusion. 2019;59(4):1202-1208 .
+104. Meehan R, Tavares M, Sweeney J. Clinical experience with oral
+versus intravenous vitamin K for warfarin reversal. Transfusion.
+2013;53(3):491-498. quiz 490 .
+105. Kovacs MJ, Wells PS, Anderson DR, et al. Postoperative low
+molecular weight heparin bridging treatment for patients at high
+risk of arterial thromboembolism (PERIOP2): double blind
+randomised controlled trial. BMJ. 2021;373:n1205 .
+106. Steinberg BA, Peterson ED, Kim S, et al. Use and outcomes
+associated with bridging during anticoagulation interruptions in
+patients with atrial ﬁbrillation: ﬁndings from the Outcomes
+Registry for Better Informed Treatment of Atrial Fibrillation
+(ORBIT-AF). Circulation. 2015;131(5):488-494 .
+107. Bui HT, Krisnaswami A, Le CU, Chan J, Shenoy BN. Comparison
+of safety of subcutaneous enoxaparin as outpatient anticoagulation
+bridging therapy in patients with a mechanical heart valve versus
+patients with nonvalvular atrial ﬁbrillation. Am J Cardiol .
+2009;104(10):1429-1433.
+108. Ferreira I, Dos L, Tornos P, Nicolau I, Permanyer-Miralda G, Soler-
+Soler J. Experience with enoxaparin in patients with mechanical
+heart valves who must withhold acenocumarol. Heart. 2003;89(5):
+527-530.
+109. Spyropoulos AC, Turpie AG, Dunn AS, et al. Perioperative bridging
+therapy with unfractionated heparin or low-molecular-weight
+heparin in patients with mechanical prosthetic heart valves on
+long-term oral anticoagulants (from the REGIMEN Registry). Am J
+Cardiol. 2008;102(7):883-889 .
+110. Douketis JD, Healey JS, Brueckmann M, et al. Perioperative
+bridging anticoagulation during dabigatran or warfarin
+interruption among patients who had an elective surgery or
+procedure. Substudy of the RE-LY trial. Thromb Haemost .
+2015;113(3):625-632.
+111. Barnes GD, Li Y, Gu X, et al. Periprocedural bridging
+anticoagulation in patients with venous thromboembolism: a
+registry-based cohort study. J Thromb Haemost . 2020;18(8):
+2025-2030.
+112. McBane RD, Wysokinski WE, Daniels PR, et al. Periprocedural
+anticoagulation management of patients with venous
+thromboembolism. Arterioscler Thromb Vasc Biol . 2010;30(3):
+442-448.
+113. Clark NP, Witt DM, Davies LE, et al. Bleeding, recurrent venous
+thromboembolism, and mortality risks during warfarin
+interruption for invasive procedures. JAMA Intern Med .
+2015;175(7):1163-1168.
+114. Tafur AJ, Wysokinski WE, McBane RD, et al. Cancer effect on
+periprocedural thromboembolism and bleeding in anticoagulated
+patients. Ann Oncol . 2012;23(8):1998-2005 .
+115. Skeith L, Taylor J, Lazo-Langner A, Kovacs MJ. Conservative
+perioperative anticoagulation management in patients with chronic
+venous thromboembolic disease: a cohort study. J Thromb
+Haemost. 2012;10(11):2298-2304 .
+116. Wysokinska EM, Wysokinski WE, Ketha S, et al. Periprocedural
+anticoagulation management of patients with thrombophilia. Am J
+Med. 2016;129(9):986-992 .
+117. Baumgartner C, de Kouchkovsky I, Whitaker E, Fang MC.
+Periprocedural bridging in patients with venous thromboembolism:
+a systematic review. Am J Med . 2019;132(6):722-732.e7 .
+118. Douketis JD, Kearon C, Bates S, Duku EK, Ginsberg JS. Risk of fatal
+pulmonary embolism in patients with treated venous
+thromboembolism. JAMA. 1998;279(6):458-462 .
+119. Halbritter KM, Wawer A, Beyer J, Oettler W, Schellong SM.
+Bridging anticoagulation for patients on long-term vitamin-K-
+antagonists. A prospective 1 year registry of 311 episodes. J Thromb
+Haemost. 2005;3(12):2823-2825 .
+120. Jaffer AK, Ahmed M, Brotman DJ, et al. Low-molecular-weight-
+heparins as periprocedural anticoagulation for patients on long-
+term warfarin therapy: a standardized bridging therapy protocol.
+J Thromb Thrombolysis . 2005;20(1):11-16 .
+121. Yong JW, Yang LX, Ohene BE, Zhou YJ, Wang ZJ. Periprocedural
+heparin bridging in patients receiving oral anticoagulation: a
+systematic review and meta-analysis. BMC Cardiovasc Disord .
+2017;17(1):295.
+122. Attaya H, Wysokinski WE, Bower T, et al. Three-month cumulative
+incidence of thromboembolism and bleeding after periprocedural
+anticoagulation management of arterial vascular bypass patients.
+J Thromb Thrombolysis . 2013;35(1):100-106 .
+123. Borea G, Montebugnoli L, Capuzzi P, Magelli C. Tranexamic acid
+as a mouthwash in anticoagulant-treated patients undergoing oral
+surgery. An alternative method to discontinuing anticoagulant
+therapy. Oral Surg Oral Med Oral Pathol . 1993;75(1):29-31 .
+124. Evans IL, Sayers MS, Gibbons AJ, Price G, Snooks H, Sugar AW.
+Can warfarin be continued during dental extraction? Results of a
+randomized controlled trial. Br J Oral Maxillofac Surg . 2002;40(3):
+248-252.
+125. Sacco R, Sacco M, Carpenedo M, Moia M. Oral surgery in patients
+on oral anticoagulant therapy: a randomized comparison of
+different INR targets. J Thromb Haemost . 2006;4(3):688-689 .
+126. Al-Belasy FA, Amer MZ. Hemostatic effect of n-butyl-2-
+cyanoacrylate (histoacryl) glue in warfarin-treated patients
+undergoing oral surgery. J Oral Maxillofac Surg . 2003;61(12):
+1405-1409.
+127. Carter G, Goss A. Tranexamic acid mouthwash — a prospective
+randomized study of a 2-day regimen vs 5-day regimen to prevent
+postoperative bleeding in anticoagulated patients requiring dental
+extractions. Int J Oral Maxillofac Surg . 2003;32(5):504-507 .
+128. Carter G, Goss A, Lloyd J, Tocchetti R. Tranexamic acid
+mouthwash versus autologous ﬁbrin glue in patients taking
+e238 Guidelines and Consensus Statements [ 162#5 CHEST NOVEMBER 2022 ]
+warfarin undergoing dental extractions: a randomized prospective
+clinical study. J Oral Maxillofac Surg . 2003;61(12):1432-1435 .
+129. Halfpenny W, Fraser JS, Adlam DM. Comparison of 2 hemostatic
+agents for the prevention of postextraction hemorrhage in patients
+on anticoagulants. Oral Surg Oral Med Oral Pathol Oral Radiol
+Endod. 2001;92(3):257-259 .
+130. Ramstrom G, Sindet-Pedersen S, Hall G, Blomback M, Alander U.
+Prevention of postsurgical bleeding in oral surgery using
+tranexamic acid without dose modi ﬁcation of oral anticoagulants.
+J Oral Maxillofac Surg . 1993;51(11):1211-1216 .
+131. Bajkin BV, Popovic SL, Selakovic SD, Bajkin BV, Popovic SL,
+Selakovic SDJ. Randomized, prospective trial comparing bridging
+therapy using low-molecular-weight heparin with maintenance of
+oral anticoagulation during extraction of teeth. J Oral Maxillofac
+Surg. 2009;67(5):990-995 .
+132. Cannon PD, Dharmar VT. Minor oral surgical procedures in
+patients on oral anticoagulants — a controlled study. Aust Dent J .
+2003;48(2):115-118.
+133. Devani P, Lavery KM, Howell CJ. Dental extractions in patients on
+warfarin: is alteration of anticoagulant regime necessary? Br J Oral
+Maxillofac Surg . 1998;36(2):107-111 .
+134. Gaspar R, Brenner B, Ardekian L, Peled M, Laufer D. Use of
+tranexamic acid mouthwash to prevent postoperative bleeding in
+oral surgery patients on oral anticoagulant medication.
+Quintessence Int . 1997;28(6):375-379 .
+135. Saour JN, Ali HA, Mammo LA, Sieck JO. Dental procedures in
+patients receiving oral anticoagulation therapy. J Heart Valve Dis .
+1994;3(3):315-317.
+136. Street AM, Leung W. Use of tranexamic acid mouthwash in dental
+procedures in patients taking oral anticoagulants. Med J Aust .
+1990;153(10):630.
+137. Zanon E, Martinelli F, Bacci C, Cordioli G, Girolami A. Safety of
+dental extraction among consecutive patients on oral anticoagulant
+treatment managed using a speci ﬁc dental management protocol.
+Blood Coagul Fibrinolysis . 2003;14(1):27-30 .
+138. Blinder D, Manor Y, Martinowitz U, Taicher S. Dental extractions
+in patients maintained on oral anticoagulant therapy: comparison
+of INR value with occurrence of postoperative bleeding. Int J Oral
+Maxillofac Surg . 2001;30(6):518-521 .
+139. Della Valle A, Sammartino G, Marenzi G, et al. Prevention of
+postoperative bleeding in anticoagulated patients undergoing oral
+surgery: use of platelet-rich plasma gel. J Oral Maxillofac Surg .
+2003;61(11):1275-1278.
+140. Martinowitz U, Mazar AL, Taicher S, et al. Dental extraction for
+patients on oral anticoagulant therapy. Oral Surg Oral Med Oral
+Pathol. 1990;70(3):274-277 .
+141. Ramli R, Rahman RA. Minor oral surgery in anticoagulated
+patients: local measures alone are suf ﬁcient for haemostasis.
+Singapore Dental J . 2005;27(1):13-16 .
+142. Russo G, Corso LD, Biasiolo A, Berengo M, Pengo V. Simple and
+safe method to prepare patients with prosthetic heart valves for
+surgical dental procedures. Clin Appl Thromb Hemost . 2000;6(2):
+90-93.
+143. Zusman SP, Lustig JP, Baston I. Postextraction hemostasis in
+patients on anticoagulant therapy: the use of a ﬁbrin sealant.
+Quintessence Int . 1992;23(10):713-716 .
+144. Keiani Motlagh K, Loeb I, Legrand W, Daelemans P, Van Reck J.
+Prevention of postoperative bleeding in patients taking oral
+anticoagulants. Effects of tranexamic acid [in French]. Rev Stomatol
+Chir Maxillofac . 2003;104(2):77-79 .
+145. Garcia-Darennes F, Darennes J, Freidel M, Breton P. Protocol for
+adapting treatment with vitamin K antagonists before dental
+extraction [in French]. Rev Stomatol Chir Maxillofac . 2003;104(2):
+69-72.
+146. Morimoto Y, Niwa H, Minematsu K, Morimoto Y, Niwa H,
+Minematsu K. Hemostatic management of tooth extractions in
+patients on oral antithrombotic therapy. J Oral Maxillofac Surg .
+2008;66(1):51-57.
+147. Campbell JH, Alvarado F, Murray RA. Anticoagulation and minor
+oral surgery: should the anticoagulation regimen be altered? J Oral
+Maxillofac Surg . 2000;58(2):131-135; discussion 135-136 .
+148. Bodner L, Weinstein JM, Baumgarten AK. Ef ﬁcacy of ﬁbrin sealant
+in patients on various levels of oral anticoagulant undergoing oral
+surgery. Oral Surg Oral Med Oral Pathol Oral Radiol Endod .
+1998;86(4):421-424.
+149. de Andrade NK, Motta RHL, Bergamaschi CC, et al. Bleeding risk
+in patients using oral anticoagulants undergoing surgical
+procedures in dentistry: a systematic review and meta-analysis.
+Front Pharmacol . 2019;10:866 .
+150. Owattanapanich D, Ungprasert P, Owattanapanich W. Ef ﬁcacy of
+local tranexamic acid treatment for prevention of bleeding after
+dental procedures: a systematic review and meta-analysis. J Dent
+Sci. 2019;14(1):21-26 .
+151. Alcalay J. Cutaneous surgery in patients receiving warfarin therapy.
+Dermatol Surg . 2001;27(8):756-758 .
+152. Billingsley EM, Maloney ME. Intraoperative and postoperative
+bleeding problems in patients taking warfarin, aspirin, and
+nonsteroidal antiin ﬂammatory agents. A prospective study.
+Dermatol Surg . 1997;23(5):381-383; discussion 384-385 .
+153. Kargi E, Babuccu O, Hosnuter M, Babuccu B, Altinyazar C.
+Complications of minor cutaneous surgery in patients under
+anticoagulant treatment. Aesthetic Plast Surg . 2002;26(6):483-485 .
+154. Syed S, Adams BB, Liao W, Pipitone M, Gloster H. A prospective
+assessment of bleeding and international normalized ratio in
+warfarin-anticoagulated patients having cutaneous surgery. JA m
+Acad Dermatol . 2004;51(6):955-957 .
+155. Konstantatos A. Anticoagulation and cataract surgery: a review of
+the current literature. Anaesth Intensive Care . 2001;29(1):11-18 .
+156. Makuloluwa AK, Tiew S, Briggs M. Peri-operative management of
+ophthalmic patients on anti-thrombotic agents: a literature review.
+Eye (Lond) . 2019;33(7):1044-1059 .
+157. Hirschman DR, Morby LJ, Hirschman DR, Morby LJ. A study of
+the safety of continued anticoagulation for cataract surgery
+patients. Nursing Forum . 2006;41(1):30-37 .
+158. Kallio H, Paloheimo M, Maunuksela EL. Haemorrhage and risk
+factors associated with retrobulbar/peribulbar block: a prospective
+study in 1383 patients. Br J Anaesth . 2000;85(5):708-711 .
+159. Katz J, Feldman MA, Bass EB, et al. Risks and bene ﬁts of
+anticoagulant and antiplatelet medication use before cataract
+surgery. Ophthalmology. 2003;110(9):1784-1788 .
+160. Lumme P, Laatikainen LT. Risk factors for intraoperative and early
+postoperative complications in extracapsular cataract surgery. Eur J
+Ophthalmol. 1994;4(3):151-158 .
+161. Rotenstreich Y, Rubowitz A, Segev F, Jaeger-Roshu S, Assia EI.
+Effect of warfarin therapy on bleeding during cataract surgery.
+J Cataract Refract Surg . 2001;27(9):1344-1346 .
+162. Kumar N, Jivan S, Pulpa V, Butler J, Khan MY. Intraoperative eye
+position after sub-Tenon ’s anesthesia for cataract surgery. Can J
+Ophthalmol. 2006;41(4):476-480 .
+163. Jonas JB, Pakdaman B, Sauder G. Cataract surgery under systemic
+anticoagulant therapy with coumarin. Eur J Ophthalmol .
+2006;16(1):30-32.
+164. Barequet IS, Sachs D, Priel A, et al. Phacoemulsi ﬁcation of cataract
+in patients receiving Coumadin therapy: ocular and hematologic
+risk assessment. Am J Ophthalmol . 2007;144(5):719-723 .
+165. Kumar N, Jivan S, Thomas P, McLure H. Sub-Tenon ’s anesthesia
+with aspirin, warfarin, and clopidogrel. J Cataract Refract Surg .
+2006;32(6):1022-1025.
+166. Robinson GA, Nylander A. Warfarin and cataract extraction. Br J
+Ophthalmol. 1989;73(9):702-703 .
+167. Birnie DH, Healey JS, Wells GA, et al. Pacemaker or de ﬁbrillator
+surgery without interruption of anticoagulation. N Engl J Med .
+2013;368(22):2084-2093.
+168. Proietti R, Porto I, Levi M, et al. Risk of pocket hematoma in
+patients on chronic anticoagulation with warfarin undergoing
+electrophysiological device implantation: a comparison of different
+chestjournal.org e239
+peri-operative management strategies. Eur Rev Med Pharmacol Sci .
+2015;19(8):1461-1479.
+169. Feng L, Li Y, Li J, Yu B. Oral anticoagulation continuation
+compared with heparin bridging therapy among high risk patients
+undergoing implantation of cardiac rhythm devices: a meta-
+analysis. Thromb Haemost . 2012;108(6):1124-1131 .
+170. Tischenko A, Gula LJ, Yee R, et al. Implantation of cardiac rhythm
+devices without interruption of oral anticoagulation compared with
+perioperative bridging with low-molecular weight heparin. Am
+Heart J . 2009;158(2):252-256 .
+171. Schulman S, Healey JS, Douketis JD, Delaney J, Morillo CA.
+Reduced-dose warfarin or interrupted warfarin with heparin
+bridging for pacemaker or de ﬁbrillator implantation: a randomized
+trial. Thromb Res . 2014;134(4):814-818 .
+172. Airaksinen KE, Korkeila P, Lund J, et al. Safety of pacemaker and
+implantable cardioverter-de ﬁbrillator implantation during
+uninterrupted warfarin treatment — the FinPAC study. Int J
+Cardiol. 2013;168(4):3679-3682 .
+173. Pillarisetti J, Maybrook R, Parikh V, et al. Peri-procedural use of
+direct anticoagulation agents during cardiac device implantation:
+vitamin K antagonists vs direct oral anticoagulants. J Interv Card
+Electrophysiol. 2020;58(2):141-146 .
+174. Takeuchi Y, Mabe K, Shimodate Y, et al. Continuous
+anticoagulation and cold snare polypectomy versus heparin
+bridging and hot snare polypectomy in patients on anticoagulants
+with subcentimeter polyps: a randomized controlled trial. Ann
+Intern Med . 2019;171(4):229-237 .
+175. Katholi RE, Nolan SP, McGuire LB. Living with prosthetic heart
+valves. Subsequent noncardiac operations and the risk of
+thromboembolism or hemorrhage. Am Heart J . 1976;92(2):
+162-167.
+176. Katholi RE, Nolan SP, McGuire LB. The management of
+anticoagulation during noncardiac operations in patients with
+prosthetic heart valves. A prospective study. Am Heart J .
+1978;96(2):163-165.
+177. O’Donnell MJ, Kearon C, Johnson J, et al. Brief communication:
+preoperative anticoagulant activity after bridging low-molecular-
+weight heparin for temporary interruption of warfarin. Ann Intern
+Med. 2007;146(3):184-187 .
+178. Douketis JD, Woods K, Foster GA, Crowther MA. Bridging
+anticoagulation with low-molecular-weight heparin after
+interruption of warfarin therapy is associated with a residual
+anticoagulant effect prior to surgery. Thromb Haemost. 2005;94(3):
+528-531.
+179. Dunn AS, Spyropoulos A, Turpie AG. Bridging therapy in patients
+on long-term oral anticoagulants who require surgery: the
+Prospective Peri-operative Enoxaparin Cohort Trial (PROSPECT).
+J Thromb Haemost . 2004;5:2211-2218 .
+180. Spyropoulos AC, Turpie AGG, Dunn AS, et al. Clinical outcomes
+with unfractionated heparin or low-molecular-weight heparin as
+bridging therapy in patients on long-term oral anticoagulants: the
+REGIMEN registry. J Thromb Haemost . 2006;4(6):1246-1252 .
+181. Vink R, Rienstra M, van Dongen CJ, et al. Risk of
+thromboembolism and bleeding after general surgery in patients
+with atrial ﬁbrillation. Am J Cardiol . 2005;96(6):822-824 .
+182. Douketis J. Perioperative anticoagulation management in patients
+who are receiving oral anticoagulant therapy: a practical guide for
+clinicians. Thromb Res . 2002;108(1):3-13 .
+183. Tafur A, Douketis J. Perioperative management of anticoagulant
+and antiplatelet therapy. Heart. 2018;104(17):1461-1467 .
+184. Douketis J, Schulman S, Syed S. Reply to Dr Lessire et al. Reg
+Anesth Pain Med . 2016;41(6):788 .
+185. Schulman S, Carrier M, Lee AY, et al. Perioperative management of
+dabigatran: a prospective cohort study. Circulation. 2015;132(3):
+167-173.
+186. Stollberger C, Finsterer J. Update on drug interactions with non-
+vitamin-K-antagonist oral anticoagulants for stroke prevention in
+elderly patients. Expert Rev Clin Pharmacol . 2021;14(5):569-581 .
+187. Li A, Li MK, Crowther M, Vazquez SR. Drug-drug interactions
+with direct oral anticoagulants associated with adverse events in the
+real world: a systematic review. Thromb Res . 2020;194:240-245 .
+188. Qamar A, Vaduganathan M, Greenberger NJ, Giugliano RP. Oral
+anticoagulation in patients with liver disease. J Am Coll Cardiol .
+2018;71(19):2162-2175.
+189. Lessire S, Doux ﬁls J, Dincq AS, Mullier F. Periprocedural
+management of direct oral anticoagulants should be guided by
+accurate laboratory tests. Reg Anesth Pain Med . 2016;41(6):787-788.
+190. Tripodi A, Marongiu F, Moia M, et al. The vexed question of
+whether or not to measure levels of direct oral anticoagulants
+before surgery or invasive procedures. Intern Emerg Med .
+2018;13(7):1029-1036.
+191. Grifﬁths R, Babu S, Dixon P, et al. Guideline for the management of
+hip fractures 2020: Guideline by the Association of Anaesthetists.
+Anaesthesia. 2021;76(2):225-237 .
+192. Adcock DM, Gosselin RC. The danger of relying on the APTT and
+PT in patients on DOAC therapy, a potential patient safety issue.
+Int J Lab Hematol . 2017;39(suppl 1):37-40 .
+193. Cuker A, Siegal DM, Crowther MA, Garcia DA. Laboratory
+measurement of the anticoagulant activity of the non-vitamin K
+oral anticoagulants. J Am Coll Cardiol . 2014;64(11):1128-1139 .
+194. Albaladejo P, Bonhomme F, Blais N, et al. Management of direct
+oral anticoagulants in patients undergoing elective surgeries and
+invasive procedures: updated guidelines from the French Working
+Group on Perioperative Hemostasis (GIHP) — September 2015.
+Anaesth Crit Care Pain Med . 2017;36(1):73-76 .
+195. Douxﬁls J, Adcock DM, Bates SM, et al. 2021 Update of the
+International Council for Standardization in Haematology
+Recommendations for Laboratory Measurement of Direct Oral
+Anticoagulants. Thromb Haemost . 2021;121(8):1008-1020 .
+196. Douketis JD, Spyropoulos AC, Duncan J, et al. Perioperative
+management of patients with atrial ﬁbrillation receiving a direct
+oral anticoagulant. JAMA Intern Med . 2019;179(11):1469-1478 .
+197. Essebag V, Proietti R, Birnie DH, et al. Short-term dabigatran
+interruption before cardiac rhythm device implantation: multi-
+centre experience from the RE-LY trial. Europace. 2017;19(10):
+1630-1636.
+198. Nazha B, Pandya B, Cohen J, et al. Periprocedural outcomes of
+direct oral anticoagulants versus warfarin in nonvalvular atrial
+ﬁbrillation. Circulation. 2018;138(14):1402-1411 .
+199. Nakamura K, Naito S, Sasaki T, et al. Uninterrupted vs. interrupted
+periprocedural direct oral anticoagulants for catheter ablation of
+atrial ﬁbrillation: a prospective randomized single-centre study on
+post-ablation thrombo-embolic and haemorrhagic events.
+Europace. 2019;21(2):259-267 .
+200. Yu HT, Shim J, Park J, et al. When is it appropriate to stop non-
+vitamin K antagonist oral anticoagulants before catheter ablation of
+atrial ﬁbrillation? A multicentre prospective randomized study. Eur
+Heart J . 2019;40(19):1531-1537 .
+201. Reynolds MR, Allison JS, Natale A, et al. A prospective randomized
+trial of apixaban dosing during atrial ﬁbrillation ablation: the
+AEIOU trial. JACC Clin Electrophysiol . 2018;4(5):580-588 .
+202. Barequet IS, Zehavi-Dorin T, Bourla N, Tamarin I, Moisseiev J,
+Salomon O. Safety of cataract surgery in patients treated with the
+new oral anticoagulants (NOACs). Graefes Arch Clin Exp
+Ophthalmol. 2019;257(12):2671-2676 .
+203. Sheikh MA, Kong X, Haymart B, et al. Comparison of temporary
+interruption with continuation of direct oral anticoagulants for low
+bleeding risk procedures. Thromb Res . 2021;203:27-32 .
+204. Shaw J, de Wit C, Le Gal G, Carrier M. Thrombotic and bleeding
+outcomes following perioperative interruption of direct oral
+anticoagulants in patients with venous thromboembolic disease.
+J Thromb Haemost . 2017;15(5):925-930 .
+205. Shaw JR, Douketis J, Le Gal G, Carrier M. Periprocedural
+interruption of anticoagulation in patients with cancer-associated
+venous thromboembolism: an analysis of thrombotic and bleeding
+outcomes. J Thromb Haemost . 2019;17(7):1171-1178 .
+e240 Guidelines and Consensus Statements [ 162#5 CHEST NOVEMBER 2022 ]
+206. Eikelboom JW, Connolly SJ, Bosch J, et al. Rivaroxaban with or
+without aspirin in stable cardiovascular disease. N Engl J Med .
+2017;377(14):1319-1330.
+207. Ferrandis R, Llau JV, Sanz JF, et al. Periprocedural direct oral
+anticoagulant management: the RA-ACOD Prospective,
+Multicenter Real-World Registry. TH Open . 2020;4(2):e127-e137 .
+208. Birnie DH, Healey JS, Wells GA, et al. Continued vs. interrupted
+direct oral anticoagulants at the time of device surgery, in patients
+with moderate to high risk of arterial thrombo-embolic events
+(BRUISE CONTROL-2). Eur Heart J . 2018;39(44):3973-3979 .
+209. Dubois V, Dincq AS, Doux ﬁls J, et al. Perioperative management of
+patients on direct oral anticoagulants. Thromb J . 2017;15:14 .
+210. Squizzato A, Poli D, Barcellona D, et al. Management of DOAC in
+patients undergoing planned surgery or invasive procedure: FCSA
+position paper. Thromb Haemost . 2022;122(3):329-335 .
+211. Tripodi A. To measure or not to measure direct oral anticoagulants
+before surgery or invasive procedures: reply. J Thromb Haemost .
+2016;14(12):2559-2561.
+212. Spyropoulos AC, Al-Badri A, Sherwood MW, Douketis JD. To
+measure or not to measure direct oral anticoagulants before surgery
+or invasive procedures: comment. J Thromb Haemost . 2016;14(12):
+2556-2559.
+213. Tafur AJ, Clark NP, Spyropoulos AC, et al. Predictors of bleeding in
+the perioperative anticoagulant use for surgery evaluation study.
+J Am Heart Assoc . 2020;9(19):e017316 .
+214. Shaw JR, Li N, Vanassche T, et al. Predictors of preprocedural
+direct oral anticoagulant levels in patients having an elective
+surgery or procedure. Blood Adv . 2020;4(15):3520-3527 .
+215. Samuelson BT, Cuker A, Siegal DM, Crowther M, Garcia DA.
+Laboratory assessment of the anticoagulant activity of direct oral
+anticoagulants: a systematic review. Chest. 2017;151(1):127-138 .
+216. Connors JM. Testing and monitoring direct oral anticoagulants.
+Blood. 2018;132(19):2009-2015 .
+217. Dager WE, Roberts AJ, Nishijima DK. Effect of low and moderate
+dose FEIBA to reverse major bleeding in patients on direct oral
+anticoagulants. Thromb Res . 2019;173:71-76 .
+218. Gosselin RC, Adcock DM, Doux ﬁls J. An update on laboratory
+assessment for direct oral anticoagulants (DOACs). Int J Lab
+Hematol. 2019;41(suppl 1):33-39 .
+219. Gosselin RC, Adcock DM, Bates SM, et al. International Council for
+Standardization in Haematology (ICSH) recommendations for
+laboratory measurement of direct oral anticoagulants. Thromb
+Haemost. 2018;118(3):437-450 .
+220. Pollack CV Jr, Reilly PA, van Ryn J, et al. Idarucizumab for
+dabigatran reversal — full cohort analysis. N Engl J Med .
+2017;377(5):431-441.
+221. Connolly SJ, Crowther M, Eikelboom JW, et al. Full study report of
+andexanet alfa for bleeding associated with factor Xa inhibitors.
+N Engl J Med . 2019;380(14):1326-1335 .
+222. Godier A, Martin AC, Leblanc I, et al. Peri-procedural management
+of dabigatran and rivaroxaban: duration of anticoagulant
+discontinuation and drug concentrations. Thromb Res. 2015;136(4):
+763-768.
+223. Harder S, Klinkhardt U, Alvarez JM. Avoidance of bleeding during
+surgery in patients receiving anticoagulant and/or antiplatelet
+therapy: pharmacokinetic and pharmacodynamic considerations.
+Clin Pharmacokinet . 2004;43(14):963-981 .
+224. Roth GJ, Majerus PW. The mechanism of the effect of aspirin on
+human platelets. I. Acetylation of a particulate fraction protein.
+J Clin Invest . 1975;56(3):624-632 .
+225. Roth GJ, Stanford N, Majerus PW. Acetylation of prostaglandin
+synthase by aspirin. Proc Natl Acad Sci U S A . 1975;72(8):
+3073-3076.
+226. Dobesh PP, Oestreich JH. Ticagrelor: pharmacokinetics,
+pharmacodynamics, clinical ef ﬁcacy, and safety. Pharmacotherapy.
+2014;34(10):1077-1090.
+227. Teng R. Ticagrelor: pharmacokinetic, pharmacodynamic and
+pharmacogenetic pro ﬁle: an update. Clin Pharmacokinet .
+2015;54(11):1125-1138.
+228. Quinn MJ, Fitzgerald DJ. Ticlopidine and clopidogrel. Circulation.
+1999;100(15):1667-1672.
+229. Dobesh PP. Pharmacokinetics and pharmacodynamics of
+prasugrel, a thienopyridine P2Y12 inhibitor. Pharmacotherapy.
+2009;29(9):1089-1102.
+230. von Beckerath N, Taubert D, Pogatsa-Murray G, Schomig E,
+Kastrati A, Schomig A. Absorption, metabolization, and antiplatelet
+effects of 300-, 600-, and 900-mg loading doses of clopidogrel:
+results of the ISAR-CHOICE (Intracoronary Stenting and
+Antithrombotic Regimen: Choose Between 3 High Oral Doses for
+Immediate Clopidogrel Effect) trial. Circulation. 2005;112(19):
+2946-2950.
+231. Kandzari DE, Berger PB, Kastrati A, et al. In ﬂuence of treatment
+duration with a 600-mg dose of clopidogrel before percutaneous
+coronary revascularization. J Am Coll Cardiol . 2004;44(11):
+2133-2136.
+232. Lenz TL, Hilleman DE. Aggrenox: a ﬁxed-dose combination of
+aspirin and dipyridamole. Ann Pharmacother . 2000;34(11):
+1283-1290.
+233. Schror K. The pharmacology of cilostazol. Diabetes Obes Metab .
+2002;4(suppl 2):S14-S19 .
+234. Ward A, Clissold SP. Pentoxifylline. A review of its
+pharmacodynamic and pharmacokinetic properties, and its
+therapeutic ef ﬁcacy. Drugs. 1987;34(1):50-97 .
+235. Perez-Rivera JA, Monedero-Campo J, Cieza-Borrella C, Ruiz-
+Perez P. Pharmacokinetic drug evaluation of vorapaxar for
+secondary prevention after acute coronary syndrome. Expert Opin
+Drug Metab Toxicol . 2017;13(3):339-350 .
+236. Brogden RN. Non-steroidal anti-in ﬂammatory analgesics other
+than salicylates. Drugs. 1986;32(Suppl 4):27-45 .
+237. Gulpinar K, Ozdemir S, Ozis E, Sahli Z, Demirtas S, Korkmaz A.
+A preliminary study: aspirin discontinuation before elective
+operations; when is the optimal timing? J Korean Surg Soc .
+2013;85(4):185-190.
+238. Prevention of pulmonary embolism and deep vein thrombosis with
+low dose aspirin: Pulmonary Embolism Prevention (PEP) trial.
+Lancet. 2000;355(9212):1295-1302 .
+239. Oscarsson A, Gupta A, Fredrikson M, et al. To continue or
+discontinue aspirin in the perioperative period: a randomized,
+controlled clinical trial. Br J Anaesth . 2010;104(3):305-312 .
+240. Devereaux PJ, Mrkobrada M, Sessler DI, et al. Aspirin in patients
+undergoing noncardiac surgery. N Engl J Med . 2014;370(16):
+1494-1503.
+241. Catella-Lawson F, Reilly MP, Kapoor SC, et al. Cyclooxygenase
+inhibitors and the antiplatelet effects of aspirin. N Engl J Med .
+2001;345(25):1809-1817.
+242. Mantz J, Samama CM, Tubach F, et al. Impact of preoperative
+maintenance or interruption of aspirin on thrombotic and bleeding
+events after elective non-cardiac surgery: the multicentre,
+randomized, blinded, placebo-controlled, STRATAGEM trial. Br J
+Anaesth. 2011;107(6):899-910 .
+243. Tytgat SH, Laman DM, Rijken AM, et al. Emboli rate during and
+early after carotid endarterectomy after a single preoperative dose
+of 120 mg acetylsalicylic acid — a prospective double-blind placebo
+controlled randomised trial. Eur J Vasc Endovasc Surg . 2005;29(2):
+156-161.
+244. Antolovic D, Rakow A, Contin P, et al. A randomised controlled
+pilot trial to evaluate and optimize the use of anti-platelet agents in
+the perioperative management in patients undergoing general and
+abdominal surgery — the APAP trial (ISRCTN45810007).
+Langenbecks Arch Surg . 2012;397(2):297-306 .
+245. Engheta A, Hadadi Abianeh S, Atri A, Sanatkarfar M. Aspirin use
+and bleeding volume in skin cancer patients undergoing surgery: a
+randomized controlled trial. Daru. 2016;24(1):20 .
+chestjournal.org e241
+246. Sharma AK, Ajani AE, Hamwi SM, et al. Major noncardiac surgery
+following coronary stenting: when is it safe to operate? Catheter
+Cardiovasc Interv . 2004;63(2):141-145 .
+247. Reddy PR, Vaitkus PT. Risks of noncardiac surgery after coronary
+stenting. Am J Cardiol . 2005;95(6):755-757 .
+248. Ernst A, Eberhardt R, Wahidi M, et al. Effect of routine clopidogrel
+use on bleeding complications after transbronchial biopsy in
+humans. Chest. 2006;129(3):734-737 .
+249. Dacey LJ, Munoz JJ, Johnson ER, et al. Effect of preoperative
+aspirin use on mortality in coronary artery bypass grafting patients.
+Ann Thorac Surg . 2000;70(6):1986-1990 .
+250. Myles PS, Smith J, Knight J, et al. Aspirin and Tranexamic Acid for
+Coronary Artery Surgery (ATACAS) trial: rationale and design. Am
+Heart J . 2008;155(2):224-230 .
+251. Mehta RH, Roe MT, Mulgund J, et al. Acute clopidogrel use and
+outcomes in patients with non-ST-segment elevation acute
+coronary syndromes undergoing coronary artery bypass surgery.
+J Am Coll Cardiol . 2006;48(2):281-286 .
+252. Fox KA, Mehta SR, Peters R, et al. Bene ﬁts and risks of the
+combination of clopidogrel and aspirin in patients undergoing
+surgical revascularization for non-ST-elevation acute coronary
+syndrome: the Clopidogrel in Unstable angina to prevent Recurrent
+ischemic Events (CURE) Trial. Circulation. 2004;110(10):
+1202-1208.
+253. Purkayastha S, Athanasiou T, Malinovski V, et al. Does clopidogrel
+affect outcome after coronary artery bypass grafting? A meta-
+analysis. Heart. 2006;92(4):531-532 .
+254. Hongo RH, Ley J, Dick SE, Yee RR. The effect of clopidogrel in
+combination with aspirin when given before coronary artery bypass
+grafting. J Am Coll Cardiol . 2002;40(2):231-237 .
+255. Chen L, Bracey AW, Radovancevic R, et al. Clopidogrel and
+bleeding in patients undergoing elective coronary artery bypass
+grafting. J Thorac Cardiovasc Surg . 2004;128(3):425-431 .
+256. Held C, Asenblad N, Bassand JP, et al. Ticagrelor versus clopidogrel
+in patients with acute coronary syndromes undergoing coronary
+artery bypass surgery: results from the PLATO (Platelet Inhibition
+and Patient Outcomes) trial. J Am Coll Cardiol . 2011;57(6):672-684.
+257. Cao C, Indraratna P, Ang SC, et al. Should clopidogrel be
+discontinued before coronary artery bypass grafting for patients
+with acute coronary syndrome? A systematic review and meta-
+analysis. J Thorac Cardiovasc Surg . 2014;148(6):3092-3098 .
+258. Nouraei SM, Gholipour Baradari A, Emami Zeydi A. Does early
+post-operative administration of aspirin in ﬂuence the risk of
+bleeding after coronary artery bypass graft surgery? A prospective
+observational study. Med Arch . 2015;69(6):381-383 .
+259. Geiger J, Teichmann L, Grossmann R, et al. Monitoring of
+clopidogrel action: comparison of methods. Clin Chem. 2005;51(6):
+957-965.
+260. Steinhubl SR, Talley JD, Braden GA, et al. Point-of-care measured
+platelet inhibition correlates with a reduced risk of an adverse
+cardiac event after percutaneous coronary intervention: results of
+the GOLD (AU-Assessing Ultegra) multicenter study. Circulation.
+2001;103(21):2572-2578.
+261. Keeler BD, Simpson JA, Fox SC, et al. An observational study
+investigating the effect of platelet function on outcome after
+colorectal surgery. Int J Surg . 2015;17:28-33 .
+262. Watson HG, Greaves M. Can we predict bleeding? Semin Thromb
+Hemost. 2008;34(1):97-103 .
+263. Price MJ, Price MJ. Monitoring platelet function to reduce the risk
+of ischemic and bleeding complications. Am J Cardiol .
+2009;103(suppl 3):35A-39A .
+264. Nuttall GA, Brown MJ, Stombaugh JW, et al. Time and cardiac risk
+of surgery after bare-metal stent percutaneous coronary
+intervention. Anesthesiology. 2008;109(4):588-595 .
+265. Rabbitts JA, Nuttall GA, Brown MJ, et al. Cardiac risk of
+noncardiac surgery after percutaneous coronary intervention with
+drug-eluting stents. Anesthesiology. 2008;109(4):596-604 .
+266. Brotman DJ, Bakhru M, Saber W, et al. Discontinuation of
+antiplatelet therapy prior to low-risk noncardiac surgery in patients
+with drug-eluting stents: a retrospective cohort study. J Hosp Med .
+2007;2(6):378-384.
+267. Compton PA, Zankar AA, Adesanya AO, Banerjee S, Brilakis ES.
+Risk of noncardiac surgery after coronary drug-eluting stent
+implantation. Am J Cardiol . 2006;98(9):1212-1213 .
+268. Schouten O, van Domburg RT, Bax JJ, et al. Noncardiac surgery
+after coronary stenting: early surgery and interruption of
+antiplatelet therapy are associated with an increase in major adverse
+cardiac events. J Am Coll Cardiol . 2007;49(1):122-124 .
+269. Anwaruddin S, Askari AT, Saudye H, et al. Characterization of
+post-operative risk associated with prior drug-eluting stent use.
+JACC Cardiovasc Interv . 2009;2(6):542-549 .
+270. Graham MM, Sessler DI, Parlow JL, et al. Aspirin in patients
+with previous percutaneous coronary intervention
+undergoing noncardiac surgery. A n nI n t e r nM e d.
+2018;168(4):237-244 .
+271. Albaladejo P, Marret E, Samama CM, et al. Non-cardiac surgery in
+patients with coronary stents: the RECO study. Heart. 2011;97(19):
+1566-1572.
+272. Rodriguez A, Guilera N, Mases A, et al. Management of antiplatelet
+therapy in patients with coronary stents undergoing noncardiac
+surgery: association with adverse events. Br J Anaesth . 2018;120(1):
+67-76.
+273. Childers CP, Maggard-Gibbons M, Ulloa JG, et al. Perioperative
+management of antiplatelet therapy in patients undergoing non-
+cardiac surgery following coronary stent placement: a systematic
+review. Syst Rev . 2018;7(1):4 .
+274. Holcomb CN, Graham LA, Richman JS, et al. The incremental risk
+of noncardiac surgery on adverse cardiac events following coronary
+stenting. J Am Coll Cardiol . 2014;64(25):2730-2739 .
+275. Egholm G, Kristensen SD, Thim T, et al. Risk associated with
+surgery within 12 months after coronary drug-eluting stent
+implantation. J Am Coll Cardiol . 2016;68(24):2622-2632 .
+276. Rossini R, Tarantini G, Musumeci G, et al. A multidisciplinary
+approach on the perioperative antithrombotic management of
+patients with coronary stents undergoing surgery: surgery after
+stenting 2. JACC Cardiovasc Interv . 2018;11(5):417-434 .
+277. Firstenberg MS, Dyke CM, Angiolillo DJ, et al. Safety and ef ﬁcacy
+of cangrelor, an intravenous, short-acting platelet inhibitor in
+patients requiring coronary artery bypass surgery. Heart Surg
+Forum. 2013;16(2):E60-E69 .
+278. Angiolillo DJ, Firstenberg MS, Price MJ, et al. Bridging antiplatelet
+therapy with cangrelor in patients undergoing cardiac surgery: a
+randomized controlled trial. JAMA. 2012;307(3):265-274 .
+279. Tanaka A, Ishii H, Tatami Y, et al. Unfractionated heparin during the
+interruption of antiplatelet therapy for non-cardiac surgery after
+drug-eluting stent implantation. Intern Med. 2016;55(4):333-337.
+280. Capodanno D, Musumeci G, Lettieri C, et al. Impact of bridging
+with perioperative low-molecular-weight heparin on cardiac and
+bleeding outcomes of stented patients undergoing non-cardiac
+surgery. Thromb Haemost . 2015;114(2):423-431 .
+281. Savonitto S, D ’Urbano M, Caracciolo M, et al. Urgent surgery in
+patients with a recently implanted coronary drug-eluting stent: a
+phase II study of ‘bridging’ antiplatelet therapy with tiro ﬁban
+during temporary withdrawal of clopidogrel. Br J Anaesth .
+2010;104(3):285-291.
+282. Wilczynski M, Bochenek T, Goral J, et al. Use of epti ﬁbatide in
+patients with acute stent thrombosis, requiring urgent surgical
+revascularisation— report of 2 cases [in Polish]. Kardiol Pol .
+2009;67(11):1313-1316.
+283. Dargham BB, Baskar A, Tejani I, et al. Intravenous antiplatelet
+therapy bridging in patients undergoing cardiac or non-cardiac
+surgery following percutaneous coronary intervention. Cardiovasc
+Revasc Med . 2019;20(9):805-811 .
+284. De Servi S, Morici N, Boschetti E, et al. Bridge therapy or standard
+treatment for urgent surgery after coronary stent implantation:
+analysis of 314 patients. Vascul Pharmacol . 2016;80:85-90 .
+285. Walker EA, Dager WE. Bridging with tiro ﬁban during oral
+antiplatelet interruption: a single-center case series analysis
+e242 Guidelines and Consensus Statements [ 162#5 CHEST NOVEMBER 2022 ]
+including patients on hemodialysis. Pharmacotherapy. 2017;37(8):
+888-892.
+286. Ardekian L, Gaspar R, Peled M, Brener B, Laufer D. Does low-dose
+aspirin therapy complicate oral surgical procedures? J Am Dent
+Assoc. 2000;131(3):331-335 .
+287. Brennan MT, Valerin MA, Noll JL, et al. Aspirin use and post-
+operative bleeding from dental extractions. J Dental Res. 2008;87(8):
+740-744.
+288. Napenas JJ, Hong CH, Brennan MT, et al. The frequency of
+bleeding complications after invasive dental treatment in patients
+receiving single and dual antiplatelet therapy. J Am Dental Assoc .
+2009;140(6):690-695.
+289. M a d a nG A ,M a d a nS G ,M a d a nG ,M a d a nA D .M i n o ro r a l
+surgery without stopping daily low-dose aspirin therapy: a
+study of 51 patients. J Oral Maxillofac Surg . 2005;63(9):
+1262-1265 .
+290. Medeiros FB, de Andrade AC, Angelis GA, et al. Bleeding
+evaluation during single tooth extraction in patients with coronary
+artery disease and acetylsalicylic acid therapy suspension: a
+prospective, double-blinded, and randomized study. J Oral
+Maxillofac Surg . 2011;69(12):2949-2955 .
+291. Bartlett GR. Does aspirin affect the outcome of minor cutaneous
+surgery? Br J Plast Surg . 1999;52(3):214-216 .
+292. Shalom A, Wong L. Outcome of aspirin use during excision of
+cutaneous lesions. Ann Plast Surg . 2003;50(3):296-298 .
+293. Narendran N, Williamson TH. The effects of aspirin and warfarin
+therapy on haemorrhage in vitreoretinal surgery. Acta Ophthalmol
+Scand. 2003;81(1):38-40 .
+294. Winkler KP, Beaulieu R, Bevill L, Mishulin A, Black EH. Effects of
+aspirin on postoperative bruising and bleeding complications in
+upper eyelid surgery. Ophthalmic Plast Reconstr Surg . 2020;36(6):
+575-578.
+295. Isted A, Cooper L, Colville RJ. Bleeding on the cutting edge: a
+systematic review of anticoagulant and antiplatelet continuation in
+minor cutaneous surgery. J Plast Reconstr Aesthet Surg . 2018;71(4):
+455-467.
+chestjournal.org e243
+Update
+Chest
+Volume 164, Issue 1, July 2023, Page 267
+ https://doi.org/10.1016/j.chest.2023.05.019DOI:
+Corrigendum to:
+CHEST. 2022;162(5):e207-e243
+The November 2022 guideline entitled “Perioperative
+Management of Antithrombotic Therapy: An American
+College of Chest Physicians Clinical Practice Guideline ”
+contained risk classi ﬁcation schemes for
+thromboembolism and surgery/procedure-related
+bleeding that were empiric but not prospectively
+validated. To provide more clarity and to prevent
+misinterpretation, the authors have issued the following
+changes to Table 1:
+/C15The title of the table has been changed from “Adapted
+American College of Chest Physicians (CHEST)
+Suggested Risk Strati ﬁcation for Patient-Speci ﬁc
+Periprocedural Thromboembolism ” to “Suggested
+Risk Strati ﬁcation for Patient-speci ﬁc Periprocedural
+Thromboembolism” and additional permission
+information has been included.
+/C15A footnote (cited in the Table title) has been
+added, labeled as footnote a: “Empiric risk strati-
+ﬁcation that is a starting point for assessing
+perioperative thromboembolism risk; should be
+combined with clinical judgment that incorporates
+individual patient- and surgery/procedure-related
+factors.”
+/C15In row 2, column 2, the following has been added to
+the moderate risk category for “Mechanical Heart
+Valve”: “Mitral valve without risk factors for stroke. ”
+/C15Footnote c has been incorporated into footnote b.
+Footnote b (cited after “risk factors for stroke ” in the
+low and moderate risk categories) now reads, “In-
+cludes AF, prior stroke/TIA during anticoagulant
+interruption or other prior stroke/TIA, prior valve
+thrombosis, rheumatic heart disease, hypertension,
+diabetes, congestive heart failure, and age $ 75 years.”
+/C15Footnote a, “Includes pancreatic cancer, myelopro-
+liferative disorders, primary brain cancer, gastric
+cancer, and esophageal cancer ” (cited after “Active
+cancer associated with high VTE risk ” in the high-risk
+category), has been relabeled as footnote c.
+The online version of this article has been corrected.
+Related Article DOI:
+https://doi.org/10.1016/j.chest.2022.07.025
+[ Corrigendum ]
+chestjournal.org 267
