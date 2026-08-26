@@ -73,7 +73,7 @@ const NEUROLOGIA_CLUSTERS = [
   { name: 'Trastornos paroxísticos y del movimiento', items: [
     { label: 'Estado epiléptico y epilepsia', topicId: 'estado-epileptico' },
     { label: 'Cefaleas', topicId: 'cefaleas' },
-    'Enfermedad de Parkinson', 'Otros trastornos del movimiento', 'Esclerosis múltiple y otras enfermedades desmielinizantes'
+    { label: 'Enfermedad de Parkinson', topicId: 'trastornos-del-movimiento' }, { label: 'Otros trastornos del movimiento (temblor esencial, distonía, corea)', topicId: 'trastornos-del-movimiento' }, 'Esclerosis múltiple y otras enfermedades desmielinizantes'
   ] },
   { name: 'Alteración de conciencia y enfermedad neuromuscular', items: ['Delirium y coma', 'Síndrome demencial', 'Deterioro cognitivo', 'Enfermedad por priones', 'Encefalopatías metabólicas', 'Neuropatías periféricas', 'Parálisis facial', 'Disautonomía', 'Síndrome de Guillain-Barré y miastenia gravis', 'Distrofias musculares', 'Esclerosis lateral amiotrófica', 'Meningoencefalitis infecciosa', 'Encefalitis autoinmune'] }
 ];
