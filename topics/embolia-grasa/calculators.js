@@ -10,7 +10,7 @@ export const calculators = [
     subtitle: 'Diagnóstico clínico del síndrome de embolismo graso',
     incompleteMsg: 'Marca los criterios presentes en cada categoría (deja sin marcar los ausentes).',
     fields: [
-      { type: 'note', text: 'El diagnóstico requiere ≥1 criterio mayor Y ≥4 criterios menores.' },
+      { type: 'note', text: 'El diagnóstico requiere ≥2 criterios mayores, o 1 criterio mayor + ≥4 criterios menores.' },
       { name: 'petequias', id: 'gw-petequias', type: 'checkbox', label: 'Criterio mayor: púrpura petequial (conjuntiva, axilas, tórax superior)' },
       { name: 'respiratorio', id: 'gw-respiratorio', type: 'checkbox', label: 'Criterio mayor: síntomas respiratorios con infiltrados bilaterales' },
       { name: 'cerebral', id: 'gw-cerebral', type: 'checkbox', label: 'Criterio mayor: signos cerebrales sin relación con traumatismo craneal' },
@@ -31,14 +31,14 @@ export const calculators = [
       if (todos.some(d => d == null)) return null;
       const nMayores = mayores.filter(Boolean).length;
       const nMenores = menores.filter(Boolean).length;
-      const cumple = nMayores >= 1 && nMenores >= 4;
+      const cumple = nMayores >= 2 || (nMayores >= 1 && nMenores >= 4);
       return { nMayores, nMenores, cumple };
     },
     format: r => {
       if (r.cumple) {
         return `<strong>${r.nMayores} criterio(s) mayor(es) · ${r.nMenores} criterio(s) menor(es)</strong>. Cumple criterios diagnósticos de síndrome de embolismo graso.`;
       }
-      return `<strong>${r.nMayores} criterio(s) mayor(es) · ${r.nMenores} criterio(s) menor(es)</strong>. No cumple criterios diagnósticos por el momento (requiere ≥1 mayor y ≥4 menores); reevaluar si aparecen nuevos hallazgos.`;
+      return `<strong>${r.nMayores} criterio(s) mayor(es) · ${r.nMenores} criterio(s) menor(es)</strong>. No cumple criterios diagnósticos por el momento (requiere ≥2 mayores, o 1 mayor y ≥4 menores); reevaluar si aparecen nuevos hallazgos.`;
     },
     fragment: r => `Gurd-Wilson ${r.nMayores}M/${r.nMenores}m${r.cumple ? ' (cumple)' : ''}`
   }

@@ -356,7 +356,15 @@ export const compGroups = [
   { name: 'Complicaciones', items: ['Edema peritumoral y manejo con corticoides', 'Crisis convulsivas asociadas a tumor cerebral', 'Hidrocefalia obstructiva', 'Papiledema y pérdida visual por hipertensión intracraneal crónica', 'Herniación por tumor'] }
 ];
 export const complicacionesIntro = 'Las primeras 4 fichas son las entidades principales: meningioma (tumor primario más frecuente), glioma (maligno primario más frecuente), metástasis cerebrales (el más frecuente en conjunto), e hipertensión intracraneal idiopática (elevación de presión SIN lesión estructural). Las siguientes 5 son las complicaciones reales del proceso expansivo intracraneal: edema peritumoral, crisis convulsivas, hidrocefalia obstructiva, papiledema/pérdida visual, y herniación por tumor (con la contraindicación crítica de punción lumbar sin imagen previa).';
-export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
+export const categories = [
+  { id: 'definicion', label: 'Definición' },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'clasificacion', label: 'Clasificación' },
+  { id: 'complicaciones', label: 'Complicaciones' },
+  { id: 'seguimiento', label: 'Seguimiento' },
+  { id: 'autoevaluacion', label: 'Autoevaluación' },
+  { id: 'bibliografia', label: 'Bibliografía' }
+];
 export const arbol = {
   root: { title: 'NEOPLASIAS DEL SNC E HIPERTENSIÓN INTRACRANEAL', color: '#5c4a2e', target: 'definicion' },
   branches: [

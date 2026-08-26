@@ -346,7 +346,15 @@ export const compGroups = [
   { name: 'Complicaciones (enfermedad de Parkinson)', items: ['Complicaciones motoras del tratamiento dopaminérgico', 'Demencia y deterioro cognitivo asociado a Parkinson', 'Disfunción autonómica', 'Psicosis inducida por fármacos dopaminérgicos'] }
 ];
 export const complicacionesIntro = 'Las primeras 4 fichas son los patrones principales: 1 hipocinético (enfermedad de Parkinson) y 3 hipercinéticos (temblor esencial, distonía, corea/Huntington). Las siguientes 4 son las complicaciones reales, todas centradas en la enfermedad de Parkinson por concentrar la mayoría de la morbilidad tratable a largo plazo: complicaciones motoras del tratamiento dopaminérgico, demencia/deterioro cognitivo, disfunción autonómica, y psicosis inducida por fármacos dopaminérgicos.';
-export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
+export const categories = [
+  { id: 'definicion', label: 'Definición' },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'clasificacion', label: 'Clasificación' },
+  { id: 'complicaciones', label: 'Complicaciones' },
+  { id: 'seguimiento', label: 'Seguimiento' },
+  { id: 'autoevaluacion', label: 'Autoevaluación' },
+  { id: 'bibliografia', label: 'Bibliografía' }
+];
 export const arbol = {
   root: { title: 'TRASTORNOS DEL MOVIMIENTO', color: '#3f6b52', target: 'definicion' },
   branches: [

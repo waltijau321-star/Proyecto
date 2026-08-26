@@ -34,49 +34,9 @@ function figBlock(label, titulo, html) {
   </div>`;
 }
 
-const teoriasHtml = `
-<div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;max-width:560px;margin:0 auto;font-size:10.5px;color:var(--ink);">
-  <div style="flex:1;min-width:200px;text-align:center;">
-    <svg viewBox="0 0 140 100" xmlns="http://www.w3.org/2000/svg" style="width:140px;height:100px;">
-      <rect x="20" y="60" width="100" height="20" rx="4" fill="#8a6a1f" opacity="0.4"/>
-      <circle cx="45" cy="45" r="7" fill="#8a6a1f"/>
-      <circle cx="65" cy="35" r="6" fill="#8a6a1f"/>
-      <circle cx="85" cy="45" r="8" fill="#8a6a1f"/>
-      <path d="M45 52 L60 65 M65 41 L65 65 M85 53 L75 65" stroke="var(--ink-dim)" stroke-width="1.5" stroke-dasharray="2 2"/>
-      <line x1="20" y1="80" x2="120" y2="80" stroke="var(--ink-dim)" stroke-width="2"/>
-    </svg>
-    <div style="font-weight:700;color:#8a6a1f;">Teoría mecánica</div>
-    <div style="color:var(--ink-dim);">Glóbulos grasos de la médula ósea entran directamente a la circulación venosa tras la fractura y embolizan al pulmón y, a través de un shunt derecha-izquierda, a la circulación sistémica.</div>
-  </div>
-  <div style="flex:1;min-width:200px;text-align:center;">
-    <svg viewBox="0 0 140 100" xmlns="http://www.w3.org/2000/svg" style="width:140px;height:100px;">
-      <circle cx="70" cy="50" r="30" fill="#8c3a34" opacity="0.25"/>
-      <circle cx="70" cy="50" r="14" fill="#8c3a34"/>
-      <path d="M50 30 L58 38 M90 30 L82 38 M50 70 L58 62 M90 70 L82 62" stroke="#8c3a34" stroke-width="2"/>
-    </svg>
-    <div style="font-weight:700;color:#8c3a34;">Teoría bioquímica</div>
-    <div style="color:var(--ink-dim);">Los ácidos grasos libres (liberados por lipasas séricas sobre la grasa embolizada) son tóxicos directos para el endotelio capilar, produciendo inflamación local e injuria endotelial difusa.</div>
-  </div>
-  <div style="flex:1 1 100%;text-align:center;color:var(--ink-dim);margin-top:4px;">Ambos mecanismos coexisten y se refuerzan: el componente mecánico explica el inicio (émbolos grasos), el bioquímico explica por qué el cuadro se agrava progresivamente en las 24-72 horas siguientes, más allá de lo esperable por la sola obstrucción mecánica.</div>
-</div>`;
+const teoriasHtml = '<img src="topics/embolia-grasa/assets/teorias-fisiopatologicas.png" alt="Infografía de las 2 teorías fisiopatológicas complementarias de la embolia grasa: la teoría mecánica (fractura de hueso largo → liberación de grasa medular → paso de glóbulos grasos a la circulación venosa → émbolos en capilares pulmonares → obstrucción microvascular, con hipoxemia, alteración neurológica y petequias como consecuencias) y la teoría bioquímica (trauma/estrés/catecolaminas → hidrólisis de triglicéridos → liberación de ácidos grasos libres → toxicidad endotelial y daño alveolar → lesión inflamatoria pulmonar y sistémica, con SDRA, fiebre y trombocitopenia como consecuencias); ambas convergen en el compromiso respiratorio, neurológico y cutáneo del síndrome." style="width:100%;max-width:420px;display:block;margin:0 auto;border-radius:var(--radius);border:1px solid var(--line);">';
 
-const purpuraHtml = `
-<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" style="max-width:200px;width:100%;">
-  <ellipse cx="100" cy="70" rx="45" ry="55" fill="none" stroke="var(--line)" stroke-width="2"/>
-  <text x="100" y="20" text-anchor="middle" font-size="10" fill="var(--ink-dim)">Cabeza/cuello (esquema)</text>
-  <g fill="#8c3a34" opacity="0.75">
-    <circle cx="75" cy="55" r="2"/><circle cx="80" cy="60" r="1.5"/><circle cx="72" cy="65" r="2"/>
-    <circle cx="125" cy="55" r="2"/><circle cx="120" cy="60" r="1.5"/><circle cx="128" cy="65" r="2"/>
-  </g>
-  <text x="100" y="130" text-anchor="middle" font-size="9" fill="var(--ink)">Conjuntiva y párpados</text>
-  <rect x="40" y="150" width="120" height="50" rx="6" fill="none" stroke="var(--line)" stroke-width="2"/>
-  <g fill="#8c3a34" opacity="0.75">
-    <circle cx="55" cy="165" r="2"/><circle cx="65" cy="175" r="1.5"/><circle cx="50" cy="180" r="2"/>
-    <circle cx="145" cy="165" r="2"/><circle cx="135" cy="175" r="1.5"/><circle cx="150" cy="180" r="2"/>
-    <circle cx="90" cy="170" r="1.5"/><circle cx="110" cy="185" r="2"/>
-  </g>
-  <text x="100" y="215" text-anchor="middle" font-size="9" fill="var(--ink)">Axilas y tórax superior</text>
-</svg>`;
+const purpuraHtml = '<img src="topics/embolia-grasa/assets/distribucion-purpura-petequial.png" alt="Infografía de la distribución característica de la púrpura petequial en el síndrome de embolia grasa: predomina por encima del tórax, en conjuntivas, cuello, región supraclavicular, hombros, axilas, tórax superior y, opcionalmente, mucosa oral; explicada por microémbolos grasos en la microcirculación, fragilidad capilar y daño endotelial, con distribución en zonas declives/superiores del tronco." style="width:100%;max-width:340px;display:block;margin:0 auto;border-radius:var(--radius);border:1px solid var(--line);">';
 
 export const definicionText = `<p style="margin:0 0 14px;">La embolia grasa es un síndrome clínico producido por la entrada de glóbulos grasos a la circulación venosa, con embolización pulmonar y, en los casos graves, sistémica, produciendo la tríada clásica de insuficiencia respiratoria, disfunción neurológica, y púrpura petequial, típicamente 24-72 horas después del evento desencadenante (un intervalo libre de síntomas que distingue a la embolia grasa de la embolia pulmonar trombótica clásica, de inicio inmediato).</p>
 <div style="margin:0 0 14px;"><strong style="color:var(--accent-fg);">Las 2 causas principales.</strong>
@@ -120,7 +80,7 @@ export const content = {
       { prueba: 'Búsqueda de macroglóbulos de grasa en sangre/orina', utilidad: 'Criterio menor histórico; de utilidad limitada en la práctica actual por su baja sensibilidad y especificidad.' }
     ],
     no_invasivos: [
-      { metodo: 'Criterios de Gurd y Wilson (calculadora)', interpretacion: 'Combina criterios mayores y menores para establecer el diagnóstico clínico, dado que no existe una prueba confirmatoria única.', cutoff: '≥1 criterio mayor + ≥4 criterios menores' },
+      { metodo: 'Criterios de Gurd y Wilson (calculadora)', interpretacion: 'Combina criterios mayores y menores para establecer el diagnóstico clínico, dado que no existe una prueba confirmatoria única.', cutoff: '≥2 criterios mayores, o 1 criterio mayor + ≥4 criterios menores' },
       { metodo: 'Examen de fondo de ojo', interpretacion: 'Puede mostrar émbolos grasos retinianos o petequias retinianas (criterio menor); apoya el diagnóstico cuando está presente.' }
     ],
     imagen: [
@@ -132,7 +92,7 @@ export const content = {
   clasificacion: {
     compensada_descompensada: 'La distinción central de este tema es entre la causa desencadenante (postraumática/ortopédica, la amplia mayoría, vs. no traumática) y la gravedad de la presentación clínica (subclínica vs. síndrome establecido con la tríada completa), que determina la intensidad del soporte requerido.',
     escalas: [
-      { nombre: 'Criterios de Gurd y Wilson', componentes: 'Criterios mayores (púrpura petequial, síntomas respiratorios con infiltrados bilaterales, signos cerebrales sin relación con traumatismo craneal) y menores (taquicardia, fiebre, cambios retinianos, ictericia, cambios renales, trombocitopenia, anemia, VSG elevada, macroglobulinemia grasa). Calculadora disponible más abajo.', formula: '≥1 criterio mayor + ≥4 criterios menores', interpretacion: 'El criterio diagnóstico clásico más utilizado, pese a no existir una prueba confirmatoria única para el síndrome.' }
+      { nombre: 'Criterios de Gurd y Wilson', componentes: 'Criterios mayores (púrpura petequial, síntomas respiratorios con infiltrados bilaterales, signos cerebrales sin relación con traumatismo craneal) y menores (taquicardia, fiebre, cambios retinianos, ictericia, cambios renales, trombocitopenia, anemia, VSG elevada, macroglobulinemia grasa). Calculadora disponible más abajo.', formula: '≥2 criterios mayores, o 1 criterio mayor + ≥4 criterios menores', interpretacion: 'El criterio diagnóstico clásico más utilizado, pese a no existir una prueba confirmatoria única para el síndrome.' }
     ]
   },
   complicaciones: [
@@ -144,7 +104,7 @@ export const content = {
       epidemiologia: 'Ocurre en una proporción considerable de las fracturas aisladas de huesos largos, con un riesgo marcadamente mayor en el politraumatismo con múltiples fracturas de huesos largos; el síndrome clínico franco (que cumple criterios de Gurd y Wilson) es menos frecuente que la embolización grasa subclínica detectable solo por métodos de laboratorio sensibles.',
       factores_riesgo: ['Fractura de huesos largos, particularmente el fémur', 'Fractura pelviana', 'Múltiples fracturas de huesos largos concomitantes (politraumatismo)', 'Cirugía ortopédica con instrumentación de la cavidad medular (clavo intramedular, artroplastia)', 'Fijación quirúrgica tardía de la fractura (mayor tiempo de exposición al riesgo de embolización)'],
       clinica: 'Intervalo libre de síntomas característico de 24-72 horas tras el traumatismo o la cirugía, seguido de la tríada clásica: disnea e hipoxemia progresiva, confusión o alteración del estado de alerta, y púrpura petequial (ver esas complicaciones para el desarrollo completo).',
-      criterios_dx: 'Criterios de Gurd y Wilson (≥1 mayor + ≥4 menores) en el contexto temporal apropiado tras una fractura de hueso largo o cirugía ortopédica reciente.',
+      criterios_dx: 'Criterios de Gurd y Wilson (≥2 mayores, o 1 mayor + ≥4 menores) en el contexto temporal apropiado tras una fractura de hueso largo o cirugía ortopédica reciente.',
       laboratorio: 'Biometría hemática seriada (trombocitopenia, anemia), VSG.',
       imagen: 'Radiografía de tórax (infiltrados bilaterales) y, si predomina la disfunción neurológica, resonancia magnética cerebral con secuencias de difusión (patrón "en cielo estrellado").',
       complementarios: 'Descartar activamente tromboembolia pulmonar clásica como diagnóstico alternativo o concomitante, dado que ambas entidades pueden coexistir en el paciente con fractura de hueso largo y son clínicamente distintas por el intervalo temporal (inmediato en la TEP clásica vs. 24-72h en la embolia grasa).',
@@ -278,7 +238,15 @@ export const compGroups = [
   { name: 'Manifestaciones y complicaciones', items: ['Insuficiencia respiratoria y síndrome de dificultad respiratoria aguda', 'Disfunción neurológica', 'Púrpura petequial y hallazgos hematológicos'] }
 ];
 export const complicacionesIntro = 'Las primeras 2 fichas son las 2 causas del síndrome: postraumática/ortopédica (la amplia mayoría de los casos) y no traumática (pancreatitis, anemia falciforme, liposucción, corticoides). Las siguientes 3 son las manifestaciones/complicaciones por sistema que conforman la tríada clásica: insuficiencia respiratoria (la más constante), disfunción neurológica, y púrpura petequial (la más específica pero menos constante).';
-export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
+export const categories = [
+  { id: 'definicion', label: 'Definición' },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'clasificacion', label: 'Clasificación' },
+  { id: 'complicaciones', label: 'Complicaciones' },
+  { id: 'seguimiento', label: 'Seguimiento' },
+  { id: 'autoevaluacion', label: 'Autoevaluación' },
+  { id: 'bibliografia', label: 'Bibliografía' }
+];
 export const arbol = {
   root: { title: 'EMBOLIA GRASA', color: '#6b4a2e', target: 'definicion' },
   branches: [
