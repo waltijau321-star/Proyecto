@@ -339,6 +339,14 @@ export const registry = [
       import('./sindrome-aortico-agudo/calculators.js'),
       import('./sindrome-aortico-agudo/study.js')
     ])
+  },
+  {
+    id: 'trastornos-del-movimiento', titulo: 'Trastornos del Movimiento',
+    load: () => Promise.all([
+      import('./trastornos-del-movimiento/content.js'),
+      import('./trastornos-del-movimiento/calculators.js'),
+      import('./trastornos-del-movimiento/study.js')
+    ])
   }
 ];
 
