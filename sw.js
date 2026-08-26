@@ -2,7 +2,7 @@
    Estrategia: cache-first para el "app shell" y los módulos, con actualización en segundo plano.
    CACHE_VERSION se calcula automáticamente a partir del contenido de CORE: correr
    .claude/bump-cache-version.ps1 después de cambiar cualquier archivo cacheado. */
-const CACHE_VERSION = 'residentemed-2ed3c89bf1';
+const CACHE_VERSION = 'residentemed-9e0fb587d4';
 const CORE = [
   './',
   './index.html',
@@ -183,6 +183,9 @@ const CORE = [
   './topics/traumatismo-craneoencefalico/content.js',
   './topics/traumatismo-craneoencefalico/calculators.js',
   './topics/traumatismo-craneoencefalico/study.js',
+  './topics/neoplasias-snc-hipertension-intracraneal/content.js',
+  './topics/neoplasias-snc-hipertension-intracraneal/calculators.js',
+  './topics/neoplasias-snc-hipertension-intracraneal/study.js',
   './protocols/protocols.js',
   './protocols/vpo-calc.js'
 ];
