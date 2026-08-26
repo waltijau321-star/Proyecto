@@ -148,7 +148,7 @@ export const temarioBlocks = [
         'Anafilaxia'
       ] },
       { name: 'Fallas orgánicas', items: FALLAS_ORGANICAS_ITEMS },
-      { name: 'Emergencias traumáticas y ambientales', items: ['Abdomen agudo', 'Síndrome de supresión alcohólica', 'Politraumatismo', 'Quemaduras', 'Ahogamiento', 'Broncoaspiración'] }
+      { name: 'Emergencias traumáticas y ambientales', items: ['Abdomen agudo', 'Síndrome de supresión alcohólica', { label: 'Politraumatismo (embolia grasa)', topicId: 'embolia-grasa' }, 'Quemaduras', 'Ahogamiento', 'Broncoaspiración'] }
     ]
   },
   {

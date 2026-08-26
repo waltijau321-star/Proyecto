@@ -349,6 +349,14 @@ export const registry = [
     ])
   },
   {
+    id: 'embolia-grasa', titulo: 'Embolia Grasa',
+    load: () => Promise.all([
+      import('./embolia-grasa/content.js'),
+      import('./embolia-grasa/calculators.js'),
+      import('./embolia-grasa/study.js')
+    ])
+  },
+  {
     id: 'valoracion-preoperatoria', titulo: 'Valoración Preoperatoria',
     load: () => Promise.all([
       import('./valoracion-preoperatoria/content.js'),
