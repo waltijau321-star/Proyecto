@@ -349,6 +349,14 @@ export const registry = [
     ])
   },
   {
+    id: 'esclerosis-multiple', titulo: 'Esclerosis Múltiple',
+    load: () => Promise.all([
+      import('./esclerosis-multiple/content.js'),
+      import('./esclerosis-multiple/calculators.js'),
+      import('./esclerosis-multiple/study.js')
+    ])
+  },
+  {
     id: 'embolia-grasa', titulo: 'Embolia Grasa',
     load: () => Promise.all([
       import('./embolia-grasa/content.js'),
