@@ -323,6 +323,14 @@ export const registry = [
       import('./traumatismo-craneoencefalico/calculators.js'),
       import('./traumatismo-craneoencefalico/study.js')
     ])
+  },
+  {
+    id: 'neoplasias-snc-hipertension-intracraneal', titulo: 'Neoplasias del SNC e Hipertensión Intracraneal',
+    load: () => Promise.all([
+      import('./neoplasias-snc-hipertension-intracraneal/content.js'),
+      import('./neoplasias-snc-hipertension-intracraneal/calculators.js'),
+      import('./neoplasias-snc-hipertension-intracraneal/study.js')
+    ])
   }
 ];
 
