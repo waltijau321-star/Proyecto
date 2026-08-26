@@ -331,6 +331,14 @@ export const registry = [
       import('./neoplasias-snc-hipertension-intracraneal/calculators.js'),
       import('./neoplasias-snc-hipertension-intracraneal/study.js')
     ])
+  },
+  {
+    id: 'sindrome-aortico-agudo', titulo: 'Síndrome Aórtico Agudo',
+    load: () => Promise.all([
+      import('./sindrome-aortico-agudo/content.js'),
+      import('./sindrome-aortico-agudo/calculators.js'),
+      import('./sindrome-aortico-agudo/study.js')
+    ])
   }
 ];
 

@@ -128,7 +128,7 @@ export const temarioBlocks = [
       { name: 'Insuficiencia cardiaca', items: ['IC aguda descompensada y edema agudo de pulmón', 'IC crónica con FEVI reducida y preservada', 'Dispositivos y terapias avanzadas (resincronización, asistencia ventricular)'] },
       { name: 'Arritmias y electrofisiología', items: ['Fibrilación y flutter auricular, anticoagulación', 'Taquiarritmias y bradiarritmias sintomáticas', 'Marcapasos y desfibriladores'] },
       { name: 'Enfermedad valvular, pericárdica y miocárdica', items: ['Valvulopatías nativas y protésicas', 'Cardiopatía reumática', 'Pericarditis y taponamiento cardiaco', { label: 'Miocardiopatías (hipertrófica, dilatada, restrictiva, arritmogénica del ventrículo derecho, periparto)', topicId: 'miocardiopatias' }, 'Miocarditis', 'Cor pulmonale', 'Cardiopatías congénitas en el adulto'] },
-      { name: 'Hipertensión arterial y enfermedad tromboembólica', items: ['HTA esencial y urgencias/emergencias hipertensivas', 'HTA secundaria', 'Trombosis venosa profunda y tromboembolia pulmonar', 'Tromboflebitis superficial', 'Aneurisma y disección aórtica', 'Enfermedad arterial periférica'] }
+      { name: 'Hipertensión arterial y enfermedad tromboembólica', items: ['HTA esencial y urgencias/emergencias hipertensivas', 'HTA secundaria', 'Trombosis venosa profunda y tromboembolia pulmonar', 'Tromboflebitis superficial', { label: 'Aneurisma y disección aórtica (síndrome aórtico agudo)', topicId: 'sindrome-aortico-agudo' }, 'Enfermedad arterial periférica'] }
     ]
   },
   {
