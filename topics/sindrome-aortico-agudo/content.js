@@ -345,7 +345,15 @@ export const compGroups = [
   { name: 'Complicaciones', items: ['Rotura aórtica', 'Taponamiento cardiaco', 'Malperfusión de órganos', 'Insuficiencia aórtica aguda'] }
 ];
 export const complicacionesIntro = 'Las primeras 4 fichas son las entidades que forman el espectro del síndrome aórtico agudo: disección (la más frecuente), hematoma intramural (sin desgarro de íntima), úlcera penetrante (sobre placa ateroesclerótica), y el aneurisma no roto como sustrato crónico común. Las siguientes 4 son las complicaciones agudas que determinan la mortalidad: rotura aórtica, taponamiento cardiaco, malperfusión de órganos, e insuficiencia aórtica aguda.';
-export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
+export const categories = [
+  { id: 'definicion', label: 'Definición' },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'clasificacion', label: 'Clasificación' },
+  { id: 'complicaciones', label: 'Complicaciones' },
+  { id: 'seguimiento', label: 'Seguimiento' },
+  { id: 'autoevaluacion', label: 'Autoevaluación' },
+  { id: 'bibliografia', label: 'Bibliografía' }
+];
 export const arbol = {
   root: { title: 'SÍNDROME AÓRTICO AGUDO', color: '#7a1f3d', target: 'definicion' },
   branches: [

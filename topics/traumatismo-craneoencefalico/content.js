@@ -350,7 +350,15 @@ export const compGroups = [
   { name: 'Complicaciones', items: ['Hipertensión intracraneal y síndromes de herniación', 'Crisis convulsivas postraumáticas', 'Fractura de la base del cráneo, fuga de LCR y meningitis postraumática', 'Síndrome poscontusional'] }
 ];
 export const complicacionesIntro = 'Las primeras 4 tarjetas son los 4 patrones de lesión intracraneal, distintos por mecanismo, apariencia en TC, y manejo: TCE leve/conmoción, hematoma epidural, hematoma subdural (agudo y crónico), y hemorragia subaracnoidea traumática/lesión axonal difusa (TCE moderado-severo). Las siguientes 4 son las complicaciones reales del TCE: hipertensión intracraneal/herniación (la más crítica), crisis convulsivas postraumáticas, fractura de base de cráneo con fuga de LCR y meningitis, y síndrome poscontusional (la secuela crónica más frecuente).';
-export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
+export const categories = [
+  { id: 'definicion', label: 'Definición' },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'clasificacion', label: 'Clasificación' },
+  { id: 'complicaciones', label: 'Complicaciones' },
+  { id: 'seguimiento', label: 'Seguimiento' },
+  { id: 'autoevaluacion', label: 'Autoevaluación' },
+  { id: 'bibliografia', label: 'Bibliografía' }
+];
 export const arbol = {
   root: { title: 'TRAUMATISMO CRANEOENCEFÁLICO', color: '#4a3d73', target: 'definicion' },
   branches: [
