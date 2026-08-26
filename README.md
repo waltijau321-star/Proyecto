@@ -32,12 +32,18 @@ engine/                 Motor genérico (no conoce ningún tema)
   calculators.js        Motor declarativo de calculadoras + nota combinada
   general-calc.js       Calculadoras generales de MI (CURB-65, CKD-EPI, Wells, CHA₂DS₂-VASc)
   protocols.js          Protocolos académicos (teoría + fármacos + checklist interactivo)
+  vpo.js                Motor de la sección VPO (Ruta · Escalas · Fármacos · Estudios · Nota)
 topics/
   registry.js           Catálogo de temas (carga perezosa + composición)
   cirrosis-hepatica/    content.js · calculators.js · study.js
   sepsis/               content.js · calculators.js · study.js
   _template/            Plantilla para un tema nuevo
-protocols/protocols.js  Datos de los protocolos (RCP/ACLS, RSI, bundle de sepsis)
+protocols/
+  protocols.js          Datos de los protocolos (RCP/ACLS, RSI, bundle de sepsis)
+  vpo-calc.js           14 escalas de valoración preoperatoria + puente de anticoagulación
+  vpo-farmacos.js       Manejo perioperatorio de fármacos y hábitos (con nivel de evidencia)
+  vpo-ruta.js           Algoritmo por pasos de la evaluación cardiaca preoperatoria
+  vpo-estudios.js       Estudios preoperatorios: cuándo pedir cada uno y cuándo no
 ```
 
 ## Agregar un tema nuevo

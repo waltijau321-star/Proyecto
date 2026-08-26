@@ -4,7 +4,7 @@
 import { registry, loadTopic } from './topics/registry.js';
 import { temarioBlocks } from './topics/temario-index.js';
 import { mountStudy, setGlobalSearch, slugify } from './engine/study-view.js';
-import { setCalcTopic, setGeneralCalcs, mountCalculators, mountAllCalculators } from './engine/calculators.js';
+import { setGeneralCalcs, mountAllCalculators } from './engine/calculators.js';
 import { generalCalculators } from './engine/general-calc.js';
 import { mountProtocols } from './engine/protocols.js';
 import { mountHome } from './engine/home.js';
@@ -18,12 +18,11 @@ import { mountAccountMenu } from './engine/account-menu.js';
 import { trackSection, trackTopic } from './engine/usage-tracking.js';
 import { firebaseReady } from './engine/firebase-config.js';
 import './engine/infusion-calc.js';
-import { calculators as vpoCalculators, combinedNote as vpoCombinedNote } from './protocols/vpo-calc.js';
+import { mountVpo, refocusVpo, vpoSearchEntries, nuevoPaciente } from './engine/vpo.js';
 import { protocols } from './protocols/protocols.js';
 
 setGeneralCalcs(generalCalculators);
 
-const vpoTopic = { meta: { accent: '#3d5a73' }, calculators: vpoCalculators, combinedNote: vpoCombinedNote };
 const mounted = { protocolos: false, vpo: false, calc: false };
 let currentTopic = null;
 
@@ -80,16 +79,8 @@ function showSection(sec) {
 
   if (sec === 'protocolos' && !mounted.protocolos) { mountProtocols(document.getElementById('proto-root')); mounted.protocolos = true; }
   if (sec === 'vpo') {
-    if (!mounted.vpo) {
-      mountCalculators(vpoTopic, document.getElementById('vpo-root'), {
-        heading: 'Valoración preoperatoria (VPO)',
-        intro: 'Escalas de riesgo perioperatorio. La nota combinada incluye las 6 escalas ya expandidas, ya que casi siempre se calculan juntas para el mismo paciente.',
-        showExtras: false
-      });
-      mounted.vpo = true;
-    } else {
-      setCalcTopic(vpoTopic);
-    }
+    if (!mounted.vpo) { mountVpo(document.getElementById('vpo-root')); mounted.vpo = true; }
+    else refocusVpo();
   }
   if (sec === 'calc' && !mounted.calc) { mountAllCalculatorsSection(); mounted.calc = true; }
   if (sec === 'inicio') { mountHomeSection(); }
@@ -161,6 +152,28 @@ async function mountHomeSection() {
   });
 }
 
+/* ---------- Cambio de sesión tras el arranque ----------
+   Las secciones montadas una sola vez conservan en el DOM lo que renderizaron con los datos
+   del usuario anterior. En VPO eso son datos de un paciente concreto (fármacos y estudios
+   marcados, ruta recorrida), así que hay que descartarlas y volver a montarlas con lo que
+   initCloudSync acaba de fusionar, no solo refrescar Inicio. */
+function resetSectionsForNewSession({ otroUsuario }) {
+  // Con OTRO usuario hay que descartar además los datos del paciente que VPO tenía a medias.
+  // Vaciar el DOM no basta: syncGet mantiene un espejo en memoria y initCloudSync solo recorre
+  // las claves que existan en el documento del usuario nuevo, así que una clave que él nunca
+  // usó conserva el valor del usuario anterior. Si es el mismo usuario que vuelve a entrar, su
+  // borrador se respeta.
+  if (otroUsuario) nuevoPaciente();
+  mounted.protocolos = false;
+  mounted.vpo = false;
+  mounted.calc = false;
+  ['proto-root', 'vpo-root', 'calc-root'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = '';
+  });
+  showSection('inicio');
+}
+
 /* ---------- Buscador global (todos los temas, VPO y protocolos, sin importar la sección activa) ---------- */
 async function buildAndSetGlobalIndex() {
   const index = [];
@@ -180,13 +193,16 @@ async function buildAndSetGlobalIndex() {
         index.push({ label: e.nombre, type: 'Escala', scope: t.titulo, section: 'estudio', topicId: t.id, action: `jumpToEscala('${slugify(e.nombre)}')` });
       });
     }
-    (topic.calculators || []).forEach(c => {
-      index.push({ label: c.title, type: 'Calculadora', scope: t.titulo, section: 'calc', topicId: t.id, action: `openCalcFor('${t.id}','${c.key}')` });
-    });
+    // Las escalas de VPO las aporta vpoSearchEntries() apuntando a la sección VPO, que es su
+    // casa. El tema 'valoracion-preoperatoria' reexporta esas mismas escalas para que salgan
+    // en Calc, así que indexarlas aquí también las duplicaría en el buscador.
+    if (t.id !== 'valoracion-preoperatoria') {
+      (topic.calculators || []).forEach(c => {
+        index.push({ label: c.title, type: 'Calculadora', scope: t.titulo, section: 'calc', topicId: t.id, action: `openCalcFor('${t.id}','${c.key}')` });
+      });
+    }
   }
-  vpoCalculators.forEach(c => {
-    index.push({ label: c.title, type: 'Calculadora', scope: 'VPO', section: 'vpo', action: `openCalc('${c.key}')` });
-  });
+  vpoSearchEntries().forEach(e => index.push(e));
   protocols.forEach(p => {
     index.push({ label: p.title, type: 'Protocolo', scope: 'Protocolos', section: 'protocolos', action: `rmProtoOpen('${p.id}')` });
   });
@@ -236,12 +252,17 @@ async function init() {
   // (initAuth ya se encarga de mostrar el modal de login cuando no la hay). Si Firebase
   // todavía no está configurado (engine/firebase-config.js con placeholders), firebaseReady
   // es false y la app arranca igual, sin gate, para no bloquear el desarrollo local.
+  // Un cierre de sesión deja lastUid puesto, así que al volver a entrar se distingue si es la
+  // misma persona (conserva su trabajo) u otra (se descarta lo del paciente anterior).
+  let lastUid = null;
   initAuth(async (user) => {
+    const otroUsuario = !!(booted && user && lastUid && user.uid !== lastUid);
     await initCloudSync(user);
+    if (user) lastUid = user.uid;
     document.getElementById('nav-admin').style.display = isAdmin() ? '' : 'none';
     if (!user && firebaseReady) return;
     if (!booted) await bootApp();
-    else if (user) mountHomeSection(); // cambio de sesión tras el arranque: refrescar con datos fusionados
+    else resetSectionsForNewSession({ otroUsuario }); // cambio de sesión tras el arranque
   });
 }
 

@@ -830,6 +830,122 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 #study-root .hero{padding:34px 24px 30px;}
 #study-root .hero h1{font-size:clamp(2rem,5vw,3rem);}
 #study-root .pillbar{top:58px; z-index:40;}
+#vpo-root .vpo-tabbar{top:58px; z-index:40;}
+
+/* ---------------- VPO: pestaña de fármacos ---------------- */
+.vpo-drug-search{margin-bottom:22px;}
+.vpo-drug-search input{
+  width:100%; max-width:520px; padding:11px 14px; border:1px solid var(--line); border-radius:var(--radius);
+  background:var(--panel); color:var(--ink); font-family:'Source Sans 3',sans-serif; font-size:13.5px;
+}
+.vpo-drug-search input:focus{outline:none; border-color:var(--accent-fg);}
+.vpo-drug-group{margin-bottom:26px;}
+.vpo-drug-group h3{
+  font-family:'Newsreader',serif; font-size:1.15rem; font-weight:600; color:var(--c); margin:0 0 10px;
+  padding-bottom:6px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:8px;
+}
+.vpo-drug-count{
+  font-family:'Source Sans 3',sans-serif; font-size:11px; font-weight:600; color:var(--ink-faint);
+  border:1px solid var(--line); border-radius:10px; padding:1px 7px;
+}
+.vpo-drug-list{list-style:none; margin:0; padding:0;}
+.vpo-drug{
+  display:flex; align-items:center; gap:10px; padding:10px 4px; border-bottom:1px solid var(--line);
+}
+.vpo-drug:last-child{border-bottom:none;}
+.vpo-drug.marcada{background:color-mix(in srgb, var(--c) 7%, transparent);}
+.vpo-drug-main{
+  flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; text-align:left;
+  background:transparent; border:none; padding:0; cursor:pointer; font-family:inherit;
+}
+.vpo-drug-name{font-family:'Source Sans 3',sans-serif; font-size:14px; font-weight:600; color:var(--ink);}
+.vpo-drug-main:hover .vpo-drug-name{color:var(--c);}
+.vpo-drug-sum{font-size:12.5px; color:var(--ink-faint); line-height:1.4;}
+.vpo-chip{
+  flex:none; font-family:'Source Sans 3',sans-serif; font-size:10.5px; font-weight:700; letter-spacing:.03em;
+  text-transform:uppercase; color:var(--chip-fg,var(--chip)); border:1px solid var(--chip-fg,var(--chip)); border-radius:10px;
+  padding:2px 9px; white-space:nowrap;
+}
+/* Los colores de conducta (--chip) son semánticos y se fijan en protocols/vpo-farmacos.js, pero
+   sobre el fondo oscuro quedan por debajo del contraste legible (el morado de "Individualizar"
+   baja a ~2.2:1). En tema oscuro se aclaran mezclándolos con blanco, conservando el matiz. */
+:root[data-theme="dark"] .vpo-chip{--chip-fg:color-mix(in srgb, var(--chip) 55%, white);}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .vpo-chip{--chip-fg:color-mix(in srgb, var(--chip) 55%, white);}
+}
+.vpo-drug-add{
+  flex:none; width:28px; height:28px; border-radius:50%; border:1px solid var(--line); background:var(--panel);
+  color:var(--ink-dim); cursor:pointer; font-size:14px; line-height:1; display:flex; align-items:center; justify-content:center;
+}
+.vpo-drug-add:hover{border-color:var(--c); color:var(--c);}
+.vpo-drug.marcada .vpo-drug-add{border-color:var(--c); color:var(--c); font-weight:700;}
+.vpo-empty{color:var(--ink-faint); font-size:13.5px; font-style:italic;}
+/* Marcador de nivel de evidencia en el detalle de un fármaco: distingue una recomendación
+   formal de sociedad de una práctica aceptada sin guía propia. */
+.vpo-ev{
+  display:inline-block; font-family:'Source Sans 3',sans-serif; font-size:10px; font-weight:700;
+  letter-spacing:.04em; text-transform:uppercase; border-radius:3px; padding:2px 7px; margin-right:8px;
+}
+/* Texto blanco fijo, no var(--bg2): sobre un fondo de color constante el token del tema se
+   oscurece en modo oscuro y el contraste caía a 2.7:1. Con blanco queda igual en ambos temas. */
+.vpo-ev-guia{color:#fff; background:#3f6b52;}
+.vpo-ev-consenso{color:#fff; background:#85602e;}
+
+/* ---------------- VPO: pestaña de ruta (asistente por pasos) ---------------- */
+.vpo-miga{list-style:none; margin:0 0 22px; padding:0; display:flex; flex-direction:column; gap:6px;}
+.vpo-miga li{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; font-size:12.5px;}
+.vpo-miga-paso{color:var(--ink-faint); font-family:'Source Sans 3',sans-serif;}
+.vpo-miga-paso::after{content:":";}
+.vpo-miga-op{
+  background:transparent; border:none; padding:0; cursor:pointer; font-family:'Source Sans 3',sans-serif;
+  font-size:12.5px; font-weight:600; color:var(--accent-fg); border-bottom:1px dashed currentColor;
+}
+.vpo-miga-op:hover{opacity:.75;}
+.vpo-paso-tag{
+  display:inline-block; font-family:'Source Sans 3',sans-serif; font-size:11px; letter-spacing:.04em;
+  text-transform:uppercase; color:var(--accent-fg); border-bottom:2px solid; padding-bottom:3px;
+  margin-bottom:14px; font-weight:600;
+}
+.vpo-paso h3{font-family:'Newsreader',serif; font-size:1.45rem; font-weight:600; color:var(--ink); margin:0 0 8px;}
+.vpo-paso-ayuda{font-size:13.5px; color:var(--ink-dim); line-height:1.6; margin:0 0 12px; max-width:640px;}
+.vpo-op-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-top:18px;}
+.vpo-op{
+  display:flex; flex-direction:column; gap:5px; text-align:left; padding:14px 16px; cursor:pointer;
+  background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); font-family:inherit;
+  transition:border-color .15s, box-shadow .15s;
+}
+.vpo-op:hover{border-color:var(--accent-fg); box-shadow:var(--shadow-sm);}
+.vpo-op-label{font-family:'Source Sans 3',sans-serif; font-size:14px; font-weight:600; color:var(--ink);}
+.vpo-op-nota{font-size:12.5px; color:var(--ink-faint); line-height:1.45;}
+.vpo-veredicto{border-left:3px solid var(--v); padding-left:18px; margin-bottom:22px;}
+.vpo-veredicto h3{font-family:'Newsreader',serif; font-size:1.45rem; font-weight:600; color:var(--ink); margin:12px 0 8px;}
+.vpo-veredicto > p{font-size:14px; color:var(--ink-dim); line-height:1.65; margin:0 0 16px; max-width:680px;}
+.vpo-veredicto .proto-keypoints{margin-bottom:14px;}
+
+/* ---------------- VPO: pestaña de nota ---------------- */
+.vpo-nota-caja{margin-bottom:8px;}
+.vpo-nota-sec{margin-bottom:18px;}
+.vpo-nota-sec:last-child{margin-bottom:0;}
+.vpo-nota-sec h3{
+  font-family:'Source Sans 3',sans-serif; font-size:11px; letter-spacing:.05em; text-transform:uppercase;
+  color:var(--ink-faint); font-weight:700; margin:0 0 8px;
+}
+.vpo-nota-sec p{margin:0 0 8px;}
+.vpo-nota-sec ul.cr-list{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:7px;}
+.vpo-nota-fina{font-size:12.5px; color:var(--ink-faint); font-style:italic; margin-top:10px;}
+.vpo-inline-link{
+  background:transparent; border:none; padding:0; cursor:pointer; font-family:inherit; font-size:inherit;
+  color:var(--accent-fg); font-weight:600; border-bottom:1px dashed currentColor;
+}
+.vpo-inline-link:hover{opacity:.75;}
+.vpo-d-lead{font-size:14px; color:var(--ink-dim); line-height:1.6; margin:0 0 20px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.vpo-d-h{font-family:'Newsreader',serif; font-size:1.05rem; font-weight:600; color:var(--modal-accent); margin:18px 0 7px;}
+.vpo-d-b{font-size:14px; color:var(--ink-dim); line-height:1.65;}
+.vpo-d-b ul.cr-list{margin:8px 0 0; padding-left:20px; display:flex; flex-direction:column; gap:7px;}
+@media (max-width:520px){
+  .vpo-drug{flex-wrap:wrap;}
+  .vpo-drug-main{flex-basis:100%;}
+}
 .study-section{scroll-margin-top:112px;}
 #study-root .bib-list li{scroll-margin-top:112px;}
 @media (max-width:640px){
@@ -838,6 +954,7 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
   .sec-header, .sec-body{padding-left:16px; padding-right:16px;}
   #study-root .hero{padding:24px 14px 22px;}
   #study-root .pillbar{top:52px;}
+  #vpo-root .vpo-tabbar{top:52px;}
 }
 
 /* ---------------- Autenticación ---------------- */

@@ -7,6 +7,7 @@
 import { syncGet, syncSet } from './cloud-sync.js';
 import { updateQuizSRS, dueQuestionIndices, isQuizCompleted, remainingToComplete } from './quiz-srs.js';
 import { trackEvent } from './usage-tracking.js';
+import { setCalcTopic } from './calculators.js';
 
 // Datos del tema activo (poblados por mountStudy)
 let TOPIC, D, BIB, COMP_CITES, ESTIGMAS_FREQ, BIOPSIA_LISTS, ESCALA_REFS, ESCALA_CALC,
@@ -731,6 +732,11 @@ export function mountStudy(topic) {
   BIOPSIA_LISTS = topic.biopsia || null;
   ESCALA_REFS = topic.escalaRefs || {};
   ESCALA_CALC = topic.escalaCalc || {};
+  // El botón "Calcular" de la tabla de escalas llama openCalc(key), que resuelve contra el
+  // tema de calculadoras activo. Si no se fija aquí, en una sesión recién cargada ese tema es
+  // null y el botón lanza; y si el usuario abrió antes una calculadora de otro tema, la key no
+  // se encuentra y el botón no hace nada. Fijarlo al montar el tema deja ambos casos resueltos.
+  setCalcTopic(topic);
   COMP_GROUPS = topic.compGroups || [];
   ARBOL = topic.arbol || null;
   CATEGORIES = topic.categories || [];

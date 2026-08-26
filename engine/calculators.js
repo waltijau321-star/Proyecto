@@ -9,6 +9,16 @@ let ALL_TOPICS = {};   // id -> topic completo, poblado por mountAllCalculators 
 
 export function setGeneralCalcs(arr) { GENERAL = arr || []; }
 
+// Aviso opcional de "esta escala acaba de dar un resultado", para que un consumidor pueda
+// recogerlo sin que este motor sepa quién lo escucha (lo usa la nota de VPO en engine/vpo.js).
+// Recibe (key, resultado, calc); un resultado null significa que faltan datos.
+let RESULT_LISTENER = null;
+export function setResultListener(fn) { RESULT_LISTENER = typeof fn === 'function' ? fn : null; }
+function notifyResult(key, r, calc) {
+  if (!RESULT_LISTENER) return;
+  try { RESULT_LISTENER(key, r, calc); } catch (e) { console.error('VPO: fallo al recoger el resultado', e); }
+}
+
 export function setCalcTopic(topic) {
   CALC_TOPIC = {
     calculators: topic.calculators || [],
@@ -24,7 +34,9 @@ function lookupCalc(key) {
 /* ---------- Modal helpers (compartidos con study-view vía el DOM) ---------- */
 function overlay() { return document.getElementById('overlay'); }
 function modalEl() { return document.getElementById('modal'); }
-function openModalShell(accent, innerHTML) {
+// Exportado para que otros módulos (engine/vpo.js) reutilicen el mismo #overlay/#modal
+// en vez de montar uno propio. Exportarlo no cambia el comportamiento de este archivo.
+export function openModalShell(accent, innerHTML) {
   const m = modalEl();
   m.style.setProperty('--modal-accent', accent);
   m.innerHTML = innerHTML;
@@ -136,10 +148,11 @@ export function openCalc(key) {
   bindSharedFields();
   const recalc = () => {
     const { v, missingRequired } = readAll(calc);
-    if (missingRequired) { setResult(calc.incompleteMsg || 'Completa todos los campos.'); return; }
+    if (missingRequired) { setResult(calc.incompleteMsg || 'Completa todos los campos.'); notifyResult(key, null, calc); return; }
     const r = calc.compute(v);
-    if (r === null || r === undefined) { setResult(calc.incompleteMsg || 'Completa todos los campos.'); return; }
+    if (r === null || r === undefined) { setResult(calc.incompleteMsg || 'Completa todos los campos.'); notifyResult(key, null, calc); return; }
     setResult(calc.format(r));
+    notifyResult(key, r, calc);
   };
   bindInputs(calc.fields, recalc);
   recalc();
@@ -265,6 +278,7 @@ function recalcCombined() {
     const calc = byKey(k);
     const { v, missingRequired } = readAll(calc);
     const r = missingRequired ? null : calc.compute(v);
+    notifyResult(k, r, calc);
     if (r === null || r === undefined) { missing.push(calc.title); return; }
     results[k] = r;
   });

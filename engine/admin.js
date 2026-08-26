@@ -81,7 +81,7 @@ const EVENT_LABELS = {
   deckReview: { start: 'deckReviewStart', complete: 'deckReviewComplete', label: 'Fichas (mazo, Inicio)' },
   case: { start: 'caseStart', complete: 'caseComplete', label: 'Caso clínico' }
 };
-const SECTION_LABELS = { inicio: 'Inicio', estudio: 'Estudio', calc: 'Calc', protocolos: 'Protocolos', calendario: 'Calendario', vpo: 'VPO', admin: 'Admin' };
+const SECTION_LABELS = { inicio: 'Inicio', estudio: 'Estudio', calc: 'Calc', protocolos: 'Protocolos', vpo: 'VPO', examen: 'Examen', admin: 'Admin' };
 
 function usageStatsHTML(users) {
   const optedIn = users.filter(u => u['rm:usage-stats']);

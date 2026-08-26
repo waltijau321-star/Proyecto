@@ -347,6 +347,14 @@ export const registry = [
       import('./trastornos-del-movimiento/calculators.js'),
       import('./trastornos-del-movimiento/study.js')
     ])
+  },
+  {
+    id: 'valoracion-preoperatoria', titulo: 'Valoración Preoperatoria',
+    load: () => Promise.all([
+      import('./valoracion-preoperatoria/content.js'),
+      import('./valoracion-preoperatoria/calculators.js'),
+      import('./valoracion-preoperatoria/study.js')
+    ])
   }
 ];
 

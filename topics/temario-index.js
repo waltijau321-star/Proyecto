@@ -315,6 +315,7 @@ export const temarioBlocks = [
     clusters: [
       { name: 'Procedimientos', items: ['Paracentesis, toracocentesis y punción lumbar', 'Colocación de accesos venosos centrales', 'Artrocentesis (aspiración articular)'] },
       { name: 'Interpretación diagnóstica', items: ['Electrocardiograma', 'Gasometría arterial', 'Radiografía de tórax', 'Radiografía de abdomen', 'Tomografía computada básica (tórax y abdomen)', 'Ecografía clínica a pie de cama (POCUS)'] },
+      { name: 'Valoración perioperatoria', items: [{ label: 'Valoración preoperatoria (estimación de riesgo, estudios indicados, manejo perioperatorio de fármacos y poblaciones especiales)', topicId: 'valoracion-preoperatoria' }] },
       { name: 'Práctica profesional', items: ['Seguridad del paciente y calidad de la atención', 'Metodología de la investigación y lectura crítica de la literatura', 'Bioestadística clínica y epidemiología (sensibilidad, especificidad, riesgo relativo, NNT)', 'Razonamiento clínico y diagnóstico', 'Transiciones de cuidado y continuidad', 'Documentación clínica y nota médica'] }
     ]
   }
