@@ -75,7 +75,7 @@ const NEUROLOGIA_CLUSTERS = [
     { label: 'Cefaleas', topicId: 'cefaleas' },
     { label: 'Enfermedad de Parkinson', topicId: 'trastornos-del-movimiento' }, { label: 'Otros trastornos del movimiento (temblor esencial, distonía, corea)', topicId: 'trastornos-del-movimiento' }, { label: 'Esclerosis múltiple y otras enfermedades desmielinizantes', topicId: 'esclerosis-multiple' }
   ] },
-  { name: 'Alteración de conciencia y enfermedad neuromuscular', items: ['Delirium y coma', 'Síndrome demencial', 'Deterioro cognitivo', 'Enfermedad por priones', 'Encefalopatías metabólicas', 'Neuropatías periféricas', 'Parálisis facial', 'Disautonomía', 'Síndrome de Guillain-Barré y miastenia gravis', 'Distrofias musculares', 'Esclerosis lateral amiotrófica', 'Meningoencefalitis infecciosa', 'Encefalitis autoinmune'] }
+  { name: 'Alteración de conciencia y enfermedad neuromuscular', items: [{ label: 'Delirium y coma', topicId: 'delirium-coma-encefalopatias' }, 'Síndrome demencial', 'Deterioro cognitivo', 'Enfermedad por priones', { label: 'Encefalopatías metabólicas', topicId: 'delirium-coma-encefalopatias' }, 'Neuropatías periféricas', 'Parálisis facial', 'Disautonomía', 'Síndrome de Guillain-Barré y miastenia gravis', 'Distrofias musculares', 'Esclerosis lateral amiotrófica', 'Meningoencefalitis infecciosa', 'Encefalitis autoinmune'] }
 ];
 
 // Solo los clusters de enfermedad respiratoria propiamente dicha (no medicina crítica
@@ -244,7 +244,7 @@ export const temarioBlocks = [
     intro: 'Particularidades fisiológicas y síndromes propios del adulto mayor hospitalizado.',
     clusters: [
       { name: 'Valoración y síndromes geriátricos', items: ['Valoración geriátrica integral', 'Biología del envejecimiento', 'Caídas, fragilidad y sarcopenia', 'Polifarmacia y deprescripción', 'Abdomen agudo en el adulto mayor'] },
-      { name: 'Cognición', items: ['Delirium en el adulto mayor', 'Demencias', 'Enfermedad de Alzheimer', 'Depresión en el adulto mayor'] }
+      { name: 'Cognición', items: [{ label: 'Delirium en el adulto mayor', topicId: 'delirium-coma-encefalopatias' }, 'Demencias', 'Enfermedad de Alzheimer', 'Depresión en el adulto mayor'] }
     ]
   },
   {

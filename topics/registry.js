@@ -357,6 +357,14 @@ export const registry = [
     ])
   },
   {
+    id: 'delirium-coma-encefalopatias', titulo: 'Delirium, Coma y Encefalopatías Metabólicas',
+    load: () => Promise.all([
+      import('./delirium-coma-encefalopatias/content.js'),
+      import('./delirium-coma-encefalopatias/calculators.js'),
+      import('./delirium-coma-encefalopatias/study.js')
+    ])
+  },
+  {
     id: 'embolia-grasa', titulo: 'Embolia Grasa',
     load: () => Promise.all([
       import('./embolia-grasa/content.js'),
