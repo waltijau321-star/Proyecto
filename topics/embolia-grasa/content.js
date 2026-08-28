@@ -81,7 +81,7 @@ export const content = {
     ],
     no_invasivos: [
       { metodo: 'Criterios de Gurd y Wilson (calculadora)', interpretacion: 'Combina criterios mayores y menores para establecer el diagnóstico clínico, dado que no existe una prueba confirmatoria única.', cutoff: '≥2 criterios mayores, o 1 criterio mayor + ≥4 criterios menores' },
-      { metodo: 'Examen de fondo de ojo', interpretacion: 'Puede mostrar émbolos grasos retinianos o petequias retinianas (criterio menor); apoya el diagnóstico cuando está presente.' }
+      { metodo: 'Examen de fondo de ojo', interpretacion: 'Puede mostrar émbolos grasos retinianos o petequias retinianas (criterio menor); apoya el diagnóstico cuando está presente.', cutoff: 'Presencia de petequias o émbolos retinianos' }
     ],
     imagen: [
       { modalidad: 'Radiografía de tórax', hallazgos: 'Infiltrados pulmonares bilaterales difusos ("tormenta de nieve"), inespecíficos pero de apoyo diagnóstico cuando se combinan con el cuadro clínico compatible.' },

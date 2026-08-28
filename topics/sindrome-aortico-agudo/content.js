@@ -118,7 +118,7 @@ export const content = {
     ],
     no_invasivos: [
       { metodo: 'ADD-RS (Aortic Dissection Detection Risk Score, calculadora)', interpretacion: 'Estratifica la probabilidad pretest de síndrome aórtico agudo combinando condiciones de alto riesgo, características del dolor, y hallazgos de exploración.', cutoff: '0: bajo riesgo (considerar dímero D antes de imagen). 1: riesgo intermedio. ≥2: alto riesgo, imagen urgente sin demora' },
-      { metodo: 'Electrocardiograma', interpretacion: 'Descarta o identifica isquemia miocárdica concomitante (por compromiso de un ostium coronario); con frecuencia normal o con cambios inespecíficos, no debe usarse para excluir el diagnóstico.' }
+      { metodo: 'Electrocardiograma', interpretacion: 'Descarta o identifica isquemia miocárdica concomitante (por compromiso de un ostium coronario); con frecuencia normal o con cambios inespecíficos, no debe usarse para excluir el diagnóstico.', cutoff: 'Un ECG normal NO descarta el síndrome aórtico agudo' }
     ],
     imagen: [
       { modalidad: 'Angio-tomografía de aorta completa (tórax-abdomen-pelvis)', hallazgos: 'Estudio de elección: identifica el colgajo de la íntima y la falsa luz en la disección, la hiperdensidad en semiluna sin realce en el hematoma intramural, el nicho ulceroso en la úlcera penetrante, y delimita la extensión y las ramas comprometidas en cualquiera de los 3.' },
