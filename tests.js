@@ -863,20 +863,68 @@ async function run() {
       'coagulacion-intravascular-diseminada', 'linfadenopatias',
       'alteraciones-serie-blanca', 'hiperesplenismo', 'sindrome-hiperviscosidad',
       'transfusion-hemoderivados', 'cefaleas', 'enfermedad-cerebrovascular',
-      'esclerosis-multiple']);
+      'esclerosis-multiple', 'delirium-coma-encefalopatias', 'estado-epileptico',
+      'neoplasias-snc-hipertension-intracraneal']);
     // Cola de trabajo pendiente de la auditoría. Esta lista debe encogerse, nunca crecer.
     const PENDIENTES = new Set([
       'cirrosis-hepatica',
-      'delirium-coma-encefalopatias',
-      'estado-epileptico', 'exploracion-abdominal',
+      'exploracion-abdominal',
       'exploracion-cabeza-cuello', 'exploracion-cardiovascular', 'exploracion-neurologica',
       'exploracion-osteoarticular', 'exploracion-piel-faneras', 'exploracion-respiratoria',
       'historia-clinica',
-      'miocardiopatias', 'neoplasias-snc-hipertension-intracraneal',
+      'miocardiopatias',
       'sepsis', 'signos-clasicos', 'sindrome-aortico-agudo',
       'trastornos-del-movimiento', 'traumatismo-craneoencefalico',
       'vasopresores-sedantes'
     ]);
+
+    /* La explicación de cada pregunta describe la respuesta correcta. Si otra opción se parece
+       bastante más a esa explicación que la marcada en `correct`, es señal de que la clave de
+       respuesta quedó apuntando a la opción equivocada. Es un heurístico, no una prueba: por eso
+       el margen es amplio (6 palabras de contenido). Con margen 6 los 47 temas dan 0 avisos, así
+       que cualquier aviso nuevo merece revisarse a mano.
+       Encontró 13 de las 23 claves equivocadas que traía `estado-epileptico` de origen. */
+    const PALABRAS_VACIAS = new Set(['de', 'la', 'el', 'los', 'las', 'un', 'una', 'unos', 'unas',
+      'y', 'o', 'en', 'con', 'por', 'para', 'que', 'se', 'su', 'sus', 'del', 'al', 'es', 'son',
+      'como', 'mas', 'menos', 'no', 'si', 'sin', 'sobre', 'entre', 'cuando', 'donde', 'cual',
+      'cuales', 'este', 'esta', 'estos', 'estas', 'lo', 'le', 'les', 'ha', 'han', 'hay', 'ser',
+      'estan', 'tras', 'ante', 'desde', 'hasta', 'cada', 'tambien', 'pero', 'aunque']);
+    const palabrasDe = s => new Set(
+      (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+        .match(/[a-z0-9]+/g)?.filter(w => w.length > 3 && !PALABRAS_VACIAS.has(w)) || []);
+    const enComun = (a, b) => [...a].filter(w => b.has(w)).length;
+
+    // Cada pregunta se empareja con la explicación que le corresponde: la suya si es suelta, la
+    // del caso completo si es un paso de cascada.
+    const conExplicacion = quiz => (quiz || []).flatMap(q => q.type === 'cascade'
+      ? (q.steps || []).map(s => [s, q.explanation])
+      : [[q, q.explanation]])
+      .filter(([q, exp]) => exp && Array.isArray(q.options) && q.options.length === 4
+        && typeof q.correct === 'number');
+
+    function clavesSospechosas(quiz) {
+      const malas = [];
+      for (const [q, exp] of conExplicacion(quiz)) {
+        const e = palabrasDe(exp);
+        if (!e.size) continue;
+        const puntos = q.options.map(o => enComun(palabrasDe(o), e));
+        const mejor = puntos.indexOf(Math.max(...puntos));
+        if (mejor !== q.correct && puntos[mejor] >= puntos[q.correct] + 6) {
+          malas.push(`"${q.q.slice(0, 60)}…" marca [${q.correct}] pero la explicación describe [${mejor}]`);
+        }
+      }
+      return malas;
+    }
+
+    // Esta comprobación corre sobre TODOS los temas, revisados o no: una clave de respuesta
+    // equivocada es un error de contenido que el alumno estudia mal, no una cuestión de estilo.
+    for (const entry of registry) {
+      const topic = await loadTopic(entry.id);
+      test(`quiz[${entry.id}]: la opción marcada como correcta concuerda con la explicación`, () => {
+        const malas = clavesSospechosas(topic.study.quiz);
+        assert(malas.length === 0, 'posible clave de respuesta equivocada: ' + malas.join(' | '));
+      });
+    }
 
     test('quiz: todo tema del registro está clasificado como revisado o pendiente', () => {
       const sinClasificar = registry.map(e => e.id).filter(id => !REVISADOS.has(id) && !PENDIENTES.has(id));
