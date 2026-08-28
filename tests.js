@@ -767,6 +767,23 @@ async function run() {
       const comps = topic.content.complicaciones || [];
       assert(comps.every(c => c.nombre && c.nombre.trim().length > 0), 'hay una complicación sin "nombre"');
     });
+    // study-view.js interpola estos campos directo en las tablas de Diagnóstico y Clasificación.
+    // Si a una fila le falta uno, el usuario ve la palabra "undefined" en la celda: pasó con el
+    // `cutoff` de 3 filas de no_invasivos, visible en producción hasta que se buscó a mano.
+    test(`esquema[${entry.id}]: las filas de las tablas no dejan celdas "undefined"`, () => {
+      const d = topic.content.diagnostico || {};
+      const cl = topic.content.clasificacion || {};
+      const faltan = [];
+      const revisar = (filas, campos, etiqueta, nombreDe) => (filas || []).forEach(f => campos
+        .filter(k => f[k] === undefined)
+        .forEach(k => faltan.push(`${etiqueta} "${nombreDe(f)}" sin ${k}`)));
+      revisar(d.laboratorio, ['prueba', 'utilidad'], 'laboratorio', f => f.prueba);
+      revisar(d.etiologicos, ['prueba', 'utilidad'], 'etiológicos', f => f.prueba);
+      revisar(d.no_invasivos, ['metodo', 'interpretacion', 'cutoff'], 'no invasivos', f => f.metodo);
+      revisar(d.imagen, ['modalidad', 'hallazgos'], 'imagen', f => f.modalidad);
+      revisar(cl.escalas, ['nombre', 'componentes', 'formula', 'interpretacion'], 'escala', f => f.nombre);
+      assert(faltan.length === 0, faltan.join(' | '));
+    });
   }
 
   /* ---------------- Calidad de las opciones del quiz ----------------
@@ -836,14 +853,14 @@ async function run() {
     // 'valoracion-preoperatoria' entra sin reescritura porque la auditoría lo encontró ya en
     // regla (37.5% / 0.98x / 8.3% / 0 atípicas). Sirve de prueba de que los umbrales son
     // alcanzables con contenido clínico real, no un ideal teórico.
-    const REVISADOS = new Set(['valoracion-preoperatoria']);
+    const REVISADOS = new Set(['valoracion-preoperatoria', 'embolia-grasa']);
     // Cola de trabajo pendiente de la auditoría. Esta lista debe encogerse, nunca crecer.
     const PENDIENTES = new Set([
       'alteraciones-plaquetarias-cuantitativas', 'alteraciones-serie-blanca', 'anemia-aplasica',
       'anemia-enfermedad-cronica', 'anemia-ferropenica', 'anemia-megaloblastica',
       'anemias-hemoliticas-adquiridas', 'anemias-hemoliticas-hereditarias', 'cefaleas',
       'cirrosis-hepatica', 'coagulacion-intravascular-diseminada', 'coagulacion-trombofilias',
-      'delirium-coma-encefalopatias', 'embolia-grasa', 'enfermedad-cerebrovascular',
+      'delirium-coma-encefalopatias', 'enfermedad-cerebrovascular',
       'esclerosis-multiple', 'estado-epileptico', 'exploracion-abdominal',
       'exploracion-cabeza-cuello', 'exploracion-cardiovascular', 'exploracion-neurologica',
       'exploracion-osteoarticular', 'exploracion-piel-faneras', 'exploracion-respiratoria',
@@ -864,7 +881,7 @@ async function run() {
 
     // Este número solo baja. Cada tema corregido se mueve a REVISADOS y aquí se decrementa;
     // si un tema nuevo llega con preguntas que no cumplen, la cola crece y esta prueba falla.
-    const COLA_MAXIMA = 46;
+    const COLA_MAXIMA = 45;
     test('quiz: la cola de temas pendientes de revisar no crece', () => {
       const pendientesReales = registry.map(e => e.id).filter(id => PENDIENTES.has(id));
       assert(pendientesReales.length <= COLA_MAXIMA,

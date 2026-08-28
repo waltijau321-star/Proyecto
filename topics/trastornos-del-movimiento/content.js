@@ -118,7 +118,7 @@ export const content = {
     ],
     no_invasivos: [
       { metodo: 'Escala de Hoehn y Yahr (calculadora)', interpretacion: 'Estadifica la gravedad y progresión de la enfermedad de Parkinson.', cutoff: '0 (sin signos) a 5 (dependiente de silla de ruedas o encamado)' },
-      { metodo: 'Respuesta a levodopa', interpretacion: 'Una respuesta clara y sostenida apoya fuertemente el diagnóstico de enfermedad de Parkinson idiopática, a diferencia de los parkinsonismos atípicos, que responden poco o de forma transitoria.' }
+      { metodo: 'Respuesta a levodopa', interpretacion: 'Una respuesta clara y sostenida apoya fuertemente el diagnóstico de enfermedad de Parkinson idiopática, a diferencia de los parkinsonismos atípicos, que responden poco o de forma transitoria.', cutoff: 'Mejoría clara y sostenida de los signos motores' }
     ],
     imagen: [
       { modalidad: 'Resonancia magnética cerebral', hallazgos: 'Habitualmente normal en la enfermedad de Parkinson idiopática (diagnóstico clínico); se solicita principalmente para descartar causas estructurales secundarias (parkinsonismo vascular, hidrocefalia) o hallazgos atípicos sugestivos de otro parkinsonismo.' },
