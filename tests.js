@@ -862,13 +862,13 @@ async function run() {
       'alteraciones-plaquetarias-cuantitativas', 'coagulacion-trombofilias',
       'coagulacion-intravascular-diseminada', 'linfadenopatias',
       'alteraciones-serie-blanca', 'hiperesplenismo', 'sindrome-hiperviscosidad',
-      'transfusion-hemoderivados']);
+      'transfusion-hemoderivados', 'cefaleas', 'enfermedad-cerebrovascular',
+      'esclerosis-multiple']);
     // Cola de trabajo pendiente de la auditoría. Esta lista debe encogerse, nunca crecer.
     const PENDIENTES = new Set([
-      'cefaleas',
       'cirrosis-hepatica',
-      'delirium-coma-encefalopatias', 'enfermedad-cerebrovascular',
-      'esclerosis-multiple', 'estado-epileptico', 'exploracion-abdominal',
+      'delirium-coma-encefalopatias',
+      'estado-epileptico', 'exploracion-abdominal',
       'exploracion-cabeza-cuello', 'exploracion-cardiovascular', 'exploracion-neurologica',
       'exploracion-osteoarticular', 'exploracion-piel-faneras', 'exploracion-respiratoria',
       'historia-clinica',
