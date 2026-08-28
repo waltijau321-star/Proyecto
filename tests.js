@@ -856,7 +856,8 @@ async function run() {
     const REVISADOS = new Set(['valoracion-preoperatoria', 'embolia-grasa',
       'anemia-ferropenica', 'anemia-megaloblastica', 'anemia-enfermedad-cronica',
       'anemias-hemoliticas-hereditarias', 'anemias-hemoliticas-adquiridas', 'anemia-aplasica',
-      'hemoglobinopatias', 'policitemia-secundaria', 'porfirias']);
+      'hemoglobinopatias', 'policitemia-secundaria', 'porfirias',
+      'sindromes-mieloproliferativos']);
     // Cola de trabajo pendiente de la auditoría. Esta lista debe encogerse, nunca crecer.
     const PENDIENTES = new Set([
       'alteraciones-plaquetarias-cuantitativas', 'alteraciones-serie-blanca', 'cefaleas',
@@ -869,7 +870,7 @@ async function run() {
       'leucemia-linfocitica-cronica', 'linfadenopatias', 'linfomas', 'mieloma-multiple',
       'miocardiopatias', 'neoplasias-snc-hipertension-intracraneal',
       'sepsis', 'signos-clasicos', 'sindrome-aortico-agudo',
-      'sindrome-hiperviscosidad', 'sindromes-mielodisplasicos', 'sindromes-mieloproliferativos',
+      'sindrome-hiperviscosidad', 'sindromes-mielodisplasicos',
       'transfusion-hemoderivados', 'trastornos-del-movimiento', 'traumatismo-craneoencefalico',
       'vasopresores-sedantes'
     ]);
@@ -882,7 +883,7 @@ async function run() {
 
     // Este número solo baja. Cada tema corregido se mueve a REVISADOS y aquí se decrementa;
     // si un tema nuevo llega con preguntas que no cumplen, la cola crece y esta prueba falla.
-    const COLA_MAXIMA = 36;
+    const COLA_MAXIMA = 35;
     test('quiz: la cola de temas pendientes de revisar no crece', () => {
       const pendientesReales = registry.map(e => e.id).filter(id => PENDIENTES.has(id));
       assert(pendientesReales.length <= COLA_MAXIMA,
