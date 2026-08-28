@@ -854,11 +854,11 @@ async function run() {
     // regla (37.5% / 0.98x / 8.3% / 0 atípicas). Sirve de prueba de que los umbrales son
     // alcanzables con contenido clínico real, no un ideal teórico.
     const REVISADOS = new Set(['valoracion-preoperatoria', 'embolia-grasa',
-      'anemia-ferropenica', 'anemia-megaloblastica', 'anemia-enfermedad-cronica']);
+      'anemia-ferropenica', 'anemia-megaloblastica', 'anemia-enfermedad-cronica',
+      'anemias-hemoliticas-hereditarias', 'anemias-hemoliticas-adquiridas', 'anemia-aplasica']);
     // Cola de trabajo pendiente de la auditoría. Esta lista debe encogerse, nunca crecer.
     const PENDIENTES = new Set([
-      'alteraciones-plaquetarias-cuantitativas', 'alteraciones-serie-blanca', 'anemia-aplasica',
-            'anemias-hemoliticas-adquiridas', 'anemias-hemoliticas-hereditarias', 'cefaleas',
+      'alteraciones-plaquetarias-cuantitativas', 'alteraciones-serie-blanca', 'cefaleas',
       'cirrosis-hepatica', 'coagulacion-intravascular-diseminada', 'coagulacion-trombofilias',
       'delirium-coma-encefalopatias', 'enfermedad-cerebrovascular',
       'esclerosis-multiple', 'estado-epileptico', 'exploracion-abdominal',
@@ -881,7 +881,7 @@ async function run() {
 
     // Este número solo baja. Cada tema corregido se mueve a REVISADOS y aquí se decrementa;
     // si un tema nuevo llega con preguntas que no cumplen, la cola crece y esta prueba falla.
-    const COLA_MAXIMA = 42;
+    const COLA_MAXIMA = 39;
     test('quiz: la cola de temas pendientes de revisar no crece', () => {
       const pendientesReales = registry.map(e => e.id).filter(id => PENDIENTES.has(id));
       assert(pendientesReales.length <= COLA_MAXIMA,
