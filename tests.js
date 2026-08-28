@@ -855,7 +855,8 @@ async function run() {
     // alcanzables con contenido clínico real, no un ideal teórico.
     const REVISADOS = new Set(['valoracion-preoperatoria', 'embolia-grasa',
       'anemia-ferropenica', 'anemia-megaloblastica', 'anemia-enfermedad-cronica',
-      'anemias-hemoliticas-hereditarias', 'anemias-hemoliticas-adquiridas', 'anemia-aplasica']);
+      'anemias-hemoliticas-hereditarias', 'anemias-hemoliticas-adquiridas', 'anemia-aplasica',
+      'hemoglobinopatias', 'policitemia-secundaria', 'porfirias']);
     // Cola de trabajo pendiente de la auditoría. Esta lista debe encogerse, nunca crecer.
     const PENDIENTES = new Set([
       'alteraciones-plaquetarias-cuantitativas', 'alteraciones-serie-blanca', 'cefaleas',
@@ -864,10 +865,10 @@ async function run() {
       'esclerosis-multiple', 'estado-epileptico', 'exploracion-abdominal',
       'exploracion-cabeza-cuello', 'exploracion-cardiovascular', 'exploracion-neurologica',
       'exploracion-osteoarticular', 'exploracion-piel-faneras', 'exploracion-respiratoria',
-      'hemoglobinopatias', 'hiperesplenismo', 'historia-clinica', 'leucemia-aguda',
+      'hiperesplenismo', 'historia-clinica', 'leucemia-aguda',
       'leucemia-linfocitica-cronica', 'linfadenopatias', 'linfomas', 'mieloma-multiple',
-      'miocardiopatias', 'neoplasias-snc-hipertension-intracraneal', 'policitemia-secundaria',
-      'porfirias', 'sepsis', 'signos-clasicos', 'sindrome-aortico-agudo',
+      'miocardiopatias', 'neoplasias-snc-hipertension-intracraneal',
+      'sepsis', 'signos-clasicos', 'sindrome-aortico-agudo',
       'sindrome-hiperviscosidad', 'sindromes-mielodisplasicos', 'sindromes-mieloproliferativos',
       'transfusion-hemoderivados', 'trastornos-del-movimiento', 'traumatismo-craneoencefalico',
       'vasopresores-sedantes'
@@ -881,7 +882,7 @@ async function run() {
 
     // Este número solo baja. Cada tema corregido se mueve a REVISADOS y aquí se decrementa;
     // si un tema nuevo llega con preguntas que no cumplen, la cola crece y esta prueba falla.
-    const COLA_MAXIMA = 39;
+    const COLA_MAXIMA = 36;
     test('quiz: la cola de temas pendientes de revisar no crece', () => {
       const pendientesReales = registry.map(e => e.id).filter(id => PENDIENTES.has(id));
       assert(pendientesReales.length <= COLA_MAXIMA,
