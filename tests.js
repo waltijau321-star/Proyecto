@@ -769,6 +769,127 @@ async function run() {
     });
   }
 
+  /* ---------------- Calidad de las opciones del quiz ----------------
+     Detecta las 3 "pistas" que permiten acertar sin saber medicina, y que se habían colado de
+     forma sistemática en todo el banco (auditoría: un alumno que solo elegía la opción más larga
+     acertaba el 72% de 1990 preguntas, contra un 25% de azar):
+
+       1. LONGITUD: la respuesta correcta es la más larga porque acumula calificadores que los
+          distractores no tienen.
+       2. SOBREDESCRIPCIÓN: la correcta lleva su propia justificación incorporada ("presente en la
+          práctica totalidad de los casos"). Ese detalle es material didáctico y va en el
+          enunciado o en la explicación, no dentro de la opción.
+       3. ABSOLUTISMO: los distractores se rellenan con "nunca / siempre / exclusivamente /
+          ninguna", lo que los marca como falsos a ojos de cualquier examinando entrenado.
+
+     OJO (ley de Goodhart): la regla es "misma longitud PORQUE misma especificidad". Rellenar
+     distractores con paja hasta igualar el conteo de caracteres pasa esta prueba y empeora el
+     contenido. La reescritura es manual, pregunta por pregunta.
+
+     Cómo se usa esta lista: cada tema del registro debe estar en REVISADOS o en PENDIENTES. Un
+     tema nuevo que no esté en ninguna de las dos hace fallar la prueba, así que hay que
+     clasificarlo a conciencia — y si se escribió bien, va directo a REVISADOS. Conforme se
+     corrige un tema se mueve de PENDIENTES a REVISADOS y ya no puede volver a degradarse. */
+  {
+    const ABSOLUTOS = ['exclusivamente', 'siempre', 'nunca', 'ninguna', 'ningún', 'ninguno',
+      'completamente', 'absolutamente', 'todos los casos', 'cualquier caso', 'sin excepción',
+      'de forma definitiva'];
+    const tieneAbsolutismo = s => {
+      const low = s.toLowerCase();
+      return ABSOLUTOS.some(a => low.includes(a));
+    };
+    // El quiz mezcla preguntas sueltas y casos en cascada (con .steps); ambos se evalúan igual.
+    const preguntasDe = quiz => (quiz || []).flatMap(q => q.type === 'cascade' ? (q.steps || []) : [q])
+      .filter(q => Array.isArray(q.options) && q.options.length === 4 && typeof q.correct === 'number');
+
+    function metricas(quiz) {
+      const qs = preguntasDe(quiz);
+      if (!qs.length) return null;
+      let masLarga = 0, sumaRatio = 0, absSoloDistractores = 0;
+      const atipicas = [];
+      for (const q of qs) {
+        const lens = q.options.map(o => o.length);
+        const otras = lens.filter((_, i) => i !== q.correct);
+        const mediaOtras = otras.reduce((a, b) => a + b, 0) / otras.length;
+        const ratio = lens[q.correct] / mediaOtras;
+        sumaRatio += ratio;
+        if (lens[q.correct] === Math.max(...lens)) masLarga++;
+        // Una sola opción desproporcionada delata la respuesta aunque el promedio del tema salga bien.
+        lens.forEach((l, i) => {
+          const resto = lens.filter((_, j) => j !== i);
+          if (l / (resto.reduce((a, b) => a + b, 0) / resto.length) > 2.0) atipicas.push(q.q);
+        });
+        if (!tieneAbsolutismo(q.options[q.correct])
+            && q.options.some((o, i) => i !== q.correct && tieneAbsolutismo(o))) absSoloDistractores++;
+      }
+      return {
+        n: qs.length,
+        pctMasLarga: 100 * masLarga / qs.length,
+        ratioMedio: sumaRatio / qs.length,
+        pctAbsSoloDistractores: 100 * absSoloDistractores / qs.length,
+        atipicas: [...new Set(atipicas)]
+      };
+    }
+
+    // Temas cuyas opciones cumplen los umbrales. Solo se agregan aquí después de reescribirlos:
+    // mover un tema sin corregirlo hace fallar la prueba.
+    // 'valoracion-preoperatoria' entra sin reescritura porque la auditoría lo encontró ya en
+    // regla (37.5% / 0.98x / 8.3% / 0 atípicas). Sirve de prueba de que los umbrales son
+    // alcanzables con contenido clínico real, no un ideal teórico.
+    const REVISADOS = new Set(['valoracion-preoperatoria']);
+    // Cola de trabajo pendiente de la auditoría. Esta lista debe encogerse, nunca crecer.
+    const PENDIENTES = new Set([
+      'alteraciones-plaquetarias-cuantitativas', 'alteraciones-serie-blanca', 'anemia-aplasica',
+      'anemia-enfermedad-cronica', 'anemia-ferropenica', 'anemia-megaloblastica',
+      'anemias-hemoliticas-adquiridas', 'anemias-hemoliticas-hereditarias', 'cefaleas',
+      'cirrosis-hepatica', 'coagulacion-intravascular-diseminada', 'coagulacion-trombofilias',
+      'delirium-coma-encefalopatias', 'embolia-grasa', 'enfermedad-cerebrovascular',
+      'esclerosis-multiple', 'estado-epileptico', 'exploracion-abdominal',
+      'exploracion-cabeza-cuello', 'exploracion-cardiovascular', 'exploracion-neurologica',
+      'exploracion-osteoarticular', 'exploracion-piel-faneras', 'exploracion-respiratoria',
+      'hemoglobinopatias', 'hiperesplenismo', 'historia-clinica', 'leucemia-aguda',
+      'leucemia-linfocitica-cronica', 'linfadenopatias', 'linfomas', 'mieloma-multiple',
+      'miocardiopatias', 'neoplasias-snc-hipertension-intracraneal', 'policitemia-secundaria',
+      'porfirias', 'sepsis', 'signos-clasicos', 'sindrome-aortico-agudo',
+      'sindrome-hiperviscosidad', 'sindromes-mielodisplasicos', 'sindromes-mieloproliferativos',
+      'transfusion-hemoderivados', 'trastornos-del-movimiento', 'traumatismo-craneoencefalico',
+      'vasopresores-sedantes'
+    ]);
+
+    test('quiz: todo tema del registro está clasificado como revisado o pendiente', () => {
+      const sinClasificar = registry.map(e => e.id).filter(id => !REVISADOS.has(id) && !PENDIENTES.has(id));
+      assert(sinClasificar.length === 0,
+        `tema(s) sin clasificar en tests.js: ${sinClasificar.join(', ')}. Si sus preguntas ya cumplen los umbrales agrégalo a REVISADOS; si no, a PENDIENTES.`);
+    });
+
+    // Este número solo baja. Cada tema corregido se mueve a REVISADOS y aquí se decrementa;
+    // si un tema nuevo llega con preguntas que no cumplen, la cola crece y esta prueba falla.
+    const COLA_MAXIMA = 46;
+    test('quiz: la cola de temas pendientes de revisar no crece', () => {
+      const pendientesReales = registry.map(e => e.id).filter(id => PENDIENTES.has(id));
+      assert(pendientesReales.length <= COLA_MAXIMA,
+        `la cola creció a ${pendientesReales.length} temas (máximo ${COLA_MAXIMA}). Un tema nuevo debe escribirse cumpliendo los umbrales y entrar en REVISADOS.`);
+    });
+
+    for (const entry of registry) {
+      if (!REVISADOS.has(entry.id)) continue;
+      const topic = await loadTopic(entry.id);
+      const m = metricas(topic.study.quiz);
+
+      test(`opciones[${entry.id}]: la correcta no es sistemáticamente la más larga`, () => {
+        assert(m, 'sin preguntas evaluables');
+        assert(m.pctMasLarga <= 40, `la correcta es la más larga en ${m.pctMasLarga.toFixed(1)}% de ${m.n} preguntas (umbral 40%, azar 25%)`);
+      });
+      test(`opciones[${entry.id}]: longitud comparable entre las 4 opciones`, () => {
+        assert(m.ratioMedio <= 1.15, `la correcta mide ${m.ratioMedio.toFixed(2)}x el promedio de los distractores (umbral 1.15x)`);
+        assert(m.atipicas.length === 0, `${m.atipicas.length} pregunta(s) con una opción >2x las otras: "${m.atipicas[0]}"`);
+      });
+      test(`opciones[${entry.id}]: sin lenguaje absolutista solo en los distractores`, () => {
+        assert(m.pctAbsSoloDistractores <= 10, `${m.pctAbsSoloDistractores.toFixed(1)}% de las preguntas marcan los distractores con "nunca/siempre/exclusivamente" (umbral 10%)`);
+      });
+    }
+  }
+
   /* ---------------- Integridad de enlaces: topicId del temario vs. temas registrados ----------------
      topics/temario-index.js referencia temas construidos con `{ label, topicId }`. Si un topicId
      apunta a un tema que no existe en el registro (typo, tema renombrado/eliminado), el ítem del

@@ -22,8 +22,23 @@ if ($content -notmatch '(?s)const CORE = \[(.*?)\];') {
 $coreBlock = $matches[1]
 $files = [System.Text.RegularExpressions.Regex]::Matches($coreBlock, "'\.\/([^']+)'") | ForEach-Object { $_.Groups[1].Value }
 
+# Se hashea el contenido normalizando CRLF -> LF. Sin esa normalización el hash dependía de los
+# finales de línea del árbol de trabajo, que git reescribe solo (autocrlf) al hacer
+# checkout/merge: el resultado era que main y una rama con contenido de CORE idéntico declaraban
+# CACHE_VERSION distintos, y cada bump fantasma forzaba a todos los usuarios a re-descargar los
+# 207 archivos de CORE (imágenes incluidas) sin que nada hubiera cambiado.
+#
+# La normalización se hace vía ISO-8859-1 (codepage 28591), NO vía UTF-8: latin-1 mapea los
+# bytes 0-255 uno a uno, así que el round-trip es sin pérdida para cualquier archivo. CORE
+# incluye PNG/WEBP, y decodificarlos como UTF-8 sería lossy (los bytes inválidos colapsan a
+# U+FFFD), de modo que dos imágenes distintas podrían dar el mismo hash y NO disparar el bump.
+$latin1 = [System.Text.Encoding]::GetEncoding(28591)
 $hashLines = foreach ($f in $files) {
-  if (Test-Path $f) { (Get-FileHash -Algorithm SHA256 -Path $f).Hash }
+  if (Test-Path $f) {
+    $normalizado = $latin1.GetString([System.IO.File]::ReadAllBytes($f)).Replace("`r`n", "`n")
+    $sha = [System.Security.Cryptography.SHA256]::Create()
+    ([System.BitConverter]::ToString($sha.ComputeHash($latin1.GetBytes($normalizado)))).Replace('-', '')
+  }
   else { Write-Warning "No existe (omitido del hash): $f" }
 }
 $combined = ($hashLines -join '')

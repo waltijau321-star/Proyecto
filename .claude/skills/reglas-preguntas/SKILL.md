@@ -30,10 +30,18 @@ redacción, estructura o posición.
 
 2. **Longitud y nivel de detalle comparables entre las 4 opciones.** La respuesta correcta
    NUNCA debe ser sistemáticamente la más larga, más técnica o la única con una cláusula
-   explicativa extra. Si el contenido médico obliga a que la correcta lleve más información,
-   hay que "inflar" las incorrectas a un nivel de detalle equivalente (aunque sigan siendo
-   incorrectas) — nunca dejar una diferencia de longitud que funcione como pista. La explicación
-   detallada va en `explanation` (se muestra DESPUÉS de responder), nunca dentro de la opción.
+   explicativa extra. La explicación detallada va en `explanation` (se muestra DESPUÉS de
+   responder), nunca dentro de la opción.
+
+   **Cómo igualarlas, en este orden de preferencia:**
+   1. *Recortar la correcta.* Casi siempre sobra: el calificador que la alarga ("presente en la
+      práctica totalidad de los casos", "típicamente 24-72h tras el evento") es material
+      didáctico, y se mueve al enunciado o a `explanation`, donde además enseña mejor.
+   2. *Subir la especificidad de los distractores*, pero solo cuando eso los vuelve
+      **clínicamente más competitivos** (un diferencial real mejor formulado).
+   3. Nunca rellenar con paja. "Inflar" un distractor con palabras vacías para que cuadre el
+      conteo de caracteres pasa la métrica y empeora el contenido: es exactamente el fallo que
+      la regla busca evitar, disfrazado.
 
 3. **Todas las opciones deben ser plausibles.** Nada de distractores absurdos o evidentemente
    incompatibles con el caso (ej. "el color de su cabello" como antecedente relevante). Los
@@ -84,6 +92,31 @@ redacción, estructura o posición.
 13. **La retroalimentación (`explanation`) debe ser mucho más rica que las opciones**: explicar
     por qué la correcta es correcta, el razonamiento clínico para llegar a ella, y por qué cada
     distractor es incorrecto. Ahí sí cabe toda la profundidad que no cupo en las opciones.
+
+## Verificación obligatoria (no basta con leer el checklist)
+
+Esta guía existía completa y era clara desde el principio, y aun así el banco terminó con la
+respuesta correcta siendo la más larga en el **73%** de 1990 preguntas (azar: 25%): un alumno
+que no supiera nada de medicina sacaba **72%** solo eligiendo la opción más larga. El checklist
+no falló; falló autoevaluarse contra él. Por eso las reglas 1, 2, 3 y 5 ahora se miden.
+
+`tests.js` mide 3 señales por tema y **falla** si un tema marcado como revisado las supera:
+
+| Señal | Umbral | Azar / ideal |
+|---|---|---|
+| % de preguntas donde la correcta es la más larga | ≤ 40% | 25% |
+| Longitud media de la correcta ÷ media de los distractores | ≤ 1.15x | 1.0x |
+| % con "nunca/siempre/exclusivamente/ninguna" solo en distractores | ≤ 10% | 0% |
+| Preguntas con una opción > 2x las otras 3 | 0 | 0 |
+
+**Al terminar cualquier `study.js`, nuevo o editado:** abrir `tests.html` y confirmar que el
+tema pasa. Todo tema del registro debe estar en `REVISADOS` o en `PENDIENTES` dentro de
+`tests.js`; uno nuevo que no esté en ninguna lista hace fallar la suite, y la cola de
+`PENDIENTES` solo puede encoger. Un tema nuevo se escribe para entrar directo en `REVISADOS`.
+
+Que un tema pase los umbrales es condición **necesaria, no suficiente**: las reglas 7 a 11
+(respuesta única, sin palabra clave regalada, coherencia clínica, dificultad por razonamiento)
+no son medibles automáticamente y siguen requiriendo relectura pregunta por pregunta.
 
 ## Texto original del usuario
 
