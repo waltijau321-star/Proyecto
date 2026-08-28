@@ -861,7 +861,8 @@ async function run() {
       'leucemia-linfocitica-cronica', 'mieloma-multiple', 'linfomas',
       'alteraciones-plaquetarias-cuantitativas', 'coagulacion-trombofilias',
       'coagulacion-intravascular-diseminada', 'linfadenopatias',
-      'alteraciones-serie-blanca', 'hiperesplenismo']);
+      'alteraciones-serie-blanca', 'hiperesplenismo', 'sindrome-hiperviscosidad',
+      'transfusion-hemoderivados']);
     // Cola de trabajo pendiente de la auditoría. Esta lista debe encogerse, nunca crecer.
     const PENDIENTES = new Set([
       'cefaleas',
@@ -873,8 +874,7 @@ async function run() {
       'historia-clinica',
       'miocardiopatias', 'neoplasias-snc-hipertension-intracraneal',
       'sepsis', 'signos-clasicos', 'sindrome-aortico-agudo',
-      'sindrome-hiperviscosidad',
-      'transfusion-hemoderivados', 'trastornos-del-movimiento', 'traumatismo-craneoencefalico',
+      'trastornos-del-movimiento', 'traumatismo-craneoencefalico',
       'vasopresores-sedantes'
     ]);
 
