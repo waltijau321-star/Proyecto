@@ -864,17 +864,17 @@ async function run() {
       'alteraciones-serie-blanca', 'hiperesplenismo', 'sindrome-hiperviscosidad',
       'transfusion-hemoderivados', 'cefaleas', 'enfermedad-cerebrovascular',
       'esclerosis-multiple', 'delirium-coma-encefalopatias', 'estado-epileptico',
-      'neoplasias-snc-hipertension-intracraneal']);
+      'neoplasias-snc-hipertension-intracraneal', 'trastornos-del-movimiento',
+      'traumatismo-craneoencefalico', 'sindrome-aortico-agudo',
+      'exploracion-abdominal', 'exploracion-cabeza-cuello', 'exploracion-cardiovascular']);
     // Cola de trabajo pendiente de la auditoría. Esta lista debe encogerse, nunca crecer.
     const PENDIENTES = new Set([
       'cirrosis-hepatica',
-      'exploracion-abdominal',
-      'exploracion-cabeza-cuello', 'exploracion-cardiovascular', 'exploracion-neurologica',
+      'exploracion-neurologica',
       'exploracion-osteoarticular', 'exploracion-piel-faneras', 'exploracion-respiratoria',
       'historia-clinica',
       'miocardiopatias',
-      'sepsis', 'signos-clasicos', 'sindrome-aortico-agudo',
-      'trastornos-del-movimiento', 'traumatismo-craneoencefalico',
+      'sepsis', 'signos-clasicos',
       'vasopresores-sedantes'
     ]);
 
