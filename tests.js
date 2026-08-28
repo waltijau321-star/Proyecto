@@ -860,17 +860,17 @@ async function run() {
       'sindromes-mieloproliferativos', 'sindromes-mielodisplasicos', 'leucemia-aguda',
       'leucemia-linfocitica-cronica', 'mieloma-multiple', 'linfomas',
       'alteraciones-plaquetarias-cuantitativas', 'coagulacion-trombofilias',
-      'coagulacion-intravascular-diseminada']);
+      'coagulacion-intravascular-diseminada', 'linfadenopatias',
+      'alteraciones-serie-blanca', 'hiperesplenismo']);
     // Cola de trabajo pendiente de la auditoría. Esta lista debe encogerse, nunca crecer.
     const PENDIENTES = new Set([
-      'alteraciones-serie-blanca', 'cefaleas',
+      'cefaleas',
       'cirrosis-hepatica',
       'delirium-coma-encefalopatias', 'enfermedad-cerebrovascular',
       'esclerosis-multiple', 'estado-epileptico', 'exploracion-abdominal',
       'exploracion-cabeza-cuello', 'exploracion-cardiovascular', 'exploracion-neurologica',
       'exploracion-osteoarticular', 'exploracion-piel-faneras', 'exploracion-respiratoria',
-      'hiperesplenismo', 'historia-clinica',
-      'linfadenopatias',
+      'historia-clinica',
       'miocardiopatias', 'neoplasias-snc-hipertension-intracraneal',
       'sepsis', 'signos-clasicos', 'sindrome-aortico-agudo',
       'sindrome-hiperviscosidad',
