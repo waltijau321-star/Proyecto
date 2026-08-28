@@ -858,11 +858,13 @@ async function run() {
       'anemias-hemoliticas-hereditarias', 'anemias-hemoliticas-adquiridas', 'anemia-aplasica',
       'hemoglobinopatias', 'policitemia-secundaria', 'porfirias',
       'sindromes-mieloproliferativos', 'sindromes-mielodisplasicos', 'leucemia-aguda',
-      'leucemia-linfocitica-cronica', 'mieloma-multiple', 'linfomas']);
+      'leucemia-linfocitica-cronica', 'mieloma-multiple', 'linfomas',
+      'alteraciones-plaquetarias-cuantitativas', 'coagulacion-trombofilias',
+      'coagulacion-intravascular-diseminada']);
     // Cola de trabajo pendiente de la auditoría. Esta lista debe encogerse, nunca crecer.
     const PENDIENTES = new Set([
-      'alteraciones-plaquetarias-cuantitativas', 'alteraciones-serie-blanca', 'cefaleas',
-      'cirrosis-hepatica', 'coagulacion-intravascular-diseminada', 'coagulacion-trombofilias',
+      'alteraciones-serie-blanca', 'cefaleas',
+      'cirrosis-hepatica',
       'delirium-coma-encefalopatias', 'enfermedad-cerebrovascular',
       'esclerosis-multiple', 'estado-epileptico', 'exploracion-abdominal',
       'exploracion-cabeza-cuello', 'exploracion-cardiovascular', 'exploracion-neurologica',
