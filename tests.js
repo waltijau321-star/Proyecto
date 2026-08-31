@@ -866,17 +866,14 @@ async function run() {
       'esclerosis-multiple', 'delirium-coma-encefalopatias', 'estado-epileptico',
       'neoplasias-snc-hipertension-intracraneal', 'trastornos-del-movimiento',
       'traumatismo-craneoencefalico', 'sindrome-aortico-agudo',
-      'exploracion-abdominal', 'exploracion-cabeza-cuello', 'exploracion-cardiovascular']);
-    // Cola de trabajo pendiente de la auditoría. Esta lista debe encogerse, nunca crecer.
-    const PENDIENTES = new Set([
-      'cirrosis-hepatica',
-      'exploracion-neurologica',
-      'exploracion-osteoarticular', 'exploracion-piel-faneras', 'exploracion-respiratoria',
-      'historia-clinica',
-      'miocardiopatias',
-      'sepsis', 'signos-clasicos',
-      'vasopresores-sedantes'
-    ]);
+      'exploracion-abdominal', 'exploracion-cabeza-cuello', 'exploracion-cardiovascular',
+      'exploracion-neurologica', 'exploracion-respiratoria', 'exploracion-osteoarticular',
+      'exploracion-piel-faneras', 'historia-clinica', 'signos-clasicos',
+      'cirrosis-hepatica', 'miocardiopatias', 'sepsis', 'vasopresores-sedantes']);
+    // Cola de trabajo pendiente de la auditoría: vacía desde agosto de 2026, cuando los 47 temas
+    // quedaron revisados. Un tema nuevo debe escribirse cumpliendo los umbrales y entrar en
+    // REVISADOS; esta lista ya no puede crecer (COLA_MAXIMA = 0).
+    const PENDIENTES = new Set([]);
 
     /* La explicación de cada pregunta describe la respuesta correcta. Si otra opción se parece
        bastante más a esa explicación que la marcada en `correct`, es señal de que la clave de
@@ -934,7 +931,7 @@ async function run() {
 
     // Este número solo baja. Cada tema corregido se mueve a REVISADOS y aquí se decrementa;
     // si un tema nuevo llega con preguntas que no cumplen, la cola crece y esta prueba falla.
-    const COLA_MAXIMA = 30;
+    const COLA_MAXIMA = 0;
     test('quiz: la cola de temas pendientes de revisar no crece', () => {
       const pendientesReales = registry.map(e => e.id).filter(id => PENDIENTES.has(id));
       assert(pendientesReales.length <= COLA_MAXIMA,
