@@ -379,6 +379,14 @@ export const registry = [
       import('./valoracion-preoperatoria/calculators.js'),
       import('./valoracion-preoperatoria/study.js')
     ])
+  },
+  {
+    id: 'enfermedad-arterial-periferica', titulo: 'Enfermedad Arterial Periférica',
+    load: () => Promise.all([
+      import('./enfermedad-arterial-periferica/content.js'),
+      import('./enfermedad-arterial-periferica/calculators.js'),
+      import('./enfermedad-arterial-periferica/study.js')
+    ])
   }
 ];
 
