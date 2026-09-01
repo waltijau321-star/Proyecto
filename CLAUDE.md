@@ -84,6 +84,15 @@ position of `correct` distributed with no discernible pattern across the whole a
 listing all `correct` indices in order before considering the file done). This applies always,
 not only when the user explicitly asks for it.
 
+`tests.js` enforces this mechanically, so a new topic must be written to pass on the first try:
+four option-quality thresholds per topic (correct-is-longest ≤40%, mean length ratio ≤1.15x,
+absolutism-only-in-distractors ≤10%, zero options >2x the others) plus a check that the option
+marked `correct` actually agrees with its own `explanation`. Every registry topic must appear in
+`REVISADOS` — `PENDIENTES` is empty and `COLA_MAXIMA` is 0 since the August 2026 audit closed, so
+there is no longer a queue to park a topic in. Command-line helpers for this live in
+`.claude/tools/quiz/` (see its README); the authoritative measurement is always `tests.html`,
+because it imports the real modules instead of regex-matching the file text.
+
 **Calculator contract** (`engine/calculators.js` consumes this from every topic's
 `calculators.js`, plus `engine/general-calc.js` for MI-wide calculators and
 `protocols/vpo-calc.js` for VPO): a descriptor
