@@ -6,7 +6,7 @@
 // (topics/cetoacidosis-estado-hiperosmolar): aqui la CAD y el EHH solo se nombran como las
 // urgencias hiperglucemicas, con su tema propio.
 //
-// Fuentes principales: ADA Standards of Care in Diabetes 2025; consenso ADA/EASD 2022 (Davies)
+// Fuentes principales: ADA Standards of Care in Diabetes 2026; consenso ADA/EASD 2022 (Davies)
 // de manejo de la hiperglucemia en la DM2; KDIGO 2022 (diabetes y ERC); ensayos de resultados
 // cardiovasculares y renales (EMPA-REG, LEADER, CREDENCE, DAPA-CKD, FLOW, FIDELIO); DCCT y UKPDS.
 //
@@ -120,7 +120,7 @@ ${figBlock('Figura 2', 'Escalonamiento del tratamiento de la diabetes tipo 2', e
 <p style="margin:0;"><strong style="color:var(--accent-fg);">Panorama.</strong> Las complicaciones agudas son la hipoglucemia y las crisis hiperglucemicas (cetoacidosis diabetica y estado hiperosmolar, con tema propio). Las cronicas son microvasculares (retinopatia, enfermedad renal diabetica, neuropatia) y macrovasculares (enfermedad coronaria, cerebrovascular y arterial periferica), con el pie diabetico como sindrome que combina neuropatia, isquemia e infeccion. La diabetes gestacional es una situacion especial con criterios y objetivos propios. Todas se desarrollan en Complicaciones.</p>`;
 
 export const bibliografia = [
-  'American Diabetes Association Professional Practice Committee. Standards of Care in Diabetes 2025. Diabetes Care. 2025;48(Suppl 1):S1-S352.',
+  'American Diabetes Association Professional Practice Committee for Diabetes. Standards of Care in Diabetes 2026. Diabetes Care. 2026;49(Suppl 1).',
   'Davies MJ, Aroda VR, Collins BS, et al. Management of hyperglycaemia in type 2 diabetes, 2022. A consensus report by the American Diabetes Association and the European Association for the Study of Diabetes. Diabetes Care. 2022;45(11):2753-2786.',
   'Kidney Disease: Improving Global Outcomes (KDIGO) Diabetes Work Group. KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease. Kidney Int. 2022;102(5S):S1-S127.',
   'The Diabetes Control and Complications Trial Research Group. The effect of intensive treatment of diabetes on the development and progression of long-term complications in insulin-dependent diabetes mellitus (DCCT). N Engl J Med. 1993;329(14):977-986.',
@@ -140,7 +140,7 @@ export const bibliografia = [
   'Pop-Busui R, Boulton AJM, Feldman EL, et al. Diabetic neuropathy: a position statement by the American Diabetes Association. Diabetes Care. 2017;40(1):136-154.',
   'Schaper NC, van Netten JJ, Apelqvist J, et al. Practical guidelines on the prevention and management of diabetes-related foot disease (IWGDF 2023 update). Diabetes Metab Res Rev. 2024;40(3):e3657.',
   'Solomon SD, Chew E, Duh EJ, et al. Diabetic retinopathy: a position statement by the American Diabetes Association. Diabetes Care. 2017;40(3):412-418.',
-  'American Diabetes Association. Management of Diabetes in Pregnancy: Standards of Care in Diabetes 2025. Diabetes Care. 2025;48(Suppl 1):S306-S320.',
+  'American Diabetes Association Professional Practice Committee for Diabetes. Management of Diabetes in Pregnancy: Standards of Care in Diabetes 2026. Diabetes Care. 2026;49(Suppl 1).',
   'HAPO Study Cooperative Research Group. Hyperglycemia and adverse pregnancy outcomes (HAPO). N Engl J Med. 2008;358(19):1991-2002.',
   'Ndumele CE, Rangaswami J, Chow SL, et al. Cardiovascular-kidney-metabolic health: a presidential advisory from the American Heart Association. Circulation. 2023;148(20):1606-1635.',
   'International Hypoglycaemia Study Group. Glucose concentrations of less than 3.0 mmol/L (54 mg/dL) should be reported in clinical trials: a joint position statement. Diabetes Care. 2017;40(1):155-157.',

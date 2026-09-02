@@ -193,7 +193,7 @@ ${figBlock('Figura 2', 'Criterios diagnosticos y gravedad de la CAD y del EHH', 
 export const bibliografia = [
   'Umpierrez GE, Davis GM, ElSayed NA, et al. Hyperglycemic Crises in Adults With Diabetes: A Consensus Report by the American Diabetes Association and the European Association for the Study of Diabetes. Diabetes Care. 2024;47(8):1257-1275.',
   'Kitabchi AE, Umpierrez GE, Miles JM, Fisher JN. Hyperglycemic crises in adult patients with diabetes. Diabetes Care. 2009;32(7):1335-1343.',
-  'American Diabetes Association Professional Practice Committee. Standards of Care in Diabetes 2025. Diabetes Care. 2025;48(Suppl 1):S1-S352.',
+  'American Diabetes Association Professional Practice Committee for Diabetes. 6. Glycemic Goals, Hypoglycemia, and Hyperglycemic Crises: Standards of Care in Diabetes 2026. Diabetes Care. 2026;49(Suppl 1):S132-S149.',
   'Dhatariya KK, Glaser NS, Codner E, Umpierrez GE. Diabetic ketoacidosis. Nat Rev Dis Primers. 2020;6(1):40.',
   'Karslioglu French E, Donihi AC, Korytkowski MT. Diabetic ketoacidosis and hyperosmolar hyperglycaemic syndrome: review of acute decompensated diabetes in adult patients. BMJ. 2019;365:l1114.',
   'Self WH, Evans CS, Jenkins CA, et al. Clinical effects of balanced crystalloids vs saline in adults with diabetic ketoacidosis: a subgroup analysis of cluster randomized clinical trials. JAMA Netw Open. 2020;3(11):e2024596.',
