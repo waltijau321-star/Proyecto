@@ -14,7 +14,11 @@
 // inicio de VM invasiva; VNI; canula de alto flujo; modos controlados y ventilacion protectora;
 // modos asistidos y sedoanalgesia; destete) + 4 complicaciones (VILI; neumonia asociada a
 // ventilacion; asincronias; debilidad y disfuncion diafragmatica con repercusion hemodinamica).
-// 7 calculadoras. 4 figuras SVG/HTML a mano. Sin em dash (ver [[feedback-no-em-dash]]).
+// 7 calculadoras. 7 figuras SVG/HTML a mano: 4 en Definicion (intercambio gaseoso, espontanea
+// vs presion positiva, anatomia de la curva del ventilador y tabla de parametros) mas 3 en las
+// tarjetas (PEEP/FiO2 de ARDSNet, algoritmo de destete, bucle P-V y asincronias). La seccion de
+// Definicion es un minicapitulo largo a proposito: fisiologia respiratoria y parametros primero.
+// Sin em dash (ver [[feedback-no-em-dash]]).
 
 export const meta = {
   id: 'ventilacion-mecanica',
@@ -31,28 +35,129 @@ function figBlock(label, titulo, html) {
   </div>`;
 }
 
-const curvasHtml = `
-<div style="max-width:540px;margin:0 auto;font-size:10px;color:var(--ink);">
-  <svg viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="vm-f1-t vm-f1-d" style="width:100%;max-width:360px;display:block;margin:0 auto;">
-    <title id="vm-f1-t">Curvas de presion y de flujo en la via aerea durante la ventilacion controlada</title>
-    <desc id="vm-f1-d">Arriba, la curva de presion en la via aerea en el tiempo muestra la presion pico al final de la insuflacion, una meseta durante la pausa inspiratoria, y la PEEP al final de la espiracion; la presion de distension es la diferencia entre la meseta y la PEEP. Abajo, la curva de flujo en el tiempo muestra que si el flujo espiratorio no llega a cero antes de la siguiente inspiracion hay auto-PEEP o atrapamiento aereo.</desc>
-    <text x="6" y="12" fill="var(--ink-dim)" font-size="9">Presion en la via aerea</text>
-    <line x1="30" y1="95" x2="330" y2="95" stroke="var(--line)"/>
-    <path d="M30 88 L70 88 L74 30 L120 30 L120 48 L150 48 L154 88 L200 88 L204 30 L250 30 L250 48 L280 48 L284 88 L330 88" fill="none" stroke="#2e6b7a" stroke-width="2"/>
-    <line x1="30" y1="88" x2="330" y2="88" stroke="var(--line)" stroke-dasharray="3 3"/>
-    <text x="126" y="26" fill="#8c3a34" font-size="8">pico</text>
-    <text x="126" y="46" fill="#8a6a1f" font-size="8">meseta</text>
-    <text x="300" y="92" fill="var(--ink-dim)" font-size="8">PEEP</text>
-    <line x1="315" y1="48" x2="315" y2="88" stroke="var(--ink)" stroke-width="1"/>
-    <text x="318" y="70" fill="var(--ink)" font-size="7.5">presion de</text>
-    <text x="318" y="79" fill="var(--ink)" font-size="7.5">distension</text>
-    <text x="6" y="120" fill="var(--ink-dim)" font-size="9">Flujo</text>
-    <line x1="30" y1="165" x2="330" y2="165" stroke="var(--line)"/>
-    <path d="M30 165 L70 165 L70 135 L120 135 L120 165 L124 205 Q150 172 190 165 L200 165 L200 135 L250 135 L250 165 L254 205 Q280 175 315 168" fill="none" stroke="#3f6b52" stroke-width="2"/>
-    <circle cx="315" cy="168" r="3" fill="#8c3a34"/>
-    <text x="196" y="200" fill="#8c3a34" font-size="7.5">el flujo espiratorio no llega a cero: auto-PEEP</text>
+// Figura 1: por que oxigenar y ventilar son cosas distintas (cortocircuito, unidad normal,
+// espacio muerto). Tres unidades alveolo-capilares.
+const intercambioHtml = `
+<div style="max-width:560px;margin:0 auto;font-size:10px;color:var(--ink);">
+  <svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="vm-f1-t vm-f1-d" style="width:100%;max-width:440px;display:block;margin:0 auto;">
+    <title id="vm-f1-t">Cortocircuito, unidad normal y espacio muerto</title>
+    <desc id="vm-f1-d">Tres unidades alveolo-capilares. En el cortocircuito el alveolo esta colapsado u ocupado y la sangre pasa sin oxigenarse, lo que da hipoxemia que no corrige al subir el oxigeno. En la unidad normal la ventilacion y la perfusion estan acopladas y la sangre se oxigena. En el espacio muerto el alveolo se ventila pero no le llega sangre, por lo que no se elimina CO2.</desc>
+    <text x="66" y="13" text-anchor="middle" fill="#8c3a34" font-size="9" font-weight="700">Cortocircuito</text>
+    <circle cx="66" cy="48" r="24" fill="#8c3a3422" stroke="#8c3a34" stroke-dasharray="4 3"/>
+    <text x="66" y="51" text-anchor="middle" fill="#8c3a34" font-size="7.5">colapsado</text>
+    <rect x="34" y="82" width="64" height="9" rx="4" fill="#3d5a73"/>
+    <text x="66" y="106" text-anchor="middle" fill="var(--ink-dim)" font-size="7.5">sangre sin oxigenar</text>
+    <text x="66" y="118" text-anchor="middle" fill="var(--ink-dim)" font-size="7.5">no corrige con O2</text>
+    <text x="200" y="13" text-anchor="middle" fill="#3f6b52" font-size="9" font-weight="700">Unidad normal</text>
+    <circle cx="200" cy="48" r="24" fill="var(--panel2)" stroke="var(--line)"/>
+    <text x="200" y="51" text-anchor="middle" fill="var(--ink-dim)" font-size="7.5">abierto</text>
+    <rect x="168" y="82" width="32" height="9" fill="#3d5a73"/>
+    <rect x="200" y="82" width="32" height="9" fill="#8c3a34"/>
+    <text x="200" y="106" text-anchor="middle" fill="var(--ink-dim)" font-size="7.5">ventilacion y perfusion</text>
+    <text x="200" y="118" text-anchor="middle" fill="var(--ink-dim)" font-size="7.5">acopladas</text>
+    <text x="334" y="13" text-anchor="middle" fill="#8a6a1f" font-size="9" font-weight="700">Espacio muerto</text>
+    <circle cx="334" cy="48" r="24" fill="var(--panel2)" stroke="var(--line)"/>
+    <text x="334" y="51" text-anchor="middle" fill="var(--ink-dim)" font-size="7.5">abierto</text>
+    <rect x="302" y="82" width="64" height="9" rx="4" fill="none" stroke="#8a6a1f" stroke-dasharray="3 2"/>
+    <line x1="316" y1="84" x2="352" y2="89" stroke="#8a6a1f"/><line x1="352" y1="84" x2="316" y2="89" stroke="#8a6a1f"/>
+    <text x="334" y="106" text-anchor="middle" fill="var(--ink-dim)" font-size="7.5">ventilado sin perfusion</text>
+    <text x="334" y="118" text-anchor="middle" fill="var(--ink-dim)" font-size="7.5">no elimina CO2</text>
   </svg>
-  <div style="color:var(--ink-dim);margin-top:4px;">Presion pico = resistencia + distension; presion meseta (con pausa inspiratoria, sin flujo) = distension alveolar. Objetivos protectores: meseta menor de 30 cmH2O y presion de distension menor de 15 cmH2O.</div>
+  <div style="color:var(--ink-dim);margin-top:4px;">El cortocircuito da hipoxemia refractaria al oxigeno (se trata con PEEP, reclutamiento y decubito prono); el espacio muerto compromete la eliminacion de CO2. La mayoria de los pacientes tiene una mezcla de unidades con relacion ventilacion-perfusion baja y alta.</div>
+</div>`;
+
+// Figura 2: respiracion espontanea (presion pleural negativa) frente a presion positiva
+// (presion pleural que se vuelve positiva) y sus efectos hemodinamicos.
+const espontVsPPHtml = `
+<div style="max-width:560px;margin:0 auto;font-size:10px;color:var(--ink);">
+  <svg viewBox="0 0 400 165" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="vm-f2-t vm-f2-d" style="width:100%;max-width:440px;display:block;margin:0 auto;">
+    <title id="vm-f2-t">Respiracion espontanea frente a ventilacion con presion positiva</title>
+    <desc id="vm-f2-d">En la respiracion espontanea el diafragma baja y genera una presion pleural negativa que expande el pulmon y favorece el retorno venoso. En la ventilacion con presion positiva el gas se empuja hacia dentro, la presion pleural se vuelve menos negativa o positiva, disminuye el retorno venoso y se reduce la poscarga del ventriculo izquierdo.</desc>
+    <text x="100" y="13" text-anchor="middle" fill="var(--accent-fg)" font-size="9" font-weight="700">Respiracion espontanea</text>
+    <rect x="42" y="22" width="116" height="98" rx="10" fill="var(--panel2)" stroke="var(--line)"/>
+    <ellipse cx="82" cy="60" rx="15" ry="24" fill="none" stroke="var(--ink-dim)"/>
+    <ellipse cx="118" cy="60" rx="15" ry="24" fill="none" stroke="var(--ink-dim)"/>
+    <path d="M56 100 q44 14 88 0" fill="none" stroke="var(--ink-dim)" stroke-width="2"/>
+    <path d="M100 104 l0 12 m-4 -5 l4 5 l4 -5" stroke="#3f6b52" stroke-width="2" fill="none"/>
+    <text x="100" y="138" text-anchor="middle" fill="var(--ink)" font-size="8">presion pleural -5 a -8 cmH2O</text>
+    <text x="100" y="151" text-anchor="middle" fill="#3f6b52" font-size="8">favorece el retorno venoso</text>
+    <text x="300" y="13" text-anchor="middle" fill="var(--accent-fg)" font-size="9" font-weight="700">Presion positiva</text>
+    <rect x="242" y="22" width="116" height="98" rx="10" fill="var(--panel2)" stroke="var(--line)"/>
+    <path d="M300 16 l0 14 m-4 -5 l4 5 l4 -5" stroke="#8c3a34" stroke-width="2" fill="none"/>
+    <ellipse cx="282" cy="62" rx="17" ry="27" fill="#2e6b7a22" stroke="var(--ink-dim)"/>
+    <ellipse cx="318" cy="62" rx="17" ry="27" fill="#2e6b7a22" stroke="var(--ink-dim)"/>
+    <text x="300" y="138" text-anchor="middle" fill="var(--ink)" font-size="8">presion pleural -2 a +2 cmH2O</text>
+    <text x="300" y="151" text-anchor="middle" fill="#8c3a34" font-size="8">baja el retorno venoso; baja la poscarga del VI</text>
+  </svg>
+</div>`;
+
+// Figura 3: anatomia de una respiracion mecanica (volumen control con flujo constante y pausa
+// inspiratoria). Curva de presion-tiempo y de flujo-tiempo con los parametros rotulados.
+const curvaAnatomiaHtml = `
+<div style="max-width:560px;margin:0 auto;font-size:10px;color:var(--ink);">
+  <svg viewBox="0 0 360 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="vm-f3-t vm-f3-d" style="width:100%;max-width:400px;display:block;margin:0 auto;">
+    <title id="vm-f3-t">Curva de presion y de flujo en la via aerea con los parametros del ventilador</title>
+    <desc id="vm-f3-d">Arriba, la presion en la via aerea sube durante la inspiracion hasta la presion pico, cae a la presion meseta durante la pausa inspiratoria sin flujo, y vuelve a la PEEP en la espiracion. La diferencia entre la meseta y la PEEP es la presion de distension y la diferencia entre la pico y la meseta es el componente resistivo. Abajo, el flujo inspiratorio es constante y el espiratorio decae hasta cero antes de la siguiente respiracion, lo que indica que no hay auto-PEEP.</desc>
+    <text x="6" y="12" fill="var(--ink-dim)" font-size="9">Presion en la via aerea (cmH2O)</text>
+    <line x1="34" y1="118" x2="340" y2="118" stroke="var(--line)"/>
+    <line x1="34" y1="20" x2="34" y2="118" stroke="var(--line)"/>
+    <line x1="34" y1="96" x2="340" y2="96" stroke="var(--line)" stroke-dasharray="3 3"/>
+    <text x="300" y="110" fill="var(--ink-dim)" font-size="8">PEEP</text>
+    <path d="M34 96 L44 96 L92 34 L150 34 L150 52 L196 52 L206 96 L300 96 L300 96" fill="none" stroke="#2e6b7a" stroke-width="2"/>
+    <path d="M300 96 L310 34 L340 34" fill="none" stroke="#2e6b7a" stroke-width="2" opacity="0.4"/>
+    <text x="120" y="30" text-anchor="middle" fill="#8c3a34" font-size="8">pico</text>
+    <text x="172" y="49" text-anchor="middle" fill="#8a6a1f" font-size="8">meseta (pausa)</text>
+    <line x1="326" y1="34" x2="326" y2="52" stroke="#8c3a34" stroke-width="1"/>
+    <text x="330" y="45" fill="#8c3a34" font-size="7">resistencia</text>
+    <line x1="326" y1="52" x2="326" y2="96" stroke="#8a6a1f" stroke-width="1"/>
+    <text x="330" y="78" fill="#8a6a1f" font-size="7">presion de</text>
+    <text x="330" y="87" fill="#8a6a1f" font-size="7">distension</text>
+    <line x1="44" y1="122" x2="150" y2="122" stroke="var(--ink-dim)"/>
+    <text x="80" y="131" fill="var(--ink-dim)" font-size="7.5">Ti (inspiracion + pausa)</text>
+    <line x1="196" y1="122" x2="300" y2="122" stroke="var(--ink-dim)"/>
+    <text x="230" y="131" fill="var(--ink-dim)" font-size="7.5">Te (espiracion)</text>
+    <text x="6" y="152" fill="var(--ink-dim)" font-size="9">Flujo (L/min)</text>
+    <line x1="34" y1="192" x2="340" y2="192" stroke="var(--line)"/>
+    <line x1="34" y1="158" x2="34" y2="234" stroke="var(--line)"/>
+    <path d="M34 192 L44 192 L44 166 L150 166 L150 192 L196 192 L206 230 Q250 200 292 193 L300 192" fill="none" stroke="#3f6b52" stroke-width="2"/>
+    <path d="M300 192 L300 166 L340 166" fill="none" stroke="#3f6b52" stroke-width="2" opacity="0.4"/>
+    <text x="95" y="163" text-anchor="middle" fill="var(--ink-dim)" font-size="7.5">flujo inspiratorio constante</text>
+    <circle cx="292" cy="193" r="3" fill="#3f6b52"/>
+    <text x="214" y="224" fill="#3f6b52" font-size="7.5">vuelve a cero: sin auto-PEEP</text>
+  </svg>
+  <div style="color:var(--ink-dim);margin-top:4px;">La presion pico incluye el componente resistivo; la presion meseta (pausa inspiratoria, sin flujo) es la que distiende el alveolo. Si el flujo espiratorio no vuelve a cero antes de la siguiente inspiracion, hay auto-PEEP.</div>
+</div>`;
+
+// Figura 4: los parametros del ventilador de un vistazo (tabla), separados en los que se
+// programan y los que se miden.
+const parametrosTablaHtml = `
+<div style="max-width:600px;margin:0 auto;font-size:9.5px;color:var(--ink);overflow-x:auto;">
+  <table style="border-collapse:collapse;width:100%;min-width:460px;">
+    <thead><tr style="background:var(--panel2);">
+      <th style="text-align:left;padding:4px 6px;border:1px solid var(--line);">Parametro</th>
+      <th style="text-align:left;padding:4px 6px;border:1px solid var(--line);">Que es</th>
+      <th style="text-align:left;padding:4px 6px;border:1px solid var(--line);">Habitual / objetivo</th>
+    </tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding:3px 6px;border:1px solid var(--line);font-weight:700;color:var(--accent-fg);">Se programan</td></tr>
+      <tr><td style="padding:3px 6px;border:1px solid var(--line);font-weight:600;">FiO2</td><td style="padding:3px 6px;border:1px solid var(--line);">Oxigeno del gas inspirado</td><td style="padding:3px 6px;border:1px solid var(--line);">0.21 a 1.0; la menor para la SpO2 objetivo</td></tr>
+      <tr><td style="padding:3px 6px;border:1px solid var(--line);font-weight:600;">PEEP</td><td style="padding:3px 6px;border:1px solid var(--line);">Presion al final de la espiracion; evita el colapso alveolar</td><td style="padding:3px 6px;border:1px solid var(--line);">5 de inicio; mas en la SDRA</td></tr>
+      <tr><td style="padding:3px 6px;border:1px solid var(--line);font-weight:600;">Volumen corriente</td><td style="padding:3px 6px;border:1px solid var(--line);">Aire por respiracion (modos de volumen)</td><td style="padding:3px 6px;border:1px solid var(--line);">6 mL/kg de peso predicho (4 a 8)</td></tr>
+      <tr><td style="padding:3px 6px;border:1px solid var(--line);font-weight:600;">Presion de soporte o inspiratoria</td><td style="padding:3px 6px;border:1px solid var(--line);">Ayuda de presion sobre la PEEP (modos de presion)</td><td style="padding:3px 6px;border:1px solid var(--line);">segun volumen corriente y confort</td></tr>
+      <tr><td style="padding:3px 6px;border:1px solid var(--line);font-weight:600;">Frecuencia</td><td style="padding:3px 6px;border:1px solid var(--line);">Respiraciones por minuto garantizadas</td><td style="padding:3px 6px;border:1px solid var(--line);">12 a 20; ajustar por el pH</td></tr>
+      <tr><td style="padding:3px 6px;border:1px solid var(--line);font-weight:600;">Relacion I:E / tiempo inspiratorio</td><td style="padding:3px 6px;border:1px solid var(--line);">Duracion de la inspiracion frente a la espiracion</td><td style="padding:3px 6px;border:1px solid var(--line);">1:2; 1:3 a 1:4 en el obstructivo</td></tr>
+      <tr><td style="padding:3px 6px;border:1px solid var(--line);font-weight:600;">Trigger (sensibilidad)</td><td style="padding:3px 6px;border:1px solid var(--line);">Umbral al que el esfuerzo inicia la respiracion</td><td style="padding:3px 6px;border:1px solid var(--line);">-1 a -2 cmH2O o 1 a 3 L/min</td></tr>
+      <tr><td style="padding:3px 6px;border:1px solid var(--line);font-weight:600;">Trigger espiratorio (ciclado)</td><td style="padding:3px 6px;border:1px solid var(--line);">Porcentaje del flujo pico que termina la inspiracion (presion de soporte)</td><td style="padding:3px 6px;border:1px solid var(--line);">alrededor del 25%</td></tr>
+      <tr><td colspan="3" style="padding:3px 6px;border:1px solid var(--line);font-weight:700;color:var(--accent-fg);">Se miden</td></tr>
+      <tr><td style="padding:3px 6px;border:1px solid var(--line);font-weight:600;">Presion pico</td><td style="padding:3px 6px;border:1px solid var(--line);">Resistencia mas distension</td><td style="padding:3px 6px;border:1px solid var(--line);">vigilar los cambios bruscos</td></tr>
+      <tr><td style="padding:3px 6px;border:1px solid var(--line);font-weight:600;">Presion meseta</td><td style="padding:3px 6px;border:1px solid var(--line);">Distension alveolar (pausa inspiratoria)</td><td style="padding:3px 6px;border:1px solid var(--line);">menor de 30 cmH2O</td></tr>
+      <tr><td style="padding:3px 6px;border:1px solid var(--line);font-weight:600;">Presion de distension</td><td style="padding:3px 6px;border:1px solid var(--line);">Meseta menos PEEP total</td><td style="padding:3px 6px;border:1px solid var(--line);">menor de 15 cmH2O</td></tr>
+      <tr><td style="padding:3px 6px;border:1px solid var(--line);font-weight:600;">Auto-PEEP</td><td style="padding:3px 6px;border:1px solid var(--line);">Aire atrapado (pausa espiratoria)</td><td style="padding:3px 6px;border:1px solid var(--line);">idealmente ausente</td></tr>
+      <tr><td style="padding:3px 6px;border:1px solid var(--line);font-weight:600;">Distensibilidad estatica</td><td style="padding:3px 6px;border:1px solid var(--line);">Volumen corriente entre presion de distension</td><td style="padding:3px 6px;border:1px solid var(--line);">60 a 100 mL/cmH2O</td></tr>
+      <tr><td style="padding:3px 6px;border:1px solid var(--line);font-weight:600;">Ventilacion minuto</td><td style="padding:3px 6px;border:1px solid var(--line);">Volumen corriente por frecuencia; fija la PaCO2</td><td style="padding:3px 6px;border:1px solid var(--line);">segun la PaCO2 objetivo</td></tr>
+      <tr><td style="padding:3px 6px;border:1px solid var(--line);font-weight:600;">Poder mecanico</td><td style="padding:3px 6px;border:1px solid var(--line);">Energia entregada por minuto</td><td style="padding:3px 6px;border:1px solid var(--line);">orientativo por encima de 17 J/min</td></tr>
+    </tbody>
+  </table>
 </div>`;
 
 const peepFio2Html = `
@@ -121,9 +226,48 @@ const asincroniasHtml = `
   </div>
 </div>`;
 
-export const definicionText = `<p style="margin:0 0 14px;">La ventilacion mecanica sustituye o asiste el trabajo respiratorio aplicando presion positiva a la via aerea. Puede ser no invasiva (a traves de una mascarilla o casco: CPAP y binivel) o invasiva (a traves de un tubo endotraqueal o una traqueostomia). Se indica cuando fallan la oxigenacion (insuficiencia respiratoria hipoxemica), la ventilacion (hipercapnia con acidosis), o la mecanica ventilatoria (fatiga y trabajo respiratorio excesivo), o para proteger la via aerea y descargar el trabajo cardiaco y respiratorio en el estado critico.</p>
-<p style="margin:0 0 14px;"><strong style="color:var(--accent-fg);">La presion positiva invierte la fisiologia normal.</strong>${figBlock('Figura 1', 'Curvas de presion y de flujo en la via aerea', curvasHtml)} A diferencia de la respiracion espontanea (presion intratoracica negativa), la insuflacion con presion positiva eleva la presion intratoracica: mejora la oxigenacion y reduce la poscarga del ventriculo izquierdo, pero disminuye el retorno venoso y puede sobredistender el pulmon. Entender las curvas del ventilador (presion pico, meseta, PEEP, presion de distension y flujo espiratorio) es la base del ajuste.</p>
-<div style="margin:0 0 14px;"><strong style="color:var(--accent-fg);">Los objetivos, en orden.</strong>
+export const definicionText = `<p style="margin:0 0 14px;">La ventilacion mecanica sustituye o asiste el trabajo respiratorio aplicando presion positiva a la via aerea. Puede ser no invasiva (a traves de una mascarilla o un casco: CPAP y binivel) o invasiva (a traves de un tubo endotraqueal o una traqueostomia). Se indica cuando fallan la oxigenacion (insuficiencia respiratoria hipoxemica), la ventilacion (hipercapnia con acidosis) o la mecanica ventilatoria (fatiga y trabajo respiratorio excesivo), o para proteger la via aerea y descargar el trabajo cardiaco y respiratorio en el estado critico. Para ajustarla bien hay que tener presentes unos conceptos de fisiologia respiratoria y saber que significa cada parametro del ventilador; sobre eso se apoya el resto del tema.</p>
+
+<p style="margin:18px 0 6px;"><strong style="color:var(--accent-fg);">Oxigenar y ventilar son dos funciones distintas.</strong></p>
+<p style="margin:0 0 12px;">La <strong>oxigenacion</strong> (pasar oxigeno de los alveolos a la sangre) depende de la fraccion de oxigeno inspirado (FiO2), de la superficie de intercambio disponible y de la presion que mantiene abiertos los alveolos (PEEP). La <strong>ventilacion</strong> (eliminar CO2) depende de la cantidad de aire que se moviliza por minuto (ventilacion minuto = volumen corriente por frecuencia). Se pueden alterar por separado: un paciente puede tener la PaCO2 normal y estar muy hipoxemico, o al reves. En el pulmon esto se explica por la relacion entre la ventilacion y la perfusion de cada unidad alveolar.</p>
+${figBlock('Figura 1', 'Cortocircuito, unidad normal y espacio muerto', intercambioHtml)}
+<p style="margin:0 0 12px;">Cuando un alveolo esta colapsado u ocupado (edema, pus, sangre) pero sigue recibiendo sangre, esa sangre pasa sin oxigenarse: es un <strong>cortocircuito</strong> (shunt), y produce una hipoxemia que apenas mejora al subir la FiO2 (por eso en la SDRA se recurre a la PEEP, el reclutamiento y el decubito prono). Cuando un alveolo se ventila pero no recibe sangre (por ejemplo en la tromboembolia o por sobredistension) es <strong>espacio muerto</strong>, y lo que empeora es la eliminacion de CO2. Entre los dos extremos estan las unidades con relacion ventilacion-perfusion baja (responden bien al oxigeno) o alta.</p>
+
+<p style="margin:18px 0 6px;"><strong style="color:var(--accent-fg);">La bomba: distensibilidad, resistencia y la ecuacion del movimiento.</strong></p>
+<p style="margin:0 0 12px;">En la respiracion espontanea el diafragma y los musculos intercostales generan una <strong>presion pleural negativa</strong> que expande el pulmon y hace entrar el aire. Dos propiedades determinan cuanta presion hace falta para mover un volumen dado: la <strong>distensibilidad</strong> o compliance (volumen que entra por cada cmH2O de presion; en el paciente ventilado sano 60 a 100 mL/cmH2O, baja en la SDRA, el edema, la fibrosis o la obesidad) y la <strong>resistencia</strong> de la via aerea (presion necesaria para un flujo dado; con tubo endotraqueal unos 10 a 15 cmH2O por L/s, alta en el broncoespasmo, las secreciones o un tubo estrecho o acodado). La relacion se resume en la <strong>ecuacion del movimiento</strong>: la presion aplicada en cada instante se reparte entre vencer la distensibilidad (volumen dividido entre la compliance), vencer la resistencia (flujo por la resistencia) y la PEEP de partida.</p>
+<p style="margin:0 0 12px;">Al final de una espiracion tranquila queda aire en el pulmon (la <strong>capacidad residual funcional</strong>) que mantiene los alveolos abiertos. Si ese volumen cae por debajo del <strong>volumen de cierre</strong>, los alveolos se colapsan y hay que reabrirlos en la siguiente inspiracion con mucha mas presion; ese ciclo de colapso y reapertura lesiona el pulmon (atelectrauma). La PEEP mantiene la capacidad residual funcional y evita ese colapso.</p>
+
+<p style="margin:18px 0 6px;"><strong style="color:var(--accent-fg);">La presion positiva invierte la fisiologia normal.</strong></p>
+${figBlock('Figura 2', 'Respiracion espontanea frente a ventilacion con presion positiva', espontVsPPHtml)}
+<p style="margin:0 0 12px;">El ventilador no aspira el aire: lo empuja. Durante la insuflacion la <strong>presion intratoracica se vuelve positiva</strong> (en vez de negativa), y eso tiene consecuencias hemodinamicas: <strong>disminuye el retorno venoso</strong> al torax (baja la precarga, sobre todo si el paciente esta hipovolemico o hay auto-PEEP) y <strong>reduce la poscarga del ventriculo izquierdo</strong> (util en el edema agudo de pulmon). Si la presion es excesiva puede sobredistender el pulmon y comprimir el ventriculo derecho. Por eso la ventilacion mejora la oxigenacion y descarga el trabajo respiratorio, pero se debe dar con la menor presion que consiga los objetivos.</p>
+
+<p style="margin:18px 0 6px;"><strong style="color:var(--accent-fg);">Los parametros del ventilador, uno por uno.</strong></p>
+${figBlock('Figura 3', 'Anatomia de una respiracion mecanica: presiones, tiempos y flujo', curvaAnatomiaHtml)}
+<p style="margin:0 0 4px;"><strong>Lo que se programa:</strong></p>
+<ul style="margin:0 0 12px;padding-left:20px;color:var(--ink);font-size:14.5px;line-height:1.7;">
+  <li><strong>FiO2</strong>: fraccion de oxigeno del gas inspirado (0.21 a 1.0). Se usa la menor que mantenga la SpO2 objetivo; una FiO2 alta y mantenida es toxica para el pulmon.</li>
+  <li><strong>PEEP</strong>: presion positiva que queda al final de la espiracion. Evita el colapso alveolar espiratorio, aumenta la capacidad residual funcional y mejora la oxigenacion. El valor de partida habitual es 5 cmH2O; se sube en la SDRA guiandose por la tabla PEEP/FiO2.</li>
+  <li><strong>Volumen corriente</strong> (en los modos de volumen): aire que entra en cada respiracion. Se fija en 6 mL/kg de <strong>peso predicho</strong> por la talla y el sexo (rango protector 4 a 8), no por el peso real.</li>
+  <li><strong>Presion inspiratoria o presion de soporte</strong> (en los modos de presion): la presion con la que el ventilador asiste cada respiracion por encima de la PEEP; el volumen resultante depende de la distensibilidad y del esfuerzo del paciente.</li>
+  <li><strong>Frecuencia respiratoria</strong>: respiraciones por minuto que garantiza el ventilador. Junto con el volumen corriente define la <strong>ventilacion minuto</strong>, que es la que determina la PaCO2 (mas ventilacion minuto, menos PaCO2).</li>
+  <li><strong>Tiempo inspiratorio y relacion I:E</strong>: cuanto dura la inspiracion frente a la espiracion (habitual 1:2). En el paciente obstructivo se alarga la espiracion (1:3 o 1:4) para dar tiempo a vaciar el pulmon y evitar el auto-PEEP.</li>
+  <li><strong>Flujo inspiratorio y su patron</strong> (en los modos de volumen): la velocidad con la que se entrega el volumen corriente; un flujo insuficiente aumenta el trabajo y genera asincronia.</li>
+  <li><strong>Sensibilidad del trigger</strong>: el umbral (de presion, unos -1 a -2 cmH2O, o de flujo, unos 1 a 3 L/min) al que el esfuerzo del paciente inicia una respiracion asistida. Un trigger poco sensible obliga a un esfuerzo excesivo; demasiado sensible provoca autodisparo.</li>
+  <li><strong>Trigger espiratorio o ciclado</strong> (en presion de soporte): el porcentaje del flujo pico (habitual 25%) al que el ventilador da por terminada la inspiracion. Mal ajustado produce ciclado precoz o tardio.</li>
+  <li><strong>Rampa o tiempo de presurizacion</strong>: la rapidez con la que se alcanza la presion programada al inicio de la inspiracion.</li>
+</ul>
+<p style="margin:0 0 4px;"><strong>Lo que se mide y se vigila:</strong></p>
+<ul style="margin:0 0 12px;padding-left:20px;color:var(--ink);font-size:14.5px;line-height:1.7;">
+  <li><strong>Presion pico</strong>: la presion maxima de la via aerea al final de la insuflacion. Refleja la <strong>resistencia mas la distension</strong>; sube con el broncoespasmo, las secreciones, la mordida del tubo o una caida de la distensibilidad.</li>
+  <li><strong>Presion meseta</strong>: la presion que queda al hacer una <strong>pausa inspiratoria</strong> (sin flujo, medio segundo). Es la presion que de verdad distiende el alveolo. Objetivo: menor de 30 cmH2O.</li>
+  <li><strong>Presion de distension</strong> (driving pressure): presion meseta menos PEEP total. Es la tension ciclica que sufre el pulmon aireado y el mejor predictor de lesion; objetivo menor de 15 cmH2O.</li>
+  <li><strong>PEEP total y auto-PEEP</strong>: con una <strong>pausa espiratoria</strong> se mide la PEEP real; si supera a la fijada, hay auto-PEEP (aire atrapado), tipico del obstructivo y del tiempo espiratorio corto.</li>
+  <li><strong>Distensibilidad estatica</strong>: volumen corriente dividido entre la presion de distension (60 a 100 mL/cmH2O). <strong>Resistencia</strong>: presion pico menos meseta, dividida entre el flujo.</li>
+  <li><strong>Volumen minuto espirado</strong>, las <strong>curvas</strong> (presion-tiempo, flujo-tiempo, volumen-tiempo y los bucles) y el <strong>poder mecanico</strong> (energia que el ventilador entrega por minuto; orientativo por encima de 17 J/min).</li>
+</ul>
+${figBlock('Figura 4', 'Los parametros del ventilador de un vistazo', parametrosTablaHtml)}
+
+<div style="margin:18px 0 14px;"><strong style="color:var(--accent-fg);">Los objetivos, en orden.</strong>
   <ul style="margin:6px 0 0;padding-left:20px;color:var(--ink);font-size:14.5px;line-height:1.7;">
     <li>Oxigenacion suficiente (SpO2 92-96%, o 88-92% en el retenedor de CO2) con la menor FiO2 y PEEP posibles.</li>
     <li>Ventilacion que mantenga un pH aceptable (hipercapnia permisiva si hace falta).</li>
@@ -265,7 +409,7 @@ export const content = {
       nombre: 'Modos controlados y ventilacion protectora (SDRA y obstructivo)',
       color: '#8a6a1f',
       definicion: 'Modos en los que el ventilador entrega todos los ciclos con una frecuencia y un patron fijados, controlando el volumen corriente (y dejando la presion como variable dependiente) o la presion inspiratoria (dejando el volumen como variable dependiente). Son la base de la fase aguda y del ajuste protector.',
-      fisiopatologia: `La lesion pulmonar inducida por el ventilador surge de la sobredistension (volumen y presion excesivos), del colapso y reapertura ciclica de alveolos (baja PEEP), y de la energia total aplicada (poder mecanico). La ventilacion protectora limita el volumen corriente al pulmon aireado ("baby lung" en la SDRA), la meseta y la presion de distension, y usa una PEEP suficiente para evitar el colapso sin sobredistender. En el pulmon obstructivo el problema es la espiracion: el tiempo espiratorio insuficiente atrapa aire y genera auto-PEEP, que aumenta el trabajo, provoca esfuerzos inefectivos e hipotension.${figBlock('Figura 2', 'Tabla PEEP/FiO2 de ARDSNet', peepFio2Html)}`,
+      fisiopatologia: `La lesion pulmonar inducida por el ventilador surge de la sobredistension (volumen y presion excesivos), del colapso y reapertura ciclica de alveolos (baja PEEP), y de la energia total aplicada (poder mecanico). La ventilacion protectora limita el volumen corriente al pulmon aireado ("baby lung" en la SDRA), la meseta y la presion de distension, y usa una PEEP suficiente para evitar el colapso sin sobredistender. En el pulmon obstructivo el problema es la espiracion: el tiempo espiratorio insuficiente atrapa aire y genera auto-PEEP, que aumenta el trabajo, provoca esfuerzos inefectivos e hipotension.${figBlock('Figura 5', 'Tabla PEEP/FiO2 de ARDSNet', peepFio2Html)}`,
       epidemiologia: 'Fase aguda de cualquier insuficiencia respiratoria que requiere ventilacion invasiva; SDRA de cualquier gravedad (ventilacion protectora obligada); crisis asmatica casi fatal y EPOC grave intubados (estrategia de hipoventilacion controlada); y cualquier situacion que exija control estricto de la PaCO2 o ausencia de esfuerzo del paciente.',
       factores_riesgo: ['Ventilacion no protectora: volumen corriente alto, meseta o presion de distension altas, poder mecanico elevado; causa lesion incluso en pulmones previamente sanos', 'En el paciente obstructivo, una frecuencia alta o un tiempo espiratorio corto empeoran el atrapamiento aereo y el auto-PEEP'],
       clinica: 'SDRA: volumen corriente 6 mL/kg de peso predicho (reducir a 4 si la meseta pasa de 30 o la presion de distension de 15), frecuencia hasta 30 a 35 con hipercapnia permisiva (pH 7.20 a 7.30 aceptable), PEEP segun la tabla PEEP/FiO2 (mayor PEEP si PaO2/FiO2 menor de 200), decubito prono al menos 16 horas si PaO2/FiO2 menor de 150, bloqueo neuromuscular en las primeras 48 horas si hay asincronia grave o hipoxemia refractaria, y valorar oxigenacion por membrana extracorporea si sigue refractaria. Obstructivo: volumen corriente 6 a 8 mL/kg, frecuencia baja (10 a 14), flujo inspiratorio alto para alargar la espiracion, relacion I:E de 1:3 a 1:5, PEEP baja o nula, y aceptar hipercapnia; broncodilatacion intensiva.',
@@ -311,7 +455,7 @@ export const content = {
       nombre: 'Destete y liberacion de la ventilacion mecanica',
       color: '#3f6b52',
       definicion: 'Proceso de retirada progresiva del soporte hasta la respiracion espontanea y la extubacion. La liberacion incluye la prueba de respiracion espontanea, la decision de extubar y el soporte tras la extubacion.',
-      fisiopatologia: `El destete falla cuando la carga (resistencia, distensibilidad baja, auto-PEEP, secreciones) supera a la capacidad (fuerza y resistencia de los musculos respiratorios, estimulo central), o por causas cardiacas (el paso a presion negativa aumenta el retorno venoso y la poscarga y puede desencadenar edema), metabolicas, psicologicas o de via aerea (edema, secreciones, tos ineficaz).${figBlock('Figura 3', 'Algoritmo de destete y liberacion', desteteHtml)}`,
+      fisiopatologia: `El destete falla cuando la carga (resistencia, distensibilidad baja, auto-PEEP, secreciones) supera a la capacidad (fuerza y resistencia de los musculos respiratorios, estimulo central), o por causas cardiacas (el paso a presion negativa aumenta el retorno venoso y la poscarga y puede desencadenar edema), metabolicas, psicologicas o de via aerea (edema, secreciones, tos ineficaz).${figBlock('Figura 6', 'Algoritmo de destete y liberacion', desteteHtml)}`,
       epidemiologia: 'Todo paciente ventilado mas de 24 horas debe someterse a un cribado diario de preparacion para el destete; la mayoria se extuba tras la primera prueba de respiracion espontanea satisfactoria. El destete se considera dificil si fracasan varias pruebas o dura mas de una semana.',
       factores_riesgo: ['Predisponen al fracaso del destete: EPOC, insuficiencia cardiaca, ventilacion prolongada y debilidad adquirida en la UCI', 'Tambien la sobrecarga hidrica, el delirium, la edad avanzada, la anemia y la desnutricion', 'La reintubacion empeora el pronostico: hay que equilibrar no extubar demasiado pronto y no prolongar la ventilacion sin necesidad'],
       clinica: 'Cribado: causa en resolucion, PaO2/FiO2 mayor de 150 a 200 con PEEP 5 a 8 y FiO2 0.4 a 0.5, hemodinamia estable con vasopresores minimos o nulos, esfuerzo inspiratorio presente y sin acidosis grave. Prueba de respiracion espontanea de 30 a 120 minutos con presion de soporte de 5 a 8 cmH2O (mejor que con tubo en T) coordinada con la interrupcion de la sedacion. Extubar si tolera la prueba y protege la via aerea (conciencia, tos eficaz, secreciones manejables).',
@@ -379,7 +523,7 @@ export const content = {
       color: '#6b3a5a',
       modalLabels: { itemName: 'Complicacion', definicion: 'Definicion', fisiopatologia: 'Fisiopatologia', epidemiologia: 'Epidemiologia', factores_riesgo: 'Factores de riesgo', clinica: 'Manifestaciones clinicas', criterios_dx: 'Diagnostico', laboratorio: 'Laboratorio', imagen: 'Imagen', complementarios: 'Estudios complementarios', dx_diferencial: 'Diagnostico diferencial', tx_medico: 'Prevencion y tratamiento medico', tx_farmacologico: 'Tratamiento farmacologico', tx_intervencionista: 'Ajuste del ventilador', criterios_uci: 'Gravedad', seguimiento_hospitalario: 'Seguimiento hospitalario', pronostico: 'Pronostico', algoritmo: 'Puntos clave' },
       definicion: 'Desajuste entre el patron respiratorio del paciente y la asistencia del ventilador. Las mas frecuentes son el esfuerzo inefectivo (esfuerzo que no dispara el ventilador), el doble disparo y el apilamiento de aire, el autodisparo, y el ciclado precoz o tardio (la inspiracion del ventilador termina antes o despues que la del paciente).',
-      fisiopatologia: `El esfuerzo inefectivo aparece cuando el auto-PEEP obliga al paciente a generar mucha presion antes de alcanzar el umbral de disparo, o cuando la sedacion o la sobreasistencia deprimen el estimulo; el doble disparo, cuando el tiempo inspiratorio del ventilador es mas corto que la demanda del paciente; el ciclado tardio, cuando el criterio de fin de la inspiracion (por ejemplo el porcentaje de flujo pico en soporte de presion) esta mal ajustado.${figBlock('Figura 4', 'Bucle presion-volumen y asincronias frecuentes', asincroniasHtml)}`,
+      fisiopatologia: `El esfuerzo inefectivo aparece cuando el auto-PEEP obliga al paciente a generar mucha presion antes de alcanzar el umbral de disparo, o cuando la sedacion o la sobreasistencia deprimen el estimulo; el doble disparo, cuando el tiempo inspiratorio del ventilador es mas corto que la demanda del paciente; el ciclado tardio, cuando el criterio de fin de la inspiracion (por ejemplo el porcentaje de flujo pico en soporte de presion) esta mal ajustado.${figBlock('Figura 7', 'Bucle presion-volumen y asincronias frecuentes', asincroniasHtml)}`,
       epidemiologia: 'Son muy frecuentes (una proporcion alta de los pacientes ventilados tiene un indice de asincronia elevado en algun momento) y se asocian a mas dias de ventilacion, mas sedacion, mas delirium y peor pronostico cuando son numerosas.',
       factores_riesgo: ['Auto-PEEP y enfermedad obstructiva', 'Sedacion inadecuada, por exceso o por defecto, y dolor o ansiedad', 'Trigger poco o demasiado sensible y ayuda inspiratoria mal ajustada', 'Fugas del circuito y tiempo inspiratorio fijo que no se adapta a la demanda'],
       clinica: 'Lucha con el ventilador, uso de musculatura accesoria, taquipnea, activacion frecuente de alarmas, y curvas del ventilador con deflexiones sin ciclo, ciclos dobles, o discordancia entre el fin del flujo y el esfuerzo del paciente.',
