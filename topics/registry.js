@@ -411,6 +411,14 @@ export const registry = [
       import('./ventilacion-mecanica/calculators.js'),
       import('./ventilacion-mecanica/study.js')
     ])
+  },
+  {
+    id: 'diabetes-mellitus', titulo: 'Diabetes Mellitus',
+    load: () => Promise.all([
+      import('./diabetes-mellitus/content.js'),
+      import('./diabetes-mellitus/calculators.js'),
+      import('./diabetes-mellitus/study.js')
+    ])
   }
 ];
 
