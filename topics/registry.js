@@ -419,6 +419,14 @@ export const registry = [
       import('./diabetes-mellitus/calculators.js'),
       import('./diabetes-mellitus/study.js')
     ])
+  },
+  {
+    id: 'cetoacidosis-estado-hiperosmolar', titulo: 'Cetoacidosis Diabética y Estado Hiperosmolar',
+    load: () => Promise.all([
+      import('./cetoacidosis-estado-hiperosmolar/content.js'),
+      import('./cetoacidosis-estado-hiperosmolar/calculators.js'),
+      import('./cetoacidosis-estado-hiperosmolar/study.js')
+    ])
   }
 ];
 
