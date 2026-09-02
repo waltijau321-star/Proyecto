@@ -387,6 +387,30 @@ export const registry = [
       import('./enfermedad-arterial-periferica/calculators.js'),
       import('./enfermedad-arterial-periferica/study.js')
     ])
+  },
+  {
+    id: 'hipertension-arterial', titulo: 'Hipertensión Arterial',
+    load: () => Promise.all([
+      import('./hipertension-arterial/content.js'),
+      import('./hipertension-arterial/calculators.js'),
+      import('./hipertension-arterial/study.js')
+    ])
+  },
+  {
+    id: 'dislipidemias', titulo: 'Dislipidemias',
+    load: () => Promise.all([
+      import('./dislipidemias/content.js'),
+      import('./dislipidemias/calculators.js'),
+      import('./dislipidemias/study.js')
+    ])
+  },
+  {
+    id: 'ventilacion-mecanica', titulo: 'Ventilación Mecánica',
+    load: () => Promise.all([
+      import('./ventilacion-mecanica/content.js'),
+      import('./ventilacion-mecanica/calculators.js'),
+      import('./ventilacion-mecanica/study.js')
+    ])
   }
 ];
 

@@ -83,7 +83,7 @@ const NEUROLOGIA_CLUSTERS = [
 const NEUMOLOGIA_R1_CLUSTERS = [
   { name: 'Enfermedad respiratoria crónica', items: ['EPOC estable y exacerbación', 'Asma', 'Enfermedad pulmonar intersticial e hipertensión pulmonar', 'Enfermedad pulmonar restrictiva', 'Nódulo pulmonar solitario y cáncer de pulmón', 'Apnea obstructiva del sueño', 'Sarcoidosis y otras enfermedades granulomatosas', 'Bronquiectasias', 'Neumoconiosis'] },
   { name: 'Infecciones respiratorias', items: ['Neumonía adquirida en la comunidad y nosocomial', 'Neumonía por aspiración', 'Tuberculosis', 'Absceso pulmonar', 'COVID-19 y sus complicaciones', 'Influenza y neumonía viral', 'Bronquitis aguda'] },
-  { name: 'Insuficiencia respiratoria y ventilación', items: ['Insuficiencia respiratoria aguda y SDRA', 'Ventilación mecánica invasiva y no invasiva', 'Derrame pleural y patología pleural', 'Empiema pleural', 'Neumotórax', 'Hemoptisis'] }
+  { name: 'Insuficiencia respiratoria y ventilación', items: ['Insuficiencia respiratoria aguda y SDRA', { label: 'Ventilación mecánica invasiva y no invasiva', topicId: 'ventilacion-mecanica' }, 'Derrame pleural y patología pleural', 'Empiema pleural', 'Neumotórax', 'Hemoptisis'] }
 ];
 
 const DERMATOLOGIA_ITEMS = [
@@ -128,7 +128,7 @@ export const temarioBlocks = [
       { name: 'Insuficiencia cardiaca', items: ['IC aguda descompensada y edema agudo de pulmón', 'IC crónica con FEVI reducida y preservada', 'Dispositivos y terapias avanzadas (resincronización, asistencia ventricular)'] },
       { name: 'Arritmias y electrofisiología', items: ['Fibrilación y flutter auricular, anticoagulación', 'Taquiarritmias y bradiarritmias sintomáticas', 'Marcapasos y desfibriladores'] },
       { name: 'Enfermedad valvular, pericárdica y miocárdica', items: ['Valvulopatías nativas y protésicas', 'Cardiopatía reumática', 'Pericarditis y taponamiento cardiaco', { label: 'Miocardiopatías (hipertrófica, dilatada, restrictiva, arritmogénica del ventrículo derecho, periparto)', topicId: 'miocardiopatias' }, 'Miocarditis', 'Cor pulmonale', 'Cardiopatías congénitas en el adulto'] },
-      { name: 'Hipertensión arterial y enfermedad tromboembólica', items: ['HTA esencial y urgencias/emergencias hipertensivas', 'HTA secundaria', 'Trombosis venosa profunda y tromboembolia pulmonar', 'Tromboflebitis superficial', { label: 'Aneurisma y disección aórtica (síndrome aórtico agudo)', topicId: 'sindrome-aortico-agudo' }, { label: 'Enfermedad arterial periférica', topicId: 'enfermedad-arterial-periferica' }] }
+      { name: 'Hipertensión arterial y enfermedad tromboembólica', items: [{ label: 'HTA esencial y urgencias/emergencias hipertensivas', topicId: 'hipertension-arterial' }, 'HTA secundaria', 'Trombosis venosa profunda y tromboembolia pulmonar', 'Tromboflebitis superficial', { label: 'Aneurisma y disección aórtica (síndrome aórtico agudo)', topicId: 'sindrome-aortico-agudo' }, { label: 'Enfermedad arterial periférica', topicId: 'enfermedad-arterial-periferica' }] }
     ]
   },
   {
@@ -185,7 +185,7 @@ export const temarioBlocks = [
       { name: 'Diabetes mellitus', items: ['Diagnóstico y metas de control en tipo 1 y tipo 2', 'Cetoacidosis diabética y estado hiperosmolar hiperglucémico', 'Complicaciones crónicas microvasculares y macrovasculares', 'Pie diabético', 'Hipoglucemia y diabetes gestacional'] },
       { name: 'Tiroides y paratiroides', items: ['Hipotiroidismo e hipertiroidismo', 'Tiroiditis', 'Bocio difuso y multinodular no tóxico', 'Tormenta tiroidea y coma mixedematoso', 'Nódulo tiroideo y trastornos del metabolismo óseo y mineral', 'Neoplasias del tiroides'] },
       { name: 'Eje suprarrenal e hipofisario', items: ['Insuficiencia suprarrenal y crisis addisoniana', 'Síndrome de Cushing', 'Trastornos hipofisarios', 'Acromegalia e hiperprolactinemia', 'Síndromes poliúricos (diabetes insípida)', 'Hiperaldosteronismo primario', 'Incidentaloma y neoplasias suprarrenales', 'Hipogonadismo y ginecomastia', 'Neoplasia endocrina múltiple y síndromes de secreción hormonal ectópica'] },
-      { name: 'Metabolismo', items: ['Dislipidemias', 'Obesidad', 'Síndrome cardiovascular-renal-metabólico (CKM)', 'Osteoporosis'] }
+      { name: 'Metabolismo', items: [{ label: 'Dislipidemias', topicId: 'dislipidemias' }, 'Obesidad', 'Síndrome cardiovascular-renal-metabólico (CKM)', 'Osteoporosis'] }
     ]
   },
   {
