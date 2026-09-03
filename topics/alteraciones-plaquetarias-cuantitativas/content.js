@@ -325,19 +325,19 @@ export const content = {
 };
 
 export const compCites = {
-  'Púrpura Trombocitopénica Inmune (PTI)': [0, 1, 9],
-  'Trombocitopenia inducida por fármacos y HIT': [2, 3, 4],
-  'Pseudotrombocitopenia y trombocitopenia gestacional': [5, 6],
-  'Trombocitosis reactiva/secundaria': [7, 8],
-  'Hemorragia grave por trombocitopenia': [0, 12],
-  'Trombosis paradójica en HIT': [4, 10, 11],
-  'Esplenectomía en PTI refractaria': [1, 9],
-  'Complicaciones tromboembólicas de trombocitosis extrema': [7, 8]
+  'Púrpura Trombocitopénica Inmune (PTI)': [1, 2, 10],
+  'Trombocitopenia inducida por fármacos y HIT': [3, 4, 5],
+  'Pseudotrombocitopenia y trombocitopenia gestacional': [6, 7],
+  'Trombocitosis reactiva/secundaria': [8, 9],
+  'Hemorragia grave por trombocitopenia': [1, 13],
+  'Trombosis paradójica en HIT': [5, 11, 12],
+  'Esplenectomía en PTI refractaria': [2, 10],
+  'Complicaciones tromboembólicas de trombocitosis extrema': [8, 9]
 };
 export const estigmas = [];
 export const biopsia = null;
 export const escalaRefs = {
-  '4T Score para HIT': [2, 3]
+  '4T Score para HIT': [3, 4]
 };
 export const escalaCalc = { '4T Score para HIT': '4t-hit' };
 export const compGroups = [
@@ -345,7 +345,15 @@ export const compGroups = [
   { name: 'Complicaciones transversales', items: ['Hemorragia grave por trombocitopenia', 'Trombosis paradójica en HIT', 'Esplenectomía en PTI refractaria', 'Complicaciones tromboembólicas de trombocitosis extrema'] }
 ];
 export const complicacionesIntro = 'Las 4 primeras tarjetas cubren las alteraciones plaquetarias cuantitativas por entidad, tanto trombocitopenia (PTI, HIT, pseudotrombocitopenia/gestacional) como trombocitosis (reactiva); las siguientes 4 son complicaciones transversales específicas de sangrado, trombosis, y manejo definitivo refractario.';
-export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
+export const categories = [
+  { id: 'definicion', label: 'Definición' },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'clasificacion', label: 'Clasificación' },
+  { id: 'complicaciones', label: 'Complicaciones' },
+  { id: 'seguimiento', label: 'Seguimiento' },
+  { id: 'autoevaluacion', label: 'Autoevaluación' },
+  { id: 'bibliografia', label: 'Bibliografía' }
+];
 export const arbol = {
   root: { title: 'ALTERACIONES PLAQUETARIAS CUANTITATIVAS', color: '#8a6a1f', target: 'definicion' },
   branches: [
@@ -365,6 +373,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { laboratorio: [0, 5], no_invasivos: [2] };
-export const clasificacionCite = [2, 3];
-export const seguimientoCite = [3, 4];
+export const diagCites = { laboratorio: [1, 6], no_invasivos: [3] };
+export const clasificacionCite = [3, 4];
+export const seguimientoCite = [4, 5];

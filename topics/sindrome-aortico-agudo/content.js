@@ -327,18 +327,18 @@ export const content = {
 };
 
 export const compCites = {
-  'Disección aórtica': [0, 2, 3, 13],
-  'Hematoma intramural aórtico': [8, 9],
-  'Úlcera aórtica penetrante': [10, 11],
-  'Aneurisma aórtico (torácico y abdominal, no roto)': [11, 12, 14],
-  'Rotura aórtica': [4, 11],
-  'Taponamiento cardiaco': [3, 6],
-  'Malperfusión de órganos': [3, 6, 14],
-  'Insuficiencia aórtica aguda': [3, 6]
+  'Disección aórtica': [1, 3, 4, 14],
+  'Hematoma intramural aórtico': [9, 10],
+  'Úlcera aórtica penetrante': [11, 12],
+  'Aneurisma aórtico (torácico y abdominal, no roto)': [12, 13, 15],
+  'Rotura aórtica': [5, 12],
+  'Taponamiento cardiaco': [4, 7],
+  'Malperfusión de órganos': [4, 7, 15],
+  'Insuficiencia aórtica aguda': [4, 7]
 };
 export const estigmas = [];
 export const biopsia = null;
-export const escalaRefs = { 'ADD-RS (Aortic Dissection Detection Risk Score)': [2, 3] };
+export const escalaRefs = { 'ADD-RS (Aortic Dissection Detection Risk Score)': [3, 4] };
 export const escalaCalc = { 'ADD-RS (Aortic Dissection Detection Risk Score)': 'add-rs' };
 export const compGroups = [
   { name: 'Entidades', items: ['Disección aórtica', 'Hematoma intramural aórtico', 'Úlcera aórtica penetrante', 'Aneurisma aórtico (torácico y abdominal, no roto)'] },
@@ -371,6 +371,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { no_invasivos: [2] };
-export const clasificacionCite = [2, 0];
-export const seguimientoCite = [0, 4];
+export const diagCites = { no_invasivos: [3] };
+export const clasificacionCite = [3, 1];
+export const seguimientoCite = [1, 5];

@@ -402,22 +402,22 @@ export const content = {
 };
 
 export const compCites = {
-  'EAP asintomatica (marcador de aterosclerosis sistemica)': [0, 1, 7, 8],
-  'Claudicacion intermitente': [0, 1, 3, 12],
-  'Isquemia cronica que amenaza la extremidad': [4, 1, 13, 5],
-  'Isquemia arterial aguda de la extremidad': [15, 6, 0],
-  'Perdida de extremidad y amputacion mayor': [4, 0, 1],
-  'Lesion por reperfusion y sindrome compartimental': [15, 6],
-  'Eventos cardiovasculares mayores y muerte': [9, 8, 11, 1],
-  'Ulcera isquemica infectada e infeccion del pie': [17, 4, 5]
+  'EAP asintomatica (marcador de aterosclerosis sistemica)': [1, 2, 8, 9],
+  'Claudicacion intermitente': [1, 2, 4, 13],
+  'Isquemia cronica que amenaza la extremidad': [5, 2, 14, 6],
+  'Isquemia arterial aguda de la extremidad': [16, 7, 1],
+  'Perdida de extremidad y amputacion mayor': [5, 1, 2],
+  'Lesion por reperfusion y sindrome compartimental': [16, 7],
+  'Eventos cardiovasculares mayores y muerte': [10, 9, 12, 2],
+  'Ulcera isquemica infectada e infeccion del pie': [18, 5, 6]
 };
 export const estigmas = [];
 export const biopsia = null;
 export const escalaRefs = {
-  'Clasificacion de Fontaine': [2, 3],
-  'Clasificacion de Rutherford (EAP cronica)': [6],
-  'WIfI (herida, isquemia e infeccion del pie)': [5, 4],
-  'Clasificacion de Rutherford de la isquemia arterial aguda': [6, 15]
+  'Clasificacion de Fontaine': [3, 4],
+  'Clasificacion de Rutherford (EAP cronica)': [7],
+  'WIfI (herida, isquemia e infeccion del pie)': [6, 5],
+  'Clasificacion de Rutherford de la isquemia arterial aguda': [7, 16]
 };
 export const escalaCalc = {
   'WIfI (herida, isquemia e infeccion del pie)': 'wifi',
@@ -454,6 +454,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { no_invasivos: [7, 0], imagen: [0, 2] };
-export const clasificacionCite = [2, 6, 5];
-export const seguimientoCite = [0, 1];
+export const diagCites = { no_invasivos: [8, 1], imagen: [1, 3] };
+export const clasificacionCite = [3, 7, 6];
+export const seguimientoCite = [1, 2];

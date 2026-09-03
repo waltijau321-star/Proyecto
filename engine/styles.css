@@ -494,6 +494,8 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 .quiz-feedback-box.correct{background:#3f6b5214; border:1px solid #3f6b52; color:var(--ink-dim);}
 .quiz-feedback-box.incorrect{background:#8c3a3414; border:1px solid #8c3a34; color:var(--ink-dim);}
 .quiz-feedback-box strong{color:var(--ink);}
+/* Explicación de cada paso de una cascada, dentro de la revisión final del caso. */
+.quiz-feedback-box .step-why{display:block; margin-top:6px; font-size:13px; line-height:1.5; color:var(--ink-dim); opacity:.92;}
 .case-vignette{background:var(--panel2); border-left:3px solid #8c3a34; border-radius:var(--radius); padding:16px 18px; font-size:14.5px; color:var(--ink); line-height:1.6; margin-bottom:6px;}
 
 /* ---------- FLASHCARDS ---------- */

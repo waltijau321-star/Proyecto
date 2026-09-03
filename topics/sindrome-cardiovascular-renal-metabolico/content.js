@@ -348,20 +348,20 @@ export const content = {
 };
 
 export const compCites = {
-  'Estadio 0: sin factores de riesgo': [0, 18],
-  'Estadio 1: exceso o disfuncion de la adiposidad': [0, 1],
-  'Estadio 2: factores metabolicos y enfermedad renal': [0, 3, 4, 16],
-  'Estadio 3: enfermedad cardiovascular subclinica': [0, 2],
-  'Estadio 4: enfermedad cardiovascular clinica': [0, 13],
-  'Farmacos que actuan en los tres ejes': [5, 6, 7, 8, 9, 10, 11, 12]
+  'Estadio 0: sin factores de riesgo': [1, 19],
+  'Estadio 1: exceso o disfuncion de la adiposidad': [1, 2],
+  'Estadio 2: factores metabolicos y enfermedad renal': [1, 4, 5, 17],
+  'Estadio 3: enfermedad cardiovascular subclinica': [1, 3],
+  'Estadio 4: enfermedad cardiovascular clinica': [1, 14],
+  'Farmacos que actuan en los tres ejes': [6, 7, 8, 9, 10, 11, 12, 13]
 };
 export const estigmas = [];
 export const biopsia = null;
 export const escalaRefs = {
-  'Estadios CKM de la AHA (calculadora disponible)': [0, 1],
-  'Ecuaciones PREVENT (AHA 2024)': [2],
-  'Matriz de riesgo renal de KDIGO': [3],
-  'Criterios de sindrome metabolico': [0]
+  'Estadios CKM de la AHA (calculadora disponible)': [1, 2],
+  'Ecuaciones PREVENT (AHA 2024)': [3],
+  'Matriz de riesgo renal de KDIGO': [4],
+  'Criterios de sindrome metabolico': [1]
 };
 export const escalaCalc = {
   'Estadios CKM de la AHA (calculadora disponible)': 'estadio-ckm'
@@ -398,6 +398,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { laboratorio: [0, 3], no_invasivos: [0, 2], imagen: [1] };
-export const clasificacionCite = [0, 2, 3];
-export const seguimientoCite = [0, 18];
+export const diagCites = { laboratorio: [1, 4], no_invasivos: [1, 3], imagen: [2] };
+export const clasificacionCite = [1, 3, 4];
+export const seguimientoCite = [1, 19];

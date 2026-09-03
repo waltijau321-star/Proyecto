@@ -334,21 +334,21 @@ export const content = {
 };
 
 export const compCites = {
-  'Meningioma': [0, 2, 9, 10],
-  'Glioma (astrocitoma difuso y glioblastoma)': [1, 10],
-  'Metástasis cerebrales': [3, 0],
-  'Hipertensión intracraneal idiopática (pseudotumor cerebri)': [5, 6, 14],
-  'Edema peritumoral y manejo con corticoides': [7],
-  'Crisis convulsivas asociadas a tumor cerebral': [8],
-  'Hidrocefalia obstructiva': [4],
-  'Papiledema y pérdida visual por hipertensión intracraneal crónica': [6, 14],
-  'Herniación por tumor': [4]
+  'Meningioma': [1, 3, 10, 11],
+  'Glioma (astrocitoma difuso y glioblastoma)': [2, 11],
+  'Metástasis cerebrales': [4, 1],
+  'Hipertensión intracraneal idiopática (pseudotumor cerebri)': [6, 7, 15],
+  'Edema peritumoral y manejo con corticoides': [8],
+  'Crisis convulsivas asociadas a tumor cerebral': [9],
+  'Hidrocefalia obstructiva': [5],
+  'Papiledema y pérdida visual por hipertensión intracraneal crónica': [7, 15],
+  'Herniación por tumor': [5]
 };
 export const estigmas = [];
 export const biopsia = null;
 export const escalaRefs = {
-  'Karnofsky Performance Status / ECOG': [11, 12],
-  'Criterios diagnósticos revisados de hipertensión intracraneal idiopática': [5]
+  'Karnofsky Performance Status / ECOG': [12, 13],
+  'Criterios diagnósticos revisados de hipertensión intracraneal idiopática': [6]
 };
 export const escalaCalc = { 'Karnofsky Performance Status / ECOG': 'karnofsky-ecog' };
 export const compGroups = [
@@ -383,6 +383,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { no_invasivos: [12, 13] };
-export const clasificacionCite = [12, 13, 5];
-export const seguimientoCite = [7, 8];
+export const diagCites = { no_invasivos: [13, 14] };
+export const clasificacionCite = [13, 14, 6];
+export const seguimientoCite = [8, 9];

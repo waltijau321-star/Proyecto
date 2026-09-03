@@ -353,7 +353,15 @@ export const compGroups = [
   { name: 'Complicaciones transversales', items: ['Crisis porfírica aguda', 'Neuropatía y complicaciones neurológicas', 'Complicaciones hepáticas a largo plazo', 'Fotosensibilidad y complicaciones cutáneas'] }
 ];
 export const complicacionesIntro = 'Las 4 primeras tarjetas cubren los tipos principales de porfiria según la enzima deficiente; las siguientes 4 son complicaciones transversales que pueden surgir sobre cualquiera de ellas (según corresponda a la categoría hepática aguda o cutánea), desde la urgencia de la crisis aguda hasta el riesgo hepático a largo plazo.';
-export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
+export const categories = [
+  { id: 'definicion', label: 'Definición' },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'clasificacion', label: 'Clasificación' },
+  { id: 'complicaciones', label: 'Complicaciones' },
+  { id: 'seguimiento', label: 'Seguimiento' },
+  { id: 'autoevaluacion', label: 'Autoevaluación' },
+  { id: 'bibliografia', label: 'Bibliografía' }
+];
 export const arbol = {
   root: { title: 'PORFIRIAS', color: '#6b3d5c', target: 'definicion' },
   branches: [

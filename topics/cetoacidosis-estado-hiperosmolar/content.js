@@ -430,13 +430,13 @@ export const content = {
 };
 
 export const compCites = {
-  'Cetoacidosis diabetica': [0, 1, 3, 4],
-  'Estado hiperosmolar hiperglucemico': [17, 0, 18],
-  'Cetoacidosis euglucemica': [15, 16, 0],
-  'Edema cerebral': [10, 11, 0],
-  'Hipopotasemia y trastornos electroliticos del tratamiento': [1, 0],
-  'Hipoglucemia, sobrecarga de volumen y acidosis hipercloremica': [5, 6, 0],
-  'Complicaciones tromboticas e infecciosas': [21, 17]
+  'Cetoacidosis diabetica': [1, 2, 4, 5],
+  'Estado hiperosmolar hiperglucemico': [18, 1, 19],
+  'Cetoacidosis euglucemica': [16, 17, 1],
+  'Edema cerebral': [11, 12, 1],
+  'Hipopotasemia y trastornos electroliticos del tratamiento': [2, 1],
+  'Hipoglucemia, sobrecarga de volumen y acidosis hipercloremica': [6, 7, 1],
+  'Complicaciones tromboticas e infecciosas': [22, 18]
 };
 export const estigmas = [
   { s: 'Poliuria, polidipsia y perdida de peso previas', p: 'Casi todos', photo: null, desc: 'Consecuencia directa de la diuresis osmotica. Es el prodromo comun a las dos entidades: de horas en la cetoacidosis y de dias o semanas en el estado hiperosmolar. Su ausencia debe hacer dudar del diagnostico.' },
@@ -454,11 +454,11 @@ export const estigmas = [
 export const estigmasTitulo = 'Signos y sintomas de las crisis hiperglucemicas, en orden de frecuencia';
 export const biopsia = null;
 export const escalaRefs = {
-  'Criterios diagnosticos de la CAD (ADA/EASD 2024)': [0, 1],
-  'Gravedad de la CAD': [0, 1],
-  'Criterios diagnosticos del EHH': [0, 17],
-  'Anion gap, correccion por albumina y cociente delta': [14],
-  'Criterios de resolucion': [0, 1]
+  'Criterios diagnosticos de la CAD (ADA/EASD 2024)': [1, 2],
+  'Gravedad de la CAD': [1, 2],
+  'Criterios diagnosticos del EHH': [1, 18],
+  'Anion gap, correccion por albumina y cociente delta': [15],
+  'Criterios de resolucion': [1, 2]
 };
 export const escalaCalc = {
   'Anion gap, correccion por albumina y cociente delta': 'anion-gap-cad',
@@ -501,6 +501,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { laboratorio: [0, 4], no_invasivos: [0, 14], imagen: [0, 21] };
-export const clasificacionCite = [0, 1, 17];
-export const seguimientoCite = [0, 2];
+export const diagCites = { laboratorio: [1, 5], no_invasivos: [1, 15], imagen: [1, 22] };
+export const clasificacionCite = [1, 2, 18];
+export const seguimientoCite = [1, 3];

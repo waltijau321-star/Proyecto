@@ -349,20 +349,20 @@ export const content = {
 };
 
 export const compCites = {
-  'Osteoporosis posmenopausica': [0, 1, 2, 5],
-  'Osteoporosis del varon': [3, 0],
-  'Osteoporosis secundaria e inducida por glucocorticoides': [4, 0],
-  'Fractura por fragilidad': [0, 18],
-  'Osteonecrosis mandibular y fractura femoral atipica': [16, 17],
-  'Rebote tras suspender el denosumab': [12, 13, 7]
+  'Osteoporosis posmenopausica': [1, 2, 3, 6],
+  'Osteoporosis del varon': [4, 1],
+  'Osteoporosis secundaria e inducida por glucocorticoides': [5, 1],
+  'Fractura por fragilidad': [1, 19],
+  'Osteonecrosis mandibular y fractura femoral atipica': [17, 18],
+  'Rebote tras suspender el denosumab': [13, 14, 8]
 };
 export const estigmas = [];
 export const biopsia = null;
 export const escalaRefs = {
-  'Criterios densitometricos de la OMS (calculadora disponible)': [0],
-  'Puntuacion Z y sospecha de causa secundaria': [0],
-  'FRAX y umbrales de tratamiento': [6, 0],
-  'Estratificacion en riesgo alto frente a muy alto': [5, 1]
+  'Criterios densitometricos de la OMS (calculadora disponible)': [1],
+  'Puntuacion Z y sospecha de causa secundaria': [1],
+  'FRAX y umbrales de tratamiento': [7, 1],
+  'Estratificacion en riesgo alto frente a muy alto': [6, 2]
 };
 export const escalaCalc = {
   'Criterios densitometricos de la OMS (calculadora disponible)': 'densitometria-osteoporosis',
@@ -403,6 +403,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { laboratorio: [0], no_invasivos: [0, 6], imagen: [0, 17] };
-export const clasificacionCite = [0, 6, 5];
-export const seguimientoCite = [0, 18];
+export const diagCites = { laboratorio: [1], no_invasivos: [1, 7], imagen: [1, 18] };
+export const clasificacionCite = [1, 7, 6];
+export const seguimientoCite = [1, 19];

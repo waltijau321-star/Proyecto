@@ -328,18 +328,18 @@ export const content = {
 };
 
 export const compCites = {
-  'Enfermedad de Parkinson': [0, 1, 2],
-  'Temblor esencial': [4],
-  'Distonía': [5],
-  'Corea y enfermedad de Huntington': [6],
-  'Complicaciones motoras del tratamiento dopaminérgico': [12, 13],
-  'Demencia y deterioro cognitivo asociado a Parkinson': [8, 9],
-  'Disfunción autonómica': [10],
-  'Psicosis inducida por fármacos dopaminérgicos': [11]
+  'Enfermedad de Parkinson': [1, 2, 3],
+  'Temblor esencial': [5],
+  'Distonía': [6],
+  'Corea y enfermedad de Huntington': [7],
+  'Complicaciones motoras del tratamiento dopaminérgico': [13, 14],
+  'Demencia y deterioro cognitivo asociado a Parkinson': [9, 10],
+  'Disfunción autonómica': [11],
+  'Psicosis inducida por fármacos dopaminérgicos': [12]
 };
 export const estigmas = [];
 export const biopsia = null;
-export const escalaRefs = { 'Escala de Hoehn y Yahr': [2] };
+export const escalaRefs = { 'Escala de Hoehn y Yahr': [3] };
 export const escalaCalc = { 'Escala de Hoehn y Yahr': 'hoehn-yahr' };
 export const compGroups = [
   { name: 'Entidades', items: ['Enfermedad de Parkinson', 'Temblor esencial', 'Distonía', 'Corea y enfermedad de Huntington'] },
@@ -372,6 +372,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { no_invasivos: [2] };
-export const clasificacionCite = [2];
-export const seguimientoCite = [13];
+export const diagCites = { no_invasivos: [3] };
+export const clasificacionCite = [3];
+export const seguimientoCite = [14];

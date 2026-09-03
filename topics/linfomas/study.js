@@ -49,7 +49,7 @@ export const quiz = [
     type: 'cascade', dificultad: 'dificil',
     vignette: 'Mujer de 8 años en zona endémica de África ecuatorial presenta masa de crecimiento explosivo en la mandíbula de 5 días de evolución. LDH marcadamente elevada. La biopsia muestra un patrón "en cielo estrellado".',
     steps: [
-      { q: '¿Cuál es el diagnóstico más probable?', options: ['Linfoma folicular indolente', 'Linfoma de Hodgkin clásico', 'Linfoma de Burkitt endémico', 'Linfoma de la zona marginal'], correct: 2 },
+      { q: '¿Qué diagnóstico explica mejor el cuadro?', options: ['Linfoma folicular indolente', 'Linfoma de Hodgkin clásico', 'Linfoma de Burkitt endémico', 'Linfoma de la zona marginal'], correct: 2 },
       { q: '¿Qué complicación metabólica debe anticiparse y manejarse en paralelo al estudio diagnóstico, dado que puede estar presente ya al momento del diagnóstico?', options: ['Síndrome de lisis tumoral', 'Hipoglucemia aislada', 'Hipertiroidismo', 'Deficiencia de vitamina B12'], correct: 0 },
       { q: '¿Cuál es el enfoque terapéutico más apropiado?', options: ['Vigilancia activa sin tratar', 'Esquema R-CHOP de ciclos largos', 'Radioterapia aislada sin quimio', 'Quimioterapia de ciclos cortos'], correct: 3 }
     ],
@@ -59,7 +59,7 @@ export const quiz = [
     type: 'cascade', dificultad: 'dificil',
     vignette: 'Varón de 55 años con linfoma difuso de células B grandes conocido presenta edema facial y de cuello, distensión de las venas del cuello, y disnea que empeora al acostarse. TC de tórax muestra masa mediastínica voluminosa con compresión vascular.',
     steps: [
-      { q: '¿Cuál es el diagnóstico más probable?', options: ['Insuficiencia cardiaca aguda aislada', 'Síndrome de vena cava superior', 'Neumotórax espontáneo', 'Taponamiento cardiaco aislado'], correct: 1 },
+      { q: '¿Cuál es la entidad más probable en este caso?', options: ['Insuficiencia cardiaca aguda aislada', 'Síndrome de vena cava superior', 'Neumotórax espontáneo', 'Taponamiento cardiaco aislado'], correct: 1 },
       { q: '¿Cuál es una medida general inmediata apropiada mientras se organiza el tratamiento definitivo?', options: ['Colocar al paciente en decúbito supino plano', 'Restricción hídrica extrema sin otra medida', 'Indicar reposo en posición de Trendelenburg', 'Elevar la cabecera de la cama'], correct: 3 },
       { q: 'Dado que el linfoma de base es altamente quimiosensible, ¿cuál es el enfoque terapéutico más apropiado para resolver el síndrome?', options: ['Iniciar el tratamiento oncológico', 'Solo endoprótesis vascular', 'Observación sin tratamiento activo', 'Esplenectomía urgente programada'], correct: 0 }
     ],

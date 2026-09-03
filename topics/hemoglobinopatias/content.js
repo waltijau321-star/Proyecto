@@ -362,7 +362,15 @@ export const compGroups = [
   { name: 'Complicaciones transversales (enfermedad de células falciformes)', items: ['Crisis vaso-oclusiva dolorosa', 'Síndrome torácico agudo', 'ACV y complicaciones neurológicas', 'Asplenia funcional, riesgo infeccioso y complicaciones crónicas'] }
 ];
 export const complicacionesIntro = 'Las 4 primeras tarjetas cubren las entidades principales de este tema, tanto talasemias como formas falciformes; las siguientes 4 son complicaciones transversales específicas de la enfermedad de células falciformes (y, en menor grado, sus formas heterocigotas compuestas), desde la crisis dolorosa más frecuente hasta las complicaciones crónicas acumulativas.';
-export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
+export const categories = [
+  { id: 'definicion', label: 'Definición' },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'clasificacion', label: 'Clasificación' },
+  { id: 'complicaciones', label: 'Complicaciones' },
+  { id: 'seguimiento', label: 'Seguimiento' },
+  { id: 'autoevaluacion', label: 'Autoevaluación' },
+  { id: 'bibliografia', label: 'Bibliografía' }
+];
 export const arbol = {
   root: { title: 'HEMOGLOBINOPATÍAS', color: '#7a1f3d', target: 'definicion' },
   branches: [

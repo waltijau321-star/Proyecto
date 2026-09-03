@@ -76,7 +76,7 @@ export const quiz = [
     type: 'cascade', dificultad: 'dificil',
     vignette: 'Varón de 22 años, jugador de fútbol amateur, presenta palpitaciones sostenidas durante un partido, seguidas de presíncope. El electrocardiograma en reposo muestra inversión de la onda T en V1-V3 y una onda épsilon. El ecocardiograma muestra dilatación segmentaria del ventrículo derecho con un aneurisma en el tracto de entrada.',
     steps: [
-      { q: '¿Cuál es el diagnóstico más probable?', options: ['Taquicardia ventricular idiopática del VD', 'Corazón de atleta, adaptación fisiológica', 'Una miocarditis viral aguda', 'Miocardiopatía arritmogénica del VD'], correct: 3 },
+      { q: '¿Qué diagnóstico explica mejor el cuadro?', options: ['Taquicardia ventricular idiopática del VD', 'Corazón de atleta, adaptación fisiológica', 'Una miocarditis viral aguda', 'Miocardiopatía arritmogénica del VD'], correct: 3 },
       { q: '¿Cuál es la intervención inicial con mayor evidencia para enlentecer la progresión de esta enfermedad?', options: ['Ablación por catéter de inmediato', 'Restringir el ejercicio de competición', 'La anticoagulación oral profiláctica', 'Reposo relativo, sin restringir el deporte'], correct: 1 },
       { q: 'Se confirma el diagnóstico y se documenta taquicardia ventricular sostenida con inestabilidad hemodinámica durante el seguimiento. ¿Cuál es la conducta más apropiada?', options: ['Betabloqueador en monoterapia, sin más', 'Vigilancia ambulatoria, sin intervenir', 'CDI en prevención secundaria', 'Trasplante cardiaco de inmediato'], correct: 2 }
     ],
@@ -86,7 +86,7 @@ export const quiz = [
     type: 'cascade', dificultad: 'intermedio',
     vignette: 'Mujer de 32 años, 3 semanas posparto, primer embarazo sin complicaciones prenatales documentadas, presenta disnea progresiva, ortopnea y edema de miembros inferiores. El ecocardiograma muestra FEVI de 30%, sin dilatación marcada, y no hay antecedente de cardiopatía previa.',
     steps: [
-      { q: '¿Cuál es el diagnóstico más probable?', options: ['Miocardiopatía periparto', 'Disnea fisiológica normal del puerperio', 'Embolia pulmonar aislada, sin compromiso miocárdico', 'Miocardiopatía hipertrófica no diagnosticada previamente'], correct: 0 },
+      { q: '¿Cuál es la entidad más probable en este caso?', options: ['Miocardiopatía periparto', 'Disnea fisiológica normal del puerperio', 'Embolia pulmonar aislada, sin compromiso miocárdico', 'Miocardiopatía hipertrófica no diagnosticada previamente'], correct: 0 },
       { q: '¿Cuál es el tratamiento farmacológico dirigido específico que debe añadirse al tratamiento estándar de insuficiencia cardiaca?', options: ['El tafamidis oral', 'El mavacamten oral', 'El verapamilo oral', 'La bromocriptina'], correct: 3 },
       { q: 'La paciente pregunta sobre un embarazo futuro. ¿Qué debe orientar la asesoría reproductiva?', options: ['No hay riesgo si se espera un año', 'El riesgo es real, mayor con FEVI baja', 'Un embarazo está contraindicado de por vida', 'El riesgo es igual, sin importar la FEVI'], correct: 1 }
     ],

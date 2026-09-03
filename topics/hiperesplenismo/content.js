@@ -327,20 +327,20 @@ export const content = {
 };
 
 export const compCites = {
-  'Hiperesplenismo por Hipertensión Portal': [2, 5],
-  'Hiperesplenismo por Enfermedad Hematológica Primaria': [3, 4],
-  'Hiperesplenismo por Enfermedad Infecciosa': [3],
-  'Hiperesplenismo por Enfermedad de Depósito/Inflamatoria': [3, 4],
-  'Rotura esplénica': [6, 13],
-  'Sepsis fulminante post-esplenectomía (OPSI) y profilaxis vacunal': [8, 9, 14],
-  'Trombosis venosa portal/esplénica post-esplenectomía': [10, 11],
-  'Infarto esplénico': [12]
+  'Hiperesplenismo por Hipertensión Portal': [3, 6],
+  'Hiperesplenismo por Enfermedad Hematológica Primaria': [4, 5],
+  'Hiperesplenismo por Enfermedad Infecciosa': [4],
+  'Hiperesplenismo por Enfermedad de Depósito/Inflamatoria': [4, 5],
+  'Rotura esplénica': [7, 14],
+  'Sepsis fulminante post-esplenectomía (OPSI) y profilaxis vacunal': [9, 10, 15],
+  'Trombosis venosa portal/esplénica post-esplenectomía': [11, 12],
+  'Infarto esplénico': [13]
 };
 export const estigmas = [];
 export const biopsia = null;
 export const escalaRefs = {
-  'Criterios de Hiperesplenismo (tétrada de Dameshek)': [0, 1],
-  'Grado de esplenomegalia por tamaño': [4]
+  'Criterios de Hiperesplenismo (tétrada de Dameshek)': [1, 2],
+  'Grado de esplenomegalia por tamaño': [5]
 };
 export const escalaCalc = { 'Criterios de Hiperesplenismo (tétrada de Dameshek)': 'hiperesplenismo' };
 export const compGroups = [
@@ -348,7 +348,15 @@ export const compGroups = [
   { name: 'Complicaciones transversales', items: ['Rotura esplénica', 'Sepsis fulminante post-esplenectomía (OPSI) y profilaxis vacunal', 'Trombosis venosa portal/esplénica post-esplenectomía', 'Infarto esplénico'] }
 ];
 export const complicacionesIntro = 'Las 4 primeras tarjetas organizan el hiperesplenismo por su causa subyacente (hipertensión portal, enfermedad hematológica primaria, infecciosa, o de depósito/inflamatoria); las siguientes 4 son complicaciones transversales, tanto del bazo aumentado de tamaño en sí como de su tratamiento definitivo (esplenectomía).';
-export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
+export const categories = [
+  { id: 'definicion', label: 'Definición' },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'clasificacion', label: 'Clasificación' },
+  { id: 'complicaciones', label: 'Complicaciones' },
+  { id: 'seguimiento', label: 'Seguimiento' },
+  { id: 'autoevaluacion', label: 'Autoevaluación' },
+  { id: 'bibliografia', label: 'Bibliografía' }
+];
 export const arbol = {
   root: { title: 'HIPERESPLENISMO', color: '#5c6b2d', target: 'definicion' },
   branches: [
@@ -366,6 +374,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { laboratorio: [0, 3], no_invasivos: [0, 4] };
-export const clasificacionCite = [0, 1, 4];
-export const seguimientoCite = [9, 11];
+export const diagCites = { laboratorio: [1, 4], no_invasivos: [1, 5] };
+export const clasificacionCite = [1, 2, 5];
+export const seguimientoCite = [10, 12];

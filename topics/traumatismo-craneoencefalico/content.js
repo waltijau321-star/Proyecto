@@ -329,20 +329,20 @@ export const content = {
 };
 
 export const compCites = {
-  'TCE leve y conmoción cerebral': [9, 10, 1],
-  'Hematoma epidural': [4],
-  'Hematoma subdural (agudo y crónico)': [5, 6],
-  'Hemorragia subaracnoidea traumática y lesión axonal difusa': [3, 8],
-  'Hipertensión intracraneal y síndromes de herniación': [0, 8],
-  'Crisis convulsivas postraumáticas': [7],
-  'Fractura de la base del cráneo, fuga de LCR y meningitis postraumática': [12],
-  'Síndrome poscontusional': [9, 10]
+  'TCE leve y conmoción cerebral': [10, 11, 2],
+  'Hematoma epidural': [5],
+  'Hematoma subdural (agudo y crónico)': [6, 7],
+  'Hemorragia subaracnoidea traumática y lesión axonal difusa': [4, 9],
+  'Hipertensión intracraneal y síndromes de herniación': [1, 9],
+  'Crisis convulsivas postraumáticas': [8],
+  'Fractura de la base del cráneo, fuga de LCR y meningitis postraumática': [13],
+  'Síndrome poscontusional': [10, 11]
 };
 export const estigmas = [];
 export const biopsia = null;
 export const escalaRefs = {
   'Escala de Coma de Glasgow (GCS)': [],
-  'Canadian CT Head Rule': [1]
+  'Canadian CT Head Rule': [2]
 };
 export const escalaCalc = { 'Canadian CT Head Rule': 'canadian-ct-head' };
 export const compGroups = [
@@ -376,6 +376,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { no_invasivos: [1] };
-export const clasificacionCite = [1];
-export const seguimientoCite = [0, 8];
+export const diagCites = { no_invasivos: [2] };
+export const clasificacionCite = [2];
+export const seguimientoCite = [1, 9];

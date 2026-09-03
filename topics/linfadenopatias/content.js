@@ -339,20 +339,20 @@ export const content = {
 };
 
 export const compCites = {
-  'Linfadenopatía Localizada Reactiva/Benigna': [0, 2],
-  'Linfadenopatía Localizada de Alto Riesgo': [0, 1, 13],
-  'Linfadenopatía Generalizada Infecciosa/Autoinmune': [2, 4],
-  'Linfadenopatía Generalizada por Neoplasia Diseminada': [1, 12],
-  'Complicaciones de la biopsia ganglionar': [6, 11],
-  'Síndrome de vena cava superior por adenopatía mediastínica masiva': [7, 8],
-  'Linfadenitis supurativa': [9, 14],
-  'Retraso diagnóstico de malignidad': [1, 13]
+  'Linfadenopatía Localizada Reactiva/Benigna': [1, 3],
+  'Linfadenopatía Localizada de Alto Riesgo': [1, 2, 14],
+  'Linfadenopatía Generalizada Infecciosa/Autoinmune': [3, 5],
+  'Linfadenopatía Generalizada por Neoplasia Diseminada': [2, 13],
+  'Complicaciones de la biopsia ganglionar': [7, 12],
+  'Síndrome de vena cava superior por adenopatía mediastínica masiva': [8, 9],
+  'Linfadenitis supurativa': [10, 15],
+  'Retraso diagnóstico de malignidad': [2, 14]
 };
 export const estigmas = [];
 export const biopsia = null;
 export const escalaRefs = {
-  'Criterios de Alarma para Biopsia': [0, 1, 13],
-  'Tamaño ganglionar normal por región': [2, 4]
+  'Criterios de Alarma para Biopsia': [1, 2, 14],
+  'Tamaño ganglionar normal por región': [3, 5]
 };
 export const escalaCalc = { 'Criterios de Alarma para Biopsia': 'alarma-adenopatia' };
 export const compGroups = [
@@ -360,7 +360,15 @@ export const compGroups = [
   { name: 'Complicaciones transversales', items: ['Complicaciones de la biopsia ganglionar', 'Síndrome de vena cava superior por adenopatía mediastínica masiva', 'Linfadenitis supurativa', 'Retraso diagnóstico de malignidad'] }
 ];
 export const complicacionesIntro = 'Las 4 primeras tarjetas organizan el enfoque clínico de la linfadenopatía por localización (localizada vs. generalizada) y riesgo (bajo vs. alto); las siguientes 4 son complicaciones transversales, tanto de la enfermedad subyacente como del propio proceso diagnóstico.';
-export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
+export const categories = [
+  { id: 'definicion', label: 'Definición' },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'clasificacion', label: 'Clasificación' },
+  { id: 'complicaciones', label: 'Complicaciones' },
+  { id: 'seguimiento', label: 'Seguimiento' },
+  { id: 'autoevaluacion', label: 'Autoevaluación' },
+  { id: 'bibliografia', label: 'Bibliografía' }
+];
 export const arbol = {
   root: { title: 'LINFADENOPATÍA', color: '#2d6b5c', target: 'definicion' },
   branches: [
@@ -378,6 +386,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { laboratorio: [0, 1], no_invasivos: [0, 2] };
-export const clasificacionCite = [0, 1, 13];
-export const seguimientoCite = [7, 8];
+export const diagCites = { laboratorio: [1, 2], no_invasivos: [1, 3] };
+export const clasificacionCite = [1, 2, 14];
+export const seguimientoCite = [8, 9];

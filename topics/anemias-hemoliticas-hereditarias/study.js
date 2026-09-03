@@ -64,7 +64,7 @@ export const quiz = [
     type: 'cascade', dificultad: 'dificil',
     vignette: 'Niño de 6 años con esferocitosis hereditaria conocida presenta palidez marcada y fatiga extrema de 3 días de evolución, con fiebre leve la semana previa. No hay ictericia acentuada respecto a su basal. La biometría hemática muestra Hb 4.5 g/dL (basal 10 g/dL) con reticulocitos absolutos muy bajos.',
     steps: [
-      { q: '¿Cuál es el diagnóstico más probable?', options: ['Exacerbación hemolítica simple', 'Crisis aplásica por parvovirus B19', 'Crisis megaloblástica por folato', 'Colecistitis aguda litiásica'], correct: 1 },
+      { q: '¿Qué diagnóstico explica mejor el cuadro?', options: ['Exacerbación hemolítica simple', 'Crisis aplásica por parvovirus B19', 'Crisis megaloblástica por folato', 'Colecistitis aguda litiásica'], correct: 1 },
       { q: '¿Qué hallazgo de laboratorio es más consistente con este diagnóstico, a diferencia de una simple exacerbación hemolítica?', options: ['Bilirrubina marcadamente elevada', 'LDH marcadamente elevada', 'Reticulocitos muy bajos o ausentes', 'Esferocitos abundantes en el frotis'], correct: 2 },
       { q: '¿Cuál es la conducta más apropiada?', options: ['Transfusión de soporte y aislamiento', 'Esplenectomía de urgencia programada', 'Inmunoglobulina intravenosa en dosis altas', 'Hierro parenteral de inmediato'], correct: 0 }
     ],

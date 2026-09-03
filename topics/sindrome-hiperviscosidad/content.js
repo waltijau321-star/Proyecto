@@ -330,20 +330,20 @@ export const content = {
 };
 
 export const compCites = {
-  'Hiperviscosidad por Macroglobulinemia de Waldenström': [0, 2, 10],
-  'Hiperviscosidad por Mieloma Múltiple': [0, 12],
-  'Hiperviscosidad Celular por Leucostasis': [4, 5, 6],
-  'Hiperviscosidad Celular por Eritrocitosis/Policitemia': [7],
-  'Complicaciones neurológicas': [1, 13],
-  'Complicaciones oftalmológicas': [9],
-  'Complicaciones cardiovasculares': [10, 11],
-  'Complicaciones hemorrágicas mucocutáneas': [3, 10]
+  'Hiperviscosidad por Macroglobulinemia de Waldenström': [1, 3, 11],
+  'Hiperviscosidad por Mieloma Múltiple': [1, 13],
+  'Hiperviscosidad Celular por Leucostasis': [5, 6, 7],
+  'Hiperviscosidad Celular por Eritrocitosis/Policitemia': [8],
+  'Complicaciones neurológicas': [2, 14],
+  'Complicaciones oftalmológicas': [10],
+  'Complicaciones cardiovasculares': [11, 12],
+  'Complicaciones hemorrágicas mucocutáneas': [4, 11]
 };
 export const estigmas = [];
 export const biopsia = null;
 export const escalaRefs = {
-  'Criterios de Hiperviscosidad Sintomática': [0, 1, 9],
-  'Umbral de leucocitos para leucostasis': [4, 6]
+  'Criterios de Hiperviscosidad Sintomática': [1, 2, 10],
+  'Umbral de leucocitos para leucostasis': [5, 7]
 };
 export const escalaCalc = { 'Criterios de Hiperviscosidad Sintomática': 'hiperviscosidad' };
 export const compGroups = [
@@ -351,7 +351,15 @@ export const compGroups = [
   { name: 'Complicaciones de órgano transversales', items: ['Complicaciones neurológicas', 'Complicaciones oftalmológicas', 'Complicaciones cardiovasculares', 'Complicaciones hemorrágicas mucocutáneas'] }
 ];
 export const complicacionesIntro = 'Las 4 primeras tarjetas organizan el síndrome de hiperviscosidad por su mecanismo causal: 2 plasmáticas (paraproteína) y 2 celulares (exceso de leucocitos o eritrocitos); las siguientes 4 son complicaciones de órgano transversales, independientes del mecanismo causal específico.';
-export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
+export const categories = [
+  { id: 'definicion', label: 'Definición' },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'clasificacion', label: 'Clasificación' },
+  { id: 'complicaciones', label: 'Complicaciones' },
+  { id: 'seguimiento', label: 'Seguimiento' },
+  { id: 'autoevaluacion', label: 'Autoevaluación' },
+  { id: 'bibliografia', label: 'Bibliografía' }
+];
 export const arbol = {
   root: { title: 'SÍNDROME DE HIPERVISCOSIDAD', color: '#6b3d5c', target: 'definicion' },
   branches: [
@@ -369,6 +377,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { laboratorio: [0, 3], no_invasivos: [0, 9] };
-export const clasificacionCite = [0, 1, 6];
-export const seguimientoCite = [10, 11];
+export const diagCites = { laboratorio: [1, 4], no_invasivos: [1, 10] };
+export const clasificacionCite = [1, 2, 7];
+export const seguimientoCite = [11, 12];
