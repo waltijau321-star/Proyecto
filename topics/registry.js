@@ -427,6 +427,30 @@ export const registry = [
       import('./cetoacidosis-estado-hiperosmolar/calculators.js'),
       import('./cetoacidosis-estado-hiperosmolar/study.js')
     ])
+  },
+  {
+    id: 'obesidad', titulo: 'Obesidad',
+    load: () => Promise.all([
+      import('./obesidad/content.js'),
+      import('./obesidad/calculators.js'),
+      import('./obesidad/study.js')
+    ])
+  },
+  {
+    id: 'sindrome-cardiovascular-renal-metabolico', titulo: 'Síndrome Cardiovascular-Renal-Metabólico',
+    load: () => Promise.all([
+      import('./sindrome-cardiovascular-renal-metabolico/content.js'),
+      import('./sindrome-cardiovascular-renal-metabolico/calculators.js'),
+      import('./sindrome-cardiovascular-renal-metabolico/study.js')
+    ])
+  },
+  {
+    id: 'osteoporosis', titulo: 'Osteoporosis',
+    load: () => Promise.all([
+      import('./osteoporosis/content.js'),
+      import('./osteoporosis/calculators.js'),
+      import('./osteoporosis/study.js')
+    ])
   }
 ];
 
