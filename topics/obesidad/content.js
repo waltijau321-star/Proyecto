@@ -350,22 +350,22 @@ export const content = {
 };
 
 export const compCites = {
-  'Obesidad comun (poligenica)': [0, 2, 3, 4],
-  'Obesidad monogenica y sindromica': [14, 15],
-  'Obesidad secundaria (endocrina y farmacologica)': [7, 0],
-  'Apnea obstructiva del sueno e hipoventilacion por obesidad': [18, 19],
-  'Enfermedad hepatica esteatosica metabolica': [16, 17],
-  'Complicaciones mecanicas, reproductivas y oncologicas': [20, 0],
-  'Complicaciones del tratamiento': [21, 22, 12, 13]
+  'Obesidad comun (poligenica)': [1, 3, 4, 5],
+  'Obesidad monogenica y sindromica': [15, 16],
+  'Obesidad secundaria (endocrina y farmacologica)': [8, 1],
+  'Apnea obstructiva del sueno e hipoventilacion por obesidad': [19, 20],
+  'Enfermedad hepatica esteatosica metabolica': [17, 18],
+  'Complicaciones mecanicas, reproductivas y oncologicas': [21, 1],
+  'Complicaciones del tratamiento': [22, 22, 13, 14]
 };
 export const estigmas = [];
 export const biopsia = null;
 export const escalaRefs = {
-  'Clasificacion por indice de masa corporal (calculadora disponible)': [0, 7],
-  'Adiposidad central: cintura e indice cintura-talla (calculadora disponible)': [0],
-  'Obesidad preclinica frente a clinica (comision de The Lancet, 2025)': [0],
-  'Sistema de estadificacion de Edmonton (calculadora disponible)': [1],
-  'Indicacion de cirugia metabolica (ASMBS/IFSO 2022; calculadora disponible)': [5, 6]
+  'Clasificacion por indice de masa corporal (calculadora disponible)': [1, 8],
+  'Adiposidad central: cintura e indice cintura-talla (calculadora disponible)': [1],
+  'Obesidad preclinica frente a clinica (comision de The Lancet, 2025)': [1],
+  'Sistema de estadificacion de Edmonton (calculadora disponible)': [2],
+  'Indicacion de cirugia metabolica (ASMBS/IFSO 2022; calculadora disponible)': [6, 7]
 };
 export const escalaCalc = {
   'Clasificacion por indice de masa corporal (calculadora disponible)': 'imc-cintura',
@@ -408,6 +408,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { laboratorio: [0, 17], no_invasivos: [0, 1], imagen: [17] };
-export const clasificacionCite = [0, 1, 5];
-export const seguimientoCite = [0, 8];
+export const diagCites = { laboratorio: [1, 18], no_invasivos: [1, 2], imagen: [18] };
+export const clasificacionCite = [1, 2, 6];
+export const seguimientoCite = [1, 9];

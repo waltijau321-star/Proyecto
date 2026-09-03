@@ -412,22 +412,22 @@ export const content = {
 };
 
 export const compCites = {
-  'HTA esencial (primaria)': [0, 1, 5, 20],
-  'HTA secundaria (sospecha y cribado)': [9, 19, 0],
-  'HTA resistente': [8, 0, 2],
-  'Urgencia hipertensiva': [12, 0],
-  'Emergencia hipertensiva': [13, 12, 0],
-  'Cardiopatia hipertensiva': [0, 15, 5],
-  'Enfermedad renal cronica hipertensiva y nefroangioesclerosis': [11, 0],
-  'Enfermedad cerebrovascular, retinopatia y deterioro cognitivo': [16, 4, 18]
+  'HTA esencial (primaria)': [1, 2, 6, 21],
+  'HTA secundaria (sospecha y cribado)': [10, 20, 1],
+  'HTA resistente': [9, 1, 3],
+  'Urgencia hipertensiva': [13, 1],
+  'Emergencia hipertensiva': [14, 13, 1],
+  'Cardiopatia hipertensiva': [1, 16, 6],
+  'Enfermedad renal cronica hipertensiva y nefroangioesclerosis': [12, 1],
+  'Enfermedad cerebrovascular, retinopatia y deterioro cognitivo': [17, 5, 19]
 };
 export const estigmas = [];
 export const biopsia = null;
 export const escalaRefs = {
-  'Categorias de PA (ESC 2024)': [0],
-  'Categorias de PA (ACC/AHA 2025)': [1],
-  'SCORE2 y SCORE2-OP': [6, 7],
-  'Retinopatia hipertensiva de Keith-Wagener-Barker': [18]
+  'Categorias de PA (ESC 2024)': [1],
+  'Categorias de PA (ACC/AHA 2025)': [2],
+  'SCORE2 y SCORE2-OP': [7, 8],
+  'Retinopatia hipertensiva de Keith-Wagener-Barker': [19]
 };
 export const escalaCalc = {
   'SCORE2 y SCORE2-OP': 'score2',
@@ -464,6 +464,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { no_invasivos: [0, 2], imagen: [0] };
-export const clasificacionCite = [0, 1, 6];
-export const seguimientoCite = [0, 1];
+export const diagCites = { no_invasivos: [1, 3], imagen: [1] };
+export const clasificacionCite = [1, 2, 7];
+export const seguimientoCite = [1, 2];

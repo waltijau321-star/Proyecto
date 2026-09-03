@@ -451,6 +451,46 @@ export const registry = [
       import('./osteoporosis/calculators.js'),
       import('./osteoporosis/study.js')
     ])
+  },
+  {
+    id: 'hipotiroidismo', titulo: 'Hipotiroidismo',
+    load: () => Promise.all([
+      import('./hipotiroidismo/content.js'),
+      import('./hipotiroidismo/calculators.js'),
+      import('./hipotiroidismo/study.js')
+    ])
+  },
+  {
+    id: 'hipertiroidismo-tiroiditis', titulo: 'Hipertiroidismo y Tiroiditis',
+    load: () => Promise.all([
+      import('./hipertiroidismo-tiroiditis/content.js'),
+      import('./hipertiroidismo-tiroiditis/calculators.js'),
+      import('./hipertiroidismo-tiroiditis/study.js')
+    ])
+  },
+  {
+    id: 'urgencias-tiroideas', titulo: 'Urgencias Tiroideas',
+    load: () => Promise.all([
+      import('./urgencias-tiroideas/content.js'),
+      import('./urgencias-tiroideas/calculators.js'),
+      import('./urgencias-tiroideas/study.js')
+    ])
+  },
+  {
+    id: 'nodulo-cancer-tiroides', titulo: 'Nódulo y Cáncer de Tiroides',
+    load: () => Promise.all([
+      import('./nodulo-cancer-tiroides/content.js'),
+      import('./nodulo-cancer-tiroides/calculators.js'),
+      import('./nodulo-cancer-tiroides/study.js')
+    ])
+  },
+  {
+    id: 'metabolismo-oseo-mineral', titulo: 'Metabolismo Óseo y Mineral',
+    load: () => Promise.all([
+      import('./metabolismo-oseo-mineral/content.js'),
+      import('./metabolismo-oseo-mineral/calculators.js'),
+      import('./metabolismo-oseo-mineral/study.js')
+    ])
   }
 ];
 

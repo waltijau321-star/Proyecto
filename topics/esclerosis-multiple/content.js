@@ -227,14 +227,14 @@ export const content = {
 };
 
 export const compCites = {
-  'Brote agudo y su manejo': [0, 7],
-  'Neuritis óptica': [13, 0],
-  'Espasticidad y disfunción vesical/intestinal': [2],
-  'Progresión de discapacidad y deterioro cognitivo asociado a EM': [3, 2]
+  'Brote agudo y su manejo': [1, 8],
+  'Neuritis óptica': [14, 1],
+  'Espasticidad y disfunción vesical/intestinal': [3],
+  'Progresión de discapacidad y deterioro cognitivo asociado a EM': [4, 3]
 };
 export const estigmas = [];
 export const biopsia = null;
-export const escalaRefs = { 'Criterios de McDonald 2017': [0] };
+export const escalaRefs = { 'Criterios de McDonald 2017': [1] };
 export const escalaCalc = { 'Criterios de McDonald 2017': 'mcdonald-2017' };
 export const compGroups = [
   { name: 'Brote y manifestaciones agudas', items: ['Brote agudo y su manejo', 'Neuritis óptica'] },
@@ -267,6 +267,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { no_invasivos: [0] };
-export const clasificacionCite = [0];
-export const seguimientoCite = [4];
+export const diagCites = { no_invasivos: [1] };
+export const clasificacionCite = [1];
+export const seguimientoCite = [5];

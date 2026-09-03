@@ -767,6 +767,58 @@ async function run() {
       const comps = topic.content.complicaciones || [];
       assert(comps.every(c => c.nombre && c.nombre.trim().length > 0), 'hay una complicación sin "nombre"');
     });
+    // La barra de navegación del tema se construye con `categories.map(c => ...c.id...c.label)`.
+    // Escrita como array de cadenas (`['Definición', ...]`), el usuario ve siete botones que dicen
+    // "undefined" y no llevan a ninguna parte: pasó en los 14 temas de Hematología.
+    test(`esquema[${entry.id}]: categories son objetos {id, label} con id de sección real`, () => {
+      const SECCIONES = ['definicion', 'diagnostico', 'clasificacion', 'complicaciones',
+        'seguimiento', 'autoevaluacion', 'bibliografia'];
+      const cats = topic.categories || [];
+      assert(cats.length > 0, 'categories vacío o ausente');
+      const malas = cats.filter(c => !c || typeof c !== 'object' || !c.id || !c.label);
+      assert(malas.length === 0, `categories con forma incorrecta (¿array de cadenas?): ${JSON.stringify(cats.slice(0, 3))}`);
+      const huerfanas = cats.map(c => c.id).filter(id => !SECCIONES.includes(id));
+      assert(huerfanas.length === 0,
+        `categories apunta a secciones que el motor no genera: ${huerfanas.join(', ')}. ` +
+        'Los estigmas y la biopsia se pintan DENTRO de Diagnóstico, no en sección propia.');
+    });
+    // Las citas se numeran DESDE 1: la bibliografía se pinta con id="bib-1"…"bib-N" y etiqueta
+    // [1]…[N]. Un tema escrito desde 0 deja la cita `0` como enlace muerto y corre todas las demás
+    // una referencia: el alumno pincha y aterriza en el artículo equivocado. Pasó en 28 temas.
+    test(`esquema[${entry.id}]: los índices de cita están en el rango 1..N de la bibliografía`, () => {
+      const n = (topic.bibliografia || []).length;
+      const fuera = [];
+      const revisa = (donde, v) => {
+        if (!Array.isArray(v)) return;
+        for (const i of v) if (!Number.isInteger(i) || i < 1 || i > n) fuera.push(`${donde}: ${i}`);
+      };
+      for (const [k, v] of Object.entries(topic.compCites || {})) {
+        if (Array.isArray(v)) revisa(`compCites["${k}"]`, v);
+        else if (v && typeof v === 'object') for (const [campo, w] of Object.entries(v)) revisa(`compCites["${k}"].${campo}`, w);
+      }
+      for (const [k, v] of Object.entries(topic.escalaRefs || {})) revisa(`escalaRefs["${k}"]`, v);
+      for (const [k, v] of Object.entries(topic.diagCites || {})) revisa(`diagCites.${k}`, v);
+      revisa('clasificacionCite', topic.clasificacionCite);
+      revisa('seguimientoCite', topic.seguimientoCite);
+      assert(fuera.length === 0, `índices fuera de 1..${n} (¿escritos desde 0?): ${fuera.slice(0, 6).join(' | ')}`);
+    });
+    // `escalaCalc` conecta el botón "Calcular" de la tabla de escalas con una calculadora del tema.
+    // Si la clave no existe, el botón no hace nada y el fallo es silencioso.
+    // El cuadro de cierre de una cascada interpola `item.explanation`. Sin explicación de caso NI
+    // por paso, el alumno termina el caso sin ninguna retroalimentación (y antes de la guarda del
+    // motor leía literalmente la palabra "undefined").
+    test(`esquema[${entry.id}]: cada cascada deja alguna explicación al terminar`, () => {
+      const mudas = (topic.study.quiz || [])
+        .filter(q => q.type === 'cascade')
+        .filter(q => !q.explanation && !(q.steps || []).some(s => s.explanation))
+        .map(q => (q.vignette || '').slice(0, 50));
+      assert(mudas.length === 0, `cascada(s) sin explicación de caso ni de paso: ${mudas.join(' | ')}`);
+    });
+    test(`esquema[${entry.id}]: escalaCalc apunta a calculadoras que existen`, () => {
+      const claves = (topic.calculators || []).map(c => c.key);
+      const rotas = Object.entries(topic.escalaCalc || {}).filter(([, v]) => !claves.includes(v));
+      assert(rotas.length === 0, `escalaCalc sin calculadora: ${rotas.map(([k, v]) => `${k} -> ${v}`).join(' | ')}`);
+    });
     // study-view.js interpola estos campos directo en las tablas de Diagnóstico y Clasificación.
     // Si a una fila le falta uno, el usuario ve la palabra "undefined" en la celda: pasó con el
     // `cutoff` de 3 filas de no_invasivos, visible en producción hasta que se buscó a mano.
@@ -873,7 +925,9 @@ async function run() {
       'enfermedad-arterial-periferica', 'hipertension-arterial', 'dislipidemias',
       'ventilacion-mecanica', 'diabetes-mellitus',
       'cetoacidosis-estado-hiperosmolar', 'obesidad',
-      'sindrome-cardiovascular-renal-metabolico', 'osteoporosis']);
+      'sindrome-cardiovascular-renal-metabolico', 'osteoporosis',
+      'hipotiroidismo', 'hipertiroidismo-tiroiditis', 'urgencias-tiroideas',
+      'nodulo-cancer-tiroides', 'metabolismo-oseo-mineral']);
     // Cola de trabajo pendiente de la auditoría: vacía desde agosto de 2026, cuando los 47 temas
     // quedaron revisados. Un tema nuevo debe escribirse cumpliendo los umbrales y entrar en
     // REVISADOS; esta lista ya no puede crecer (COLA_MAXIMA = 0).

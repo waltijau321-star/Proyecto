@@ -370,23 +370,23 @@ export const content = {
 };
 
 export const compCites = {
-  'Concentrado eritrocitario (paquete globular)': [0, 1, 2],
-  'Plasma fresco congelado': [8],
-  'Concentrado plaquetario': [7, 14],
-  'Crioprecipitado': [9],
-  'Reacción hemolítica aguda': [3, 13],
-  'Reacción febril no hemolítica': [12],
-  'Reacción alérgica y anafiláctica': [3],
-  'TRALI (lesión pulmonar aguda relacionada a transfusión)': [5, 11, 12],
-  'TACO (sobrecarga circulatoria asociada a transfusión)': [6, 12],
-  'Contaminación bacteriana': [3],
-  'Reacciones tardías (hemolítica tardía, aloinmunización, EICH-AT, sobrecarga de hierro)': [10, 13]
+  'Concentrado eritrocitario (paquete globular)': [1, 2, 3],
+  'Plasma fresco congelado': [9],
+  'Concentrado plaquetario': [8, 15],
+  'Crioprecipitado': [10],
+  'Reacción hemolítica aguda': [4, 14],
+  'Reacción febril no hemolítica': [13],
+  'Reacción alérgica y anafiláctica': [4],
+  'TRALI (lesión pulmonar aguda relacionada a transfusión)': [6, 12, 13],
+  'TACO (sobrecarga circulatoria asociada a transfusión)': [7, 13],
+  'Contaminación bacteriana': [4],
+  'Reacciones tardías (hemolítica tardía, aloinmunización, EICH-AT, sobrecarga de hierro)': [11, 14]
 };
 export const estigmas = [];
 export const biopsia = null;
 export const escalaRefs = {
-  'Umbral transfusional de eritrocitos (estrategia restrictiva)': [0, 1, 2],
-  'Umbral de transfusión plaquetaria': [7]
+  'Umbral transfusional de eritrocitos (estrategia restrictiva)': [1, 2, 3],
+  'Umbral de transfusión plaquetaria': [8]
 };
 export const escalaCalc = { 'Umbral transfusional de eritrocitos (estrategia restrictiva)': 'umbral-eritrocitos' };
 export const compGroups = [
@@ -394,7 +394,15 @@ export const compGroups = [
   { name: 'Reacciones transfusionales (complicaciones)', items: ['Reacción hemolítica aguda', 'Reacción febril no hemolítica', 'Reacción alérgica y anafiláctica', 'TRALI (lesión pulmonar aguda relacionada a transfusión)', 'TACO (sobrecarga circulatoria asociada a transfusión)', 'Contaminación bacteriana', 'Reacciones tardías (hemolítica tardía, aloinmunización, EICH-AT, sobrecarga de hierro)'] }
 ];
 export const complicacionesIntro = 'Las primeras 4 tarjetas son monografías por hemoderivado (qué es, cuándo transfundirlo, cuánto): concentrado eritrocitario, plasma fresco congelado, concentrado plaquetario, y crioprecipitado. Las siguientes 7 son las reacciones transfusionales reales: 6 agudas (hemolítica, febril no hemolítica, alérgica/anafiláctica, TRALI, TACO, contaminación bacteriana) y 1 ficha combinada de reacciones tardías (hemolítica tardía, aloinmunización, EICH-AT, sobrecarga de hierro), agrupadas para no diluir con fichas de menor rendimiento individual.';
-export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
+export const categories = [
+  { id: 'definicion', label: 'Definición' },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'clasificacion', label: 'Clasificación' },
+  { id: 'complicaciones', label: 'Complicaciones' },
+  { id: 'seguimiento', label: 'Seguimiento' },
+  { id: 'autoevaluacion', label: 'Autoevaluación' },
+  { id: 'bibliografia', label: 'Bibliografía' }
+];
 export const arbol = {
   root: { title: 'TRANSFUSIÓN DE HEMODERIVADOS', color: '#1f5c73', target: 'definicion' },
   branches: [
@@ -417,6 +425,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { laboratorio: [3, 13] };
-export const clasificacionCite = [0, 1, 2];
-export const seguimientoCite = [4];
+export const diagCites = { laboratorio: [4, 14] };
+export const clasificacionCite = [1, 2, 3];
+export const seguimientoCite = [5];

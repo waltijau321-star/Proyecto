@@ -67,7 +67,7 @@ export const quiz = [
     type: 'cascade', dificultad: 'intermedio',
     vignette: 'Varón de 60 años con leucemia mieloide aguda recién diagnosticada presenta leucocitos de 150,000/µL. Antes de iniciar quimioterapia, desarrolla disnea progresiva y cefalea con confusión leve.',
     steps: [
-      { q: '¿Cuál es la sospecha diagnóstica más apropiada dado este cuadro?', options: ['Neumonía adquirida en la comunidad aislada', 'Leucostasis por hiperleucocitosis', 'Migraña sin relación', 'Reacción alérgica a un fármaco'], correct: 1 },
+      { q: '¿Qué sospecha diagnóstica plantea este cuadro?', options: ['Neumonía adquirida en la comunidad aislada', 'Leucostasis por hiperleucocitosis', 'Migraña sin relación', 'Reacción alérgica a un fármaco'], correct: 1 },
       { q: '¿Cuál es la conducta terapéutica más urgente?', options: ['Observar hasta iniciar la quimioterapia', 'Transfusión eritrocitaria inmediata', 'Alta con seguimiento ambulatorio', 'Citorreducción urgente con hidroxiurea'], correct: 3 },
       { q: '¿Qué otra complicación debe cribarse simultáneamente dado que comparte el mismo factor de riesgo de alta carga tumoral?', options: ['Síndrome de lisis tumoral', 'Deficiencia de hierro', 'Hipotiroidismo', 'Deficiencia de vitamina B12'], correct: 0 }
     ],
@@ -77,7 +77,7 @@ export const quiz = [
     type: 'cascade', dificultad: 'intermedio',
     vignette: 'Mujer de 55 años con leucemia linfoblástica aguda de alta carga tumoral inicia quimioterapia de inducción. A las 30 horas presenta calambres musculares, y el laboratorio muestra potasio 6.2 mEq/L, fósforo elevado, y calcio bajo.',
     steps: [
-      { q: '¿Cuál es el diagnóstico más probable?', options: ['Síndrome de lisis tumoral', 'Deshidratación aislada', 'Insuficiencia suprarrenal aguda', 'Hipertiroidismo'], correct: 0 },
+      { q: '¿Qué diagnóstico explica mejor el cuadro?', options: ['Síndrome de lisis tumoral', 'Deshidratación aislada', 'Insuficiencia suprarrenal aguda', 'Hipertiroidismo'], correct: 0 },
       { q: '¿Cuál es la manifestación más temida de esta complicación que debe vigilarse activamente?', options: ['Rinorrea acuosa persistente', 'Prurito generalizado intenso', 'Arritmia por hiperpotasemia', 'Cefalea leve y aislada'], correct: 2 },
       { q: '¿Qué medida es apropiada dado el ácido úrico probablemente ya elevado en este contexto agudo?', options: ['Suspender la hidratación intravenosa', 'Rasburicasa, más eficaz que alopurinol', 'Iniciar quimioterapia adicional ya', 'Observación sin intervención activa'], correct: 1 }
     ],

@@ -310,25 +310,33 @@ export const content = {
 };
 
 export const compCites = {
-  'CID asociada a sepsis': [0, 1, 7],
-  'CID obstétrica': [4, 7],
-  'CID asociada a neoplasia': [5, 2],
-  'CID traumática': [6, 7],
-  'Hemorragia grave multiorgánica': [0, 2, 7],
-  'Púrpura fulminans y disfunción multiorgánica por microtrombosis': [9, 8],
-  'Síndrome de Waterhouse-Friderichsen': [11, 9],
-  'Isquemia digital y de extremidades por microtrombosis': [10, 2]
+  'CID asociada a sepsis': [1, 2, 8],
+  'CID obstétrica': [5, 8],
+  'CID asociada a neoplasia': [6, 3],
+  'CID traumática': [7, 8],
+  'Hemorragia grave multiorgánica': [1, 3, 8],
+  'Púrpura fulminans y disfunción multiorgánica por microtrombosis': [10, 9],
+  'Síndrome de Waterhouse-Friderichsen': [12, 10],
+  'Isquemia digital y de extremidades por microtrombosis': [11, 3]
 };
 export const estigmas = [];
 export const biopsia = null;
-export const escalaRefs = { 'Score ISTH de CID manifiesta (overt DIC)': [1, 3] };
+export const escalaRefs = { 'Score ISTH de CID manifiesta (overt DIC)': [2, 4] };
 export const escalaCalc = { 'Score ISTH de CID manifiesta (overt DIC)': 'isth-cid' };
 export const compGroups = [
   { name: 'Etiologías principales', items: ['CID asociada a sepsis', 'CID obstétrica', 'CID asociada a neoplasia', 'CID traumática'] },
   { name: 'Complicaciones del síndrome', items: ['Hemorragia grave multiorgánica', 'Púrpura fulminans y disfunción multiorgánica por microtrombosis', 'Síndrome de Waterhouse-Friderichsen', 'Isquemia digital y de extremidades por microtrombosis'] }
 ];
 export const complicacionesIntro = 'La CID es un síndrome único, no un grupo de enfermedades: las primeras 4 fichas son sus 4 etiologías principales (sepsis, obstétrica, neoplasia, trauma), cuyo mecanismo y manejo específico difieren considerablemente entre sí. Las siguientes 4 son las complicaciones reales del síndrome ya establecido: hemorragia multiorgánica, púrpura fulminans/disfunción multiorgánica por microtrombosis, síndrome de Waterhouse-Friderichsen (su manifestación endocrina característica), e isquemia digital/de extremidades.';
-export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
+export const categories = [
+  { id: 'definicion', label: 'Definición' },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'clasificacion', label: 'Clasificación' },
+  { id: 'complicaciones', label: 'Complicaciones' },
+  { id: 'seguimiento', label: 'Seguimiento' },
+  { id: 'autoevaluacion', label: 'Autoevaluación' },
+  { id: 'bibliografia', label: 'Bibliografía' }
+];
 export const arbol = {
   root: { title: 'COAGULACIÓN INTRAVASCULAR DISEMINADA', color: '#8c1f3d', target: 'definicion' },
   branches: [
@@ -346,6 +354,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { laboratorio: [1, 3, 13], no_invasivos: [1, 3] };
-export const clasificacionCite = [1, 3];
-export const seguimientoCite = [0, 8];
+export const diagCites = { laboratorio: [2, 4, 14], no_invasivos: [2, 4] };
+export const clasificacionCite = [2, 4];
+export const seguimientoCite = [1, 9];

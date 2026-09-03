@@ -268,7 +268,13 @@ function openModal(i) {
   // tema se vean afectados — necesario cuando un tema mezcla ítems de naturaleza distinta bajo
   // los mismos campos genéricos (ej. historia-clinica: ítems de "metodología" vs. "síntoma").
   const L = Object.assign({}, DEFAULT_LABELS, TOPIC.modalLabels || {}, c.modalLabels || {});
-  const cites = COMP_CITES[c.nombre] || {};
+  // `compCites[nombre]` tiene dos formas históricas en los temas: la original, un objeto indexado
+  // por campo ({ definicion: [3], tx_farmacologico: [7,8] }), y una posterior, un array plano con
+  // las fuentes de la ficha entera. La segunda se colaba sin error visible pero SIN pintar ninguna
+  // cita, porque el motor solo lee `cites.<campo>`. Se normaliza aquí: un array plano se trata como
+  // las fuentes de la ficha y se ancla al primer campo, la definición, que todas las fichas tienen.
+  const rawCites = COMP_CITES[c.nombre];
+  const cites = Array.isArray(rawCites) ? { definicion: rawCites } : (rawCites || {});
   const pos = COMP_ORDER.indexOf(c.nombre);
   const prevIdx = findComp(COMP_ORDER[(pos - 1 + COMP_ORDER.length) % COMP_ORDER.length]);
   const nextIdx = findComp(COMP_ORDER[(pos + 1) % COMP_ORDER.length]);
@@ -468,13 +474,17 @@ function answerCascade(item, i) {
   const stepsReview = item.steps.map((s, idx) => {
     const chosen = quizState.subAnswers[idx];
     const ok = chosen === s.correct;
+    // Muchos temas escribieron la explicación PASO A PASO en vez de una del caso completo. Antes se
+    // perdían: la revisión solo mostraba la pregunta y la opción correcta. Se muestran si existen.
     return `<div class="quiz-feedback-box ${ok ? 'correct' : 'incorrect'}" style="margin-bottom:8px;">
-      <strong>${idx + 1}. ${s.q}</strong><br>Tu respuesta: ${s.options[chosen]}${ok ? '' : ` · Correcta: ${s.options[s.correct]}`}
+      <strong>${idx + 1}. ${s.q}</strong><br>Tu respuesta: ${s.options[chosen]}${ok ? '' : ` · Correcta: ${s.options[s.correct]}`}${s.explanation ? `<br><span class="step-why">${s.explanation}</span>` : ''}
     </div>`;
   }).join('');
+  // `item.explanation` es la explicación integradora del caso y NO todos los temas la tienen; sin la
+  // guarda, el cuadro de cierre imprimía literalmente la palabra "undefined" al alumno.
   document.getElementById('quiz-feedback').innerHTML = `
     ${stepsReview}
-    <div class="quiz-feedback-box ${allCorrect ? 'correct' : 'incorrect'}"><strong>${correctCount} / ${item.steps.length} correctas en este caso.</strong> ${item.explanation}</div>
+    <div class="quiz-feedback-box ${allCorrect ? 'correct' : 'incorrect'}"><strong>${correctCount} / ${item.steps.length} correctas en este caso.</strong>${item.explanation ? ' ' + item.explanation : ''}</div>
     <button class="calc-copy" style="margin-top:14px;" onclick="nextQuiz()">${quizState.qIndex + 1 < quizState.deck.length ? 'Siguiente →' : 'Ver resultado →'}</button>`;
 }
 function nextCascadeStep() { quizState.subStep++; quizState.answered = false; quizState.selected = null; renderQuiz(); }

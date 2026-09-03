@@ -64,7 +64,7 @@ export const quiz = [
     type: 'cascade', dificultad: 'intermedio',
     vignette: 'Niño de 4 años presenta diarrea sanguinolenta seguida, 6 días después, de oliguria, palidez y equimosis. Laboratorio: Hb 7.0 g/dL con esquistocitos, plaquetas 45,000/µL, creatinina elevada para la edad, coprocultivo positivo para E. coli productor de toxina Shiga.',
     steps: [
-      { q: '¿Cuál es el diagnóstico más probable?', options: ['Síndrome hemolítico urémico atípico', 'Púrpura trombocitopénica trombótica', 'Coagulación intravascular diseminada', 'Síndrome hemolítico urémico típico'], correct: 3 },
+      { q: '¿Qué diagnóstico explica mejor el cuadro?', options: ['Síndrome hemolítico urémico atípico', 'Púrpura trombocitopénica trombótica', 'Coagulación intravascular diseminada', 'Síndrome hemolítico urémico típico'], correct: 3 },
       { q: '¿Cuál de las siguientes NO debe usarse durante el manejo de la fase diarreica prodrómica de esta enfermedad?', options: ['Hidratación cuidadosa del paciente', 'Antibióticos y antiperistálticos', 'Vigilancia de la función renal', 'Soporte renal, con diálisis si hace falta'], correct: 1 },
       { q: '¿Cuál es la conducta respecto a la plasmaféresis en este paciente?', options: ['Indicada de rutina, igual que en la PTT', 'Contraindicada en esta entidad', 'Sin beneficio claro, casos selectos', 'Iniciarla solo si aparece fiebre alta'], correct: 2 }
     ],
@@ -74,7 +74,7 @@ export const quiz = [
     type: 'cascade', dificultad: 'dificil',
     vignette: 'Mujer de 29 años, sin pródromo diarreico, presenta insuficiencia renal aguda progresiva y anemia hemolítica microangiopática 2 semanas después del parto. ADAMTS13 no gravemente deficiente. El estudio genético del complemento identifica una mutación del factor H.',
     steps: [
-      { q: '¿Cuál es el diagnóstico más probable?', options: ['Síndrome hemolítico urémico atípico', 'Síndrome hemolítico urémico típico', 'Púrpura trombocitopénica trombótica', 'Preeclampsia/síndrome HELLP no complicado'], correct: 0 },
+      { q: '¿Cuál es la entidad más probable en este caso?', options: ['Síndrome hemolítico urémico atípico', 'Síndrome hemolítico urémico típico', 'Púrpura trombocitopénica trombótica', 'Preeclampsia/síndrome HELLP no complicado'], correct: 0 },
       { q: '¿Cuál es el tratamiento dirigido de elección?', options: ['Plasmaféresis diaria indefinida sin otro tratamiento', 'Antibiótico de amplio espectro', 'Eculizumab o ravulizumab', 'Quimioterapia de inducción'], correct: 2 },
       { q: 'Antes de iniciar este tratamiento, ¿qué medida es obligatoria?', options: ['Esplenectomía profiláctica', 'Biopsia renal diagnóstica', 'Suspender la anticoagulación', 'Vacunar contra meningococo'], correct: 3 }
     ],

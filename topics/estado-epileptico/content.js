@@ -408,7 +408,7 @@ export const content = {
 };
 
 export const compCites = {
-  'Estado epiléptico convulsivo': { criterios_dx: [3], tx_farmacologico: [1, 8, 15] },
+  'Estado epiléptico convulsivo': { criterios_dx: [3], tx_farmacologico: [1, 8, 14] },
   'Estado epiléptico no convulsivo': { criterios_dx: [10] },
   'Estado epiléptico refractario y superrefractario': { definicion: [2] },
   'Primera crisis epiléptica no provocada': { epidemiologia: [7], tx_farmacologico: [7] },

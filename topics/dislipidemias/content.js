@@ -390,22 +390,22 @@ export const content = {
 };
 
 export const compCites = {
-  'Hipercolesterolemia (colesterol LDL elevado)': [6, 2, 0, 7],
-  'Hipercolesterolemia familiar': [15, 2, 0],
-  'Hipertrigliceridemia': [18, 13, 1],
-  'Lipoproteina(a) elevada': [8, 20, 0],
-  'Dislipidemia secundaria': [2, 0],
-  'Enfermedad cardiovascular ateroesclerotica': [7, 6, 9, 10],
-  'Pancreatitis por hipertrigliceridemia grave': [18, 19],
-  'Intolerancia a las estatinas (sintomas musculares asociados a estatinas)': [17, 11]
+  'Hipercolesterolemia (colesterol LDL elevado)': [7, 3, 1, 8],
+  'Hipercolesterolemia familiar': [16, 3, 1],
+  'Hipertrigliceridemia': [19, 14, 2],
+  'Lipoproteina(a) elevada': [9, 21, 1],
+  'Dislipidemia secundaria': [3, 1],
+  'Enfermedad cardiovascular ateroesclerotica': [8, 7, 10, 11],
+  'Pancreatitis por hipertrigliceridemia grave': [19, 20],
+  'Intolerancia a las estatinas (sintomas musculares asociados a estatinas)': [18, 12]
 };
 export const estigmas = [];
 export const biopsia = null;
 export const escalaRefs = {
-  'Categorias de riesgo y objetivos de cLDL (ESC/EAS)': [2, 3],
-  'Categorias de riesgo y objetivos (ACC/AHA 2026)': [0],
-  'Intensidad de la estatina': [4, 7],
-  'Zonas de decision de la Lp(a)': [8]
+  'Categorias de riesgo y objetivos de cLDL (ESC/EAS)': [3, 4],
+  'Categorias de riesgo y objetivos (ACC/AHA 2026)': [1],
+  'Intensidad de la estatina': [5, 8],
+  'Zonas de decision de la Lp(a)': [9]
 };
 export const escalaCalc = {
   'Categorias de riesgo y objetivos de cLDL (ESC/EAS)': 'objetivo-cldl'
@@ -441,6 +441,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { no_invasivos: [0, 5], imagen: [0] };
-export const clasificacionCite = [2, 0, 8];
-export const seguimientoCite = [0, 1];
+export const diagCites = { no_invasivos: [1, 6], imagen: [1] };
+export const clasificacionCite = [3, 1, 9];
+export const seguimientoCite = [1, 2];

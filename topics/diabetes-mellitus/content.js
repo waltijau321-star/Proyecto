@@ -360,22 +360,22 @@ export const content = {
 };
 
 export const compCites = {
-  'Hipoglucemia': [23, 0],
-  'Retinopatia diabetica': [19, 0, 3],
-  'Enfermedad renal diabetica': [2, 8, 9, 11],
-  'Neuropatia diabetica': [17, 0],
-  'Pie diabetico': [18, 0],
-  'Enfermedad cardiovascular ateroesclerotica y sindrome cardio-renal-metabolico': [6, 7, 22, 1],
-  'Diabetes gestacional e hiperglucemia en el embarazo': [20, 21]
+  'Hipoglucemia': [24, 1],
+  'Retinopatia diabetica': [20, 1, 4],
+  'Enfermedad renal diabetica': [3, 9, 10, 12],
+  'Neuropatia diabetica': [18, 1],
+  'Pie diabetico': [19, 1],
+  'Enfermedad cardiovascular ateroesclerotica y sindrome cardio-renal-metabolico': [7, 8, 23, 2],
+  'Diabetes gestacional e hiperglucemia en el embarazo': [21, 22]
 };
 export const estigmas = [];
 export const biopsia = null;
 export const escalaRefs = {
-  'Criterios diagnosticos de la ADA': [0],
-  'Meta de HbA1c segun el perfil del paciente (calculadora disponible)': [0, 12, 13],
-  'Estadios de la enfermedad renal diabetica (KDIGO)': [2],
-  'Clasificacion de la retinopatia diabetica': [19],
-  'Grados de Wagner del pie diabetico': [18]
+  'Criterios diagnosticos de la ADA': [1],
+  'Meta de HbA1c segun el perfil del paciente (calculadora disponible)': [1, 13, 14],
+  'Estadios de la enfermedad renal diabetica (KDIGO)': [3],
+  'Clasificacion de la retinopatia diabetica': [20],
+  'Grados de Wagner del pie diabetico': [19]
 };
 export const escalaCalc = {
   'Meta de HbA1c segun el perfil del paciente (calculadora disponible)': 'metas-hba1c'
@@ -419,6 +419,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { laboratorio: [0], no_invasivos: [15, 0], imagen: [19, 18] };
-export const clasificacionCite = [0, 1, 2];
-export const seguimientoCite = [0, 16];
+export const diagCites = { laboratorio: [1], no_invasivos: [16, 1], imagen: [20, 19] };
+export const clasificacionCite = [1, 2, 3];
+export const seguimientoCite = [1, 17];

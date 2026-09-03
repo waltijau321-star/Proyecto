@@ -574,24 +574,24 @@ export const content = {
 };
 
 export const compCites = {
-  'Via aerea artificial e inicio de la ventilacion invasiva': [5, 16, 11],
-  'Ventilacion no invasiva (CPAP y binivel)': [0, 16],
-  'Canula nasal de alto flujo': [9, 8, 0],
-  'Modos controlados y ventilacion protectora (SDRA y obstructivo)': [4, 5, 6, 7],
-  'Modos asistidos y espontaneos; sedoanalgesia y bloqueo neuromuscular': [11, 14, 12, 13],
-  'Destete y liberacion de la ventilacion mecanica': [1, 16, 7, 14],
-  'Lesion pulmonar inducida por el ventilador': [10, 5, 4],
-  'Neumonia asociada a la ventilacion': [15],
-  'Asincronias paciente-ventilador': [11, 10],
-  'Debilidad, disfuncion diafragmatica y repercusion hemodinamica': [18, 12, 13]
+  'Via aerea artificial e inicio de la ventilacion invasiva': [6, 17, 12],
+  'Ventilacion no invasiva (CPAP y binivel)': [1, 17],
+  'Canula nasal de alto flujo': [10, 9, 1],
+  'Modos controlados y ventilacion protectora (SDRA y obstructivo)': [5, 6, 7, 8],
+  'Modos asistidos y espontaneos; sedoanalgesia y bloqueo neuromuscular': [12, 15, 13, 14],
+  'Destete y liberacion de la ventilacion mecanica': [2, 17, 8, 15],
+  'Lesion pulmonar inducida por el ventilador': [11, 6, 5],
+  'Neumonia asociada a la ventilacion': [16],
+  'Asincronias paciente-ventilador': [12, 11],
+  'Debilidad, disfuncion diafragmatica y repercusion hemodinamica': [19, 13, 14]
 };
 export const estigmas = [];
 export const biopsia = null;
 export const escalaRefs = {
-  'Clasificacion de Berlin de la SDRA': [2, 3],
-  'Presion de distension (driving pressure)': [5, 6],
-  'Modo segun la variable de control': [4],
-  'Grado de participacion del paciente': [1]
+  'Clasificacion de Berlin de la SDRA': [3, 4],
+  'Presion de distension (driving pressure)': [6, 7],
+  'Modo segun la variable de control': [5],
+  'Grado de participacion del paciente': [2]
 };
 export const escalaCalc = {
   'Clasificacion de Berlin de la SDRA': 'pafi-berlin',
@@ -652,6 +652,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { no_invasivos: [8, 9], imagen: [19] };
-export const clasificacionCite = [2, 4, 5];
-export const seguimientoCite = [1, 12];
+export const diagCites = { no_invasivos: [9, 10], imagen: [20] };
+export const clasificacionCite = [3, 5, 6];
+export const seguimientoCite = [2, 13];

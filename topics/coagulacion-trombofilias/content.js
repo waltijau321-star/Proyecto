@@ -345,20 +345,20 @@ export const content = {
 };
 
 export const compCites = {
-  'Hemofilia A y B': [0, 10, 11],
-  'Enfermedad de von Willebrand': [1, 2],
-  'Coagulopatía adquirida': [3, 4],
-  'Trombofilias hereditarias y adquiridas': [5, 6, 7, 8, 9],
-  'Hemartrosis y artropatía hemofílica': [0, 10],
-  'Inhibidores del factor': [0, 3],
-  'Trombosis venosa/arterial por trombofilia': [5, 6],
-  'Complicaciones obstétricas de trombofilia': [7, 8, 12]
+  'Hemofilia A y B': [1, 11, 12],
+  'Enfermedad de von Willebrand': [2, 3],
+  'Coagulopatía adquirida': [4, 5],
+  'Trombofilias hereditarias y adquiridas': [6, 7, 8, 9, 10],
+  'Hemartrosis y artropatía hemofílica': [1, 11],
+  'Inhibidores del factor': [1, 4],
+  'Trombosis venosa/arterial por trombofilia': [6, 7],
+  'Complicaciones obstétricas de trombofilia': [8, 9, 13]
 };
 export const estigmas = [];
 export const biopsia = null;
 export const escalaRefs = {
-  'ISTH-BAT (Bleeding Assessment Tool)': [2],
-  'Clasificación de gravedad de la hemofilia': [0, 10]
+  'ISTH-BAT (Bleeding Assessment Tool)': [3],
+  'Clasificación de gravedad de la hemofilia': [1, 11]
 };
 export const escalaCalc = { 'ISTH-BAT (Bleeding Assessment Tool)': 'isth-bat' };
 export const compGroups = [
@@ -366,7 +366,15 @@ export const compGroups = [
   { name: 'Complicaciones transversales', items: ['Hemartrosis y artropatía hemofílica', 'Inhibidores del factor', 'Trombosis venosa/arterial por trombofilia', 'Complicaciones obstétricas de trombofilia'] }
 ];
 export const complicacionesIntro = 'Las 4 primeras tarjetas representan las 2 direcciones opuestas del mismo desequilibrio: hacia el sangrado (hemofilia, enfermedad de von Willebrand, coagulopatía adquirida) o hacia la trombosis (trombofilias hereditarias y adquiridas); las siguientes 4 son complicaciones transversales específicas, 2 del lado hemorrágico (hemartrosis/artropatía, inhibidores del factor) y 2 del lado trombótico (eventos trombóticos, complicaciones obstétricas).';
-export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
+export const categories = [
+  { id: 'definicion', label: 'Definición' },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'clasificacion', label: 'Clasificación' },
+  { id: 'complicaciones', label: 'Complicaciones' },
+  { id: 'seguimiento', label: 'Seguimiento' },
+  { id: 'autoevaluacion', label: 'Autoevaluación' },
+  { id: 'bibliografia', label: 'Bibliografía' }
+];
 export const arbol = {
   root: { title: 'COAGULACIÓN Y TROMBOFILIAS', color: '#5c3d73', target: 'definicion' },
   branches: [
@@ -386,6 +394,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { laboratorio: [0, 2], no_invasivos: [2] };
-export const clasificacionCite = [2, 0];
-export const seguimientoCite = [0, 5];
+export const diagCites = { laboratorio: [1, 3], no_invasivos: [3] };
+export const clasificacionCite = [3, 1];
+export const seguimientoCite = [1, 6];

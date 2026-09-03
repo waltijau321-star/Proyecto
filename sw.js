@@ -2,7 +2,7 @@
    Estrategia: cache-first para el "app shell" y los módulos, con actualización en segundo plano.
    CACHE_VERSION se calcula automáticamente a partir del contenido de CORE: correr
    .claude/bump-cache-version.ps1 después de cambiar cualquier archivo cacheado. */
-const CACHE_VERSION = 'residentemed-d06535664c';
+const CACHE_VERSION = 'residentemed-08b7cf9715';
 const CORE = [
   './',
   './index.html',
@@ -238,7 +238,22 @@ const CORE = [
   './topics/sindrome-cardiovascular-renal-metabolico/study.js',
   './topics/osteoporosis/content.js',
   './topics/osteoporosis/calculators.js',
-  './topics/osteoporosis/study.js'
+  './topics/osteoporosis/study.js',
+  './topics/hipotiroidismo/content.js',
+  './topics/hipotiroidismo/calculators.js',
+  './topics/hipotiroidismo/study.js',
+  './topics/hipertiroidismo-tiroiditis/content.js',
+  './topics/hipertiroidismo-tiroiditis/calculators.js',
+  './topics/hipertiroidismo-tiroiditis/study.js',
+  './topics/urgencias-tiroideas/content.js',
+  './topics/urgencias-tiroideas/calculators.js',
+  './topics/urgencias-tiroideas/study.js',
+  './topics/nodulo-cancer-tiroides/content.js',
+  './topics/nodulo-cancer-tiroides/calculators.js',
+  './topics/nodulo-cancer-tiroides/study.js',
+  './topics/metabolismo-oseo-mineral/content.js',
+  './topics/metabolismo-oseo-mineral/calculators.js',
+  './topics/metabolismo-oseo-mineral/study.js'
 ];
 
 self.addEventListener('install', (e) => {

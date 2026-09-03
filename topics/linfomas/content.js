@@ -362,7 +362,15 @@ export const compGroups = [
   { name: 'Complicaciones transversales', items: ['Síndrome de vena cava superior', 'Síndrome de lisis tumoral', 'Compresión medular y otras urgencias oncológicas', 'Complicaciones del tratamiento'] }
 ];
 export const complicacionesIntro = 'Las 4 primeras tarjetas cubren los tipos principales de linfoma; las siguientes 4 son complicaciones transversales que pueden surgir al diagnóstico o durante el tratamiento, desde urgencias oncológicas agudas hasta la toxicidad tardía del tratamiento.';
-export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
+export const categories = [
+  { id: 'definicion', label: 'Definición' },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'clasificacion', label: 'Clasificación' },
+  { id: 'complicaciones', label: 'Complicaciones' },
+  { id: 'seguimiento', label: 'Seguimiento' },
+  { id: 'autoevaluacion', label: 'Autoevaluación' },
+  { id: 'bibliografia', label: 'Bibliografía' }
+];
 export const arbol = {
   root: { title: 'LINFOMAS', color: '#6b3d5c', target: 'definicion' },
   branches: [

@@ -16,6 +16,7 @@ export const quiz = [
       'Diferir la cirugía dos semanas y operar después con puente de heparina de bajo peso molecular'
     ],
     correct: 2,
+    dificultad: 'dificil',
     explanation: 'El dato que decide no es el riesgo quirúrgico sino la indicación y la antigüedad del stent. Un stent farmacoactivo colocado por un síndrome coronario agudo obliga a diferir la cirugía electiva idealmente 12 meses o más cuando hay que interrumpir uno o más antiagregantes (recomendación clase 1). Los 6 meses aplican al stent colocado por enfermedad coronaria crónica, que no es este caso. Operar ahora con el clopidogrel suspendido expone a trombosis del stent, que tiene mortalidad alta. Mantener la doble antiagregación completa es la conducta correcta solo cuando la cirugía es sensible al tiempo y no puede esperar, no en una plastía electiva. El puente con heparina no protege frente a la trombosis del stent, que es un fenómeno plaquetario y no de la cascada de coagulación: por eso no se recomienda de rutina.'
   },
   {
@@ -27,6 +28,7 @@ export const quiz = [
       'Suspender la warfarina 2 días antes y administrar vitamina K intravenosa'
     ],
     correct: 0,
+    dificultad: 'intermedio',
     explanation: 'En fibrilación auricular la recomendación en contra del puente con heparina es fuerte y con certeza moderada, sustentada en el ensayo BRIDGE: el puente sistemático multiplica el sangrado mayor sin reducir los eventos tromboembólicos. Un CHA₂DS₂-VASc de 4 no cambia esa recomendación; el puente queda reservado a situaciones de riesgo trombótico excepcional, individualizadas. La warfarina se suspende al menos 5 días antes y se reinicia 12 a 24 horas después con hemostasia adecuada. Continuarla con INR terapéutico expone a sangrado quirúrgico innecesario en un procedimiento que sí lo requiere suspendido. La vitamina K intravenosa no es la estrategia programada de un procedimiento electivo: se reserva para revertir con urgencia, y suspender solo 2 días deja un INR todavía elevado.'
   },
   {
@@ -38,6 +40,7 @@ export const quiz = [
       'Suspenderlo una semana antes del procedimiento'
     ],
     correct: 3,
+    dificultad: 'intermedio',
     explanation: 'Los agonistas del receptor de GLP-1 retrasan el vaciamiento gástrico y aumentan el riesgo de regurgitación y broncoaspiración durante la anestesia general o la sedación profunda. La guía de la ASA de 2023 separa la conducta según el intervalo de dosificación: en presentación diaria se omite la dosis del día del procedimiento, y en presentación semanal se suspende una semana antes. Esto aplica sin importar si la indicación es diabetes o pérdida de peso. Omitir solo la dosis del día sería correcto si el fármaco fuera diario, no semanal. Los 3 a 4 días corresponden a los inhibidores de SGLT2, que es un problema distinto (cetoacidosis euglucémica, no vaciamiento gástrico). Prolongar el ayuno no tiene respaldo: no hay evidencia sobre el ayuno óptimo en estos pacientes y se siguen las guías habituales.'
   },
   {
@@ -49,6 +52,7 @@ export const quiz = [
       'Acidosis hiperclorémica por reanimación con solución salina'
     ],
     correct: 1,
+    dificultad: 'dificil',
     explanation: 'La combinación de acidosis metabólica con anión gap elevado, glucemia que no alarma y antecedente de inhibidor de SGLT2 no suspendido define la cetoacidosis diabética euglucémica, que se define como glucosa menor de 250 mg/dL con pH menor de 7.3, bicarbonato bajo y cetonas elevadas en suero y orina. Es una complicación que se pasa por alto precisamente porque la glucemia es normal o casi normal, y por eso la guía de 2024 recomienda suspender estos fármacos de 3 a 4 días antes de la cirugía. La acidosis láctica por metformina queda descartada por el lactato normal, y además los datos recientes no sostienen esa asociación clásica. La acidosis tubular renal cursa con anión gap normal y no aparece de forma aguda en este contexto. La acidosis hiperclorémica por salina también cursa con anión gap normal y no explica la cetosis.'
   },
   {
@@ -60,6 +64,7 @@ export const quiz = [
       'Iniciar metoprolol y diferir la cirugía 48 horas para poder titular la dosis'
     ],
     correct: 0,
+    dificultad: 'intermedio',
     explanation: 'Iniciar un betabloqueador el día de la cirugía es potencialmente dañino y está catalogado como recomendación clase 3 por daño: aumenta la mortalidad posoperatoria. El beneficio isquémico del betabloqueo perioperatorio queda compensado por exceso de ictus y de muerte, y por eso la práctica de betabloquear a todo paciente de riesgo quedó desacreditada. Si existiera una indicación crónica nueva, el fármaco debería iniciarse idealmente más de 7 días antes para poder evaluar tolerancia y titular la dosis, no la víspera ni la mañana de la cirugía. Diferir 48 horas tampoco alcanza esa ventana y añade el costo de retrasar una cirugía. Lo que sí está indicado es continuar el betabloqueador en quien ya lo tomaba de forma estable, que no es el caso de este paciente.'
   },
   {
@@ -71,6 +76,7 @@ export const quiz = [
       'Solicitar NT-proBNP y decidir la fecha quirúrgica según el resultado'
     ],
     correct: 2,
+    dificultad: 'facil',
     explanation: 'La paciente tiene un riesgo calculado elevado, pero conserva la capacidad funcional: subir dos pisos de escaleras equivale a más de 4 MET, que es el umbral de la guía. En la ruta perioperatoria, una capacidad funcional conservada permite proceder aunque el riesgo calculado sea elevado, sin estudios cardiacos adicionales. La pregunta que filtra cualquier estudio es si su resultado cambiaría el manejo, y aquí no lo haría. El ecocardiograma no está indicado en un paciente sin síntomas ni signos de descompensación. La prueba de estrés de rutina en el paciente estable no ha demostrado mejorar los desenlaces clínicos. Los biomarcadores son razonables en pacientes de riesgo elevado, pero condicionar la fecha quirúrgica a un NT-proBNP en alguien con buena capacidad funcional retrasa la cirugía sin beneficio demostrado.'
   },
   {
@@ -82,6 +88,7 @@ export const quiz = [
       '3 días antes de la cirugía'
     ],
     correct: 1,
+    dificultad: 'intermedio',
     explanation: 'El dabigatrán es el único anticoagulante oral directo cuyo intervalo de suspensión depende de la función renal, porque su eliminación es predominantemente renal. La tabla del protocolo PAUSE, recogida en la guía de CHEST de 2022, establece 1 día si el riesgo hemorrágico es bajo o moderado con aclaramiento de 50 mL/min o más, 2 días si es bajo o moderado con aclaramiento menor de 50, 2 días si es alto con aclaramiento de 50 o más, y 4 días si es alto con aclaramiento menor de 50. Este paciente combina las dos condiciones desfavorables, así que le corresponden 4 días. Los 2 días serían correctos con función renal conservada, y 1 día corresponde al escenario de menor riesgo. Ningún otro anticoagulante oral directo exige más de 2 días: apixabán, rivaroxabán y edoxabán usan 1 o 2 días según el riesgo hemorrágico, sin ajuste renal.'
   },
   {
@@ -93,6 +100,7 @@ export const quiz = [
       'Continuar la dosis habitual y añadir hidrocortisona en dosis de estrés'
     ],
     correct: 3,
+    dificultad: 'intermedio',
     explanation: 'Una dosis superior a 20 mg diarios de prednisona durante más de 3 semanas hace probable la supresión del eje hipotálamo-hipófisis-suprarrenal, de modo que el paciente no puede montar la respuesta de cortisol que exige el estrés quirúrgico. La conducta es continuar la dosis habitual y añadir hidrocortisona en dosis de estrés ajustada a la magnitud de la cirugía, con descenso en 1 a 2 días hasta la dosis basal. Suspender el corticoide es el error más peligroso: precipita una crisis suprarrenal con hipotensión refractaria a volumen y a vasopresores. Continuar solo la dosis habitual sería adecuado si el eje estuviera íntegro, es decir con menos de 5 mg diarios o con cualquier dosis por menos de 3 semanas, que no es este caso. Duplicar la dosis oral durante toda la semana previa expone a hiperglucemia y mala cicatrización sin cubrir el pico de estrés del día quirúrgico.'
   },
   {
@@ -104,6 +112,7 @@ export const quiz = [
       'Gupta-MICA'
     ],
     correct: 2,
+    dificultad: 'intermedio',
     explanation: 'Todos los datos que destacan en este paciente son predictores pulmonares: edad avanzada, saturación entre 91 y 95%, infección respiratoria en el último mes, incisión abdominal alta y duración mayor de 3 horas. Esos son exactamente los componentes de ARISCAT, que estima el riesgo de complicación pulmonar posoperatoria y estratifica en bajo, intermedio y alto con puntos de corte de 26 y 45. Las complicaciones pulmonares posoperatorias son al menos tan frecuentes como las cardiacas y se subestiman de forma sistemática. El índice de Lee y Gupta-MICA estiman riesgo cardiaco y no incorporan saturación, infección respiratoria ni duración de la cirugía. Caprini estima riesgo de enfermedad tromboembólica venosa, que también conviene calcular en este paciente, pero no es el riesgo que dominan sus hallazgos.'
   },
   {
@@ -115,6 +124,7 @@ export const quiz = [
       'Suspender la aspirina el mismo día de la cirugía y reiniciarla al día siguiente'
     ],
     correct: 0,
+    dificultad: 'intermedio',
     explanation: 'La recomendación de continuar la aspirina en el perioperatorio aplica al paciente con intervención coronaria percutánea previa, en quien suspenderla expone a trombosis del stent. Este paciente no tiene enfermedad coronaria conocida ni antecedente de intervención: está en prevención primaria, escenario en el que la aspirina aporta poco y sí añade sangrado quirúrgico. La conducta es suspenderla 7 días antes, tiempo que permite la recuperación de la función plaquetaria. Continuarla implicaría aceptar más sangrado sin el beneficio que justifica ese riesgo. Sustituirla por clopidogrel empeora el problema, ya que su efecto antiplaquetario es más prolongado. Suspenderla el mismo día no logra ningún efecto útil, porque la inhibición plaquetaria de la aspirina es irreversible y persiste durante la vida de la plaqueta.'
   },
   {
@@ -126,6 +136,7 @@ export const quiz = [
       'Continuarla durante el perioperatorio para mantener el control glucémico'
     ],
     correct: 3,
+    dificultad: 'facil',
     explanation: 'La guía de 2024 considera razonable continuar la metformina durante el perioperatorio para mantener el control glucémico. La recomendación clásica de suspenderla nacía del temor a precipitar acidosis láctica bajo estrés fisiológico, pero los datos recientes no sostienen esa asociación: una cohorte poblacional de más de 10 000 pacientes no encontró el vínculo que se le atribuía. Sigue siendo prudente suspenderla si se prevé deterioro renal agudo o administración de contraste yodado, situaciones que no aplican a esta paciente con función renal normal. Sustituirla por insulina basal durante la semana previa introduce riesgo de hipoglucemia sin ningún beneficio. Nótese el contraste dentro de la misma clase terapéutica: la metformina se continúa, mientras que los inhibidores de SGLT2 sí se suspenden de 3 a 4 días antes.'
   },
   {
@@ -137,6 +148,7 @@ export const quiz = [
       'Iniciar puente con heparina no fraccionada intravenosa desde 5 días antes'
     ],
     correct: 1,
+    dificultad: 'dificil',
     explanation: 'La guía de CHEST de 2022 sugiere no puentear también en portadores de válvula mecánica, no solo en fibrilación auricular. Es un cambio importante frente a la enseñanza clásica, que consideraba la prótesis mecánica una indicación automática de puente. El puente queda para casos individualizados de riesgo trombótico verdaderamente excepcional, valorados uno a uno, y no como conducta por defecto. La razón es que el puente sistemático multiplica el sangrado mayor sin reducir los eventos tromboembólicos, y en un procedimiento de riesgo hemorrágico alto como este ese balance empeora. Continuar la warfarina con INR terapéutico no es viable en una resección transuretral. La heparina no fraccionada intravenosa desde 5 días antes obliga a hospitalizar al paciente y concentra el riesgo hemorrágico sin evidencia que lo respalde.'
   },
   {
@@ -148,6 +160,7 @@ export const quiz = [
       'Paquete no farmacológico multicomponente desde el ingreso'
     ],
     correct: 3,
+    dificultad: 'intermedio',
     explanation: 'Lo único que ha demostrado reducir la incidencia de delirium posoperatorio es la prevención no farmacológica multicomponente: orientación repetida, movilización temprana, hidratación adecuada, control del dolor sin anticolinérgicos, uso de lentes y auxiliar auditivo, y protección del sueño. Esta paciente concentra varios factores predisponentes (edad avanzada, deterioro cognitivo, dependencia funcional) y varios precipitantes (fractura de cadera, cirugía urgente, dolor), y cuanto mayor es la carga predisponente basal, menor es el estímulo que basta para desencadenar el cuadro. Los antipsicóticos, sea haloperidol o quetiapina, no han demostrado utilidad como profilaxis y añaden prolongación del QT y efectos extrapiramidales. Las benzodiacepinas son uno de los precipitantes farmacológicos más reconocidos del delirium, de modo que usarlas con intención preventiva empeora el riesgo que se pretende evitar.'
   },
   {
@@ -159,6 +172,7 @@ export const quiz = [
       'Diferir la cirugía 24 horas para optimizar el tratamiento cardiológico de base'
     ],
     correct: 0,
+    dificultad: 'intermedio',
     explanation: 'La urgencia de la cirugía es el primer filtro de la ruta perioperatoria y el que más decisiones ahorra. En una emergencia quirúrgica el retraso hace más daño que el que evita cualquier estudio, de modo que la evaluación cardiaca se traslada al posoperatorio y lo que corresponde es proceder con vigilancia hemodinámica y electrocardiográfica estrecha. El índice de Lee elevado de este paciente describe su riesgo, pero no cambia la conducta: no existe alternativa a operar una víscera perforada. El ecocardiograma y las troponinas seriadas retrasan una cirugía que no puede esperar y su resultado no modificaría la decisión quirúrgica. Diferir 24 horas para optimizar el tratamiento cardiológico convierte un cuadro quirúrgico en una sepsis abdominal establecida, con mucha mayor mortalidad que la que se pretendía evitar.'
   },
   {
@@ -170,6 +184,7 @@ export const quiz = [
       'Tiempos de coagulación y electrocardiograma, por protocolo institucional'
     ],
     correct: 2,
+    dificultad: 'facil',
     explanation: 'En un paciente sano, asintomático y de bajo riesgo sometido a cirugía menor, los estudios preoperatorios de rutina no mejoran los desenlaces: encarecen el proceso, retrasan la cirugía y generan hallazgos incidentales que desencadenan una cascada diagnóstica con riesgo propio. Las iniciativas de uso apropiado de recursos coinciden en desaconsejar el panel completo indiscriminado. Los tiempos de coagulación son especialmente inútiles sin antecedente hemorrágico personal o familiar, ya que su rendimiento como cribado es muy bajo. La radiografía de tórax de rutina rara vez cambia la conducta en un paciente sin síntomas ni factores de riesgo respiratorios. El electrocardiograma tiene indicaciones según edad, comorbilidad y tipo de cirugía, pero no como protocolo automático. La pregunta que filtra cada estudio es siempre la misma: qué se haría distinto si el resultado saliera anormal.'
   },
   {
@@ -181,6 +196,7 @@ export const quiz = [
       'Obliga a iniciar presión positiva continua antes de la cirugía programada'
     ],
     correct: 1,
+    dificultad: 'intermedio',
     explanation: 'Un STOP-BANG de 5 o más indica riesgo alto de apnea obstructiva del sueño, y lo que cambia el desenlace es que el equipo de anestesia lo sepa: son pacientes con mayor probabilidad de vía aérea difícil y con sensibilidad aumentada a opioides y sedantes, lo que obliga a planear analgesia multimodal y vigilancia respiratoria posoperatoria. STOP-BANG es una herramienta de cribado, no diagnóstica, de modo que no exige confirmar con polisomnografía antes de operar: eso retrasaría cirugías sin cambiar la conducta perioperatoria, que ya queda definida por el resultado del cribado. La apnea del sueño no contraindica la anestesia general, aunque sí modifica cómo se conduce. Iniciar presión positiva continua es útil en el manejo a largo plazo, pero no es un requisito previo a una colecistectomía ni algo que pueda instaurarse con la premura de una cirugía programada.'
   },
   {
@@ -192,6 +208,7 @@ export const quiz = [
       'Suspenderla 3 días antes y revertir el efecto con vitamina K oral'
     ],
     correct: 0,
+    dificultad: 'dificil',
     explanation: 'El implante o recambio de un dispositivo cardiaco es la excepción notable dentro del manejo perioperatorio de los antagonistas de vitamina K: la recomendación es fuerte a favor de continuar el anticoagulante frente a interrumpirlo y puentear. La razón es que el hematoma de bolsillo del dispositivo es considerablemente más frecuente con la estrategia de puente que manteniendo la anticoagulación oral, además de que se evita el periodo sin protección antitrombótica. Suspender la warfarina con puente es precisamente la conducta que la evidencia desaconseja en este escenario concreto. Suspenderla sin puente evita el exceso de sangrado del puente pero deja a la paciente desprotegida sin necesidad, ya que el procedimiento puede hacerse con ella anticoagulada. Revertir con vitamina K añade el problema de la resistencia posterior al reiniciar la warfarina.'
   },
   {
@@ -203,6 +220,7 @@ export const quiz = [
       'Omitir la dosis correspondiente a las 24 horas previas a la cirugía'
     ],
     correct: 3,
+    dificultad: 'intermedio',
     explanation: 'En pacientes con presión arterial controlada que toman inhibidores del sistema renina-angiotensina-aldosterona por hipertensión y van a cirugía de riesgo elevado, omitir la dosis de las 24 horas previas puede ser beneficioso para limitar la hipotensión intraoperatoria. La distinción importante es la indicación: cuando el fármaco se toma por insuficiencia cardiaca con fracción de eyección reducida, lo razonable es continuarlo. Este paciente lo toma por hipertensión y va a una cirugía de riesgo elevado, así que le corresponde omitir la dosis previa. Continuarlo no es un error grave, ya que en los ensayos la continuación no empeoró los desenlaces clínicos duros, pero sí aumenta la hipotensión intraoperatoria. Sustituirlo por otro antihipertensivo o suspenderlo de forma definitiva son conductas desproporcionadas que desorganizan un tratamiento crónico que funcionaba.'
   },
   {
@@ -214,6 +232,7 @@ export const quiz = [
       'Sustituirla por plasma fresco congelado antes de la cirugía'
     ],
     correct: 2,
+    dificultad: 'intermedio',
     explanation: 'La hemostasia del cirrótico está reequilibrada, no anticoagulada: descienden a la vez los factores procoagulantes y los anticoagulantes naturales como la proteína C, la proteína S y la antitrombina. El INR mide únicamente la vía extrínseca y no captura ese equilibrio, de modo que un INR prolongado en un cirrótico no significa protección frente a la trombosis. De hecho, estos pacientes tienen riesgo tromboembólico aumentado, incluida la trombosis portal. La tromboprofilaxis se indica según el riesgo calculado, con las mismas escalas que en cualquier otro paciente, valorando el riesgo hemorrágico de forma independiente. Una cifra de 80 000 plaquetas no contraindica la profilaxis farmacológica, que suele considerarse segura por encima de 50 000. El plasma fresco congelado no es una alternativa: no previene trombosis, corrige el INR solo de forma transitoria y aporta una sobrecarga de volumen mal tolerada en la hipertensión portal.'
   },
   {
@@ -225,10 +244,12 @@ export const quiz = [
       'Solicitar una prueba de estrés para completar la estratificación del riesgo'
     ],
     correct: 1,
+    dificultad: 'facil',
     explanation: 'La fragilidad de grado 7 predice de forma independiente mortalidad, complicaciones, delirium, estancia prolongada e institucionalización al alta, más allá de lo que capturan las escalas cardiacas. En este contexto el valor de la valoración preoperatoria no está en emitir una autorización, sino en aportar la información que permite una decisión compartida: qué desenlaces son probables, cuáles serían aceptables para la paciente y su familia, y si la cirugía sirve a esos objetivos. El índice de Lee describe solo el riesgo cardiaco y no captura la fragilidad, así que no puede ser el criterio único. Contraindicar la cirugía por la edad es una decisión unilateral que ignora que la fragilidad se pondera junto con la indicación oncológica y las preferencias de la paciente. La prueba de estrés no aportaría nada aquí: su resultado no cambiaría el manejo, que es exactamente el filtro que la ruta perioperatoria propone antes de pedir cualquier estudio.'
   },
   {
     type: 'cascade',
+    dificultad: 'dificil',
     vignette: 'Un hombre de 71 años con diabetes tipo 2 e hipertensión tiene programada una hemicolectomía derecha electiva por adenocarcinoma de colon. Hace 8 meses recibió un stent farmacoactivo por angina estable, tras una prueba de esfuerzo positiva. Su tratamiento actual es aspirina de 100 mg al día, clopidogrel de 75 mg al día, empagliflozina, metformina, enalapril y atorvastatina. Camina más de tres cuadras y sube un piso de escaleras sin síntomas. Su creatinina es de 1.0 mg/dL.',
     steps: [
       {
@@ -277,6 +298,26 @@ export const quiz = [
 ];
 
 export const flashcards = [
+  { front: '¿Para qué sirve el índice de riesgo cardiaco revisado (RCRI)?', back: 'Estima el riesgo de evento cardiaco mayor con seis predictores: cirugía de alto riesgo, cardiopatía isquémica, insuficiencia cardiaca, enfermedad cerebrovascular, diabetes en insulina y creatinina por encima de 2 mg/dL.' },
+  { front: '¿Qué añade la escala de Gupta a la valoración del RCRI?', back: 'Predice infarto o paro cardiaco perioperatorio con edad, estado funcional, clase ASA, creatinina y tipo de cirugía. Complementa al RCRI, que no incluye la edad ni el estado funcional.' },
+  { front: '¿Cuándo se pide un electrocardiograma preoperatorio?', back: 'Ante cardiopatía conocida, arritmia, enfermedad vascular periférica o cerebrovascular, o síntomas cardiacos, si la cirugía no es de riesgo bajo. No de rutina por la edad sola.' },
+  { front: '¿Qué estudios necesita un paciente sano para una cirugía de riesgo bajo?', back: 'Ninguno. Los estudios preoperatorios indiscriminados no mejoran los desenlaces, generan hallazgos incidentales y retrasan la cirugía.' },
+  { front: '¿Qué significa una capacidad funcional de 4 MET o más?', back: 'Que el paciente sube un piso de escaleras o camina cuesta arriba sin síntomas. Permite proceder sin estudios cardiacos adicionales en la mayoría de los casos.' },
+  { front: '¿Qué papel tiene el péptido natriurético en la valoración preoperatoria?', back: 'Un valor elevado antes de la cirugía identifica riesgo cardiovascular aumentado y justifica vigilancia posoperatoria de troponina. No indica por sí mismo posponer la cirugía.' },
+  { front: '¿Cuándo se difiere una cirugía electiva por un stent coronario?', back: 'Idealmente 6 meses si el stent se colocó por enfermedad coronaria crónica, y 12 meses o más si fue por un síndrome coronario agudo, cuando hay que interrumpir la antiagregación.' },
+  { front: '¿Qué mostró el ensayo BRIDGE sobre el puente con heparina?', back: 'En fibrilación auricular, el puente sistemático multiplica el sangrado mayor sin reducir los eventos tromboembólicos. Por eso ya no se hace de rutina.' },
+  { front: '¿Cuándo se reinicia el anticoagulante tras la cirugía?', back: 'A las 24 horas si el riesgo hemorrágico es bajo y a las 48 a 72 horas si es alto, siempre con hemostasia adecuada.' },
+  { front: '¿Qué se hace con la aspirina de prevención primaria antes de operar?', back: 'Se suspende: en prevención primaria no aporta beneficio perioperatorio y sí añade sangrado. En prevención secundaria, en cambio, suele mantenerse.' },
+  { front: '¿Qué ocurre con los inhibidores del sistema renina-angiotensina el día de la cirugía?', back: 'Se omite la dosis de la mañana en cirugía de riesgo alto o con pérdida de volumen prevista, por el riesgo de hipotensión refractaria durante la inducción.' },
+  { front: '¿Por qué no se inicia un betabloqueador de novo justo antes de operar?', back: 'El ensayo POISE mostró menos infartos pero más ictus y más mortalidad total. Si el paciente ya lo toma, se mantiene; iniciarlo en los días previos hace daño.' },
+  { front: '¿Cuándo se suspenden los inhibidores de SGLT2?', back: 'Al menos 3 a 4 días antes de la cirugía, por el riesgo de cetoacidosis euglicémica, que cursa con glucemias casi normales y se diagnostica tarde.' },
+  { front: '¿Qué hacer con los agonistas del receptor de GLP-1 antes de una cirugía?', back: 'Suspender la formulación semanal una semana antes y la diaria el día previo, por el retraso del vaciamiento gástrico y el riesgo de broncoaspiración.' },
+  { front: '¿Qué pasa con la metformina en el perioperatorio?', back: 'Se suspende el día de la cirugía y se reinicia al recuperar la ingesta y con función renal estable. No hace falta suspenderla días antes si la función renal es normal.' },
+  { front: '¿Qué escala se usa para cribar la apnea obstructiva del sueño?', back: 'STOP-BANG. Una puntuación de 5 o más indica riesgo alto y obliga a extremar el cuidado con opioides y sedantes y a vigilar la extubación.' },
+  { front: '¿Cómo se reduce el riesgo pulmonar perioperatorio?', back: 'Abandono del tabaco al menos 4 semanas antes, optimización del broncoespasmo, fisioterapia respiratoria y ejercicios de expansión pulmonar posoperatorios.' },
+  { front: '¿Qué aporta la escala de Caprini?', back: 'Estratifica el riesgo de enfermedad tromboembólica venosa y determina la intensidad y la duración de la tromboprofilaxis en el posoperatorio.' },
+  { front: '¿Qué valora la clasificación ASA?', back: 'El estado físico global del paciente, de I (sano) a VI (donante en muerte encefálica). Predice mortalidad pero no sustituye a las escalas de riesgo cardiaco.' },
+  { front: '¿Qué es la prehabilitación?', back: 'Preparar al paciente antes de la cirugía con ejercicio, soporte nutricional, corrección de la anemia y abandono del tabaco. Es donde la valoración preoperatoria añade valor real.' },
   { front: '¿Cuál es el propósito real de la valoración preoperatoria?', back: 'Cuantificar el riesgo, reducir el que sea reducible y comunicar el resto. No es autorizar ni "dar de alta para cirugía": rara vez cancela cirugías, lo que cambia es el momento, la preparación y la vigilancia.' },
   { front: '¿Cuál es la pregunta que filtra cualquier estudio preoperatorio?', back: '¿Qué haría distinto si el resultado sale anormal? Si la respuesta es "nada", el estudio solo retrasa la cirugía, encarece el proceso y abre una cascada diagnóstica con riesgo propio.' },
   { front: 'Tiempos de espera de cirugía electiva tras intervención coronaria percutánea', back: 'Balón sin stent: 14 días. Stent farmacoactivo por síndrome coronario agudo: 12 meses o más. Stent farmacoactivo por enfermedad crónica: 6 meses o más. Sensible al tiempo: puede considerarse desde los 3 meses. Dentro de los 30 días de cualquier stent, la cirugía electiva con interrupción de antiagregantes es potencialmente dañina.' },

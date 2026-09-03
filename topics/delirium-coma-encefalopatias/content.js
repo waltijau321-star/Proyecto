@@ -207,14 +207,14 @@ export const content = {
 };
 
 export const compCites = {
-  'Agitación y manejo farmacológico del delirium': [12, 0],
-  'Muerte cerebral y sus criterios diagnósticos': [5, 6],
-  'Síndrome de Korsakoff': [8, 7],
-  'Delirium persistente y deterioro cognitivo a largo plazo': [2, 3]
+  'Agitación y manejo farmacológico del delirium': [13, 1],
+  'Muerte cerebral y sus criterios diagnósticos': [6, 7],
+  'Síndrome de Korsakoff': [9, 8],
+  'Delirium persistente y deterioro cognitivo a largo plazo': [3, 4]
 };
 export const estigmas = [];
 export const biopsia = null;
-export const escalaRefs = { 'CAM (Confusion Assessment Method)': [0] };
+export const escalaRefs = { 'CAM (Confusion Assessment Method)': [1] };
 export const escalaCalc = { 'CAM (Confusion Assessment Method)': 'cam-delirium' };
 export const compGroups = [
   { name: 'Manejo agudo', items: ['Agitación y manejo farmacológico del delirium', 'Muerte cerebral y sus criterios diagnósticos'] },
@@ -247,6 +247,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { no_invasivos: [0] };
-export const clasificacionCite = [0];
-export const seguimientoCite = [3];
+export const diagCites = { no_invasivos: [1] };
+export const clasificacionCite = [1];
+export const seguimientoCite = [4];

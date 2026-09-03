@@ -365,7 +365,15 @@ export const compGroups = [
   { name: 'Complicaciones transversales', items: ['Síndrome de lisis tumoral', 'Coagulopatía y CID', 'Leucostasis e hiperleucocitosis', 'Infiltración extramedular'] }
 ];
 export const complicacionesIntro = 'Las 4 primeras tarjetas cubren los tipos principales de leucemia aguda; las siguientes 4 son complicaciones transversales que pueden surgir sobre cualquiera de ellas al diagnóstico o durante la inducción, desde urgencias metabólicas hasta la infiltración de sitios extramedulares.';
-export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
+export const categories = [
+  { id: 'definicion', label: 'Definición' },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'clasificacion', label: 'Clasificación' },
+  { id: 'complicaciones', label: 'Complicaciones' },
+  { id: 'seguimiento', label: 'Seguimiento' },
+  { id: 'autoevaluacion', label: 'Autoevaluación' },
+  { id: 'bibliografia', label: 'Bibliografía' }
+];
 export const arbol = {
   root: { title: 'LEUCEMIA AGUDA', color: '#8c3a34', target: 'definicion' },
   branches: [

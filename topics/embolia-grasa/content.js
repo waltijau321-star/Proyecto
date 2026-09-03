@@ -223,15 +223,15 @@ export const content = {
 };
 
 export const compCites = {
-  'Embolia grasa postraumática/ortopédica': [0, 3, 10],
-  'Embolia grasa no traumática': [7, 8],
-  'Insuficiencia respiratoria y síndrome de dificultad respiratoria aguda': [1, 4],
-  'Disfunción neurológica': [13, 5],
-  'Púrpura petequial y hallazgos hematológicos': [0, 12]
+  'Embolia grasa postraumática/ortopédica': [1, 4, 11],
+  'Embolia grasa no traumática': [8, 9],
+  'Insuficiencia respiratoria y síndrome de dificultad respiratoria aguda': [2, 5],
+  'Disfunción neurológica': [14, 6],
+  'Púrpura petequial y hallazgos hematológicos': [1, 13]
 };
 export const estigmas = [];
 export const biopsia = null;
-export const escalaRefs = { 'Criterios de Gurd y Wilson': [0] };
+export const escalaRefs = { 'Criterios de Gurd y Wilson': [1] };
 export const escalaCalc = { 'Criterios de Gurd y Wilson': 'gurd-wilson' };
 export const compGroups = [
   { name: 'Causas', items: ['Embolia grasa postraumática/ortopédica', 'Embolia grasa no traumática'] },
@@ -261,6 +261,6 @@ export const arbol = {
     ] }
   ]
 };
-export const diagCites = { no_invasivos: [0] };
-export const clasificacionCite = [0];
-export const seguimientoCite = [10];
+export const diagCites = { no_invasivos: [1] };
+export const clasificacionCite = [1];
+export const seguimientoCite = [11];

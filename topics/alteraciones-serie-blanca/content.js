@@ -362,7 +362,15 @@ export const compGroups = [
   { name: 'Complicaciones transversales (cualquier forma)', items: ['Diferencial reacción leucemoide vs. leucemia mieloide crónica', 'Neutropenia febril', 'Síndrome hipereosinofílico', 'Enfoque diagnóstico del hemograma anormal'] }
 ];
 export const complicacionesIntro = 'Las 4 primeras tarjetas cubren las alteraciones cuantitativas benignas/reactivas de cada línea celular de la serie blanca; las siguientes 4 son complicaciones transversales que pueden surgir con cualquiera de ellas, desde la distinción con un proceso neoplásico hasta la urgencia de la neutropenia febril.';
-export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
+export const categories = [
+  { id: 'definicion', label: 'Definición' },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'clasificacion', label: 'Clasificación' },
+  { id: 'complicaciones', label: 'Complicaciones' },
+  { id: 'seguimiento', label: 'Seguimiento' },
+  { id: 'autoevaluacion', label: 'Autoevaluación' },
+  { id: 'bibliografia', label: 'Bibliografía' }
+];
 export const arbol = {
   root: { title: 'ALTERACIONES DE LA SERIE BLANCA', color: '#3d6b8c', target: 'definicion' },
   branches: [

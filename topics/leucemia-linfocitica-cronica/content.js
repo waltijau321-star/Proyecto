@@ -365,7 +365,15 @@ export const compGroups = [
   { name: 'Complicaciones transversales', items: ['Citopenias autoinmunes', 'Hipogammaglobulinemia e infecciones recurrentes', 'Transformación de Richter', 'Segundas neoplasias y complicaciones del tratamiento'] }
 ];
 export const complicacionesIntro = 'Las 4 primeras tarjetas cubren el espectro clínico de la misma enfermedad biológica (LLC/SLL/MBL), no 4 entidades independientes; las siguientes 4 son complicaciones transversales que pueden surgir en cualquier punto de ese espectro, desde las citopenias autoinmunes hasta la transformación a un linfoma agresivo.';
-export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
+export const categories = [
+  { id: 'definicion', label: 'Definición' },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'clasificacion', label: 'Clasificación' },
+  { id: 'complicaciones', label: 'Complicaciones' },
+  { id: 'seguimiento', label: 'Seguimiento' },
+  { id: 'autoevaluacion', label: 'Autoevaluación' },
+  { id: 'bibliografia', label: 'Bibliografía' }
+];
 export const arbol = {
   root: { title: 'LLC / SLL / MBL', color: '#5c3d8c', target: 'definicion' },
   branches: [

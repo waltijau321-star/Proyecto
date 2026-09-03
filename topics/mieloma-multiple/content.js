@@ -363,7 +363,15 @@ export const compGroups = [
   { name: 'Complicaciones transversales', items: ['Enfermedad ósea mielomatosa', 'Nefropatía por cilindros (riñón de mieloma)', 'Infecciones recurrentes', 'Hiperviscosidad y complicaciones neurológicas'] }
 ];
 export const complicacionesIntro = 'Las 4 primeras tarjetas cubren el espectro clínico de células plasmáticas (MGUS, smoldering, mieloma activo) y 2 entidades relacionadas (amiloidosis AL, plasmocitoma solitario); las siguientes 4 son complicaciones transversales que pueden surgir en el mieloma activo, desde la enfermedad ósea hasta las complicaciones neurológicas.';
-export const categories = ['Definición', 'Diagnóstico', 'Clasificación', 'Complicaciones', 'Calculadoras', 'Bibliografía', 'Quiz'];
+export const categories = [
+  { id: 'definicion', label: 'Definición' },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'clasificacion', label: 'Clasificación' },
+  { id: 'complicaciones', label: 'Complicaciones' },
+  { id: 'seguimiento', label: 'Seguimiento' },
+  { id: 'autoevaluacion', label: 'Autoevaluación' },
+  { id: 'bibliografia', label: 'Bibliografía' }
+];
 export const arbol = {
   root: { title: 'MIELOMA MÚLTIPLE', color: '#7a1f3d', target: 'definicion' },
   branches: [
