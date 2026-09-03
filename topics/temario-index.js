@@ -185,7 +185,7 @@ export const temarioBlocks = [
       { name: 'Diabetes mellitus', items: [{ label: 'Diagnóstico y metas de control en tipo 1 y tipo 2', topicId: 'diabetes-mellitus' }, { label: 'Cetoacidosis diabética y estado hiperosmolar hiperglucémico', topicId: 'cetoacidosis-estado-hiperosmolar' }, { label: 'Complicaciones crónicas microvasculares y macrovasculares', topicId: 'diabetes-mellitus' }, { label: 'Pie diabético', topicId: 'diabetes-mellitus' }, { label: 'Hipoglucemia y diabetes gestacional', topicId: 'diabetes-mellitus' }] },
       { name: 'Tiroides y paratiroides', items: ['Hipotiroidismo e hipertiroidismo', 'Tiroiditis', 'Bocio difuso y multinodular no tóxico', 'Tormenta tiroidea y coma mixedematoso', 'Nódulo tiroideo y trastornos del metabolismo óseo y mineral', 'Neoplasias del tiroides'] },
       { name: 'Eje suprarrenal e hipofisario', items: ['Insuficiencia suprarrenal y crisis addisoniana', 'Síndrome de Cushing', 'Trastornos hipofisarios', 'Acromegalia e hiperprolactinemia', 'Síndromes poliúricos (diabetes insípida)', 'Hiperaldosteronismo primario', 'Incidentaloma y neoplasias suprarrenales', 'Hipogonadismo y ginecomastia', 'Neoplasia endocrina múltiple y síndromes de secreción hormonal ectópica'] },
-      { name: 'Metabolismo', items: [{ label: 'Dislipidemias', topicId: 'dislipidemias' }, 'Obesidad', 'Síndrome cardiovascular-renal-metabólico (CKM)', 'Osteoporosis'] }
+      { name: 'Metabolismo', items: [{ label: 'Dislipidemias', topicId: 'dislipidemias' }, { label: 'Obesidad', topicId: 'obesidad' }, { label: 'Síndrome cardiovascular-renal-metabólico (CKM)', topicId: 'sindrome-cardiovascular-renal-metabolico' }, { label: 'Osteoporosis', topicId: 'osteoporosis' }] }
     ]
   },
   {
