@@ -2,7 +2,7 @@
    Estrategia: cache-first para el "app shell" y los módulos, con actualización en segundo plano.
    CACHE_VERSION se calcula automáticamente a partir del contenido de CORE: correr
    .claude/bump-cache-version.ps1 después de cambiar cualquier archivo cacheado. */
-const CACHE_VERSION = 'residentemed-08b7cf9715';
+const CACHE_VERSION = 'residentemed-a6cfa78d9a';
 const CORE = [
   './',
   './index.html',
@@ -253,7 +253,22 @@ const CORE = [
   './topics/nodulo-cancer-tiroides/study.js',
   './topics/metabolismo-oseo-mineral/content.js',
   './topics/metabolismo-oseo-mineral/calculators.js',
-  './topics/metabolismo-oseo-mineral/study.js'
+  './topics/metabolismo-oseo-mineral/study.js',
+  './topics/epoc/content.js',
+  './topics/epoc/calculators.js',
+  './topics/epoc/study.js',
+  './topics/asma/content.js',
+  './topics/asma/calculators.js',
+  './topics/asma/study.js',
+  './topics/neumonia/content.js',
+  './topics/neumonia/calculators.js',
+  './topics/neumonia/study.js',
+  './topics/insuficiencia-respiratoria-sdra/content.js',
+  './topics/insuficiencia-respiratoria-sdra/calculators.js',
+  './topics/insuficiencia-respiratoria-sdra/study.js',
+  './topics/patologia-pleural/content.js',
+  './topics/patologia-pleural/calculators.js',
+  './topics/patologia-pleural/study.js'
 ];
 
 self.addEventListener('install', (e) => {

@@ -81,9 +81,9 @@ const NEUROLOGIA_CLUSTERS = [
 // Solo los clusters de enfermedad respiratoria propiamente dicha (no medicina crítica
 // general, que vive en su propio bloque de Medicina Crítica).
 const NEUMOLOGIA_R1_CLUSTERS = [
-  { name: 'Enfermedad respiratoria crónica', items: ['EPOC estable y exacerbación', 'Asma', 'Enfermedad pulmonar intersticial e hipertensión pulmonar', 'Enfermedad pulmonar restrictiva', 'Nódulo pulmonar solitario y cáncer de pulmón', 'Apnea obstructiva del sueño', 'Sarcoidosis y otras enfermedades granulomatosas', 'Bronquiectasias', 'Neumoconiosis'] },
-  { name: 'Infecciones respiratorias', items: ['Neumonía adquirida en la comunidad y nosocomial', 'Neumonía por aspiración', 'Tuberculosis', 'Absceso pulmonar', 'COVID-19 y sus complicaciones', 'Influenza y neumonía viral', 'Bronquitis aguda'] },
-  { name: 'Insuficiencia respiratoria y ventilación', items: ['Insuficiencia respiratoria aguda y SDRA', { label: 'Ventilación mecánica invasiva y no invasiva', topicId: 'ventilacion-mecanica' }, 'Derrame pleural y patología pleural', 'Empiema pleural', 'Neumotórax', 'Hemoptisis'] }
+  { name: 'Enfermedad respiratoria crónica', items: [{ label: 'EPOC estable y exacerbación', topicId: 'epoc' }, { label: 'Asma', topicId: 'asma' }, 'Enfermedad pulmonar intersticial e hipertensión pulmonar', 'Enfermedad pulmonar restrictiva', 'Nódulo pulmonar solitario y cáncer de pulmón', 'Apnea obstructiva del sueño', 'Sarcoidosis y otras enfermedades granulomatosas', 'Bronquiectasias', 'Neumoconiosis'] },
+  { name: 'Infecciones respiratorias', items: [{ label: 'Neumonía adquirida en la comunidad y nosocomial', topicId: 'neumonia' }, { label: 'Neumonía por aspiración', topicId: 'neumonia' }, 'Tuberculosis', 'Absceso pulmonar', 'COVID-19 y sus complicaciones', 'Influenza y neumonía viral', 'Bronquitis aguda'] },
+  { name: 'Insuficiencia respiratoria y ventilación', items: [{ label: 'Insuficiencia respiratoria aguda y SDRA', topicId: 'insuficiencia-respiratoria-sdra' }, { label: 'Ventilación mecánica invasiva y no invasiva', topicId: 'ventilacion-mecanica' }, { label: 'Derrame pleural y patología pleural', topicId: 'patologia-pleural' }, { label: 'Empiema pleural', topicId: 'patologia-pleural' }, { label: 'Neumotórax', topicId: 'patologia-pleural' }, { label: 'Hemoptisis', topicId: 'patologia-pleural' }] }
 ];
 
 const DERMATOLOGIA_ITEMS = [
