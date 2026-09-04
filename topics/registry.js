@@ -491,6 +491,46 @@ export const registry = [
       import('./metabolismo-oseo-mineral/calculators.js'),
       import('./metabolismo-oseo-mineral/study.js')
     ])
+  },
+  {
+    id: 'epoc', titulo: 'EPOC',
+    load: () => Promise.all([
+      import('./epoc/content.js'),
+      import('./epoc/calculators.js'),
+      import('./epoc/study.js')
+    ])
+  },
+  {
+    id: 'asma', titulo: 'Asma',
+    load: () => Promise.all([
+      import('./asma/content.js'),
+      import('./asma/calculators.js'),
+      import('./asma/study.js')
+    ])
+  },
+  {
+    id: 'neumonia', titulo: 'Neumonía',
+    load: () => Promise.all([
+      import('./neumonia/content.js'),
+      import('./neumonia/calculators.js'),
+      import('./neumonia/study.js')
+    ])
+  },
+  {
+    id: 'insuficiencia-respiratoria-sdra', titulo: 'Insuficiencia Respiratoria y SDRA',
+    load: () => Promise.all([
+      import('./insuficiencia-respiratoria-sdra/content.js'),
+      import('./insuficiencia-respiratoria-sdra/calculators.js'),
+      import('./insuficiencia-respiratoria-sdra/study.js')
+    ])
+  },
+  {
+    id: 'patologia-pleural', titulo: 'Patología Pleural',
+    load: () => Promise.all([
+      import('./patologia-pleural/content.js'),
+      import('./patologia-pleural/calculators.js'),
+      import('./patologia-pleural/study.js')
+    ])
   }
 ];
 
