@@ -2,7 +2,7 @@
    Estrategia: cache-first para el "app shell" y los módulos, con actualización en segundo plano.
    CACHE_VERSION se calcula automáticamente a partir del contenido de CORE: correr
    .claude/bump-cache-version.ps1 después de cambiar cualquier archivo cacheado. */
-const CACHE_VERSION = 'residentemed-a6cfa78d9a';
+const CACHE_VERSION = 'residentemed-02fd6fd90d';
 const CORE = [
   './',
   './index.html',
@@ -268,7 +268,31 @@ const CORE = [
   './topics/insuficiencia-respiratoria-sdra/study.js',
   './topics/patologia-pleural/content.js',
   './topics/patologia-pleural/calculators.js',
-  './topics/patologia-pleural/study.js'
+  './topics/patologia-pleural/study.js',
+  './topics/enfermedad-intersticial/content.js',
+  './topics/enfermedad-intersticial/calculators.js',
+  './topics/enfermedad-intersticial/study.js',
+  './topics/hipertension-pulmonar/content.js',
+  './topics/hipertension-pulmonar/calculators.js',
+  './topics/hipertension-pulmonar/study.js',
+  './topics/nodulo-cancer-pulmon/content.js',
+  './topics/nodulo-cancer-pulmon/calculators.js',
+  './topics/nodulo-cancer-pulmon/study.js',
+  './topics/apnea-sueno/content.js',
+  './topics/apnea-sueno/calculators.js',
+  './topics/apnea-sueno/study.js',
+  './topics/tuberculosis/content.js',
+  './topics/tuberculosis/calculators.js',
+  './topics/tuberculosis/study.js',
+  './topics/sarcoidosis/content.js',
+  './topics/sarcoidosis/calculators.js',
+  './topics/sarcoidosis/study.js',
+  './topics/bronquiectasias/content.js',
+  './topics/bronquiectasias/calculators.js',
+  './topics/bronquiectasias/study.js',
+  './topics/bronquitis-aguda/content.js',
+  './topics/bronquitis-aguda/calculators.js',
+  './topics/bronquitis-aguda/study.js'
 ];
 
 self.addEventListener('install', (e) => {
