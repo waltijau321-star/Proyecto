@@ -932,7 +932,15 @@ async function run() {
       'asma',
       'neumonia',
       'insuficiencia-respiratoria-sdra',
-      'patologia-pleural']);
+      'patologia-pleural',
+      'enfermedad-intersticial',
+      'hipertension-pulmonar',
+      'nodulo-cancer-pulmon',
+      'apnea-sueno',
+      'tuberculosis',
+      'sarcoidosis',
+      'bronquiectasias',
+      'bronquitis-aguda']);
     // Cola de trabajo pendiente de la auditoría: vacía desde agosto de 2026, cuando los 47 temas
     // quedaron revisados. Un tema nuevo debe escribirse cumpliendo los umbrales y entrar en
     // REVISADOS; esta lista ya no puede crecer (COLA_MAXIMA = 0).

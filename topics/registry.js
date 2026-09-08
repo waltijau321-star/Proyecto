@@ -531,6 +531,70 @@ export const registry = [
       import('./patologia-pleural/calculators.js'),
       import('./patologia-pleural/study.js')
     ])
+  },
+  {
+    id: 'enfermedad-intersticial', titulo: 'Enfermedad Pulmonar Intersticial',
+    load: () => Promise.all([
+      import('./enfermedad-intersticial/content.js'),
+      import('./enfermedad-intersticial/calculators.js'),
+      import('./enfermedad-intersticial/study.js')
+    ])
+  },
+  {
+    id: 'hipertension-pulmonar', titulo: 'Hipertensión Pulmonar',
+    load: () => Promise.all([
+      import('./hipertension-pulmonar/content.js'),
+      import('./hipertension-pulmonar/calculators.js'),
+      import('./hipertension-pulmonar/study.js')
+    ])
+  },
+  {
+    id: 'nodulo-cancer-pulmon', titulo: 'Nodulo Pulmonar y Cancer de Pulmon',
+    load: () => Promise.all([
+      import('./nodulo-cancer-pulmon/content.js'),
+      import('./nodulo-cancer-pulmon/calculators.js'),
+      import('./nodulo-cancer-pulmon/study.js')
+    ])
+  },
+  {
+    id: 'apnea-sueno', titulo: 'Apnea del Sue&#241;o',
+    load: () => Promise.all([
+      import('./apnea-sueno/content.js'),
+      import('./apnea-sueno/calculators.js'),
+      import('./apnea-sueno/study.js')
+    ])
+  },
+  {
+    id: 'tuberculosis', titulo: 'Tuberculosis',
+    load: () => Promise.all([
+      import('./tuberculosis/content.js'),
+      import('./tuberculosis/calculators.js'),
+      import('./tuberculosis/study.js')
+    ])
+  },
+  {
+    id: 'sarcoidosis', titulo: 'Sarcoidosis',
+    load: () => Promise.all([
+      import('./sarcoidosis/content.js'),
+      import('./sarcoidosis/calculators.js'),
+      import('./sarcoidosis/study.js')
+    ])
+  },
+  {
+    id: 'bronquiectasias', titulo: 'Bronquiectasias',
+    load: () => Promise.all([
+      import('./bronquiectasias/content.js'),
+      import('./bronquiectasias/calculators.js'),
+      import('./bronquiectasias/study.js')
+    ])
+  },
+  {
+    id: 'bronquitis-aguda', titulo: 'Bronquitis Aguda y Tos',
+    load: () => Promise.all([
+      import('./bronquitis-aguda/content.js'),
+      import('./bronquitis-aguda/calculators.js'),
+      import('./bronquitis-aguda/study.js')
+    ])
   }
 ];
 
