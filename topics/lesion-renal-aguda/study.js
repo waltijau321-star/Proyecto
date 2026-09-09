@@ -1,0 +1,137 @@
+// topics/lesion-renal-aguda/study.js: Autoevaluacion de lesion renal aguda.
+// Sigue .claude/skills/reglas-preguntas/SKILL.md: misma categoria logica y longitud comparable
+// entre las 4 opciones, distractores plausibles, sin pistas gramaticales ni semanticas, y la
+// posicion de `correct` distribuida sin patron a lo largo de todo el banco.
+//
+// 48 subpreguntas (30 sueltas + 6 cascadas de 3 pasos) y 32 tarjetas.
+// Sin em dash (ver [[feedback-no-em-dash]]). Texto sin acentos.
+
+export const quiz = [
+  { q: 'Que limitacion principal tiene la creatinina como marcador?', options: ['Que sube tarde', 'Que se mide en orina', 'Que varia con la dieta', 'Que precisa ayuno previo'], correct: 0, explanation: 'Cuando asciende ya se ha perdido buena parte del filtrado. Y en el paciente critico la enmascaran la perdida de masa muscular y la dilucion por fluidos, que la mantienen falsamente baja.', dificultad: 'intermedio' },
+  { q: 'Que criterio detecta antes la lesion renal aguda?', options: ['La urea plasmatica', 'El filtrado estimado', 'La diuresis', 'El cociente urea-creatinina'], correct: 2, explanation: 'Cae cuando cae la perfusion, sin el retraso cinetico de la creatinina, y no cuesta nada. Es tambien el dato peor registrado del hospital: cuantificarla de verdad adelanta el diagnostico horas.', dificultad: 'facil' },
+  { q: 'Que ascenso de creatinina en 48 horas define lesion renal aguda?', options: ['0.1 mg/dL o mas', '0.3 mg/dL o mas', '0.8 mg/dL o mas', '1.5 mg/dL o mas'], correct: 1, explanation: 'Es un umbral deliberadamente bajo, porque incluso ascensos peque&#241;os se asocian a peor pronostico. Por eso hace falta rescatar el basal de analiticas previas para poder aplicarlo.', dificultad: 'intermedio' },
+  { q: 'Que cociente sobre la creatinina basal define lesion renal aguda?', options: ['1.1 veces en 24 horas', '1.2 veces en 48 horas', '2.0 veces en 7 dias', '1.5 veces en 7 dias'], correct: 3, explanation: 'Los criterios tienen plazo, y ese detalle se olvida: 48 horas para el ascenso absoluto de 0.3 mg/dL y 7 dias para el cociente respecto al basal.', dificultad: 'intermedio' },
+  { q: 'Cual es el criterio de diuresis para el diagnostico?', options: ['Menos de 1 mL/kg/h durante 4 horas', 'Menos de 0.5 mL/kg/h durante 6 horas', 'Menos de 0.3 mL/kg/h durante 3 horas', 'Anuria de cualquier duracion'], correct: 1, explanation: 'Basta con ese criterio para diagnosticar, sin necesidad de que la creatinina se haya movido. Es el que permite reconocer el cuadro mas temprano.', dificultad: 'intermedio' },
+  {
+    type: 'cascade', dificultad: 'intermedio',
+    vignette: 'Paciente ingresado por una sepsis abdominal. Su creatinina basal, de una analitica de hace tres meses, era de 0.9 mg/dL. La actual es de 2.4 mg/dL, con 60 horas transcurridas desde entonces. La diuresis lleva 26 horas por debajo de 0.3 mL/kg/h.',
+    steps: [
+      { q: 'Que estadio le corresponde?', options: ['Un estadio 1', 'Un estadio 2', 'Un estadio 3', 'Ningun estadio'], correct: 2 },
+      { q: 'Que eje determina ese estadio?', options: ['El de la creatinina', 'El del biomarcador', 'El del tiempo transcurrido', 'El de la diuresis'], correct: 3 },
+      { q: 'Como se clasifica por su duracion?', options: ['Como persistente', 'Como transitoria', 'Como enfermedad renal aguda', 'Como recurrente'], correct: 0 }
+    ],
+    explanation: 'La creatinina esta 2.67 veces el basal, lo que por si solo corresponde a un estadio 2. La diuresis, en cambio, lleva 26 horas por debajo de 0.3 mL/kg/h, lo que corresponde a un estadio 3. Como el estadio se toma del eje MAS ALTO, el paciente esta en ESTADIO 3, y lo determina la diuresis y no la creatinina. Ese desajuste es precisamente el argumento del borrador de la guia de 2026 para dejar de dar un estadio unico e informar los ejes por separado: este paciente seria un C2 U3, y esa notacion conserva una informacion que el numero unico pierde. Con 60 horas de evolucion, es decir mas de 48 y menos de 7 dias, la lesion se clasifica como PERSISTENTE, lo que se asocia a da&#241;o estructural y a mayor riesgo de enfermedad renal cronica posterior.'
+  },
+  { q: 'Como se asigna el estadio cuando la creatinina y la diuresis discrepan?', options: ['Se promedian los dos ejes', 'Manda siempre la creatinina', 'Se toma el eje mas alto', 'Se repite en 24 horas'], correct: 2, explanation: 'El estadio recoge la peor de las dos alteraciones. El borrador de 2026 propone informarlos por separado precisamente porque colapsarlos en un numero pierde informacion util.', dificultad: 'intermedio' },
+  { q: 'Que estadio corresponde al paciente en el que se inicia depuracion extrarrenal?', options: ['El estadio 3', 'El estadio 2', 'Depende de la creatinina', 'Depende de la diuresis'], correct: 0, explanation: 'Iniciar la tecnica clasifica automaticamente como estadio 3, con independencia de las cifras. Es una de las reglas que mas se olvidan al estadiar.', dificultad: 'intermedio' },
+  { q: 'Que cambio propone el borrador de la guia de 2026 en el estadiaje?', options: ['Reducirlo a dos estadios', 'A&#241;adir un cuarto estadio', 'Usar solo la diuresis', 'Informar tres ejes por separado'], correct: 3, explanation: 'Los ejes son C de creatinina, U de diuresis y B de biomarcador de da&#241;o. Un paciente C1 U3 y otro C3 U0 tienen problemas distintos que el estadio unico no distingue.', dificultad: 'dificil' },
+  { q: 'Que dos elementos a&#241;ade el borrador de 2026 a los criterios diagnosticos?', options: ['La urea y el acido urico plasmaticos', 'La cistatina C y un biomarcador', 'La proteinuria y la hematuria microscopica', 'La ecografia y el doppler intrarrenal'], correct: 1, explanation: 'La cistatina C es util cuando la creatinina no es fiable, por masa muscular extrema o desnutricion. Y el biomarcador introduce un criterio ESTRUCTURAL donde antes todo era funcional.', dificultad: 'dificil' },
+  { q: 'A partir de que duracion se considera persistente una lesion renal aguda?', options: ['De 12 horas', 'De 24 horas', 'De 48 horas', 'De 7 dias'], correct: 2, explanation: 'Por debajo de ese plazo se habla de lesion transitoria, que suele ser funcional y reversible. La persistente se asocia a da&#241;o estructural y a peor pronostico renal a largo plazo.', dificultad: 'dificil' },
+  {
+    type: 'cascade', dificultad: 'facil',
+    vignette: 'Varon de 78 a&#241;os con hipertrofia prostatica conocida, traido por malestar general. No orina desde hace 12 horas. La creatinina es de 3.8 mg/dL frente a un basal de 1.1 mg/dL. La ecografia muestra dilatacion bilateral del sistema colector y una vejiga con 900 mL de contenido.',
+    steps: [
+      { q: 'Cual es la causa mas probable?', options: ['Prerrenal', 'Posrenal', 'Necrosis tubular', 'Glomerular'], correct: 1 },
+      { q: 'Que corresponde hacer de inmediato?', options: ['Sondar la vejiga', 'Iniciar hemodialisis', 'Administrar diureticos', 'Solicitar biopsia renal'], correct: 0 },
+      { q: 'Que hay que vigilar en las horas siguientes?', options: ['Una crisis hipertensiva', 'Una hemorragia vesical', 'Una hiponatremia dilucional', 'Una poliuria posobstructiva'], correct: 3 }
+    ],
+    explanation: 'Anuria brusca en un varon mayor con prostatismo, dilatacion bilateral y una vejiga con 900 mL es una obstruccion infravesical: causa POSRENAL. Es la causa que mas rapido se resuelve de todo el tema y la que mas se pasa por alto, y por eso la ecografia con medida de la vejiga es la primera prueba. El tratamiento es sondar, que es diagnostico y terapeutico a la vez, y no espera a nada mas. Lo que hay que vigilar despues es la POLIURIA POSOBSTRUCTIVA: al liberarse la obstruccion puede producirse una diuresis masiva, con deshidratacion y perdida de electrolitos, que exige reponer y controlar el ionograma durante las primeras horas.'
+  },
+  { q: 'Cual es la primera prueba de imagen ante una lesion renal aguda?', options: ['La tomografia con contraste', 'La resonancia renal', 'La gammagrafia renal', 'La ecografia'], correct: 3, explanation: 'Descarta la obstruccion, que es la causa mas rapidamente reversible, y valora el tama&#241;o y la ecogenicidad para distinguir lo agudo de lo cronico. Y hay que medir tambien la vejiga.', dificultad: 'facil' },
+  { q: 'Que significa que un paciente con obstruccion mantenga la diuresis?', options: ['Que la obstruccion se ha resuelto', 'Que la obstruccion puede ser parcial', 'Que hay una fistula urinaria', 'Que el diagnostico es incorrecto'], correct: 1, explanation: 'La obstruccion parcial puede cursar con diuresis conservada e incluso con poliuria. Que el paciente orine no la descarta, y por eso la ecografia se hace igual.', dificultad: 'dificil' },
+  { q: 'En que situacion puede una obstruccion NO producir dilatacion en la ecografia?', options: ['Cuando hay hipertrofia prostatica', 'Cuando hay litiasis unica', 'Cuando hay fibrosis retroperitoneal', 'Cuando hay vejiga neurogena'], correct: 2, explanation: 'El sistema colector queda atrapado y no puede dilatarse. El otro falso negativo es la obstruccion muy precoz, antes de que de tiempo a dilatar. Ambos justifican repetir o ampliar el estudio.', dificultad: 'dificil' },
+  { q: 'Que hallazgo del sedimento orienta a necrosis tubular aguda?', options: ['Cilindros granulosos pardos', 'Cilindros hialinos aislados', 'Cristales de oxalato calcico', 'Cilindros hematicos'], correct: 0, explanation: 'Son celulas tubulares descamadas y detritus. Su presencia confirma que el da&#241;o ya no es funcional sino estructural, y que dar mas volumen no va a resolver el cuadro.', dificultad: 'intermedio' },
+  {
+    type: 'cascade', dificultad: 'dificil',
+    vignette: 'Paciente ingresado por insuficiencia cardiaca descompensada, en tratamiento con furosemida intravenosa. La creatinina ha subido de 1.1 a 1.9 mg/dL. Se solicitan iones en orina y la excrecion fraccional de sodio resulta del 2.4%. El sedimento urinario es limpio.',
+    steps: [
+      { q: 'Es interpretable esa excrecion fraccional de sodio?', options: ['Si, orienta a causa renal', 'Si, orienta a causa prerrenal', 'Solo si se repite manana', 'No, por los diureticos'], correct: 3 },
+      { q: 'Que indice conviene usar en su lugar?', options: ['El sodio urinario aislado', 'La excrecion fraccional de urea', 'La osmolalidad urinaria', 'El cociente urea-creatinina'], correct: 1 },
+      { q: 'Que apoya el sedimento limpio?', options: ['Una necrosis tubular', 'Una nefritis intersticial', 'Una causa prerrenal', 'Una glomerulonefritis'], correct: 2 }
+    ],
+    explanation: 'Los DIURETICOS elevan de forma artificial la excrecion fraccional de sodio, porque su efecto es precisamente impedir que el tubulo lo reabsorba. En un paciente que los recibe, un valor del 2.4% no significa nada y no permite descartar una causa prerrenal: el indice no es interpretable. Lo que corresponde usar en su lugar es la excrecion fraccional de UREA, cuyo manejo tubular es menos dependiente de los diureticos, con un umbral orientativo en torno al 35%. Y el sedimento LIMPIO apoya que no hay da&#241;o estructural del parenquima, es decir, orienta a una causa prerrenal o a una obstruccion, que es exactamente lo esperable en una insuficiencia cardiaca descompensada con diuresis intensiva.'
+  },
+  { q: 'Que sugiere la presencia de hematies dismorficos y cilindros hematicos?', options: ['Una obstruccion urinaria', 'Una necrosis tubular', 'Una nefritis intersticial', 'Una lesion glomerular'], correct: 3, explanation: 'Cambia por completo el estudio: obliga a pedir inmunologia sin demora y a plantear biopsia, porque hay glomerulonefritis rapidamente progresivas que se tratan y en las que cada dia cuesta nefronas.', dificultad: 'intermedio' },
+  { q: 'Que ocurre con la excrecion fraccional de sodio en el paciente con diureticos?', options: ['Desciende de forma artificial', 'Se eleva y deja de ser util', 'No se modifica en absoluto', 'Se vuelve mas especifica'], correct: 1, explanation: 'El diuretico impide que el tubulo reabsorba sodio, que es justo lo que el indice pretende medir. En ese caso hay que recurrir a la excrecion fraccional de urea.', dificultad: 'intermedio' },
+  { q: 'Que causa renal puede cursar con sodio urinario BAJO?', options: ['El contraste yodado', 'La nefritis intersticial', 'La necrosis tubular tardia', 'La nefropatia obstructiva'], correct: 0, explanation: 'Junto con la rabdomiolisis y el sindrome hepatorrenal. Por eso la excrecion fraccional de sodio es una ayuda y no un arbitro: el sedimento y la ecografia aportan mas.', dificultad: 'dificil' },
+  { q: 'Que dos gestos preceden a cualquier razonamiento sobre la causa?', options: ['Ecografia y lista de farmacos', 'Biopsia renal e inmunologia completa', 'Doppler renal y gammagrafia', 'Urea, acido urico y calcio'], correct: 0, explanation: 'Los dos se resuelven en minutos y se olvidan a diario. La ecografia descarta la obstruccion, que es lo que mas rapido se resuelve, y la revision de la medicacion identifica lo mas prevenible de todo el tema.', dificultad: 'intermedio' },
+  { q: 'Que complicacion hay que vigilar tras desobstruir la via urinaria?', options: ['Una crisis hipertensiva', 'Una retencion recurrente', 'Una poliuria posobstructiva', 'Una infeccion urinaria alta'], correct: 2, explanation: 'Puede ser masiva y producir deshidratacion y perdida de electrolitos si no se repone. Exige control de la diuresis y del ionograma durante las primeras horas.', dificultad: 'intermedio' },
+  {
+    type: 'cascade', dificultad: 'intermedio',
+    vignette: 'Mujer de 72 a&#241;os con hipertension e insuficiencia cardiaca, en tratamiento cronico con enalapril y furosemida. Hace cinco dias comenzo a tomar ibuprofeno por una lumbalgia. La creatinina ha pasado de 1.0 a 2.3 mg/dL. La ecografia es normal y el sedimento esta limpio.',
+    steps: [
+      { q: 'Que explica mejor este deterioro?', options: ['La combinacion de los tres farmacos', 'Una nefritis intersticial aislada', 'Una obstruccion no detectada', 'Una glomerulonefritis aguda'], correct: 0 },
+      { q: 'Cual es el mecanismo?', options: ['Toxicidad tubular directa', 'Perdida de la autorregulacion glomerular', 'Obstruccion intratubular por cristales', 'Reaccion inmunoalergica'], correct: 1 },
+      { q: 'Que corresponde hacer?', options: ['A&#241;adir corticoides a dosis alta', 'Iniciar depuracion extrarrenal urgente', 'Retirar el antiinflamatorio', 'Aumentar la dosis de furosemida'], correct: 2 }
+    ],
+    explanation: 'Es la combinacion clasica y una de las causas mas frecuentes y mas prevenibles de lesion renal aguda: antiinflamatorio, inhibidor del sistema renina-angiotensina y diuretico. El mecanismo no es toxico sino HEMODINAMICO: el antiinflamatorio bloquea las prostaglandinas que dilatan la arteriola aferente, el inhibidor del eje dilata la eferente, y el diuretico reduce la volemia. Cada uno por separado se tolera, pero juntos anulan la autorregulacion del filtrado glomerular. El sedimento limpio y la ecografia normal encajan con ese mecanismo funcional. El tratamiento es retirar el antiinflamatorio, corregir la volemia y suspender temporalmente el inhibidor del eje, con lo que la funcion suele recuperarse en dias.'
+  },
+  { q: 'Que efecto tiene la dopamina a dosis baja sobre el ri&#241;on?', options: ['Aumenta el filtrado de forma sostenida', 'Previene la necrosis tubular', 'Acorta la duracion de la lesion', 'No lo protege'], correct: 3, explanation: 'Se uso durante decadas con esa intencion y los ensayos no encontraron beneficio, si arritmias. Es uno de los tratamientos abandonados que conviene conocer para no reintroducirlos.', dificultad: 'intermedio' },
+  { q: 'Que papel tienen los diureticos en la prevencion de la lesion renal aguda?', options: ['No la previenen ni la acortan', 'La previenen en el paciente septico', 'Acortan la fase oligurica', 'Mejoran la recuperacion tubular'], correct: 0, explanation: 'Son utiles para manejar la sobrecarga de volumen en quien responde a ellos, pero no protegen el ri&#241;on ni cambian el curso de la lesion. Usarlos con esa intencion es un error frecuente.', dificultad: 'intermedio' },
+  { q: 'Que combinacion de farmacos es especialmente peligrosa para el ri&#241;on?', options: ['Betabloqueante, estatina y aspirina', 'Metformina, insulina y diuretico', 'Antiinflamatorio, inhibidor del eje y diuretico', 'Anticoagulante, antiagregante y protector'], correct: 2, explanation: 'Cada uno por separado se tolera, pero juntos anulan la autorregulacion del filtrado glomerular. Es una de las causas mas frecuentes y mas evitables de lesion renal aguda ambulatoria.', dificultad: 'intermedio' },
+  { q: 'Que profilaxis tiene respaldo antes de administrar contraste yodado al paciente de riesgo?', options: ['La N-acetilcisteina oral', 'La hidratacion con cristaloide', 'El bicarbonato intravenoso', 'La hemofiltracion profilactica'], correct: 1, explanation: 'Un ensayo amplio no encontro beneficio de la N-acetilcisteina ni del bicarbonato frente al suero salino. Y conviene no negar una prueba necesaria por un miedo desproporcionado al contraste.', dificultad: 'dificil' },
+  { q: 'Con que frecuencia esta completa la triada de fiebre, exantema y eosinofilia en la nefritis intersticial?', options: ['En casi todos los casos', 'En tres de cada cuatro', 'En la mitad de los casos', 'En una minoria'], correct: 3, explanation: 'Su ausencia no descarta el diagnostico, que se sospecha por la relacion temporal con un farmaco y por el sedimento con leucocitos. El tratamiento empieza por retirar el sospechoso.', dificultad: 'dificil' },
+  {
+    type: 'cascade', dificultad: 'dificil',
+    vignette: 'Paciente en la unidad de criticos con lesion renal aguda en estadio 3 por sepsis, oligurico. El potasio es de 5.4 mEq/L y se mantiene estable con tratamiento medico. No hay acidosis grave, ni sobrecarga con compromiso respiratorio, ni sintomas uremicos. Se plantea iniciar depuracion extrarrenal de forma preventiva.',
+    steps: [
+      { q: 'Cumple alguna indicacion establecida?', options: ['Si, por el estadio 3', 'Si, por la oliguria', 'Si, por el potasio', 'No cumple ninguna'], correct: 3 },
+      { q: 'Que han mostrado los ensayos sobre adelantarse?', options: ['Que reduce la mortalidad', 'Que no mejora la supervivencia', 'Que acorta el ingreso', 'Que evita la dependencia'], correct: 1 },
+      { q: 'Que corresponde priorizar mientras tanto?', options: ['Colocar ya el cateter de dialisis', 'Forzar diuresis con furosemida', 'Restringir por completo el aporte proteico', 'Retirar nefrotoxicos y ajustar dosis'], correct: 3 }
+    ],
+    explanation: 'Ninguna de las cinco indicaciones establecidas esta presente: la acidosis no es grave ni refractaria, el potasio esta controlado, no hay intoxicacion, no hay sobrecarga refractaria y no hay uremia sintomatica. Ni el estadio 3 ni la oliguria por si solos son indicacion. Los grandes ensayos aleatorizados que compararon el inicio PRECOZ frente a esperar a que apareciera una indicacion no encontraron beneficio en supervivencia con adelantarse, y si mas complicaciones asociadas al cateter y a la tecnica; ademas, una parte relevante de los pacientes manejados de forma conservadora nunca llego a necesitarla. Lo que corresponde priorizar es lo que mas rinde y menos se hace de forma sistematica: retirar nefrotoxicos, ajustar TODAS las dosis a la funcion renal, no sobrecargar de volumen y vigilar el potasio de forma estrecha.'
+  },
+  { q: 'Que consigue el calcio intravenoso en la hiperpotasemia?', options: ['Estabiliza la membrana', 'Elimina potasio por la orina', 'Introduce potasio en la celula', 'Corrige la acidosis asociada'], correct: 0, explanation: 'Protege el corazon pero no baja el potasio ni un miliequivalente. Se administra cuando hay alteraciones en el electrocardiograma, y su efecto dura poco.', dificultad: 'intermedio' },
+  { q: 'Que hacen la insulina con glucosa y los agonistas beta en la hiperpotasemia?', options: ['Eliminan potasio por el intestino', 'Bloquean su absorcion digestiva', 'Redistribuyen el potasio', 'Aumentan su excrecion renal'], correct: 2, explanation: 'Lo introducen en la celula, de modo que el potasio corporal total no cambia y vuelve a subir en unas horas. Para eliminarlo hacen falta un quelante o la depuracion extrarrenal.', dificultad: 'intermedio' },
+  { q: 'Cuantas son las indicaciones clasicas de depuracion extrarrenal urgente?', options: ['Tres', 'Cinco', 'Siete', 'Nueve'], correct: 1, explanation: 'Acidosis refractaria, alteraciones electroliticas graves, intoxicacion por toxico dializable, sobrecarga refractaria y uremia sintomatica. Ninguna de ellas depende del estadio ni de la cifra de creatinina.', dificultad: 'intermedio' },
+  { q: 'Que han mostrado los ensayos sobre iniciar la depuracion antes de que haya indicacion?', options: ['Que reduce la mortalidad', 'Que acorta la estancia', 'Que mejora la recuperacion renal', 'Que no mejora la supervivencia'], correct: 3, explanation: 'Y si se asocia a mas complicaciones del cateter y de la tecnica. Ademas, una parte relevante de los pacientes manejados de forma conservadora nunca llego a necesitarla.', dificultad: 'dificil' },
+  { q: 'Que tecnica se prefiere en el paciente hemodinamicamente inestable?', options: ['La tecnica continua', 'La hemodialisis intermitente', 'La dialisis peritoneal', 'La hemoperfusion con carbon'], correct: 0, explanation: 'Se tolera mejor desde el punto de vista hemodinamico, aunque conviene saber que no ha demostrado ventaja en supervivencia frente a la intermitente en pacientes que toleran ambas.', dificultad: 'intermedio' },
+  { q: 'Que hay que dejar organizado al alta tras una lesion renal aguda?', options: ['Una dieta baja en proteinas', 'Una restriccion hidrica estricta', 'Una revision a los 3 meses', 'Un control diario de la tension'], correct: 2, explanation: 'Con creatinina y cociente albumina-creatinina. Un episodio multiplica el riesgo de enfermedad renal cronica posterior, y el seguimiento tras el alta sigue siendo la excepcion y no la norma.', dificultad: 'intermedio' },
+  {
+    type: 'cascade', dificultad: 'intermedio',
+    vignette: 'Paciente que ingreso por una neumonia grave y presento una lesion renal aguda en estadio 3 que preciso depuracion extrarrenal durante 8 dias. Sale del hospital sin necesitarla ya. Su creatinina basal previa era de 0.9 mg/dL y la del alta es de 1.25 mg/dL.',
+    steps: [
+      { q: 'Como se clasifica esa recuperacion?', options: ['Como sin recuperacion', 'Como completa', 'Como parcial', 'Como no valorable'], correct: 2 },
+      { q: 'Que riesgo tiene este paciente a largo plazo?', options: ['Riesgo de litiasis recurrente', 'Riesgo de enfermedad renal cronica', 'Riesgo de hipertension pulmonar', 'Riesgo de anemia ferropenica'], correct: 1 },
+      { q: 'Que hay que dejar organizado al alta?', options: ['Cita con analitica a los 3 meses', 'Ecografia renal mensual', 'Dieta estricta sin proteinas', 'Diuretico de mantenimiento'], correct: 0 }
+    ],
+    explanation: 'Con una creatinina de 1.25 mg/dL sobre un basal de 0.9, el cociente es de 1.39, es decir entre 1.2 y 1.5 veces el basal: eso corresponde a una resolucion PARCIAL, no completa. La completa exigiria quedar por debajo de 1.2 veces el basal. Un episodio grave, prolongado y que preciso depuracion, mas una resolucion solo parcial, situan a este paciente en riesgo elevado de ENFERMEDAD RENAL CRONICA posterior, ademas de mayor riesgo cardiovascular y de mortalidad. Y sin embargo esto es lo que mas se omite: hay que dejar en el informe el estadio, la causa y los farmacos retirados, y una CITA de revision a los 3 meses con creatinina y cociente albumina-creatinina, porque la proteinuria residual es el mejor marcador de que ha quedado da&#241;o.'
+  }
+];
+
+export const flashcards = [
+  { front: 'La limitacion de la creatinina', back: 'Sube TARDE. Y la masa muscular y la dilucion la falsean en el critico.' },
+  { front: 'El criterio que avisa antes', back: 'La DIURESIS. Es gratis y es el dato peor registrado del hospital.' },
+  { front: 'Los tres criterios diagnosticos', back: '0.3 mg/dL en 48 h, 1.5 veces el basal en 7 dias, o diuresis baja 6 h.' },
+  { front: 'Cuantos criterios hacen falta', back: 'Uno solo. Y cada uno tiene su plazo.' },
+  { front: 'Como se asigna el estadio', back: 'Se toma el eje MAS ALTO entre creatinina y diuresis.' },
+  { front: 'Iniciar depuracion extrarrenal', back: 'Clasifica automaticamente como estadio 3.' },
+  { front: 'La propuesta del borrador de 2026', back: 'Informar tres ejes: C de creatinina, U de diuresis y B de biomarcador.' },
+  { front: 'Que a&#241;ade el borrador a los criterios', back: 'La CISTATINA C y un biomarcador de da&#241;o, que es un criterio estructural.' },
+  { front: 'Transitoria frente a persistente', back: '48 horas. Mas alla se asocia a da&#241;o estructural.' },
+  { front: 'Enfermedad renal aguda', back: 'Lo que va de los 7 dias a los 3 meses tras el episodio.' },
+  { front: 'Resolucion completa', back: 'Creatinina por debajo de 1.2 veces el basal en 7 dias.' },
+  { front: 'La primera prueba de imagen', back: 'ECOGRAFIA, midiendo tambien la vejiga.' },
+  { front: 'Obstruccion con diuresis conservada', back: 'Existe: la parcial puede incluso dar poliuria. Orinar no la descarta.' },
+  { front: 'Ecografia sin dilatacion', back: 'No descarta del todo: obstruccion muy precoz o fibrosis retroperitoneal.' },
+  { front: 'Sedimento limpio', back: 'Orienta a prerrenal u obstructivo, no a da&#241;o del parenquima.' },
+  { front: 'Cilindros granulosos pardos', back: 'Necrosis tubular aguda: el da&#241;o ya es estructural.' },
+  { front: 'Hematies dismorficos y cilindros hematicos', back: 'Lesion GLOMERULAR: inmunologia sin demora y valorar biopsia.' },
+  { front: 'Excrecion fraccional de sodio con diureticos', back: 'Se eleva y deja de servir. Usar la de UREA, umbral en torno al 35%.' },
+  { front: 'Causas renales con sodio urinario bajo', back: 'Contraste, rabdomiolisis y sindrome hepatorrenal.' },
+  { front: 'Tras desobstruir', back: 'Vigilar la POLIURIA POSOBSTRUCTIVA y reponer.' },
+  { front: 'La triada de farmacos peligrosa', back: 'Antiinflamatorio + inhibidor del eje + diuretico. Anulan la autorregulacion.' },
+  { front: 'Dopamina a dosis baja', back: 'NO protege el ri&#241;on. Abandonada.' },
+  { front: 'Diureticos para prevenir', back: 'No previenen ni acortan la lesion. Solo sirven para la sobrecarga.' },
+  { front: 'Profilaxis antes del contraste', back: 'HIDRATACION con cristaloide. La N-acetilcisteina y el bicarbonato, no.' },
+  { front: 'Nefritis intersticial', back: 'La triada de fiebre, exantema y eosinofilia esta completa en una minoria.' },
+  { front: 'Las cinco indicaciones de depuracion', back: 'Acidosis, electrolitos, intoxicacion, sobrecarga y uremia sintomatica.' },
+  { front: 'Adelantar la depuracion sin indicacion', back: 'NO mejora la supervivencia y a&#241;ade complicaciones.' },
+  { front: 'Calcio en la hiperpotasemia', back: 'Estabiliza la membrana. NO baja el potasio.' },
+  { front: 'Insulina y agonistas beta', back: 'REDISTRIBUYEN. Para eliminar hace falta quelante o depuracion.' },
+  { front: 'Tecnica en el paciente inestable', back: 'Continua, por tolerancia hemodinamica. Sin ventaja en supervivencia.' },
+  { front: 'Lo que mas rinde en la lesion renal aguda', back: 'Retirar nefrotoxicos y ajustar TODAS las dosis.' },
+  { front: 'La omision mas repetida', back: 'Alta sin cita: revision a los 3 meses con creatinina y albuminuria.' }
+];
+
+export default { quiz, flashcards };
