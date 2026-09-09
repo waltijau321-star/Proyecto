@@ -595,6 +595,62 @@ export const registry = [
       import('./bronquitis-aguda/calculators.js'),
       import('./bronquitis-aguda/study.js')
     ])
+  },
+  {
+    id: 'deterioro-cognitivo-demencias', titulo: 'Deterioro Cognitivo y Demencias',
+    load: () => Promise.all([
+      import('./deterioro-cognitivo-demencias/content.js'),
+      import('./deterioro-cognitivo-demencias/calculators.js'),
+      import('./deterioro-cognitivo-demencias/study.js')
+    ])
+  },
+  {
+    id: 'neuropatias-perifericas', titulo: 'Neuropatias Perifericas y Disautonomia',
+    load: () => Promise.all([
+      import('./neuropatias-perifericas/content.js'),
+      import('./neuropatias-perifericas/calculators.js'),
+      import('./neuropatias-perifericas/study.js')
+    ])
+  },
+  {
+    id: 'guillain-barre-miastenia', titulo: 'Guillain-Barre y Miastenia Gravis',
+    load: () => Promise.all([
+      import('./guillain-barre-miastenia/content.js'),
+      import('./guillain-barre-miastenia/calculators.js'),
+      import('./guillain-barre-miastenia/study.js')
+    ])
+  },
+  {
+    id: 'ela-miopatias', titulo: 'ELA y Enfermedades del Musculo',
+    load: () => Promise.all([
+      import('./ela-miopatias/content.js'),
+      import('./ela-miopatias/calculators.js'),
+      import('./ela-miopatias/study.js')
+    ])
+  },
+  {
+    id: 'meningoencefalitis-infecciosa', titulo: 'Meningoencefalitis Infecciosa',
+    load: () => Promise.all([
+      import('./meningoencefalitis-infecciosa/content.js'),
+      import('./meningoencefalitis-infecciosa/calculators.js'),
+      import('./meningoencefalitis-infecciosa/study.js')
+    ])
+  },
+  {
+    id: 'encefalitis-autoinmune', titulo: 'Encefalitis Autoinmune',
+    load: () => Promise.all([
+      import('./encefalitis-autoinmune/content.js'),
+      import('./encefalitis-autoinmune/calculators.js'),
+      import('./encefalitis-autoinmune/study.js')
+    ])
+  },
+  {
+    id: 'vertigo-sindrome-vestibular', titulo: 'Vertigo y Sindrome Vestibular',
+    load: () => Promise.all([
+      import('./vertigo-sindrome-vestibular/content.js'),
+      import('./vertigo-sindrome-vestibular/calculators.js'),
+      import('./vertigo-sindrome-vestibular/study.js')
+    ])
   }
 ];
 

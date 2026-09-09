@@ -2,7 +2,7 @@
    Estrategia: cache-first para el "app shell" y los módulos, con actualización en segundo plano.
    CACHE_VERSION se calcula automáticamente a partir del contenido de CORE: correr
    .claude/bump-cache-version.ps1 después de cambiar cualquier archivo cacheado. */
-const CACHE_VERSION = 'residentemed-02fd6fd90d';
+const CACHE_VERSION = 'residentemed-8a5008256a';
 const CORE = [
   './',
   './index.html',
@@ -292,7 +292,28 @@ const CORE = [
   './topics/bronquiectasias/study.js',
   './topics/bronquitis-aguda/content.js',
   './topics/bronquitis-aguda/calculators.js',
-  './topics/bronquitis-aguda/study.js'
+  './topics/bronquitis-aguda/study.js',
+  './topics/deterioro-cognitivo-demencias/content.js',
+  './topics/deterioro-cognitivo-demencias/calculators.js',
+  './topics/deterioro-cognitivo-demencias/study.js',
+  './topics/neuropatias-perifericas/content.js',
+  './topics/neuropatias-perifericas/calculators.js',
+  './topics/neuropatias-perifericas/study.js',
+  './topics/guillain-barre-miastenia/content.js',
+  './topics/guillain-barre-miastenia/calculators.js',
+  './topics/guillain-barre-miastenia/study.js',
+  './topics/ela-miopatias/content.js',
+  './topics/ela-miopatias/calculators.js',
+  './topics/ela-miopatias/study.js',
+  './topics/meningoencefalitis-infecciosa/content.js',
+  './topics/meningoencefalitis-infecciosa/calculators.js',
+  './topics/meningoencefalitis-infecciosa/study.js',
+  './topics/encefalitis-autoinmune/content.js',
+  './topics/encefalitis-autoinmune/calculators.js',
+  './topics/encefalitis-autoinmune/study.js',
+  './topics/vertigo-sindrome-vestibular/content.js',
+  './topics/vertigo-sindrome-vestibular/calculators.js',
+  './topics/vertigo-sindrome-vestibular/study.js'
 ];
 
 self.addEventListener('install', (e) => {
