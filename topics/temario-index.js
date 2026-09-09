@@ -68,14 +68,14 @@ const NEUROLOGIA_CLUSTERS = [
   { name: 'Enfermedad cerebrovascular', items: [
     { label: 'Enfermedad vascular cerebral isquémica', topicId: 'enfermedad-cerebrovascular' },
     { label: 'Hemorragia intracraneal y subaracnoidea', topicId: 'enfermedad-cerebrovascular' },
-    { label: 'Neoplasias del sistema nervioso central', topicId: 'neoplasias-snc-hipertension-intracraneal' }, { label: 'Síndrome de hipertensión intracraneal', topicId: 'neoplasias-snc-hipertension-intracraneal' }, { label: 'Traumatismo craneoencefálico', topicId: 'traumatismo-craneoencefalico' }, 'Vértigo central (síndrome vestibular agudo)'
+    { label: 'Neoplasias del sistema nervioso central', topicId: 'neoplasias-snc-hipertension-intracraneal' }, { label: 'Síndrome de hipertensión intracraneal', topicId: 'neoplasias-snc-hipertension-intracraneal' }, { label: 'Traumatismo craneoencefálico', topicId: 'traumatismo-craneoencefalico' }, { label: 'Vértigo central (síndrome vestibular agudo)', topicId: 'vertigo-sindrome-vestibular' }
   ] },
   { name: 'Trastornos paroxísticos y del movimiento', items: [
     { label: 'Estado epiléptico y epilepsia', topicId: 'estado-epileptico' },
     { label: 'Cefaleas', topicId: 'cefaleas' },
     { label: 'Enfermedad de Parkinson', topicId: 'trastornos-del-movimiento' }, { label: 'Otros trastornos del movimiento (temblor esencial, distonía, corea)', topicId: 'trastornos-del-movimiento' }, { label: 'Esclerosis múltiple y otras enfermedades desmielinizantes', topicId: 'esclerosis-multiple' }
   ] },
-  { name: 'Alteración de conciencia y enfermedad neuromuscular', items: [{ label: 'Delirium y coma', topicId: 'delirium-coma-encefalopatias' }, 'Síndrome demencial', 'Deterioro cognitivo', 'Enfermedad por priones', { label: 'Encefalopatías metabólicas', topicId: 'delirium-coma-encefalopatias' }, 'Neuropatías periféricas', 'Parálisis facial', 'Disautonomía', 'Síndrome de Guillain-Barré y miastenia gravis', 'Distrofias musculares', 'Esclerosis lateral amiotrófica', 'Meningoencefalitis infecciosa', 'Encefalitis autoinmune'] }
+  { name: 'Alteración de conciencia y enfermedad neuromuscular', items: [{ label: 'Delirium y coma', topicId: 'delirium-coma-encefalopatias' }, { label: 'Síndrome demencial', topicId: 'deterioro-cognitivo-demencias' }, { label: 'Deterioro cognitivo', topicId: 'deterioro-cognitivo-demencias' }, { label: 'Enfermedad por priones', topicId: 'deterioro-cognitivo-demencias' }, { label: 'Encefalopatías metabólicas', topicId: 'delirium-coma-encefalopatias' }, { label: 'Neuropatías periféricas', topicId: 'neuropatias-perifericas' }, { label: 'Parálisis facial', topicId: 'neuropatias-perifericas' }, { label: 'Disautonomía', topicId: 'neuropatias-perifericas' }, { label: 'Síndrome de Guillain-Barré y miastenia gravis', topicId: 'guillain-barre-miastenia' }, { label: 'Distrofias musculares', topicId: 'ela-miopatias' }, { label: 'Esclerosis lateral amiotrófica', topicId: 'ela-miopatias' }, { label: 'Meningoencefalitis infecciosa', topicId: 'meningoencefalitis-infecciosa' }, { label: 'Encefalitis autoinmune', topicId: 'encefalitis-autoinmune' }] }
 ];
 
 // Solo los clusters de enfermedad respiratoria propiamente dicha (no medicina crítica
@@ -244,7 +244,7 @@ export const temarioBlocks = [
     intro: 'Particularidades fisiológicas y síndromes propios del adulto mayor hospitalizado.',
     clusters: [
       { name: 'Valoración y síndromes geriátricos', items: ['Valoración geriátrica integral', 'Biología del envejecimiento', 'Caídas, fragilidad y sarcopenia', 'Polifarmacia y deprescripción', 'Abdomen agudo en el adulto mayor'] },
-      { name: 'Cognición', items: [{ label: 'Delirium en el adulto mayor', topicId: 'delirium-coma-encefalopatias' }, 'Demencias', 'Enfermedad de Alzheimer', 'Depresión en el adulto mayor'] }
+      { name: 'Cognición', items: [{ label: 'Delirium en el adulto mayor', topicId: 'delirium-coma-encefalopatias' }, { label: 'Demencias', topicId: 'deterioro-cognitivo-demencias' }, { label: 'Enfermedad de Alzheimer', topicId: 'deterioro-cognitivo-demencias' }, 'Depresión en el adulto mayor'] }
     ]
   },
   {
