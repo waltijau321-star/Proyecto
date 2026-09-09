@@ -1,4 +1,8 @@
-// topics/sepsis/calculators.js — qSOFA, SOFA, SOFA-2 y aclaramiento de lactato.
+// topics/sepsis/calculators.js — cribado (SIRS y qSOFA), SOFA, SOFA-2 y aclaramiento de lactato.
+// Cribado: la Surviving Sepsis Campaign 2026 recomienda de forma FUERTE usar NEWS, NEWS2, MEWS o
+// SIRS por encima del qSOFA como herramienta única de tamizaje (Prescott HC, et al. Intensive Care
+// Med 2026, doi:10.1007/s00134-026-08361-1). El NEWS2 completo se calcula en el módulo de
+// disfunción orgánica múltiple; aquí se contrastan SIRS y qSOFA con las mismas constantes.
 // Contrato declarativo del motor (engine/calculators.js).
 // SOFA-2: Ranzani OT, Singer M, Salluh JIF, et al. Development and Validation of the
 // Sequential Organ Failure Assessment (SOFA)-2 Score. JAMA. 2025;334(23):2090-2103.
@@ -7,19 +11,61 @@ const sel = (label, opts) => ({ type: 'select', numeric: true, label, options: o
 
 export const calculators = [
   {
-    key: 'qsofa', title: 'qSOFA', accent: '#8c3a34',
-    subtitle: 'Tamizaje rápido junto a la cama',
+    key: 'cribado', title: 'Cribado de sepsis: SIRS y qSOFA', accent: '#8c3a34',
+    subtitle: 'Las dos escalas con las mismas constantes, y cuál prefiere la SSC 2026',
+    incompleteMsg: 'Introduce al menos temperatura, frecuencia cardíaca, frecuencia respiratoria y sistólica.',
     fields: [
-      { name: 'fr', id: 'qs-fr', type: 'checkbox', label: 'Frecuencia respiratoria ≥22/min' },
-      { name: 'mental', id: 'qs-ment', type: 'checkbox', label: 'Alteración del estado mental (Glasgow <15)' },
-      { name: 'pas', id: 'qs-pas', type: 'checkbox', label: 'Presión arterial sistólica ≤100 mmHg' }
+      { name: 'temp', id: 'cr-t', type: 'number', step: '0.1', label: 'Temperatura (°C)', placeholder: 'ej. 38.6', row: 'a' },
+      { name: 'fc', id: 'cr-fc', type: 'number', step: '1', label: 'Frecuencia cardíaca (lpm)', placeholder: 'ej. 112', row: 'a' },
+      { name: 'fr', id: 'cr-fr', type: 'number', step: '1', label: 'Frecuencia respiratoria (por min)', placeholder: 'ej. 26', row: 'b' },
+      { name: 'pas', id: 'cr-pas', type: 'number', step: '1', label: 'Presión arterial sistólica (mmHg)', placeholder: 'ej. 96', row: 'b' },
+      { name: 'leucos', id: 'cr-leu', type: 'number', step: '0.1', required: false, label: 'Leucocitos (×10³/µL, opcional)', placeholder: 'ej. 15.2', row: 'c' },
+      { name: 'paco2', id: 'cr-pco', type: 'number', step: '1', required: false, label: 'PaCO₂ (mmHg, opcional)', placeholder: 'ej. 30', row: 'c' },
+      { name: 'bandas', id: 'cr-ban', type: 'checkbox', label: 'Más del 10% de bandas en el diferencial' },
+      { name: 'mental', id: 'cr-men', type: 'checkbox', label: 'Alteración del estado mental (Glasgow <15)' },
+      { type: 'note', text: 'SIRS (≥2 de 4): temperatura >38 o <36 °C, FC >90, FR >20 o PaCO₂ <32, leucocitos >12.000 o <4.000/µL o >10% bandas. qSOFA (≥2 de 3): FR ≥22, alteración mental, sistólica ≤100 mmHg. Ninguna de las dos diagnostica sepsis: el diagnóstico sigue siendo un aumento agudo ≥2 puntos en el SOFA con infección.' }
     ],
     compute(v) {
-      const s = ['fr', 'mental', 'pas'].filter(k => v[k]).length;
-      return { s, alerta: s >= 2 };
+      if (v.temp === null || v.fc === null || v.fr === null || v.pas === null) return null;
+      const leucoDato = v.leucos !== null && v.leucos !== undefined;
+      const pacoDato = v.paco2 !== null && v.paco2 !== undefined;
+      const crit = [
+        ['temperatura', v.temp > 38 || v.temp < 36],
+        ['frecuencia cardíaca', v.fc > 90],
+        ['frecuencia respiratoria o PaCO₂', v.fr > 20 || (pacoDato && v.paco2 < 32)],
+        ['leucocitos o bandas', (leucoDato && (v.leucos > 12 || v.leucos < 4)) || !!v.bandas]
+      ];
+      const sirs = crit.filter(c => c[1]).length;
+      const qCrit = [
+        ['frecuencia respiratoria ≥22', v.fr >= 22],
+        ['alteración mental', !!v.mental],
+        ['sistólica ≤100', v.pas <= 100]
+      ];
+      const q = qCrit.filter(c => c[1]).length;
+      return {
+        sirs, sirsPos: sirs >= 2, q, qPos: q >= 2,
+        sirsItems: crit.filter(c => c[1]).map(c => c[0]),
+        qItems: qCrit.filter(c => c[1]).map(c => c[0]),
+        leucoFalta: !leucoDato && !v.bandas,
+        discordante: (sirs >= 2) !== (q >= 2)
+      };
     },
-    format: r => `<strong>qSOFA ${r.s} / 3</strong> — ${r.alerta ? 'positivo (≥2): mayor riesgo, evaluar disfunción orgánica y considerar UCI' : 'negativo: no descarta sepsis, reevaluar si hay deterioro'}.`,
-    fragment: r => `qSOFA ${r.s}/3 (${r.alerta ? 'positivo' : 'negativo'})`
+    format(r) {
+      let s = `<strong>SIRS ${r.sirs} / 4${r.sirsPos ? ', positivo' : ''}. qSOFA ${r.q} / 3${r.qPos ? ', positivo' : ''}.</strong>`;
+      if (r.sirsItems.length) s += `<br><span style="opacity:.8;">SIRS suma por: ${r.sirsItems.join(', ')}.</span>`;
+      if (r.qItems.length) s += `<br><span style="opacity:.8;">qSOFA suma por: ${r.qItems.join(', ')}.</span>`;
+      if (r.leucoFalta) s += '<br><span style="opacity:.75;">Sin leucocitos ni recuento de bandas, el SIRS se calcula sobre 3 criterios y puede quedar infravalorado.</span>';
+      if (r.discordante) {
+        s += '<br><strong style="color:#3d5a73;">Las dos escalas discrepan.</strong> La SSC 2026 recomienda de forma fuerte (certeza moderada) usar NEWS, NEWS2, MEWS o SIRS por encima del qSOFA como herramienta única de cribado, precisamente porque la sensibilidad del qSOFA es baja: en una cohorte prehospitalaria de 221.429 registros detectó el 23.1% de los casos frente al 73.1% del NEWS2. Ante la discrepancia, pesa más el positivo.';
+      } else if (r.qPos) {
+        s += '<br><strong style="color:#8c3a34;">qSOFA positivo</strong> en un paciente con infección se asocia a peor pronóstico. No sirve como cribado único, pero sí obliga a buscar disfunción orgánica y a tratar sin demora.';
+      } else if (r.sirsPos) {
+        s += '<br><span style="opacity:.85;">SIRS positivo es sensible y poco específico: se cumple en muchísimos cuadros no infecciosos. Sirve para abrir la puerta, no para cerrarla.</span>';
+      }
+      s += '<br><span style="opacity:.75;">Si la sospecha de sepsis es probable o definida, el antibiótico va en la primera hora aunque el cribado sea negativo. Una puntuación baja en un paciente que impresiona mal no descarta nada.</span>';
+      return s;
+    },
+    fragment: r => `SIRS ${r.sirs}/4 ${r.sirsPos ? 'positivo' : 'negativo'}, qSOFA ${r.q}/3 ${r.qPos ? 'positivo' : 'negativo'}`
   },
   {
     key: 'sofa', title: 'SOFA (clásico, 1996)', accent: '#3d5a73',
@@ -124,16 +170,16 @@ export const calculators = [
 
 export const combinedNote = {
   title: 'Nota combinada', accent: '#8c3a34',
-  subtitle: 'Combina qSOFA, SOFA/SOFA-2 y lactato en un párrafo',
-  items: ['qsofa', 'sofa', 'sofa2', 'lactato'],
+  subtitle: 'Combina el cribado, SOFA/SOFA-2 y lactato en un párrafo',
+  items: ['cribado', 'sofa', 'sofa2', 'lactato'],
   build(results, missing) {
     const parts = [];
-    if (results.sofa || results.sofa2 || results.qsofa) {
+    if (results.sofa || results.sofa2 || results.cribado) {
       const frags = [];
       if (results.sofa) frags.push(`SOFA ${results.sofa.s}/24 (mortalidad aproximada ${results.sofa.mort})`);
       if (results.sofa2) frags.push(`SOFA-2 ${results.sofa2.s}/24`);
-      if (results.qsofa) frags.push(`qSOFA ${results.qsofa.s}/3 ${results.qsofa.alerta ? 'positivo' : 'negativo'}`);
-      parts.push('Sepsis con disfunción orgánica — ' + frags.join(', ') + '.');
+      if (results.cribado) frags.push(`SIRS ${results.cribado.sirs}/4 ${results.cribado.sirsPos ? 'positivo' : 'negativo'}, qSOFA ${results.cribado.q}/3 ${results.cribado.qPos ? 'positivo' : 'negativo'}`);
+      parts.push('Sepsis con disfunción orgánica: ' + frags.join(', ') + '.');
     }
     if (results.lactato) {
       parts.push(results.lactato.clear === null

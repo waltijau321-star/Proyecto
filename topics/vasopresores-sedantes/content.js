@@ -15,7 +15,7 @@ export const definicionText = 'Los vasopresores, inotrópicos, sedantes, analgé
 
 export const bibliografia = [
   'Devlin JW, Skrobik Y, Gélinas C, et al. Clinical Practice Guidelines for the Prevention and Management of Pain, Agitation/Sedation, Withdrawal, and Delirium in Adult Critically Ill Patients (PADIS). Crit Care Med. 2018;46(9):e825-e873.',
-  'Prescott HC, Antonelli M, Alhazzani W, et al. Surviving Sepsis Campaign: International Guidelines for Management of Sepsis and Septic Shock 2026. Crit Care Med. 2026;54(4):725-812.',
+  'Prescott HC, Antonelli M, Alhazzani W, et al. Surviving Sepsis Campaign: international guidelines for management of sepsis and septic shock 2026. Intensive Care Med. 2026. doi:10.1007/s00134-026-08361-1. Publicación simultánea en Crit Care Med, doi:10.1097/CCM.0000000000007075.',
   'Overgaard CB, Džavík V. Inotropes and vasopressors: review of physiology and clinical use in cardiovascular disease. Circulation. 2008;118(10):1047-1056.',
   'Murray MJ, DeBlock H, Erstad B, et al. Clinical Practice Guidelines for Sustained Neuromuscular Blockade in the Adult Critically Ill Patient. Crit Care Med. 2016;44(11):2079-2103.',
   'Kotani Y, Di Gioia A, Landoni G, Belletti A, Khanna AK. An updated "norepinephrine equivalent" score in intensive care as a marker of shock severity. Crit Care. 2023;27(1):29.',

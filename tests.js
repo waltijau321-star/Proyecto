@@ -168,15 +168,35 @@ async function run() {
 
   /* ---------------- Calculadoras clínicas: Sepsis ---------------- */
   const sepsisCalc = (await import('./topics/sepsis/calculators.js')).calculators;
-  const qsofa = sepsisCalc.find(c => c.key === 'qsofa');
+  const cribado = sepsisCalc.find(c => c.key === 'cribado');
   const sofa2 = sepsisCalc.find(c => c.key === 'sofa2');
 
-  test('qSOFA: 2 de 3 criterios da alerta positiva', () => {
-    assertEqual(qsofa.compute({ fr: true, mental: true, pas: false }), { s: 2, alerta: true });
+  // La SSC 2026 recomienda de forma fuerte NEWS/NEWS2/MEWS/SIRS por encima del qSOFA como cribado
+  // único. El caso que motiva esa recomendación es justo este: SIRS lo detecta, el qSOFA no.
+  test('cribado de sepsis: SIRS positivo con qSOFA negativo (la discordancia que motiva la SSC 2026)', () => {
+    const r = cribado.compute({ temp: 38.5, fc: 110, fr: 24, pas: 130, leucos: 15, paco2: null, bandas: false, mental: false });
+    assertEqual(r.sirs, 4, 'los cuatro criterios de SIRS se cumplen');
+    assert(r.sirsPos, 'el SIRS debería ser positivo');
+    assertEqual(r.q, 1, 'solo suma la frecuencia respiratoria ≥22');
+    assert(!r.qPos, 'el qSOFA no debería ser positivo');
+    assert(r.discordante, 'las dos escalas discrepan');
   });
 
-  test('qSOFA: 0 criterios da alerta negativa', () => {
-    assertEqual(qsofa.compute({ fr: false, mental: false, pas: false }), { s: 0, alerta: false });
+  test('cribado de sepsis: qSOFA 2 de 3 con SIRS negativo', () => {
+    const r = cribado.compute({ temp: 37, fc: 80, fr: 18, pas: 95, leucos: null, paco2: null, bandas: false, mental: true });
+    assertEqual(r.q, 2, 'alteración mental y sistólica ≤100');
+    assert(r.qPos, 'el qSOFA debería ser positivo');
+    assertEqual(r.sirs, 0, 'ningún criterio de SIRS se cumple');
+    assert(r.leucoFalta, 'sin leucocitos ni bandas el SIRS queda sobre 3 criterios');
+  });
+
+  test('cribado de sepsis: la PaCO₂ baja cumple el criterio respiratorio del SIRS aunque la FR sea normal', () => {
+    const r = cribado.compute({ temp: 37, fc: 80, fr: 16, pas: 130, leucos: 8, paco2: 28, bandas: false, mental: false });
+    assertEqual(r.sirs, 1, 'solo suma el criterio respiratorio, por la PaCO₂ <32');
+  });
+
+  test('cribado de sepsis: sin las constantes básicas no calcula (retorna null)', () => {
+    assertEqual(cribado.compute({ temp: null, fc: 80, fr: 18, pas: 95, leucos: null, paco2: null, bandas: false, mental: false }), null);
   });
 
   test('SOFA-2: todos los sistemas en 0 da puntaje 0', () => {

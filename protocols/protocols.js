@@ -82,11 +82,12 @@ export const protocols = [
     title: 'Bundle de sepsis (1 hora)',
     subtitle: 'Paquete inicial de sepsis / choque séptico',
     accent: '#3f6b52',
-    source: 'Surviving Sepsis Campaign 2026 (Prescott HC, et al. Crit Care Med 2026;54(4):725-812).',
+    source: 'Surviving Sepsis Campaign 2026 (Prescott HC, et al. Intensive Care Med 2026, doi:10.1007/s00134-026-08361-1).',
     theory: {
       intro: 'El manejo inicial de la sepsis y el choque séptico se organiza en un paquete de medidas que debe iniciarse desde el reconocimiento, con la administración de antibióticos dentro de la primera hora en choque séptico. El objetivo es acortar el tiempo hasta el control de la infección y la restauración de la perfusión tisular, ya que el retraso en cada componente se asocia con mayor mortalidad.',
       keyPoints: [
         'El lactato guía tanto el diagnóstico de hipoperfusión como la respuesta a la reanimación: importa su tendencia (aclaramiento), no solo el valor inicial. Una elevación intermedia (>2 a <4 mmol/L) ya es clínicamente relevante, no solo ≥4.',
+        'El cribado del paciente agudo hospitalizado se hace con NEWS, NEWS2, MEWS o SIRS, por encima del qSOFA (recomendación fuerte, certeza moderada): la sensibilidad del qSOFA es baja y deja escapar pacientes. Un qSOFA positivo sigue siendo una alerta válida de deterioro, pero no sirve como herramienta única de tamizaje.',
         'Los hemocultivos se obtienen antes de los antibióticos, pero sin retrasarlos — nunca posponer el antibiótico por falta de acceso para cultivos.',
         'Secuencia recomendada: bolo de cristaloides primero, vasopresor después si la hipotensión persiste; en choque inestable (hipotensión severa, piel moteada, cianosis, alteración mental marcada) puede justificarse iniciar ambos de forma simultánea.',
         'La meta de presión arterial media (PAM) inicial es 65 mmHg; en adultos ≥65 años se sugiere un rango algo más bajo (60-65 mmHg), con evidencia reciente de que apuntar más alto en este grupo no aporta beneficio y puede asociarse a más fibrilación auricular.',
@@ -99,17 +100,18 @@ export const protocols = [
         { name: 'Noradrenalina', dose: '0.05-0.5 mcg/kg/min IV, titulada; puede iniciarse por vía periférica', indication: 'Vasopresor de primera línea; meta PAM ≥65 mmHg (60-65 en ≥65 años)', note: 'Iniciar tras el bolo de cristaloides si persiste hipotensión (o de forma simultánea si el choque es inestable).' },
         { name: 'Vasopresina', dose: 'Añadir con noradrenalina en dosis crecientes (equivalente ≈0.3 mcg/kg/min)', indication: 'Choque séptico con dosis escalantes de noradrenalina', note: 'Reduce la dosis de noradrenalina necesaria; vigilar isquemia digital.' },
         { name: 'Adrenalina', dose: 'Añadir si la PAM sigue inadecuada pese a noradrenalina + vasopresina', indication: 'Choque refractario, o como alternativa de primera línea junto con noradrenalina si hay disfunción cardiaca concomitante', note: 'Preferir noradrenalina si taquiarritmia; adrenalina si bradiarritmia.' },
-        { name: 'Hidrocortisona', dose: '200 mg/día IV (dosis fraccionadas cada 6h, no en infusión continua)', indication: 'Choque séptico con vasopresores persistentes pese a reanimación adecuada', note: 'No usar dosis mayores a 260 mg/día equivalentes — sin beneficio adicional demostrado.' },
+        { name: 'Hidrocortisona', dose: '200 mg/día IV (dosis fraccionadas cada 6h, no en infusión continua)', indication: 'Choque séptico; la SSC 2026 la sugiere sin exigir que sea refractario (recomendación condicional, certeza baja)', note: 'No usar dosis mayores a 260 mg/día equivalentes: no hay beneficio adicional demostrado.' },
         { name: 'Antibiótico empírico de amplio espectro', dose: 'Según foco sospechado y epidemiología local', indication: 'Inmediato (<1h) en choque séptico o sepsis probable/definitiva; hasta 3h si sepsis posible sin choque', note: 'Considerar dosis prehospitalaria si el traslado al hospital se prevé >60 min. Desescalar según cultivos.' }
       ]
     },
     steps: [
+      { phase: 'Reconocimiento e inicio', text: 'Cribar con NEWS, NEWS2, MEWS o SIRS al paciente agudo, no con el qSOFA como herramienta única', note: 'Recomendación fuerte de la SSC 2026 por la baja sensibilidad del qSOFA.' },
       { phase: 'Reconocimiento e inicio', text: 'Medir lactato sérico', note: 'Repetir en 2-4 h para evaluar aclaramiento y guiar la reanimación.' },
       { phase: 'Reconocimiento e inicio', text: 'Obtener hemocultivos ANTES de los antibióticos, sin retrasarlos', note: '' },
       { phase: 'Reconocimiento e inicio', text: 'Iniciar antibióticos de amplio espectro dentro de la 1.ª hora (choque séptico o sepsis probable/definitiva)', note: 'Hasta 3h aceptable si sepsis posible sin choque, tras evaluación rápida de causa infecciosa vs. no infecciosa.' },
       { phase: 'Reanimación inicial', text: 'Cristaloides ≥30 mL/kg IV en las primeras 3h si hay hipoperfusión o choque séptico', note: 'Reevaluar con parámetros dinámicos; evitar sobrecarga de volumen.' },
       { phase: 'Reanimación inicial', text: 'Vasopresor (noradrenalina, puede ser periférica) si la hipotensión persiste tras el bolo — meta PAM 65 mmHg (60-65 en ≥65 años)', note: 'En choque inestable, considerar iniciar junto con los líquidos en vez de esperar.' },
-      { phase: 'Reanimación inicial', text: 'Escalar a vasopresina y luego adrenalina si persiste hipotensión pese a dosis crecientes de noradrenalina', note: 'Considerar hidrocortisona 200 mg/día si el choque es refractario.' },
+      { phase: 'Reanimación inicial', text: 'Escalar a vasopresina y luego adrenalina si persiste hipotensión pese a dosis crecientes de noradrenalina', note: 'Considerar hidrocortisona 200 mg/día: la SSC 2026 la sugiere en el choque séptico, no solo en el refractario.' },
       { phase: 'Control del foco', text: 'Identificar el foco y realizar el control definitivo (drenaje, desbridamiento, retiro de dispositivo) dentro de las primeras 6h del diagnóstico', note: '' },
       { phase: 'Reevaluación', text: 'Reevaluar el estado volémico y la perfusión (relleno capilar, lactato, diuresis)', note: 'Desescalar antibiótico según cultivos.' }
     ]
