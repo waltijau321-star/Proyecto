@@ -651,6 +651,46 @@ export const registry = [
       import('./vertigo-sindrome-vestibular/calculators.js'),
       import('./vertigo-sindrome-vestibular/study.js')
     ])
+  },
+  {
+    id: 'disfuncion-organica-multiple', titulo: 'Disfuncion Organica Multiple',
+    load: () => Promise.all([
+      import('./disfuncion-organica-multiple/content.js'),
+      import('./disfuncion-organica-multiple/calculators.js'),
+      import('./disfuncion-organica-multiple/study.js')
+    ])
+  },
+  {
+    id: 'estado-de-choque', titulo: 'Estado de Choque',
+    load: () => Promise.all([
+      import('./estado-de-choque/content.js'),
+      import('./estado-de-choque/calculators.js'),
+      import('./estado-de-choque/study.js')
+    ])
+  },
+  {
+    id: 'lesion-renal-aguda', titulo: 'Lesion Renal Aguda',
+    load: () => Promise.all([
+      import('./lesion-renal-aguda/content.js'),
+      import('./lesion-renal-aguda/calculators.js'),
+      import('./lesion-renal-aguda/study.js')
+    ])
+  },
+  {
+    id: 'soporte-nutricional-critico', titulo: 'Soporte Nutricional del Critico',
+    load: () => Promise.all([
+      import('./soporte-nutricional-critico/content.js'),
+      import('./soporte-nutricional-critico/calculators.js'),
+      import('./soporte-nutricional-critico/study.js')
+    ])
+  },
+  {
+    id: 'debilidad-adquirida-uci', titulo: 'Debilidad Adquirida en la UCI',
+    load: () => Promise.all([
+      import('./debilidad-adquirida-uci/content.js'),
+      import('./debilidad-adquirida-uci/calculators.js'),
+      import('./debilidad-adquirida-uci/study.js')
+    ])
   }
 ];
 

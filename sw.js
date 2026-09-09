@@ -2,7 +2,7 @@
    Estrategia: cache-first para el "app shell" y los módulos, con actualización en segundo plano.
    CACHE_VERSION se calcula automáticamente a partir del contenido de CORE: correr
    .claude/bump-cache-version.ps1 después de cambiar cualquier archivo cacheado. */
-const CACHE_VERSION = 'residentemed-8a5008256a';
+const CACHE_VERSION = 'residentemed-ea3deedd93';
 const CORE = [
   './',
   './index.html',
@@ -313,7 +313,22 @@ const CORE = [
   './topics/encefalitis-autoinmune/study.js',
   './topics/vertigo-sindrome-vestibular/content.js',
   './topics/vertigo-sindrome-vestibular/calculators.js',
-  './topics/vertigo-sindrome-vestibular/study.js'
+  './topics/vertigo-sindrome-vestibular/study.js',
+  './topics/disfuncion-organica-multiple/content.js',
+  './topics/disfuncion-organica-multiple/calculators.js',
+  './topics/disfuncion-organica-multiple/study.js',
+  './topics/estado-de-choque/content.js',
+  './topics/estado-de-choque/calculators.js',
+  './topics/estado-de-choque/study.js',
+  './topics/lesion-renal-aguda/content.js',
+  './topics/lesion-renal-aguda/calculators.js',
+  './topics/lesion-renal-aguda/study.js',
+  './topics/soporte-nutricional-critico/content.js',
+  './topics/soporte-nutricional-critico/calculators.js',
+  './topics/soporte-nutricional-critico/study.js',
+  './topics/debilidad-adquirida-uci/content.js',
+  './topics/debilidad-adquirida-uci/calculators.js',
+  './topics/debilidad-adquirida-uci/study.js'
 ];
 
 self.addEventListener('install', (e) => {

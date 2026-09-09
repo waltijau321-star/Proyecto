@@ -48,20 +48,20 @@ const SEMIOLOGIA_CLUSTERS = [
 ];
 
 const FALLAS_ORGANICAS_ITEMS = [
-  'Síndrome de disfunción orgánica múltiple (SDMO/MODS): definición y fisiopatología',
-  'Escalas de disfunción orgánica (SOFA, SOFA-2, APACHE II)',
-  'Falla respiratoria aguda (enfoque integrador; detalle en Neumología)',
-  'Falla renal aguda (enfoque integrador; detalle en Nefrología)',
-  'Falla cardiovascular / estado de choque (enfoque integrador; detalle en Cardiovascular)',
+  { label: 'Síndrome de disfunción orgánica múltiple (SDMO/MODS): definición y fisiopatología', topicId: 'disfuncion-organica-multiple' },
+  { label: 'Escalas de disfunción orgánica (SOFA, SOFA-2, APACHE II)', topicId: 'disfuncion-organica-multiple' },
+  { label: 'Falla respiratoria aguda (enfoque integrador; detalle en Neumología)', topicId: 'insuficiencia-respiratoria-sdra' },
+  { label: 'Falla renal aguda (enfoque integrador; detalle en Nefrología)', topicId: 'lesion-renal-aguda' },
+  { label: 'Falla cardiovascular / estado de choque (enfoque integrador; detalle en Cardiovascular)', topicId: 'estado-de-choque' },
   { label: 'Falla hepática aguda / ACLF', topicId: 'cirrosis-hepatica' },
-  'Falla hematológica y coagulopatía (CID)',
-  'Falla neurológica aguda (encefalopatía, coma)',
-  'Manejo integral del paciente con falla orgánica múltiple (soporte, criterios de UCI, pronóstico)',
-  'Ventilación asistida',
-  'Alimentación parenteral y enteral',
-  'Desnutrición del paciente crítico',
-  'Síndrome de realimentación',
-  'Miopatía y neuropatía del paciente crítico'
+  { label: 'Falla hematológica y coagulopatía (CID)', topicId: 'coagulacion-intravascular-diseminada' },
+  { label: 'Falla neurológica aguda (encefalopatía, coma)', topicId: 'delirium-coma-encefalopatias' },
+  { label: 'Manejo integral del paciente con falla orgánica múltiple (soporte, criterios de UCI, pronóstico)', topicId: 'disfuncion-organica-multiple' },
+  { label: 'Ventilación asistida', topicId: 'ventilacion-mecanica' },
+  { label: 'Alimentación parenteral y enteral', topicId: 'soporte-nutricional-critico' },
+  { label: 'Desnutrición del paciente crítico', topicId: 'soporte-nutricional-critico' },
+  { label: 'Síndrome de realimentación', topicId: 'soporte-nutricional-critico' },
+  { label: 'Miopatía y neuropatía del paciente crítico', topicId: 'debilidad-adquirida-uci' }
 ];
 
 const NEUROLOGIA_CLUSTERS = [
@@ -142,7 +142,7 @@ export const temarioBlocks = [
     clusters: [
       { name: 'Choque, sepsis y soporte vital', items: [
         { label: 'Sepsis y choque séptico', topicId: 'sepsis' },
-        'Estado de choque (hipovolémico y distributivo)',
+        { label: 'Estado de choque (hipovolémico y distributivo)', topicId: 'estado-de-choque' },
         { label: 'Sedación, analgesia y bloqueo neuromuscular en UCI (vasopresores y sedantes)', topicId: 'vasopresores-sedantes' },
         'Soporte vital avanzado y reanimación cardiopulmonar',
         'Anafilaxia'
