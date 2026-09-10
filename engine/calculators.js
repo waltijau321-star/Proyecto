@@ -53,12 +53,22 @@ export function closeModal() {
 window.closeModal = closeModal;
 
 /* ---------- Render de campos ---------- */
-function fieldHTML(f) {
+// Exportada solo para poder probarla desde tests.js (no cambia el comportamiento de la app):
+// el fallo de los <option> "undefined" vivia aqui, en el pintado, y no en los datos, de modo
+// que una prueba sobre los descriptores de los temas no lo habria detectado nunca.
+export function fieldHTML(f) {
   if (f.type === 'note') return `<div class="calc-note">${f.text}</div>`;
   const sharedAttr = f.shared ? ` data-shared="${f.shared}"` : '';
   if (f.type === 'select') {
-    const opts = f.options.map(o =>
-      `<option value="${o.value}"${o.selected ? ' selected' : ''}>${o.label}</option>`).join('');
+    // En los temas conviven dos formas de escribir una opcion: {value, label} y la abreviada
+    // {v, t}. Se aceptan las dos. Antes solo se leia {value, label}, de modo que los temas
+    // escritos con la forma corta pintaban <option value="undefined">undefined</option> en
+    // todas sus opciones y compute() recibia la cadena "undefined": 132 campos en 18 temas.
+    const opts = f.options.map(o => {
+      const value = o.value !== undefined ? o.value : o.v;
+      const label = o.label !== undefined ? o.label : o.t;
+      return `<option value="${value}"${o.selected ? ' selected' : ''}>${label}</option>`;
+    }).join('');
     return `<div class="calc-field"><label>${f.label}</label><select id="${f.id}"${sharedAttr}>${opts}</select></div>`;
   }
   if (f.type === 'checkbox') {

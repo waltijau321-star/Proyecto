@@ -752,6 +752,50 @@ async function run() {
     salidas.forEach(v => assertEqual(ruta.veredictos[v].tono, 'proceder', `'${v}' debería concluir en proceder`));
   });
 
+  /* ---------------- Pintado de campos de calculadora (engine/calculators.js) ----------------
+     El fallo que motiva estas pruebas estaba en el PINTADO, no en los datos: fieldHTML solo leia
+     la forma {value, label} de una opcion, de modo que los 18 temas escritos con la forma corta
+     {v, t} generaban <option value="undefined">undefined</option> en los 132 campos afectados, y
+     compute() recibia la cadena "undefined". Ni compute() ni una prueba sobre los descriptores lo
+     detectan: hay que probar el HTML que se genera. */
+  const { fieldHTML } = await import('./engine/calculators.js');
+
+  test('fieldHTML: un select en forma {value, label} se pinta con sus valores', () => {
+    const html = fieldHTML({ type: 'select', id: 'p1', label: 'Prueba',
+      options: [{ value: '2', label: 'Dos' }] });
+    assert(html.includes('value="2"'), 'no conserva el value');
+    assert(html.includes('>Dos<'), 'no conserva el label');
+  });
+
+  test('fieldHTML: un select en forma corta {v, t} tambien se pinta (no "undefined")', () => {
+    const html = fieldHTML({ type: 'select', id: 'p2', label: 'Prueba',
+      options: [{ v: 'alterado', t: 'Confusion nueva' }] });
+    assert(!html.includes('undefined'), 'pinta "undefined": la forma corta no se esta leyendo');
+    assert(html.includes('value="alterado"'), 'no conserva el value de la forma corta');
+    assert(html.includes('>Confusion nueva<'), 'no conserva el label de la forma corta');
+  });
+
+  const { registry: reg2, loadTopic: load2 } = await import('./topics/registry.js');
+  const selectsQuePintanUndefined = [];
+  for (const entry of reg2) {
+    const tp = await load2(entry.id);
+    (tp.calculators || []).forEach(c => {
+      (c.fields || []).forEach(f => {
+        if (f.type !== 'select') return;
+        if (fieldHTML(f).includes('undefined')) {
+          selectsQuePintanUndefined.push(`${entry.id}/${c.key}/${f.name || f.id}`);
+        }
+      });
+    });
+  }
+
+  // Ojo: test() no hace await de fn(), asi que esta comprobacion se hace fuera y la prueba solo
+  // afirma sobre el resultado ya calculado. Una prueba async aqui pasaria SIEMPRE.
+  test('fieldHTML: ningun select de ningun tema registrado pinta "undefined"', () => {
+    assertEqual(selectsQuePintanUndefined.length, 0,
+      `campos que pintan "undefined": ${selectsQuePintanUndefined.slice(0, 5).join(', ')}`);
+  });
+
   /* ---------------- Integridad de esquema: temas registrados (topics/registry.js) ----------------
      Cada tema nuevo que se agregue a topics/registry.js pasa automáticamente por estas pruebas la
      próxima vez que se abra tests.html — atrapa campos faltantes/vacíos antes de que lleguen al
@@ -765,6 +809,24 @@ async function run() {
       assert(topic, `loadTopic('${entry.id}') devolvió null`);
       assertEqual(topic.meta && topic.meta.id, entry.id);
     });
+    // Un <option> se pinta leyendo {value,label} o la forma corta {v,t}. Si una opcion no
+    // resuelve ninguna de las dos, el desplegable muestra "undefined" y compute() recibe la
+    // cadena "undefined" en vez del valor: un fallo mudo que ni compute() ni el tally detectan,
+    // porque solo aparece al pintar el campo. Aparecio en 132 campos de 18 temas.
+    test(`esquema[${entry.id}]: toda opcion de un select resuelve value y label`, () => {
+      (topic.calculators || []).forEach(c => {
+        (c.fields || []).forEach(f => {
+          if (f.type !== 'select' || !Array.isArray(f.options)) return;
+          f.options.forEach((o, i) => {
+            const value = o.value !== undefined ? o.value : o.v;
+            const label = o.label !== undefined ? o.label : o.t;
+            assert(value !== undefined, `${c.key}/${f.name || f.id} opcion ${i}: sin value ni v`);
+            assert(label !== undefined, `${c.key}/${f.name || f.id} opcion ${i}: sin label ni t`);
+          });
+        });
+      });
+    });
+
     test(`esquema[${entry.id}]: meta.titulo no está vacío`, () => {
       assert(topic.meta && topic.meta.titulo && topic.meta.titulo.trim().length > 0, 'meta.titulo vacío o ausente');
     });
