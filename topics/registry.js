@@ -691,6 +691,54 @@ export const registry = [
       import('./debilidad-adquirida-uci/calculators.js'),
       import('./debilidad-adquirida-uci/study.js')
     ])
+  },
+  {
+    id: 'psoriasis', titulo: 'Psoriasis',
+    load: () => Promise.all([
+      import('./psoriasis/content.js'),
+      import('./psoriasis/calculators.js'),
+      import('./psoriasis/study.js')
+    ])
+  },
+  {
+    id: 'urticaria', titulo: 'Urticaria y angioedema',
+    load: () => Promise.all([
+      import('./urticaria/content.js'),
+      import('./urticaria/calculators.js'),
+      import('./urticaria/study.js')
+    ])
+  },
+  {
+    id: 'eccemas', titulo: 'Eccemas: dermatitis atopica y de contacto',
+    load: () => Promise.all([
+      import('./eccemas/content.js'),
+      import('./eccemas/calculators.js'),
+      import('./eccemas/study.js')
+    ])
+  },
+  {
+    id: 'farmacodermias', titulo: 'Farmacodermias y eritrodermia',
+    load: () => Promise.all([
+      import('./farmacodermias/content.js'),
+      import('./farmacodermias/calculators.js'),
+      import('./farmacodermias/study.js')
+    ])
+  },
+  {
+    id: 'ampollosas', titulo: 'Ampollosas autoinmunes',
+    load: () => Promise.all([
+      import('./ampollosas/content.js'),
+      import('./ampollosas/calculators.js'),
+      import('./ampollosas/study.js')
+    ])
+  },
+  {
+    id: 'soporte-vital-avanzado', titulo: 'Soporte vital avanzado y RCP',
+    load: () => Promise.all([
+      import('./soporte-vital-avanzado/content.js'),
+      import('./soporte-vital-avanzado/calculators.js'),
+      import('./soporte-vital-avanzado/study.js')
+    ])
   }
 ];
 

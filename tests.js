@@ -1034,7 +1034,13 @@ async function run() {
       'estado-de-choque',
       'lesion-renal-aguda',
       'soporte-nutricional-critico',
-      'debilidad-adquirida-uci']);
+      'debilidad-adquirida-uci',
+      'psoriasis',
+      'urticaria',
+      'eccemas',
+      'farmacodermias',
+      'ampollosas',
+      'soporte-vital-avanzado']);
     // Cola de trabajo pendiente de la auditoría: vacía desde agosto de 2026, cuando los 47 temas
     // quedaron revisados. Un tema nuevo debe escribirse cumpliendo los umbrales y entrar en
     // REVISADOS; esta lista ya no puede crecer (COLA_MAXIMA = 0).
