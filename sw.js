@@ -2,7 +2,7 @@
    Estrategia: cache-first para el "app shell" y los módulos, con actualización en segundo plano.
    CACHE_VERSION se calcula automáticamente a partir del contenido de CORE: correr
    .claude/bump-cache-version.ps1 después de cambiar cualquier archivo cacheado. */
-const CACHE_VERSION = 'residentemed-710072f43c';
+const CACHE_VERSION = 'residentemed-353963ae31';
 const CORE = [
   './',
   './index.html',
@@ -328,7 +328,25 @@ const CORE = [
   './topics/soporte-nutricional-critico/study.js',
   './topics/debilidad-adquirida-uci/content.js',
   './topics/debilidad-adquirida-uci/calculators.js',
-  './topics/debilidad-adquirida-uci/study.js'
+  './topics/debilidad-adquirida-uci/study.js',
+  './topics/psoriasis/content.js',
+  './topics/psoriasis/calculators.js',
+  './topics/psoriasis/study.js',
+  './topics/urticaria/content.js',
+  './topics/urticaria/calculators.js',
+  './topics/urticaria/study.js',
+  './topics/eccemas/content.js',
+  './topics/eccemas/calculators.js',
+  './topics/eccemas/study.js',
+  './topics/farmacodermias/content.js',
+  './topics/farmacodermias/calculators.js',
+  './topics/farmacodermias/study.js',
+  './topics/ampollosas/content.js',
+  './topics/ampollosas/calculators.js',
+  './topics/ampollosas/study.js',
+  './topics/soporte-vital-avanzado/content.js',
+  './topics/soporte-vital-avanzado/calculators.js',
+  './topics/soporte-vital-avanzado/study.js'
 ];
 
 self.addEventListener('install', (e) => {

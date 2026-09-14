@@ -87,15 +87,18 @@ const NEUMOLOGIA_R1_CLUSTERS = [
 ];
 
 const DERMATOLOGIA_ITEMS = [
-  'Dermatología frecuente (psoriasis, urticaria, dermatitis, pénfigo y penfigoide, melanoma y otras neoplasias cutáneas)',
-  'Dermatitis atópica',
+  { label: 'Psoriasis', topicId: 'psoriasis' },
+  { label: 'Urticaria y angioedema', topicId: 'urticaria' },
+  { label: 'Pénfigo y penfigoide', topicId: 'ampollosas' },
+  'Melanoma',
+  { label: 'Dermatitis atópica', topicId: 'eccemas' },
   'Eritema nodoso y eritema multiforme',
-  'Eritrodermia (dermatitis exfoliativa)',
+  { label: 'Eritrodermia (dermatitis exfoliativa)', topicId: 'farmacodermias' },
   'Paniculitis',
   'Dermatosis neutrofílicas',
-  'Dermatitis herpetiforme',
-  'Dermatitis medicamentosa',
-  'Dermatitis por contacto',
+  { label: 'Dermatitis herpetiforme', topicId: 'ampollosas' },
+  { label: 'Dermatitis medicamentosa', topicId: 'farmacodermias' },
+  { label: 'Dermatitis por contacto', topicId: 'eccemas' },
   'Carcinoma basocelular',
   'Carcinoma espinocelular',
   'Sarcoma de Kaposi',
@@ -144,7 +147,7 @@ export const temarioBlocks = [
         { label: 'Sepsis y choque séptico', topicId: 'sepsis' },
         { label: 'Estado de choque (hipovolémico y distributivo)', topicId: 'estado-de-choque' },
         { label: 'Sedación, analgesia y bloqueo neuromuscular en UCI (vasopresores y sedantes)', topicId: 'vasopresores-sedantes' },
-        'Soporte vital avanzado y reanimación cardiopulmonar',
+        { label: 'Soporte vital avanzado y reanimación cardiopulmonar', topicId: 'soporte-vital-avanzado' },
         'Anafilaxia'
       ] },
       { name: 'Fallas orgánicas', items: FALLAS_ORGANICAS_ITEMS },
