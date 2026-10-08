@@ -739,6 +739,14 @@ export const registry = [
       import('./soporte-vital-avanzado/calculators.js'),
       import('./soporte-vital-avanzado/study.js')
     ])
+  },
+  {
+    id: 'anafilaxia', titulo: 'Anafilaxia',
+    load: () => Promise.all([
+      import('./anafilaxia/content.js'),
+      import('./anafilaxia/calculators.js'),
+      import('./anafilaxia/study.js')
+    ])
   }
 ];
 

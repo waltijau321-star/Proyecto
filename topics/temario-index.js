@@ -148,7 +148,7 @@ export const temarioBlocks = [
         { label: 'Estado de choque (hipovolémico y distributivo)', topicId: 'estado-de-choque' },
         { label: 'Sedación, analgesia y bloqueo neuromuscular en UCI (vasopresores y sedantes)', topicId: 'vasopresores-sedantes' },
         { label: 'Soporte vital avanzado y reanimación cardiopulmonar', topicId: 'soporte-vital-avanzado' },
-        'Anafilaxia'
+        { label: 'Anafilaxia', topicId: 'anafilaxia' }
       ] },
       { name: 'Fallas orgánicas', items: FALLAS_ORGANICAS_ITEMS },
       { name: 'Emergencias traumáticas y ambientales', items: ['Abdomen agudo', 'Síndrome de supresión alcohólica', { label: 'Politraumatismo (embolia grasa)', topicId: 'embolia-grasa' }, 'Quemaduras', 'Ahogamiento', 'Broncoaspiración'] }
