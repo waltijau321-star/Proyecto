@@ -2,3 +2,14 @@
 .github
 node_modules
 .claude
+
+# Material de trabajo que NO es parte del sitio y no debe publicarse (ver _redirects, que hace lo
+# mismo en Netlify). Bibliografia/ son PDFs con copyright, "solo para uso personal".
+Bibliografia
+tools
+imagenes-fuente
+graphify-out
+Temario Holistico Medicina Interna.docx
+Calculos dosis.xlsx
+esearch_result.json
+CLAUDE.md

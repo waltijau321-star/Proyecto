@@ -19,6 +19,8 @@ Luego abre `http://localhost:<puerto>/index.html`.
 Arrastra la carpeta completa a Netlify (o conéctala a un repo). No requiere build: es HTML/CSS/JS estático. El `manifest.webmanifest` y `sw.js` la hacen instalable como app y funcional offline.
 Al publicar cambios en `engine/`, sube `CACHE_VERSION` en [`sw.js`](sw.js) para forzar el refresco de la caché.
 
+**Lo que no se publica.** La carpeta lleva material de trabajo que no es parte del sitio: `Bibliografia/` (PDFs con copyright, descargados "solo para uso personal"), `.claude/` (en tu máquina contiene `gemini-key.txt`), `tools/`, el `.docx` del temario, `Calculos dosis.xlsx`, `esearch_result.json` y `CLAUDE.md`. Netlify sube todo lo que se arrastra, así que [`_redirects`](_redirects) devuelve 404 forzado para esas rutas; en Cloudflare, [`.assetsignore`](.assetsignore) evita que se suban. Si añades otra carpeta o archivo de trabajo en la raíz, agrégalo a **los dos** archivos. Tras desplegar, comprueba que `https://<tu-sitio>/Bibliografia/` da 404.
+
 ## Estructura
 
 ```
