@@ -755,6 +755,14 @@ export const registry = [
       import('./abdomen-agudo/calculators.js'),
       import('./abdomen-agudo/study.js')
     ])
+  },
+  {
+    id: 'supresion-alcoholica', titulo: 'Sindrome de supresion alcoholica',
+    load: () => Promise.all([
+      import('./supresion-alcoholica/content.js'),
+      import('./supresion-alcoholica/calculators.js'),
+      import('./supresion-alcoholica/study.js')
+    ])
   }
 ];
 
