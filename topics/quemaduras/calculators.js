@@ -19,7 +19,7 @@ export const calculators = [
       { name: 'mid', id: 'que-n6', type: 'checkbox', label: 'Miembro inferior derecho (18%)' },
       { name: 'mii', id: 'que-n7', type: 'checkbox', label: 'Miembro inferior izquierdo (18%)' },
       { name: 'perine', id: 'que-n8', type: 'checkbox', label: 'Perine (1%)' },
-      { name: 'palmas', id: 'que-n9', type: 'number', step: '1', label: 'Palmas del paciente en zonas parciales (1% cada una)', placeholder: 'ej. 0' },
+      { name: 'palmas', id: 'que-n9', required: false, type: 'number', step: '1', label: 'Palmas del paciente en zonas parciales (1% cada una)', placeholder: 'ej. 0' },
       { name: 'nino', id: 'que-n10', type: 'checkbox', label: 'Es un ni&#241;o' }
     ],
     compute(v) {
@@ -60,7 +60,7 @@ export const calculators = [
         { value: 'nino', label: 'Ni&#241;o, quemadura termica' },
         { value: 'electrica', label: 'Electrica con orina oscura (mioglobinuria)' }
       ] },
-      { name: 'horas', id: 'que-l4', type: 'number', step: '0.5', label: 'Horas transcurridas desde la quemadura', placeholder: 'ej. 2' },
+      { name: 'horas', id: 'que-l4', required: false, type: 'number', step: '0.5', label: 'Horas transcurridas desde la quemadura', placeholder: 'ej. 2' },
       { type: 'note', text: 'Las 8 primeras horas se cuentan desde la <strong>quemadura</strong>, no desde la llegada al hospital.' }
     ],
     compute(v) {

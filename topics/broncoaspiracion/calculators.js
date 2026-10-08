@@ -127,7 +127,7 @@ export const calculators = [
     incompleteMsg: 'Introduce las horas desde la extubacion.',
     fields: [
       { name: 'horas', id: 'asp-d1', type: 'number', step: '0.5', label: 'Horas desde la extubacion', placeholder: 'ej. 4', row: true },
-      { name: 'duracion', id: 'asp-d2', type: 'number', step: '1', label: 'Horas que estuvo intubado', placeholder: 'ej. 72', row: true },
+      { name: 'duracion', id: 'asp-d2', required: false, type: 'number', step: '1', label: 'Horas que estuvo intubado', placeholder: 'ej. 72', row: true },
       { name: 'traumatica', id: 'asp-d3', type: 'checkbox', label: 'Intubacion traumatica' },
       { name: 'anatomia', id: 'asp-d4', type: 'checkbox', label: 'Alteraciones anatomicas o funcionales de la via aerea superior' },
       { name: 'tos', id: 'asp-d5', type: 'checkbox', label: 'Tos o voz humeda con la ingesta' }

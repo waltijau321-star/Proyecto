@@ -62,7 +62,7 @@ export const calculators = [
         { value: 'adulto', label: 'Adulto' },
         { value: 'nino', label: 'Ni&#241;o' }
       ] },
-      { name: 'dosis', id: 'ana-a3', type: 'number', step: '1', label: 'Dosis ya administradas en este episodio', placeholder: 'ej. 0' }
+      { name: 'dosis', id: 'ana-a3', required: false, type: 'number', step: '1', label: 'Dosis ya administradas en este episodio', placeholder: 'ej. 0' }
     ],
     compute(v) {
       if (v.peso === null || !v.grupo || v.peso <= 0) return null;
@@ -77,7 +77,7 @@ export const calculators = [
       if (r.topado) s += `<br><span style="opacity:.85;">Se aplica el maximo de ${r.techo} mg para ${r.grupo === 'adulto' ? 'el adulto' : 'el ni&#241;o'}.</span>`;
       s += '<br>Se puede repetir cada <strong>5 a 15 minutos</strong> segun la respuesta.';
       if (r.previas >= 1) {
-        s += `<br><strong style="color:#8c3a34;">Ya van ${r.previas} dosis.</strong> Necesitar mas de una es el factor de riesgo de reaccion bifasica de mas peso (odds ratio 4.82): la guia sugiere observacion prolongada.`;
+        s += `<br><strong style="color:#8c3a34;">Esta sera la dosis numero ${r.previas + 1}.</strong> Necesitar mas de una es el factor de riesgo de reaccion bifasica de mas peso (odds ratio 4.82): la guia sugiere observacion prolongada.`;
       }
       if (r.previas >= 2) {
         s += '<br><span style="opacity:.85;">Si no hay respuesta pese a dosis repetidas y suero intravenoso, el siguiente paso es la adrenalina en <strong>perfusion</strong> en un entorno monitorizado, no un bolo intravenoso.</span>';

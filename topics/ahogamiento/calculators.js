@@ -52,13 +52,13 @@ export const calculators = [
     subtitle: 'Sumersion, temperatura del agua y duracion de la RCP',
     incompleteMsg: 'Introduce al menos el tiempo de sumersion o la duracion de la RCP.',
     fields: [
-      { name: 'sumersion', id: 'aho-c1', type: 'number', step: '1', label: 'Sumersion conocida (min)', placeholder: 'ej. 20', row: true },
+      { name: 'sumersion', id: 'aho-c1', required: false, type: 'number', step: '1', label: 'Sumersion conocida (min)', placeholder: 'ej. 20', row: true },
       { name: 'temp', id: 'aho-c2', type: 'select', label: 'Agua', row: true, options: [
         { value: '', label: 'Elegir...' },
         { value: 'templada', label: 'Por encima de 6 grados' },
         { value: 'fria', label: 'Por debajo de 6 grados' }
       ] },
-      { name: 'rcp', id: 'aho-c3', type: 'number', step: '1', label: 'Minutos de RCP continua sin signos de vida', placeholder: 'ej. 15' },
+      { name: 'rcp', id: 'aho-c3', required: false, type: 'number', step: '1', label: 'Minutos de RCP continua sin signos de vida', placeholder: 'ej. 15' },
       { name: 'seguridad', id: 'aho-c4', type: 'checkbox', label: 'La seguridad del equipo de rescate esta amenazada' },
       { name: 'nino', id: 'aho-c5', type: 'checkbox', label: 'Ni&#241;o de 6 a&#241;os o menos en agua helada, o se dispone de oxigenacion extracorporea' },
       { type: 'note', text: 'El tiempo de sumersion se cuenta desde la llegada de los servicios de emergencia, porque el total suele desconocerse.' }
@@ -102,7 +102,7 @@ export const calculators = [
       { name: 'graves', id: 'aho-a4', type: 'checkbox', label: 'Tos intensa, espuma o material espumoso en la via aerea' },
       { name: 'mental', id: 'aho-a5', type: 'checkbox', label: 'Estado mental normal' },
       { name: 'hipo', id: 'aho-a6', type: 'checkbox', label: 'Hipotension' },
-      { name: 'horas', id: 'aho-a7', type: 'number', step: '0.5', label: 'Horas de observacion sin deterioro', placeholder: 'ej. 4' }
+      { name: 'horas', id: 'aho-a7', required: false, type: 'number', step: '0.5', label: 'Horas de observacion sin deterioro', placeholder: 'ej. 4' }
     ],
     compute(v) {
       if (!v.ambito) return null;
@@ -141,8 +141,8 @@ export const calculators = [
         { value: 'm', label: 'Mujer' }
       ] },
       { name: 'talla', id: 'aho-v2', type: 'number', step: '1', label: 'Talla (cm)', placeholder: 'ej. 170', row: true, max: 210 },
-      { name: 'meseta', id: 'aho-v3', type: 'number', step: '1', label: 'Presion meseta actual (cmH2O), si se conoce', placeholder: 'ej. 26', row: true, max: 45 },
-      { name: 'pao2', id: 'aho-v4', type: 'number', step: '1', label: 'PaO2 actual (mmHg), si se conoce', placeholder: 'ej. 70', row: true, max: 300 }
+      { name: 'meseta', id: 'aho-v3', required: false, type: 'number', step: '1', label: 'Presion meseta actual (cmH2O), si se conoce', placeholder: 'ej. 26', row: true, max: 45 },
+      { name: 'pao2', id: 'aho-v4', required: false, type: 'number', step: '1', label: 'PaO2 actual (mmHg), si se conoce', placeholder: 'ej. 70', row: true, max: 300 }
     ],
     compute(v) {
       if (!v.sexo || v.talla === null || v.talla < 120) return null;

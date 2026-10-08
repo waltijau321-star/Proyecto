@@ -4,7 +4,9 @@
 // Fuentes: guia de la ASAM de 2020 (J Addict Med 2020;14(3S Suppl 1):1-72) y validacion de la
 // PAWSS (Maldonado JR, et al. Alcohol Alcohol 2015;50(5):509-518).
 
-const item = (name, id, label, max) => ({ name, id, type: 'number', step: '1', label: `${label} (0-${max})`, placeholder: '0', row: true, max });
+// Los 10 apartados son opcionales para el motor (required: false): un apartado en blanco cuenta
+// como 0, y solo se exige que haya al menos uno relleno (lo comprueba compute).
+const item = (name, id, label, max) => ({ name, id, type: 'number', step: '1', label: `${label} (0-${max})`, placeholder: '0', row: true, max, required: false });
 
 export const calculators = [
   {
@@ -162,8 +164,8 @@ export const calculators = [
       { name: 'malnut', id: 'sup-t2', type: 'checkbox', label: 'Mala nutricion o malabsorcion' },
       { name: 'complicada', id: 'sup-t3', type: 'checkbox', label: 'Abstinencia complicada' },
       { name: 'wernicke', id: 'sup-t4', type: 'checkbox', label: 'Signos que imitan o enmascaran una encefalopatia de Wernicke' },
-      { name: 'mg', id: 'sup-t5', type: 'number', step: '0.1', label: 'Magnesio (mg/dL), si se conoce', placeholder: 'ej. 1.5', row: true },
-      { name: 'p', id: 'sup-t6', type: 'number', step: '0.1', label: 'Fosforo (mg/dL), si se conoce', placeholder: 'ej. 2.5', row: true },
+      { name: 'mg', id: 'sup-t5', required: false, type: 'number', step: '0.1', label: 'Magnesio (mg/dL), si se conoce', placeholder: 'ej. 1.5', row: true },
+      { name: 'p', id: 'sup-t6', required: false, type: 'number', step: '0.1', label: 'Fosforo (mg/dL), si se conoce', placeholder: 'ej. 2.5', row: true },
       { name: 'arritmia', id: 'sup-t7', type: 'checkbox', label: 'Arritmias, otras alteraciones electroliticas o convulsiones previas por abstinencia' }
     ],
     compute(v) {
