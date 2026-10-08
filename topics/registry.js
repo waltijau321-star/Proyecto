@@ -763,6 +763,14 @@ export const registry = [
       import('./supresion-alcoholica/calculators.js'),
       import('./supresion-alcoholica/study.js')
     ])
+  },
+  {
+    id: 'quemaduras', titulo: 'Quemaduras',
+    load: () => Promise.all([
+      import('./quemaduras/content.js'),
+      import('./quemaduras/calculators.js'),
+      import('./quemaduras/study.js')
+    ])
   }
 ];
 
