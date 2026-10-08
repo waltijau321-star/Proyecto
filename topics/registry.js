@@ -747,6 +747,14 @@ export const registry = [
       import('./anafilaxia/calculators.js'),
       import('./anafilaxia/study.js')
     ])
+  },
+  {
+    id: 'abdomen-agudo', titulo: 'Abdomen agudo',
+    load: () => Promise.all([
+      import('./abdomen-agudo/content.js'),
+      import('./abdomen-agudo/calculators.js'),
+      import('./abdomen-agudo/study.js')
+    ])
   }
 ];
 

@@ -151,7 +151,7 @@ export const temarioBlocks = [
         { label: 'Anafilaxia', topicId: 'anafilaxia' }
       ] },
       { name: 'Fallas orgánicas', items: FALLAS_ORGANICAS_ITEMS },
-      { name: 'Emergencias traumáticas y ambientales', items: ['Abdomen agudo', 'Síndrome de supresión alcohólica', { label: 'Politraumatismo (embolia grasa)', topicId: 'embolia-grasa' }, 'Quemaduras', 'Ahogamiento', 'Broncoaspiración'] }
+      { name: 'Emergencias traumáticas y ambientales', items: [{ label: 'Abdomen agudo', topicId: 'abdomen-agudo' }, 'Síndrome de supresión alcohólica', { label: 'Politraumatismo (embolia grasa)', topicId: 'embolia-grasa' }, 'Quemaduras', 'Ahogamiento', 'Broncoaspiración'] }
     ]
   },
   {
@@ -246,7 +246,7 @@ export const temarioBlocks = [
     title: 'XIII. Geriatría',
     intro: 'Particularidades fisiológicas y síndromes propios del adulto mayor hospitalizado.',
     clusters: [
-      { name: 'Valoración y síndromes geriátricos', items: ['Valoración geriátrica integral', 'Biología del envejecimiento', 'Caídas, fragilidad y sarcopenia', 'Polifarmacia y deprescripción', 'Abdomen agudo en el adulto mayor'] },
+      { name: 'Valoración y síndromes geriátricos', items: ['Valoración geriátrica integral', 'Biología del envejecimiento', 'Caídas, fragilidad y sarcopenia', 'Polifarmacia y deprescripción', { label: 'Abdomen agudo en el adulto mayor', topicId: 'abdomen-agudo' }] },
       { name: 'Cognición', items: [{ label: 'Delirium en el adulto mayor', topicId: 'delirium-coma-encefalopatias' }, { label: 'Demencias', topicId: 'deterioro-cognitivo-demencias' }, { label: 'Enfermedad de Alzheimer', topicId: 'deterioro-cognitivo-demencias' }, 'Depresión en el adulto mayor'] }
     ]
   },
