@@ -771,6 +771,14 @@ export const registry = [
       import('./quemaduras/calculators.js'),
       import('./quemaduras/study.js')
     ])
+  },
+  {
+    id: 'ahogamiento', titulo: 'Ahogamiento',
+    load: () => Promise.all([
+      import('./ahogamiento/content.js'),
+      import('./ahogamiento/calculators.js'),
+      import('./ahogamiento/study.js')
+    ])
   }
 ];
 
