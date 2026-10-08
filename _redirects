@@ -1,0 +1,17 @@
+# Netlify: bloquea el material de trabajo que viaja con la carpeta pero no es parte del sitio.
+# Netlify sube todo lo que se arrastra (no tiene un archivo para excluir), asi que estas reglas
+# forzadas (el "!") devuelven 404 aunque el archivo exista. Cloudflare usa .assetsignore para lo
+# mismo, y ahi ni siquiera se suben.
+#
+# - Bibliografia/: PDFs con copyright, descargados "solo para uso personal".
+# - .claude/: en la maquina del autor contiene gemini-key.txt, la clave de la API de Gemini.
+/Bibliografia/*                            /404.html  404!
+/.claude/*                                 /404.html  404!
+/.git/*                                    /404.html  404!
+/tools/*                                   /404.html  404!
+/imagenes-fuente/*                         /404.html  404!
+/graphify-out/*                            /404.html  404!
+/Temario%20Holistico%20Medicina%20Interna.docx  /404.html  404!
+/Calculos%20dosis.xlsx                     /404.html  404!
+/esearch_result.json                       /404.html  404!
+/CLAUDE.md                                 /404.html  404!
