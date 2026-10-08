@@ -739,6 +739,54 @@ export const registry = [
       import('./soporte-vital-avanzado/calculators.js'),
       import('./soporte-vital-avanzado/study.js')
     ])
+  },
+  {
+    id: 'anafilaxia', titulo: 'Anafilaxia',
+    load: () => Promise.all([
+      import('./anafilaxia/content.js'),
+      import('./anafilaxia/calculators.js'),
+      import('./anafilaxia/study.js')
+    ])
+  },
+  {
+    id: 'abdomen-agudo', titulo: 'Abdomen agudo',
+    load: () => Promise.all([
+      import('./abdomen-agudo/content.js'),
+      import('./abdomen-agudo/calculators.js'),
+      import('./abdomen-agudo/study.js')
+    ])
+  },
+  {
+    id: 'supresion-alcoholica', titulo: 'Sindrome de supresion alcoholica',
+    load: () => Promise.all([
+      import('./supresion-alcoholica/content.js'),
+      import('./supresion-alcoholica/calculators.js'),
+      import('./supresion-alcoholica/study.js')
+    ])
+  },
+  {
+    id: 'quemaduras', titulo: 'Quemaduras',
+    load: () => Promise.all([
+      import('./quemaduras/content.js'),
+      import('./quemaduras/calculators.js'),
+      import('./quemaduras/study.js')
+    ])
+  },
+  {
+    id: 'ahogamiento', titulo: 'Ahogamiento',
+    load: () => Promise.all([
+      import('./ahogamiento/content.js'),
+      import('./ahogamiento/calculators.js'),
+      import('./ahogamiento/study.js')
+    ])
+  },
+  {
+    id: 'broncoaspiracion', titulo: 'Broncoaspiracion',
+    load: () => Promise.all([
+      import('./broncoaspiracion/content.js'),
+      import('./broncoaspiracion/calculators.js'),
+      import('./broncoaspiracion/study.js')
+    ])
   }
 ];
 

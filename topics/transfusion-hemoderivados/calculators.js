@@ -13,7 +13,7 @@ export const calculators = [
     incompleteMsg: 'Ingresa la hemoglobina actual y selecciona el contexto clínico.',
     fields: [
       { name: 'hb', id: 'tx-hb', type: 'number', label: 'Hemoglobina actual (g/dL)', row: 1 },
-      { name: 'objetivo', id: 'tx-objetivo', type: 'number', label: 'Hemoglobina objetivo (g/dL, opcional)', row: 1 },
+      { name: 'objetivo', id: 'tx-objetivo', type: 'number', required: false, label: 'Hemoglobina objetivo (g/dL, opcional)', row: 1 },
       { name: 'contexto', id: 'tx-contexto', type: 'select', label: 'Contexto clínico', options: [
         { value: '', label: 'Selecciona...' },
         { value: 'estable', label: 'Paciente estable, sin comorbilidad cardiaca' },

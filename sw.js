@@ -2,7 +2,7 @@
    Estrategia: cache-first para el "app shell" y los módulos, con actualización en segundo plano.
    CACHE_VERSION se calcula automáticamente a partir del contenido de CORE: correr
    .claude/bump-cache-version.ps1 después de cambiar cualquier archivo cacheado. */
-const CACHE_VERSION = 'residentemed-353963ae31';
+const CACHE_VERSION = 'residentemed-558a6f660e';
 const CORE = [
   './',
   './index.html',
@@ -346,7 +346,25 @@ const CORE = [
   './topics/ampollosas/study.js',
   './topics/soporte-vital-avanzado/content.js',
   './topics/soporte-vital-avanzado/calculators.js',
-  './topics/soporte-vital-avanzado/study.js'
+  './topics/soporte-vital-avanzado/study.js',
+  './topics/anafilaxia/content.js',
+  './topics/anafilaxia/calculators.js',
+  './topics/anafilaxia/study.js',
+  './topics/abdomen-agudo/content.js',
+  './topics/abdomen-agudo/calculators.js',
+  './topics/abdomen-agudo/study.js',
+  './topics/supresion-alcoholica/content.js',
+  './topics/supresion-alcoholica/calculators.js',
+  './topics/supresion-alcoholica/study.js',
+  './topics/quemaduras/content.js',
+  './topics/quemaduras/calculators.js',
+  './topics/quemaduras/study.js',
+  './topics/ahogamiento/content.js',
+  './topics/ahogamiento/calculators.js',
+  './topics/ahogamiento/study.js',
+  './topics/broncoaspiracion/content.js',
+  './topics/broncoaspiracion/calculators.js',
+  './topics/broncoaspiracion/study.js'
 ];
 
 self.addEventListener('install', (e) => {

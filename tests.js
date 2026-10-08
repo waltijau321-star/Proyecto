@@ -827,6 +827,22 @@ async function run() {
       });
     });
 
+    // El motor (readAll en engine/calculators.js) trata todo campo numerico como OBLIGATORIO salvo
+    // que lleve required: false, y si falta uno no llega a llamar a compute(): muestra el
+    // incompleteMsg. Un campo pensado como opcional sin esa marca deja la calculadora muda en
+    // cuanto el usuario lo deja vacio, aunque compute() sepa manejar el null. Paso en siete
+    // calculadoras de seis temas (la de adrenalina de soporte vital respondia "Elige el tipo de
+    // ritmo" con el ritmo ya elegido). La etiqueta es el contrato con el usuario: si dice que el
+    // campo es opcional, tiene que serlo.
+    test(`esquema[${entry.id}]: un numerico que la etiqueta presenta como opcional lleva required: false`, () => {
+      const OPCIONAL = /opcional|si se conoce|vac[ií]o|o bien|si no tienes/i;
+      const mal = [];
+      (topic.calculators || []).forEach(c => (c.fields || []).forEach(f => {
+        if (f.type === 'number' && f.required !== false && OPCIONAL.test(f.label || '')) mal.push(`${c.key}/${f.name}`);
+      }));
+      assert(mal.length === 0, `campos opcionales que el motor exigira: ${mal.join(', ')}`);
+    });
+
     test(`esquema[${entry.id}]: meta.titulo no está vacío`, () => {
       assert(topic.meta && topic.meta.titulo && topic.meta.titulo.trim().length > 0, 'meta.titulo vacío o ausente');
     });
@@ -1040,7 +1056,13 @@ async function run() {
       'eccemas',
       'farmacodermias',
       'ampollosas',
-      'soporte-vital-avanzado']);
+      'soporte-vital-avanzado',
+      'anafilaxia',
+      'abdomen-agudo',
+      'supresion-alcoholica',
+      'quemaduras',
+      'ahogamiento',
+      'broncoaspiracion']);
     // Cola de trabajo pendiente de la auditoría: vacía desde agosto de 2026, cuando los 47 temas
     // quedaron revisados. Un tema nuevo debe escribirse cumpliendo los umbrales y entrar en
     // REVISADOS; esta lista ya no puede crecer (COLA_MAXIMA = 0).
