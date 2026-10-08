@@ -779,6 +779,14 @@ export const registry = [
       import('./ahogamiento/calculators.js'),
       import('./ahogamiento/study.js')
     ])
+  },
+  {
+    id: 'broncoaspiracion', titulo: 'Broncoaspiracion',
+    load: () => Promise.all([
+      import('./broncoaspiracion/content.js'),
+      import('./broncoaspiracion/calculators.js'),
+      import('./broncoaspiracion/study.js')
+    ])
   }
 ];
 
