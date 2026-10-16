@@ -28,7 +28,8 @@ export const bibliografia = [
   'Gupta PK, Gupta H, Sundaram A, et al. Development and validation of a risk calculator for prediction of cardiac risk after surgery. Circulation. 2011;124(4):381-387.',
   'Canet J, Gallart L, Gomar C, et al. Prediction of postoperative pulmonary complications in a population-based surgical cohort. Anesthesiology. 2010;113(6):1338-1350.',
   'Chung F, Yegneswaran B, Liao P, et al. STOP questionnaire: a tool to screen patients for obstructive sleep apnea. Anesthesiology. 2008;108(5):812-821.',
-  'Halvorsen S, Mehilli J, Cassese S, et al. 2022 ESC Guidelines on cardiovascular assessment and management of patients undergoing non-cardiac surgery. Eur Heart J. 2022;43(39):3826-3924.'
+  'Halvorsen S, Mehilli J, Cassese S, et al. 2022 ESC Guidelines on cardiovascular assessment and management of patients undergoing non-cardiac surgery. Eur Heart J. 2022;43(39):3826-3924.',
+  'Caprini JA. Risk assessment as a guide to thrombosis prophylaxis. Curr Opin Pulm Med. 2010;16(5):448-452.'
 ];
 
 export const modalLabels = {
@@ -293,7 +294,7 @@ export const escalaRefs = {
   'Gupta-MICA': [5],
   'Clasificación ASA': [1],
   'ARISCAT': [6],
-  'Caprini': [1],
+  'Caprini': [9],
   'DASI': [1],
   'STOP-BANG': [7]
 };

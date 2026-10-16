@@ -11,12 +11,16 @@ export function setGeneralCalcs(arr) { GENERAL = arr || []; }
 
 // Aviso opcional de "esta escala acaba de dar un resultado", para que un consumidor pueda
 // recogerlo sin que este motor sepa quién lo escucha (lo usa la nota de VPO en engine/vpo.js).
-// Recibe (key, resultado, calc); un resultado null significa que faltan datos.
+// Recibe (key, resultado, calc, inicial); un resultado null significa que faltan datos.
+// `inicial` es true cuando el cálculo salió solo al abrir la calculadora, con los valores por
+// defecto que nadie ha tocado todavía: es un número que el usuario no ha afirmado, así que
+// quien escuche puede ignorarlo. Sin esta distinción, abrir una escala para mirarla metía su
+// valor por defecto en la nota de un paciente ("STOP-BANG 0 de 8, riesgo bajo").
 let RESULT_LISTENER = null;
 export function setResultListener(fn) { RESULT_LISTENER = typeof fn === 'function' ? fn : null; }
-function notifyResult(key, r, calc) {
+function notifyResult(key, r, calc, inicial) {
   if (!RESULT_LISTENER) return;
-  try { RESULT_LISTENER(key, r, calc); } catch (e) { console.error('VPO: fallo al recoger el resultado', e); }
+  try { RESULT_LISTENER(key, r, calc, !!inicial); } catch (e) { console.error('VPO: fallo al recoger el resultado', e); }
 }
 
 export function setCalcTopic(topic) {
@@ -156,15 +160,18 @@ export function openCalc(key) {
   const accent = calc.accent || CALC_TOPIC.accent;
   openModalShell(accent, calcShell(calc.title, accent, fieldsHTML(calc.fields)));
   bindSharedFields();
+  // Mientras el usuario no toque un campo, lo que se muestra son los valores por defecto:
+  // se pinta el resultado igual, pero se avisa como "inicial" (ver notifyResult).
+  let tocada = false;
   const recalc = () => {
     const { v, missingRequired } = readAll(calc);
-    if (missingRequired) { setResult(calc.incompleteMsg || 'Completa todos los campos.'); notifyResult(key, null, calc); return; }
+    if (missingRequired) { setResult(calc.incompleteMsg || 'Completa todos los campos.'); notifyResult(key, null, calc, !tocada); return; }
     const r = calc.compute(v);
-    if (r === null || r === undefined) { setResult(calc.incompleteMsg || 'Completa todos los campos.'); notifyResult(key, null, calc); return; }
+    if (r === null || r === undefined) { setResult(calc.incompleteMsg || 'Completa todos los campos.'); notifyResult(key, null, calc, !tocada); return; }
     setResult(calc.format(r));
-    notifyResult(key, r, calc);
+    notifyResult(key, r, calc, !tocada);
   };
-  bindInputs(calc.fields, recalc);
+  bindInputs(calc.fields, () => { tocada = true; recalc(); });
   recalc();
 }
 window.openCalc = openCalc;
@@ -189,9 +196,13 @@ function bindInputs(fields, handler) {
 }
 
 /* ---------- Nota combinada ---------- */
+// Escalas de la nota combinada que el usuario ya tocó en este modal (ver notifyResult): las
+// demás siguen mostrando su valor por defecto y no son un dato afirmado por nadie.
+let NC_TOCADAS = new Set();
 function openCombined() {
   const cn = CALC_TOPIC.combinedNote;
   if (!cn) return;
+  NC_TOCADAS = new Set();
   const accent = cn.accent || CALC_TOPIC.accent;
   const byKey = k => (CALC_TOPIC.calculators || []).find(c => c.key === k);
   const def = !!cn.defaultChecked;
@@ -218,7 +229,7 @@ function bindCombinedFields(key) {
   const box = document.getElementById('nc-fields-' + key);
   box.querySelectorAll('input,select').forEach(el => {
     const evt = (el.type === 'checkbox' || el.tagName === 'SELECT') ? 'change' : 'input';
-    el.addEventListener(evt, recalcCombined);
+    el.addEventListener(evt, () => { NC_TOCADAS.add(key); recalcCombined(); });
   });
 }
 
@@ -288,7 +299,7 @@ function recalcCombined() {
     const calc = byKey(k);
     const { v, missingRequired } = readAll(calc);
     const r = missingRequired ? null : calc.compute(v);
-    notifyResult(k, r, calc);
+    notifyResult(k, r, calc, !NC_TOCADAS.has(k));
     if (r === null || r === undefined) { missing.push(calc.title); return; }
     results[k] = r;
   });

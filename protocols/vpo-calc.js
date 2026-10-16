@@ -496,8 +496,11 @@ export const calculators = [
         { value: 'total', label: 'Totalmente dependiente' }
       ] },
       { name: 'sepsis', id: 'vg-sepsis', type: 'select', label: 'Estado séptico preoperatorio', row: 'b', options: [
-        { value: 'none', label: 'Ninguno' },
-        { value: 'sirs', label: 'SIRS', selected: true },
+        // El valor por defecto es "Ninguno", que es la situación del paciente que llega a una
+        // valoración preoperatoria programada. Abrir la escala con SIRS preseleccionado sumaba
+        // 0.78 al logit y mostraba un riesgo inflado a quien solo leyera el número de entrada.
+        { value: 'none', label: 'Ninguno', selected: true },
+        { value: 'sirs', label: 'SIRS' },
         { value: 'sepsis', label: 'Sepsis' },
         { value: 'shock', label: 'Choque séptico' }
       ] },
