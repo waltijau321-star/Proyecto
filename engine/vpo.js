@@ -15,7 +15,7 @@ import { calculators, combinedNote } from '../protocols/vpo-calc.js';
 import { farmacos, grupos as farmacoGrupos, CONDUCTAS } from '../protocols/vpo-farmacos.js';
 import { pasos, veredictos, TONOS, PRIMER_PASO, FUENTE as RUTA_FUENTE } from '../protocols/vpo-ruta.js';
 import { estudios, gruposEstudio } from '../protocols/vpo-estudios.js';
-import { mountCalculators, setCalcTopic, openCalc, openModalShell, setResultListener } from './calculators.js';
+import { mountCalculators, setCalcTopic, openCalc, openModalShell, setResultListener, clearSharedValues } from './calculators.js';
 import { syncGet, syncSet } from './cloud-sync.js';
 import { loadTopic } from '../topics/registry.js';
 
@@ -32,8 +32,13 @@ const calcTopic = { meta: { accent: ACCENT }, calculators, combinedNote };
 // vez de duplicarse: una segunda copia de Child-Pugh es una segunda copia que mantener.
 const ESCALAS_DE_TEMAS = [
   { topicId: 'cirrosis-hepatica', key: 'childpugh', titulo: 'Child-Pugh', porque: 'Gravedad de la cirrosis: el riesgo quirúrgico del cirrótico se dispara a partir de Child-Pugh B.' },
-  { topicId: 'cirrosis-hepatica', key: 'meldna', titulo: 'MELD-Na', porque: 'Mortalidad a 90 días; orienta si conviene diferir una cirugía electiva en el paciente con hepatopatía.' }
+  { topicId: 'cirrosis-hepatica', key: 'meldna', titulo: 'MELD-Na', porque: 'Mortalidad a 90 días; orienta si conviene diferir una cirugía electiva en el paciente con hepatopatía.' },
+  { topicId: 'transfusion-hemoderivados', key: 'umbral-eritrocitos', titulo: 'Umbral de transfusión', porque: 'La anemia preoperatoria es el factor de riesgo modificable con mejor rendimiento, y el umbral para transfundir no es el mismo antes de operar que en el sangrado agudo.' },
+  { topicId: 'delirium-coma-encefalopatias', key: 'cam-delirium', titulo: 'CAM', porque: 'La escala de delirium de aquí estima el riesgo antes de operar; el CAM es con lo que se reconoce después, y sin cognición basal documentada no se puede aplicar.' }
 ];
+// Exportadas para tests.js: si alguien renombra una key en el tema de origen, el enlace queda
+// muerto sin hacer ruido, asi que la prueba recorre esta misma lista en vez de una copia.
+export { ESCALAS_DE_TEMAS };
 
 function mountEscalas(pane) {
   mountCalculators(calcTopic, pane, {
@@ -427,7 +432,7 @@ export function openVpoEstudio(id) {
 const ESCALAS_KEY = 'rm:vpo:escalas';
 // Exportado para poder comprobar en tests.js que ninguna escala se queda fuera de la nota.
 export const ORDEN_NOTA = ['asa', 'leeindex', 'guptamica', 'guptaprf', 'detsky', 'dasi', 'ariscat',
-  'stopbang', 'apfel', 'fragilidad', 'charlson', 'delirium', 'caprini', 'puenteac'];
+  'stopbang', 'apfel', 'fragilidad', 'charlson', 'delirium', 'caprini', 'cockcroft', 'puenteac'];
 
 function escalasGuardadas() { return syncGet(ESCALAS_KEY, {}); }
 
@@ -539,6 +544,7 @@ export function copiarNota(btn) {
 export function nuevoPaciente() {
   syncSet(RUTA_KEY, { camino: [], veredicto: null });
   syncSet(ESCALAS_KEY, {});
+  clearSharedValues();
   listaFarmacos.limpiar();
   listaEstudios.limpiar();
   pintarNota();

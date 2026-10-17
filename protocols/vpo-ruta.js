@@ -34,12 +34,15 @@ export const pasos = {
     titulo: 'Urgencia de la cirugía',
     pregunta: '¿Con cuánto tiempo se cuenta antes de operar?',
     ayuda: 'Es el primer filtro y el que más decisiones ahorra: si no hay tiempo, no hay evaluación que hacer.',
+    detalle: 'Las cuatro categorías son las de la Tabla 2 de la guía, y no son una gradación vaga: separan lo que se puede hacer antes de operar. La frontera entre <strong>sensible al tiempo</strong> y <strong>electiva</strong> es la que más se pasa por alto, porque es la que decide si una cirugía puede adelantarse a los 3 meses de un stent farmacoactivo.',
     opciones: [
-      { label: 'Emergencia', nota: 'La vida o la viabilidad de un miembro se pierden en horas.',
+      { label: 'Emergencia', nota: 'Amenaza inmediata para la vida o para un miembro; no hay tiempo de evaluar, típicamente menos de 2 horas.',
         destino: { veredicto: 'emergencia' } },
-      { label: 'Urgencia', nota: 'Hay margen de 6 a 24 horas, pero no más.',
+      { label: 'Urgencia', nota: 'Amenaza para la vida o para un miembro, pero con margen para intervenir sobre el riesgo: típicamente de 2 a 24 horas.',
         destino: { veredicto: 'urgencia' } },
-      { label: 'Sensible al tiempo o electiva', nota: 'Hay semanas o meses de margen.',
+      { label: 'Sensible al tiempo', nota: 'Puede diferirse hasta 3 meses sin empeorar el desenlace. Es la categoría que permite considerar la cirugía a partir de los 3 meses de un stent farmacoactivo (clase 2b); ver Tiempos de espera tras ICP en la pestaña Fármacos.',
+        destino: { paso: 'agudo' } },
+      { label: 'Electiva', nota: 'Puede diferirse lo que haga falta para evaluar y optimizar al paciente.',
         destino: { paso: 'agudo' } }
     ]
   },

@@ -398,6 +398,26 @@ const survTexto = s => (s < 1 ? 'menos de 1%' : s.toFixed(0) + '%');
 const fragCharlson = r => `<strong>Charlson ${r.total} puntos</strong> (incluye ${r.ptsEdad} por edad), supervivencia estimada a 10 años ${survTexto(r.superv)}`;
 const fmtCharlson = r => `${fragCharlson(r)}. <span style="color:var(--ink-faint);font-size:12px;">La supervivencia procede de la fórmula publicada del índice y refleja la carga de comorbilidad, no el riesgo del procedimiento. En la valoración preoperatoria sirve para dimensionar cuánto beneficio puede esperar el paciente de una cirugía electiva (Charlson 1987).</span>`;
 
+/* ===== Aclaramiento de creatinina (Cockcroft-Gault) =====
+   Cockcroft DW, Gault MH. Nephron. 1976;16(1):31-41. Es la fórmula con la que se estudiaron y
+   se etiquetaron los anticoagulantes orales directos, y la que usa el protocolo PAUSE para
+   decidir el intervalo del dabigatrán, de modo que aquí no es intercambiable con una TFG
+   estimada por CKD-EPI: esa se expresa por 1.73 m² de superficie corporal y responde a otra
+   pregunta. */
+function cockcroftCompute(v) {
+  if (v.edad === null || v.edad === undefined || v.peso === null || v.peso === undefined
+      || v.creatinina === null || v.creatinina === undefined || v.creatinina <= 0) return null;
+  const bruto = ((140 - v.edad) * v.peso) / (72 * v.creatinina);
+  const crcl = v.sexo === 'f' ? bruto * 0.85 : bruto;
+  return { crcl: Math.round(crcl), sexo: v.sexo, edad: v.edad, peso: v.peso, creatinina: v.creatinina };
+}
+const fragCockcroft = r => `<strong>Aclaramiento de creatinina ${r.crcl} mL/min</strong> (Cockcroft-Gault)`;
+const fmtCockcroft = r => `${fragCockcroft(r)} con ${r.peso} kg, ${r.edad} años y creatinina de ${r.creatinina} mg/dL. ${
+  r.crcl >= 50
+    ? 'Por encima de 50 mL/min el dabigatrán sigue el intervalo corto: 1 día si el riesgo hemorrágico es bajo o moderado y 2 si es alto.'
+    : 'Por debajo de 50 mL/min el dabigatrán exige el intervalo largo: 2 días si el riesgo hemorrágico es bajo o moderado y 4 si es alto.'
+} <span style="color:var(--ink-faint);font-size:12px;">Es la fórmula de las fichas técnicas de los anticoagulantes directos y del protocolo PAUSE, no intercambiable con la TFG estimada por CKD-EPI. Con obesidad sobreestima el aclaramiento (muchos centros usan peso ajustado) y con masa muscular muy baja lo sobreestima también, porque la creatinina depende de ella.</span>`;
+
 /* ===== Fragilidad clínica =====
    Escala clínica de fragilidad de Rockwood (Rockwood K, et al. CMAJ. 2005;173(5):489-495).
    Las etiquetas están resumidas en español; la escala original y sus descriptores completos
@@ -504,7 +524,10 @@ export const calculators = [
         { value: 'sepsis', label: 'Sepsis' },
         { value: 'shock', label: 'Choque séptico' }
       ] },
-      { name: 'electiva', id: 'vg-electiva', type: 'checkbox', label: 'Cirugía electiva (no urgente/emergencia)' },
+      // Marcada por defecto: quien abre esta escala en una consulta de valoración está viendo
+      // una cirugía programada. Sin marcar, el modelo no aplica el -0.5739 de la cirugía
+      // electiva y el riesgo de entrada sale inflado.
+      { name: 'electiva', id: 'vg-electiva', type: 'checkbox', checked: true, label: 'Cirugía electiva (no urgente/emergencia)' },
       { name: 'surg', id: 'vg-surg', type: 'select', label: 'Tipo de cirugía', shared: 'surg', options: surgeryOptions() }
     ],
     compute(v) {
@@ -624,7 +647,7 @@ export const calculators = [
         { value: 'dispositivo', label: 'Implante de marcapasos o desfibrilador' },
         { value: 'colonoscopia', label: 'Colonoscopia con polipectomía prevista' }
       ] },
-      { type: 'note', text: 'El aclaramiento solo cambia el resultado con dabigatrán: es el único DOAC cuyo intervalo depende de la función renal. Los demás usan 1 día si el riesgo hemorrágico es bajo o moderado y 2 si es alto.' }
+      { type: 'note', text: 'El aclaramiento solo cambia el resultado con dabigatrán: es el único DOAC cuyo intervalo depende de la función renal. Los demás usan 1 día si el riesgo hemorrágico es bajo o moderado y 2 si es alto. Si no lo tienes, la escala <strong>Aclaramiento de creatinina</strong> de esta misma pestaña lo calcula con Cockcroft-Gault, que es la fórmula que usa este protocolo.' }
     ],
     compute: puenteCompute,
     format: fmtPuente, fragment: fragPuente
@@ -685,6 +708,23 @@ export const calculators = [
     ],
     compute: apfelCompute,
     format: fmtApfel, fragment: fragApfel
+  },
+  {
+    key: 'cockcroft', title: 'Aclaramiento de creatinina', accent: '#3f6b52',
+    subtitle: 'Cockcroft-Gault, el que decide el intervalo del dabigatrán',
+    incompleteMsg: 'Completa edad, peso y creatinina.',
+    fields: [
+      { name: 'edad', id: 'vcg-edad', type: 'number', label: 'Edad (años)', placeholder: 'ej. 75', row: 'a', shared: 'age' },
+      { name: 'sexo', id: 'vcg-sexo', type: 'select', label: 'Sexo', row: 'a', options: [
+        { value: 'm', label: 'Masculino', selected: true },
+        { value: 'f', label: 'Femenino' }
+      ] },
+      { name: 'peso', id: 'vcg-peso', type: 'number', label: 'Peso (kg)', placeholder: 'ej. 70', row: 'b' },
+      { name: 'creatinina', id: 'vcg-creatinina', type: 'number', step: '0.01', label: 'Creatinina sérica (mg/dL)', placeholder: 'ej. 1.2', row: 'b' },
+      { type: 'note', text: 'Fórmula: (140 − edad) × peso en kg / (72 × creatinina), × 0.85 si es mujer.' }
+    ],
+    compute: cockcroftCompute,
+    format: fmtCockcroft, fragment: fragCockcroft
   },
   {
     key: 'fragilidad', title: 'Fragilidad clínica', accent: '#4a5c73',

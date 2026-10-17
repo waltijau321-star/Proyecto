@@ -620,7 +620,8 @@ async function run() {
 
   // Las escalas que VPO enlaza de otros temas se resuelven aquí, fuera del test: el runner es
   // síncrono y una promesa rechazada dentro de un test() pasaría inadvertida.
-  const enlacesVpo = [['cirrosis-hepatica', 'childpugh'], ['cirrosis-hepatica', 'meldna']];
+  const vpoEngineLinks = await import('./engine/vpo.js');
+  const enlacesVpo = vpoEngineLinks.ESCALAS_DE_TEMAS.map(e => [e.topicId, e.key]);
   const registroVpo = await import('./topics/registry.js');
   const temasEnlazados = {};
   for (const [topicId] of enlacesVpo) {
@@ -812,6 +813,78 @@ async function run() {
     }
   });
 
+  test('VPO: "Paciente nuevo" tambien descarta los campos compartidos del paciente anterior', () => {
+    // Edad, clase ASA, estado funcional y tipo de cirugia se comparten entre escalas y vivian
+    // solo en memoria, fuera de lo que borraba nuevoPaciente(): la siguiente escala que se
+    // abria llegaba con la edad y el ASA del paciente anterior ya puestos.
+    const caja = document.createElement('div');
+    caja.innerHTML = '<div id="overlay"><div id="modal"></div></div>';
+    document.body.appendChild(caja);
+    // nuevoPaciente() borra el borrador entero, y tests.html comparte origen con la app: se
+    // guarda todo lo que toca y se restaura al salir.
+    const CLAVES = ['rm:vpo:escalas', 'rm:vpo:ruta', 'rm:vpo:farmacos', 'rm:vpo:estudios'];
+    const previas = CLAVES.map(k => [k, syncGet(k, null)]);
+    try {
+      calcEngine.setCalcTopic({ meta: { accent: '#3d5a73' }, calculators: vpoCalc, combinedNote: vpoModule.combinedNote });
+      calcEngine.openCalc('guptamica');
+      const edad = document.getElementById('vm-age');
+      edad.value = '82';
+      edad.dispatchEvent(new Event('input'));
+      calcEngine.openCalc('ariscat');
+      assertEqual(document.getElementById('var-edad').value, '82', 'la edad deberia propagarse entre escalas');
+
+      vpoEngine.nuevoPaciente();
+      calcEngine.openCalc('ariscat');
+      assertEqual(document.getElementById('var-edad').value, '',
+        'tras "Paciente nuevo" la escala sigue abriendo con la edad del paciente anterior');
+    } finally {
+      previas.forEach(([k, v]) => { if (v !== null) syncSet(k, v); });
+      calcEngine.closeModal();
+      caja.remove();
+    }
+  });
+
+  test('VPO Gupta (falla respiratoria): abre con la cirugia marcada como electiva', () => {
+    // El modelo resta 0.5739 cuando la cirugia es electiva. Quien abre la escala en una consulta
+    // de valoracion esta viendo una cirugia programada: sin la casilla marcada, el riesgo de
+    // entrada sale inflado.
+    const campo = vpo('guptaprf').fields.find(f => f.name === 'electiva');
+    assert(campo.checked === true, 'la casilla de cirugia electiva deberia venir marcada');
+    const conElectiva = vpo('guptaprf').compute({ age: 65, asa: '3', func: 'independent', sepsis: 'none', electiva: true, surg: 'hernia' });
+    const sinElectiva = vpo('guptaprf').compute({ age: 65, asa: '3', func: 'independent', sepsis: 'none', electiva: false, surg: 'hernia' });
+    assert(conElectiva.pct < sinElectiva.pct, 'la cirugia electiva deberia bajar el riesgo calculado');
+  });
+
+  test('VPO Cockcroft-Gault: la formula publicada, con el factor 0.85 de la mujer', () => {
+    const c = vpo('cockcroft');
+    // (140 - 70) x 80 / (72 x 1.2) = 64.8
+    assertEqual(c.compute({ edad: 70, sexo: 'm', peso: 80, creatinina: 1.2 }).crcl, 65);
+    assertEqual(c.compute({ edad: 70, sexo: 'f', peso: 80, creatinina: 1.2 }).crcl, 55);
+    assertEqual(c.compute({ edad: 70, sexo: 'm', peso: null, creatinina: 1.2 }), null, 'sin peso no deberia calcular');
+    assertEqual(c.compute({ edad: 70, sexo: 'm', peso: 80, creatinina: 0 }), null, 'una creatinina de 0 no deberia dividir');
+  });
+
+  test('VPO Cockcroft-Gault: el umbral que informa es el de 50 que usa el dabigatran', () => {
+    const c = vpo('cockcroft');
+    const alto = c.format(c.compute({ edad: 50, sexo: 'm', peso: 80, creatinina: 0.9 }));
+    const bajo = c.format(c.compute({ edad: 85, sexo: 'f', peso: 50, creatinina: 1.8 }));
+    assert(/intervalo corto/.test(alto) && !/intervalo largo/.test(alto),
+      'con buen aclaramiento deberia citar el intervalo corto del dabigatran');
+    assert(/intervalo largo/.test(bajo) && !/intervalo corto/.test(bajo),
+      'con aclaramiento bajo deberia citar el intervalo largo del dabigatran');
+  });
+
+  test('VPO ruta: el primer paso separa las cuatro categorias de la guia', () => {
+    // "Sensible al tiempo" y "electiva" iban juntas, y es la distincion que decide si una
+    // cirugia puede adelantarse a los 3 meses de un stent farmacoactivo.
+    const primero = ruta.pasos[ruta.PRIMER_PASO];
+    const etiquetas = primero.opciones.map(o => o.label);
+    assertEqual(etiquetas, ['Emergencia', 'Urgencia', 'Sensible al tiempo', 'Electiva']);
+    const texto = JSON.stringify(primero);
+    assert(/2 horas/.test(texto) && /2 a 24 horas/.test(texto), 'los umbrales deberian ser los de la Tabla 2 de la guia');
+    assert(/3 meses/.test(texto), 'sensible al tiempo se define por poder diferirse hasta 3 meses');
+  });
+
   test('VPO buscador: encuentra por nombre, por alias y por el grupo, como ofrece el campo', () => {
     // El placeholder ofrece buscar "fármaco, hábito o grupo", pero la etiqueta del grupo solo
     // vivía en el encabezado del acordeón: "esteroides" y "anticoagulantes" no devolvían nada.
@@ -846,6 +919,13 @@ async function run() {
       options: [{ value: '2', label: 'Dos' }] });
     assert(html.includes('value="2"'), 'no conserva el value');
     assert(html.includes('>Dos<'), 'no conserva el label');
+  });
+
+  test('fieldHTML: una casilla con checked se pinta marcada', () => {
+    assert(fieldHTML({ type: 'checkbox', id: 'p3', label: 'Prueba', checked: true }).includes(' checked'),
+      'no pinta el atributo checked');
+    assert(!fieldHTML({ type: 'checkbox', id: 'p4', label: 'Prueba' }).includes(' checked'),
+      'pinta checked en una casilla que no lo pide');
   });
 
   test('fieldHTML: un select en forma corta {v, t} tambien se pinta (no "undefined")', () => {

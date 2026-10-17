@@ -76,7 +76,11 @@ export function fieldHTML(f) {
     return `<div class="calc-field"><label>${f.label}</label><select id="${f.id}"${sharedAttr}>${opts}</select></div>`;
   }
   if (f.type === 'checkbox') {
-    return `<div class="calc-check"><input type="checkbox" id="${f.id}"${sharedAttr}><label for="${f.id}">${f.label}</label></div>`;
+    // `checked: true` deja la casilla marcada al abrir. Sin esto, el unico estado inicial
+    // posible era "no", y una escala cuyo caso habitual es que si (la cirugia programada es
+    // electiva, en el Gupta de falla respiratoria) abria mostrando el escenario contrario.
+    const chk = f.checked ? ' checked' : '';
+    return `<div class="calc-check"><input type="checkbox" id="${f.id}"${chk}${sharedAttr}><label for="${f.id}">${f.label}</label></div>`;
   }
   // number | text
   const step = f.step ? ` step="${f.step}"` : '';
@@ -240,6 +244,11 @@ function bindCombinedFields(key) {
 // (p. ej. ASA "II" vs ASA "2"), el campo puede declarar sharedOut/sharedIn para convertir
 // hacia/desde ese valor canónico compartido; sin transform se copia tal cual.
 let SHARED_VALUES = {};
+// Los campos compartidos son datos de UN paciente (edad, clase ASA, estado funcional, tipo de
+// cirugia), no una preferencia de uso: al cambiar de paciente hay que descartarlos. Vivian solo
+// en memoria y "Paciente nuevo" no los tocaba, asi que la siguiente escala que se abria llegaba
+// con la edad y el ASA del paciente anterior ya puestos.
+export function clearSharedValues() { SHARED_VALUES = {}; }
 function bindSharedFields() {
   const groups = {};
   (CALC_TOPIC.calculators || []).forEach(calc => {
