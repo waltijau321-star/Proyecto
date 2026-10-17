@@ -30,7 +30,8 @@ export const bibliografia = [
   'Chung F, Yegneswaran B, Liao P, et al. STOP questionnaire: a tool to screen patients for obstructive sleep apnea. Anesthesiology. 2008;108(5):812-821.',
   'Halvorsen S, Mehilli J, Cassese S, et al. 2022 ESC Guidelines on cardiovascular assessment and management of patients undergoing non-cardiac surgery. Eur Heart J. 2022;43(39):3826-3924.',
   'Caprini JA. Risk assessment as a guide to thrombosis prophylaxis. Curr Opin Pulm Med. 2010;16(5):448-452.',
-  'Delgado V, Ajmone Marsan N, de Waha S, et al. 2023 ESC Guidelines for the management of endocarditis. Eur Heart J. 2023;44(39):3948-4042.'
+  'Delgado V, Ajmone Marsan N, de Waha S, et al. 2023 ESC Guidelines for the management of endocarditis. Eur Heart J. 2023;44(39):3948-4042.',
+  'Bleeser T, Vally JC, Van de Velde M, Rex S, Devroe S. General anaesthesia for nonobstetric surgery during pregnancy: a narrative review. Eur J Anaesthesiol Intensive Care. 2022;1(2):e003.'
 ];
 
 export const modalLabels = {
@@ -282,6 +283,32 @@ export const content = {
       ]
     },
     {
+      nombre: 'La paciente embarazada',
+      color: '#7a4a6b',
+      definicion: 'Embarazada que requiere una cirugía no obstétrica, algo que ocurre en cerca del 1 % de los embarazos. La mayoría son abdominales y urgentes, con la apendicitis y la patología anexial a la cabeza. La pregunta que domina la valoración no es si la cirugía es segura, sino si puede esperar: retrasar un procedimiento urgente hace más daño que operar. La pérdida fetal es menor del 1.5 % tras una apendicectomía sin complicaciones y del 20 al 35 % si el apéndice se perfora, y del 4 % tras una colecistectomía no complicada frente al 60 % si se llega a una pancreatitis biliar.',
+      factores_riesgo: [
+        'Vía aérea: la intubación fallida es unas 8 veces más frecuente que fuera del embarazo',
+        'Desaturación rápida en apnea, por capacidad residual funcional baja y consumo de oxígeno alto',
+        'Compresión aortocava desde las 10 a 18 semanas',
+        'El flujo uterino depende de la presión y no se autorregula: la hipotensión lo reduce de inmediato',
+        'Riesgo tromboembólico multiplicado por cinco, que se suma al de la propia cirugía',
+        'Despertar intraoperatorio más frecuente pese a una concentración alveolar mínima 30 a 40 % menor',
+        'Parto prematuro, bajo peso al nacer y pérdida fetal, sobre todo con cirugía abdominal en el tercer trimestre'
+      ],
+      clinica: 'Precisar la edad gestacional, que es lo que ordena todas las demás decisiones, y preguntar explícitamente si el procedimiento puede posponerse hasta después del parto. Revisar la hemoglobina con los puntos de corte del embarazo, que no son los habituales: anemia por debajo de 11 g/dL en el primer trimestre y de 10.5 g/dL en el segundo y el tercero. Y no olvidar lo más elemental: en toda mujer en edad reproductiva en la que el embarazo no pueda descartarse con certeza, la prueba se pide antes de operar.',
+      criterios_dx: 'La estratificación se hace con dos ejes. El primero es la urgencia: lo urgente y lo esencial se opera sin demora, lo no esencial se pospone hasta después del parto, y lo intermedio se programa preferentemente en el <strong>segundo trimestre</strong>, el periodo que tradicionalmente se considera más seguro, porque en el primero hay más aborto espontáneo y en el tercero más parto prematuro, además de un útero que complica la cirugía abdominal. El segundo es la duración prevista de la anestesia: el riesgo de desenlace obstétrico adverso aumenta alrededor de un 2 % por cada minuto de anestesia.',
+      tx_medico: 'La decisión corresponde a un equipo multidisciplinario con cirugía, obstetricia, neonatología y anestesiología. Preferir la anestesia locorregional siempre que sea posible, porque evita de golpe la intubación difícil, la broncoaspiración, el despertar intraoperatorio y la exposición a anestésicos generales. Si hace falta anestesia general, el objetivo es acortar la exposición todo lo posible. Los tiempos de ayuno son los mismos que fuera del embarazo (6 a 8 horas para sólidos y 2 para líquidos claros), pero desde las 15 a 18 semanas se recomiendan inducción de secuencia rápida y profilaxis de broncoaspiración, y desde las 10 a 18 semanas, posición en decúbito lateral izquierdo de 15 a 30 grados. El abordaje laparoscópico no empeora los desenlaces fetales frente a la laparotomía y se considera de elección.',
+      tx_farmacologico: 'Antibióticos seguros: betalactámicos, metronidazol, clindamicina y vancomicina. Teratogénicos, que hay que evitar: fluoroquinolonas, tetraciclinas y aminoglucósidos. Para la analgesia posoperatoria, el paracetamol es seguro y los opioides caben por periodos cortos, pero se <strong>evitan los antiinflamatorios no esteroideos</strong>, el uso prolongado de opioides y la ketamina. Ondansetrón y metoclopramida son adecuados para la náusea y el vómito. La tromboprofilaxis se decide tras cada cirugía e incluye deambulación temprana, heparina de bajo peso molecular y medidas mecánicas.',
+      seguimiento_hospitalario: 'Tocometría en el posoperatorio temprano, porque la analgesia puede enmascarar contracciones leves; la tocolisis profiláctica de rutina no se recomienda. La monitorización de la frecuencia cardíaca fetal es técnicamente posible desde las 16 a 22 semanas, pero no ha demostrado mejorar el desenlace fetal: su uso se decide caso por caso y en equipo, y requiere a alguien capaz de interpretarla sabiendo que bajo anestesia general la variabilidad disminuye de forma normal.',
+      algoritmo: [
+        'Confirmar el embarazo y la edad gestacional.',
+        'Decidir en equipo si la cirugía es urgente, puede esperar al segundo trimestre o al posparto.',
+        'Elegir la técnica: locorregional si es posible, y acortar la exposición si no lo es.',
+        'Revisar cada fármaco contra la lista de seguros y teratogénicos.',
+        'Indicar tromboprofilaxis y dejar por escrito la vigilancia de contracciones.'
+      ]
+    },
+    {
       nombre: 'El portador de marcapasos o desfibrilador',
       color: '#5c4a73',
       definicion: 'Paciente con dispositivo cardiaco implantable que requiere cirugía. El problema es la interferencia electromagnética del electrobisturí, que puede inhibir el marcapasos o provocar descargas inapropiadas del desfibrilador.',
@@ -311,6 +338,7 @@ export const compCites = {
   'El paciente con obesidad': { tx_farmacologico: [3] },
   'El paciente inmunosuprimido': { criterios_dx: [1] },
   'El paciente con valvulopatía grave': { criterios_dx: [1], tx_medico: [1], tx_farmacologico: [1], seguimiento_hospitalario: [1] },
+  'La paciente embarazada': { definicion: [11], criterios_dx: [11], tx_medico: [11], tx_farmacologico: [11], seguimiento_hospitalario: [11] },
   'El portador de marcapasos o desfibrilador': { tx_farmacologico: [2] }
 };
 
@@ -342,7 +370,8 @@ export const compGroups = [
   { title: 'Riesgo cardiovascular y antitrombótico', items: ['El paciente con stent coronario', 'El paciente anticoagulado', 'El paciente con valvulopatía grave', 'El portador de marcapasos o desfibrilador'] },
   { title: 'Riesgo metabólico y respiratorio', items: ['El paciente diabético', 'El paciente con EPOC o apnea del sueño', 'El paciente con obesidad'] },
   { title: 'Riesgo por falla orgánica', items: ['El paciente cirrótico', 'El paciente con enfermedad renal crónica o en diálisis'] },
-  { title: 'Riesgo por reserva y por inmunidad', items: ['El anciano frágil', 'El paciente inmunosuprimido'] }
+  { title: 'Riesgo por reserva y por inmunidad', items: ['El anciano frágil', 'El paciente inmunosuprimido'] },
+  { title: 'Cuando hay dos pacientes', items: ['La paciente embarazada'] }
 ];
 
 export const categories = [
