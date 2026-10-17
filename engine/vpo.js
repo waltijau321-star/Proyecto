@@ -259,6 +259,23 @@ function migaHTML(st) {
   return `<ol class="vpo-miga">${items}</ol>`;
 }
 
+// Lo que ya se calculo para este paciente se repite bajo el paso: la pregunta se contesta
+// mirando el numero, y tenerlo que recordar de otra pestana es justo lo que se queria evitar.
+function herramientasHTML(p) {
+  if (!p.herramientas || !p.herramientas.length) return '';
+  const calculadas = escalasGuardadas();
+  const botones = p.herramientas.map(h => h.tipo === 'estudio'
+    ? `<button type="button" class="calc-btn" onclick="rmVpoEstudio('${h.key}')">${h.label}</button>`
+    : `<button type="button" class="calc-btn" onclick="rmVpoRutaEscala('${h.key}')">Calcular ${h.label}</button>`
+  ).join('');
+  const hechas = p.herramientas
+    .filter(h => h.tipo !== 'estudio' && calculadas[h.key])
+    .map(h => `<li>${calculadas[h.key].frase}.</li>`).join('');
+  return `
+    <div class="vpo-paso-tools">${botones}</div>
+    ${hechas ? `<ul class="vpo-paso-hechas cr-list">${hechas}</ul>` : ''}`;
+}
+
 function pasoHTML(p) {
   const opciones = p.opciones.map((o, i) => `
     <button type="button" class="vpo-op" onclick="rmVpoRutaElegir(${i})">
@@ -270,6 +287,7 @@ function pasoHTML(p) {
       <span class="vpo-paso-tag">${p.titulo}</span>
       <h3>${p.pregunta}</h3>
       ${p.ayuda ? `<p class="vpo-paso-ayuda">${p.ayuda}</p>` : ''}
+      ${herramientasHTML(p)}
       ${p.detalle ? `<div class="calc-note">${p.detalle}</div>` : ''}
       <div class="vpo-op-grid">${opciones}</div>
     </div>`;
@@ -464,6 +482,8 @@ function recogerResultado(key, r, calc, inicial) {
   }
   syncSet(ESCALAS_KEY, guardadas);
   if (ACTIVE === 'nota') pintarNota();
+  // Si la escala se abrio desde un paso de la ruta, el paso tiene que ensenar ya el resultado.
+  if (ACTIVE === 'ruta') pintarRuta();
 }
 
 function seccionNota(titulo, cuerpo) {
@@ -790,6 +810,14 @@ export function refocusVpo() {
   if (tab && tab.focus) tab.focus();
 }
 
+// Desde un paso de la ruta: abre la escala encima, sin saltar a la pestaña Escalas, para no
+// perder el paso en el que estabas. Hay que reapuntar el contexto del motor de calculadoras
+// porque la pestaña Ruta, a diferencia de Escalas, no lo toca al entrar.
+export function abrirEscalaDesdeRuta(key) {
+  setCalcTopic(calcTopic);
+  openCalc(key);
+}
+
 // Entrada desde el buscador global: garantiza que la pestaña Escalas esté montada y activa
 // antes de abrir la calculadora, ya que openCalc depende de CALC_TOPIC.
 export function openVpoCalc(key) {
@@ -810,6 +838,7 @@ window.rmVpoOpenFarmaco = openVpoFarmaco;
 window.rmVpoRutaElegir = rutaElegir;
 window.rmVpoRutaVolver = rutaVolver;
 window.rmVpoRutaReiniciar = rutaReiniciar;
+window.rmVpoRutaEscala = abrirEscalaDesdeRuta;
 window.rmVpoEscalaTema = abrirEscalaDeTema;
 window.rmVpoEstudio = abrirEstudio;
 window.rmVpoOpenEstudio = openVpoEstudio;

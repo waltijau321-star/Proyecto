@@ -933,6 +933,32 @@ async function run() {
       'con aclaramiento bajo deberia citar el intervalo largo del dabigatran');
   });
 
+  test('VPO ruta: la herramienta que declara un paso existe de verdad', () => {
+    // Cada paso abre la escala o el estudio con el que se contesta. Si alguien renombra una
+    // key, el boton deja de abrir nada y no falla en voz alta.
+    const keysEscala = new Set(vpoCalc.map(c => c.key));
+    const keysEstudio = new Set(vpoEst.estudios.map(e => e.id));
+    Object.values(ruta.pasos).forEach(paso => {
+      (paso.herramientas || []).forEach(h => {
+        assert(h.label, `el paso '${paso.id}' declara una herramienta sin etiqueta`);
+        if (h.tipo === 'estudio') {
+          assert(keysEstudio.has(h.key), `el paso '${paso.id}' abre el estudio '${h.key}', que no existe`);
+        } else {
+          assertEqual(h.tipo, 'escala', `el paso '${paso.id}' usa el tipo '${h.tipo}'`);
+          assert(keysEscala.has(h.key), `el paso '${paso.id}' abre la escala '${h.key}', que no existe`);
+        }
+      });
+    });
+  });
+
+  test('VPO ruta: los pasos que se contestan con una escala la traen a mano', () => {
+    // No es decoracion: son los dos pasos que el residente no puede contestar a ojo.
+    const herr = id => (ruta.pasos[id].herramientas || []).map(h => h.key);
+    assertEqual(herr('riesgo'), ['leeindex', 'guptamica'], 'el paso del riesgo calculado se contesta con Lee y Gupta-MICA');
+    assertEqual(herr('funcional'), ['dasi'], 'la capacidad funcional se contesta con el DASI');
+    assert(herr('utilidad').includes('biomarcadores'), 'el paso de la utilidad del estudio deberia abrir los biomarcadores');
+  });
+
   test('VPO ruta: el primer paso separa las cuatro categorias de la guia', () => {
     // "Sensible al tiempo" y "electiva" iban juntas, y es la distincion que decide si una
     // cirugia puede adelantarse a los 3 meses de un stent farmacoactivo.

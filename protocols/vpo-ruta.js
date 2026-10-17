@@ -12,8 +12,13 @@
 // estudiado ni validado de forma prospectiva, así que no sustituye el juicio clínico.
 //
 // Contrato:
-//   pasos[id] = { id, titulo, pregunta, ayuda?, detalle?, opciones: [{ label, nota?, destino }] }
+//   pasos[id] = { id, titulo, pregunta, ayuda?, detalle?, herramientas?: [...],
+//                 opciones: [{ label, nota?, destino }] }
 //   destino   = { paso: '<id>' } | { veredicto: '<id>' }
+//   herramientas = [{ tipo: 'escala'|'estudio', key, label }]
+// `herramientas` son las escalas o los estudios con los que se contesta ESE paso. El paso las
+// nombraba en su texto y el usuario tenia que ir a buscarlas a otra pestana, perdiendo el sitio
+// en el que estaba; declaradas aqui, el motor las abre sobre la propia ruta.
 //   veredictos[id] = { tono, titulo, texto, acciones[]?, nota? }
 // `tono` es uno de TONOS y define el color del bloque de resultado.
 // Los textos se inyectan con innerHTML: usar &lt; y &gt; en vez de < y >.
@@ -63,7 +68,11 @@ export const pasos = {
     id: 'riesgo',
     titulo: 'Riesgo cardiovascular calculado',
     pregunta: '¿El riesgo calculado de evento cardiovascular mayor es elevado?',
-    ayuda: 'Aquí se usan las escalas de la pestaña Escalas: el índice de Lee (RCRI) y Gupta-MICA.',
+    ayuda: 'Se contesta con una escala, no a ojo: el índice de Lee (RCRI) y Gupta-MICA.',
+    herramientas: [
+      { tipo: 'escala', key: 'leeindex', label: 'Índice de Lee' },
+      { tipo: 'escala', key: 'guptamica', label: 'Gupta-MICA' }
+    ],
     detalle: 'La guía define el riesgo combinando las características del <strong>paciente y del procedimiento</strong>, no solo el tipo de cirugía: <strong>riesgo bajo</strong> es una probabilidad de evento cardiovascular mayor <strong>menor de 1 %</strong>, y <strong>riesgo elevado</strong> es del <strong>1 % o más</strong> (esto abarca tanto el riesgo quirúrgico intermedio como el alto). El umbral que se usa tradicionalmente para identificarlo es <strong>RCRI &gt;1</strong>, o un riesgo calculado mayor de 1 % con cualquier calculadora perioperatoria; qué cuenta como elevado depende de la calculadora empleada.',
     opciones: [
       { label: 'Bajo', nota: 'Riesgo de evento cardiovascular mayor menor de 1 % (RCRI ≤1).', destino: { veredicto: 'procederBajo' } },
@@ -75,7 +84,8 @@ export const pasos = {
     id: 'funcional',
     titulo: 'Capacidad funcional',
     pregunta: '¿La capacidad funcional es adecuada?',
-    ayuda: 'En cirugía de riesgo elevado es razonable evaluarla de forma estructurada, por ejemplo con el Duke Activity Status Index (recomendación clase 2a). La calculadora DASI de la pestaña Escalas resuelve los dos criterios de una vez.',
+    ayuda: 'En cirugía de riesgo elevado es razonable evaluarla de forma estructurada, por ejemplo con el Duke Activity Status Index (recomendación clase 2a). La calculadora DASI resuelve los dos criterios de una vez.',
+    herramientas: [{ tipo: 'escala', key: 'dasi', label: 'DASI / MET' }],
     detalle: 'La guía define <strong>mala</strong> capacidad funcional como <strong>menos de 4 MET o un DASI de 34 o menos</strong>: basta con incumplir uno de los dos. La pregunta de cabecera que lo aproxima es si el paciente puede <strong>subir dos pisos de escaleras</strong>, actividad que supera los 4 MET. Los dos criterios no siempre coinciden, y ante la duda la ruta trata la capacidad como mala.',
     opciones: [
       { label: 'Sí', nota: 'Alcanza 4 MET o más <em>y</em> su DASI supera 34.', destino: { veredicto: 'procederFuncional' } },
@@ -88,6 +98,10 @@ export const pasos = {
     titulo: 'Utilidad de un estudio adicional',
     pregunta: '¿Un estudio adicional cambiaría el manejo?',
     ayuda: 'Es la pregunta que evita el estudio inútil. Si el resultado no va a cambiar nada, el estudio solo retrasa la cirugía y añade riesgo por la cascada de pruebas que desencadena.',
+    herramientas: [
+      { tipo: 'estudio', key: 'biomarcadores', label: 'Biomarcadores cardiacos' },
+      { tipo: 'estudio', key: 'estres', label: 'Prueba de estrés' }
+    ],
     detalle: 'Biomarcadores: en enfermedad cardiovascular conocida, edad ≥65 años, o edad ≥45 años con síntomas sugestivos, es razonable medir <strong>BNP o NT-proBNP</strong> antes de una cirugía de riesgo elevado (clase 2a), y puede ser razonable medir <strong>troponina</strong> (clase 2b). Umbrales anormales: troponina por encima del percentil 99 del ensayo, BNP &gt;92 ng/L, NT-proBNP ≥300 ng/L.',
     opciones: [
       { label: 'Sí, cambiaría el manejo', destino: { veredicto: 'estudiar' } },
