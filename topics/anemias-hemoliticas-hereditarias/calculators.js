@@ -18,7 +18,7 @@ export const calculators = [
     fields: [
       { name: 'retic', id: 'ipr-retic', type: 'number', step: '0.1', label: 'Reticulocitos (%)', placeholder: 'ej. 8', row: 'a' },
       { name: 'hto', id: 'ipr-hto', type: 'number', step: '0.1', label: 'Hematocrito del paciente (%)', placeholder: 'ej. 28', row: 'a' },
-      { name: 'htoNl', id: 'ipr-htonl', type: 'number', step: '0.1', label: 'Hematocrito normal de referencia (%)', placeholder: '45', row: 'b' },
+      { name: 'htoNl', id: 'ipr-htonl', type: 'number', step: '0.1', required: false, label: 'Hematocrito normal de referencia (%; vacío = 45)', placeholder: '45', row: 'b' },
       { type: 'note', text: 'El hematocrito normal de referencia por defecto es 45% si se deja en blanco.' }
     ],
     compute(v) {

@@ -80,8 +80,8 @@ export const calculators = [
         { value: 'desfib', label: 'Desfibrilable (fibrilacion o taquicardia sin pulso)' },
         { value: 'nodesfib', label: 'No desfibrilable (asistolia o actividad sin pulso)' }
       ] },
-      { name: 'descargas', id: 'sva-a2', type: 'number', step: '1', label: 'Descargas ya administradas', placeholder: 'ej. 0', row: true },
-      { name: 'ultima', id: 'sva-a3', type: 'number', step: '1', label: 'Min desde la ultima dosis (vacio si ninguna)', placeholder: 'ej. 4', row: true },
+      { name: 'descargas', id: 'sva-a2', type: 'number', step: '1', required: false, label: 'Descargas ya administradas (vacio si ninguna)', placeholder: 'ej. 0', row: true },
+      { name: 'ultima', id: 'sva-a3', type: 'number', step: '1', required: false, label: 'Min desde la ultima dosis (vacio si ninguna)', placeholder: 'ej. 4', row: true },
       { name: 'acceso', id: 'sva-a4', type: 'select', label: 'Acceso disponible', options: [
         { value: 'ninguno', label: 'Todavia ninguno' },
         { value: 'iv', label: 'Intravenoso' },

@@ -166,7 +166,7 @@ export const bibliografia = [
   'Ramirez JA, Wiemken TL, Peyrani P, et al. Adults hospitalized with pneumonia in the United States: incidence, epidemiology, and mortality. Clin Infect Dis. 2017;65(11):1806-1812.',
   'Wunderink RG, Waterer GW. Community-acquired pneumonia. N Engl J Med. 2014;370(6):543-551.',
   'Fishman JA. Infection in organ transplantation. Am J Transplant. 2017;17(4):856-879.',
-  'Hadid H, Usman M, Thapa S, et al. Lung abscess: contemporary non-conservative management. 2024.',
+  'Hadid W, Stella GM, Maskey AP, Bechara RI, Islam S. Lung abscess: the non-conservative management: a narrative review. J Thorac Dis. 2024;16(5):3431-3440. doi:10.21037/jtd-23-1561.',
   'Shumaker AH, Bhimraj A, Gallagher JC, et al. IDSA guidelines on the treatment and management of patients with COVID-19: antiviral therapy. 2026.'
 ];
 

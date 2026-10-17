@@ -32,7 +32,12 @@ even after the source files are correct on disk. To verify a fix landed in a rea
 session (not just a fresh incognito/no-SW tab): DevTools → Application → Service Workers →
 Unregister, then Application → Storage → Clear site data, then reopen the tab.
 
-**Deploy**: drag-and-drop the folder to Netlify (or connect a repo) — static, no build.
+**Deploy**: drag-and-drop the folder to Netlify (or connect a repo) — static, no build. The folder
+also carries working material that must never be served: `Bibliografia/` (copyrighted PDFs, "personal
+use only"), `.claude/` (holds `gemini-key.txt` on the author's machine), `tools/`, the temario `.docx`,
+`Calculos dosis.xlsx`, `esearch_result.json`, `CLAUDE.md`. `_redirects` forces a 404 on those paths in
+Netlify (which uploads everything dragged in) and `.assetsignore` keeps them out of a Cloudflare upload.
+Any new root-level working file or folder goes into **both** files.
 
 ## Architecture
 
@@ -44,7 +49,7 @@ only ever consume that shape. **Adding a new topic never touches the engine** �
 `topics/_template/` (or `topics/_template-semiologia/` for a Semiología-style topic, see
 `topics/historia-clinica/`), fill in the contract described in the template's comments, add an
 entry to `registry.js`, and optionally add the new files to `CORE` in `sw.js` for offline support.
-`topics/temario-index.js` is the separate, larger "full syllabus" tree (269 items) shown on
+`topics/temario-index.js` is the separate, larger "full syllabus" tree (318 items) shown on
 Inicio — most entries there don't have a built topic yet (`topicId: null`).
 
 **`app.js`** is the shell/router: owns section switching (`showSection`), the active topic

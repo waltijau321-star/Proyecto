@@ -14,8 +14,8 @@ export const calculators = [
     fields: [
       { name: 'peso', id: 'ganz-peso', type: 'number', step: '0.1', label: 'Peso (kg)', placeholder: 'ej. 65', row: 'a' },
       { name: 'hbActual', id: 'ganz-hbact', type: 'number', step: '0.1', label: 'Hemoglobina actual (g/dL)', placeholder: 'ej. 9', row: 'a' },
-      { name: 'hbObjetivo', id: 'ganz-hbobj', type: 'number', step: '0.1', label: 'Hemoglobina objetivo (g/dL)', placeholder: '15', row: 'b' },
-      { name: 'deposito', id: 'ganz-dep', type: 'number', step: '10', label: 'Depósito de hierro a reponer (mg)', placeholder: '500', row: 'b' },
+      { name: 'hbObjetivo', id: 'ganz-hbobj', type: 'number', step: '0.1', required: false, label: 'Hemoglobina objetivo (g/dL; vacío = 15)', placeholder: '15', row: 'b' },
+      { name: 'deposito', id: 'ganz-dep', type: 'number', step: '10', required: false, label: 'Depósito de hierro a reponer (mg; vacío = 500)', placeholder: '500', row: 'b' },
       { type: 'note', text: 'Hemoglobina objetivo (15 g/dL) y depósito (500 mg) prellenados para el adulto ≥35 kg; ajusta si tu paciente o tu criterio difieren.' }
     ],
     compute(v) {

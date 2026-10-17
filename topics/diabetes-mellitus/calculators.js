@@ -62,7 +62,7 @@ export const calculators = [
     subtitle: 'Conversion entre HbA1c y glucosa media (formula ADAG)',
     incompleteMsg: 'Introduce la HbA1c (%) o, en su defecto, la glucosa media (mg/dL).',
     fields: [
-      { name: 'hba1c', id: 'dm-hg-a1c', type: 'number', step: '0.1', label: 'HbA1c (%)', placeholder: 'ej. 7.5', row: 'r1' },
+      { name: 'hba1c', id: 'dm-hg-a1c', type: 'number', step: '0.1', required: false, label: 'HbA1c (%), o bien la glucosa', placeholder: 'ej. 7.5', row: 'r1' },
       { name: 'glucosa', id: 'dm-hg-glu', type: 'number', required: false, label: 'O bien: glucosa media (mg/dL)', placeholder: 'si no tienes la HbA1c', row: 'r1' },
       { type: 'note', text: 'Formula del estudio ADAG (Nathan DM, et al. 2008): glucosa media (mg/dL) = 28.7 x HbA1c - 46.7. Orientativa; la relacion individual varia y no sustituye a la monitorizacion. Equivalencias: HbA1c 6% cerca de 126 mg/dL, 7% cerca de 154, 8% cerca de 183, 9% cerca de 212, 10% cerca de 240.' }
     ],
