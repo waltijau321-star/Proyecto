@@ -202,6 +202,11 @@ async function buildAndSetGlobalIndex() {
       });
     }
   }
+  // Las calculadoras generales no pertenecen a ningún tema, así que el recorrido de arriba no
+  // las ve: sin esto, una escala general existe en la sección Calc pero no se puede buscar.
+  generalCalculators.forEach(c => {
+    index.push({ label: c.title, type: 'Calculadora', scope: 'General', section: 'calc', action: `openCalc('${c.key}')` });
+  });
   vpoSearchEntries().forEach(e => index.push(e));
   protocols.forEach(p => {
     index.push({ label: p.title, type: 'Protocolo', scope: 'Protocolos', section: 'protocolos', action: `rmProtoOpen('${p.id}')` });

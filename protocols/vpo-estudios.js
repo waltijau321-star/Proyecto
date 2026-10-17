@@ -16,11 +16,23 @@
 //    patients undergoing non-cardiac surgery. Eur Heart J. 2022;43(39):3826-3924.
 //
 // Contrato de cada entrada:
-//   { id, estudio, alias[], rutina, resumen, indicaciones[], noIndicado, vigencia?, notas[]?, fuente }
+//   { id, estudio, alias[], rutina, disparador, resumen, indicaciones[], noIndicado, vigencia?,
+//     notas[]?, fuente }
+// `disparador` es la respuesta corta a "¿qué hace que este estudio se pida?", y es lo que se
+// lee en el chip de la lista. Antes el chip decía "No de rutina" en los catorce: una columna
+// idéntica en todas las filas no informa de nada. `tipo` agrupa el disparador en lo que trae
+// el paciente (clinica), una recomendación con clase de la guía (guia) o la cirugía prevista
+// (procedimiento), y define el color del chip.
 // `resumen` es la frase que se lee en la lista sin abrir el detalle: la idea central de
 // cuándo se pide, para que la lista sea escaneable de un vistazo.
 // `rutina` es false en todos: ningún estudio preoperatorio se pide a todo paciente sin más.
 // Los textos se inyectan con innerHTML: usar &lt; y &gt; en vez de < y >.
+
+export const DISPARADORES = {
+  clinica:       { color: '#3d5a73' },
+  guia:          { color: '#8c3a34' },
+  procedimiento: { color: '#966b35' }
+};
 
 export const gruposEstudio = [
   { id: 'basicos', label: 'Laboratorio básico', accent: '#3f6b52' },
@@ -37,7 +49,7 @@ export const estudios = [
   /* ============ Laboratorio básico ============ */
   {
     id: 'biometria', grupo: 'basicos', estudio: 'Biometría hemática',
-    alias: ['hemograma', 'hemoglobina', 'BH'], rutina: false,
+    alias: ['hemograma', 'hemoglobina', 'BH'], rutina: false, disparador: { label: 'Sangrado o anemia', tipo: 'clinica' },
     resumen: 'Solo si se prevé sangrado o hay sospecha de anemia.',
     indicaciones: [
       'Cirugía con pérdida sanguínea prevista significativa',
@@ -52,7 +64,7 @@ export const estudios = [
   },
   {
     id: 'creatinina', grupo: 'basicos', estudio: 'Creatinina y electrolitos',
-    alias: ['función renal', 'química sanguínea', 'potasio', 'sodio'], rutina: false,
+    alias: ['función renal', 'química sanguínea', 'potasio', 'sodio'], rutina: false, disparador: { label: 'Comorbilidad', tipo: 'clinica' },
     resumen: 'Con comorbilidad, diuréticos o fármacos de eliminación renal.',
     indicaciones: [
       'Edad avanzada o comorbilidad cardiovascular',
@@ -71,7 +83,7 @@ export const estudios = [
   },
   {
     id: 'coagulacion', grupo: 'basicos', estudio: 'Pruebas de coagulación',
-    alias: ['TP', 'TTP', 'INR', 'tiempos'], rutina: false,
+    alias: ['TP', 'TTP', 'INR', 'tiempos'], rutina: false, disparador: { label: 'Antecedente hemorrágico', tipo: 'clinica' },
     resumen: 'Solo con antecedente hemorrágico. Es el peor tamizaje del panel.',
     indicaciones: [
       'Antecedente hemorrágico personal o familiar detectado en el interrogatorio',
@@ -88,7 +100,7 @@ export const estudios = [
   },
   {
     id: 'glucosa', grupo: 'basicos', estudio: 'Glucosa y hemoglobina glucosilada',
-    alias: ['HbA1c', 'glucemia', 'diabetes'], rutina: false,
+    alias: ['HbA1c', 'glucemia', 'diabetes'], rutina: false, disparador: { label: 'Diabetes', tipo: 'clinica' },
     resumen: 'HbA1c si el diabético no la tiene de los últimos 3 meses.',
     indicaciones: [
       'Diabetes conocida en la que no se ha medido HbA1c en los últimos 3 meses',
@@ -102,7 +114,7 @@ export const estudios = [
   },
   {
     id: 'ego', grupo: 'basicos', estudio: 'Examen general de orina',
-    alias: ['EGO', 'urocultivo', 'orina'], rutina: false,
+    alias: ['EGO', 'urocultivo', 'orina'], rutina: false, disparador: { label: 'Síntomas o prótesis', tipo: 'procedimiento' },
     resumen: 'Solo con síntomas, cirugía urológica o material protésico.',
     indicaciones: [
       'Síntomas urinarios activos',
@@ -114,7 +126,7 @@ export const estudios = [
   },
   {
     id: 'embarazo', grupo: 'basicos', estudio: 'Prueba de embarazo',
-    alias: ['gonadotropina', 'hCG', 'gestación'], rutina: false,
+    alias: ['gonadotropina', 'hCG', 'gestación'], rutina: false, disparador: { label: 'Si no se descarta', tipo: 'clinica' },
     resumen: 'Umbral bajo: si el embarazo no puede descartarse, se pide.',
     indicaciones: [
       'Toda mujer en edad reproductiva en la que el embarazo no pueda descartarse con certeza',
@@ -128,7 +140,7 @@ export const estudios = [
   /* ============ Evaluación cardiaca ============ */
   {
     id: 'ecg', grupo: 'cardiaco', estudio: 'Electrocardiograma de 12 derivaciones',
-    alias: ['ECG', 'EKG', 'electro'], rutina: false,
+    alias: ['ECG', 'EKG', 'electro'], rutina: false, disparador: { label: 'Riesgo elevado', tipo: 'guia' },
     resumen: 'Con cardiopatía o síntomas y cirugía de riesgo elevado.',
     indicaciones: [
       'Enfermedad coronaria conocida, arritmia significativa, enfermedad arterial periférica, enfermedad cerebrovascular u otra cardiopatía estructural relevante, cuando la cirugía es de riesgo elevado (clase 2a)',
@@ -142,7 +154,7 @@ export const estudios = [
   },
   {
     id: 'ecocardiograma', grupo: 'cardiaco', estudio: 'Ecocardiograma',
-    alias: ['ecocardio', 'función ventricular', 'FEVI'], rutina: false,
+    alias: ['ecocardio', 'función ventricular', 'FEVI'], rutina: false, disparador: { label: 'Disnea nueva', tipo: 'guia' },
     resumen: 'Solo con disnea nueva o sospecha de disfunción ventricular.',
     indicaciones: [
       'Disnea de nueva aparición, hallazgos de insuficiencia cardiaca en la exploración, o sospecha de disfunción ventricular nueva o en empeoramiento (clase 1)',
@@ -155,7 +167,7 @@ export const estudios = [
   },
   {
     id: 'estres', grupo: 'cardiaco', estudio: 'Prueba de estrés',
-    alias: ['ergometría', 'perfusión miocárdica', 'ecocardiograma de estrés', 'dobutamina'], rutina: false,
+    alias: ['ergometría', 'perfusión miocárdica', 'ecocardiograma de estrés', 'dobutamina'], rutina: false, disparador: { label: 'Si cambia la conducta', tipo: 'guia' },
     resumen: 'Solo si el resultado va a cambiar la conducta.',
     indicaciones: [
       'Cirugía de riesgo elevado con capacidad funcional mala o desconocida y riesgo cardiovascular elevado por una escala validada: puede considerarse (clase 2b)',
@@ -172,7 +184,7 @@ export const estudios = [
   },
   {
     id: 'biomarcadores', grupo: 'cardiaco', estudio: 'Biomarcadores cardiacos',
-    alias: ['BNP', 'NT-proBNP', 'troponina', 'péptido natriurético'], rutina: false,
+    alias: ['BNP', 'NT-proBNP', 'troponina', 'péptido natriurético'], rutina: false, disparador: { label: 'Riesgo elevado', tipo: 'guia' },
     resumen: 'BNP o NT-proBNP en riesgo elevado; troponina como complemento.',
     indicaciones: [
       'BNP o NT-proBNP: enfermedad cardiovascular conocida, edad de 65 años o más, o edad de 45 años o más con síntomas sugestivos, cuando la cirugía es de riesgo elevado (clase 2a)',
@@ -190,7 +202,7 @@ export const estudios = [
   /* ============ Evaluación respiratoria ============ */
   {
     id: 'rxtorax', grupo: 'respiratorio', estudio: 'Radiografía de tórax',
-    alias: ['placa de tórax', 'telerradiografía', 'Rx'], rutina: false,
+    alias: ['placa de tórax', 'telerradiografía', 'Rx'], rutina: false, disparador: { label: 'Síntomas respiratorios', tipo: 'clinica' },
     resumen: 'Solo con síntomas respiratorios o cardiopatía con cambio reciente.',
     indicaciones: [
       'Síntomas o signos respiratorios activos',
@@ -204,7 +216,7 @@ export const estudios = [
   },
   {
     id: 'espirometria', grupo: 'respiratorio', estudio: 'Espirometría y gasometría arterial',
-    alias: ['pruebas de función pulmonar', 'gases arteriales', 'PFP'], rutina: false,
+    alias: ['pruebas de función pulmonar', 'gases arteriales', 'PFP'], rutina: false, disparador: { label: 'Resección pulmonar', tipo: 'procedimiento' },
     resumen: 'Sobre todo antes de una resección pulmonar.',
     indicaciones: [
       'Resección pulmonar programada, donde definen la operabilidad',
@@ -217,7 +229,7 @@ export const estudios = [
   },
   {
     id: 'cribadoSaos', grupo: 'respiratorio', estudio: 'Cribado de apnea del sueño',
-    alias: ['STOP-BANG', 'SAOS', 'polisomnografía'], rutina: false,
+    alias: ['STOP-BANG', 'SAOS', 'polisomnografía'], rutina: false, disparador: { label: 'Obesidad o ronquido', tipo: 'clinica' },
     resumen: 'STOP-BANG a todo obeso o roncador; la polisomnografía no urge.',
     indicaciones: [
       'Obesidad, ronquido, somnolencia diurna o apneas presenciadas',
@@ -232,7 +244,7 @@ export const estudios = [
   /* ============ Preparación transfusional ============ */
   {
     id: 'tipoRh', grupo: 'transfusional', estudio: 'Grupo sanguíneo y pruebas cruzadas',
-    alias: ['tipo y Rh', 'cruzadas', 'reserva de sangre'], rutina: false,
+    alias: ['tipo y Rh', 'cruzadas', 'reserva de sangre'], rutina: false, disparador: { label: 'Según el procedimiento', tipo: 'procedimiento' },
     resumen: 'Según la probabilidad real de transfundir en ese procedimiento.',
     indicaciones: [
       'Cirugía con probabilidad significativa de transfusión, según el procedimiento y el centro',

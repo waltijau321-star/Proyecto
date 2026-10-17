@@ -308,6 +308,19 @@ async function run() {
     assert(/30 días/.test(r.rec), 'a partir de 9 puntos la profilaxis recomendada es de 30 días');
   });
 
+  test('VPO Caprini: los factores de la mujer suman, no quedan fuera del puntaje', () => {
+    // Faltaba la categoría entera del puntaje original: la paciente que toma un anticonceptivo
+    // o acaba de parir salía con menos puntos de los que le corresponden.
+    const base = { age: '0', surgery: '0', mobility: '0' };
+    assertEqual(vpo('caprini').compute(base).total, 0);
+    assertEqual(vpo('caprini').compute({ ...base, anticonceptivos: true }).total, 1);
+    assertEqual(vpo('caprini').compute({ ...base, embarazo: true }).total, 1);
+    assertEqual(vpo('caprini').compute({ ...base, abortos: true }).total, 1);
+    assertEqual(vpo('caprini').compute({ ...base, anticonceptivos: true, embarazo: true, abortos: true }).total, 3);
+    const etiquetas = vpo('caprini').fields.filter(f => f.type === 'note').map(f => f.text);
+    assert(etiquetas.includes('Solo en mujeres'), 'los tres factores deberían ir bajo su propio encabezado');
+  });
+
   test('VPO: la nota combinada declara las 6 escalas de riesgo y las trae expandidas por defecto', () => {
     assertEqual(vpoModule.combinedNote.items, ['asa', 'guptaprf', 'guptamica', 'detsky', 'leeindex', 'caprini']);
     assertEqual(vpoModule.combinedNote.defaultChecked, true);
@@ -621,7 +634,8 @@ async function run() {
   // Las escalas que VPO enlaza de otros temas se resuelven aquí, fuera del test: el runner es
   // síncrono y una promesa rechazada dentro de un test() pasaría inadvertida.
   const vpoEngineLinks = await import('./engine/vpo.js');
-  const enlacesVpo = vpoEngineLinks.ESCALAS_DE_TEMAS.map(e => [e.topicId, e.key]);
+  const generalesApp = (await import('./engine/general-calc.js')).generalCalculators;
+  const enlacesVpo = vpoEngineLinks.ESCALAS_DE_TEMAS.filter(e => !e.general).map(e => [e.topicId, e.key]);
   const registroVpo = await import('./topics/registry.js');
   const temasEnlazados = {};
   for (const [topicId] of enlacesVpo) {
@@ -645,6 +659,26 @@ async function run() {
         assert(!vpoKeys.has(c.key), `el tema '${id}' usa la key '${c.key}', que ya es de VPO`);
       });
     });
+  });
+
+  test('VPO: las escalas generales que enlaza siguen existiendo entre las generales', () => {
+    // CHA₂DS₂-VASc vive en engine/general-calc.js, no en un tema: openCalc la resuelve por el
+    // camino de las generales. Si se vuelve a quitar de ahí, la tarjeta de VPO no abriría nada.
+    vpoEngineLinks.ESCALAS_DE_TEMAS.filter(e => e.general).forEach(e => {
+      assert(generalesApp.some(c => c.key === e.key),
+        `VPO enlaza la escala general '${e.key}', que ya no está en general-calc.js`);
+    });
+  });
+
+  test('General CHA₂DS₂-VASc: los dos puntos de la edad y del ictus, y el caso del sexo solo', () => {
+    const ch = generalesApp.find(c => c.key === 'chadsvasc');
+    assert(ch, 'CHA₂DS₂-VASc debería estar entre las generales');
+    assertEqual(ch.compute({}).s, 0);
+    assertEqual(ch.compute({ edad75: true }).s, 2, 'la edad de 75 o más vale 2');
+    assertEqual(ch.compute({ acv: true }).s, 2, 'el ictus previo vale 2');
+    assertEqual(ch.compute({ icc: true, hta: true, dm: true, vascular: true, edad65: true, sexo: true }).s, 6);
+    assert(ch.compute({ sexo: true }).soloSexo, 'un punto solo por sexo femenino no indica anticoagular');
+    assert(!ch.compute({ hta: true }).soloSexo);
   });
 
   test('VPO: las escalas que VPO enlaza de otros temas siguen existiendo ahí', () => {
@@ -690,6 +724,18 @@ async function run() {
     const grupos = vpoEst.gruposEstudio.map(g => g.id);
     vpoEst.estudios.forEach(e => assert(grupos.includes(e.grupo), `'${e.id}' apunta al grupo inexistente '${e.grupo}'`));
     grupos.forEach(g => assert(vpoEst.estudios.some(e => e.grupo === g), `el grupo '${g}' quedó vacío`));
+  });
+
+  test('VPO estudios: cada uno declara qué lo dispara, y no todos dicen lo mismo', () => {
+    // El chip de la lista mostraba "No de rutina" en los catorce: una columna idéntica en todas
+    // las filas no ayuda a decidir si este paciente necesita este estudio.
+    const tipos = Object.keys(vpoEst.DISPARADORES);
+    vpoEst.estudios.forEach(e => {
+      assert(e.disparador && e.disparador.label, `'${e.id}' no dice qué lo dispara`);
+      assert(tipos.includes(e.disparador.tipo), `'${e.id}' usa el tipo de disparador '${e.disparador.tipo}'`);
+    });
+    const distintos = new Set(vpoEst.estudios.map(e => e.disparador.label));
+    assert(distintos.size >= 8, 'si casi todos los disparadores coinciden, el chip vuelve a no informar');
   });
 
   test('VPO estudios: ninguno se declara como estudio de rutina', () => {

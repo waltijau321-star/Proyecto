@@ -52,6 +52,8 @@ const surgeryOptions = () => SURGERY_TYPES.map(s => ({ value: s.value, label: s.
 const surgeryLabel = v => (SURGERY_TYPES.find(s => s.value === v) || {}).label || v;
 
 function logit100(L) { const e = Math.exp(L); return (100 * e / (1 + e)); }
+// "1 puntos" se lee mal, y con los factores de un solo punto el total de 1 es frecuente.
+const puntos = n => `${n} punto${n === 1 ? '' : 's'}`;
 // Deriva el rango/umbral de edad de otras escalas a partir de la edad exacta (compartida vía
 // shared:'age'). Estos campos solo RECIBEN la edad (sharedOut:null): un rango de Caprini o un
 // checkbox de Detsky no representan una edad exacta, así que no deben sobrescribirla.
@@ -78,7 +80,7 @@ const ASA_DEF = {
   VI: 'paciente donante de órganos con muerte cerebral declarada.'
 };
 const fragAsa = r => `<strong>ASA ${r.clase}${r.e ? 'E' : ''}</strong>`;
-const fmtAsa = r => `Estado físico ${fragAsa(r)} — ${ASA_DEF[r.clase]}${r.e ? ' Cirugía de emergencia: el retraso del tratamiento significaría un aumento significativo de la amenaza a la vida o a una parte del cuerpo.' : ''}`;
+const fmtAsa = r => `Estado físico ${fragAsa(r)}: ${ASA_DEF[r.clase]}${r.e ? ' Cirugía de emergencia: el retraso del tratamiento significaría un aumento significativo de la amenaza a la vida o a una parte del cuerpo.' : ''}`;
 // Conversión entre la clase ASA en números romanos (I-VI, usada por la calculadora ASA) y el
 // valor numérico 1-5 que piden Gupta Score y Gupta-MICA (sus modelos NSQIP no incluyen ASA VI,
 // donante de órganos, por lo que esa clase no tiene equivalente y no se propaga).
@@ -100,13 +102,13 @@ const fragGuptaMica = r => `<strong>Gupta-MICA ${r.pct.toFixed(2)}%</strong> de 
 const fmtGuptaMica = r => `${fragGuptaMica(r)} (cirugía ${surgeryLabel(r.surg)}, ASA ${r.asa}, ${r.age} años, ${r.creat ? 'creatinina ≥1.5 mg/dL' : 'creatinina normal'}, estado funcional ${r.funcLabel}). Incidencia promedio en la cohorte NSQIP: 0.65%.`;
 
 /* ===== Detsky (índice multifactorial modificado) ===== */
-const fragDetsky = r => `<strong>Detsky ${r.score} puntos</strong> — Clase ${r.cls} (riesgo cardiovascular aproximado ${r.risk})`;
+const fragDetsky = r => `<strong>Detsky ${puntos(r.score)}</strong>, clase ${r.cls} (riesgo cardiovascular aproximado ${r.risk})`;
 const fmtDetsky = r => `${fragDetsky(r)}. <span style="color:var(--ink-faint);font-size:12px;">Clases y riesgos aproximados de fuente secundaria; el artículo original (Detsky 1986) usa un nomograma de razón de verosimilitud específico por procedimiento y centro, no porcentajes fijos por clase.</span>`;
 
 /* ===== Índice de Lee (Revised Cardiac Risk Index) ===== */
 const LEE_RISK = ['0.4%', '0.9%', '7%', '11%'];
 const LEE_CLASS = ['I', 'II', 'III', 'IV'];
-const fragLee = r => `<strong>Índice de Lee grupo ${r.cls}</strong> — probabilidad de complicación cardiovascular mayor (IAM, edema pulmonar, fibrilación ventricular o bloqueo cardiaco completo) ${r.risk}`;
+const fragLee = r => `<strong>Índice de Lee grupo ${r.cls}</strong>, probabilidad de complicación cardiovascular mayor (IAM, edema pulmonar, fibrilación ventricular o bloqueo cardiaco completo) ${r.risk}`;
 const fmtLee = r => `${fragLee(r)} (${r.n} de 6 predictores presentes; cohorte de validación, Lee 1999).`;
 
 /* ===== Caprini (TEV) — organizado por categoría clínica, al estilo MDCalc ===== */
@@ -143,6 +145,14 @@ const CAPRINI_HISTORIA = [ // Historia presente o pasada
   { key: 'iam', pts: 1, label: 'Infarto de miocardio agudo' },
   { key: 'epoc', pts: 1, label: 'EPOC' }
 ];
+// Categoría propia del puntaje original, que faltaba: sin ella la paciente que toma un
+// anticonceptivo o acaba de parir sale con menos puntos de los que le corresponden, y el
+// usuario tenía que compensarlo a mano en "otros factores de riesgo".
+const CAPRINI_MUJER = [
+  { key: 'anticonceptivos', pts: 1, label: 'Anticonceptivos orales o terapia hormonal sustitutiva' },
+  { key: 'embarazo', pts: 1, label: 'Embarazo o posparto de menos de 1 mes' },
+  { key: 'abortos', pts: 1, label: 'Abortos de repetición o muerte fetal sin explicación' }
+];
 const ptsSpan = n => ` <span style="color:var(--ink-faint);font-size:12px;">(+${n} pt${n > 1 ? 's' : ''})</span>`;
 const checkboxField = it => ({ name: it.key, id: 'vc-' + it.key, type: 'checkbox', label: it.label + ptsSpan(it.pts) });
 function capriniFields() {
@@ -168,13 +178,15 @@ function capriniFields() {
     ] },
     { type: 'note', text: 'Historia presente o pasada' },
     ...CAPRINI_HISTORIA.map(checkboxField),
+    { type: 'note', text: 'Solo en mujeres' },
+    ...CAPRINI_MUJER.map(checkboxField),
     checkboxField({ key: 'malignancy', pts: 2, label: 'Neoplasia maligna presente o previa' }),
     checkboxField({ key: 'otherRisk', pts: 1, label: 'Otros factores de riesgo no listados' })
   ];
 }
 function capriniCompute(v) {
   let total = (+v.age) + (+v.surgery) + (+v.mobility);
-  [...CAPRINI_RECENT, ...CAPRINI_VENOSO, ...CAPRINI_HISTORIA].forEach(it => { if (v[it.key]) total += it.pts; });
+  [...CAPRINI_RECENT, ...CAPRINI_VENOSO, ...CAPRINI_HISTORIA, ...CAPRINI_MUJER].forEach(it => { if (v[it.key]) total += it.pts; });
   if (v.malignancy) total += 2;
   if (v.otherRisk) total += 1;
   let cat, rec;
@@ -191,7 +203,7 @@ function capriniCompute(v) {
   }
   return { total, cat, rec };
 }
-const fragCaprini = r => `<strong>Caprini ${r.total} puntos</strong> — riesgo de TEV ${r.cat}`;
+const fragCaprini = r => `<strong>Caprini ${puntos(r.total)}</strong>, riesgo de TEV ${r.cat}`;
 const fmtCaprini = r => `${fragCaprini(r)}. Se recomienda ${r.rec} <span style="color:var(--ink-faint);font-size:12px;">El umbral de "riesgo muy alto" varía por especialidad (≥5 cirugía general, ≥9-10 la mayoría de otros grupos, ≥10 artroplastia, ≥12 fractura de cadera); valorar siempre el riesgo de sangrado antes de indicar profilaxis farmacológica (Caprini 2005; MDCalc).</span>`;
 
 /* ===== Puente de anticoagulación (protocolo PAUSE, CHEST 2022) =====
@@ -315,7 +327,7 @@ function ariscatCompute(v) {
   else { cat = 'alto'; riesgo = '42.1%'; }
   return { total, cat, riesgo, ptsEdad };
 }
-const fragAriscat = r => `<strong>ARISCAT ${r.total} puntos</strong>, riesgo ${r.cat} de complicación pulmonar posoperatoria (${r.riesgo})`;
+const fragAriscat = r => `<strong>ARISCAT ${puntos(r.total)}</strong>, riesgo ${r.cat} de complicación pulmonar posoperatoria (${r.riesgo})`;
 const fmtAriscat = r => `${fragAriscat(r)}. Predice el conjunto de insuficiencia respiratoria, infección respiratoria, derrame pleural, atelectasia, neumotórax, broncoespasmo y neumonitis por aspiración. <span style="color:var(--ink-faint);font-size:12px;">Puntos de corte de la cohorte de validación: &lt;26 bajo, 26-44 intermedio, ≥45 alto (Canet 2010).</span>`;
 
 /* ===== STOP-BANG (apnea obstructiva del sueño) =====
@@ -395,7 +407,7 @@ function charlsonCompute(v) {
 // Con puntajes altos la exponencial de la fórmula lleva la supervivencia por debajo de lo que
 // el redondeo puede mostrar, y un "0%" literal diría más de lo que el índice puede sostener.
 const survTexto = s => (s < 1 ? 'menos de 1%' : s.toFixed(0) + '%');
-const fragCharlson = r => `<strong>Charlson ${r.total} puntos</strong> (incluye ${r.ptsEdad} por edad), supervivencia estimada a 10 años ${survTexto(r.superv)}`;
+const fragCharlson = r => `<strong>Charlson ${puntos(r.total)}</strong> (incluye ${r.ptsEdad} por edad), supervivencia estimada a 10 años ${survTexto(r.superv)}`;
 const fmtCharlson = r => `${fragCharlson(r)}. <span style="color:var(--ink-faint);font-size:12px;">La supervivencia procede de la fórmula publicada del índice y refleja la carga de comorbilidad, no el riesgo del procedimiento. En la valoración preoperatoria sirve para dimensionar cuánto beneficio puede esperar el paciente de una cirugía electiva (Charlson 1987).</span>`;
 
 /* ===== Aclaramiento de creatinina (Cockcroft-Gault) =====
@@ -489,12 +501,12 @@ export const calculators = [
     fields: [
       { name: 'clase', id: 'va-clase', type: 'select', label: 'Clasificación ASA', shared: 'asa',
         sharedOut: v => ASA_ROMAN_TO_NUM[v], sharedIn: v => ASA_NUM_TO_ROMAN[v], options: [
-        { value: 'I', label: 'I — Paciente sano' },
-        { value: 'II', label: 'II — Enfermedad sistémica leve', selected: true },
-        { value: 'III', label: 'III — Enfermedad sistémica grave' },
-        { value: 'IV', label: 'IV — Amenaza constante para la vida' },
-        { value: 'V', label: 'V — Moribundo, no se espera que sobreviva sin cirugía' },
-        { value: 'VI', label: 'VI — Donante de órganos con muerte cerebral' }
+        { value: 'I', label: 'I. Paciente sano' },
+        { value: 'II', label: 'II. Enfermedad sistémica leve', selected: true },
+        { value: 'III', label: 'III. Enfermedad sistémica grave' },
+        { value: 'IV', label: 'IV. Amenaza constante para la vida' },
+        { value: 'V', label: 'V. Moribundo, no se espera que sobreviva sin cirugía' },
+        { value: 'VI', label: 'VI. Donante de órganos con muerte cerebral' }
       ] },
       { name: 'emergencia', id: 'va-emerg', type: 'checkbox', label: 'Cirugía de emergencia (agrega el sufijo E)' }
     ],
@@ -731,7 +743,7 @@ export const calculators = [
     subtitle: 'Situación basal previa a la enfermedad actual',
     fields: [
       { name: 'grado', id: 'vfr-grado', type: 'select', label: 'Grado', options: Object.keys(FRAGILIDAD).map(k => ({
-        value: k, label: `${k} — ${FRAGILIDAD[k].label}`, selected: k === '3'
+        value: k, label: `${k}. ${FRAGILIDAD[k].label}`, selected: k === '3'
       })) },
       { type: 'note', text: 'Se puntúa según cómo estaba el paciente <strong>dos semanas antes</strong> de la enfermedad actual, no según cómo está hoy en cama.' }
     ],

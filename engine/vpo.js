@@ -14,7 +14,7 @@
 import { calculators, combinedNote } from '../protocols/vpo-calc.js';
 import { farmacos, grupos as farmacoGrupos, CONDUCTAS } from '../protocols/vpo-farmacos.js';
 import { pasos, veredictos, TONOS, PRIMER_PASO, FUENTE as RUTA_FUENTE } from '../protocols/vpo-ruta.js';
-import { estudios, gruposEstudio } from '../protocols/vpo-estudios.js';
+import { estudios, gruposEstudio, DISPARADORES } from '../protocols/vpo-estudios.js';
 import { mountCalculators, setCalcTopic, openCalc, openModalShell, setResultListener, clearSharedValues } from './calculators.js';
 import { syncGet, syncSet } from './cloud-sync.js';
 import { loadTopic } from '../topics/registry.js';
@@ -34,7 +34,8 @@ const ESCALAS_DE_TEMAS = [
   { topicId: 'cirrosis-hepatica', key: 'childpugh', titulo: 'Child-Pugh', porque: 'Gravedad de la cirrosis: el riesgo quirúrgico del cirrótico se dispara a partir de Child-Pugh B.' },
   { topicId: 'cirrosis-hepatica', key: 'meldna', titulo: 'MELD-Na', porque: 'Mortalidad a 90 días; orienta si conviene diferir una cirugía electiva en el paciente con hepatopatía.' },
   { topicId: 'transfusion-hemoderivados', key: 'umbral-eritrocitos', titulo: 'Umbral de transfusión', porque: 'La anemia preoperatoria es el factor de riesgo modificable con mejor rendimiento, y el umbral para transfundir no es el mismo antes de operar que en el sangrado agudo.' },
-  { topicId: 'delirium-coma-encefalopatias', key: 'cam-delirium', titulo: 'CAM', porque: 'La escala de delirium de aquí estima el riesgo antes de operar; el CAM es con lo que se reconoce después, y sin cognición basal documentada no se puede aplicar.' }
+  { topicId: 'delirium-coma-encefalopatias', key: 'cam-delirium', titulo: 'CAM', porque: 'La escala de delirium de aquí estima el riesgo antes de operar; el CAM es con lo que se reconoce después, y sin cognición basal documentada no se puede aplicar.' },
+  { general: true, key: 'chadsvasc', titulo: 'CHA₂DS₂-VASc', porque: 'Es por donde empieza la valoración del paciente anticoagulado: dimensiona lo que se arriesga al suspender el anticoagulante, aunque no sea lo que decide el puente.' }
 ];
 // Exportadas para tests.js: si alguien renombra una key en el tema de origen, el enlace queda
 // muerto sin hacer ruido, asi que la prueba recorre esta misma lista en vez de una copia.
@@ -48,15 +49,17 @@ function mountEscalas(pane) {
   });
   const body = pane.querySelector('.sec-body');
   if (!body) return;
+  // Una escala general (engine/general-calc.js) no pertenece a ningún tema, así que se abre
+  // directo: openCalc ya resuelve contra las generales cuando la key no es del tema activo.
   const cards = ESCALAS_DE_TEMAS.map(e => `
-    <div class="comp-card" style="--c:${ACCENT}" onclick="rmVpoEscalaTema('${e.topicId}','${e.key}')">
+    <div class="comp-card" style="--c:${ACCENT}" onclick="${e.general ? `openCalc('${e.key}')` : `rmVpoEscalaTema('${e.topicId}','${e.key}')`}">
       <h4>${e.titulo}</h4><p>${e.porque}</p>
       <div class="open-hint">Abrir →</div>
     </div>`).join('');
   const extra = document.createElement('div');
   extra.innerHTML = `
-    <h3 style="font-family:'Newsreader',serif;font-size:1.15rem;color:var(--ink);margin:28px 0 6px;">Escalas de otros temas</h3>
-    <p style="color:var(--ink-faint);font-size:12.5px;margin:0 0 12px;">Viven en su tema de estudio; se abren desde aquí para no mantener una segunda copia.</p>
+    <h3 style="font-family:'Newsreader',serif;font-size:1.15rem;color:var(--ink);margin:28px 0 6px;">Escalas que viven en otro sitio</h3>
+    <p style="color:var(--ink-faint);font-size:12.5px;margin:0 0 12px;">Son de un tema de estudio o de las generales de la app; se abren desde aquí para no mantener una segunda copia.</p>
     <div class="calc-launch-grid">${cards}</div>`;
   body.appendChild(extra);
 }
@@ -359,14 +362,17 @@ export function rutaParaNota() {
 
 const ESTUDIOS_KEY = 'rm:vpo:estudios';
 const estudioPorId = id => estudios.find(e => e.id === id);
-const chipEstudio = e => (e.rutina
-  ? { label: 'De rutina', color: '#3f6b52' }
-  : { label: 'No de rutina', color: '#8c3a34' });
+// El chip dice qué dispara cada estudio, no si es "de rutina": ninguno lo es, así que esa
+// etiqueta salía idéntica en los catorce y no ayudaba a decidir nada.
+const chipEstudio = e => ({
+  label: e.disparador.label,
+  color: (DISPARADORES[e.disparador.tipo] || DISPARADORES.clinica).color
+});
 
 const listaEstudios = listaMarcable({
   prefijo: 'vpo-est', clave: ESTUDIOS_KEY, items: estudios, grupos: gruposEstudio,
   nombre: e => e.estudio, sub: e => e.resumen, chip: chipEstudio,
-  heno: e => [e.estudio, e.resumen, e.noIndicado, (e.alias || []).join(' ')].join(' '),
+  heno: e => [e.estudio, e.resumen, e.noIndicado, e.disparador.label, (e.alias || []).join(' ')].join(' '),
   tituloBoton: 'Marcar como solicitado en la nota de VPO', abrir: 'rmVpoEstudio'
 });
 
