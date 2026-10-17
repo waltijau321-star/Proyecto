@@ -16,6 +16,10 @@
 //                 opciones: [{ label, nota?, destino }] }
 //   destino   = { paso: '<id>' } | { veredicto: '<id>' }
 //   herramientas = [{ tipo: 'escala'|'estudio', key, label }]
+//   lectura(escalas) -> { tono: 'elevado'|'bajo'|'mixto', texto } | null
+// `lectura` es opcional y traduce lo que el usuario ya calculo al umbral de ESE paso: recibe
+// las escalas guardadas ({ key: { frase, valor } }) y devuelve null mientras no haya nada que
+// leer. No contesta por el usuario, porque el umbral es de la guia pero la decision es suya.
 // `herramientas` son las escalas o los estudios con los que se contesta ESE paso. El paso las
 // nombraba en su texto y el usuario tenia que ir a buscarlas a otra pestana, perdiendo el sitio
 // en el que estaba; declaradas aqui, el motor las abre sobre la propia ruta.
@@ -74,6 +78,35 @@ export const pasos = {
       { tipo: 'escala', key: 'guptamica', label: 'Gupta-MICA' }
     ],
     detalle: 'La guía define el riesgo combinando las características del <strong>paciente y del procedimiento</strong>, no solo el tipo de cirugía: <strong>riesgo bajo</strong> es una probabilidad de evento cardiovascular mayor <strong>menor de 1 %</strong>, y <strong>riesgo elevado</strong> es del <strong>1 % o más</strong> (esto abarca tanto el riesgo quirúrgico intermedio como el alto). El umbral que se usa tradicionalmente para identificarlo es <strong>RCRI &gt;1</strong>, o un riesgo calculado mayor de 1 % con cualquier calculadora perioperatoria; qué cuenta como elevado depende de la calculadora empleada.',
+    // Traduce al umbral de este paso lo que el usuario ya calculo. Gupta-MICA da el riesgo
+    // combinado de paciente y procedimiento, que es como la guia define "elevado"; el RCRI
+    // usa el umbral clasico de mas de 1 predictor. Cuando discrepan, se dice, porque la propia
+    // guia advierte que que cuenta como elevado depende de la calculadora empleada.
+    lectura(escalas) {
+      const mica = escalas.guptamica && escalas.guptamica.valor;
+      const lee = escalas.leeindex && escalas.leeindex.valor;
+      if (!mica && !lee) return null;
+      const dichos = [];
+      let elevado = 0, bajo = 0;
+      if (mica && typeof mica.pct === 'number') {
+        const alto = mica.pct >= 1;
+        alto ? elevado++ : bajo++;
+        dichos.push(`Gupta-MICA da <strong>${mica.pct.toFixed(2)} %</strong>, que ${alto ? 'alcanza' : 'no alcanza'} el umbral de 1 %`);
+      }
+      if (lee && typeof lee.n === 'number') {
+        const alto = lee.n > 1;
+        alto ? elevado++ : bajo++;
+        dichos.push(`el RCRI suma <strong>${lee.n}</strong> predictor${lee.n === 1 ? '' : 'es'}, que ${alto ? 'supera' : 'no supera'} el umbral clásico de más de 1`);
+      }
+      if (!dichos.length) return null;
+      const frase = dichos.join(' y ') + '.';
+      if (elevado && bajo) {
+        return { tono: 'mixto', texto: `Lo calculado no coincide: ${frase} La propia guía advierte que qué cuenta como elevado depende de la calculadora empleada, así que aquí manda el juicio clínico.` };
+      }
+      return elevado
+        ? { tono: 'elevado', texto: `Lo calculado apunta a <strong>riesgo elevado</strong>: ${frase}` }
+        : { tono: 'bajo', texto: `Lo calculado apunta a <strong>riesgo bajo</strong>: ${frase}` };
+    },
     opciones: [
       { label: 'Bajo', nota: 'Riesgo de evento cardiovascular mayor menor de 1 % (RCRI ≤1).', destino: { veredicto: 'procederBajo' } },
       { label: 'Elevado', nota: 'Riesgo de 1 % o más (RCRI &gt;1).', destino: { paso: 'funcional' } }

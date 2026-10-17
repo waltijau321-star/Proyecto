@@ -259,6 +259,9 @@ function migaHTML(st) {
   return `<ol class="vpo-miga">${items}</ol>`;
 }
 
+// Colores de la lectura automatica de un paso (ver `lectura` en el contrato de vpo-ruta.js).
+const TONOS_LECTURA = { elevado: '#8c3a34', bajo: '#3f6b52', mixto: '#966b35' };
+
 // Lo que ya se calculo para este paciente se repite bajo el paso: la pregunta se contesta
 // mirando el numero, y tenerlo que recordar de otra pestana es justo lo que se queria evitar.
 function herramientasHTML(p) {
@@ -271,9 +274,16 @@ function herramientasHTML(p) {
   const hechas = p.herramientas
     .filter(h => h.tipo !== 'estudio' && calculadas[h.key])
     .map(h => `<li>${calculadas[h.key].frase}.</li>`).join('');
+  // Algunos pasos saben leer lo que ya se calculo y decir hacia donde apunta. No contestan por
+  // el usuario: el umbral es de la guia, pero la decision sigue siendo suya.
+  const lectura = typeof p.lectura === 'function' ? p.lectura(calculadas) : null;
+  const cajaLectura = lectura
+    ? `<div class="vpo-lectura" style="--v:${(TONOS_LECTURA[lectura.tono] || TONOS_LECTURA.mixto)}">${lectura.texto}</div>`
+    : '';
   return `
     <div class="vpo-paso-tools">${botones}</div>
-    ${hechas ? `<ul class="vpo-paso-hechas cr-list">${hechas}</ul>` : ''}`;
+    ${hechas ? `<ul class="vpo-paso-hechas cr-list">${hechas}</ul>` : ''}
+    ${cajaLectura}`;
 }
 
 function pasoHTML(p) {
@@ -480,7 +490,9 @@ function recogerResultado(key, r, calc, inicial) {
   } else {
     const frase = calc.fragment ? calc.fragment(r) : calc.format(r);
     if (guardadas[key] && guardadas[key].frase === frase) return; // sin cambios, no reescribir
-    guardadas[key] = { titulo: calc.title, frase, ts: Date.now() };
+    // Junto a la frase se guarda el resultado en crudo: la nota solo necesita el texto, pero la
+    // ruta lee los numeros para decir que dicen las escalas sobre el umbral de su paso.
+    guardadas[key] = { titulo: calc.title, frase, valor: r, ts: Date.now() };
   }
   syncSet(ESCALAS_KEY, guardadas);
   if (ACTIVE === 'nota') pintarNota();
@@ -838,7 +850,9 @@ export function refocusVpo() {
 // porque la pestaña Ruta, a diferencia de Escalas, no lo toca al entrar.
 export function abrirEscalaDesdeRuta(key) {
   setCalcTopic(calcTopic);
-  openCalc(key);
+  // Se abre como "pedida": el usuario pulso Calcular en el paso que necesita ese numero, asi
+  // que el resultado es suyo aunque no toque nada porque la ficha ya lo relleno todo.
+  openCalc(key, { pedida: true });
 }
 
 // Entrada desde el buscador global: garantiza que la pestaña Escalas esté montada y activa

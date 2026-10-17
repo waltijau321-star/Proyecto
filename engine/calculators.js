@@ -157,7 +157,10 @@ export function copyCalcResult(btn) {
 window.copyCalcResult = copyCalcResult;
 
 /* ---------- Abrir una calculadora individual ---------- */
-export function openCalc(key) {
+// `pedida` marca que el usuario pidio ESTA escala para ESTE paciente (hoy, el boton
+// "Calcular" de un paso de la ruta), no que la este hojeando: entonces el primer resultado ya
+// cuenta, aunque no toque ningun campo porque la ficha del paciente se los dio todos rellenos.
+export function openCalc(key, { pedida = false } = {}) {
   if (key === 'notacombinada') return openCombined();
   const calc = lookupCalc(key);
   if (!calc) return;
@@ -166,7 +169,7 @@ export function openCalc(key) {
   bindSharedFields();
   // Mientras el usuario no toque un campo, lo que se muestra son los valores por defecto:
   // se pinta el resultado igual, pero se avisa como "inicial" (ver notifyResult).
-  let tocada = false;
+  let tocada = pedida;
   const recalc = () => {
     const { v, missingRequired } = readAll(calc);
     if (missingRequired) { setResult(calc.incompleteMsg || 'Completa todos los campos.'); notifyResult(key, null, calc, !tocada); return; }

@@ -942,6 +942,11 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 .vpo-paso h3{font-family:'Newsreader',serif; font-size:1.45rem; font-weight:600; color:var(--ink); margin:0 0 8px;}
 .vpo-paso-ayuda{font-size:13.5px; color:var(--ink-dim); line-height:1.6; margin:0 0 12px; max-width:640px;}
 .vpo-paso-tools{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 14px;}
+.vpo-lectura{
+  border-left:3px solid var(--v); background:var(--panel2); border-radius:0 var(--radius) var(--radius) 0;
+  padding:10px 14px; margin:0 0 14px; font-size:13px; color:var(--ink-dim); line-height:1.6; max-width:640px;
+}
+.vpo-lectura strong{color:var(--ink);}
 .vpo-paso-tools .calc-btn{margin-left:0;}
 .vpo-paso-hechas{margin:0 0 14px; padding-left:20px; display:flex; flex-direction:column; gap:6px;
   font-size:13px; color:var(--ink-dim);}

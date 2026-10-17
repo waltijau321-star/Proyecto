@@ -924,6 +924,14 @@ async function run() {
       ronca.dispatchEvent(new Event('change'));
       assertEqual(Object.keys(syncGet('rm:vpo:escalas', {})), ['stopbang'],
         'tras responder un ítem, la escala debería entrar en la nota');
+
+      // Y una escala PEDIDA (el botón Calcular de un paso de la ruta) cuenta desde el primer
+      // resultado: el usuario la pidió para este paciente, y puede que no tenga nada que tocar
+      // porque la ficha ya le dio todos los campos.
+      syncSet('rm:vpo:escalas', {});
+      calcEngine.openCalc('apfel', { pedida: true });
+      assertEqual(Object.keys(syncGet('rm:vpo:escalas', {})), ['apfel'],
+        'una escala pedida desde un paso debería guardarse aunque no se toque nada');
     } finally {
       syncSet('rm:vpo:escalas', previas);
       calcEngine.closeModal();
@@ -990,6 +998,30 @@ async function run() {
       'con buen aclaramiento deberia citar el intervalo corto del dabigatran');
     assert(/intervalo largo/.test(bajo) && !/intervalo corto/.test(bajo),
       'con aclaramiento bajo deberia citar el intervalo largo del dabigatran');
+  });
+
+  test('VPO ruta: el paso del riesgo lee lo ya calculado contra el umbral de 1 %', () => {
+    // El paso pedia un juicio sin apoyo: la guia define elevado como 1 % o mas de riesgo de
+    // evento cardiovascular mayor, y el umbral clasico del RCRI es mas de 1 predictor.
+    const lectura = ruta.pasos.riesgo.lectura;
+    assertEqual(lectura({}), null, 'sin nada calculado no deberia decir nada');
+    assertEqual(lectura({ guptamica: { frase: 'x' } }), null, 'una escala guardada sin su valor no se puede leer');
+
+    const alto = lectura({ guptamica: { valor: { pct: 6.36 } } });
+    assertEqual(alto.tono, 'elevado');
+    assert(/6\.36 %/.test(alto.texto) && /1 %/.test(alto.texto), 'deberia citar el numero y el umbral');
+
+    const bajo = lectura({ guptamica: { valor: { pct: 0.42 } }, leeindex: { valor: { n: 1 } } });
+    assertEqual(bajo.tono, 'bajo', 'un RCRI de 1 no supera el umbral de mas de 1');
+
+    const mixto = lectura({ guptamica: { valor: { pct: 1.58 } }, leeindex: { valor: { n: 1 } } });
+    assertEqual(mixto.tono, 'mixto', 'si las dos escalas discrepan hay que decirlo');
+    assert(/juicio cl\u00ednico/.test(mixto.texto), 'cuando discrepan, la decision es del clinico');
+
+    const dosAltas = lectura({ guptamica: { valor: { pct: 6.36 } }, leeindex: { valor: { n: 3 } } });
+    assertEqual(dosAltas.tono, 'elevado');
+    assert(/3<\/strong> predictores/.test(dosAltas.texto), 'el plural del RCRI deberia concordar');
+    assert(/1<\/strong> predictor,/.test(lectura({ leeindex: { valor: { n: 1 } } }).texto), 'y el singular tambien');
   });
 
   test('VPO ruta: la herramienta que declara un paso existe de verdad', () => {
