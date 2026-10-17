@@ -29,7 +29,8 @@ export const bibliografia = [
   'Canet J, Gallart L, Gomar C, et al. Prediction of postoperative pulmonary complications in a population-based surgical cohort. Anesthesiology. 2010;113(6):1338-1350.',
   'Chung F, Yegneswaran B, Liao P, et al. STOP questionnaire: a tool to screen patients for obstructive sleep apnea. Anesthesiology. 2008;108(5):812-821.',
   'Halvorsen S, Mehilli J, Cassese S, et al. 2022 ESC Guidelines on cardiovascular assessment and management of patients undergoing non-cardiac surgery. Eur Heart J. 2022;43(39):3826-3924.',
-  'Caprini JA. Risk assessment as a guide to thrombosis prophylaxis. Curr Opin Pulm Med. 2010;16(5):448-452.'
+  'Caprini JA. Risk assessment as a guide to thrombosis prophylaxis. Curr Opin Pulm Med. 2010;16(5):448-452.',
+  'Delgado V, Ajmone Marsan N, de Waha S, et al. 2023 ESC Guidelines for the management of endocarditis. Eur Heart J. 2023;44(39):3948-4042.'
 ];
 
 export const modalLabels = {

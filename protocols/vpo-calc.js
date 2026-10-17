@@ -11,6 +11,8 @@
 //  - Lee TH, et al. Circulation. 1999;100(10):1043-1049. (Índice de Lee / RCRI)
 //  - Caprini JA. Curr Opin Pulm Med. 2010;16(5):448-452.
 //  - Gould MK, et al. Chest. 2012;141(2)(Suppl):e227S-e277S. (CHEST AT9 — VTE no ortopédica)
+//  - Delgado V, et al. 2023 ESC Guidelines for the management of endocarditis.
+//    Eur Heart J. 2023;44(39):3948-4042. (profilaxis de endocarditis infecciosa)
 
 /* ===== Tipos de cirugía compartidos por los calculadores de Gupta (mismas 21 categorías NSQIP) ===== */
 const SURGERY_TYPES = [
@@ -418,6 +420,78 @@ const survTexto = s => (s < 1 ? 'menos de 1%' : s.toFixed(0) + '%');
 const fragCharlson = r => `<strong>Charlson ${puntos(r.total)}</strong> (incluye ${r.ptsEdad} por edad), supervivencia estimada a 10 años ${survTexto(r.superv)}`;
 const fmtCharlson = r => `${fragCharlson(r)}. <span style="color:var(--ink-faint);font-size:12px;">La supervivencia procede de la fórmula publicada del índice y refleja la carga de comorbilidad, no el riesgo del procedimiento. En la valoración preoperatoria sirve para dimensionar cuánto beneficio puede esperar el paciente de una cirugía electiva (Charlson 1987).</span>`;
 
+/* ===== Profilaxis de endocarditis infecciosa =====
+   Delgado V, et al. 2023 ESC Guidelines for the management of endocarditis. Eur Heart J.
+   2023;44(39):3948-4042: Tabla de recomendaciones 1 (cardiopatías), 2 (procedimientos),
+   3 (intervenciones cardiacas) y Tabla 6 (régimen).
+
+   Las dos preguntas son independientes y hay que acertar las dos: una cardiopatía de alto
+   riesgo no justifica profilaxis ante cualquier procedimiento, y un procedimiento dental de
+   riesgo no la justifica en cualquier paciente. Ahí está el error frecuente en los dos
+   sentidos. Ojo con lo que cambió en 2023: en el paciente de alto riesgo, el procedimiento
+   invasivo NO dental dejó de ser una clase III y pasó a ser un "puede considerarse" (IIb). */
+const EI_CARDIOPATIA = {
+  ninguna:   { label: 'Ninguna de las de riesgo', riesgo: 'no', texto: 'sin cardiopatía de riesgo' },
+  previa:    { label: 'Endocarditis infecciosa previa', riesgo: 'alto', clase: 'clase 1', texto: 'endocarditis previa' },
+  protesis:  { label: 'Prótesis valvular quirúrgica, o material usado para reparar una válvula', riesgo: 'alto', clase: 'clase 1', texto: 'prótesis o material de reparación valvular' },
+  tavi:      { label: 'Prótesis aórtica o pulmonar implantada por catéter', riesgo: 'alto', clase: 'clase 1', texto: 'prótesis valvular por catéter' },
+  congenita: { label: 'Congénita cianótica no tratada, o tratada con shunt, conducto o prótesis paliativa', riesgo: 'alto', clase: 'clase 1', texto: 'cardiopatía congénita de riesgo' },
+  congenita6m: { label: 'Congénita reparada sin defecto residual, dentro de los primeros 6 meses', riesgo: 'alto', clase: 'clase 1', texto: 'cardiopatía congénita reparada hace menos de 6 meses' },
+  dav:       { label: 'Dispositivo de asistencia ventricular', riesgo: 'alto', clase: 'clase 1', texto: 'dispositivo de asistencia ventricular' },
+  cateterMT: { label: 'Reparación mitral o tricuspídea por catéter', riesgo: 'considerar', clase: 'clase 2a', texto: 'reparación valvular por catéter' },
+  trasplante:{ label: 'Receptor de trasplante cardiaco', riesgo: 'puede', clase: 'clase 2b', texto: 'trasplante cardiaco' }
+};
+const EI_PROCEDIMIENTO = {
+  dental:    { label: 'Dental de riesgo: extracción, cirugía oral, implante, endodoncia, raspado, o cualquier manipulación gingival o periapical' },
+  dentalNo:  { label: 'Dental sin manipulación gingival ni periapical: radiografías, ortodoncia, anestesia en tejido no infectado' },
+  invasivo:  { label: 'Invasivo no dental: respiratorio, digestivo, genitourinario, de piel o musculoesquelético' },
+  cardiaco:  { label: 'Implante de prótesis valvular, injerto, oclusor o dispositivo cardiaco' }
+};
+function endocarditisCompute(v) {
+  const card = EI_CARDIOPATIA[v.cardiopatia];
+  const proc = EI_PROCEDIMIENTO[v.procedimiento];
+  if (!card || !proc) return null;
+
+  // La intervención cardiaca lleva profilaxis quirúrgica por sí misma, tenga el paciente la
+  // cardiopatía que tenga: es prevención de la infección del material que se va a implantar.
+  if (v.procedimiento === 'cardiaco') {
+    return { veredicto: 'si', clase: 'clase 1', card, proc, cardiaca: true, alergia: v.alergia, anafilaxia: v.anafilaxia };
+  }
+  if (card.riesgo === 'no' || v.procedimiento === 'dentalNo') {
+    return { veredicto: 'no', card, proc, cardiaca: false, alergia: v.alergia, anafilaxia: v.anafilaxia };
+  }
+  if (v.procedimiento === 'invasivo') {
+    // Solo en el paciente de ALTO riesgo, y como "puede considerarse": la propia tabla aclara
+    // que no aplica al riesgo intermedio ni a la población general.
+    return card.riesgo === 'alto'
+      ? { veredicto: 'puede', clase: 'clase 2b', card, proc, cardiaca: false, alergia: v.alergia, anafilaxia: v.anafilaxia }
+      : { veredicto: 'no', card, proc, cardiaca: false, alergia: v.alergia, anafilaxia: v.anafilaxia };
+  }
+  // Dental de riesgo: manda la clase de la cardiopatía.
+  const veredicto = card.riesgo === 'alto' ? 'si' : (card.riesgo === 'considerar' ? 'considerar' : 'puede');
+  return { veredicto, clase: card.clase, card, proc, cardiaca: false, alergia: v.alergia, anafilaxia: v.anafilaxia };
+}
+const EI_VERBO = { si: 'Procede', considerar: 'Conviene considerar', puede: 'Puede considerarse', no: 'No procede' };
+function eiRegimen(r) {
+  if (r.cardiaca) {
+    return 'Profilaxis quirúrgica según el protocolo del centro, dirigida a estafilococo. Añadir: cribado nasal de <em>S. aureus</em> antes de la cirugía cardiaca electiva o del implante valvular por catéter, para tratar a los portadores (clase 1), y eliminar los focos de sepsis dental al menos 2 semanas antes de implantar el material, salvo que el procedimiento sea urgente.';
+  }
+  if (!r.alergia) {
+    return 'Dosis única 30 a 60 minutos antes: <strong>amoxicilina 2 g por vía oral</strong>. Si no tolera la vía oral, ampicilina 2 g IM o IV, o cefazolina o ceftriaxona 1 g IM o IV.';
+  }
+  return r.anafilaxia
+    ? 'Dosis única 30 a 60 minutos antes, sin cefalosporinas por el antecedente de anafilaxia, angioedema o urticaria: <strong>azitromicina o claritromicina 500 mg</strong>, o doxiciclina 100 mg, por vía oral.'
+    : 'Dosis única 30 a 60 minutos antes: <strong>cefalexina 2 g por vía oral</strong> (u otra cefalosporina oral de primera o segunda generación), azitromicina o claritromicina 500 mg, o doxiciclina 100 mg.';
+}
+const fragEndocarditis = r => r.veredicto === 'no'
+  ? `<strong>No procede profilaxis de endocarditis</strong> (${r.card.texto})`
+  : `<strong>${EI_VERBO[r.veredicto]} profilaxis de endocarditis</strong> (${r.cardiaca ? 'implante de material cardiaco' : r.card.texto}; ${r.clase})`;
+const fmtEndocarditis = r => `${fragEndocarditis(r)}. ${r.veredicto === 'no'
+  ? (r.card.riesgo === 'no'
+      ? 'La profilaxis no está recomendada en el paciente que no tiene una de las cardiopatías de riesgo, sea cual sea el procedimiento (clase 3).'
+      : 'La cardiopatía sí es de riesgo, pero este procedimiento no es de los que la justifican: la indicación son los procedimientos dentales con manipulación gingival o periapical.')
+  : eiRegimen(r)} <span style="color:var(--ink-faint);font-size:12px;">Nunca clindamicina: la guía la retiró por el riesgo de infección por <em>Clostridioides difficile</em>. La profilaxis antibiótica no sustituye a la higiene dental y cutánea, que es la medida que más previene (ESC 2023).</span>`;
+
 /* ===== Aclaramiento de creatinina (Cockcroft-Gault) =====
    Cockcroft DW, Gault MH. Nephron. 1976;16(1):31-41. Es la fórmula con la que se estudiaron y
    se etiquetaron los anticoagulantes orales directos, y la que usa el protocolo PAUSE para
@@ -730,6 +804,21 @@ export const calculators = [
     ],
     compute: apfelCompute,
     format: fmtApfel, fragment: fragApfel
+  },
+  {
+    key: 'endocarditis', title: 'Profilaxis de endocarditis', accent: '#7c2d2d',
+    subtitle: 'Hay que acertar las dos preguntas: qué cardiopatía y qué procedimiento',
+    fields: [
+      { name: 'cardiopatia', id: 'vei-cardiopatia', type: 'select', label: 'Cardiopatía del paciente',
+        options: Object.keys(EI_CARDIOPATIA).map(k => ({ value: k, label: EI_CARDIOPATIA[k].label, selected: k === 'ninguna' })) },
+      { name: 'procedimiento', id: 'vei-procedimiento', type: 'select', label: 'Procedimiento previsto',
+        options: Object.keys(EI_PROCEDIMIENTO).map(k => ({ value: k, label: EI_PROCEDIMIENTO[k].label, selected: k === 'dental' })) },
+      { name: 'alergia', id: 'vei-alergia', type: 'checkbox', label: 'Alergia a penicilina o ampicilina' },
+      { name: 'anafilaxia', id: 'vei-anafilaxia', type: 'checkbox', label: 'Con anafilaxia, angioedema o urticaria (contraindica también las cefalosporinas)' },
+      { type: 'note', text: 'La guía de 2023 cambió un punto que mucha gente da por sabido: en el paciente de <strong>alto riesgo</strong>, el procedimiento invasivo <strong>no dental</strong> ya no es una clase 3, sino un "puede considerarse". No aplica al riesgo intermedio ni a la población general.' }
+    ],
+    compute: endocarditisCompute,
+    format: fmtEndocarditis, fragment: fragEndocarditis
   },
   {
     key: 'cockcroft', title: 'Aclaramiento de creatinina', accent: '#3f6b52',

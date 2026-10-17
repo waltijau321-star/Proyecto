@@ -468,9 +468,10 @@ export function openVpoEstudio(id) {
 const ESCALAS_KEY = 'rm:vpo:escalas';
 // Exportado para poder comprobar en tests.js que ninguna escala se queda fuera de la nota.
 export const ORDEN_NOTA = ['asa', 'leeindex', 'guptamica', 'guptaprf', 'detsky', 'dasi', 'ariscat',
-  'stopbang', 'apfel', 'fragilidad', 'charlson', 'delirium', 'caprini', 'cockcroft', 'puenteac'];
+  'stopbang', 'apfel', 'fragilidad', 'charlson', 'delirium', 'caprini', 'cockcroft', 'puenteac',
+  'endocarditis'];
 // Las que, aun calculándose como escalas, pertenecen al bloque de fármacos de la nota.
-const EN_FARMACOS = ['cockcroft', 'puenteac'];
+const EN_FARMACOS = ['cockcroft', 'puenteac', 'endocarditis'];
 
 function escalasGuardadas() { return syncGet(ESCALAS_KEY, {}); }
 

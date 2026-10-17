@@ -981,6 +981,54 @@ async function run() {
     assert(conElectiva.pct < sinElectiva.pct, 'la cirugia electiva deberia bajar el riesgo calculado');
   });
 
+  test('VPO endocarditis: hay que acertar las dos preguntas, la cardiopatia y el procedimiento', () => {
+    // El error frecuente va en los dos sentidos: dar profilaxis a todo portador de protesis
+    // ante cualquier procedimiento, y no darla nunca.
+    const ei = vpo('endocarditis');
+    const caso = (cardiopatia, procedimiento, extra) => ei.compute({ cardiopatia, procedimiento, ...extra });
+    assertEqual(caso('ninguna', 'dental').veredicto, 'no', 'sin cardiopatia de riesgo no hay profilaxis');
+    assertEqual(caso('protesis', 'dental').veredicto, 'si', 'protesis valvular y procedimiento dental de riesgo: clase 1');
+    assertEqual(caso('previa', 'dental').clase, 'clase 1', 'la endocarditis previa es clase 1');
+    assertEqual(caso('protesis', 'dentalNo').veredicto, 'no', 'el dental sin manipulacion gingival no la justifica');
+    assertEqual(caso('cateterMT', 'dental').veredicto, 'considerar', 'la reparacion por cateter es clase 2a');
+    assertEqual(caso('trasplante', 'dental').veredicto, 'puede', 'el trasplante cardiaco es clase 2b');
+  });
+
+  test('VPO endocarditis: el procedimiento invasivo no dental ya no es una clase 3', () => {
+    // Cambio de la guia de 2023 que contradice lo que mucha gente aprendio: en el paciente de
+    // ALTO riesgo puede considerarse (2b), pero sigue sin aplicar al resto.
+    const ei = vpo('endocarditis');
+    const alto = ei.compute({ cardiopatia: 'protesis', procedimiento: 'invasivo' });
+    assertEqual(alto.veredicto, 'puede');
+    assertEqual(alto.clase, 'clase 2b');
+    assertEqual(ei.compute({ cardiopatia: 'trasplante', procedimiento: 'invasivo' }).veredicto, 'no',
+      'el 2b del procedimiento invasivo es solo para el alto riesgo');
+    assertEqual(ei.compute({ cardiopatia: 'ninguna', procedimiento: 'invasivo' }).veredicto, 'no');
+  });
+
+  test('VPO endocarditis: el implante de material cardiaco lleva profilaxis por si mismo', () => {
+    // No es la profilaxis de la endocarditis del paciente de riesgo: es prevenir la infeccion
+    // del material que se va a implantar, y por eso aplica tambien al que no tiene cardiopatia.
+    const r = vpo('endocarditis').compute({ cardiopatia: 'ninguna', procedimiento: 'cardiaco' });
+    assertEqual(r.veredicto, 'si');
+    const texto = vpo('endocarditis').format(r);
+    assert(/S\. aureus/.test(texto), 'deberia recordar el cribado nasal de S. aureus');
+    assert(/2 semanas/.test(texto), 'y eliminar los focos dentales 2 semanas antes');
+  });
+
+  test('VPO endocarditis: el regimen cambia con la alergia, y nunca es clindamicina', () => {
+    const ei = vpo('endocarditis');
+    const texto = extra => ei.format(ei.compute({ cardiopatia: 'protesis', procedimiento: 'dental', ...extra }));
+    assert(/amoxicilina 2 g/i.test(texto({})), 'sin alergia, amoxicilina 2 g');
+    assert(/cefalexina 2 g/i.test(texto({ alergia: true })), 'con alergia, cefalexina');
+    const anafilaxia = texto({ alergia: true, anafilaxia: true });
+    assert(!/cefalexina/i.test(anafilaxia), 'con anafilaxia no caben las cefalosporinas');
+    assert(/azitromicina|doxiciclina/i.test(anafilaxia), 'quedan los macrolidos o la doxiciclina');
+    [{}, { alergia: true }, { alergia: true, anafilaxia: true }].forEach(extra => {
+      assert(!/clindamicina (600|300)/i.test(texto(extra)), 'la guia de 2023 retiro la clindamicina');
+    });
+  });
+
   test('VPO Cockcroft-Gault: la formula publicada, con el factor 0.85 de la mujer', () => {
     const c = vpo('cockcroft');
     // (140 - 70) x 80 / (72 x 1.2) = 64.8
