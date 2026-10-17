@@ -249,6 +249,21 @@ let SHARED_VALUES = {};
 // en memoria y "Paciente nuevo" no los tocaba, asi que la siguiente escala que se abria llegaba
 // con la edad y el ASA del paciente anterior ya puestos.
 export function clearSharedValues() { SHARED_VALUES = {}; }
+// Y como solo viven en memoria, se perdian al recargar y no cruzaban de dispositivo. Quien
+// quiera darles una casa (la ficha del paciente de VPO) los siembra al arrancar con
+// setSharedValues y se entera de cada cambio con setSharedListener: asi da igual si el dato se
+// escribe en la ficha o dentro de una escala.
+export function setSharedValues(obj) {
+  if (!obj || typeof obj !== 'object') return;
+  Object.entries(obj).forEach(([k, v]) => { if (v !== null && v !== undefined && v !== '') SHARED_VALUES[k] = v; });
+}
+export function getSharedValues() { return { ...SHARED_VALUES }; }
+let SHARED_LISTENER = null;
+export function setSharedListener(fn) { SHARED_LISTENER = typeof fn === 'function' ? fn : null; }
+function notifyShared() {
+  if (!SHARED_LISTENER) return;
+  try { SHARED_LISTENER(getSharedValues()); } catch (e) { console.error('VPO: fallo al guardar la ficha', e); }
+}
 function bindSharedFields() {
   const groups = {};
   (CALC_TOPIC.calculators || []).forEach(calc => {
@@ -272,6 +287,7 @@ function bindSharedFields() {
         const canonical = f.sharedOut ? f.sharedOut(raw) : raw;
         if (canonical === null || canonical === undefined) return;
         SHARED_VALUES[f.shared] = canonical;
+        notifyShared();
         group.forEach(other => {
           if (other.el === el) return;
           const val = other.f.sharedIn ? other.f.sharedIn(canonical) : canonical;

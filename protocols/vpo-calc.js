@@ -69,6 +69,14 @@ function ageAtLeast70(v) {
   const age = parseFloat(v);
   return isNaN(age) ? null : age >= 70;
 }
+// Lo mismo con la creatinina: la ficha del paciente guarda la cifra exacta y cada escala tiene
+// su propio umbral (1.5 en Gupta-MICA, mas de 2.0 en el indice de Lee). Estos campos solo la
+// RECIBEN (sharedOut:null): una casilla marcada no representa una creatinina concreta.
+const creatDesde = (umbral, estricto) => v => {
+  const c = parseFloat(v);
+  if (isNaN(c)) return null;
+  return estricto ? c > umbral : c >= umbral;
+};
 
 /* ===== ASA ===== */
 const ASA_DEF = {
@@ -564,7 +572,8 @@ export const calculators = [
         { value: 'partial', label: 'Parcialmente dependiente' },
         { value: 'total', label: 'Totalmente dependiente' }
       ] },
-      { name: 'creat', id: 'vm-creat', type: 'checkbox', label: 'Creatinina preoperatoria ≥1.5 mg/dL', row: 'b' },
+      { name: 'creat', id: 'vm-creat', type: 'checkbox', label: 'Creatinina preoperatoria ≥1.5 mg/dL', row: 'b',
+        shared: 'creatinina', sharedOut: () => null, sharedIn: creatDesde(1.5, false) },
       { name: 'surg', id: 'vm-surg', type: 'select', label: 'Tipo de cirugía', shared: 'surg', options: surgeryOptions() }
     ],
     compute(v) {
@@ -617,7 +626,8 @@ export const calculators = [
       { name: 'rf3', id: 'vl-rf3', type: 'checkbox', label: 'Insuficiencia cardiaca congestiva' },
       { name: 'rf4', id: 'vl-rf4', type: 'checkbox', label: 'Enfermedad cerebrovascular (ACV o AIT previos)' },
       { name: 'rf5', id: 'vl-rf5', type: 'checkbox', label: 'Diabetes tratada con insulina' },
-      { name: 'rf6', id: 'vl-rf6', type: 'checkbox', label: 'Creatinina sérica preoperatoria &gt;2.0 mg/dL' }
+      { name: 'rf6', id: 'vl-rf6', type: 'checkbox', label: 'Creatinina sérica preoperatoria &gt;2.0 mg/dL',
+        shared: 'creatinina', sharedOut: () => null, sharedIn: creatDesde(2.0, true) }
     ],
     compute(v) {
       const n = ['rf1', 'rf2', 'rf3', 'rf4', 'rf5', 'rf6'].reduce((s, k) => s + (v[k] ? 1 : 0), 0);
@@ -727,12 +737,12 @@ export const calculators = [
     incompleteMsg: 'Completa edad, peso y creatinina.',
     fields: [
       { name: 'edad', id: 'vcg-edad', type: 'number', label: 'Edad (años)', placeholder: 'ej. 75', row: 'a', shared: 'age' },
-      { name: 'sexo', id: 'vcg-sexo', type: 'select', label: 'Sexo', row: 'a', options: [
+      { name: 'sexo', id: 'vcg-sexo', type: 'select', label: 'Sexo', row: 'a', shared: 'sexo', options: [
         { value: 'm', label: 'Masculino', selected: true },
         { value: 'f', label: 'Femenino' }
       ] },
-      { name: 'peso', id: 'vcg-peso', type: 'number', label: 'Peso (kg)', placeholder: 'ej. 70', row: 'b' },
-      { name: 'creatinina', id: 'vcg-creatinina', type: 'number', step: '0.01', label: 'Creatinina sérica (mg/dL)', placeholder: 'ej. 1.2', row: 'b' },
+      { name: 'peso', id: 'vcg-peso', type: 'number', label: 'Peso (kg)', placeholder: 'ej. 70', row: 'b', shared: 'peso' },
+      { name: 'creatinina', id: 'vcg-creatinina', type: 'number', step: '0.01', label: 'Creatinina sérica (mg/dL)', placeholder: 'ej. 1.2', row: 'b', shared: 'creatinina' },
       { type: 'note', text: 'Fórmula: (140 − edad) × peso en kg / (72 × creatinina), × 0.85 si es mujer.' }
     ],
     compute: cockcroftCompute,

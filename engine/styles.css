@@ -834,6 +834,37 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 #study-root .pillbar{top:58px; z-index:40;}
 #vpo-root .vpo-tabbar{top:58px; z-index:40;}
 
+/* ---------------- VPO: ficha del paciente ----------------
+   Vive bajo la barra de pestañas y se ve desde cualquiera de ellas: los datos que repiten
+   las escalas (edad, peso, creatinina, ASA) son del paciente, no de una pestaña. */
+.vpo-ficha{
+  border:1px solid var(--line); border-radius:var(--radius); background:var(--panel);
+  margin:0 0 22px; overflow:hidden;
+}
+.vpo-ficha-cab{
+  width:100%; display:flex; align-items:center; gap:12px; padding:11px 14px;
+  background:none; border:0; cursor:pointer; text-align:left; color:var(--ink);
+}
+.vpo-ficha-tit{
+  font-family:'Source Sans 3',sans-serif; font-size:11px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.06em; color:var(--ink-faint); flex:none;
+}
+.vpo-ficha-resumen{
+  flex:1 1 auto; min-width:0; font-size:13.5px; color:var(--ink);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.vpo-ficha:not(.abierta) .vpo-ficha-resumen:empty::before{content:'Sin datos todavía'; color:var(--ink-faint);}
+.vpo-ficha-mas{
+  flex:none; font-size:12px; font-weight:600; color:var(--accent-fg);
+  border:1px solid var(--line); border-radius:999px; padding:3px 10px;
+}
+.vpo-ficha-cuerpo{padding:4px 14px 14px; border-top:1px solid var(--line);}
+.vpo-ficha-grid{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:14px; margin-top:12px;
+}
+.vpo-ficha-pie{font-size:12px; color:var(--ink-faint); line-height:1.5; margin:14px 0 0;}
+.vpo-nota-paciente{font-size:13.5px; font-style:italic; color:var(--ink); margin:0 0 14px;}
+
 /* ---------------- VPO: pestaña de fármacos ---------------- */
 .vpo-drug-search{margin-bottom:22px;}
 .vpo-drug-search input{

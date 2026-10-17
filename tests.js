@@ -649,6 +649,19 @@ async function run() {
     if (topic) temasParaColision[t.id] = topic;
   }
 
+  test('VPO: ningun otro tema usa campos compartidos, que acabarian en la ficha de VPO', () => {
+    // La ficha del paciente de VPO recoge TODO campo compartido que cambie, venga de donde
+    // venga. Mientras solo VPO declare `shared`, no hay dato ajeno que se pueda colar; si otro
+    // tema empieza a usarlos, hay que filtrar por escala igual que se hace con los resultados.
+    Object.entries(temasParaColision).forEach(([id, topic]) => {
+      (topic.calculators || []).forEach(c => {
+        (c.fields || []).forEach(f => {
+          assert(!f.shared, `el tema '${id}' comparte el campo '${f.shared}' en '${c.key}'`);
+        });
+      });
+    });
+  });
+
   test('VPO: ninguna key de VPO colisiona con la de otro tema', () => {
     // La nota de VPO decide qué resultado le pertenece comparando solo la key. Si un tema
     // usara una key genérica como 'charlson' o 'apfel', calcularla desde la sección Calc
@@ -929,6 +942,65 @@ async function run() {
     const texto = JSON.stringify(primero);
     assert(/2 horas/.test(texto) && /2 a 24 horas/.test(texto), 'los umbrales deberian ser los de la Tabla 2 de la guia');
     assert(/3 meses/.test(texto), 'sensible al tiempo se define por poder diferirse hasta 3 meses');
+  });
+
+  test('VPO ficha: el resumen del paciente se lee como una frase, corta o larga', () => {
+    const r = vpoEngine.resumenPaciente;
+    assertEqual(r({}), '', 'sin datos no deberia haber frase');
+    assertEqual(r({ edad: '72', sexo: 'f' }), 'Mujer de 72 años');
+    assertEqual(r({ edad: '72' }), '72 años');
+    assertEqual(r({ sexo: 'm', asa: '3' }), 'Varón, ASA III');
+    // La version larga es la que encabeza la nota del expediente.
+    const largo = r({ edad: '72', sexo: 'f', peso: '68', creatinina: '2.4', asa: '3', func: 'partial', surg: 'hernia' }, { largo: true });
+    assert(/68 kg/.test(largo) && /2\.4 mg\/dL/.test(largo), 'el peso y la creatinina solo salen en la version larga');
+    assert(/parcialmente dependiente/.test(largo), 'el estado funcional deberia ir en palabras');
+    assert(!/referencia/.test(largo), 'la "(referencia)" es del modelo de Gupta, no del paciente');
+    const corto = r({ edad: '72', sexo: 'f', peso: '68', creatinina: '2.4' });
+    assert(!/68 kg/.test(corto), 'la cabecera plegada no deberia cargar con todo');
+  });
+
+  test('VPO ficha: lo que se escribe una vez llega relleno a todas las escalas', () => {
+    // El dato del paciente se escribia tantas veces como escalas lo pidieran. Ahora vive en la
+    // ficha, y la creatinina exacta decide sola los umbrales de cada escala, que no coinciden:
+    // mas de 2.0 en el indice de Lee, 1.5 o mas en Gupta-MICA.
+    const caja = document.createElement('div');
+    caja.innerHTML = '<div id="overlay"><div id="modal"></div></div>';
+    document.body.appendChild(caja);
+    const CLAVES = ['rm:vpo:paciente', 'rm:vpo:escalas', 'rm:vpo:ruta', 'rm:vpo:farmacos', 'rm:vpo:estudios'];
+    const previas = CLAVES.map(k => [k, syncGet(k, null)]);
+    try {
+      vpoEngine.nuevoPaciente();
+      calcEngine.setCalcTopic({ meta: { accent: '#3d5a73' }, calculators: vpoCalc, combinedNote: vpoModule.combinedNote });
+      [['edad', '72'], ['sexo', 'f'], ['peso', '68'], ['creatinina', '1.8'], ['asa', '4'], ['surg', 'aortic']]
+        .forEach(([campo, valor]) => vpoEngine.fichaCampo(campo, valor));
+
+      calcEngine.openCalc('guptamica');
+      assertEqual(document.getElementById('vm-age').value, '72', 'la edad no llego a Gupta-MICA');
+      assertEqual(document.getElementById('vm-asa').value, '4', 'la clase ASA no llego a Gupta-MICA');
+      assertEqual(document.getElementById('vm-surg').value, 'aortic', 'el tipo de cirugia no llego a Gupta-MICA');
+      assert(document.getElementById('vm-creat').checked, 'una creatinina de 1.8 supera el umbral de 1.5 de Gupta-MICA');
+
+      calcEngine.openCalc('leeindex');
+      assert(!document.getElementById('vl-rf6').checked, 'una creatinina de 1.8 NO supera el umbral de 2.0 del indice de Lee');
+
+      calcEngine.openCalc('cockcroft');
+      assertEqual(document.getElementById('vcg-peso').value, '68', 'el peso no llego a Cockcroft-Gault');
+      assertEqual(document.getElementById('vcg-sexo').value, 'f', 'el sexo no llego a Cockcroft-Gault');
+
+      // Y al reves: lo que se escribe dentro de una escala se guarda en la ficha.
+      const edad = document.getElementById('vcg-edad');
+      edad.value = '80';
+      edad.dispatchEvent(new Event('input'));
+      assertEqual(syncGet('rm:vpo:paciente', {}).edad, '80', 'la edad escrita en una escala no volvio a la ficha');
+
+      // Y "Paciente nuevo" tambien se lleva la ficha.
+      vpoEngine.nuevoPaciente();
+      assertEqual(syncGet('rm:vpo:paciente', {}), {}, 'la ficha deberia vaciarse con el paciente nuevo');
+    } finally {
+      previas.forEach(([k, v]) => { if (v !== null) syncSet(k, v); });
+      calcEngine.closeModal();
+      caja.remove();
+    }
   });
 
   test('VPO buscador: encuentra por nombre, por alias y por el grupo, como ofrece el campo', () => {
