@@ -4,7 +4,10 @@
 // Las preguntas siguen .claude/skills/reglas-preguntas/SKILL.md: las 4 opciones de cada
 // pregunta son de la misma categoría lógica y de longitud comparable, los distractores son
 // errores conceptuales frecuentes (no absurdos), y la posición de `correct` se repartió a
-// propósito sin patrón: 2,0,3,1,0,2,1,3,2,0,3,1,3,0,2,1,0,3,2,1 (cinco de cada índice).
+// propósito sin patrón. El banco son 48 subpreguntas, el estándar del resto de los temas:
+// 29 sueltas y 6 cascadas (cinco de 3 pasos y una de 4). La secuencia completa de `correct`
+// es 2,0,3,1,0,2,1,3,2,0,3,1,3,0,2,1,0,3,2,1,3,1,0,2,0,3,1,2,0,1,3,0,2,3,2,1,2,1,3,0,1,0,
+// 2,3,2,3,0,1: doce de cada índice, sin dos iguales seguidas y sin ciclo reconocible.
 
 export const quiz = [
   {
@@ -248,6 +251,114 @@ export const quiz = [
     explanation: 'La fragilidad de grado 7 predice de forma independiente mortalidad, complicaciones, delirium, estancia prolongada e institucionalización al alta, más allá de lo que capturan las escalas cardiacas. En este contexto el valor de la valoración preoperatoria no está en emitir una autorización, sino en aportar la información que permite una decisión compartida: qué desenlaces son probables, cuáles serían aceptables para la paciente y su familia, y si la cirugía sirve a esos objetivos. El índice de Lee describe solo el riesgo cardiaco y no captura la fragilidad, así que no puede ser el criterio único. Contraindicar la cirugía por la edad es una decisión unilateral que ignora que la fragilidad se pondera junto con la indicación oncológica y las preferencias de la paciente. La prueba de estrés no aportaría nada aquí: su resultado no cambiaría el manejo, que es exactamente el filtro que la ruta perioperatoria propone antes de pedir cualquier estudio.'
   },
   {
+    q: 'Una mujer de 78 años con adenocarcinoma de colon será sometida a hemicolectomía abierta. Tiene antecedente de trombosis venosa profunda hace 10 años y un índice de Caprini de 10 puntos. ¿Cuál es la tromboprofilaxis más apropiada?',
+    options: [
+      'Compresión neumática intermitente sola mientras dure el ingreso',
+      'Heparina de bajo peso molecular únicamente el día de la cirugía',
+      'Heparina de bajo peso molecular con compresión, por 7 a 10 días',
+      'Heparina de bajo peso molecular con compresión, por 30 días'
+    ],
+    correct: 3,
+    dificultad: 'intermedio',
+    explanation: 'El puntaje de Caprini no solo estratifica: traduce el riesgo en una duración concreta de profilaxis. Con 9 puntos o más, la categoría más alta, la recomendación es compresión neumática intermitente más heparina de bajo peso molecular o heparina a dosis bajas durante 30 días en total, no solo mientras dure el ingreso. Esta paciente acumula puntos por edad, neoplasia, cirugía mayor y antecedente de trombosis, que es justo el perfil en el que la profilaxis extendida al alta demostró beneficio en cirugía oncológica abdominal. Los 7 a 10 días corresponden a las categorías intermedias, de 5 a 8 puntos. La compresión sola basta en el riesgo bajo, pero deja corto a esta paciente. Y una sola dosis el día de la cirugía no es profilaxis: el riesgo tromboembólico persiste semanas después del alta. Antes de indicar cualquier profilaxis farmacológica hay que valorar el riesgo hemorrágico de forma independiente.'
+  },
+  {
+    q: 'Un hombre de 54 años sin comorbilidad está programado para colecistectomía laparoscópica a las 14:00 horas. La enfermera pregunta desde cuándo debe suspender la vía oral. ¿Cuál es la indicación más apropiada?',
+    options: [
+      'Nada por vía oral desde la medianoche, como marca el protocolo',
+      'Comida ligera hasta 6 horas antes y agua hasta 2 horas antes',
+      'Líquidos claros hasta 6 horas antes y sólidos hasta 12 horas antes',
+      'Nada por vía oral desde 8 horas antes, líquidos claros incluidos'
+    ],
+    correct: 1,
+    dificultad: 'facil',
+    explanation: 'Los intervalos mínimos de ayuno antes de anestesia general son 2 horas para líquidos claros, 6 horas para una comida ligera y 8 horas o más para una comida con carne o alto contenido graso. El error frecuente no es ayunar poco, sino demasiado: mandar "nada por boca desde medianoche" a un paciente programado para la tarde significa 14 horas de ayuno que no añaden seguridad y sí deshidratación, hipoglucemia, malestar y peor recuperación. Invertir los intervalos, pidiendo más ayuno para los líquidos que para los sólidos, va en contra de la fisiología del vaciamiento gástrico: los líquidos claros se vacían en minutos. Prohibir también los líquidos claros durante 8 horas tiene el mismo problema. Los medicamentos que deben continuarse se toman con un sorbo de agua, que no rompe el ayuno.'
+  },
+  {
+    q: 'Un hombre de 61 años acude a valoración para una plastia inguinal electiva. Al preguntarle explícitamente por productos naturales menciona que toma ginkgo biloba y ajo en cápsulas a diario. ¿Cuál es la conducta más apropiada?',
+    options: [
+      'Suspender ginkgo y ajo 7 días antes por su efecto antiplaquetario',
+      'Continuarlos: los productos naturales no alteran la hemostasia',
+      'Suspenderlos todos la mañana de la cirugía, que es lo que se acostumbra',
+      'Sustituir el ginkgo por un antiagregante de vida media más corta'
+    ],
+    correct: 0,
+    dificultad: 'intermedio',
+    explanation: 'Los herbolarios con mayor efecto antiplaquetario se recuerdan por sus nombres en inglés, las cuatro G: ginkgo, ginseng, ginger (jengibre) y garlic (ajo). Se suspenden al menos 7 días antes, y hasta 14 si el riesgo hemorrágico del procedimiento es alto. Suspenderlos la mañana de la cirugía no sirve: el efecto sobre la función plaquetaria persiste días. Darlos por inocuos es el error que hace que nadie pregunte por ellos, y el paciente rara vez los menciona porque no los considera "medicamentos": hay que preguntarlo de forma dirigida, incluidos tés y suplementos. Sustituir uno por un antiagregante añade el riesgo que se intenta evitar. Otros dos de la lista tienen problemas propios: la hierba de San Juan es un inductor potente del citocromo P450 y se suspende 5 días antes, y la kava y la valeriana potencian el efecto sedante de los anestésicos.'
+  },
+  {
+    q: 'Un hombre de 58 años fumador de 30 cigarrillos diarios tiene programada una artroplastia de rodilla dentro de 6 semanas. ¿Qué conducta tiene mayor efecto sobre sus complicaciones posoperatorias?',
+    options: [
+      'Reducir el consumo a la mitad durante la semana previa',
+      'Mantener el consumo para no aumentar las secreciones',
+      'Iniciar hoy una intervención intensiva para dejarlo',
+      'Dejar el abandono para el ingreso, con apoyo hospitalario'
+    ],
+    correct: 2,
+    dificultad: 'facil',
+    explanation: 'Las intervenciones intensivas de abandono del tabaco en las 4 a 8 semanas previas son las que reducen las complicaciones respiratorias y de la herida quirúrgica, así que seis semanas es exactamente la ventana en la que conviene empezar hoy, en la propia consulta de valoración. Es de las intervenciones preoperatorias con mejor relación entre esfuerzo y beneficio, y de las que más se omiten por considerarse ajenas a la valoración. La preocupación clásica de que dejarlo justo antes de operar empeore las secreciones no se sostiene frente al beneficio de suspenderlo, y en todo caso aquí hay tiempo de sobra. Reducir a la mitad no equivale a dejarlo y no ha demostrado el mismo efecto. Posponerlo al ingreso desaprovecha las seis semanas, aunque la hospitalización sí es una ventana de alta receptividad para consolidar el abandono definitivo.'
+  },
+  {
+    q: 'Una mujer de 66 años con tromboembolia pulmonar hace 3 meses recibe enoxaparina a dosis terapéutica cada 12 horas. Está programada para colecistectomía mañana a las 8:00 horas. ¿Cuándo debe recibir la última dosis?',
+    options: [
+      'La mañana del día previo, unas 24 horas antes',
+      'La noche previa, con la dosis habitual de las 20:00 horas',
+      'Dos horas antes de entrar a quirófano',
+      'Cuarenta y ocho horas antes de la cirugía'
+    ],
+    correct: 0,
+    dificultad: 'intermedio',
+    explanation: 'Con heparina de bajo peso molecular a dosis terapéutica, la última dosis se administra la mañana del día previo, es decir unas 24 horas antes de la cirugía. A dosis profiláctica basta con 12 horas, que es de donde viene la confusión con la dosis de la noche previa: aplicar el intervalo profiláctico a una dosis terapéutica deja actividad anti-Xa residual en el momento de la incisión. Dos horas antes no permite ningún aclaramiento. Cuarenta y ocho horas dejan a una paciente con tromboembolia reciente desprotegida más tiempo del necesario. Dos detalles que conviene no olvidar: los intervalos de la anestesia neuroaxial son más estrictos que los quirúrgicos y hay que coordinarlos con anestesiología antes de programar un bloqueo, y el anti-Xa no se mide de rutina para guiar nada de esto.'
+  },
+  {
+    q: 'Un hombre de 70 años con enfermedad arterial periférica y dislipidemia toma atorvastatina de 40 mg al día. Será sometido a una derivación femoropoplítea programada. ¿Cuál es la conducta más apropiada con la estatina?',
+    options: [
+      'Suspenderla 5 días antes por el riesgo de rabdomiólisis perioperatoria',
+      'Suspenderla el día de la cirugía y reiniciarla al tolerar la vía oral',
+      'Reducir la dosis a la mitad mientras dure el periodo perioperatorio',
+      'Continuarla sin interrupción durante todo el perioperatorio'
+    ],
+    correct: 3,
+    dificultad: 'facil',
+    explanation: 'En quien ya las toma, las estatinas se continúan durante el perioperatorio para reducir el riesgo de evento cardiovascular mayor, y es una recomendación de clase 1. Suspenderlas produce un efecto rebote proinflamatorio y se asocia a más eventos cardiovasculares perioperatorios, justo lo contrario de lo que se busca en un paciente que va a cirugía vascular. El temor a la rabdomiólisis no justifica suspenderlas ni reducir la dosis en este contexto. Conviene ir un paso más allá: en el paciente que cumple criterios por enfermedad aterosclerótica y no las toma, se recomienda iniciarlas en el perioperatorio con intención de uso prolongado, también con clase 1. Es el contraste con el betabloqueador, que no se inicia de novo el día de la cirugía.'
+  },
+  {
+    q: 'Una mujer de 41 años sana será sometida a una histeroscopia diagnóstica. No toma medicamentos y el interrogatorio dirigido no encuentra antecedente hemorrágico personal ni familiar. El residente propone solicitar tiempos de coagulación. ¿Cuál es la conducta más apropiada?',
+    options: [
+      'Pedirlos, porque son el estándar antes de un procedimiento invasivo',
+      'No pedirlos: sin antecedente hemorrágico su rendimiento es muy bajo',
+      'Pedirlos solo si el procedimiento se prolonga más de una hora',
+      'Pedir además fibrinógeno y tiempo de sangrado como complemento'
+    ],
+    correct: 1,
+    dificultad: 'facil',
+    explanation: 'Las pruebas de coagulación son el estudio preoperatorio con peor rendimiento como tamizaje: en un paciente sin historia de sangrado su valor predictivo es muy bajo, y un resultado levemente alterado desencadena estudios y retrasos sin beneficio. Lo que sí rinde es el interrogatorio dirigido sobre epistaxis, sangrado con extracciones dentales, menorragia, hematomas fáciles y antecedentes familiares, que es exactamente lo que ya se hizo aquí. Se piden cuando ese interrogatorio es positivo, cuando hay anticoagulación en curso, hepatopatía conocida o sospechada, o desnutrición que haga probable un déficit de vitamina K. La duración prevista del procedimiento no es el criterio. Añadir tiempo de sangrado empeora el problema: es una prueba abandonada por su mala reproducibilidad.'
+  },
+  {
+    q: 'Un hombre de 69 años con angina estable tiene enfermedad coronaria de dos vasos sin afección del tronco, con isquemia moderada en la prueba de estrés. Requiere hemicolectomía por un adenocarcinoma. ¿Cuál es la conducta más apropiada?',
+    options: [
+      'Revascularizar antes de operar para reducir el infarto perioperatorio',
+      'Diferir la cirugía oncológica hasta completar la revascularización',
+      'Proceder con tratamiento médico optimizado y vigilancia estrecha',
+      'Colocar un stent farmacoactivo y operar a las dos semanas'
+    ],
+    correct: 2,
+    dificultad: 'dificil',
+    explanation: 'La revascularización coronaria preoperatoria de rutina en enfermedad que no es de tronco coronario izquierdo no reduce los eventos perioperatorios: es una recomendación de clase 3 por falta de beneficio. El objetivo de una prueba de estrés no es descubrir enfermedad coronaria, sino identificar a quien se beneficiaría de revascularizarse por su propia indicación, es decir enfermedad de tronco o multivaso grave con fracción de eyección reducida, que no es el caso. Diferir una cirugía oncológica para revascularizar suma el riesgo de la progresión tumoral al de la propia intervención coronaria. Y colocar un stent farmacoactivo es la peor de las opciones: obligaría a diferir la cirugía meses por la doble antiagregación, y operar a las dos semanas de un stent es potencialmente dañino.'
+  },
+  {
+    q: 'Un hombre de 45 años en tratamiento con naltrexona oral por trastorno por consumo de alcohol tiene programada una artroscopia de hombro. ¿Cuál es la conducta más apropiada con ese fármaco?',
+    options: [
+      'Suspenderla 72 horas antes del procedimiento',
+      'Continuarla y aumentar la dosis de opioide prevista',
+      'Sustituirla por buprenorfina la semana previa',
+      'Continuarla sin cambios, porque no interfiere con la analgesia'
+    ],
+    correct: 0,
+    dificultad: 'dificil',
+    explanation: 'La naltrexona es la excepción dentro de los fármacos relacionados con opioides: por ser un antagonista, bloquea el efecto analgésico de los opioides y se suspende 72 horas antes, o 4 semanas antes si se trata de la formulación inyectable de depósito. Lo contrario de lo que corresponde con la metadona, la buprenorfina o el opioide crónico, que se continúan a su dosis basal porque suspenderlos produce abstinencia y descontrol del dolor. Continuarla y escalar la dosis de opioide es peligroso: el bloqueo es competitivo, y cuando cede el antagonista la dosis acumulada puede producir depresión respiratoria. Sustituirla por buprenorfina cambia un problema por otro sin resolver el bloqueo. Estos pacientes requieren analgesia multimodal y, cuando se pueda, participación de la clínica del dolor antes de la cirugía.'
+  },
+  {
     type: 'cascade',
     dificultad: 'dificil',
     vignette: 'Un hombre de 71 años con diabetes tipo 2 e hipertensión tiene programada una hemicolectomía derecha electiva por adenocarcinoma de colon. Hace 8 meses recibió un stent farmacoactivo por angina estable, tras una prueba de esfuerzo positiva. Su tratamiento actual es aspirina de 100 mg al día, clopidogrel de 75 mg al día, empagliflozina, metformina, enalapril y atorvastatina. Camina más de tres cuadras y sube un piso de escaleras sin síntomas. Su creatinina es de 1.0 mg/dL.',
@@ -294,6 +405,196 @@ export const quiz = [
       }
     ],
     explanation: 'Este caso recorre la valoración preoperatoria completa de un paciente frecuente. Primero, el tiempo desde la intervención coronaria: un stent farmacoactivo colocado por enfermedad coronaria crónica permite la cirugía electiva a partir de los 6 meses (clase 2a), a diferencia del colocado por síndrome coronario agudo, que exige idealmente 12 meses. Segundo, la conducta con los antiagregantes: se continúa la aspirina de 75 a 100 mg siempre que sea posible, porque el paciente tiene intervención coronaria previa, y se suspende el clopidogrel 5 días antes. Tercero, los antidiabéticos: la metformina se continúa, mientras que el inhibidor de SGLT2 se suspende de 3 a 4 días antes precisamente para evitar la complicación del cuarto paso. Cuarto, esa complicación: acidosis con anión gap elevado, glucemia que no alarma y lactato normal, en un paciente que no suspendió el inhibidor de SGLT2, configuran la cetoacidosis diabética euglucémica. Es la trampa diagnóstica de la clase, porque la glucosa normal desvía la sospecha. El fallo de comunicación del caso también es realista: la indicación de suspender un fármaco solo sirve si llega al paciente por escrito y con fecha.'
+  },
+  {
+    type: 'cascade',
+    dificultad: 'dificil',
+    vignette: 'Un hombre de 68 años con fibrilación auricular no valvular toma apixabán de 5 mg cada 12 horas. Requiere una resección transuretral de próstata, procedimiento de riesgo hemorrágico alto. Su aclaramiento de creatinina es de 70 mL/min y su CHA₂DS₂-VASc es de 4 puntos.',
+    steps: [
+      {
+        q: '¿Con cuánta anticipación debe suspenderse el apixabán?',
+        options: [
+          'Un día antes, como en los procedimientos de riesgo bajo',
+          'Cinco días antes, con control de INR el día previo',
+          'Tres días antes, ajustando por el aclaramiento de creatinina',
+          'Dos días antes, por el riesgo hemorrágico alto'
+        ],
+        correct: 3
+      },
+      {
+        q: '¿Procede el puente con heparina de bajo peso molecular?',
+        options: [
+          'Sí, porque un CHA₂DS₂-VASc de 4 indica riesgo tromboembólico alto',
+          'Sí, pero solo a dosis profiláctica mientras dure la interrupción',
+          'No: el puente no está indicado con un anticoagulante directo',
+          'No, salvo que el aclaramiento descienda por debajo de 50 mL/min'
+        ],
+        correct: 2
+      },
+      {
+        q: '¿Cuándo debe reiniciarse el apixabán?',
+        options: [
+          'A las 6 horas, en cuanto termine el procedimiento',
+          'De 48 a 72 horas después, con hemostasia adecuada',
+          'A las 24 horas, igual que tras un procedimiento menor',
+          'A la semana, cuando se retire la sonda vesical'
+        ],
+        correct: 1
+      }
+    ],
+    explanation: 'Los tres pasos recorren el manejo completo de un anticoagulante directo. Primero el intervalo: apixabán, rivaroxabán y edoxabán se suspenden 1 día antes si el riesgo hemorrágico es bajo o moderado y 2 días si es alto, sin ajuste por función renal, que es exclusivo del dabigatrán. Controlar el INR no tiene sentido con un anticoagulante directo: no lo refleja. Segundo, el puente: la recomendación va en contra con cualquier anticoagulante directo, porque su inicio y fin de acción rápidos lo hacen innecesario, y un CHA₂DS₂-VASc alto describe el riesgo de suspenderlo pero no indica puentear; el puente sistemático multiplica el sangrado mayor sin reducir los eventos tromboembólicos. Tercero, el reinicio: más de 24 horas después en general, y de 48 a 72 horas tras un procedimiento de riesgo hemorrágico alto como este, siempre con hemostasia adecuada.'
+  },
+  {
+    type: 'cascade',
+    dificultad: 'dificil',
+    vignette: 'Una mujer de 58 años con artritis reumatoide toma prednisona de 10 mg al día desde hace dos años, metotrexato semanal y adalimumab cada dos semanas. Tiene programada una artroplastia total de rodilla y acude a valoración preoperatoria.',
+    steps: [
+      {
+        q: '¿Cómo conviene programar la cirugía respecto al adalimumab?',
+        options: [
+          'El mismo día de la dosis, con el efecto del fármaco en su pico',
+          'A la semana de la última dosis, a mitad del intervalo',
+          'En la tercera semana, al final del intervalo entre dosis',
+          'Tras suspenderlo tres meses, para que se elimine por completo'
+        ],
+        correct: 2
+      },
+      {
+        q: '¿Qué conducta corresponde con el metotrexato?',
+        options: [
+          'Suspenderlo dos semanas antes por el riesgo de infección',
+          'Continuarlo sin cambios durante el perioperatorio',
+          'Suspenderlo la semana de la cirugía y reiniciarlo al mes',
+          'Sustituirlo por leflunomida mientras cicatriza la herida'
+        ],
+        correct: 1
+      },
+      {
+        q: '¿Qué corresponde con la prednisona de 10 mg al día?',
+        options: [
+          'Suspenderla el día de la cirugía para no retrasar la cicatrización',
+          'Administrar hidrocortisona de 100 mg cada 8 horas por tres días',
+          'Duplicar la dosis oral habitual durante toda la semana previa',
+          'Continuarla e individualizar si conviene una dosis de estrés'
+        ],
+        correct: 3
+      }
+    ],
+    explanation: 'El conflicto de este caso es entre el riesgo de infección y mala cicatrización, y el de brote de la enfermedad de base. Con los biológicos se resuelve con el calendario: se programa la cirugía al final del intervalo entre dosis, de modo que con adalimumab cada dos semanas corresponde la tercera semana, y se reanuda a las 2 semanas aproximadamente, con la herida cicatrizada y sin datos de infección. El metotrexato, en cambio, se continúa: no aumenta la infección de herida y suspenderlo desencadena brotes; solo es razonable suspenderlo si hay lesión renal aguda o sepsis. Con el corticoide, 10 mg diarios caen en la zona intermedia de 5 a 20 mg, donde la supresión del eje no es ni probable ni improbable y hay que individualizar, o medir cortisol matutino si el tiempo lo permite; la dosis de estrés plena corresponde a más de 20 mg diarios por más de 3 semanas o a un Cushing clínico. Lo que nunca se hace es suspender el corticoide: ese es el error que precipita una crisis suprarrenal.'
+  },
+  {
+    type: 'cascade',
+    dificultad: 'intermedio',
+    vignette: 'Una mujer de 84 años con hipertensión y deterioro cognitivo leve ingresa por una fractura de cadera tras una caída en su domicilio. Está hemodinámicamente estable y sin datos de descompensación cardiaca. El ortopedista planea operarla en las próximas 24 horas.',
+    steps: [
+      {
+        q: '¿Qué corresponde hacer antes de la cirugía?',
+        options: [
+          'Corregir lo reversible en horas y proceder',
+          'Diferir para completar una prueba de estrés farmacológica',
+          'Diferir 72 horas para optimizar el tratamiento antihipertensivo',
+          'Solicitar un ecocardiograma antes de autorizar el procedimiento'
+        ],
+        correct: 0
+      },
+      {
+        q: '¿Qué tromboprofilaxis corresponde en esta paciente?',
+        options: [
+          'Compresión neumática intermitente durante la hospitalización',
+          'Heparina de bajo peso molecular con compresión, por 30 días',
+          'Ácido acetilsalicílico de 100 mg al día durante un mes',
+          'Heparina de bajo peso molecular mientras permanezca encamada'
+        ],
+        correct: 1
+      },
+      {
+        q: '¿Qué medida reduce de verdad la incidencia de delirium posoperatorio?',
+        options: [
+          'Un paquete no farmacológico multicomponente desde el ingreso',
+          'Haloperidol a dosis baja desde la noche previa y por tres días',
+          'Melatonina con una benzodiacepina para asegurar el sueño',
+          'Restringir las visitas para reducir la estimulación ambiental'
+        ],
+        correct: 0
+      }
+    ],
+    explanation: 'La fractura de cadera en una anciana reúne tres problemas a la vez. El primero es el tiempo: es una cirugía urgente, de modo que solo cabe lo que se pueda corregir en horas y cambie el desenlace, como volemia, potasio o anemia grave; pedir un ecocardiograma o una prueba de estrés retrasa una cirugía que no puede esperar y su resultado no cambiaría la decisión quirúrgica. El segundo es el riesgo tromboembólico: la fractura de cadera suma 5 puntos de Caprini, la edad de 75 años o más suma 3 y la cirugía mayor suma otros 5, de modo que la paciente queda en la categoría más alta, a la que corresponde profilaxis farmacológica con compresión durante 30 días; la aspirina no sustituye a la anticoagulación profiláctica en este escenario. El tercero es el delirium: concentra factores predisponentes (edad, deterioro cognitivo) y precipitantes (fractura, cirugía urgente, dolor), y lo único que ha demostrado reducir su incidencia es el paquete no farmacológico multicomponente. Los antipsicóticos no sirven como profilaxis, las benzodiacepinas son uno de sus precipitantes más reconocidos y aislar a la paciente agrava la desorientación.'
+  },
+  {
+    type: 'cascade',
+    dificultad: 'dificil',
+    vignette: 'Un hombre de 62 años con prótesis valvular mitral mecánica toma warfarina. Requiere la extracción de dos molares con enfermedad periodontal avanzada. Refiere que la penicilina le produjo un exantema hace años, sin angioedema ni dificultad respiratoria.',
+    steps: [
+      {
+        q: '¿Procede la profilaxis antibiótica de endocarditis?',
+        options: [
+          'No: dejó de recomendarse en los procedimientos dentales',
+          'No, porque la extracción no manipula la región periapical',
+          'Sí: la prótesis valvular y la extracción la indican',
+          'Sí, pero solo si se documenta una bacteriemia previa'
+        ],
+        correct: 2
+      },
+      {
+        q: '¿Qué esquema corresponde, con ese antecedente de alergia?',
+        options: [
+          'Clindamicina de 600 mg por vía oral una hora antes',
+          'Amoxicilina de 2 g por vía oral media hora antes',
+          'Vancomicina de 1 g intravenosa al iniciar el procedimiento',
+          'Cefalexina de 2 g por vía oral media hora antes'
+        ],
+        correct: 3
+      },
+      {
+        q: 'Si el procedimiento exigiera interrumpir la warfarina, ¿qué corresponde con el puente?',
+        options: [
+          'Puentear siempre: la prótesis mecánica lo exige por definición',
+          'Puentear únicamente si el INR objetivo es mayor de 3',
+          'No puentear de rutina, ni siquiera con prótesis mecánica',
+          'Puentear con heparina no fraccionada intravenosa, hospitalizado'
+        ],
+        correct: 2
+      }
+    ],
+    explanation: 'La profilaxis de endocarditis exige acertar dos preguntas, no una: la cardiopatía y el procedimiento. Una prótesis valvular quirúrgica es una de las cuatro situaciones de clase 1, y la extracción dental manipula la región gingival y periapical, de modo que aquí coinciden las dos. El esquema depende del tipo de alergia: un exantema sin angioedema ni anafilaxia no contraindica una cefalosporina, así que cabe cefalexina de 2 g, igual que azitromicina o claritromicina de 500 mg o doxiciclina de 100 mg; la amoxicilina queda descartada por la alergia. La clindamicina es la trampa de este paso: era la alternativa clásica y la guía de 2023 la retiró por el riesgo de infección por <em>Clostridioides difficile</em>. En cuanto al puente, el cambio de práctica de la última década alcanza también a la prótesis mecánica: la sugerencia es no puentear, y queda reservado a casos individualizados de riesgo trombótico verdaderamente excepcional. Conviene añadir que en una extracción dental lo habitual es ni siquiera interrumpir el anticoagulante, resolviendo con medidas hemostáticas locales.'
+  },
+  {
+    type: 'cascade',
+    dificultad: 'intermedio',
+    vignette: 'Una mujer de 49 años con obesidad (índice de masa corporal de 38) e hipertensión va a colecistectomía laparoscópica programada. Ronca fuerte, su pareja ha presenciado apneas y se queda dormida viendo televisión. Toma semaglutida semanal para bajar de peso y la última dosis fue hace 2 días.',
+    steps: [
+      {
+        q: '¿Qué aporta calcular el STOP-BANG en esta paciente?',
+        options: [
+          'Diagnostica la apnea y evita tener que hacer polisomnografía',
+          'Mide la gravedad de la apnea para titular la presión positiva',
+          'Estima el riesgo de complicación pulmonar posoperatoria',
+          'Marca riesgo alto de apnea, que debe saber anestesiología'
+        ],
+        correct: 3
+      },
+      {
+        q: 'No tiene síntomas digestivos. ¿Cuál es la conducta más apropiada con la semaglutida?',
+        options: [
+          'Proceder con precauciones de estómago lleno',
+          'Cancelar y reprogramar dentro de seis semanas',
+          'Prolongar el ayuno a 16 horas y proceder',
+          'Proceder sin cambios: solo importa si hay diabetes'
+        ],
+        correct: 0
+      },
+      {
+        q: '¿Qué plan analgésico posoperatorio es el más apropiado?',
+        options: [
+          'Opioide intravenoso en infusión continua las primeras 24 horas',
+          'Analgesia multimodal con opioide solo de rescate',
+          'Benzodiacepina nocturna para asegurar el descanso',
+          'Opioide de acción prolongada por horario fijo'
+        ],
+        correct: 1
+      }
+    ],
+    explanation: 'Esta paciente reúne dos problemas que viajan juntos y que a menudo se pasan por alto. El primero es la apnea del sueño: el STOP-BANG es una herramienta de cribado, no diagnóstica, y con 5 puntos o más lo que cambia el desenlace es que anestesiología lo sepa, porque son pacientes con vía aérea difícil más probable y sensibilidad aumentada a opioides y sedantes. Exigir una polisomnografía antes de operar retrasaría la cirugía sin cambiar la conducta perioperatoria, que ya quedó definida por el propio cribado. El segundo es el agonista del receptor de GLP-1: en presentación semanal debió suspenderse una semana antes y no se hizo, pero sin síntomas digestivos la conducta no es cancelar, sino proceder con precauciones de estómago lleno, o valorar el volumen gástrico por ecografía si se domina la técnica; prolongar el ayuno no tiene respaldo. Y el tercero es la consecuencia de los dos primeros: la analgesia multimodal que minimiza el opioide es lo que protege a una paciente con apnea, mientras que una infusión continua, un opioide de horario fijo o una benzodiacepina nocturna aumentan el riesgo de hipoventilación posoperatoria.'
   }
 ];
 
