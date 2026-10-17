@@ -257,6 +257,31 @@ export const content = {
       ]
     },
     {
+      nombre: 'El paciente con valvulopatía grave',
+      color: '#8c3a34',
+      definicion: 'Paciente con una valvulopatía significativa, sobre todo estenosis aórtica grave, que requiere cirugía no cardiaca. Una obstrucción fija al flujo deja al ventrículo sin margen para responder: no puede aumentar el gasto cuando la anestesia baja las resistencias, y tolera mal tanto la hipotensión como la taquicardia, que acorta el tiempo de llenado. Es de las pocas situaciones en las que la valoración preoperatoria puede terminar cambiando el orden de las cosas, interviniendo la válvula antes de la cirugía que motivó la consulta.',
+      factores_riesgo: [
+        'Síntomas: disnea de esfuerzo, angina, insuficiencia cardíaca, síncope o presíncope',
+        'Disfunción sistólica del ventrículo izquierdo',
+        'Mayor gravedad de la estenosis',
+        'Hipertensión pulmonar concomitante',
+        'Cirugía urgente o de emergencia frente a electiva',
+        'Procedimiento con riesgo de inestabilidad hemodinámica, cambios amplios de volumen o sangrado mayor'
+      ],
+      clinica: 'Preguntar explícitamente por los síntomas que cambian el pronóstico, porque el paciente suele atribuirlos a la edad: disnea de esfuerzo, angina, síncope o presíncope. Auscultar buscando el soplo y revisar si hay un ecocardiograma del último año; si la cirugía es de riesgo elevado y se sospecha una estenosis aórtica moderada o grave, el ecocardiograma preoperatorio está recomendado para guiar el manejo.',
+      criterios_dx: 'La estenosis aórtica es grave con un área valvular menor de 1.0 cm², un gradiente medio de 40 mmHg o más, o una velocidad pico de 4.0 m/s o más. El ecocardiograma sirve además para cuantificar la función sistólica y diastólica, identificar otras lesiones valvulares y estimar la presión pulmonar, que es lo que termina de dimensionar el riesgo.',
+      tx_medico: 'En estenosis aórtica grave, evaluar la necesidad de intervención valvular antes de la cirugía no cardiaca electiva (clase 1): el recambio valvular, quirúrgico o por catéter, reduce el riesgo perioperatorio en quien cumple criterios. En el paciente asintomático con estenosis moderada o grave, función sistólica normal y un ecocardiograma del último año, es razonable proceder con una cirugía electiva de bajo riesgo (clase 2a). Si la cirugía de riesgo elevado no puede esperar, puede considerarse la valvuloplastia aórtica con balón como puente. La estenosis mitral grave sigue la misma lógica: valorar la intervención valvular antes de la cirugía electiva (clase 1). Cuando sea posible, decidirlo con un equipo multidisciplinario de válvulas y con decisión compartida.',
+      tx_farmacologico: 'En estenosis mitral grave que no se puede intervenir antes de la cirugía, puede considerarse el control de la frecuencia cardiaca con betabloqueador, calcioantagonista no dihidropiridínico, ivabradina o digoxina, para prolongar el tiempo de llenado diastólico (clase 2b). Continuar el tratamiento crónico que el paciente ya tomaba.',
+      seguimiento_hospitalario: 'El objetivo hemodinámico es claro: evitar la hipotensión, la hipertensión excesiva y la taquicardia. En estenosis mitral grave no intervenida, es razonable la monitorización hemodinámica invasiva perioperatoria para guiar el manejo (clase 2a).',
+      algoritmo: [
+        'Definir la gravedad con un ecocardiograma del último año.',
+        'Buscar síntomas, que es lo que más cambia el riesgo.',
+        'Decidir con el equipo de válvulas si la intervención valvular va antes.',
+        'Si no procede intervenir o no hay tiempo, fijar los objetivos hemodinámicos por escrito.',
+        'Vigilancia estrecha, con monitorización invasiva en los casos que lo ameriten.'
+      ]
+    },
+    {
       nombre: 'El portador de marcapasos o desfibrilador',
       color: '#5c4a73',
       definicion: 'Paciente con dispositivo cardiaco implantable que requiere cirugía. El problema es la interferencia electromagnética del electrobisturí, que puede inhibir el marcapasos o provocar descargas inapropiadas del desfibrilador.',
@@ -285,6 +310,7 @@ export const compCites = {
   'El anciano frágil': { criterios_dx: [1] },
   'El paciente con obesidad': { tx_farmacologico: [3] },
   'El paciente inmunosuprimido': { criterios_dx: [1] },
+  'El paciente con valvulopatía grave': { criterios_dx: [1], tx_medico: [1], tx_farmacologico: [1], seguimiento_hospitalario: [1] },
   'El portador de marcapasos o desfibrilador': { tx_farmacologico: [2] }
 };
 
@@ -313,7 +339,7 @@ export const clasificacionCite = [1, 4, 5, 6];
 export const seguimientoCite = [];
 
 export const compGroups = [
-  { title: 'Riesgo cardiovascular y antitrombótico', items: ['El paciente con stent coronario', 'El paciente anticoagulado', 'El portador de marcapasos o desfibrilador'] },
+  { title: 'Riesgo cardiovascular y antitrombótico', items: ['El paciente con stent coronario', 'El paciente anticoagulado', 'El paciente con valvulopatía grave', 'El portador de marcapasos o desfibrilador'] },
   { title: 'Riesgo metabólico y respiratorio', items: ['El paciente diabético', 'El paciente con EPOC o apnea del sueño', 'El paciente con obesidad'] },
   { title: 'Riesgo por falla orgánica', items: ['El paciente cirrótico', 'El paciente con enfermedad renal crónica o en diálisis'] },
   { title: 'Riesgo por reserva y por inmunidad', items: ['El anciano frágil', 'El paciente inmunosuprimido'] }
