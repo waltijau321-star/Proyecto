@@ -707,6 +707,65 @@ async function run() {
 
   const vpoEngine = await import('./engine/vpo.js');
 
+  test('VPO nota: cada cosa cae en su seccion, y el puente no es un riesgo estimado', () => {
+    // El puente dice que hacer con el anticoagulante y el aclaramiento es el dato que lo
+    // decide: se leen con los farmacos. Salian bajo "Riesgo estimado" solo porque se calculan
+    // en la pestana de escalas.
+    const CLAVES = ['rm:vpo:escalas', 'rm:vpo:paciente', 'rm:vpo:ruta', 'rm:vpo:farmacos', 'rm:vpo:estudios'];
+    const previas = CLAVES.map(k => [k, syncGet(k, null)]);
+    try {
+      syncSet('rm:vpo:ruta', { camino: [], veredicto: null });
+      syncSet('rm:vpo:farmacos', {});
+      syncSet('rm:vpo:estudios', {});
+      syncSet('rm:vpo:paciente', { edad: '72', sexo: 'f', asa: '3' });
+      syncSet('rm:vpo:escalas', {
+        asa: { titulo: 'ASA', frase: 'ASA III', ts: 1 },
+        cockcroft: { titulo: 'Aclaramiento', frase: 'Aclaramiento de creatinina 29 mL/min', ts: 2 },
+        puenteac: { titulo: 'Puente', frase: 'Suspender dabigatran 2 dias antes', ts: 3 }
+      });
+      const caja = document.createElement('div');
+      caja.innerHTML = vpoEngine.notaHTML();
+      const seccion = titulo => [...caja.querySelectorAll('.vpo-nota-sec')]
+        .find(sec => sec.querySelector('h3').textContent === titulo);
+
+      const riesgo = seccion('Riesgo estimado');
+      assert(riesgo, 'deberia haber un bloque de riesgo estimado');
+      assert(/ASA III/.test(riesgo.textContent), 'la clase ASA si es una estimacion de riesgo');
+      assert(!/Suspender dabigatran/.test(riesgo.textContent), 'el puente no es un riesgo estimado');
+      assert(!/Aclaramiento/.test(riesgo.textContent), 'el aclaramiento no es un riesgo estimado');
+
+      const farmacos = seccion('Manejo perioperatorio de f\u00e1rmacos');
+      assert(farmacos, 'deberia haber un bloque de farmacos aunque no haya ninguno marcado');
+      assert(/Aclaramiento de creatinina 29/.test(farmacos.textContent), 'el aclaramiento va con los farmacos');
+      assert(/Suspender dabigatran/.test(farmacos.textContent), 'el puente va con los farmacos');
+
+      // La nota acaba en un expediente: cabecera con el paciente y la fecha.
+      const cabecera = caja.querySelector('.vpo-nota-paciente');
+      assert(cabecera, 'la nota deberia encabezarse con el paciente');
+      assert(/Mujer de 72 a\u00f1os/.test(cabecera.textContent), 'falta el paciente en la cabecera');
+      assert(/Valoraci\u00f3n del /.test(cabecera.textContent), 'falta la fecha en la cabecera');
+      assert(caja.querySelector('.vpo-nota-acciones'), 'la nota deberia ofrecer copiar e imprimir');
+    } finally {
+      previas.forEach(([k, v]) => { if (v !== null) syncSet(k, v); });
+    }
+  });
+
+  test('VPO nota: imprimir marca el body solo mientras dura la impresion', () => {
+    // La impresion se recorta con una clase en <body> (@media print en styles.css). Si la clase
+    // se quedara puesta, el resto de la app quedaria invisible al imprimir cualquier otra cosa.
+    const original = window.print;
+    let claseDurante = null;
+    window.print = () => { claseDurante = document.body.className; };
+    try {
+      vpoEngine.imprimirNota();
+      assert(/imprimiendo-nota/.test(claseDurante || ''), 'la clase deberia estar puesta al imprimir');
+      assert(!/imprimiendo-nota/.test(document.body.className), 'la clase deberia quitarse al terminar');
+    } finally {
+      window.print = original;
+      document.body.classList.remove('imprimiendo-nota');
+    }
+  });
+
   test('VPO nota: el orden de la nota incluye todas las escalas, ninguna se queda fuera', () => {
     // Si se añade una escala a vpo-calc.js y se olvida ORDEN_NOTA, esa escala se calcularía
     // pero jamás aparecería en la nota, y el fallo sería invisible.

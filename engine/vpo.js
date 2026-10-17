@@ -459,6 +459,8 @@ const ESCALAS_KEY = 'rm:vpo:escalas';
 // Exportado para poder comprobar en tests.js que ninguna escala se queda fuera de la nota.
 export const ORDEN_NOTA = ['asa', 'leeindex', 'guptamica', 'guptaprf', 'detsky', 'dasi', 'ariscat',
   'stopbang', 'apfel', 'fragilidad', 'charlson', 'delirium', 'caprini', 'cockcroft', 'puenteac'];
+// Las que, aun calculándose como escalas, pertenecen al bloque de fármacos de la nota.
+const EN_FARMACOS = ['cockcroft', 'puenteac'];
 
 function escalasGuardadas() { return syncGet(ESCALAS_KEY, {}); }
 
@@ -490,7 +492,9 @@ function seccionNota(titulo, cuerpo) {
   return cuerpo ? `<section class="vpo-nota-sec"><h3>${titulo}</h3>${cuerpo}</section>` : '';
 }
 
-function notaHTML() {
+// Exportada para tests.js: que cada cosa caiga en su seccion es contenido clinico, no
+// maquetacion, y se comprueba sobre el HTML que se genera.
+export function notaHTML() {
   const escalas = escalasGuardadas();
   const ruta = rutaParaNota();
   const drogas = farmacosParaNota();
@@ -500,12 +504,15 @@ function notaHTML() {
     <ul class="cr-list">${ruta.veredicto.acciones.map(a => `<li>${a}</li>`).join('')}</ul>
     <p class="vpo-nota-fina">Ruta recorrida: ${ruta.camino.map(c => `${c.paso} (${c.respuesta})`).join(' → ')}.</p>` : '';
 
-  const usadas = ORDEN_NOTA.filter(k => escalas[k]);
+  // Dos de las escalas no estiman un riesgo: el puente dice qué hacer con el anticoagulante y
+  // el aclaramiento es el dato que lo decide. Van con los fármacos, que es donde se leen.
+  const usadas = ORDEN_NOTA.filter(k => escalas[k] && !EN_FARMACOS.includes(k));
   const bloqueEscalas = usadas.length
     ? `<ul class="cr-list">${usadas.map(k => `<li>${escalas[k].frase}.</li>`).join('')}</ul>` : '';
 
-  const bloqueFarmacos = drogas.length
-    ? `<ul class="cr-list">${drogas.map(f => {
+  const antitrombotico = EN_FARMACOS.filter(k => escalas[k]);
+  const bloqueFarmacos = (antitrombotico.length || drogas.length)
+    ? `<ul class="cr-list">${antitrombotico.map(k => `<li>${escalas[k].frase}.</li>`).join('')}${drogas.map(f => {
         const c = conducta(f);
         return `<li><strong>${f.farmaco}</strong> (${c.label.toLowerCase()}): ${f.resumen} ${f.postop}</li>`;
       }).join('')}</ul>` : '';
@@ -517,7 +524,10 @@ function notaHTML() {
     ? `<p>Se solicitan: ${pedidos.map(e => e.estudio.toLowerCase()).join(', ')}.</p>` : '';
 
   const ficha = resumenPaciente(pacienteGuardado(), { largo: true });
-  const bloqueFicha = ficha ? `<p class="vpo-nota-paciente">${ficha}.</p>` : '';
+  // La nota acaba en un expediente: lleva la fecha en que se escribe, y el paciente y el
+  // procedimiento salen de la ficha.
+  const fecha = new Date().toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
+  const bloqueFicha = `<p class="vpo-nota-paciente">${ficha ? ficha + '. ' : ''}<span class="vpo-nota-fecha">Valoración del ${fecha}.</span></p>`;
 
   const vacia = !bloqueRuta && !bloqueEscalas && !bloqueFarmacos && !bloqueEstudios;
   if (vacia) {
@@ -537,7 +547,10 @@ function notaHTML() {
         ${seccionNota('Manejo perioperatorio de fármacos', bloqueFarmacos)}
         ${seccionNota('Estudios solicitados', bloqueEstudios)}
       </div>
-      <button class="calc-copy" onclick="rmVpoNotaCopiar(this)">Copiar nota</button>
+      <div class="vpo-nota-acciones">
+        <button class="calc-copy" onclick="rmVpoNotaCopiar(this)">Copiar nota</button>
+        <button type="button" class="calc-btn" onclick="rmVpoNotaImprimir()">Imprimir</button>
+      </div>
     </div>`;
 }
 
@@ -558,6 +571,16 @@ function mountNota(pane) {
       <button type="button" class="proto-reset" style="margin-top:18px" onclick="rmVpoNuevoPaciente()">Paciente nuevo: limpiar todo</button>
       <p class="proto-source">Material de apoyo: la nota es un borrador para el expediente, no sustituye el juicio clínico ni la valoración por anestesiología.</p>
     </div>`;
+}
+
+// Imprime solo la nota: la clase en <body> deja visible la caja de la nota y esconde el resto
+// (ver @media print en styles.css). Se quita al volver, y tambien si el navegador avisa con
+// afterprint, porque en algunos el dialogo no bloquea.
+export function imprimirNota() {
+  document.body.classList.add('imprimiendo-nota');
+  const limpiar = () => document.body.classList.remove('imprimiendo-nota');
+  window.addEventListener('afterprint', limpiar, { once: true });
+  try { window.print(); } finally { limpiar(); }
 }
 
 export function copiarNota(btn) {
@@ -843,6 +866,7 @@ window.rmVpoEscalaTema = abrirEscalaDeTema;
 window.rmVpoEstudio = abrirEstudio;
 window.rmVpoOpenEstudio = openVpoEstudio;
 window.rmVpoNotaCopiar = copiarNota;
+window.rmVpoNotaImprimir = imprimirNota;
 window.rmVpoNuevoPaciente = nuevoPaciente;
 window.rmVpoFicha = fichaCampo;
 window.rmVpoFichaPlegar = fichaPlegar;
