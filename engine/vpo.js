@@ -798,11 +798,40 @@ const TABS = [
 let ROOT = null;
 let ACTIVE = null;
 
+// La barra es un juego de pestañas de verdad, no cinco botones sueltos: quien navega con
+// lector de pantalla necesita saber cuántas hay, cuál está activa y qué panel controla cada
+// una, y quien navega con teclado espera moverse entre ellas con las flechas (ver
+// bindTabKeys). `tabindex` rotatorio: solo la activa entra en el orden de tabulación, así
+// que el tabulador salta de la barra al contenido en vez de recorrer las cinco.
 function tabbarHTML(tabs, activeId) {
-  const pills = tabs.map(t =>
-    `<button type="button" class="pill${t.id === activeId ? ' active' : ''}" id="vpo-tab-${t.id}" onclick="rmVpoTab('${t.id}')">${t.label}</button>`
-  ).join('');
-  return `<nav class="pillbar vpo-tabbar">${pills}</nav>`;
+  const pills = tabs.map(t => {
+    const activa = t.id === activeId;
+    return `<button type="button" role="tab" class="pill${activa ? ' active' : ''}" id="vpo-tab-${t.id}"
+      aria-selected="${activa}" aria-controls="vpo-pane-${t.id}" tabindex="${activa ? '0' : '-1'}"
+      onclick="rmVpoTab('${t.id}')">${t.label}</button>`;
+  }).join('');
+  return `<nav class="pillbar vpo-tabbar" role="tablist" aria-label="Secciones de la valoración preoperatoria">${pills}</nav>`;
+}
+
+// Flechas para moverse entre pestañas, Inicio y Fin para ir a los extremos. La pestaña se
+// activa al recibir el foco, que es lo que se espera de una barra que cambia el panel al
+// instante. Se llama al montar, porque la barra se repinta con el resto de la sección.
+function bindTabKeys() {
+  const barra = ROOT && ROOT.querySelector('.vpo-tabbar');
+  if (!barra) return;
+  barra.addEventListener('keydown', e => {
+    const teclas = { ArrowRight: 1, ArrowLeft: -1, Home: 'primera', End: 'ultima' };
+    const mov = teclas[e.key];
+    if (mov === undefined) return;
+    e.preventDefault();
+    const i = TABS.findIndex(t => t.id === ACTIVE);
+    const destino = mov === 'primera' ? 0
+      : mov === 'ultima' ? TABS.length - 1
+      : (i + mov + TABS.length) % TABS.length;
+    showTab(TABS[destino].id, { scroll: false });
+    const boton = document.getElementById('vpo-tab-' + TABS[destino].id);
+    if (boton) boton.focus();
+  });
 }
 
 export function mountVpo(root) {
@@ -814,6 +843,7 @@ export function mountVpo(root) {
   // importar el modulo (ver el final del archivo), porque una escala se puede abrir desde el
   // tema de estudio o desde Calc sin que la seccion VPO se haya montado nunca.
   sembrarCompartidos();
+  bindTabKeys();
   showTab(start, { scroll: false });
 }
 
@@ -824,18 +854,32 @@ export function showTab(id, { scroll = true } = {}) {
   ACTIVE = id;
   syncSet(TAB_KEY, id);
   document.querySelectorAll('.vpo-tabbar .pill').forEach(p => {
-    p.classList.toggle('active', p.id === 'vpo-tab-' + id);
+    const activa = p.id === 'vpo-tab-' + id;
+    p.classList.toggle('active', activa);
+    p.setAttribute('aria-selected', String(activa));
+    p.tabIndex = activa ? 0 : -1;
   });
 
   let pane = document.getElementById('vpo-pane-' + id);
   if (!pane) {
     pane = document.createElement('div');
     pane.id = 'vpo-pane-' + id;
+    // El panel se anuncia como tal y dice de qué pestaña viene; tabindex 0 para que el
+    // tabulador entre en él al salir de la barra, aunque su primer elemento no sea un control.
+    pane.setAttribute('role', 'tabpanel');
+    pane.setAttribute('aria-labelledby', 'vpo-tab-' + id);
+    pane.tabIndex = 0;
     body.appendChild(pane);
     tab.mount(pane);
   }
   if (tab.focus) tab.focus();
-  Array.from(body.children).forEach(el => { el.style.display = el === pane ? '' : 'none'; });
+  // `hidden` además de display: el panel oculto sale también del árbol de accesibilidad y de
+  // la búsqueda del navegador, que con display:none a secas depende del estilo.
+  Array.from(body.children).forEach(el => {
+    const visible = el === pane;
+    el.style.display = visible ? '' : 'none';
+    el.hidden = !visible;
+  });
   if (scroll) window.scrollTo({ top: 0, behavior: 'auto' });
 }
 

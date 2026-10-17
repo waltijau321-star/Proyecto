@@ -1168,6 +1168,52 @@ async function run() {
     }
   });
 
+  test('VPO: la barra de pestañas se declara como tal y se recorre con el teclado', () => {
+    // Eran cinco botones sueltos: quien usa un lector de pantalla no sabía cuántas pestañas
+    // hay ni cuál está activa, y con el teclado habia que tabular por las cinco.
+    const caja = document.createElement('div');
+    document.body.appendChild(caja);
+    const previas = [['rm:vpo:tab', syncGet('rm:vpo:tab', null)]];
+    try {
+      vpoEngine.mountVpo(caja);
+      const barra = caja.querySelector('.vpo-tabbar');
+      assertEqual(barra.getAttribute('role'), 'tablist', 'la barra deberia declararse como tablist');
+      assert(barra.getAttribute('aria-label'), 'un tablist sin nombre no dice de que es');
+
+      const pills = [...barra.querySelectorAll('.pill')];
+      assertEqual(pills.length, 5);
+      pills.forEach(pz => {
+        assertEqual(pz.getAttribute('role'), 'tab', `'${pz.textContent}' no es un tab`);
+        assert(pz.hasAttribute('aria-selected'), `'${pz.textContent}' no dice si esta activa`);
+        assertEqual(pz.getAttribute('aria-controls'), pz.id.replace('vpo-tab-', 'vpo-pane-'),
+          `'${pz.textContent}' no apunta a su panel`);
+      });
+      // Solo la activa entra en el orden de tabulacion.
+      const activas = pills.filter(pz => pz.getAttribute('aria-selected') === 'true');
+      assertEqual(activas.length, 1, 'deberia haber exactamente una pestana activa');
+      assertEqual(activas[0].tabIndex, 0);
+      assertEqual(pills.filter(pz => pz.tabIndex === 0).length, 1, 'el tabindex deberia ser rotatorio');
+
+      // El panel visible se anuncia como panel y los ocultos quedan fuera.
+      vpoEngine.showTab('ruta', { scroll: false });
+      const panel = caja.querySelector('#vpo-pane-ruta');
+      assertEqual(panel.getAttribute('role'), 'tabpanel');
+      assertEqual(panel.getAttribute('aria-labelledby'), 'vpo-tab-ruta');
+      assertEqual(panel.hidden, false);
+
+      // Teclado: la flecha mueve y activa, Fin va a la ultima y se da la vuelta.
+      barra.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+      assertEqual(caja.querySelector('.pill.active').id, 'vpo-tab-escalas', 'la flecha derecha deberia pasar a Escalas');
+      barra.dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true }));
+      assertEqual(caja.querySelector('.pill.active').id, 'vpo-tab-nota', 'Fin deberia ir a la ultima');
+      barra.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+      assertEqual(caja.querySelector('.pill.active').id, 'vpo-tab-ruta', 'desde la ultima deberia dar la vuelta');
+    } finally {
+      previas.forEach(([k, v]) => { if (v !== null) syncSet(k, v); });
+      caja.remove();
+    }
+  });
+
   test('VPO buscador: encuentra por nombre, por alias y por el grupo, como ofrece el campo', () => {
     // El placeholder ofrece buscar "fármaco, hábito o grupo", pero la etiqueta del grupo solo
     // vivía en el encabezado del acordeón: "esteroides" y "anticoagulantes" no devolvían nada.
