@@ -730,7 +730,7 @@ export const farmacos = [
     id: 'herbolarios', grupo: 'herbolarios', farmaco: 'Herbolarios (las cuatro G)',
     alias: ['ginkgo', 'ginseng', 'jengibre', 'ajo', 'garlic', 'ginger'], conducta: 'suspender',
     resumen: 'Suspender 7 a 14 días antes. Casi ningún paciente los reporta si no se le pregunta.',
-    preop: 'Suspender al menos 7 días antes, y hasta 14 en cirugía de riesgo hemorrágico alto. Las cuatro G son las de mayor efecto antiplaquetario: <strong>g</strong>inkgo biloba, <strong>g</strong>inseng, <strong>g</strong>engibre (jengibre) y a<strong>j</strong>o.',
+    preop: 'Suspender al menos 7 días antes, y hasta 14 en cirugía de riesgo hemorrágico alto. Las cuatro de mayor efecto antiplaquetario se recuerdan como “las cuatro G” por sus nombres en inglés: <strong>g</strong>inkgo biloba, <strong>g</strong>inseng, <strong>g</strong>inger (jengibre) y <strong>g</strong>arlic (ajo).',
     postop: 'No hay urgencia por reanudarlos.',
     riesgoContinuar: 'Efecto antiplaquetario aditivo con más sangrado quirúrgico. El ginseng además puede producir hipoglucemia.',
     notas: ['Preguntar explícitamente por productos naturales, tés y suplementos: los pacientes no los consideran "medicamentos" y no los mencionan en el interrogatorio de rutina.'],

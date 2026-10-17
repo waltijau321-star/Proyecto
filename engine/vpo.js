@@ -86,9 +86,13 @@ function listaMarcable(cfg) {
   const { prefijo, clave, items, grupos, nombre, sub, chip, heno, tituloBoton, abrir } = cfg;
   const marcados = () => syncGet(clave, {});
 
+  // La etiqueta del grupo entra en el pajar aunque no la escriba cada lista: el placeholder
+  // ofrece buscar "por grupo" y "esteroides" o "anticoagulantes" no devolvían nada, porque la
+  // palabra solo vive en el encabezado del acordeón y no en ninguna entrada.
+  const etiquetaGrupo = id => (grupos.find(g => g.id === id) || {}).label || '';
   const coincide = (it, q) => {
     if (!q) return true;
-    const texto = norm(heno(it));
+    const texto = norm(heno(it) + ' ' + etiquetaGrupo(it.grupo));
     return norm(q).split(/\s+/).filter(Boolean).every(t => texto.includes(t));
   };
 
@@ -399,6 +403,11 @@ export function abrirEstudio(id) {
     <p class="proto-source">Fuente: ${e.fuente}</p>`);
 }
 
+// Exportadas solo para tests.js: la búsqueda se resuelve al pintar la lista (el pajar incluye
+// alias y etiqueta de grupo), así que probar los datos de cada entrada no la cubre.
+export const listaFarmacosHTML = q => listaFarmacos.listaHTML(q);
+export const listaEstudiosHTML = q => listaEstudios.listaHTML(q);
+
 export const toggleEstudioNota = (id, btn) => listaEstudios.toggle(id, btn);
 export const estudiosParaNota = () => listaEstudios.paraNota();
 export const buscarEstudio = () => listaEstudios.repintar();
@@ -424,8 +433,13 @@ function escalasGuardadas() { return syncGet(ESCALAS_KEY, {}); }
 
 // Recoge el resultado de una escala de VPO. Un resultado null (faltan datos) borra lo que
 // hubiera: si el usuario vacía un campo, la nota no debe seguir citando el número anterior.
-function recogerResultado(key, r, calc) {
+// `inicial` marca el cálculo que el motor hace solo al abrir la calculadora, sobre los valores
+// por defecto: ese número no lo ha afirmado nadie, así que no entra en la nota de un paciente
+// ni borra lo que ya había calculado antes. Abrir una escala para mirarla, desde aquí o desde
+// el tema de estudio, no debe escribir nada en el expediente.
+function recogerResultado(key, r, calc, inicial) {
   if (!calculators.some(c => c.key === key)) return; // solo escalas de VPO
+  if (inicial) return;
   const guardadas = escalasGuardadas();
   if (r === null || r === undefined) {
     if (!guardadas[key]) return;
@@ -472,8 +486,9 @@ function notaHTML() {
   const vacia = !bloqueRuta && !bloqueEscalas && !bloqueFarmacos && !bloqueEstudios;
   if (vacia) {
     return `<p class="vpo-empty">Todavía no hay nada que reunir. Recorre la <button type="button" class="vpo-inline-link" onclick="rmVpoTab('ruta')">Ruta</button>,
-      calcula alguna <button type="button" class="vpo-inline-link" onclick="rmVpoTab('escalas')">Escala</button> o marca conductas en
-      <button type="button" class="vpo-inline-link" onclick="rmVpoTab('farmacos')">Fármacos</button>, y la nota se arma sola.</p>`;
+      calcula alguna <button type="button" class="vpo-inline-link" onclick="rmVpoTab('escalas')">Escala</button>, marca conductas en
+      <button type="button" class="vpo-inline-link" onclick="rmVpoTab('farmacos')">Fármacos</button> o estudios en
+      <button type="button" class="vpo-inline-link" onclick="rmVpoTab('estudios')">Estudios</button>, y la nota se arma sola.</p>`;
   }
 
   return `

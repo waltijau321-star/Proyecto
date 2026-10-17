@@ -236,6 +236,7 @@ async function run() {
      porcentajes fijados aquí son los que produce esa fórmula para el caso descrito: si alguien
      toca un coeficiente por accidente, estas pruebas lo atrapan. */
   const vpoModule = await import('./protocols/vpo-calc.js');
+  const calcEngine = await import('./engine/calculators.js');
   const vpoCalc = vpoModule.calculators;
   const vpo = k => vpoCalc.find(c => c.key === k);
 
@@ -592,6 +593,31 @@ async function run() {
     assert(texto.length > 0);
   });
 
+  test('VPO: las tarjetas de repaso no contradicen la conducta de la herramienta', () => {
+    // El test de arriba compara la herramienta con el contenido y el quiz, pero las tarjetas
+    // quedaban fuera: decían que la metformina "se suspende el día de la cirugía" (la conducta
+    // anterior a la guía de 2024) y que el arGLP-1 diario se omite "el día previo" en vez del
+    // mismo día. Una tarjeta de repaso es justo lo que el residente memoriza.
+    const tarjetas = temaVpo.study.flashcards || [];
+    assert(tarjetas.length, 'el tema debería tener tarjetas');
+    const texto = f => f.front + ' ' + f.back;
+    const sobre = re => tarjetas.filter(f => re.test(texto(f)));
+
+    const metformina = sobre(/metformina/i);
+    assert(metformina.length, 'no hay ninguna tarjeta de metformina');
+    assertEqual(vpoFarm.farmacos.find(f => f.id === 'metformina').conducta, 'continuar');
+    metformina.forEach(f => assert(!/se suspende el d[ií]a de la cirug/i.test(f.back),
+      'una tarjeta sigue diciendo que la metformina se suspende: la guía de 2024 la continúa'));
+
+    sobre(/GLP-1/).forEach(f => assert(!/diaria el d[ií]a previo|diaria la v[ií]spera/i.test(f.back),
+      'una tarjeta dice que el arGLP-1 diario se omite la víspera: la ASA dice el mismo día'));
+
+    // El umbral de capacidad funcional se cita en varias tarjetas: todas con la misma pregunta
+    // de cabecera que usan la ruta y el quiz.
+    sobre(/MET/).forEach(f => assert(!/sube un piso/i.test(f.back),
+      'una tarjeta usa "un piso" de escaleras; el resto de la app usa dos pisos para los 4 MET'));
+  });
+
   // Las escalas que VPO enlaza de otros temas se resuelven aquí, fuera del test: el runner es
   // síncrono y una promesa rechazada dentro de un test() pasaría inadvertida.
   const enlacesVpo = [['cirrosis-hepatica', 'childpugh'], ['cirrosis-hepatica', 'meldna']];
@@ -750,6 +776,61 @@ async function run() {
     const salidas = primero.opciones.filter(o => o.destino.veredicto).map(o => o.destino.veredicto);
     assert(salidas.length >= 2, 'emergencia y urgencia deben salir directo a un veredicto');
     salidas.forEach(v => assertEqual(ruta.veredictos[v].tono, 'proceder', `'${v}' debería concluir en proceder`));
+  });
+
+  /* ---------------- La nota de VPO solo recoge lo que el usuario afirmó ----------------
+     El motor de calculadoras avisa de cada resultado, incluido el que calcula solo al abrir la
+     escala sobre sus valores por defecto. Sin distinguir ese primer cálculo, abrir una escala
+     para mirarla (desde VPO, desde el tema o desde Calc) escribía en la nota de un paciente
+     frases que nadie había calculado: "STOP-BANG 0 de 8, riesgo bajo". Se prueba contra el DOM
+     real, porque el fallo vivía en el ciclo abrir/recalcular, no en los datos. */
+  test('VPO nota: abrir una escala no mete su valor por defecto en la nota del paciente', () => {
+    const caja = document.createElement('div');
+    caja.innerHTML = '<div id="overlay"><div id="modal"></div></div>';
+    document.body.appendChild(caja);
+    // tests.html comparte origen con la app: se respeta el borrador del usuario.
+    const previas = syncGet('rm:vpo:escalas', {});
+    try {
+      syncSet('rm:vpo:escalas', {});
+      calcEngine.setCalcTopic({ meta: { accent: '#3d5a73' }, calculators: vpoCalc, combinedNote: vpoModule.combinedNote });
+      calcEngine.openCalc('stopbang');
+      assert(document.getElementById('calc-result-text').innerHTML.includes('STOP-BANG'),
+        'la escala debería mostrar su resultado al abrirse');
+      assertEqual(Object.keys(syncGet('rm:vpo:escalas', {})), [],
+        'solo abrir la escala ya escribió en la nota del paciente');
+
+      // En cuanto el usuario responde algo, el resultado sí es suyo y sí entra en la nota.
+      const ronca = document.getElementById('vsb-s');
+      ronca.checked = true;
+      ronca.dispatchEvent(new Event('change'));
+      assertEqual(Object.keys(syncGet('rm:vpo:escalas', {})), ['stopbang'],
+        'tras responder un ítem, la escala debería entrar en la nota');
+    } finally {
+      syncSet('rm:vpo:escalas', previas);
+      calcEngine.closeModal();
+      caja.remove();
+    }
+  });
+
+  test('VPO buscador: encuentra por nombre, por alias y por el grupo, como ofrece el campo', () => {
+    // El placeholder ofrece buscar "fármaco, hábito o grupo", pero la etiqueta del grupo solo
+    // vivía en el encabezado del acordeón: "esteroides" y "anticoagulantes" no devolvían nada.
+    const f = q => vpoEngine.listaFarmacosHTML(q);
+    assert(f('apixaban').includes('Apixabán'), 'la búsqueda debería ignorar los acentos');
+    assert(f('stent').includes('Tiempos de espera tras ICP'), 'no encuentra por alias');
+    assert(f('esteroides').includes('Corticoides sistémicos'), 'no encuentra por la etiqueta del grupo');
+    assert(f('anticoagulantes').includes('Warfarina'), 'no encuentra el grupo de anticoagulantes');
+    assert(f('zzz').includes('vpo-empty'), 'una búsqueda sin resultados debería decirlo');
+    assert(vpoEngine.listaEstudiosHTML('cardiaca').includes('Electrocardiograma'),
+      'los estudios tampoco encuentran por grupo');
+  });
+
+  test('VPO Gupta (falla respiratoria): abre sin estado séptico, que es el paciente programado', () => {
+    // El valor preseleccionado es el que lee quien abre la escala para mirarla: si abre en
+    // SIRS, el riesgo de entrada está inflado sin que nadie haya dicho que el paciente lo tenga.
+    const campo = vpo('guptaprf').fields.find(f => f.name === 'sepsis');
+    const porDefecto = campo.options.find(o => o.selected);
+    assertEqual(porDefecto.value, 'none', 'la escala no debería abrir con un estado séptico puesto');
   });
 
   /* ---------------- Pintado de campos de calculadora (engine/calculators.js) ----------------
