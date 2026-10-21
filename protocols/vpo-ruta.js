@@ -28,6 +28,8 @@
 // `tono` es uno de TONOS y define el color del bloque de resultado.
 // Los textos se inyectan con innerHTML: usar &lt; y &gt; en vez de < y >.
 
+import { RIESGO_QUIRURGICO, tablaRiesgoHTML } from './vpo-riesgos.js';
+
 export const TONOS = {
   proceder: { label: 'Proceder', color: '#3f6b52' },
   diferir:  { label: 'Diferir',  color: '#8c3a34' },
@@ -78,7 +80,7 @@ export const pasos = {
       { tipo: 'escala', key: 'leeindex', label: 'Índice de Lee' },
       { tipo: 'escala', key: 'guptamica', label: 'Gupta-MICA' }
     ],
-    detalle: 'La guía define el riesgo combinando las características del <strong>paciente y del procedimiento</strong>, no solo el tipo de cirugía: <strong>riesgo bajo</strong> es una probabilidad de evento cardiovascular mayor <strong>menor de 1 %</strong>, y <strong>riesgo elevado</strong> es del <strong>1 % o más</strong> (esto abarca tanto el riesgo quirúrgico intermedio como el alto). El umbral que se usa tradicionalmente para identificarlo es <strong>RCRI &gt;1</strong>, o un riesgo calculado mayor de 1 % con cualquier calculadora perioperatoria; qué cuenta como elevado depende de la calculadora empleada.',
+    detalle: 'La guía define el riesgo combinando las características del <strong>paciente y del procedimiento</strong>, no solo el tipo de cirugía: <strong>riesgo bajo</strong> es una probabilidad de evento cardiovascular mayor <strong>menor de 1 %</strong>, y <strong>riesgo elevado</strong> es del <strong>1 % o más</strong> (esto abarca tanto el riesgo quirúrgico intermedio como el alto). El umbral que se usa tradicionalmente para identificarlo es <strong>RCRI &gt;1</strong>, o un riesgo calculado mayor de 1 % con cualquier calculadora perioperatoria; qué cuenta como elevado depende de la calculadora empleada.' + tablaRiesgoHTML(RIESGO_QUIRURGICO),
     // Traduce al umbral de este paso lo que el usuario ya calculo. Gupta-MICA da el riesgo
     // combinado de paciente y procedimiento, que es como la guia define "elevado"; el RCRI
     // usa el umbral clasico de mas de 1 predictor. Cuando discrepan, se dice, porque la propia

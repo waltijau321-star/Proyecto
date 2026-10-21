@@ -17,6 +17,8 @@
 //    Surg Infect. 2013;14(1):73-156 / Am J Health Syst Pharm. 2013;70(3):195-283. (ASHP/IDSA/SIS/SHEA)
 //  - WHO. Global guidelines for the prevention of surgical site infection. 2.a ed. 2018.
 
+import { RIESGO_HEMORRAGICO, RIESGO_QUIRURGICO, tablaRiesgoHTML } from './vpo-riesgos.js';
+
 /* ===== Tipos de cirugía compartidos por los calculadores de Gupta (mismas 21 categorías NSQIP) ===== */
 const SURGERY_TYPES = [
   { value: 'hernia', label: 'Hernia (referencia)' },
@@ -305,6 +307,14 @@ function puenteCompute(v) {
     ? { label: indBase.label, fuerza: indBase.fuerzaNoVKA }
     : indBase;
 
+  // Riesgo hemorrágico mínimo: el procedimiento se puede hacer con el paciente anticoagulado,
+  // así que la pregunta de cuántos días suspender no llega a plantearse.
+  if (v.sangrado === 'minimo') {
+    return { farmaco: AC_LABEL[v.farmaco], esVKA, continuar: true, dias: null, puente: false, minimo: true,
+      reinicio: esVKA ? 'No aplica: el anticoagulante no se interrumpe.' : 'No aplica. Con un anticoagulante directo puede considerarse omitir la dosis del día del procedimiento para evitar el pico.',
+      ind: indBase, alto: false, tfg: v.tfg, diasTexto: null };
+  }
+
   // Marcapasos/DAI con antagonista de vitamina K: no se interrumpe.
   if (esVKA && v.indicacion === 'dispositivo') {
     return { farmaco: AC_LABEL[v.farmaco], esVKA, continuar: true, dias: null, puente: false,
@@ -326,7 +336,7 @@ function puenteCompute(v) {
 const fragPuente = r => r.continuar
   ? `<strong>Continuar ${r.farmaco}</strong> sin interrupción, sin puente con heparina`
   : `<strong>Suspender ${r.farmaco} ${r.diasTexto || r.dias} día${r.dias > 1 ? 's' : ''} antes</strong>, sin puente con heparina`;
-const fmtPuente = r => `${fragPuente(r)} (${r.continuar ? '' : `riesgo hemorrágico del procedimiento ${r.alto ? 'alto' : 'bajo-moderado'}, `}indicación: ${r.ind.label}). ${r.reinicio} Para esta indicación existe ${r.ind.fuerza}.` +
+const fmtPuente = r => `${fragPuente(r)} (${r.minimo ? 'riesgo hemorrágico mínimo, ' : r.continuar ? '' : `riesgo hemorrágico del procedimiento ${r.alto ? 'alto' : 'bajo-moderado'}, `}indicación: ${r.ind.label}). ${r.reinicio} ${r.minimo ? 'Son los procedimientos que pueden hacerse con el paciente anticoagulado: dentales menores, cataratas, dermatológicos menores e implante de dispositivos.' : `Para esta indicación existe ${r.ind.fuerza}.`}` +
   `<span style="color:var(--ink-faint);font-size:12px;display:block;margin-top:8px;">El puente con HBPM queda para casos individualizados de riesgo trombótico muy alto, no como conducta por defecto: el puente sistemático multiplica el sangrado mayor sin reducir los eventos tromboembólicos. No medir anti-Xa de rutina (CHEST 2022).</span>`;
 
 /* ===== DASI / MET (capacidad funcional) =====
@@ -813,6 +823,7 @@ export const calculators = [
       { name: 'basal', id: 'vmins-basal', type: 'checkbox', label: 'Hay una troponina basal preoperatoria' },
       { name: 'troponina', id: 'vmins-troponina', type: 'select', label: 'Troponina posoperatoria', options:
         Object.keys(MINS_TROPONINA).map(k => ({ value: k, label: MINS_TROPONINA[k].label, selected: k === 'pendiente' })) },
+      { type: 'note', text: tablaRiesgoHTML(RIESGO_QUIRURGICO) },
       { type: 'note', text: 'Entre el 80 y el 90 % de estos pacientes <strong>no tienen síntomas</strong>: el dolor de la herida, la analgesia y la anestesia los enmascaran. Si no se mide, no se ve.' }
     ],
     compute: minsCompute,
@@ -970,7 +981,8 @@ export const calculators = [
       ] },
       { name: 'sangrado', id: 'vp-sangrado', type: 'select', label: 'Riesgo hemorrágico del procedimiento', row: 'a', options: [
         { value: 'bajo', label: 'Bajo o moderado', selected: true },
-        { value: 'alto', label: 'Alto' }
+        { value: 'alto', label: 'Alto' },
+        { value: 'minimo', label: 'Mínimo' }
       ] },
       { name: 'tfg', id: 'vp-tfg', type: 'number', label: 'Aclaramiento de creatinina (mL/min)', placeholder: 'ej. 60', row: 'a', required: false },
       { name: 'indicacion', id: 'vp-indicacion', type: 'select', label: 'Indicación de la anticoagulación', options: [
@@ -980,6 +992,7 @@ export const calculators = [
         { value: 'dispositivo', label: 'Implante de marcapasos o desfibrilador' },
         { value: 'colonoscopia', label: 'Colonoscopia con polipectomía prevista' }
       ] },
+      { type: 'note', text: tablaRiesgoHTML(RIESGO_HEMORRAGICO) },
       { type: 'note', text: 'El aclaramiento solo cambia el resultado con dabigatrán: es el único DOAC cuyo intervalo depende de la función renal. Los demás usan 1 día si el riesgo hemorrágico es bajo o moderado y 2 si es alto. Si no lo tienes, la escala <strong>Aclaramiento de creatinina</strong> de esta misma pestaña lo calcula con Cockcroft-Gault, que es la fórmula que usa este protocolo.' }
     ],
     compute: puenteCompute,

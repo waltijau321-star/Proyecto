@@ -236,6 +236,7 @@ async function run() {
      porcentajes fijados aquí son los que produce esa fórmula para el caso descrito: si alguien
      toca un coeficiente por accidente, estas pruebas lo atrapan. */
   const vpoModule = await import('./protocols/vpo-calc.js');
+  const vpoRiesgos = await import('./protocols/vpo-riesgos.js');
   const calcEngine = await import('./engine/calculators.js');
   const vpoCalc = vpoModule.calculators;
   const vpo = k => vpoCalc.find(c => c.key === k);
@@ -366,9 +367,53 @@ async function run() {
     assertEqual(vpo('puenteac').compute({ farmaco: 'apixaban', sangrado: 'bajo', tfg: 90, indicacion: 'dispositivo' }).continuar, false);
   });
 
+  test('VPO riesgos: las dos tablas que la seccion pedia de memoria estan completas', () => {
+    // El puente pregunta el riesgo hemorragico y la ruta el quirurgico, y ninguno de los dos
+    // se definia en ningun sitio: habia que saberselos para poder usar las herramientas.
+    const { RIESGO_HEMORRAGICO, RIESGO_QUIRURGICO, tablaRiesgoHTML } = vpoRiesgos;
+    [RIESGO_HEMORRAGICO, RIESGO_QUIRURGICO].forEach(t => {
+      assert(t.titulo && t.intro && /\d{4}/.test(t.fuente), 'cada tabla dice de donde sale');
+      assertEqual(t.niveles.length, 3, 'las dos tablas tienen tres niveles');
+      t.niveles.forEach(n => {
+        assert(n.label && n.umbral, `el nivel '${n.id}' no dice su umbral`);
+        assert(n.ejemplos.length >= 4, `el nivel '${n.id}' tiene muy pocos ejemplos para servir`);
+      });
+    });
+    // El umbral de cada tabla es el que usan las herramientas que la consultan.
+    assert(/2 %/.test(RIESGO_HEMORRAGICO.niveles[0].umbral), 'el alto hemorragico es 2 % o mas a 30 dias');
+    assert(/1 %/.test(RIESGO_QUIRURGICO.niveles[0].umbral), 'el bajo quirurgico es menos de 1 %');
+    // Y la tabla se pinta sin dejar huecos.
+    const html = tablaRiesgoHTML(RIESGO_QUIRURGICO);
+    assert(!/undefined/.test(html) && /vpo-riesgo-tabla/.test(html));
+  });
+
+  test('VPO riesgos: el mismo procedimiento puede ser bajo para el corazon y alto para el sangrado', () => {
+    // Es la confusion que las dos tablas curan: la reseccion transuretral de prostata es de
+    // riesgo quirurgico bajo y de riesgo hemorragico alto.
+    const { RIESGO_HEMORRAGICO, RIESGO_QUIRURGICO } = vpoRiesgos;
+    const texto = t => JSON.stringify(t.niveles);
+    assert(/transuretral/i.test(texto(RIESGO_HEMORRAGICO)) && /transuretral/i.test(texto(RIESGO_QUIRURGICO)),
+      'la reseccion transuretral deberia estar en las dos tablas');
+    const nivelCon = (t, re) => t.niveles.find(n => n.ejemplos.some(e => re.test(e))).id;
+    assertEqual(nivelCon(RIESGO_HEMORRAGICO, /transuretral/i), 'alto');
+    assertEqual(nivelCon(RIESGO_QUIRURGICO, /transuretral/i), 'bajo');
+  });
+
+  test('VPO puente: con riesgo hemorragico minimo no se interrumpe el anticoagulante', () => {
+    // El tercer nivel de la tabla de la ISTH: dentales menores, cataratas, dermatologicos
+    // menores e implante de dispositivos se hacen con el paciente anticoagulado.
+    const r = vpo('puenteac').compute({ farmaco: 'warfarina', sangrado: 'minimo', tfg: 60, indicacion: 'fa' });
+    assertEqual(r.continuar, true);
+    assertEqual(r.dias, null, 'no hay dias que suspender');
+    assertEqual(r.puente, false);
+    const directo = vpo('puenteac').compute({ farmaco: 'apixaban', sangrado: 'minimo', tfg: 60, indicacion: 'fa' });
+    assert(/omitir la dosis del d[i\u00ed]a/.test(directo.reinicio),
+      'con un directo cabe omitir la dosis del dia para evitar el pico');
+  });
+
   test('VPO puente: ninguna combinación recomienda puente con heparina', () => {
     ['warfarina', 'acenocumarol', 'apixaban', 'rivaroxaban', 'edoxaban', 'dabigatran'].forEach(f => {
-      ['bajo', 'alto'].forEach(s => {
+      ['bajo', 'alto', 'minimo'].forEach(s => {
         Object.keys({ fa: 1, valvula: 1, etv: 1, dispositivo: 1, colonoscopia: 1 }).forEach(i => {
           const r = vpo('puenteac').compute({ farmaco: f, sangrado: s, tfg: 60, indicacion: i });
           assertEqual(r.puente, false, `${f}/${s}/${i}`);

@@ -444,6 +444,13 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 .bib-list li.flash{background:var(--panel2);}
 
 /* ---------- CALCULATORS ---------- */
+/* Ayuda plegada dentro de un campo: la tabla de riesgo del procedimiento. */
+.vpo-riesgo-tabla{display:flex; flex-direction:column; gap:10px; margin:10px 0 8px;}
+.vpo-riesgo-fila{display:flex; flex-direction:column; gap:3px;}
+.vpo-riesgo-nivel{font-weight:700; color:var(--ink);}
+.vpo-riesgo-nivel em{font-weight:400; color:var(--ink-faint); font-style:normal;}
+.vpo-riesgo-tabla ul{margin:0; padding-left:18px; display:flex; flex-direction:column; gap:3px;}
+.vpo-riesgo-fuente{display:block; margin-top:6px; color:var(--ink-faint); font-size:11.5px;}
 .calc-grupo{
   font-family:'Newsreader',serif; font-size:1.05rem; font-weight:600; color:var(--ink);
   margin:26px 0 10px; padding-bottom:6px; border-bottom:1px solid var(--line);
