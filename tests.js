@@ -981,6 +981,51 @@ async function run() {
     assert(conElectiva.pct < sinElectiva.pct, 'la cirugia electiva deberia bajar el riesgo calculado');
   });
 
+  test('VPO profilaxis quirurgica: el agente sale de la tabla, y hay cirugias que no la llevan', () => {
+    // La mitad del valor de la tabla son las cirugias que NO la llevan: la limpia de mano,
+    // rodilla o pie, la de cabeza y cuello limpia y la colecistectomia laparoscopica de bajo
+    // riesgo. Darla igual solo expone al paciente y selecciona resistencias.
+    const pq = vpo('profilaxisqx');
+    assertEqual(pq.compute({ cirugia: 'manoPie' }).sinProfilaxis, true);
+    assertEqual(pq.compute({ cirugia: 'biliarLapBajo' }).sinProfilaxis, true);
+    assertEqual(pq.compute({ cirugia: 'cuelloLimpia' }).sinProfilaxis, true);
+    assertEqual(pq.compute({ cirugia: 'ortopedica' }).sinProfilaxis, false);
+
+    const colon = pq.compute({ cirugia: 'colorrectal' });
+    assert(/cefazolina/.test(colon.esquema) && /metronidazol/.test(colon.esquema),
+      'la colorrectal lleva cefazolina mas metronidazol');
+    assert(/clindamicina/.test(pq.compute({ cirugia: 'colorrectal', alergia: true }).esquema),
+      'con alergia a betalactamicos cambia el esquema entero');
+    assert(/cefoxitina/.test(pq.compute({ cirugia: 'apendice' }).esquema),
+      'la apendicectomia no complicada lleva cefoxitina');
+  });
+
+  test('VPO profilaxis quirurgica: la redosificacion la marca el agente de vida media mas corta', () => {
+    // Cefazolina cada 4 h, cefoxitina cada 2. En un esquema combinado manda el mas corto, que
+    // es el que primero deja de cubrir.
+    const pq = vpo('profilaxisqx');
+    assertEqual(pq.compute({ cirugia: 'ortopedica' }).redosis, 4, 'cefazolina se redosifica a las 4 horas');
+    assertEqual(pq.compute({ cirugia: 'apendice' }).redosis, 2, 'cefoxitina, a las 2');
+    assertEqual(pq.compute({ cirugia: 'cesarea', alergia: true }).redosis, 6,
+      'clindamicina a las 6; la gentamicina en dosis unica no se redosifica');
+    assertEqual(pq.compute({ cirugia: 'manoPie' }).redosis, null);
+  });
+
+  test('VPO profilaxis quirurgica: el mensaje que importa es suspenderla al terminar', () => {
+    // El error frecuente no es olvidar la dosis previa sino prolongarla dias. La OMS lo
+    // recomienda en contra con fuerza, y eso es mas reciente que el "menos de 24 horas" de
+    // la tabla de 2013.
+    const pq = vpo('profilaxisqx');
+    const texto = pq.format(pq.compute({ cirugia: 'colorrectal' }));
+    assert(/Suspender al terminar/.test(texto), 'deberia decir que se suspende al terminar');
+    assert(/60 minutos previos/.test(texto), 'y cuando se da la dosis previa');
+    assert(/en revisi\u00f3n/.test(texto), 'y que la tabla de agentes es de 2013 y esta en revision');
+    // Con protesis y alergia aparece la vancomicina, que mueve la ventana a 120 minutos.
+    const protesis = pq.format(pq.compute({ cirugia: 'ortopedica', alergia: true }));
+    assert(/vancomicina/.test(protesis) && /120 minutos/.test(protesis),
+      'con material protesico y alergia deberia ofrecer la vancomicina y su ventana');
+  });
+
   test('VPO endocarditis: hay que acertar las dos preguntas, la cardiopatia y el procedimiento', () => {
     // El error frecuente va en los dos sentidos: dar profilaxis a todo portador de protesis
     // ante cualquier procedimiento, y no darla nunca.

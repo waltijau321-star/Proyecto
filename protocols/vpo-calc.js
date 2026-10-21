@@ -13,6 +13,9 @@
 //  - Gould MK, et al. Chest. 2012;141(2)(Suppl):e227S-e277S. (CHEST AT9 — VTE no ortopédica)
 //  - Delgado V, et al. 2023 ESC Guidelines for the management of endocarditis.
 //    Eur Heart J. 2023;44(39):3948-4042. (profilaxis de endocarditis infecciosa)
+//  - Bratzler DW, et al. Clinical practice guidelines for antimicrobial prophylaxis in surgery.
+//    Surg Infect. 2013;14(1):73-156 / Am J Health Syst Pharm. 2013;70(3):195-283. (ASHP/IDSA/SIS/SHEA)
+//  - WHO. Global guidelines for the prevention of surgical site infection. 2.a ed. 2018.
 
 /* ===== Tipos de cirugía compartidos por los calculadores de Gupta (mismas 21 categorías NSQIP) ===== */
 const SURGERY_TYPES = [
@@ -420,6 +423,81 @@ const survTexto = s => (s < 1 ? 'menos de 1%' : s.toFixed(0) + '%');
 const fragCharlson = r => `<strong>Charlson ${puntos(r.total)}</strong> (incluye ${r.ptsEdad} por edad), supervivencia estimada a 10 años ${survTexto(r.superv)}`;
 const fmtCharlson = r => `${fragCharlson(r)}. <span style="color:var(--ink-faint);font-size:12px;">La supervivencia procede de la fórmula publicada del índice y refleja la carga de comorbilidad, no el riesgo del procedimiento. En la valoración preoperatoria sirve para dimensionar cuánto beneficio puede esperar el paciente de una cirugía electiva (Charlson 1987).</span>`;
 
+/* ===== Profilaxis antibiótica quirúrgica =====
+   Agente, dosis y redosificación: Bratzler DW, et al. Surg Infect. 2013;14(1):73-156, tablas
+   1 y 2. Momento y duración: OMS, Global guidelines for the prevention of surgical site
+   infection, 2.a ed. 2018.
+
+   Las dos fuentes no coinciden en todo y ahí está lo interesante. En el momento: ASHP dice
+   dentro de los 60 minutos previos a la incisión (120 para vancomicina y quinolonas, que se
+   pasan en una o dos horas) y la OMS dice dentro de los 120, sin diferencia entre darlo a los
+   120 o a los 10. En la duración: ASHP, de 2013, acepta menos de 24 horas y hasta 48 en
+   cardiotorácica "sin evidencia que lo sostenga"; la OMS, de 2018, recomienda con fuerza NO
+   prolongarla tras terminar la operación. Se enseña lo segundo, que es lo más reciente y lo
+   más fuerte, y se dice que la tabla de agentes es de 2013 y está en revisión. */
+const PQX_DOSIS = {
+  cefazolina:   { label: 'cefazolina', dosis: '2 g IV (3 g si pesa 120 kg o más)', redosis: 4 },
+  cefuroxima:   { label: 'cefuroxima', dosis: '1.5 g IV', redosis: 4 },
+  cefoxitina:   { label: 'cefoxitina', dosis: '2 g IV', redosis: 2 },
+  cefotetan:    { label: 'cefotetán', dosis: '2 g IV', redosis: 6 },
+  ampisulbactam:{ label: 'ampicilina-sulbactam', dosis: '3 g IV', redosis: 2 },
+  metronidazol: { label: 'metronidazol', dosis: '500 mg IV', redosis: null },
+  clindamicina: { label: 'clindamicina', dosis: '900 mg IV', redosis: 6 },
+  vancomicina:  { label: 'vancomicina', dosis: '15 mg/kg IV', redosis: null, lenta: true },
+  gentamicina:  { label: 'gentamicina', dosis: '5 mg/kg IV en dosis única', redosis: null },
+  ciprofloxacino:{ label: 'ciprofloxacino', dosis: '400 mg IV', redosis: null, lenta: true },
+  ertapenem:    { label: 'ertapenem', dosis: '1 g IV', redosis: null }
+};
+// De la tabla 2: primera opción y alternativa con alergia a betalactámicos. Las cirugías que
+// no llevan profilaxis están en la tabla igual que las demás, y son la mitad del valor de
+// consultarla: la limpia de mano, rodilla o pie, la de cabeza y cuello limpia y la
+// colecistectomía laparoscópica electiva de bajo riesgo no la necesitan.
+const PQX_CIRUGIA = {
+  manoPie:      { label: 'Ortopédica limpia de mano, rodilla o pie, sin material protésico', agentes: [], alergia: [] },
+  cuelloLimpia: { label: 'Cabeza y cuello limpia, sin prótesis', agentes: [], alergia: [] },
+  biliarLapBajo:{ label: 'Colecistectomía laparoscópica electiva de bajo riesgo', agentes: [], alergia: [] },
+  cardiaca:     { label: 'Cardiaca, incluido el implante de marcapasos o desfibrilador', agentes: ['cefazolina'], alergia: ['clindamicina'] , protesis: true },
+  toracica:     { label: 'Torácica no cardiaca', agentes: ['cefazolina'], alergia: ['clindamicina'] },
+  gastroduodenal:{ label: 'Gastroduodenal con entrada a la luz digestiva, incluida la bariátrica', agentes: ['cefazolina'], alergia: ['clindamicina', 'gentamicina'] },
+  biliar:       { label: 'Vía biliar abierta, o laparoscópica de alto riesgo', agentes: ['cefazolina'], alergia: ['clindamicina', 'gentamicina'] },
+  apendice:     { label: 'Apendicectomía por apendicitis no complicada', agentes: ['cefoxitina'], alergia: ['clindamicina', 'gentamicina'] },
+  colorrectal:  { label: 'Colorrectal', agentes: ['cefazolina', 'metronidazol'], alergia: ['clindamicina', 'gentamicina'] },
+  hernia:       { label: 'Hernioplastia o herniorrafia', agentes: ['cefazolina'], alergia: ['clindamicina'] },
+  ortopedica:   { label: 'Columna, fractura de cadera, osteosíntesis o artroplastia', agentes: ['cefazolina'], alergia: ['clindamicina'] , protesis: true },
+  neuro:        { label: 'Craneotomía electiva o derivación de líquido cefalorraquídeo', agentes: ['cefazolina'], alergia: ['clindamicina'] , protesis: true },
+  cesarea:      { label: 'Cesárea', agentes: ['cefazolina'], alergia: ['clindamicina', 'gentamicina'] },
+  histerectomia:{ label: 'Histerectomía vaginal o abdominal', agentes: ['cefazolina'], alergia: ['clindamicina', 'gentamicina'] },
+  vascular:     { label: 'Vascular', agentes: ['cefazolina'], alergia: ['clindamicina'] , protesis: true },
+  urologica:    { label: 'Urológica limpia, con o sin entrada a la vía urinaria', agentes: ['cefazolina'], alergia: ['clindamicina'] },
+  cuelloCancer: { label: 'Cabeza y cuello limpia-contaminada por cáncer', agentes: ['cefazolina', 'metronidazol'], alergia: ['clindamicina'] }
+};
+function profilaxisQxCompute(v) {
+  const cx = PQX_CIRUGIA[v.cirugia];
+  if (!cx) return null;
+  const claves = v.alergia ? cx.alergia : cx.agentes;
+  const esquema = claves.map(k => PQX_DOSIS[k]);
+  const lenta = esquema.some(a => a.lenta);
+  // La redosificación la marca el agente de vida media más corta del esquema.
+  const intervalos = esquema.map(a => a.redosis).filter(x => x);
+  return {
+    cirugia: cx.label,
+    protesis: !!cx.protesis,
+    sinProfilaxis: !esquema.length,
+    esquema: esquema.map(a => `${a.label} ${a.dosis}`).join(' más '),
+    minutos: lenta ? 120 : 60,
+    redosis: intervalos.length ? Math.min(...intervalos) : null,
+    alergia: !!v.alergia
+  };
+}
+const fragProfilaxisQx = r => r.sinProfilaxis
+  ? `<strong>Sin profilaxis antibiótica quirúrgica</strong> (${r.cirugia.toLowerCase()})`
+  : `<strong>Profilaxis quirúrgica: ${r.esquema}</strong> en los ${r.minutos} minutos previos a la incisión`;
+const fmtProfilaxisQx = r => r.sinProfilaxis
+  ? `${fragProfilaxisQx(r)}. Esta cirugía no la lleva, y darla igual solo expone al paciente y selecciona resistencias. <span style="color:var(--ink-faint);font-size:12px;">Tabla 2 de ASHP 2013. Si hay infección activa, lo que corresponde es tratamiento, no profilaxis.</span>`
+  : `${fragProfilaxisQx(r)}, para ${r.cirugia.toLowerCase()}${r.alergia ? ', con alergia a betalactámicos' : ''}. ${
+      r.redosis ? `Redosificar a las ${r.redosis} horas si el procedimiento se alarga o hay sangrado abundante. ` : 'No requiere redosificación intraoperatoria. '
+    }${r.protesis && r.alergia ? 'La otra alternativa en esta cirugía, cuando se implanta material y hay riesgo de SARM, es <strong>vancomicina 15 mg/kg</strong>, y entonces la ventana es de 120 minutos porque se pasa en una o dos horas. ' : ''}<strong>Suspender al terminar la operación</strong>: prolongarla después no reduce la infección de sitio quirúrgico (recomendación fuerte de la OMS), ni siquiera con drenajes o catéteres puestos. <span style="color:var(--ink-faint);font-size:12px;">Agente y dosis de la tabla 2 de ASHP/IDSA 2013, que tiene más de una década y está en revisión: contrastar con el protocolo y la resistencia local. El momento de los ${r.minutos} minutos combina ASHP (60, o 120 para vancomicina y quinolonas, que se pasan en una o dos horas) con la OMS, que recomienda darlo dentro de los 120 minutos previos y no encontró diferencia dentro de esa ventana.</span>`;
+
 /* ===== Profilaxis de endocarditis infecciosa =====
    Delgado V, et al. 2023 ESC Guidelines for the management of endocarditis. Eur Heart J.
    2023;44(39):3948-4042: Tabla de recomendaciones 1 (cardiopatías), 2 (procedimientos),
@@ -804,6 +882,18 @@ export const calculators = [
     ],
     compute: apfelCompute,
     format: fmtApfel, fragment: fragApfel
+  },
+  {
+    key: 'profilaxisqx', title: 'Profilaxis antibiótica quirúrgica', accent: '#6b5335',
+    subtitle: 'Qué antibiótico, cuándo, y hasta cuándo',
+    fields: [
+      { name: 'cirugia', id: 'vpq-cirugia', type: 'select', label: 'Cirugía prevista',
+        options: Object.keys(PQX_CIRUGIA).map(k => ({ value: k, label: PQX_CIRUGIA[k].label, selected: k === 'colorrectal' })) },
+      { name: 'alergia', id: 'vpq-alergia', type: 'checkbox', label: 'Alergia a betalactámicos' },
+      { type: 'note', text: 'El error frecuente no es olvidar la dosis previa, sino <strong>prolongarla después</strong>: la profilaxis se suspende al terminar la operación, tenga el paciente drenajes o no.' }
+    ],
+    compute: profilaxisQxCompute,
+    format: fmtProfilaxisQx, fragment: fragProfilaxisQx
   },
   {
     key: 'endocarditis', title: 'Profilaxis de endocarditis', accent: '#7c2d2d',
