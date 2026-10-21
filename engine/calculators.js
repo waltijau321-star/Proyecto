@@ -351,6 +351,27 @@ export function mountCalculators(topic, root, opts = {}) {
   const topicTitle = topic.meta ? topic.meta.titulo : '';
   const showExtras = opts.showExtras !== false;
   if (showExtras) GENERAL.forEach(c => cards.push(cardHTML(c.key, c.title, c.subtitle || '', c.accent || accent)));
+
+  // Con `opts.grupos` ([{id, label}]) la rejilla se parte por el `dominio` que declara cada
+  // calculadora, en el orden de los grupos. Una rejilla plana larga no dice nada sobre cual
+  // escala sirve para que; agrupada, el encabezado ya es media respuesta. Lo que no declare
+  // dominio (o declare uno que no esta en la lista) cae al final, sin encabezado, para que
+  // anadir una escala sin clasificarla no la haga desaparecer.
+  const porGrupos = () => {
+    const propias = (topic.calculators || []);
+    const usadas = new Set();
+    const bloques = opts.grupos.map(g => {
+      const delGrupo = propias.filter(c => c.dominio === g.id);
+      delGrupo.forEach(c => usadas.add(c.key));
+      if (!delGrupo.length) return '';
+      return `<h3 class="calc-grupo">${g.label}</h3>
+        <div class="calc-launch-grid">${delGrupo.map(c => cardHTML(c.key, c.title, c.subtitle || '', c.accent || accent)).join('')}</div>`;
+    }).join('');
+    const sueltas = propias.filter(c => !usadas.has(c.key));
+    return bloques + (sueltas.length
+      ? `<div class="calc-launch-grid">${sueltas.map(c => cardHTML(c.key, c.title, c.subtitle || '', c.accent || accent)).join('')}</div>`
+      : '');
+  };
   const infusionCard = `<div class="comp-card" style="--c:#3d5a73" onclick="openInfusionCalc()">
     <h4>Velocidad de infusión (goteo)</h4><p>Dosis ↔ mL/h para vasopresores y sedantes, con dilución precargada o personalizada.</p><div class="open-hint">Abrir calculadora →</div></div>`;
   root.innerHTML = `
@@ -358,7 +379,9 @@ export function mountCalculators(topic, root, opts = {}) {
       <p>${opts.intro || 'Escalas interactivas. Toca una para abrirla; el resultado incluye una nota lista para el expediente.'}</p></div>
     <div class="sec-body">
       ${topicTitle ? `<h3 style="font-family:'Newsreader',serif;font-size:1.15rem;color:var(--ink);margin:2px 0 12px;">${topicTitle}</h3>` : ''}
-      <div class="calc-launch-grid">${cards.join('')}</div>
+      ${opts.grupos
+        ? `${topic.combinedNote ? `<div class="calc-launch-grid">${cardHTML('notacombinada', topic.combinedNote.title || 'Nota combinada', topic.combinedNote.subtitle || '', accent)}</div>` : ''}${porGrupos()}`
+        : `<div class="calc-launch-grid">${cards.join('')}</div>`}
       ${showExtras ? `<h3 style="font-family:'Newsreader',serif;font-size:1.15rem;color:var(--ink);margin:28px 0 12px;">Herramientas de dosificación</h3>
       <div class="calc-launch-grid">${infusionCard}</div>` : ''}
     </div>`;

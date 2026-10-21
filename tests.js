@@ -522,6 +522,24 @@ async function run() {
     });
   });
 
+  test('VPO: cada escala declara su dominio y en que bloque de la nota cae', () => {
+    // El orden de la nota y el reparto entre sus bloques se derivan de aqui. Una escala sin
+    // dominio se pinta al final de la rejilla sin encabezado, y una sin bloqueNota saldria en
+    // el de riesgo por omision: las dos cosas pasan en silencio, asi que se vigilan.
+    const dominios = new Set(vpoModule.DOMINIOS.map(d => d.id));
+    assert(dominios.size >= 5, 'deberia haber varios dominios para que agrupar sirva de algo');
+    vpoCalc.forEach(c => {
+      assert(dominios.has(c.dominio), `'${c.key}' declara el dominio '${c.dominio}', que no existe`);
+      assert(c.bloqueNota === 'riesgo' || c.bloqueNota === 'farmacos',
+        `'${c.key}' declara el bloque de nota '${c.bloqueNota}'`);
+    });
+    // Las que deciden una conducta no son estimaciones de riesgo.
+    ['puenteac', 'cockcroft', 'endocarditis', 'profilaxisqx'].forEach(k => {
+      assertEqual(vpoCalc.find(c => c.key === k).bloqueNota, 'farmacos', `'${k}' es una conducta`);
+    });
+    assertEqual(vpoCalc.find(c => c.key === 'leeindex').bloqueNota, 'riesgo');
+  });
+
   test('VPO: no hay key ni id de campo repetidos entre escalas', () => {
     const keys = vpoCalc.map(c => c.key);
     assertEqual(keys.length, new Set(keys).size, 'hay keys de calculadora duplicadas');
@@ -773,6 +791,12 @@ async function run() {
     keys.forEach(k => assert(vpoEngine.ORDEN_NOTA.includes(k), `la escala '${k}' no está en ORDEN_NOTA: no saldría en la nota`));
     vpoEngine.ORDEN_NOTA.forEach(k => assert(keys.includes(k), `ORDEN_NOTA cita '${k}', que ya no existe`));
     assertEqual(vpoEngine.ORDEN_NOTA.length, new Set(vpoEngine.ORDEN_NOTA).size, 'ORDEN_NOTA tiene claves repetidas');
+    // Y que el orden sea el de los dominios, no el del archivo: la nota se lee por bloques.
+    const dominioDe = k => vpoCalc.find(c => c.key === k).dominio;
+    const posicion = vpoEngine.ORDEN_NOTA.map(k => vpoModule.DOMINIOS.findIndex(d => d.id === dominioDe(k)));
+    posicion.forEach((n, i) => {
+      if (i) assert(n >= posicion[i - 1], 'ORDEN_NOTA deberia ir agrupada por dominio clinico');
+    });
   });
 
   /* ---------------- Estudios preoperatorios (protocols/vpo-estudios.js) ---------------- */

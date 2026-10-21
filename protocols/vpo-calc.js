@@ -653,11 +653,33 @@ const fmtDelirium = r => `${fragDelirium(r)}. ${r.cat === 'bajo'
   ? 'Mantener las medidas no farmacológicas básicas: orientación, movilización temprana, lentes y auxiliar auditivo puestos, higiene del sueño.'
   : 'Indicar un paquete de prevención no farmacológica multicomponente, que es lo único que ha demostrado reducir la incidencia: orientación repetida, movilización temprana, hidratación, control del dolor sin anticolinérgicos ni benzodiacepinas, lentes y auxiliar auditivo, y protección del sueño. Evitar antipsicóticos como profilaxis.'} <span style="color:var(--ink-faint);font-size:12px;">Ayuda clínica basada en factores de riesgo reconocidos; no es un puntaje numérico validado. Cuanto mayor sea la carga predisponente basal, menor es el estímulo precipitante que basta para desencadenar el delirium.</span>`;
 
+/* ===== Dominios clínicos =====
+   La pestaña Escalas llegó a 23 tarjetas en una rejilla plana ordenada por el día en que se
+   escribió cada una, que no ayuda a quien busca cuál le sirve para este paciente. Cada escala
+   declara a qué dominio pertenece y el motor de calculadoras las agrupa por él.
+
+   El mismo descriptor dice en qué bloque de la nota cae su resultado: `bloqueNota` es 'riesgo'
+   para las que estiman un riesgo y 'farmacos' para las que deciden una conducta (el puente, el
+   aclaramiento que lo decide, y las dos profilaxis). Antes eso eran dos listas a mano en
+   engine/vpo.js que había que acordarse de actualizar al añadir una escala. */
+export const DOMINIOS = [
+  { id: 'general',        label: 'Estado físico' },
+  { id: 'cardiaco',       label: 'Riesgo cardiaco y capacidad funcional' },
+  { id: 'pulmonar',       label: 'Riesgo pulmonar y vía aérea' },
+  { id: 'antitrombotico', label: 'Trombosis y anticoagulación' },
+  { id: 'antibiotico',    label: 'Profilaxis antibiótica' },
+  { id: 'geriatrico',     label: 'Reserva, comorbilidad y delirium' },
+  // Apfel va al final por lo mismo que va al final de la nota: es la única que no estima un
+  // riesgo mayor, sino el confort de las primeras horas.
+  { id: 'posoperatorio',  label: 'Confort posoperatorio' }
+];
+
 /* ===== Calculadoras ===== */
 export const calculators = [
   {
     key: 'asa', title: 'Clasificación ASA', accent: '#5c4a73',
     subtitle: 'Estado físico preanestésico',
+    dominio: 'general', bloqueNota: 'riesgo',
     fields: [
       { name: 'clase', id: 'va-clase', type: 'select', label: 'Clasificación ASA', shared: 'asa',
         sharedOut: v => ASA_ROMAN_TO_NUM[v], sharedIn: v => ASA_NUM_TO_ROMAN[v], options: [
@@ -674,8 +696,130 @@ export const calculators = [
     format: fmtAsa, fragment: fragAsa
   },
   {
+    key: 'leeindex', title: 'Índice de Lee (RCRI)', accent: '#3f6b52',
+    subtitle: 'Índice de riesgo cardiaco revisado',
+    dominio: 'cardiaco', bloqueNota: 'riesgo',
+    fields: [
+      { name: 'rf1', id: 'vl-rf1', type: 'checkbox', label: 'Cirugía de alto riesgo (intraperitoneal, intratorácica o vascular suprainguinal)' },
+      { name: 'rf2', id: 'vl-rf2', type: 'checkbox', label: 'Cardiopatía isquémica (IAM previo, angina actual, uso de nitratos, prueba de esfuerzo positiva u ondas Q patológicas)' },
+      { name: 'rf3', id: 'vl-rf3', type: 'checkbox', label: 'Insuficiencia cardiaca congestiva' },
+      { name: 'rf4', id: 'vl-rf4', type: 'checkbox', label: 'Enfermedad cerebrovascular (ACV o AIT previos)' },
+      { name: 'rf5', id: 'vl-rf5', type: 'checkbox', label: 'Diabetes tratada con insulina' },
+      { name: 'rf6', id: 'vl-rf6', type: 'checkbox', label: 'Creatinina sérica preoperatoria &gt;2.0 mg/dL',
+        shared: 'creatinina', sharedOut: () => null, sharedIn: creatDesde(2.0, true) }
+    ],
+    compute(v) {
+      const n = ['rf1', 'rf2', 'rf3', 'rf4', 'rf5', 'rf6'].reduce((s, k) => s + (v[k] ? 1 : 0), 0);
+      const idx = Math.min(n, 3);
+      return { n, cls: LEE_CLASS[idx], risk: LEE_RISK[idx] };
+    },
+    format: fmtLee, fragment: fragLee
+  },
+  {
+    key: 'guptamica', title: 'Gupta-MICA (cardiaco)', accent: '#8c3a34',
+    subtitle: 'Riesgo de infarto de miocardio o paro cardiaco perioperatorio',
+    dominio: 'cardiaco', bloqueNota: 'riesgo',
+    incompleteMsg: 'Completa la edad y el resto de los campos.',
+    fields: [
+      { name: 'age', id: 'vm-age', type: 'number', label: 'Edad (años)', placeholder: 'ej. 65', row: 'a', shared: 'age' },
+      { name: 'asa', id: 'vm-asa', type: 'select', label: 'Clase ASA', row: 'a', shared: 'asa', options: [
+        { value: '1', label: 'I' }, { value: '2', label: 'II' }, { value: '3', label: 'III', selected: true }, { value: '4', label: 'IV' }, { value: '5', label: 'V' }
+      ] },
+      { name: 'func', id: 'vm-func', type: 'select', label: 'Estado funcional', row: 'b', shared: 'func', options: [
+        { value: 'independent', label: 'Independiente', selected: true },
+        { value: 'partial', label: 'Parcialmente dependiente' },
+        { value: 'total', label: 'Totalmente dependiente' }
+      ] },
+      { name: 'creat', id: 'vm-creat', type: 'checkbox', label: 'Creatinina preoperatoria ≥1.5 mg/dL', row: 'b',
+        shared: 'creatinina', sharedOut: () => null, sharedIn: creatDesde(1.5, false) },
+      { name: 'surg', id: 'vm-surg', type: 'select', label: 'Tipo de cirugía', shared: 'surg', options: surgeryOptions() }
+    ],
+    compute(v) {
+      if (v.age === null || v.age === undefined) return null;
+      const L = -5.25 + 0.02 * v.age + MICA_ASA[v.asa] + (v.creat ? 0.61 : 0) + MICA_FUNC[v.func] + MICA_SURGERY_COEF[v.surg];
+      const funcLabel = { independent: 'independiente', partial: 'parcialmente dependiente', total: 'totalmente dependiente' }[v.func];
+      return { pct: logit100(L), asa: v.asa, age: v.age, creat: v.creat, funcLabel, surg: v.surg };
+    },
+    format: fmtGuptaMica, fragment: fragGuptaMica
+  },
+  {
+    key: 'dasi', title: 'DASI / MET', accent: '#3f6b52',
+    subtitle: 'Capacidad funcional, el paso 4 de la ruta perioperatoria',
+    dominio: 'cardiaco', bloqueNota: 'riesgo',
+    fields: [
+      { type: 'note', text: 'Marca solo las actividades que el paciente <strong>sí</strong> puede hacer. El umbral de mala capacidad funcional son 4 MET.' },
+      ...DASI_ITEMS.map(i => ({ name: i.key, id: 'vdasi-' + i.key, type: 'checkbox', label: i.label }))
+    ],
+    compute: dasiCompute,
+    format: fmtDasi, fragment: fragDasi
+  },
+  {
+    key: 'detsky', title: 'Detsky (índice modificado)', accent: '#3d5a73',
+    subtitle: 'Índice multifactorial de riesgo cardiaco',
+    dominio: 'cardiaco', bloqueNota: 'riesgo',
+    fields: [
+      { name: 'mi', id: 'vd-mi', type: 'select', label: 'Infarto de miocardio', options: [
+        { value: '0', label: 'Ninguno', selected: true }, { value: '10', label: '≤6 meses (10 pt)' }, { value: '5', label: '&gt;6 meses (5 pt)' }
+      ] },
+      { name: 'angina', id: 'vd-angina', type: 'select', label: 'Angina (Canadian Cardiovascular Society)', options: [
+        { value: '0', label: 'Ninguna / clase I-II', selected: true }, { value: '10', label: 'Clase III (10 pt)' }, { value: '20', label: 'Clase IV (20 pt)' }
+      ] },
+      { name: 'unstable', id: 'vd-unstable', type: 'checkbox', label: 'Angina inestable &lt;3 meses (10 pt)' },
+      { name: 'edema', id: 'vd-edema', type: 'select', label: 'Edema pulmonar alveolar', options: [
+        { value: '0', label: 'Nunca', selected: true }, { value: '10', label: 'Última semana (10 pt)' }, { value: '5', label: 'Alguna vez, remoto (5 pt)' }
+      ] },
+      { name: 'as', id: 'vd-as', type: 'checkbox', label: 'Sospecha de estenosis aórtica crítica (20 pt)' },
+      { name: 'arrhythmia', id: 'vd-arrhythmia', type: 'checkbox', label: 'Ritmo distinto al sinusal, o sinusal con extrasístoles auriculares en el último ECG (5 pt)' },
+      { name: 'pvcs', id: 'vd-pvcs', type: 'checkbox', label: '&gt;5 extrasístoles ventriculares documentadas alguna vez (5 pt)' },
+      { name: 'poorstatus', id: 'vd-poorstatus', type: 'checkbox', label: 'Mal estado médico general (5 pt)' },
+      { type: 'note', text: 'Mal estado general (criterios de Goldman): PaO₂ &lt;60 mmHg, PaCO₂ &gt;50 mmHg, K⁺ &lt;3.0 mEq/L, HCO₃⁻ &lt;20 mEq/L, BUN &gt;50 mg/dL, creatinina &gt;3 mg/dL, AST anormal, signos de hepatopatía crónica, o postrado en cama por causas no cardiacas.' },
+      { name: 'age70', id: 'vd-age70', type: 'checkbox', label: 'Edad ≥ 70 años (5 pt)', shared: 'age', sharedOut: () => null, sharedIn: ageAtLeast70 },
+      { name: 'emergency', id: 'vd-emergency', type: 'checkbox', label: 'Cirugía de emergencia (10 pt)' }
+    ],
+    compute(v) {
+      const score = (+v.mi) + (+v.angina) + (v.unstable ? 10 : 0) + (+v.edema) + (v.as ? 20 : 0) +
+        (v.arrhythmia ? 5 : 0) + (v.pvcs ? 5 : 0) + (v.poorstatus ? 5 : 0) + (v.age70 ? 5 : 0) + (v.emergency ? 10 : 0);
+      let cls, risk;
+      if (score <= 15) { cls = 'I'; risk = '≈5-10%'; }
+      else if (score <= 30) { cls = 'II'; risk = '≈10-15%'; }
+      else { cls = 'III'; risk = '&gt;15% (hasta 30-60% en puntajes muy altos)'; }
+      return { score, cls, risk };
+    },
+    format: fmtDetsky, fragment: fragDetsky
+  },
+  {
+    key: 'ariscat', title: 'ARISCAT (riesgo pulmonar)', accent: '#8c3a34',
+    subtitle: 'Complicaciones pulmonares posoperatorias',
+    dominio: 'pulmonar', bloqueNota: 'riesgo',
+    incompleteMsg: 'Completa la edad y el resto de los campos.',
+    fields: [
+      { name: 'edad', id: 'var-edad', type: 'number', label: 'Edad (años)', placeholder: 'ej. 65', row: 'a', shared: 'age' },
+      { name: 'spo2', id: 'var-spo2', type: 'select', numeric: true, label: 'SpO₂ preoperatoria (aire ambiente)', row: 'a', options: [
+        { value: '0', label: '≥96% (+0)', selected: true },
+        { value: '8', label: '91-95% (+8)' },
+        { value: '24', label: '≤90% (+24)' }
+      ] },
+      { name: 'infeccion', id: 'var-infeccion', type: 'checkbox', label: 'Infección respiratoria en el último mes (+17)' },
+      { name: 'anemia', id: 'var-anemia', type: 'checkbox', label: 'Anemia preoperatoria, hemoglobina ≤10 g/dL (+11)' },
+      { name: 'incision', id: 'var-incision', type: 'select', numeric: true, label: 'Incisión quirúrgica', options: [
+        { value: '0', label: 'Periférica (+0)', selected: true },
+        { value: '15', label: 'Abdominal alta (+15)' },
+        { value: '24', label: 'Intratorácica (+24)' }
+      ] },
+      { name: 'duracion', id: 'var-duracion', type: 'select', numeric: true, label: 'Duración prevista de la cirugía', options: [
+        { value: '0', label: 'Menos de 2 horas (+0)', selected: true },
+        { value: '16', label: 'De 2 a 3 horas (+16)' },
+        { value: '23', label: 'Más de 3 horas (+23)' }
+      ] },
+      { name: 'emergencia', id: 'var-emergencia', type: 'checkbox', label: 'Procedimiento de emergencia (+8)' }
+    ],
+    compute: ariscatCompute,
+    format: fmtAriscat, fragment: fragAriscat
+  },
+  {
     key: 'guptaprf', title: 'Gupta Score (falla respiratoria)', accent: '#8c3a34',
     subtitle: 'Riesgo de ventilación mecánica &gt;48 h o intubación no planeada',
+    dominio: 'pulmonar', bloqueNota: 'riesgo',
     incompleteMsg: 'Completa la edad y el resto de los campos.',
     fields: [
       { name: 'age', id: 'vg-age', type: 'number', label: 'Edad (años)', placeholder: 'ej. 65', row: 'a', shared: 'age' },
@@ -711,93 +855,43 @@ export const calculators = [
     format: fmtGuptaPrf, fragment: fragGuptaPrf
   },
   {
-    key: 'guptamica', title: 'Gupta-MICA (cardiaco)', accent: '#8c3a34',
-    subtitle: 'Riesgo de infarto de miocardio o paro cardiaco perioperatorio',
-    incompleteMsg: 'Completa la edad y el resto de los campos.',
-    fields: [
-      { name: 'age', id: 'vm-age', type: 'number', label: 'Edad (años)', placeholder: 'ej. 65', row: 'a', shared: 'age' },
-      { name: 'asa', id: 'vm-asa', type: 'select', label: 'Clase ASA', row: 'a', shared: 'asa', options: [
-        { value: '1', label: 'I' }, { value: '2', label: 'II' }, { value: '3', label: 'III', selected: true }, { value: '4', label: 'IV' }, { value: '5', label: 'V' }
-      ] },
-      { name: 'func', id: 'vm-func', type: 'select', label: 'Estado funcional', row: 'b', shared: 'func', options: [
-        { value: 'independent', label: 'Independiente', selected: true },
-        { value: 'partial', label: 'Parcialmente dependiente' },
-        { value: 'total', label: 'Totalmente dependiente' }
-      ] },
-      { name: 'creat', id: 'vm-creat', type: 'checkbox', label: 'Creatinina preoperatoria ≥1.5 mg/dL', row: 'b',
-        shared: 'creatinina', sharedOut: () => null, sharedIn: creatDesde(1.5, false) },
-      { name: 'surg', id: 'vm-surg', type: 'select', label: 'Tipo de cirugía', shared: 'surg', options: surgeryOptions() }
-    ],
-    compute(v) {
-      if (v.age === null || v.age === undefined) return null;
-      const L = -5.25 + 0.02 * v.age + MICA_ASA[v.asa] + (v.creat ? 0.61 : 0) + MICA_FUNC[v.func] + MICA_SURGERY_COEF[v.surg];
-      const funcLabel = { independent: 'independiente', partial: 'parcialmente dependiente', total: 'totalmente dependiente' }[v.func];
-      return { pct: logit100(L), asa: v.asa, age: v.age, creat: v.creat, funcLabel, surg: v.surg };
-    },
-    format: fmtGuptaMica, fragment: fragGuptaMica
-  },
-  {
-    key: 'detsky', title: 'Detsky (índice modificado)', accent: '#3d5a73',
-    subtitle: 'Índice multifactorial de riesgo cardiaco',
-    fields: [
-      { name: 'mi', id: 'vd-mi', type: 'select', label: 'Infarto de miocardio', options: [
-        { value: '0', label: 'Ninguno', selected: true }, { value: '10', label: '≤6 meses (10 pt)' }, { value: '5', label: '&gt;6 meses (5 pt)' }
-      ] },
-      { name: 'angina', id: 'vd-angina', type: 'select', label: 'Angina (Canadian Cardiovascular Society)', options: [
-        { value: '0', label: 'Ninguna / clase I-II', selected: true }, { value: '10', label: 'Clase III (10 pt)' }, { value: '20', label: 'Clase IV (20 pt)' }
-      ] },
-      { name: 'unstable', id: 'vd-unstable', type: 'checkbox', label: 'Angina inestable &lt;3 meses (10 pt)' },
-      { name: 'edema', id: 'vd-edema', type: 'select', label: 'Edema pulmonar alveolar', options: [
-        { value: '0', label: 'Nunca', selected: true }, { value: '10', label: 'Última semana (10 pt)' }, { value: '5', label: 'Alguna vez, remoto (5 pt)' }
-      ] },
-      { name: 'as', id: 'vd-as', type: 'checkbox', label: 'Sospecha de estenosis aórtica crítica (20 pt)' },
-      { name: 'arrhythmia', id: 'vd-arrhythmia', type: 'checkbox', label: 'Ritmo distinto al sinusal, o sinusal con extrasístoles auriculares en el último ECG (5 pt)' },
-      { name: 'pvcs', id: 'vd-pvcs', type: 'checkbox', label: '&gt;5 extrasístoles ventriculares documentadas alguna vez (5 pt)' },
-      { name: 'poorstatus', id: 'vd-poorstatus', type: 'checkbox', label: 'Mal estado médico general (5 pt)' },
-      { type: 'note', text: 'Mal estado general (criterios de Goldman): PaO₂ &lt;60 mmHg, PaCO₂ &gt;50 mmHg, K⁺ &lt;3.0 mEq/L, HCO₃⁻ &lt;20 mEq/L, BUN &gt;50 mg/dL, creatinina &gt;3 mg/dL, AST anormal, signos de hepatopatía crónica, o postrado en cama por causas no cardiacas.' },
-      { name: 'age70', id: 'vd-age70', type: 'checkbox', label: 'Edad ≥ 70 años (5 pt)', shared: 'age', sharedOut: () => null, sharedIn: ageAtLeast70 },
-      { name: 'emergency', id: 'vd-emergency', type: 'checkbox', label: 'Cirugía de emergencia (10 pt)' }
-    ],
-    compute(v) {
-      const score = (+v.mi) + (+v.angina) + (v.unstable ? 10 : 0) + (+v.edema) + (v.as ? 20 : 0) +
-        (v.arrhythmia ? 5 : 0) + (v.pvcs ? 5 : 0) + (v.poorstatus ? 5 : 0) + (v.age70 ? 5 : 0) + (v.emergency ? 10 : 0);
-      let cls, risk;
-      if (score <= 15) { cls = 'I'; risk = '≈5-10%'; }
-      else if (score <= 30) { cls = 'II'; risk = '≈10-15%'; }
-      else { cls = 'III'; risk = '&gt;15% (hasta 30-60% en puntajes muy altos)'; }
-      return { score, cls, risk };
-    },
-    format: fmtDetsky, fragment: fragDetsky
-  },
-  {
-    key: 'leeindex', title: 'Índice de Lee (RCRI)', accent: '#3f6b52',
-    subtitle: 'Índice de riesgo cardiaco revisado',
-    fields: [
-      { name: 'rf1', id: 'vl-rf1', type: 'checkbox', label: 'Cirugía de alto riesgo (intraperitoneal, intratorácica o vascular suprainguinal)' },
-      { name: 'rf2', id: 'vl-rf2', type: 'checkbox', label: 'Cardiopatía isquémica (IAM previo, angina actual, uso de nitratos, prueba de esfuerzo positiva u ondas Q patológicas)' },
-      { name: 'rf3', id: 'vl-rf3', type: 'checkbox', label: 'Insuficiencia cardiaca congestiva' },
-      { name: 'rf4', id: 'vl-rf4', type: 'checkbox', label: 'Enfermedad cerebrovascular (ACV o AIT previos)' },
-      { name: 'rf5', id: 'vl-rf5', type: 'checkbox', label: 'Diabetes tratada con insulina' },
-      { name: 'rf6', id: 'vl-rf6', type: 'checkbox', label: 'Creatinina sérica preoperatoria &gt;2.0 mg/dL',
-        shared: 'creatinina', sharedOut: () => null, sharedIn: creatDesde(2.0, true) }
-    ],
-    compute(v) {
-      const n = ['rf1', 'rf2', 'rf3', 'rf4', 'rf5', 'rf6'].reduce((s, k) => s + (v[k] ? 1 : 0), 0);
-      const idx = Math.min(n, 3);
-      return { n, cls: LEE_CLASS[idx], risk: LEE_RISK[idx] };
-    },
-    format: fmtLee, fragment: fragLee
+    key: 'stopbang', title: 'STOP-BANG', accent: '#5c4a73',
+    subtitle: 'Cribado de apnea obstructiva del sueño',
+    dominio: 'pulmonar', bloqueNota: 'riesgo',
+    fields: STOPBANG_ITEMS.map(i => ({ name: i.key, id: 'vsb-' + i.key, type: 'checkbox', label: i.label })),
+    compute: stopbangCompute,
+    format: fmtStopbang, fragment: fragStopbang
   },
   {
     key: 'caprini', title: 'Caprini (riesgo de TEV)', accent: '#966b35',
     subtitle: 'Tromboprofilaxis perioperatoria',
+    dominio: 'antitrombotico', bloqueNota: 'riesgo',
     fields: capriniFields(),
     compute: capriniCompute,
     format: fmtCaprini, fragment: fragCaprini
   },
   {
+    key: 'cockcroft', title: 'Aclaramiento de creatinina', accent: '#3f6b52',
+    subtitle: 'Cockcroft-Gault, el que decide el intervalo del dabigatrán',
+    dominio: 'antitrombotico', bloqueNota: 'farmacos',
+    incompleteMsg: 'Completa edad, peso y creatinina.',
+    fields: [
+      { name: 'edad', id: 'vcg-edad', type: 'number', label: 'Edad (años)', placeholder: 'ej. 75', row: 'a', shared: 'age' },
+      { name: 'sexo', id: 'vcg-sexo', type: 'select', label: 'Sexo', row: 'a', shared: 'sexo', options: [
+        { value: 'm', label: 'Masculino', selected: true },
+        { value: 'f', label: 'Femenino' }
+      ] },
+      { name: 'peso', id: 'vcg-peso', type: 'number', label: 'Peso (kg)', placeholder: 'ej. 70', row: 'b', shared: 'peso' },
+      { name: 'creatinina', id: 'vcg-creatinina', type: 'number', step: '0.01', label: 'Creatinina sérica (mg/dL)', placeholder: 'ej. 1.2', row: 'b', shared: 'creatinina' },
+      { type: 'note', text: 'Fórmula: (140 − edad) × peso en kg / (72 × creatinina), × 0.85 si es mujer.' }
+    ],
+    compute: cockcroftCompute,
+    format: fmtCockcroft, fragment: fragCockcroft
+  },
+  {
     key: 'puenteac', title: 'Puente de anticoagulación', accent: '#3d5a73',
     subtitle: 'Cuántos días suspender y si procede puentear',
+    dominio: 'antitrombotico', bloqueNota: 'farmacos',
     incompleteMsg: 'Con dabigatrán hace falta el aclaramiento de creatinina.',
     fields: [
       { name: 'farmaco', id: 'vp-farmaco', type: 'select', label: 'Anticoagulante', options: [
@@ -827,65 +921,9 @@ export const calculators = [
     format: fmtPuente, fragment: fragPuente
   },
   {
-    key: 'dasi', title: 'DASI / MET', accent: '#3f6b52',
-    subtitle: 'Capacidad funcional, el paso 4 de la ruta perioperatoria',
-    fields: [
-      { type: 'note', text: 'Marca solo las actividades que el paciente <strong>sí</strong> puede hacer. El umbral de mala capacidad funcional son 4 MET.' },
-      ...DASI_ITEMS.map(i => ({ name: i.key, id: 'vdasi-' + i.key, type: 'checkbox', label: i.label }))
-    ],
-    compute: dasiCompute,
-    format: fmtDasi, fragment: fragDasi
-  },
-  {
-    key: 'ariscat', title: 'ARISCAT (riesgo pulmonar)', accent: '#8c3a34',
-    subtitle: 'Complicaciones pulmonares posoperatorias',
-    incompleteMsg: 'Completa la edad y el resto de los campos.',
-    fields: [
-      { name: 'edad', id: 'var-edad', type: 'number', label: 'Edad (años)', placeholder: 'ej. 65', row: 'a', shared: 'age' },
-      { name: 'spo2', id: 'var-spo2', type: 'select', numeric: true, label: 'SpO₂ preoperatoria (aire ambiente)', row: 'a', options: [
-        { value: '0', label: '≥96% (+0)', selected: true },
-        { value: '8', label: '91-95% (+8)' },
-        { value: '24', label: '≤90% (+24)' }
-      ] },
-      { name: 'infeccion', id: 'var-infeccion', type: 'checkbox', label: 'Infección respiratoria en el último mes (+17)' },
-      { name: 'anemia', id: 'var-anemia', type: 'checkbox', label: 'Anemia preoperatoria, hemoglobina ≤10 g/dL (+11)' },
-      { name: 'incision', id: 'var-incision', type: 'select', numeric: true, label: 'Incisión quirúrgica', options: [
-        { value: '0', label: 'Periférica (+0)', selected: true },
-        { value: '15', label: 'Abdominal alta (+15)' },
-        { value: '24', label: 'Intratorácica (+24)' }
-      ] },
-      { name: 'duracion', id: 'var-duracion', type: 'select', numeric: true, label: 'Duración prevista de la cirugía', options: [
-        { value: '0', label: 'Menos de 2 horas (+0)', selected: true },
-        { value: '16', label: 'De 2 a 3 horas (+16)' },
-        { value: '23', label: 'Más de 3 horas (+23)' }
-      ] },
-      { name: 'emergencia', id: 'var-emergencia', type: 'checkbox', label: 'Procedimiento de emergencia (+8)' }
-    ],
-    compute: ariscatCompute,
-    format: fmtAriscat, fragment: fragAriscat
-  },
-  {
-    key: 'stopbang', title: 'STOP-BANG', accent: '#5c4a73',
-    subtitle: 'Cribado de apnea obstructiva del sueño',
-    fields: STOPBANG_ITEMS.map(i => ({ name: i.key, id: 'vsb-' + i.key, type: 'checkbox', label: i.label })),
-    compute: stopbangCompute,
-    format: fmtStopbang, fragment: fragStopbang
-  },
-  {
-    key: 'apfel', title: 'Apfel (náusea y vómito)', accent: '#966b35',
-    subtitle: 'Riesgo de náusea y vómito posoperatorios',
-    fields: [
-      { name: 'mujer', id: 'vap-mujer', type: 'checkbox', label: 'Sexo femenino' },
-      { name: 'noFumador', id: 'vap-nofumador', type: 'checkbox', label: 'No fumador' },
-      { name: 'antecedente', id: 'vap-antecedente', type: 'checkbox', label: 'Antecedente de náusea o vómito posoperatorios, o de cinetosis' },
-      { name: 'opioides', id: 'vap-opioides', type: 'checkbox', label: 'Uso previsto de opioides en el posoperatorio' }
-    ],
-    compute: apfelCompute,
-    format: fmtApfel, fragment: fragApfel
-  },
-  {
     key: 'profilaxisqx', title: 'Profilaxis antibiótica quirúrgica', accent: '#6b5335',
     subtitle: 'Qué antibiótico, cuándo, y hasta cuándo',
+    dominio: 'antibiotico', bloqueNota: 'farmacos',
     fields: [
       { name: 'cirugia', id: 'vpq-cirugia', type: 'select', label: 'Cirugía prevista',
         options: Object.keys(PQX_CIRUGIA).map(k => ({ value: k, label: PQX_CIRUGIA[k].label, selected: k === 'colorrectal' })) },
@@ -898,6 +936,7 @@ export const calculators = [
   {
     key: 'endocarditis', title: 'Profilaxis de endocarditis', accent: '#7c2d2d',
     subtitle: 'Hay que acertar las dos preguntas: qué cardiopatía y qué procedimiento',
+    dominio: 'antibiotico', bloqueNota: 'farmacos',
     fields: [
       { name: 'cardiopatia', id: 'vei-cardiopatia', type: 'select', label: 'Cardiopatía del paciente',
         options: Object.keys(EI_CARDIOPATIA).map(k => ({ value: k, label: EI_CARDIOPATIA[k].label, selected: k === 'ninguna' })) },
@@ -911,25 +950,9 @@ export const calculators = [
     format: fmtEndocarditis, fragment: fragEndocarditis
   },
   {
-    key: 'cockcroft', title: 'Aclaramiento de creatinina', accent: '#3f6b52',
-    subtitle: 'Cockcroft-Gault, el que decide el intervalo del dabigatrán',
-    incompleteMsg: 'Completa edad, peso y creatinina.',
-    fields: [
-      { name: 'edad', id: 'vcg-edad', type: 'number', label: 'Edad (años)', placeholder: 'ej. 75', row: 'a', shared: 'age' },
-      { name: 'sexo', id: 'vcg-sexo', type: 'select', label: 'Sexo', row: 'a', shared: 'sexo', options: [
-        { value: 'm', label: 'Masculino', selected: true },
-        { value: 'f', label: 'Femenino' }
-      ] },
-      { name: 'peso', id: 'vcg-peso', type: 'number', label: 'Peso (kg)', placeholder: 'ej. 70', row: 'b', shared: 'peso' },
-      { name: 'creatinina', id: 'vcg-creatinina', type: 'number', step: '0.01', label: 'Creatinina sérica (mg/dL)', placeholder: 'ej. 1.2', row: 'b', shared: 'creatinina' },
-      { type: 'note', text: 'Fórmula: (140 − edad) × peso en kg / (72 × creatinina), × 0.85 si es mujer.' }
-    ],
-    compute: cockcroftCompute,
-    format: fmtCockcroft, fragment: fragCockcroft
-  },
-  {
     key: 'fragilidad', title: 'Fragilidad clínica', accent: '#4a5c73',
     subtitle: 'Situación basal previa a la enfermedad actual',
+    dominio: 'geriatrico', bloqueNota: 'riesgo',
     fields: [
       { name: 'grado', id: 'vfr-grado', type: 'select', label: 'Grado', options: Object.keys(FRAGILIDAD).map(k => ({
         value: k, label: `${k}. ${FRAGILIDAD[k].label}`, selected: k === '3'
@@ -942,6 +965,7 @@ export const calculators = [
   {
     key: 'charlson', title: 'Índice de Charlson', accent: '#7c2d2d',
     subtitle: 'Carga de comorbilidad ajustada por edad',
+    dominio: 'geriatrico', bloqueNota: 'riesgo',
     incompleteMsg: 'Completa la edad.',
     fields: [
       { name: 'edad', id: 'vch-edad', type: 'number', label: 'Edad (años)', placeholder: 'ej. 65', shared: 'age' },
@@ -960,6 +984,7 @@ export const calculators = [
   {
     key: 'delirium', title: 'Riesgo de delirium posoperatorio', accent: '#5c4a73',
     subtitle: 'Factores predisponentes y precipitantes',
+    dominio: 'geriatrico', bloqueNota: 'riesgo',
     fields: [
       { type: 'note', text: 'Factores predisponentes (el terreno del paciente)' },
       ...DELIRIUM_PRE.map(i => ({ name: i.key, id: 'vdel-' + i.key, type: 'checkbox', label: i.label })),
@@ -968,6 +993,19 @@ export const calculators = [
     ],
     compute: deliriumCompute,
     format: fmtDelirium, fragment: fragDelirium
+  },
+  {
+    key: 'apfel', title: 'Apfel (náusea y vómito)', accent: '#966b35',
+    subtitle: 'Riesgo de náusea y vómito posoperatorios',
+    dominio: 'posoperatorio', bloqueNota: 'riesgo',
+    fields: [
+      { name: 'mujer', id: 'vap-mujer', type: 'checkbox', label: 'Sexo femenino' },
+      { name: 'noFumador', id: 'vap-nofumador', type: 'checkbox', label: 'No fumador' },
+      { name: 'antecedente', id: 'vap-antecedente', type: 'checkbox', label: 'Antecedente de náusea o vómito posoperatorios, o de cinetosis' },
+      { name: 'opioides', id: 'vap-opioides', type: 'checkbox', label: 'Uso previsto de opioides en el posoperatorio' }
+    ],
+    compute: apfelCompute,
+    format: fmtApfel, fragment: fragApfel
   }
 ];
 

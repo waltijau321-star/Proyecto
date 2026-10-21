@@ -11,7 +11,7 @@
 // de modo que cada fase de desarrollo puede dar de alta la suya sin exponer pestañas
 // vacías en producción.
 
-import { calculators, combinedNote } from '../protocols/vpo-calc.js';
+import { calculators, combinedNote, DOMINIOS } from '../protocols/vpo-calc.js';
 import { farmacos, grupos as farmacoGrupos, CONDUCTAS } from '../protocols/vpo-farmacos.js';
 import { pasos, veredictos, TONOS, PRIMER_PASO, FUENTE as RUTA_FUENTE } from '../protocols/vpo-ruta.js';
 import { estudios, gruposEstudio, DISPARADORES } from '../protocols/vpo-estudios.js';
@@ -45,6 +45,7 @@ export { ESCALAS_DE_TEMAS };
 
 function mountEscalas(pane) {
   mountCalculators(calcTopic, pane, {
+    grupos: DOMINIOS,
     heading: 'Valoración preoperatoria (VPO)',
     intro: 'Escalas de riesgo perioperatorio. La nota combinada incluye las 6 escalas de riesgo ya expandidas, ya que casi siempre se calculan juntas para el mismo paciente. El puente de anticoagulación va aparte: solo aplica al paciente anticoagulado.',
     showExtras: false
@@ -466,12 +467,18 @@ export function openVpoEstudio(id) {
 // esto. Todo se guarda por paciente y se limpia con "Paciente nuevo".
 
 const ESCALAS_KEY = 'rm:vpo:escalas';
-// Exportado para poder comprobar en tests.js que ninguna escala se queda fuera de la nota.
-export const ORDEN_NOTA = ['asa', 'leeindex', 'guptamica', 'guptaprf', 'detsky', 'dasi', 'ariscat',
-  'stopbang', 'apfel', 'fragilidad', 'charlson', 'delirium', 'caprini', 'cockcroft', 'puenteac',
-  'endocarditis', 'profilaxisqx'];
+// El orden de la nota y el reparto entre sus bloques salen del propio descriptor de cada
+// escala (`dominio` y `bloqueNota`, ver protocols/vpo-calc.js), agrupando por dominio clínico
+// en el orden de DOMINIOS. Antes eran dos listas escritas a mano aquí, y añadir una escala
+// obligaba a acordarse de las dos: la que se olvidara se calculaba pero no salía en la nota.
+// Se sigue exportando ORDEN_NOTA porque tests.js comprueba contra ella que no falte ninguna.
+const porDominio = (a, b) => {
+  const i = k => { const n = DOMINIOS.findIndex(d => d.id === k.dominio); return n === -1 ? DOMINIOS.length : n; };
+  return i(a) - i(b) || calculators.indexOf(a) - calculators.indexOf(b);
+};
+export const ORDEN_NOTA = [...calculators].sort(porDominio).map(c => c.key);
 // Las que, aun calculándose como escalas, pertenecen al bloque de fármacos de la nota.
-const EN_FARMACOS = ['cockcroft', 'puenteac', 'endocarditis', 'profilaxisqx'];
+const EN_FARMACOS = calculators.filter(c => c.bloqueNota === 'farmacos').map(c => c.key);
 
 function escalasGuardadas() { return syncGet(ESCALAS_KEY, {}); }
 
