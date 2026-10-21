@@ -124,6 +124,52 @@ const LEE_CLASS = ['I', 'II', 'III', 'IV'];
 const fragLee = r => `<strong>Índice de Lee grupo ${r.cls}</strong>, probabilidad de complicación cardiovascular mayor (IAM, edema pulmonar, fibrilación ventricular o bloqueo cardiaco completo) ${r.risk}`;
 const fmtLee = r => `${fragLee(r)} (${r.n} de 6 predictores presentes; cohorte de validación, Lee 1999).`;
 
+/* ===== Vigilancia de troponina posoperatoria (MINS) =====
+   Guía ACC/AHA 2024, sección 9.1 y figura 6. Es la única escala de la sección que mira
+   después de la cirugía, y está aquí por lo que dicen sus números: la lesión miocárdica tras
+   cirugía no cardiaca ocurre en cerca del 20 % de los operados, su mortalidad a 30 días ronda
+   el 10 %, y entre el 80 y el 90 % de los casos no da ningún síntoma ni signo isquémico. Es
+   decir: si no se mide, no se ve. */
+const MINS_PERFIL = {
+  cv:       { label: 'Enfermedad cardiovascular conocida', cribar: true },
+  sintomas: { label: 'Síntomas sugestivos de enfermedad cardiovascular', cribar: true },
+  edad:     { label: '65 años o más con factores de riesgo cardiovascular', cribar: true },
+  ninguno:  { label: 'Ninguno de los tres', cribar: false }
+};
+const MINS_TROPONINA = {
+  pendiente: { label: 'Todavía no se ha medido' },
+  normal:    { label: 'Normal' },
+  silente:   { label: 'Elevada, sin síntomas ni cambios isquémicos' },
+  isquemica: { label: 'Elevada, con síntomas o cambios en el electrocardiograma' }
+};
+function minsCompute(v) {
+  const perfil = MINS_PERFIL[v.perfil];
+  if (!perfil) return null;
+  const elevado = v.riesgoCx === 'elevado';
+  const cribar = elevado && perfil.cribar;
+  return { cribar, elevado, perfil, troponina: v.troponina, basal: !!v.basal };
+}
+// En la nota pesa más el hallazgo que el plan: si la troponina ya volvió elevada, eso es lo
+// que hay que leer de un vistazo, no que estaba previsto medirla.
+const fragMins = r => {
+  if (r.troponina === 'isquemica') return '<strong>Troponina posoperatoria elevada con datos de isquemia</strong>: infarto perioperatorio mientras no se demuestre lo contrario';
+  if (r.troponina === 'silente') return '<strong>Lesión miocárdica tras cirugía no cardiaca</strong>: troponina elevada sin síntomas ni cambios isquémicos';
+  if (r.troponina === 'normal') return '<strong>Troponina posoperatoria normal</strong> en la vigilancia de las 24 y 48 horas';
+  return r.cribar
+    ? '<strong>Vigilancia de troponina a las 24 y 48 horas</strong> tras la cirugía'
+    : '<strong>Sin cribado de troponina posoperatorio</strong>';
+};
+const MINS_CONDUCTA = {
+  pendiente: '',
+  normal: ' Una troponina normal en las dos tomas cierra la vigilancia por este motivo.',
+  silente: ' La troponina ya elevada sin síntomas ni cambios isquémicos es el caso típico, entre el 80 y el 90 % de todos: define <strong>lesión miocárdica tras cirugía no cardiaca</strong> si se presume origen isquémico y se descartan embolia pulmonar, ictus, sepsis e insuficiencia cardiaca descompensada. Triplica la mortalidad a 30 días aunque no duela nada. Hacer electrocardiograma, iniciar o ajustar el tratamiento médico dirigido por guías y <strong>citar a consulta</strong> para optimizar los factores de riesgo (clase 2a); el tratamiento antitrombótico puede considerarse (clase 2b).',
+  isquemica: ' Con síntomas o cambios en el electrocardiograma ya no es solo vigilancia: es un infarto perioperatorio mientras no se demuestre lo contrario, con una mortalidad a 30 días cinco veces mayor. Electrocardiograma de inmediato y manejo como síndrome coronario agudo con cardiología, pesando el riesgo hemorrágico de la cirugía reciente.'
+};
+const minsPlan = r => r.cribar
+  ? `<strong>Vigilancia de troponina a las 24 y 48 horas</strong> tras la cirugía, en el paciente de riesgo elevado con ${r.perfil.label.toLowerCase()} (clase 2b).${r.basal ? '' : ' Sin una troponina basal preoperatoria no se puede distinguir una elevación aguda de una crónica: conviene tenerla, o apoyarse en la curva de las dos tomas.'}`
+  : `<strong>Sin cribado de troponina posoperatorio</strong>: ${r.elevado ? 'el paciente no cae en la población de la recomendación' : 'en cirugía de bajo riesgo no está indicado de rutina (clase 3, sin beneficio)'}, salvo que aparezcan signos o síntomas de isquemia.`;
+const fmtMins = r => `${minsPlan(r)}${MINS_CONDUCTA[r.troponina] || ''} <span style="color:var(--ink-faint);font-size:12px;">La lesión miocárdica tras cirugía no cardiaca ocurre en cerca del 20 % de los operados y su mortalidad a 30 días ronda el 10 %, proporcional al pico de troponina (17 % en el cuartil más alto frente al 1 % en el más bajo). Sirve igual un ensayo convencional de cuarta generación o uno de alta sensibilidad (ACC/AHA 2024, sección 9.1 y figura 6).</span>`;
+
 /* ===== Caprini (TEV) — organizado por categoría clínica, al estilo MDCalc ===== */
 // Factores binarios (Sí/No), agrupados por categoría igual que en MDCalc; cada uno suma
 // pts si está marcado.
@@ -752,6 +798,25 @@ export const calculators = [
     ],
     compute: dasiCompute,
     format: fmtDasi, fragment: fragDasi
+  },
+  {
+    key: 'mins', title: 'Vigilancia de troponina posoperatoria', accent: '#8c3a34',
+    subtitle: 'Lesión miocárdica tras cirugía no cardiaca: a quién medirla y qué hacer',
+    dominio: 'cardiaco', bloqueNota: 'vigilancia',
+    fields: [
+      { name: 'riesgoCx', id: 'vmins-riesgo', type: 'select', label: 'Riesgo del procedimiento', row: 'a', options: [
+        { value: 'elevado', label: 'Elevado (1 % o más de evento cardiovascular mayor)', selected: true },
+        { value: 'bajo', label: 'Bajo (menos de 1 %)' }
+      ] },
+      { name: 'perfil', id: 'vmins-perfil', type: 'select', label: 'Perfil del paciente', options:
+        Object.keys(MINS_PERFIL).map(k => ({ value: k, label: MINS_PERFIL[k].label, selected: k === 'cv' })) },
+      { name: 'basal', id: 'vmins-basal', type: 'checkbox', label: 'Hay una troponina basal preoperatoria' },
+      { name: 'troponina', id: 'vmins-troponina', type: 'select', label: 'Troponina posoperatoria', options:
+        Object.keys(MINS_TROPONINA).map(k => ({ value: k, label: MINS_TROPONINA[k].label, selected: k === 'pendiente' })) },
+      { type: 'note', text: 'Entre el 80 y el 90 % de estos pacientes <strong>no tienen síntomas</strong>: el dolor de la herida, la analgesia y la anestesia los enmascaran. Si no se mide, no se ve.' }
+    ],
+    compute: minsCompute,
+    format: fmtMins, fragment: fragMins
   },
   {
     key: 'detsky', title: 'Detsky (índice modificado)', accent: '#3d5a73',

@@ -265,6 +265,7 @@ const TONOS_LECTURA = { elevado: '#8c3a34', bajo: '#3f6b52', mixto: '#966b35' };
 
 // Lo que ya se calculo para este paciente se repite bajo el paso: la pregunta se contesta
 // mirando el numero, y tenerlo que recordar de otra pestana es justo lo que se queria evitar.
+// Vale igual para un paso y para un veredicto: los dos pueden declarar `herramientas`.
 function herramientasHTML(p) {
   if (!p.herramientas || !p.herramientas.length) return '';
   const calculadas = escalasGuardadas();
@@ -316,6 +317,7 @@ function veredictoHTML(id) {
       <h3>${v.titulo}</h3>
       <p>${v.texto}</p>
       ${acciones}
+      ${herramientasHTML(v)}
       ${v.nota ? `<div class="calc-note">${v.nota}</div>` : ''}
     </div>`;
 }
@@ -477,8 +479,11 @@ const porDominio = (a, b) => {
   return i(a) - i(b) || calculators.indexOf(a) - calculators.indexOf(b);
 };
 export const ORDEN_NOTA = [...calculators].sort(porDominio).map(c => c.key);
-// Las que, aun calculándose como escalas, pertenecen al bloque de fármacos de la nota.
-const EN_FARMACOS = calculators.filter(c => c.bloqueNota === 'farmacos').map(c => c.key);
+// Las que, aun calculándose como escalas, no estiman un riesgo: deciden una conducta con un
+// fármaco, o dejan indicada una vigilancia para después de la cirugía.
+const delBloque = b => calculators.filter(c => c.bloqueNota === b).map(c => c.key);
+const EN_FARMACOS = delBloque('farmacos');
+const EN_VIGILANCIA = delBloque('vigilancia');
 
 function escalasGuardadas() { return syncGet(ESCALAS_KEY, {}); }
 
@@ -526,7 +531,7 @@ export function notaHTML() {
 
   // Dos de las escalas no estiman un riesgo: el puente dice qué hacer con el anticoagulante y
   // el aclaramiento es el dato que lo decide. Van con los fármacos, que es donde se leen.
-  const usadas = ORDEN_NOTA.filter(k => escalas[k] && !EN_FARMACOS.includes(k));
+  const usadas = ORDEN_NOTA.filter(k => escalas[k] && !EN_FARMACOS.includes(k) && !EN_VIGILANCIA.includes(k));
   const bloqueEscalas = usadas.length
     ? `<ul class="cr-list">${usadas.map(k => `<li>${escalas[k].frase}.</li>`).join('')}</ul>` : '';
 
@@ -536,6 +541,12 @@ export function notaHTML() {
         const c = conducta(f);
         return `<li><strong>${f.farmaco}</strong> (${c.label.toLowerCase()}): ${f.resumen} ${f.postop}</li>`;
       }).join('')}</ul>` : '';
+
+  // Lo que hay que vigilar después cierra la nota, que es donde se lee: una valoración
+  // preoperatoria que no dice qué mirar en el posoperatorio deja el trabajo a medias.
+  const vigiladas = EN_VIGILANCIA.filter(k => escalas[k]);
+  const bloqueVigilancia = vigiladas.length
+    ? `<ul class="cr-list">${vigiladas.map(k => `<li>${escalas[k].frase}.</li>`).join('')}</ul>` : '';
 
   const pedidos = estudiosParaNota();
   // En la nota va solo el nombre: la indicación completa de cada estudio es un párrafo entero
@@ -549,7 +560,7 @@ export function notaHTML() {
   const fecha = new Date().toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
   const bloqueFicha = `<p class="vpo-nota-paciente">${ficha ? ficha + '. ' : ''}<span class="vpo-nota-fecha">Valoración del ${fecha}.</span></p>`;
 
-  const vacia = !bloqueRuta && !bloqueEscalas && !bloqueFarmacos && !bloqueEstudios;
+  const vacia = !bloqueRuta && !bloqueEscalas && !bloqueFarmacos && !bloqueEstudios && !bloqueVigilancia;
   if (vacia) {
     return `<p class="vpo-empty">Todavía no hay nada que reunir. Recorre la <button type="button" class="vpo-inline-link" onclick="rmVpoTab('ruta')">Ruta</button>,
       calcula alguna <button type="button" class="vpo-inline-link" onclick="rmVpoTab('escalas')">Escala</button>, marca conductas en
@@ -566,6 +577,7 @@ export function notaHTML() {
         ${seccionNota('Riesgo estimado', bloqueEscalas)}
         ${seccionNota('Manejo perioperatorio de fármacos', bloqueFarmacos)}
         ${seccionNota('Estudios solicitados', bloqueEstudios)}
+        ${seccionNota('Vigilancia posoperatoria', bloqueVigilancia)}
       </div>
       <div class="vpo-nota-acciones">
         <button class="calc-copy" onclick="rmVpoNotaCopiar(this)">Copiar nota</button>

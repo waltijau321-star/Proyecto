@@ -23,7 +23,8 @@
 // `herramientas` son las escalas o los estudios con los que se contesta ESE paso. El paso las
 // nombraba en su texto y el usuario tenia que ir a buscarlas a otra pestana, perdiendo el sitio
 // en el que estaba; declaradas aqui, el motor las abre sobre la propia ruta.
-//   veredictos[id] = { tono, titulo, texto, acciones[]?, nota? }
+//   veredictos[id] = { tono, titulo, texto, acciones[]?, herramientas?: [...], nota? }
+// `herramientas` es lo mismo que en un paso: la escala con la que se concreta el veredicto.
 // `tono` es uno de TONOS y define el color del bloque de resultado.
 // Los textos se inyectan con innerHTML: usar &lt; y &gt; en vez de < y >.
 
@@ -153,7 +154,8 @@ export const veredictos = {
       'Vigilancia perioperatoria estrecha: monitorización hemodinámica y electrocardiográfica.',
       'Continuar los fármacos que no deban suspenderse (ver la pestaña Fármacos).',
       'Si el paciente toma un agonista del receptor de GLP-1, tratarlo como estómago lleno.'
-    ]
+    ],
+    herramientas: [{ tipo: 'escala', key: 'mins', label: 'vigilancia de troponina' }],
   },
   urgencia: {
     tono: 'proceder',
@@ -164,7 +166,8 @@ export const veredictos = {
       'No pedir estudios cuyo resultado no vaya a llegar a tiempo o no vaya a cambiar la conducta.',
       'Vigilancia perioperatoria estrecha.',
       'Revisar la conducta con cada fármaco en la pestaña Fármacos.'
-    ]
+    ],
+    herramientas: [{ tipo: 'escala', key: 'mins', label: 'vigilancia de troponina' }],
   },
   diferirAgudo: {
     tono: 'diferir',
@@ -220,7 +223,8 @@ export const veredictos = {
       'Continuar estatina y betabloqueador si ya los tomaba; no iniciar un betabloqueador el día de la cirugía.',
       'Vigilancia posoperatoria estrecha, con umbral bajo para investigar lesión miocárdica.',
       'Revisar la conducta con cada fármaco en la pestaña Fármacos.'
-    ]
+    ],
+    herramientas: [{ tipo: 'escala', key: 'mins', label: 'vigilancia de troponina' }],
   }
 };
 

@@ -530,7 +530,7 @@ async function run() {
     assert(dominios.size >= 5, 'deberia haber varios dominios para que agrupar sirva de algo');
     vpoCalc.forEach(c => {
       assert(dominios.has(c.dominio), `'${c.key}' declara el dominio '${c.dominio}', que no existe`);
-      assert(c.bloqueNota === 'riesgo' || c.bloqueNota === 'farmacos',
+      assert(['riesgo', 'farmacos', 'vigilancia'].includes(c.bloqueNota),
         `'${c.key}' declara el bloque de nota '${c.bloqueNota}'`);
     });
     // Las que deciden una conducta no son estimaciones de riesgo.
@@ -538,6 +538,8 @@ async function run() {
       assertEqual(vpoCalc.find(c => c.key === k).bloqueNota, 'farmacos', `'${k}' es una conducta`);
     });
     assertEqual(vpoCalc.find(c => c.key === 'leeindex').bloqueNota, 'riesgo');
+    assertEqual(vpoCalc.find(c => c.key === 'mins').bloqueNota, 'vigilancia',
+      'la troponina posoperatoria no es un riesgo estimado ni un farmaco: es lo que hay que vigilar');
   });
 
   test('VPO: no hay key ni id de campo repetidos entre escalas', () => {
@@ -1005,6 +1007,38 @@ async function run() {
     assert(conElectiva.pct < sinElectiva.pct, 'la cirugia electiva deberia bajar el riesgo calculado');
   });
 
+  test('VPO troponina posoperatoria: a quien se le mide, y a quien no', () => {
+    // Clase 2b en el paciente de riesgo elevado con enfermedad cardiovascular conocida,
+    // sintomas, o 65 anos o mas con factores de riesgo. En cirugia de bajo riesgo es clase 3
+    // por falta de beneficio, que es el otro error: cribar a todo el mundo.
+    const mins = vpo('mins');
+    assertEqual(mins.compute({ riesgoCx: 'elevado', perfil: 'cv', troponina: 'pendiente' }).cribar, true);
+    assertEqual(mins.compute({ riesgoCx: 'elevado', perfil: 'sintomas', troponina: 'pendiente' }).cribar, true);
+    assertEqual(mins.compute({ riesgoCx: 'elevado', perfil: 'edad', troponina: 'pendiente' }).cribar, true);
+    assertEqual(mins.compute({ riesgoCx: 'elevado', perfil: 'ninguno', troponina: 'pendiente' }).cribar, false,
+      'sin el perfil de la recomendacion no se criba');
+    assertEqual(mins.compute({ riesgoCx: 'bajo', perfil: 'cv', troponina: 'pendiente' }).cribar, false,
+      'en cirugia de bajo riesgo no se criba aunque el paciente sea cardiopata');
+    const bajo = mins.format(mins.compute({ riesgoCx: 'bajo', perfil: 'cv', troponina: 'pendiente' }));
+    assert(/clase 3/.test(bajo), 'deberia decir que es una clase 3 por falta de beneficio');
+    assert(/24 y 48/.test(mins.format(mins.compute({ riesgoCx: 'elevado', perfil: 'cv', troponina: 'pendiente' }))),
+      'y cuando se toman las muestras');
+  });
+
+  test('VPO troponina posoperatoria: la elevada sin sintomas es el caso tipico, no el raro', () => {
+    // Entre el 80 y el 90 % de los MINS no dan sintomas, y aun asi triplican la mortalidad a
+    // 30 dias. Es justo el caso que se pasa por alto si solo se mide a quien se queja.
+    const mins = vpo('mins');
+    const caso = troponina => mins.format(mins.compute({ riesgoCx: 'elevado', perfil: 'cv', troponina }));
+    const silente = caso('silente');
+    assert(/80 y el 90/.test(silente), 'deberia decir que es el caso tipico');
+    assert(/consulta/.test(silente), 'y que hay que citar para optimizar los factores de riesgo (clase 2a)');
+    assert(/embolia pulmonar/.test(silente), 'y que antes hay que descartar las causas no isquemicas');
+    const isquemica = caso('isquemica');
+    assert(/infarto perioperatorio/.test(isquemica), 'con sintomas ya no es solo vigilancia');
+    assert(!/80 y el 90/.test(caso('normal')), 'una troponina normal cierra la vigilancia');
+  });
+
   test('VPO profilaxis quirurgica: el agente sale de la tabla, y hay cirugias que no la llevan', () => {
     // La mitad del valor de la tabla son las cirugias que NO la llevan: la limpia de mano,
     // rodilla o pie, la de cabeza y cuello limpia y la colecistectomia laparoscopica de bajo
@@ -1157,6 +1191,18 @@ async function run() {
         }
       });
     });
+  });
+
+  test('VPO ruta: los veredictos que terminan operando ofrecen la vigilancia posoperatoria', () => {
+    // Los tres que acaban en quirofano mencionan vigilar, y ahora la escala se abre desde el
+    // propio veredicto en vez de quedarse como una frase.
+    ['emergencia', 'urgencia', 'procederOptimizado'].forEach(k => {
+      const v = ruta.veredictos[k];
+      assert((v.herramientas || []).some(h => h.key === 'mins'),
+        `el veredicto '${k}' deberia ofrecer la vigilancia de troponina`);
+    });
+    assert(!(ruta.veredictos.procederBajo.herramientas || []).length,
+      'en el de riesgo bajo no se criba: ofrecerla ahi contradiria la clase 3');
   });
 
   test('VPO ruta: los pasos que se contestan con una escala la traen a mano', () => {
