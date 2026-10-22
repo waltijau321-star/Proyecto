@@ -741,6 +741,14 @@ export const registry = [
     ])
   },
   {
+    id: 'eritemas-reactivos', titulo: 'Eritemas reactivos, paniculitis y dermatosis neutrofilicas',
+    load: () => Promise.all([
+      import('./eritemas-reactivos/content.js'),
+      import('./eritemas-reactivos/calculators.js'),
+      import('./eritemas-reactivos/study.js')
+    ])
+  },
+  {
     id: 'soporte-vital-avanzado', titulo: 'Soporte vital avanzado y RCP',
     load: () => Promise.all([
       import('./soporte-vital-avanzado/content.js'),
