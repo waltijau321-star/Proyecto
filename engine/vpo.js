@@ -480,11 +480,12 @@ const porDominio = (a, b) => {
   return i(a) - i(b) || calculators.indexOf(a) - calculators.indexOf(b);
 };
 export const ORDEN_NOTA = [...calculators].sort(porDominio).map(c => c.key);
-// Las que, aun calculándose como escalas, no estiman un riesgo: deciden una conducta con un
-// fármaco, o dejan indicada una vigilancia para después de la cirugía.
+// Las que, aun calculándose como escalas, no estiman un riesgo: dicen qué optimizar antes de
+// operar, deciden una conducta con un fármaco, o dejan indicada una vigilancia para después.
 const delBloque = b => calculators.filter(c => c.bloqueNota === b).map(c => c.key);
 const EN_FARMACOS = delBloque('farmacos');
 const EN_VIGILANCIA = delBloque('vigilancia');
+const EN_OPTIMIZACION = delBloque('optimizacion');
 
 function escalasGuardadas() { return syncGet(ESCALAS_KEY, {}); }
 
@@ -530,9 +531,10 @@ export function notaHTML() {
     <ul class="cr-list">${ruta.veredicto.acciones.map(a => `<li>${a}</li>`).join('')}</ul>
     <p class="vpo-nota-fina">Ruta recorrida: ${ruta.camino.map(c => `${c.paso} (${c.respuesta})`).join(' → ')}.</p>` : '';
 
-  // Dos de las escalas no estiman un riesgo: el puente dice qué hacer con el anticoagulante y
-  // el aclaramiento es el dato que lo decide. Van con los fármacos, que es donde se leen.
-  const usadas = ORDEN_NOTA.filter(k => escalas[k] && !EN_FARMACOS.includes(k) && !EN_VIGILANCIA.includes(k));
+  // No todas las escalas estiman un riesgo: unas dicen qué optimizar antes de operar, otras
+  // qué hacer con un fármaco y otras qué vigilar después. Cada una se lee en su bloque.
+  const fuera = [...EN_FARMACOS, ...EN_VIGILANCIA, ...EN_OPTIMIZACION];
+  const usadas = ORDEN_NOTA.filter(k => escalas[k] && !fuera.includes(k));
   const bloqueEscalas = usadas.length
     ? `<ul class="cr-list">${usadas.map(k => `<li>${escalas[k].frase}.</li>`).join('')}</ul>` : '';
 
@@ -542,6 +544,12 @@ export function notaHTML() {
         const c = conducta(f);
         return `<li><strong>${f.farmaco}</strong> (${c.label.toLowerCase()}): ${f.resumen} ${f.postop}</li>`;
       }).join('')}</ul>` : '';
+
+  // Lo que se puede mejorar antes de operar va junto, y antes de los fármacos: es lo que da
+  // sentido a adelantar la valoración en vez de hacerla la víspera.
+  const optimizables = EN_OPTIMIZACION.filter(k => escalas[k]);
+  const bloqueOptimizacion = optimizables.length
+    ? `<ul class="cr-list">${optimizables.map(k => `<li>${escalas[k].frase}.</li>`).join('')}</ul>` : '';
 
   // Lo que hay que vigilar después cierra la nota, que es donde se lee: una valoración
   // preoperatoria que no dice qué mirar en el posoperatorio deja el trabajo a medias.
@@ -561,7 +569,8 @@ export function notaHTML() {
   const fecha = new Date().toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
   const bloqueFicha = `<p class="vpo-nota-paciente">${ficha ? ficha + '. ' : ''}<span class="vpo-nota-fecha">Valoración del ${fecha}.</span></p>`;
 
-  const vacia = !bloqueRuta && !bloqueEscalas && !bloqueFarmacos && !bloqueEstudios && !bloqueVigilancia;
+  const vacia = !bloqueRuta && !bloqueEscalas && !bloqueFarmacos && !bloqueEstudios
+    && !bloqueVigilancia && !bloqueOptimizacion;
   if (vacia) {
     return `<p class="vpo-empty">Todavía no hay nada que reunir. Recorre la <button type="button" class="vpo-inline-link" onclick="rmVpoTab('ruta')">Ruta</button>,
       calcula alguna <button type="button" class="vpo-inline-link" onclick="rmVpoTab('escalas')">Escala</button>, marca conductas en
@@ -576,6 +585,7 @@ export function notaHTML() {
         ${bloqueFicha}
         ${seccionNota('Conducta', bloqueRuta)}
         ${seccionNota('Riesgo estimado', bloqueEscalas)}
+        ${seccionNota('Optimización preoperatoria', bloqueOptimizacion)}
         ${seccionNota('Manejo perioperatorio de fármacos', bloqueFarmacos)}
         ${seccionNota('Estudios solicitados', bloqueEstudios)}
         ${seccionNota('Vigilancia posoperatoria', bloqueVigilancia)}

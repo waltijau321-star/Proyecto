@@ -128,6 +128,68 @@ const LEE_CLASS = ['I', 'II', 'III', 'IV'];
 const fragLee = r => `<strong>Índice de Lee grupo ${r.cls}</strong>, probabilidad de complicación cardiovascular mayor (IAM, edema pulmonar, fibrilación ventricular o bloqueo cardiaco completo) ${r.risk}`;
 const fmtLee = r => `${fragLee(r)} (${r.n} de 6 predictores presentes; cohorte de validación, Lee 1999).`;
 
+/* ===== Prehabilitación =====
+   La guía de 2024 la define como acondicionamiento físico, soporte nutricional, o los dos, y
+   es honesta sobre su respaldo: dice que la evidencia es <em>emergente</em> y que puede
+   asociarse a mejores desenlaces en pacientes seleccionados, sobre todo con fragilidad. No
+   tiene clase de recomendación propia.
+
+   Lo que sí tiene respaldo firme son sus piezas sueltas, que ya viven en la sección: dejar el
+   tabaco, corregir la anemia, optimizar el control glucémico y el tratamiento inhalado. Por
+   eso esta herramienta no inventa un programa: ordena lo que ya hay según la única variable
+   que de verdad decide qué cabe hacer, que es cuántas semanas quedan. */
+const PREHAB_VENTANAS = {
+  mas8:   { label: 'Más de 8 semanas', semanas: 9 },
+  cuatro: { label: 'De 4 a 8 semanas', semanas: 6 },
+  dos:    { label: 'De 2 a 4 semanas', semanas: 3 },
+  menos:  { label: 'Menos de 2 semanas', semanas: 1 }
+};
+// `desde` son las semanas que esa medida necesita para rendir lo que promete.
+const PREHAB_MEDIDAS = [
+  { key: 'tabaco', desde: 4, respaldo: 'guia', corto: 'dejar el tabaco',
+    conTiempo: 'Iniciar hoy una intervención intensiva de abandono del tabaco: las de las 4 a 8 semanas previas son las que reducen complicaciones respiratorias y de la herida.',
+    sinTiempo: 'Indicar igualmente el abandono del tabaco: aunque no dé tiempo al beneficio completo, en días mejora la carboxihemoglobina y la oxigenación tisular, y el ingreso es una ventana de alta receptividad.' },
+  { key: 'anemia', desde: 2, respaldo: 'guia', corto: 'corregir la anemia',
+    conTiempo: 'Estudiar y corregir la anemia: la mayoría se corrigen en 2 a 4 semanas y el hierro preoperatorio reduce transfusiones (clase 2a).',
+    sinTiempo: 'Ya no da tiempo a corregir la anemia por vía oral; si es ferropénica, hierro intravenoso, y planear la cirugía para perder la menor cantidad de sangre posible.' },
+  { key: 'glucemia', desde: 0, respaldo: 'guia', corto: 'optimizar el control glucémico',
+    conTiempo: 'Optimizar el control glucémico, con objetivo perioperatorio de 100 a 180 mg/dL. No posponer la cirugía solo por la HbA1c.',
+    sinTiempo: 'Optimizar el control glucémico, con objetivo perioperatorio de 100 a 180 mg/dL. No posponer la cirugía solo por la HbA1c.' },
+  { key: 'respiratorio', desde: 0, respaldo: 'consenso', corto: 'optimizar el tratamiento inhalado',
+    conTiempo: 'Optimizar el tratamiento inhalado del asma o la EPOC, que es de las intervenciones preoperatorias con mejor relación entre esfuerzo y beneficio.',
+    sinTiempo: 'Optimizar el tratamiento inhalado y asegurarse de que el paciente lleva su inhalador al quirófano.' },
+  { key: 'alcohol', desde: 4, respaldo: 'consenso', corto: 'dejar el alcohol',
+    conTiempo: 'En consumo de riesgo, la abstinencia de 4 semanas antes reduce complicaciones.',
+    sinTiempo: 'Ya no da tiempo a la abstinencia de 4 semanas: lo que no se puede improvisar es el manejo de la abstinencia, que hay que anticipar y dejar indicado por escrito.' },
+  { key: 'fragilidad', desde: 4, respaldo: 'emergente', corto: 'acondicionar físicamente al paciente',
+    conTiempo: 'Acondicionamiento físico y soporte nutricional, que es la prehabilitación en sentido estricto: evidencia emergente, sobre todo en el paciente frágil.',
+    sinTiempo: 'No hay ventana para el acondicionamiento físico. Lo que sí cabe es la valoración geriátrica, revisar la polifarmacia y conversar sobre objetivos y desenlaces aceptables.' }
+];
+function prehabCompute(v) {
+  const ventana = PREHAB_VENTANAS[v.ventana];
+  if (!ventana) return null;
+  const elegidas = PREHAB_MEDIDAS.filter(m => v[m.key]);
+  const caben = elegidas.filter(m => ventana.semanas >= m.desde);
+  const tarde = elegidas.filter(m => ventana.semanas < m.desde);
+  return { ventana, caben, tarde, ninguna: !elegidas.length };
+}
+// En la nota no sirve de nada un recuento: hay que poder leer qué se va a hacer.
+const enumerar = m => m.map(x => x.corto).reduce((a, t, i, l) => a + (i ? (i === l.length - 1 ? ' y ' : ', ') : '') + t, '');
+function fragPrehab(r) {
+  if (r.ninguna) return `<strong>Sin objetivos de prehabilitación</strong> pendientes`;
+  const partes = [];
+  if (r.caben.length) partes.push(`da tiempo a ${enumerar(r.caben)}`);
+  if (r.tarde.length) partes.push(`${r.caben.length ? 'ya no a' : 'ya no da tiempo a'} ${enumerar(r.tarde)}`);
+  return `<strong>Prehabilitación</strong> (${r.ventana.label.toLowerCase()} hasta la cirugía): ${partes.join('; ')}`;
+}
+const listaPrehab = (titulo, medidas, campo) => medidas.length
+  ? `<br><strong>${titulo}</strong><ul class="cr-list">${medidas.map(m =>
+      `<li>${m[campo]}${(m.respaldo === 'emergente' && campo === 'conTiempo') ? ' <em>(evidencia emergente)</em>' : ''}</li>`).join('')}</ul>`
+  : '';
+const fmtPrehab = r => r.ninguna
+  ? `${fragPrehab(r)}. Nada que optimizar de lo que la sección sabe medir: el paciente llega sin tabaquismo, sin anemia, sin hiperglucemia, sin enfermedad respiratoria mejorable, sin consumo de riesgo de alcohol y sin fragilidad.`
+  : `${fragPrehab(r)}.${listaPrehab('Lo que cabe hacer', r.caben, 'conTiempo')}${listaPrehab('Lo que ya no da tiempo, y qué queda en su lugar', r.tarde, 'sinTiempo')} <span style="color:var(--ink-faint);font-size:12px;">La prehabilitación en sentido estricto (acondicionamiento físico, soporte nutricional, o los dos) tiene evidencia emergente y puede asociarse a mejores desenlaces en pacientes seleccionados, sobre todo con fragilidad (ACC/AHA 2024, sección 3.3, dentro de la fragilidad y sin clase de recomendación propia). Sus piezas sí tienen respaldo, y cada una el suyo: la corrección de la anemia (ACC/AHA 2024, sección 8.4, clase 2a), el abandono del tabaco (revisión Cochrane de intervenciones preoperatorias) y el control glucémico (ADA 2026, sección 16).</span>`;
+
 /* ===== Control glucémico perioperatorio =====
    ADA 2026, sección 16, apartado de cuidado perioperatorio. La sección tenía la HbA1c entre
    los estudios y la conducta con cada antidiabético entre los fármacos, pero en ningún sitio
@@ -805,9 +867,11 @@ const fmtDelirium = r => `${fragDelirium(r)}. ${r.cat === 'bajo'
    declara a qué dominio pertenece y el motor de calculadoras las agrupa por él.
 
    El mismo descriptor dice en qué bloque de la nota cae su resultado: `bloqueNota` es 'riesgo'
-   para las que estiman un riesgo y 'farmacos' para las que deciden una conducta (el puente, el
-   aclaramiento que lo decide, y las dos profilaxis). Antes eso eran dos listas a mano en
-   engine/vpo.js que había que acordarse de actualizar al añadir una escala. */
+   para las que estiman un riesgo, 'optimizacion' para las que dicen qué mejorar antes de
+   operar, 'farmacos' para las que deciden una conducta con un fármaco (el puente, el
+   aclaramiento que lo decide, y las dos profilaxis) y 'vigilancia' para lo que queda indicado
+   después. Antes eso eran listas a mano en engine/vpo.js que había que acordarse de
+   actualizar al añadir una escala. */
 export const DOMINIOS = [
   { id: 'general',        label: 'Estado físico y optimización' },
   { id: 'cardiaco',       label: 'Riesgo cardiaco y capacidad funcional' },
@@ -842,9 +906,27 @@ export const calculators = [
     format: fmtAsa, fragment: fragAsa
   },
   {
+    key: 'prehabilitacion', title: 'Prehabilitación', accent: '#3f6b52',
+    subtitle: 'Qué cabe optimizar en las semanas que quedan',
+    dominio: 'general', bloqueNota: 'optimizacion',
+    fields: [
+      { name: 'ventana', id: 'vpre-ventana', type: 'select', label: 'Tiempo hasta la cirugía', options:
+        Object.keys(PREHAB_VENTANAS).map(k => ({ value: k, label: PREHAB_VENTANAS[k].label, selected: k === 'cuatro' })) },
+      { type: 'note', text: 'Marca lo que este paciente tiene <strong>por optimizar</strong>. Lo que no quepa en la ventana no desaparece: cambia por lo que sí se puede hacer en ese tiempo.' },
+      { name: 'tabaco', id: 'vpre-tabaco', type: 'checkbox', label: 'Fuma' },
+      { name: 'anemia', id: 'vpre-anemia', type: 'checkbox', label: 'Anemia' },
+      { name: 'glucemia', id: 'vpre-glucemia', type: 'checkbox', label: 'Diabetes o hiperglucemia' },
+      { name: 'respiratorio', id: 'vpre-resp', type: 'checkbox', label: 'Asma o EPOC con tratamiento mejorable' },
+      { name: 'alcohol', id: 'vpre-alcohol', type: 'checkbox', label: 'Consumo de alcohol de riesgo' },
+      { name: 'fragilidad', id: 'vpre-fragilidad', type: 'checkbox', label: 'Fragilidad o desnutrición' }
+    ],
+    compute: prehabCompute,
+    format: fmtPrehab, fragment: fragPrehab
+  },
+  {
     key: 'glucemia', title: 'Control glucémico perioperatorio', accent: '#966b35',
     subtitle: 'El objetivo, y qué hacer la mañana de la cirugía',
-    dominio: 'general', bloqueNota: 'farmacos',
+    dominio: 'general', bloqueNota: 'optimizacion',
     fields: [
       { name: 'glucosa', id: 'vgl-glucosa', type: 'number', required: false, label: 'Glucemia actual (mg/dL)', placeholder: 'ej. 240', row: 'a' },
       { name: 'hba1c', id: 'vgl-hba1c', type: 'number', step: '0.1', required: false, label: 'HbA1c de los últimos 3 meses (%)', placeholder: 'si se tiene', row: 'a' },
@@ -858,7 +940,7 @@ export const calculators = [
   {
     key: 'anemia', title: 'Anemia preoperatoria', accent: '#7c2d2d',
     subtitle: 'El factor de riesgo modificable con mejor rendimiento, si hay tiempo',
-    dominio: 'general', bloqueNota: 'farmacos',
+    dominio: 'general', bloqueNota: 'optimizacion',
     incompleteMsg: 'Completa la hemoglobina.',
     fields: [
       { name: 'hb', id: 'van-hb', type: 'number', step: '0.1', label: 'Hemoglobina (g/dL)', placeholder: 'ej. 10.4', row: 'a' },

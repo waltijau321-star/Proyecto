@@ -575,12 +575,17 @@ async function run() {
     assert(dominios.size >= 5, 'deberia haber varios dominios para que agrupar sirva de algo');
     vpoCalc.forEach(c => {
       assert(dominios.has(c.dominio), `'${c.key}' declara el dominio '${c.dominio}', que no existe`);
-      assert(['riesgo', 'farmacos', 'vigilancia'].includes(c.bloqueNota),
+      assert(['riesgo', 'optimizacion', 'farmacos', 'vigilancia'].includes(c.bloqueNota),
         `'${c.key}' declara el bloque de nota '${c.bloqueNota}'`);
     });
     // Las que deciden una conducta no son estimaciones de riesgo.
     ['puenteac', 'cockcroft', 'endocarditis', 'profilaxisqx'].forEach(k => {
       assertEqual(vpoCalc.find(c => c.key === k).bloqueNota, 'farmacos', `'${k}' es una conducta`);
+    });
+    // Y lo que se puede mejorar antes de operar va junto: es lo que justifica adelantar la
+    // valoracion en vez de hacerla la vispera.
+    ['anemia', 'glucemia', 'prehabilitacion'].forEach(k => {
+      assertEqual(vpoCalc.find(c => c.key === k).bloqueNota, 'optimizacion', `'${k}' se optimiza antes`);
     });
     assertEqual(vpoCalc.find(c => c.key === 'leeindex').bloqueNota, 'riesgo');
     assertEqual(vpoCalc.find(c => c.key === 'mins').bloqueNota, 'vigilancia',
@@ -813,6 +818,46 @@ async function run() {
       assert(/Mujer de 72 a\u00f1os/.test(cabecera.textContent), 'falta el paciente en la cabecera');
       assert(/Valoraci\u00f3n del /.test(cabecera.textContent), 'falta la fecha en la cabecera');
       assert(caja.querySelector('.vpo-nota-acciones'), 'la nota deberia ofrecer copiar e imprimir');
+    } finally {
+      previas.forEach(([k, v]) => { if (v !== null) syncSet(k, v); });
+    }
+  });
+
+  test('VPO nota: lo que se optimiza antes de operar se lee junto, y antes de los farmacos', () => {
+    // La anemia y el control glucemico se decidian entre los farmacos solo porque se corrigen
+    // con uno. Lo que tienen en comun con la prehabilitacion es otra cosa: son la razon de
+    // adelantar la valoracion en vez de hacerla la vispera.
+    const CLAVES = ['rm:vpo:escalas', 'rm:vpo:paciente', 'rm:vpo:ruta', 'rm:vpo:farmacos', 'rm:vpo:estudios'];
+    const previas = CLAVES.map(k => [k, syncGet(k, null)]);
+    try {
+      syncSet('rm:vpo:ruta', { camino: [], veredicto: null });
+      syncSet('rm:vpo:farmacos', {});
+      syncSet('rm:vpo:estudios', {});
+      syncSet('rm:vpo:paciente', {});
+      syncSet('rm:vpo:escalas', {
+        asa: { titulo: 'ASA', frase: 'ASA III', ts: 1 },
+        anemia: { titulo: 'Anemia', frase: 'Anemia de 9.8 g/dL', ts: 2 },
+        cockcroft: { titulo: 'Aclaramiento', frase: 'Aclaramiento de creatinina 70 mL/min', ts: 4 },
+        prehabilitacion: { titulo: 'Prehabilitaci\u00f3n', frase: 'Prehabilitaci\u00f3n en de 4 a 8 semanas', ts: 3 }
+      });
+      const caja = document.createElement('div');
+      caja.innerHTML = vpoEngine.notaHTML();
+      const seccion = titulo => [...caja.querySelectorAll('.vpo-nota-sec')]
+        .find(sec => sec.querySelector('h3').textContent === titulo);
+
+      const opt = seccion('Optimizaci\u00f3n preoperatoria');
+      assert(opt, 'deberia haber un bloque de optimizacion preoperatoria');
+      assert(/Anemia de 9.8/.test(opt.textContent), 'la anemia se corrige antes de operar');
+      assert(/Prehabilitaci\u00f3n/.test(opt.textContent), 'y la prehabilitacion es eso mismo');
+      assert(!/Anemia de 9.8/.test(seccion('Riesgo estimado').textContent),
+        'la anemia no es un riesgo estimado');
+      assert(!/Anemia de 9.8/.test(seccion('Manejo perioperatorio de f\u00e1rmacos').textContent),
+        'ni una conducta con un farmaco');
+
+      // Y va antes que los farmacos: se optimiza y luego se decide con que se opera.
+      const titulos = [...caja.querySelectorAll('.vpo-nota-sec h3')].map(h => h.textContent);
+      assert(titulos.indexOf('Optimizaci\u00f3n preoperatoria') < titulos.indexOf('Manejo perioperatorio de f\u00e1rmacos'),
+        'la optimizacion va antes que los farmacos');
     } finally {
       previas.forEach(([k, v]) => { if (v !== null) syncSet(k, v); });
     }
@@ -1092,6 +1137,54 @@ async function run() {
       'con bomba hay que dejar el plan alternativo montado antes');
   });
 
+  test('VPO prehabilitacion: lo que cabe hacer depende de las semanas que quedan', () => {
+    const pre = vpo('prehabilitacion');
+    const paciente = { tabaco: true, anemia: true, fragilidad: true, glucemia: true };
+    const sobra = pre.compute({ ventana: 'mas8', ...paciente });
+    assertEqual(sobra.tarde.length, 0, 'con mas de 8 semanas cabe todo');
+    assertEqual(sobra.caben.length, 4);
+    const justo = pre.compute({ ventana: 'dos', ...paciente });
+    assertEqual(justo.caben.map(m => m.key), ['anemia', 'glucemia'],
+      'entre 2 y 4 semanas todavia da tiempo a corregir la anemia, pero no a las 4 del tabaco');
+    const tarde = pre.compute({ ventana: 'menos', ...paciente });
+    assertEqual(tarde.caben.map(m => m.key), ['glucemia'],
+      'con menos de 2 semanas solo queda el control glucemico, que no necesita ventana');
+    assertEqual(tarde.tarde.map(m => m.key), ['tabaco', 'anemia', 'fragilidad']);
+  });
+
+  test('VPO prehabilitacion: lo que ya no da tiempo no desaparece, se cambia por lo que si cabe', () => {
+    // Una herramienta que solo dijera "ya es tarde" no serviria de nada la vispera, que es
+    // justo cuando mas se consulta.
+    const pre = vpo('prehabilitacion');
+    const texto = pre.format(pre.compute({ ventana: 'menos', tabaco: true, anemia: true, fragilidad: true }));
+    assert(/ya no da tiempo/i.test(texto), 'deberia separar lo que ya no cabe');
+    assert(/carboxihemoglobina/.test(texto), 'y decir que dejar de fumar sigue valiendo la pena');
+    assert(/intravenoso/.test(texto), 'que a la anemia ferropenica le queda el hierro intravenoso');
+    assert(/geri[a\u00e1]trica/.test(texto), 'y que al fragil le queda la valoracion geriatrica');
+    const nadie = pre.format(pre.compute({ ventana: 'mas8' }));
+    assert(/Sin objetivos/.test(nadie), 'sin nada marcado no deberia inventarse un programa');
+    // Y la linea que va a la nota dice que se va a hacer, no cuantas medidas son: un recuento
+    // no se puede leer en un expediente.
+    const linea = pre.fragment(pre.compute({ ventana: 'dos', tabaco: true, anemia: true }));
+    assert(/da tiempo a corregir la anemia/.test(linea), `la linea de la nota deberia nombrar la medida: ${linea}`);
+    assert(/ya no a dejar el tabaco/.test(linea), 'y la que se quedó fuera');
+  });
+
+  test('VPO prehabilitacion: se presenta como evidencia emergente, no como recomendacion con clase', () => {
+    // La guia de 2024 dice que la evidencia es emergente y que puede asociarse a mejores
+    // desenlaces en pacientes seleccionados; no le da una clase. Lo que si tiene clase son sus
+    // piezas sueltas, y la herramienta no debe confundir las dos cosas.
+    const pre = vpo('prehabilitacion');
+    const medidas = k => pre.compute({ ventana: 'mas8', [k]: true }).caben[0];
+    assertEqual(medidas('fragilidad').respaldo, 'emergente',
+      'el acondicionamiento fisico y el soporte nutricional son la pieza de evidencia emergente');
+    ['tabaco', 'anemia', 'glucemia'].forEach(k =>
+      assertEqual(medidas(k).respaldo, 'guia', `'${k}' si tiene respaldo de guia`));
+    const texto = pre.format(pre.compute({ ventana: 'mas8', fragilidad: true }));
+    assert(/evidencia emergente/.test(texto), 'deberia decirlo en el cuerpo');
+    assert(!/clase 2a[^.]*prehabilitaci/i.test(texto), 'no deberia atribuirle una clase que no tiene');
+  });
+
   test('VPO anemia: el umbral de la OMS distingue por sexo', () => {
     const an = vpo('anemia');
     const caso = (hb, sexo) => an.compute({ hb, sexo, semanas: 'muchas' });
@@ -1302,14 +1395,19 @@ async function run() {
     // key, el boton deja de abrir nada y no falla en voz alta.
     const keysEscala = new Set(vpoCalc.map(c => c.key));
     const keysEstudio = new Set(vpoEst.estudios.map(e => e.id));
-    Object.values(ruta.pasos).forEach(paso => {
-      (paso.herramientas || []).forEach(h => {
-        assert(h.label, `el paso '${paso.id}' declara una herramienta sin etiqueta`);
+    // Los veredictos las declaran igual que los pasos, asi que se revisan los dos.
+    const conHerramientas = [
+      ...Object.entries(ruta.pasos).map(([id, p]) => [`paso '${id}'`, p]),
+      ...Object.entries(ruta.veredictos).map(([id, v]) => [`veredicto '${id}'`, v])
+    ];
+    conHerramientas.forEach(([quien, nodo]) => {
+      (nodo.herramientas || []).forEach(h => {
+        assert(h.label, `el ${quien} declara una herramienta sin etiqueta`);
         if (h.tipo === 'estudio') {
-          assert(keysEstudio.has(h.key), `el paso '${paso.id}' abre el estudio '${h.key}', que no existe`);
+          assert(keysEstudio.has(h.key), `el ${quien} abre el estudio '${h.key}', que no existe`);
         } else {
-          assertEqual(h.tipo, 'escala', `el paso '${paso.id}' usa el tipo '${h.tipo}'`);
-          assert(keysEscala.has(h.key), `el paso '${paso.id}' abre la escala '${h.key}', que no existe`);
+          assertEqual(h.tipo, 'escala', `el ${quien} usa el tipo '${h.tipo}'`);
+          assert(keysEscala.has(h.key), `el ${quien} abre la escala '${h.key}', que no existe`);
         }
       });
     });
@@ -1325,6 +1423,10 @@ async function run() {
     });
     assert(!(ruta.veredictos.procederBajo.herramientas || []).length,
       'en el de riesgo bajo no se criba: ofrecerla ahi contradiria la clase 3');
+    // El veredicto que se llama "con optimizacion" es el unico que ademas abre la herramienta
+    // que dice que cabe optimizar: sin ella, "optimizar" es una palabra sin conducta detras.
+    assert((ruta.veredictos.procederOptimizado.herramientas || []).some(h => h.key === 'prehabilitacion'),
+      'el veredicto de optimizacion deberia abrir la prehabilitacion');
   });
 
   test('VPO ruta: los pasos que se contestan con una escala la traen a mano', () => {

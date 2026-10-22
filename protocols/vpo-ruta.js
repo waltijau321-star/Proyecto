@@ -222,11 +222,15 @@ export const veredictos = {
     texto: 'Si ningún estudio va a cambiar el manejo, pedirlo solo retrasa la cirugía y añade el riesgo de la cascada diagnóstica. Lo que sí cambia el desenlace es optimizar el tratamiento y vigilar de cerca.',
     acciones: [
       'Optimizar el tratamiento médico dirigido por guías antes de la cirugía.',
+      'Y lo que no es cardiaco y también se puede optimizar: tabaco, anemia, glucemia, tratamiento inhalado. Qué cabe depende de las semanas que queden.',
       'Continuar estatina y betabloqueador si ya los tomaba; no iniciar un betabloqueador el día de la cirugía.',
       'Vigilancia posoperatoria estrecha, con umbral bajo para investigar lesión miocárdica.',
       'Revisar la conducta con cada fármaco en la pestaña Fármacos.'
     ],
-    herramientas: [{ tipo: 'escala', key: 'mins', label: 'vigilancia de troponina' }],
+    herramientas: [
+      { tipo: 'escala', key: 'prehabilitacion', label: 'qué optimizar según el tiempo' },
+      { tipo: 'escala', key: 'mins', label: 'vigilancia de troponina' }
+    ],
   }
 };
 
