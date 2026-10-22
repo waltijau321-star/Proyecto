@@ -135,11 +135,12 @@ async function mountHomeSection() {
   for (const t of registry) {
     const topic = await loadTopic(t.id);
     if (!topic) continue;
-    const quizCount = (topic.study && topic.study.quiz && topic.study.quiz.length) || 0;
+    const quiz = (topic.study && topic.study.quiz) || [];
+    const quizCount = quiz.length;
     totalQuestions += quizCount;
     // "Contestada" = ya se respondió al menos una vez (mismo criterio que desbloquea las fichas
     // de repaso del tema, ver engine/quiz-srs.js), no el total de intentos.
-    if (quizCount) answeredQuestions += quizCount - remainingToComplete(t.id, quizCount);
+    if (quizCount) answeredQuestions += quizCount - remainingToComplete(t.id, quiz);
     topics.push({ id: t.id, titulo: topic.meta.titulo, subtitulo: topic.meta.subtitulo, accent: topic.meta.accent, quizCount });
   }
   mountHome(document.getElementById('home-root'), {
@@ -158,10 +159,10 @@ async function mountHomeSection() {
    marcados, ruta recorrida), así que hay que descartarlas y volver a montarlas con lo que
    initCloudSync acaba de fusionar, no solo refrescar Inicio. */
 function resetSectionsForNewSession({ otroUsuario }) {
-  // Con OTRO usuario hay que descartar además los datos del paciente que VPO tenía a medias.
-  // Vaciar el DOM no basta: syncGet mantiene un espejo en memoria y initCloudSync solo recorre
-  // las claves que existan en el documento del usuario nuevo, así que una clave que él nunca
-  // usó conserva el valor del usuario anterior. Si es el mismo usuario que vuelve a entrar, su
+  // Con OTRO usuario hay que descartar además los datos del paciente que VPO tenía a medias:
+  // clearLocalData() (en el cierre de sesión) ya vació localStorage y el espejo en memoria de
+  // cloud-sync, pero vpo.js guarda el paciente en curso en variables de su propio módulo, que
+  // ningún borrado de almacenamiento alcanza. Si es el mismo usuario que vuelve a entrar, su
   // borrador se respeta.
   if (otroUsuario) nuevoPaciente();
   mounted.protocolos = false;
@@ -171,6 +172,9 @@ function resetSectionsForNewSession({ otroUsuario }) {
     const el = document.getElementById(id);
     if (el) el.innerHTML = '';
   });
+  // Estudio no se desmonta nunca (no tiene bandera en `mounted`), así que sin esto seguiría
+  // mostrando el progreso del quiz y el candado de las fichas del usuario anterior.
+  if (currentTopic) mountStudy(currentTopic);
   showSection('inicio');
 }
 

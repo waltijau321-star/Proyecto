@@ -223,8 +223,8 @@ function buildAutoevaluacion() {
   // Las fichas de repaso quedan bloqueadas hasta que el usuario responda, al menos una vez cada
   // una, todas las preguntas del banco del tema (acumulado entre sesiones). Sin banco de
   // preguntas (tema nuevo sin quiz aún) no hay nada que bloquear.
-  const fcLocked = FLASHCARDS.length > 0 && QUIZ_QUESTIONS.length > 0 && !isQuizCompleted(TOPIC.meta.id, QUIZ_QUESTIONS.length);
-  const remaining = fcLocked ? remainingToComplete(TOPIC.meta.id, QUIZ_QUESTIONS.length) : 0;
+  const fcLocked = FLASHCARDS.length > 0 && QUIZ_QUESTIONS.length > 0 && !isQuizCompleted(TOPIC.meta.id, QUIZ_QUESTIONS);
+  const remaining = fcLocked ? remainingToComplete(TOPIC.meta.id, QUIZ_QUESTIONS) : 0;
   const cards = [
     { key: 'quiz', title: 'Banco de preguntas', sub: QUIZ_QUESTIONS.length + ' preguntas de opción múltiple · casos clínicos y teoría', color: '#3d5a73', fn: 'openQuiz()' },
     fcLocked
@@ -373,7 +373,7 @@ function openQuiz() {
   showOverlay();
 }
 function startQuiz() {
-  const due = new Set(dueQuestionIndices(TOPIC.meta.id, QUIZ_QUESTIONS.length));
+  const due = new Set(dueQuestionIndices(TOPIC.meta.id, QUIZ_QUESTIONS));
   const deck = priorityShuffle(QUIZ_QUESTIONS, due);
   quizState = { deck, qIndex: 0, score: 0, answered: false, subStep: 0, subAnswers: [], selected: null };
   trackEvent('quizStart');
@@ -439,7 +439,7 @@ function answerQuiz(i) {
   const correct = i === item.correct;
   if (correct) quizState.score++;
   recordProgress(correct);
-  updateQuizSRS(TOPIC.meta.id, QUIZ_QUESTIONS.indexOf(item), correct);
+  updateQuizSRS(TOPIC.meta.id, item, correct);
   document.querySelectorAll('#quiz-options .quiz-opt').forEach((btn, idx) => {
     btn.disabled = true;
     btn.classList.remove('selected');
@@ -470,7 +470,7 @@ function answerCascade(item, i) {
   quizState.score += correctCount;
   const allCorrect = correctCount === item.steps.length;
   recordProgress(allCorrect);
-  updateQuizSRS(TOPIC.meta.id, QUIZ_QUESTIONS.indexOf(item), allCorrect);
+  updateQuizSRS(TOPIC.meta.id, item, allCorrect);
   const stepsReview = item.steps.map((s, idx) => {
     const chosen = quizState.subAnswers[idx];
     const ok = chosen === s.correct;
@@ -527,7 +527,7 @@ function saveFlashcardProgress(progress) { syncSet(fcKey(), progress); }
 // lockedFlashcardsNotice() en vez de a esta función, openFlashcards queda exportada en window
 // (para onclick inline), así que se revisa el candado también aquí por si se invoca directo.
 function openFlashcards() {
-  if (QUIZ_QUESTIONS.length && !isQuizCompleted(TOPIC.meta.id, QUIZ_QUESTIONS.length)) { lockedFlashcardsNotice(); return; }
+  if (QUIZ_QUESTIONS.length && !isQuizCompleted(TOPIC.meta.id, QUIZ_QUESTIONS)) { lockedFlashcardsNotice(); return; }
   const progress = loadFlashcardProgress();
   const now = Date.now();
   let due = FLASHCARDS.map((c, i) => ({ ...c, id: i, prog: progress[i] || { box: 1, next: 0 } })).filter(c => c.prog.next <= now);
@@ -539,7 +539,7 @@ function openFlashcards() {
   showOverlay();
 }
 function lockedFlashcardsNotice() {
-  const remaining = remainingToComplete(TOPIC.meta.id, QUIZ_QUESTIONS.length);
+  const remaining = remainingToComplete(TOPIC.meta.id, QUIZ_QUESTIONS);
   const m = document.getElementById('modal');
   m.style.setProperty('--modal-accent', '#5c4a73');
   m.innerHTML = `

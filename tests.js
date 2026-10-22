@@ -37,7 +37,7 @@ function assert(cond, msg) {
 
 async function run() {
   /* ---------------- Sincronización (engine/cloud-sync.js) ---------------- */
-  const { syncGet, syncSet, mergeValue } = await import('./engine/cloud-sync.js');
+  const { syncGet, syncSet, mergeValue, clearLocalData } = await import('./engine/cloud-sync.js');
 
   test('sync: round-trip de un valor escalar', () => {
     syncSet('rm:test-scalar', 'hola');
@@ -100,55 +100,146 @@ async function run() {
     assertEqual(mergeValue('rm:exam-date', '2026-01-01', ''), '2026-01-01');
   });
 
+  // El calendario de repaso del banco de preguntas se fusiona como las fichas, elemento por
+  // elemento. Como escalar (lo que era antes), practicar en dos dispositivos hacia que el
+  // documento de la nube pisara entero el calendario local y se perdiera el avance del dia.
+  test('merge: el repaso espaciado del quiz se fusiona por pregunta, no en bloque', () => {
+    const local = { aaa: { box: 4, next: 100 }, bbb: { box: 1, next: 0 } };
+    const nube = { aaa: { box: 2, next: 50 }, ccc: { box: 3, next: 70 } };
+    const m = mergeValue('rm:quiz-srs:neumonia', local, nube);
+    assertEqual(m.aaa.box, 4);
+    assertEqual(m.bbb.box, 1);
+    assertEqual(m.ccc.box, 3);
+  });
+
+  test('sesion: al cerrar sesion se borra el progreso local y se conserva "recordar usuario"', () => {
+    localStorage.setItem('rm:remember-user', 'true');
+    syncSet('rm:quiz-progress', { tema: { correct: 3, incorrect: 1 } });
+    syncSet('flashcard-progress:tema', { 0: { box: 4, next: 0 } });
+    clearLocalData();
+    assertEqual(localStorage.getItem('rm:quiz-progress'), null);
+    assertEqual(localStorage.getItem('flashcard-progress:tema'), null);
+    assertEqual(localStorage.getItem('rm:remember-user'), 'true');
+    // El espejo en memoria tambien tiene que vaciarse: si no, el residente que entra despues
+    // en la misma tablet seguiria leyendo lo del anterior aunque localStorage ya este limpio.
+    assertEqual(syncGet('rm:quiz-progress', null), null);
+    localStorage.removeItem('rm:remember-user');
+  });
+
   localStorage.removeItem('rm:test-scalar');
   localStorage.removeItem('rm:test-obj');
 
   /* ---------------- Repetición espaciada de preguntas (engine/quiz-srs.js) ---------------- */
-  const { updateQuizSRS, dueQuestionIndices, loadQuizSRS, isQuizCompleted, remainingToComplete } = await import('./engine/quiz-srs.js');
+  const { updateQuizSRS, dueQuestionIndices, loadQuizSRS, isQuizCompleted, remainingToComplete, questionId } = await import('./engine/quiz-srs.js');
   const T = 'rm-test-topic';
+  // Banco de prueba. La segunda pregunta está escrita sin acentos y con entidad HTML a
+  // propósito: la mitad de la biblioteca está así, y la corrección ortográfica pendiente no
+  // debe borrarle el progreso a nadie.
+  const QZ = [
+    { q: '¿Cuál es el umbral de CURB-65 para ingresar al paciente?', options: ['a', 'b', 'c', 'd'], correct: 0 },
+    { q: 'Que define una APNEA en un estudio de sue&#241;o?', options: ['a', 'b', 'c', 'd'], correct: 1 },
+    { q: 'Tercera pregunta del banco de prueba', options: ['a', 'b', 'c', 'd'], correct: 2 },
+    { type: 'cascade', vignette: 'Varón de 62 años con disnea de 3 días', steps: [{ q: 'Primer paso del caso', options: ['a', 'b'], correct: 0 }] },
+    { q: 'Quinta pregunta del banco de prueba', options: ['a', 'b', 'c', 'd'], correct: 3 }
+  ];
 
   test('quiz-srs: responder bien sube de caja y programa el próximo repaso a futuro', () => {
     syncSet('rm:quiz-srs:' + T, {});
-    updateQuizSRS(T, 0, true);
-    const entry = loadQuizSRS(T)[0];
+    updateQuizSRS(T, QZ[0], true);
+    const entry = loadQuizSRS(T)[questionId(QZ[0])];
     assertEqual(entry.box, 2);
     assert(entry.next > Date.now(), 'el próximo repaso debería quedar en el futuro');
   });
 
   test('quiz-srs: responder mal reinicia a caja 1 y queda vencida de inmediato', () => {
     syncSet('rm:quiz-srs:' + T, {});
-    updateQuizSRS(T, 0, false);
-    const entry = loadQuizSRS(T)[0];
+    updateQuizSRS(T, QZ[0], false);
+    const entry = loadQuizSRS(T)[questionId(QZ[0])];
     assertEqual(entry.box, 1);
     assert(entry.next <= Date.now(), 'debería estar vencida ahora mismo');
   });
 
   test('quiz-srs: una pregunta recién acertada no aparece entre las vencidas', () => {
     syncSet('rm:quiz-srs:' + T, {});
-    updateQuizSRS(T, 2, true);
-    const due = dueQuestionIndices(T, 5);
+    updateQuizSRS(T, QZ[2], true);
+    const due = dueQuestionIndices(T, QZ);
     assert(!due.includes(2), 'la pregunta 2 no debería estar vencida justo después de acertarla');
   });
 
   test('quiz-srs: una pregunta nunca respondida no cuenta como vencida (hay que responderla primero)', () => {
     syncSet('rm:quiz-srs:' + T, {});
-    updateQuizSRS(T, 0, false);
-    const due = dueQuestionIndices(T, 5);
+    updateQuizSRS(T, QZ[0], false);
+    const due = dueQuestionIndices(T, QZ);
     assertEqual(due.length, 1);
     assert(due.includes(0), 'la pregunta 0, fallada, sí debería estar vencida');
   });
 
   test('quiz-srs: isQuizCompleted exige que cada pregunta se haya respondido al menos una vez', () => {
     syncSet('rm:quiz-srs:' + T, {});
-    assertEqual(isQuizCompleted(T, 3), false);
-    assertEqual(remainingToComplete(T, 3), 3);
-    updateQuizSRS(T, 0, true);
-    updateQuizSRS(T, 1, false);
-    assertEqual(isQuizCompleted(T, 3), false);
-    assertEqual(remainingToComplete(T, 3), 1);
-    updateQuizSRS(T, 2, true);
-    assertEqual(isQuizCompleted(T, 3), true);
-    assertEqual(remainingToComplete(T, 3), 0);
+    const tres = QZ.slice(0, 3);
+    assertEqual(isQuizCompleted(T, tres), false);
+    assertEqual(remainingToComplete(T, tres), 3);
+    updateQuizSRS(T, tres[0], true);
+    updateQuizSRS(T, tres[1], false);
+    assertEqual(isQuizCompleted(T, tres), false);
+    assertEqual(remainingToComplete(T, tres), 1);
+    updateQuizSRS(T, tres[2], true);
+    assertEqual(isQuizCompleted(T, tres), true);
+    assertEqual(remainingToComplete(T, tres), 0);
+  });
+
+  // La razón de ser del id estable. Con el esquema anterior (clave = posición en el array),
+  // insertar una pregunta al principio del banco movía el progreso de TODAS las demás: la caja 5
+  // de la pregunta 3 pasaba a ser la de la 4. Los bancos se editan constantemente, así que esto
+  // le pasaba a todos los usuarios, en silencio y sin forma de detectarlo desde la app.
+  test('quiz-srs: el progreso sigue a la pregunta aunque se inserte otra delante', () => {
+    syncSet('rm:quiz-srs:' + T, {});
+    updateQuizSRS(T, QZ[2], true);
+    updateQuizSRS(T, QZ[2], true); // caja 3
+    const nueva = { q: 'Pregunta nueva insertada al principio del banco', options: ['a', 'b', 'c', 'd'], correct: 0 };
+    const reordenado = [nueva, ...QZ];
+    const store = loadQuizSRS(T, reordenado);
+    assertEqual(store[questionId(QZ[2])].box, 3);
+    assertEqual(remainingToComplete(T, reordenado), reordenado.length - 1);
+    assert(!store[questionId(nueva)], 'la pregunta nueva no debería heredar progreso de nadie');
+  });
+
+  test('quiz-srs: el progreso sobrevive a reordenar el banco', () => {
+    syncSet('rm:quiz-srs:' + T, {});
+    updateQuizSRS(T, QZ[4], true);
+    const alReves = [...QZ].reverse();
+    const due = dueQuestionIndices(T, alReves);
+    assertEqual(remainingToComplete(T, alReves), QZ.length - 1);
+    assertEqual(due.length, 0, 'recién acertada, no debería estar vencida en ninguna posición');
+  });
+
+  test('quiz-srs: corregir acentos y entidades HTML no borra el progreso de la pregunta', () => {
+    const sinAcentos = { q: 'Que define una APNEA en un estudio de sue&#241;o?', options: ['a', 'b', 'c', 'd'], correct: 1 };
+    const conAcentos = { q: '¿Qué define una APNEA en un estudio de sueño?', options: ['a', 'b', 'c', 'd'], correct: 1 };
+    assertEqual(questionId(sinAcentos), questionId(conAcentos));
+  });
+
+  test('quiz-srs: reescribir el enunciado de fondo sí cuenta como pregunta nueva', () => {
+    const otra = { q: 'Cuál es el tratamiento inicial de la apnea obstructiva grave?', options: ['a', 'b', 'c', 'd'], correct: 1 };
+    assert(questionId(QZ[1]) !== questionId(otra), 'dos enunciados distintos no pueden compartir id');
+  });
+
+  test('quiz-srs: dos casos en cascada con la misma viñeta se distinguen por su primer paso', () => {
+    const casoA = { type: 'cascade', vignette: 'Varón de 62 años con disnea de 3 días', steps: [{ q: 'Primer paso del caso', options: ['a', 'b'], correct: 0 }] };
+    const casoB = { type: 'cascade', vignette: 'Varón de 62 años con disnea de 3 días', steps: [{ q: 'Qué estudio pides primero', options: ['a', 'b'], correct: 0 }] };
+    assert(questionId(casoA) !== questionId(casoB), 'misma viñeta pero distinto primer paso: son casos distintos');
+  });
+
+  test('quiz-srs: el progreso guardado por índice (formato viejo) se migra a ids', () => {
+    // Lo que tiene hoy en la nube cualquier usuario que ya haya practicado.
+    const viejo = {};
+    viejo['1'] = { box: 4, next: Date.now() + 100000 };
+    viejo['9'] = { box: 2, next: Date.now() }; // índice fuera del banco actual: se descarta
+    syncSet('rm:quiz-srs:' + T, viejo);
+    const store = loadQuizSRS(T, QZ);
+    assertEqual(store[questionId(QZ[1])].box, 4);
+    assertEqual(Object.keys(store).filter(k => /^\d+$/.test(k)).length, 0);
+    assertEqual(remainingToComplete(T, QZ), QZ.length - 1);
   });
 
   localStorage.removeItem('rm:quiz-srs:' + T);
@@ -1689,6 +1780,18 @@ async function run() {
     test(`esquema[${entry.id}]: carga sin errores y meta.id coincide con el registro`, () => {
       assert(topic, `loadTopic('${entry.id}') devolvió null`);
       assertEqual(topic.meta && topic.meta.id, entry.id);
+    });
+
+    // El progreso de repaso se guarda bajo un id derivado del enunciado (ver engine/quiz-srs.js).
+    // Dos preguntas de un mismo tema con el mismo id compartirian caja y fecha sin que nada lo
+    // delate: responder una marcaria la otra como respondida.
+    test(`esquema[${entry.id}]: ninguna pregunta del banco comparte id de repaso con otra`, () => {
+      const vistos = new Map();
+      ((topic.study && topic.study.quiz) || []).forEach((q, i) => {
+        const id = questionId(q);
+        assert(!vistos.has(id), `las preguntas ${vistos.get(id)} y ${i} comparten id de repaso`);
+        vistos.set(id, i);
+      });
     });
     // Un <option> se pinta leyendo {value,label} o la forma corta {v,t}. Si una opcion no
     // resuelve ninguna de las dos, el desplegable muestra "undefined" y compute() recibe la

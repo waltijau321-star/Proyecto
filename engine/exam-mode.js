@@ -51,7 +51,7 @@ function shuffle(arr) { return arr.map(v => [Math.random(), v]).sort((a, b) => a
 function buildPool(pool, difficulty, topicIds) {
   const bag = [];
   pool.filter(t => topicIds.includes(t.id)).forEach(t => {
-    const dueIdx = difficulty === 'inteligente' ? new Set(dueQuestionIndices(t.id, t.quiz.length)) : null;
+    const dueIdx = difficulty === 'inteligente' ? new Set(dueQuestionIndices(t.id, t.quiz)) : null;
     t.quiz.forEach((q, qIndex) => {
       const lvl = q.dificultad || 'facil';
       const include = difficulty === 'mixta' ? true
@@ -218,7 +218,7 @@ function answerExam(i) {
   const correct = i === q.correct;
   if (correct) examState.score++;
   recordExamProgress(q.topicId, correct);
-  updateQuizSRS(q.topicId, q.srsIndex, correct);
+  updateQuizSRS(q.topicId, q, correct);
   document.querySelectorAll('#exam-options .quiz-opt').forEach((btn, idx) => {
     btn.disabled = true;
     btn.classList.remove('selected');

@@ -8,7 +8,7 @@ import {
   signOut, sendPasswordResetEmail
 } from 'https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js';
 import { auth, firebaseReady } from './firebase-config.js';
-import { flushPendingWrites, syncSet } from './cloud-sync.js';
+import { flushPendingWrites, syncSet, clearLocalData } from './cloud-sync.js';
 import { temarioBlocks } from '../topics/temario-index.js';
 
 let authGateActive = true;
@@ -235,6 +235,12 @@ function renderSignupPage(errorMsg) {
     if (!rules.len || !rules.upper || !rules.lower || !rules.number) { renderAuthModal('La contraseña no cumple los requisitos mínimos.'); return; }
     if (password !== passwordConfirm) { renderAuthModal('Las contraseñas no coinciden.'); return; }
     try {
+      // Cuenta nueva: se parte de un navegador limpio. Los datos del perfil se escriben antes de
+      // crear la cuenta (initCloudSync siembra el documento nuevo con lo que haya en local), así
+      // que si quedara el progreso de otra persona en esta tablet, la cuenta recién creada lo
+      // heredaría. Borrar aquí también quita la marca de propietario, de modo que el perfil que
+      // se escribe en seguida sobrevive.
+      clearLocalData();
       syncSet('rm:profile-firstname', firstName);
       syncSet('rm:profile-lastname', lastName);
       syncSet('rm:profile-hospital', hospital);
@@ -319,6 +325,14 @@ export function initAuth(onChange) {
 }
 
 export async function signOutUser() {
-  await flushPendingWrites();
+  // Primero entregar lo que quede por subir (con tope de tiempo: sin red, la promesa de
+  // Firestore no se resuelve y el usuario se quedaría con el botón colgado), y solo después
+  // borrar el estado local. Borrarlo es lo que impide que el siguiente residente que use este
+  // navegador, en una tablet compartida, herede el progreso y los datos de paciente del anterior.
+  await Promise.race([
+    flushPendingWrites().catch(() => {}),
+    new Promise(resolve => setTimeout(resolve, 3000))
+  ]);
   await signOut(auth);
+  clearLocalData();
 }
