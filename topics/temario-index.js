@@ -99,9 +99,9 @@ const DERMATOLOGIA_ITEMS = [
   { label: 'Dermatitis herpetiforme', topicId: 'ampollosas' },
   { label: 'Dermatitis medicamentosa', topicId: 'farmacodermias' },
   { label: 'Dermatitis por contacto', topicId: 'eccemas' },
-  'Carcinoma basocelular',
-  'Carcinoma espinocelular',
-  'Sarcoma de Kaposi',
+  { label: 'Carcinoma basocelular', topicId: 'cancer-cutaneo-no-melanoma' },
+  { label: 'Carcinoma espinocelular', topicId: 'cancer-cutaneo-no-melanoma' },
+  { label: 'Sarcoma de Kaposi', topicId: 'cancer-cutaneo-no-melanoma' },
   'Manifestaciones cutáneas de enfermedad sistémica'
 ];
 

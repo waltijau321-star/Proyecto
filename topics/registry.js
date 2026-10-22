@@ -749,6 +749,14 @@ export const registry = [
     ])
   },
   {
+    id: 'cancer-cutaneo-no-melanoma', titulo: 'Cancer cutaneo no melanoma y sarcoma de Kaposi',
+    load: () => Promise.all([
+      import('./cancer-cutaneo-no-melanoma/content.js'),
+      import('./cancer-cutaneo-no-melanoma/calculators.js'),
+      import('./cancer-cutaneo-no-melanoma/study.js')
+    ])
+  },
+  {
     id: 'soporte-vital-avanzado', titulo: 'Soporte vital avanzado y RCP',
     load: () => Promise.all([
       import('./soporte-vital-avanzado/content.js'),
