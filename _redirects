@@ -15,3 +15,8 @@
 /Calculos%20dosis.xlsx                     /404.html  404!
 /esearch_result.json                       /404.html  404!
 /CLAUDE.md                                 /404.html  404!
+#
+# - Material suelto de la raiz: capturas de trabajo y notas del autor. Se excluyen por
+#   prefijo porque sus nombres llevan espacios y comas, que en este archivo son fragiles.
+/ChatGPT*                                  /404.html  404!
+/Reglas*                                   /404.html  404!
