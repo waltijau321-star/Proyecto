@@ -35,6 +35,7 @@ const calcTopic = { meta: { accent: ACCENT }, calculators, combinedNote };
 const ESCALAS_DE_TEMAS = [
   { topicId: 'cirrosis-hepatica', key: 'childpugh', titulo: 'Child-Pugh', porque: 'Gravedad de la cirrosis: el riesgo quirúrgico del cirrótico se dispara a partir de Child-Pugh B.' },
   { topicId: 'cirrosis-hepatica', key: 'meldna', titulo: 'MELD-Na', porque: 'Mortalidad a 90 días; orienta si conviene diferir una cirugía electiva en el paciente con hepatopatía.' },
+  { topicId: 'anemia-ferropenica', key: 'ganzoni', titulo: 'Fórmula de Ganzoni', porque: 'El déficit total de hierro, que es lo que hay que reponer cuando la anemia preoperatoria es ferropénica y no da tiempo al hierro oral.' },
   { topicId: 'transfusion-hemoderivados', key: 'umbral-eritrocitos', titulo: 'Umbral de transfusión', porque: 'La anemia preoperatoria es el factor de riesgo modificable con mejor rendimiento, y el umbral para transfundir no es el mismo antes de operar que en el sangrado agudo.' },
   { topicId: 'delirium-coma-encefalopatias', key: 'cam-delirium', titulo: 'CAM', porque: 'La escala de delirium de aquí estima el riesgo antes de operar; el CAM es con lo que se reconoce después, y sin cognición basal documentada no se puede aplicar.' },
   { general: true, key: 'chadsvasc', titulo: 'CHA₂DS₂-VASc', porque: 'Es por donde empieza la valoración del paciente anticoagulado: dimensiona lo que se arriesga al suspender el anticoagulante, aunque no sea lo que decide el puente.' }

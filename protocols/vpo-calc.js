@@ -126,6 +126,55 @@ const LEE_CLASS = ['I', 'II', 'III', 'IV'];
 const fragLee = r => `<strong>Índice de Lee grupo ${r.cls}</strong>, probabilidad de complicación cardiovascular mayor (IAM, edema pulmonar, fibrilación ventricular o bloqueo cardiaco completo) ${r.risk}`;
 const fmtLee = r => `${fragLee(r)} (${r.n} de 6 predictores presentes; cohorte de validación, Lee 1999).`;
 
+/* ===== Anemia preoperatoria =====
+   Guía ACC/AHA 2024, sección 8.4. El tema la nombraba como "el factor de riesgo modificable
+   con mejor rendimiento" y ahí se acababa: decía que detectarla a tiempo permite tratarla,
+   pero no cómo ni cuándo. Hasta el 64 % de los pacientes quirúrgicos tienen anemia y la
+   ferropenia explica entre el 40 y el 50 % de los casos; la mayoría se corrigen en 2 a 4
+   semanas, que es justo el tiempo que suele haber y que casi nunca se usa. */
+const ANEMIA_UMBRAL = { m: 13, f: 12 }; // definición de la OMS, g/dL
+function anemiaCompute(v) {
+  if (v.hb === null || v.hb === undefined) return null;
+  const umbral = ANEMIA_UMBRAL[v.sexo] || ANEMIA_UMBRAL.m;
+  const anemia = v.hb < umbral;
+  // Ferropenia por cualquiera de los dos criterios de la guía. Sin datos no se puede decir.
+  const ferritina = (v.ferritina === null || v.ferritina === undefined) ? null : v.ferritina;
+  const satTrans = (v.satTrans === null || v.satTrans === undefined) ? null : v.satTrans;
+  const hayEstudio = ferritina !== null || satTrans !== null;
+  const ferropenia = hayEstudio && ((ferritina !== null && ferritina < 100) || (satTrans !== null && satTrans < 20));
+  return { hb: v.hb, umbral, anemia, hayEstudio, ferropenia, semanas: v.semanas,
+           sangrado: !!v.sangrado, sexo: v.sexo };
+}
+const anemiaTitulo = r => r.anemia
+  ? `<strong>Anemia preoperatoria</strong>, hemoglobina de ${r.hb} g/dL${r.hayEstudio ? (r.ferropenia ? ' por deficiencia de hierro' : ' sin deficiencia de hierro') : ''}`
+  : `<strong>Sin anemia preoperatoria</strong> (hemoglobina de ${r.hb} g/dL)`;
+// En la nota, el titular lleva pegado lo que hay que hacer: quien la lee necesita la conducta,
+// no solo el hallazgo.
+const fragAnemia = r => {
+  if (!r.anemia) return anemiaTitulo(r);
+  const plan = !r.hayEstudio ? ': falta ferritina y saturación de transferrina'
+    : r.ferropenia ? (r.semanas === 'pocas' ? ': hierro intravenoso antes de la cirugía' : ': hierro oral o intravenoso antes de la cirugía')
+    : ': pendiente de filiar la causa';
+  return anemiaTitulo(r) + plan;
+};
+const ANEMIA_PLAN = {
+  sinEstudio: 'Antes de tratar hay que saber si es ferropénica, que es entre el 40 y el 50 % de los casos: pedir <strong>ferritina y saturación de transferrina</strong> con la misma muestra. Ferritina por debajo de 100 ng/mL o saturación por debajo del 20 % bastan para considerarla ferropénica.',
+  ferropenicaConTiempo: 'Con más de 4 semanas por delante, el <strong>hierro oral o intravenoso</strong> antes de la cirugía es razonable para subir la hemoglobina y reducir transfusiones (clase 2a). El oral es más barato y basta si hay tiempo y se tolera.',
+  ferropenicaSinTiempo: 'Con menos de 4 semanas el hierro oral no alcanza a hacer efecto: si se va a tratar, <strong>intravenoso</strong> (clase 2a). La fórmula de Ganzoni, enlazada en esta misma pestaña, da la dosis total.',
+  otraCausa: 'Sin ferropenia, buscar la otra causa antes de operar si el tiempo lo permite: enfermedad renal crónica, inflamación crónica, déficit de vitamina B12 o folato, pérdida digestiva oculta. La anemia no es un diagnóstico.',
+  sinAnemia: 'No hay anemia que corregir.'
+};
+const fmtAnemia = r => {
+  const plan = !r.anemia ? ANEMIA_PLAN.sinAnemia
+    : !r.hayEstudio ? ANEMIA_PLAN.sinEstudio
+    : r.ferropenia ? (r.semanas === 'pocas' ? ANEMIA_PLAN.ferropenicaSinTiempo : ANEMIA_PLAN.ferropenicaConTiempo)
+    : ANEMIA_PLAN.otraCausa;
+  const tranexamico = r.sangrado
+    ? ' Con pérdida sanguínea prevista, el <strong>ácido tranexámico</strong> es razonable para reducir el sangrado intraoperatorio, las transfusiones y la propia anemia (clase 2a, nivel A).'
+    : '';
+  return `${anemiaTitulo(r)}. ${plan}${tranexamico} <span style="color:var(--ink-faint);font-size:12px;">Anemia según la OMS: menos de 13 g/dL en el varón y de 12 en la mujer. Hasta el 64 % de los pacientes quirúrgicos la tienen y la mayoría de las anemias se corrigen en 2 a 4 semanas, así que lo que decide es detectarla con tiempo. Incluso la leve es factor de riesgo independiente de morbilidad y mortalidad posoperatorias. Transfundir para "arreglar el número" antes de operar no es la respuesta: el umbral sigue siendo restrictivo (ACC/AHA 2024, sección 8.4).</span>`;
+};
+
 /* ===== Vigilancia de troponina posoperatoria (MINS) =====
    Guía ACC/AHA 2024, sección 9.1 y figura 6. Es la única escala de la sección que mira
    después de la cirugía, y está aquí por lo que dicen sus números: la lesión miocárdica tras
@@ -719,7 +768,7 @@ const fmtDelirium = r => `${fragDelirium(r)}. ${r.cat === 'bajo'
    aclaramiento que lo decide, y las dos profilaxis). Antes eso eran dos listas a mano en
    engine/vpo.js que había que acordarse de actualizar al añadir una escala. */
 export const DOMINIOS = [
-  { id: 'general',        label: 'Estado físico' },
+  { id: 'general',        label: 'Estado físico y optimización' },
   { id: 'cardiaco',       label: 'Riesgo cardiaco y capacidad funcional' },
   { id: 'pulmonar',       label: 'Riesgo pulmonar y vía aérea' },
   { id: 'antitrombotico', label: 'Trombosis y anticoagulación' },
@@ -750,6 +799,28 @@ export const calculators = [
     ],
     compute(v) { return { clase: v.clase, e: v.emergencia }; },
     format: fmtAsa, fragment: fragAsa
+  },
+  {
+    key: 'anemia', title: 'Anemia preoperatoria', accent: '#7c2d2d',
+    subtitle: 'El factor de riesgo modificable con mejor rendimiento, si hay tiempo',
+    dominio: 'general', bloqueNota: 'farmacos',
+    incompleteMsg: 'Completa la hemoglobina.',
+    fields: [
+      { name: 'hb', id: 'van-hb', type: 'number', step: '0.1', label: 'Hemoglobina (g/dL)', placeholder: 'ej. 10.4', row: 'a' },
+      { name: 'sexo', id: 'van-sexo', type: 'select', label: 'Sexo', row: 'a', shared: 'sexo', options: [
+        { value: 'm', label: 'Masculino', selected: true },
+        { value: 'f', label: 'Femenino' }
+      ] },
+      { name: 'ferritina', id: 'van-ferritina', type: 'number', required: false, label: 'Ferritina (ng/mL)', placeholder: 'si se tiene', row: 'b' },
+      { name: 'satTrans', id: 'van-sat', type: 'number', required: false, label: 'Saturación de transferrina (%)', placeholder: 'si se tiene', row: 'b' },
+      { name: 'semanas', id: 'van-semanas', type: 'select', label: 'Tiempo hasta la cirugía', options: [
+        { value: 'muchas', label: 'Más de 4 semanas', selected: true },
+        { value: 'pocas', label: 'Menos de 4 semanas' }
+      ] },
+      { name: 'sangrado', id: 'van-sangrado', type: 'checkbox', label: 'Se prevé pérdida sanguínea significativa' }
+    ],
+    compute: anemiaCompute,
+    format: fmtAnemia, fragment: fragAnemia
   },
   {
     key: 'leeindex', title: 'Índice de Lee (RCRI)', accent: '#3f6b52',

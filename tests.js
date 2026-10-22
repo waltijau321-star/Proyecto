@@ -1052,6 +1052,43 @@ async function run() {
     assert(conElectiva.pct < sinElectiva.pct, 'la cirugia electiva deberia bajar el riesgo calculado');
   });
 
+  test('VPO anemia: el umbral de la OMS distingue por sexo', () => {
+    const an = vpo('anemia');
+    const caso = (hb, sexo) => an.compute({ hb, sexo, semanas: 'muchas' });
+    assertEqual(caso(12.5, 'm').anemia, true, 'por debajo de 13 el varon tiene anemia');
+    assertEqual(caso(12.5, 'f').anemia, false, 'la misma cifra en la mujer no lo es');
+    assertEqual(caso(11.9, 'f').anemia, true);
+    assertEqual(an.compute({ hb: null, sexo: 'm', semanas: 'muchas' }), null, 'sin hemoglobina no calcula');
+  });
+
+  test('VPO anemia: sin ferritina ni saturacion lo primero es pedirlas, no tratar', () => {
+    // La ferropenia explica entre el 40 y el 50 % de las anemias quirurgicas, y es la unica
+    // que tiene un tratamiento que funciona en el tiempo que queda.
+    const an = vpo('anemia');
+    const sinEstudio = an.compute({ hb: 10.2, sexo: 'm', semanas: 'muchas' });
+    assertEqual(sinEstudio.hayEstudio, false);
+    assert(/ferritina y saturaci/i.test(an.format(sinEstudio)), 'deberia pedir el estudio de hierro');
+    // Cualquiera de los dos criterios basta.
+    assertEqual(an.compute({ hb: 10.2, sexo: 'm', ferritina: 80, semanas: 'muchas' }).ferropenia, true);
+    assertEqual(an.compute({ hb: 10.2, sexo: 'm', satTrans: 15, semanas: 'muchas' }).ferropenia, true);
+    assertEqual(an.compute({ hb: 10.2, sexo: 'm', ferritina: 300, satTrans: 40, semanas: 'muchas' }).ferropenia, false);
+    assert(/otra causa/i.test(an.format(an.compute({ hb: 10.2, sexo: 'm', ferritina: 300, semanas: 'muchas' }))),
+      'sin ferropenia hay que buscar la causa, no dar hierro');
+  });
+
+  test('VPO anemia: el tiempo que queda decide la via del hierro', () => {
+    const an = vpo('anemia');
+    const con = semanas => an.format(an.compute({ hb: 10.2, sexo: 'm', ferritina: 40, semanas }));
+    assert(/oral o intravenoso/i.test(con('muchas')), 'con mas de 4 semanas cabe el oral');
+    const corto = con('pocas');
+    assert(/intravenoso/i.test(corto) && /Ganzoni/.test(corto),
+      'con menos de 4 semanas, intravenoso y con la formula para dosificarlo');
+    // El tranexamico no depende de la anemia sino del sangrado previsto.
+    assert(/tranex/i.test(an.format(an.compute({ hb: 15, sexo: 'm', semanas: 'muchas', sangrado: true }))),
+      'con sangrado previsto se ofrece aunque no haya anemia');
+    assert(!/tranex/i.test(an.format(an.compute({ hb: 15, sexo: 'm', semanas: 'muchas' }))));
+  });
+
   test('VPO troponina posoperatoria: a quien se le mide, y a quien no', () => {
     // Clase 2b en el paciente de riesgo elevado con enfermedad cardiovascular conocida,
     // sintomas, o 65 anos o mas con factores de riesgo. En cirugia de bajo riesgo es clase 3
