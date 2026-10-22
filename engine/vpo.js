@@ -1,825 +1,57 @@
 // engine/vpo.js
-// Motor de la sección Valoración Preoperatoria (VPO).
+// Cascarón de la sección Valoración Preoperatoria (VPO).
 //
 // VPO no es un tema del registry: es un área propia del shell con pestañas internas
-// (Ruta · Escalas · Fármacos · Estudios · Nota). Este módulo solo gestiona la barra de
-// pestañas, el montaje perezoso de cada una y la persistencia de la pestaña activa; el
-// contenido de cada pestaña vive en protocols/vpo-*.js y se monta con el motor que le
-// corresponda (el de calculadoras para Escalas, propios para el resto).
+// (Ruta · Escalas · Fármacos · Estudios · Nota). Este archivo solo gestiona la barra de
+// pestañas, el montaje perezoso de cada una, la persistencia de la pestaña activa y las
+// entradas desde fuera (buscador global, app.js); el contenido de cada pestaña vive en
+// protocols/vpo-*.js y su vista en el engine/vpo-*.js que le corresponde:
 //
-// Las pestañas se declaran en TABS y solo se renderiza la barra cuando hay más de una,
-// de modo que cada fase de desarrollo puede dar de alta la suya sin exponer pestañas
+//   engine/vpo-estado.js    el borrador del paciente y el repintado cruzado entre pestañas
+//   engine/vpo-ficha.js     la cabecera con los datos que todas las escalas comparten
+//   engine/vpo-ruta.js      el asistente paso a paso
+//   engine/vpo-escalas.js   la rejilla de escalas y las tres puertas de entrada a una
+//   engine/vpo-listas.js    la mecánica común de Fármacos y Estudios
+//   engine/vpo-farmacos.js, engine/vpo-estudios.js   las dos pestañas de lista
+//   engine/vpo-nota.js      lo que reúne todo lo anterior en un texto
+//
+// Ninguna pestaña importa a otra para repintarla: eso pasa por vpo-estado.js, y por eso las
+// dependencias van en una sola dirección. La nota sí lee datos de las demás, que es su
+// trabajo. Las pestañas se declaran en TABS y la barra solo se renderiza cuando hay más de
+// una, de modo que cada fase de desarrollo puede dar de alta la suya sin exponer pestañas
 // vacías en producción.
 
-import { calculators, combinedNote, DOMINIOS } from '../protocols/vpo-calc.js';
-import { farmacos, grupos as farmacoGrupos, CONDUCTAS } from '../protocols/vpo-farmacos.js';
-import { pasos, veredictos, TONOS, PRIMER_PASO, FUENTE as RUTA_FUENTE } from '../protocols/vpo-ruta.js';
-import { estudios, gruposEstudio, DISPARADORES } from '../protocols/vpo-estudios.js';
-import { mountCalculators, setCalcTopic, openCalc, openModalShell, setResultListener,
-  clearSharedValues, setSharedValues, setSharedListener } from './calculators.js';
+import { calculators, combinedNote } from '../protocols/vpo-calc.js';
+import { farmacos } from '../protocols/vpo-farmacos.js';
+import { estudios } from '../protocols/vpo-estudios.js';
+import { openCalc, setResultListener, setSharedListener } from './calculators.js';
 import { syncGet, syncSet } from './cloud-sync.js';
-import { loadTopic } from '../topics/registry.js';
-
-const TAB_KEY = 'rm:vpo:tab';
-const PACIENTE_KEY = 'rm:vpo:paciente';
-const FARMACOS_KEY = 'rm:vpo:farmacos';
-const RUTA_KEY = 'rm:vpo:ruta';
-const ACCENT = '#3d5a73';
-
-// El motor de calculadoras consume la forma { meta, calculators, combinedNote } de un tema.
-// VPO no es un tema, así que se le pasa este objeto sintético con el acento del área.
-const calcTopic = { meta: { accent: ACCENT }, calculators, combinedNote };
-
-// Escalas que ya viven en un tema de estudio y que la VPO necesita a menudo. Se enlazan en
-// vez de duplicarse: una segunda copia de Child-Pugh es una segunda copia que mantener.
-const ESCALAS_DE_TEMAS = [
-  { topicId: 'cirrosis-hepatica', key: 'childpugh', titulo: 'Child-Pugh', porque: 'Gravedad de la cirrosis: el riesgo quirúrgico del cirrótico se dispara a partir de Child-Pugh B.' },
-  { topicId: 'cirrosis-hepatica', key: 'meldna', titulo: 'MELD-Na', porque: 'Mortalidad a 90 días; orienta si conviene diferir una cirugía electiva en el paciente con hepatopatía.' },
-  { topicId: 'anemia-ferropenica', key: 'ganzoni', titulo: 'Fórmula de Ganzoni', porque: 'El déficit total de hierro, que es lo que hay que reponer cuando la anemia preoperatoria es ferropénica y no da tiempo al hierro oral.' },
-  { topicId: 'transfusion-hemoderivados', key: 'umbral-eritrocitos', titulo: 'Umbral de transfusión', porque: 'La anemia preoperatoria es el factor de riesgo modificable con mejor rendimiento, y el umbral para transfundir no es el mismo antes de operar que en el sangrado agudo.' },
-  { topicId: 'delirium-coma-encefalopatias', key: 'cam-delirium', titulo: 'CAM', porque: 'La escala de delirium de aquí estima el riesgo antes de operar; el CAM es con lo que se reconoce después, y sin cognición basal documentada no se puede aplicar.' },
-  { general: true, key: 'chadsvasc', titulo: 'CHA₂DS₂-VASc', porque: 'Es por donde empieza la valoración del paciente anticoagulado: dimensiona lo que se arriesga al suspender el anticoagulante, aunque no sea lo que decide el puente.' }
-];
-// Exportadas para tests.js: si alguien renombra una key en el tema de origen, el enlace queda
-// muerto sin hacer ruido, asi que la prueba recorre esta misma lista en vez de una copia.
-export { ESCALAS_DE_TEMAS };
-
-function mountEscalas(pane) {
-  mountCalculators(calcTopic, pane, {
-    grupos: DOMINIOS,
-    heading: 'Valoración preoperatoria (VPO)',
-    intro: 'Escalas de riesgo perioperatorio. La nota combinada incluye las 6 escalas de riesgo ya expandidas, ya que casi siempre se calculan juntas para el mismo paciente. El puente de anticoagulación va aparte: solo aplica al paciente anticoagulado.',
-    showExtras: false
-  });
-  const body = pane.querySelector('.sec-body');
-  if (!body) return;
-  // Una escala general (engine/general-calc.js) no pertenece a ningún tema, así que se abre
-  // directo: openCalc ya resuelve contra las generales cuando la key no es del tema activo.
-  const cards = ESCALAS_DE_TEMAS.map(e => `
-    <div class="comp-card" style="--c:${ACCENT}" onclick="${e.general ? `openCalc('${e.key}')` : `rmVpoEscalaTema('${e.topicId}','${e.key}')`}">
-      <h4>${e.titulo}</h4><p>${e.porque}</p>
-      <div class="open-hint">Abrir →</div>
-    </div>`).join('');
-  const extra = document.createElement('div');
-  extra.innerHTML = `
-    <h3 style="font-family:'Newsreader',serif;font-size:1.15rem;color:var(--ink);margin:28px 0 6px;">Escalas que viven en otro sitio</h3>
-    <p style="color:var(--ink-faint);font-size:12.5px;margin:0 0 12px;">Son de un tema de estudio o de las generales de la app; se abren desde aquí para no mantener una segunda copia.</p>
-    <div class="calc-launch-grid">${cards}</div>`;
-  body.appendChild(extra);
-}
-
-// Abre una calculadora que pertenece a un tema del registro. Carga el tema si hace falta
-// (ALL_TOPICS solo se puebla al visitar la sección Calc, así que no se puede dar por hecho)
-// y devuelve el contexto a VPO enseguida: una vez abierto, el modal ya no consulta
-// CALC_TOPIC, pero la siguiente escala de VPO que se abra sí lo hace.
-export async function abrirEscalaDeTema(topicId, key) {
-  const topic = await loadTopic(topicId);
-  if (!topic) return;
-  setCalcTopic(topic);
-  openCalc(key);
-  setCalcTopic(calcTopic);
-}
-
-/* ==================== Listas marcables (Fármacos y Estudios) ====================
-   Las dos pestañas comparten toda la mecánica: buscador que ignora acentos, acordeón por
-   grupo, chip de color y botón para marcar el ítem hacia la nota. Lo único que cambia son
-   los datos y cómo se rotula cada fila, así que se declara una vez y se instancia dos.
-   Antes eran seis pares de funciones casi idénticas, con el riesgo de arreglar un lado y
-   olvidar el otro. */
-
-// Normaliza para buscar sin acentos ni mayúsculas: "apixaban" debe encontrar "Apixában".
-function norm(s) {
-  return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-}
-
-const LISTAS = {};
-
-function listaMarcable(cfg) {
-  const { prefijo, clave, items, grupos, nombre, sub, chip, heno, tituloBoton, abrir } = cfg;
-  const marcados = () => syncGet(clave, {});
-
-  // La etiqueta del grupo entra en el pajar aunque no la escriba cada lista: el placeholder
-  // ofrece buscar "por grupo" y "esteroides" o "anticoagulantes" no devolvían nada, porque la
-  // palabra solo vive en el encabezado del acordeón y no en ninguna entrada.
-  const etiquetaGrupo = id => (grupos.find(g => g.id === id) || {}).label || '';
-  const coincide = (it, q) => {
-    if (!q) return true;
-    const texto = norm(heno(it) + ' ' + etiquetaGrupo(it.grupo));
-    return norm(q).split(/\s+/).filter(Boolean).every(t => texto.includes(t));
-  };
-
-  const filaHTML = (it, on) => {
-    const c = chip(it);
-    return `
-    <li class="vpo-drug${on ? ' marcada' : ''}" id="${prefijo}-${it.id}">
-      <button type="button" class="vpo-drug-main" onclick="${abrir}('${it.id}')">
-        <span class="vpo-drug-name">${nombre(it)}</span>
-        <span class="vpo-drug-sum">${sub(it)}</span>
-      </button>
-      <span class="vpo-chip" style="--chip:${c.color}">${c.label}</span>
-      <button type="button" class="vpo-drug-add" title="${tituloBoton}"
-        aria-pressed="${on}" onclick="rmVpoListaMarcar('${prefijo}','${it.id}', this)">${on ? '\u2713' : '+'}</button>
-    </li>`;
-  };
-
-  const listaHTML = q => {
-    const marks = marcados();
-    const bloques = grupos.map(g => {
-      const propios = items.filter(it => it.grupo === g.id && coincide(it, q));
-      if (!propios.length) return '';
-      return `
-      <section class="vpo-drug-group" style="--c:${g.accent}">
-        <h3>${g.label} <span class="vpo-drug-count">${propios.length}</span></h3>
-        <ul class="vpo-drug-list">${propios.map(it => filaHTML(it, !!marks[it.id])).join('')}</ul>
-      </section>`;
-    }).join('');
-    return bloques || `<p class="vpo-empty">Ningún resultado coincide con "${q}".</p>`;
-  };
-
-  const repintar = () => {
-    const caja = document.getElementById(prefijo + '-results');
-    if (caja) caja.innerHTML = listaHTML(((document.getElementById(prefijo + '-q') || {}).value || '').trim());
-  };
-
-  const toggle = (id, btn) => {
-    const marks = marcados();
-    if (marks[id]) delete marks[id]; else marks[id] = true;
-    syncSet(clave, marks);
-    const on = !!marks[id];
-    if (btn) {
-      btn.textContent = on ? '\u2713' : '+';
-      btn.setAttribute('aria-pressed', String(on));
-      const fila = document.getElementById(prefijo + '-' + id);
-      if (fila) fila.classList.toggle('marcada', on);
-    }
-  };
-
-  const api = { listaHTML, repintar, toggle, limpiar: () => { syncSet(clave, {}); repintar(); },
-                paraNota: () => items.filter(it => marcados()[it.id]) };
-  LISTAS[prefijo] = api;
-  return api;
-}
-
-window.rmVpoListaMarcar = (prefijo, id, btn) => { const l = LISTAS[prefijo]; if (l) l.toggle(id, btn); };
-window.rmVpoListaBuscar = prefijo => { const l = LISTAS[prefijo]; if (l) l.repintar(); };
-
-/* ==================== Pestaña: Fármacos ==================== */
-
-const byId = id => farmacos.find(f => f.id === id);
-const conducta = f => CONDUCTAS[f.conducta] || CONDUCTAS.individualizar;
-
-const listaFarmacos = listaMarcable({
-  prefijo: 'vpo-drug', clave: FARMACOS_KEY, items: farmacos, grupos: farmacoGrupos,
-  nombre: f => f.farmaco, sub: f => f.resumen, chip: conducta,
-  heno: f => [f.farmaco, f.resumen, (f.alias || []).join(' ')].join(' '),
-  tituloBoton: 'Añadir esta conducta a la nota de VPO', abrir: 'rmVpoFarmaco'
-});
-
-function mountFarmacos(pane) {
-  pane.innerHTML = `
-    <div class="sec-header">
-      <h2>Manejo perioperatorio de fármacos</h2>
-      <p>Qué suspender, qué continuar y cuándo reiniciar. Toca un fármaco para ver el detalle y la fuente;
-         el botón <strong>+</strong> marca su conducta para la nota de VPO.</p>
-    </div>
-    <div class="sec-body">
-      <div class="vpo-drug-search">
-        <input type="text" id="vpo-drug-q" autocomplete="off" placeholder="Buscar fármaco, hábito o grupo: apixaban, stent, esteroides, ayuno…"
-          oninput="rmVpoListaBuscar('vpo-drug')">
-      </div>
-      <div id="vpo-drug-results">${listaFarmacos.listaHTML('')}</div>
-    </div>`;
-}
-
-function bloqueHTML(titulo, cuerpo) {
-  return cuerpo ? `<h3 class="vpo-d-h">${titulo}</h3><div class="vpo-d-b">${cuerpo}</div>` : '';
-}
-
-// Distingue una recomendación formal de sociedad de una práctica aceptada sin guía propia.
-// Es información clínica: cambia cuánto peso darle frente al protocolo de la institución.
-function evidenciaHTML(nivel) {
-  const esGuia = nivel === 'guia';
-  return `<span class="vpo-ev ${esGuia ? 'vpo-ev-guia' : 'vpo-ev-consenso'}">${
-    esGuia ? 'Recomendación de guía' : 'Consenso de práctica'}</span>`;
-}
-
-export function abrirFarmaco(id) {
-  const f = byId(id);
-  if (!f) return;
-  const g = farmacoGrupos.find(x => x.id === f.grupo) || { accent: ACCENT, label: '' };
-  const c = conducta(f);
-  const riesgos = [
-    f.riesgoSuspender ? `<div class="val-row"><span class="val-name">Si se suspende<span class="val-note">${f.riesgoSuspender}</span></span></div>` : '',
-    f.riesgoContinuar ? `<div class="val-row"><span class="val-name">Si se continúa<span class="val-note">${f.riesgoContinuar}</span></span></div>` : ''
-  ].join('');
-  const notas = (f.notas && f.notas.length)
-    ? `<ul class="proto-keypoints">${f.notas.map(n => `<li>${n}</li>`).join('')}</ul>` : '';
-
-  openModalShell(g.accent, `
-    <button class="modal-close" onclick="closeModal()">\u2715</button>
-    <span class="modal-tag" style="color:${g.accent};">${g.label}</span>
-    <h2>${f.farmaco}</h2>
-    <p class="vpo-d-lead"><span class="vpo-chip" style="--chip:${c.color}">${c.label}</span> ${f.resumen}</p>
-    ${bloqueHTML('Antes de la cirugía', f.preop)}
-    ${bloqueHTML('Reinicio', f.postop)}
-    ${riesgos ? bloqueHTML('Riesgo de cada opción', `<div class="proto-drugs">${riesgos}</div>`) : ''}
-    ${notas ? bloqueHTML('Notas', notas) : ''}
-    <p class="proto-source">${evidenciaHTML(f.evidencia)} Fuente: ${f.fuente}</p>`);
-}
-
-export const toggleFarmacoNota = (id, btn) => listaFarmacos.toggle(id, btn);
-export const farmacosParaNota = () => listaFarmacos.paraNota();
-export const buscarFarmaco = () => listaFarmacos.repintar();
-
-/* ==================== Pestaña: Ruta ==================== */
-// Asistente paso a paso del algoritmo ACC/AHA 2024. El estado es el camino recorrido:
-// un array de { paso, opcion } más el veredicto al que llegó. Se guarda con la estrategia
-// escalar (gana el último dispositivo), porque un camino de decisiones no se puede unir
-// con otro sin producir ramas contradictorias.
-
-function rutaEstado() {
-  const st = syncGet(RUTA_KEY, null);
-  return st && Array.isArray(st.camino) ? st : { camino: [], veredicto: null };
-}
-function guardarRuta(st) { syncSet(RUTA_KEY, st); }
-
-function pasoActual(st) {
-  if (st.veredicto) return null;
-  if (!st.camino.length) return pasos[PRIMER_PASO];
-  const ultimo = st.camino[st.camino.length - 1];
-  return pasos[ultimo.siguiente] || null;
-}
-
-function migaHTML(st) {
-  if (!st.camino.length) return '';
-  const items = st.camino.map((c, i) => {
-    const p = pasos[c.paso];
-    return `<li><span class="vpo-miga-paso">${p ? p.titulo : c.paso}</span>
-      <button type="button" class="vpo-miga-op" onclick="rmVpoRutaVolver(${i})"
-        title="Volver a este paso y cambiar la respuesta">${c.label}</button></li>`;
-  }).join('');
-  return `<ol class="vpo-miga">${items}</ol>`;
-}
-
-// Colores de la lectura automatica de un paso (ver `lectura` en el contrato de vpo-ruta.js).
-const TONOS_LECTURA = { elevado: '#8c3a34', bajo: '#3f6b52', mixto: '#966b35' };
-
-// Lo que ya se calculo para este paciente se repite bajo el paso: la pregunta se contesta
-// mirando el numero, y tenerlo que recordar de otra pestana es justo lo que se queria evitar.
-// Vale igual para un paso y para un veredicto: los dos pueden declarar `herramientas`.
-function herramientasHTML(p) {
-  if (!p.herramientas || !p.herramientas.length) return '';
-  const calculadas = escalasGuardadas();
-  const botones = p.herramientas.map(h => h.tipo === 'estudio'
-    ? `<button type="button" class="calc-btn" onclick="rmVpoEstudio('${h.key}')">${h.label}</button>`
-    : `<button type="button" class="calc-btn" onclick="rmVpoRutaEscala('${h.key}')">Calcular ${h.label}</button>`
-  ).join('');
-  const hechas = p.herramientas
-    .filter(h => h.tipo !== 'estudio' && calculadas[h.key])
-    .map(h => `<li>${calculadas[h.key].frase}.</li>`).join('');
-  // Algunos pasos saben leer lo que ya se calculo y decir hacia donde apunta. No contestan por
-  // el usuario: el umbral es de la guia, pero la decision sigue siendo suya.
-  const lectura = typeof p.lectura === 'function' ? p.lectura(calculadas) : null;
-  const cajaLectura = lectura
-    ? `<div class="vpo-lectura" style="--v:${(TONOS_LECTURA[lectura.tono] || TONOS_LECTURA.mixto)}">${lectura.texto}</div>`
-    : '';
-  return `
-    <div class="vpo-paso-tools">${botones}</div>
-    ${hechas ? `<ul class="vpo-paso-hechas cr-list">${hechas}</ul>` : ''}
-    ${cajaLectura}`;
-}
-
-function pasoHTML(p) {
-  const opciones = p.opciones.map((o, i) => `
-    <button type="button" class="vpo-op" onclick="rmVpoRutaElegir(${i})">
-      <span class="vpo-op-label">${o.label}</span>
-      ${o.nota ? `<span class="vpo-op-nota">${o.nota}</span>` : ''}
-    </button>`).join('');
-  return `
-    <div class="vpo-paso">
-      <span class="vpo-paso-tag">${p.titulo}</span>
-      <h3>${p.pregunta}</h3>
-      ${p.ayuda ? `<p class="vpo-paso-ayuda">${p.ayuda}</p>` : ''}
-      ${herramientasHTML(p)}
-      ${p.detalle ? `<div class="calc-note">${p.detalle}</div>` : ''}
-      <div class="vpo-op-grid">${opciones}</div>
-    </div>`;
-}
-
-function veredictoHTML(id) {
-  const v = veredictos[id];
-  if (!v) return '';
-  const t = TONOS[v.tono] || TONOS.proceder;
-  const acciones = (v.acciones && v.acciones.length)
-    ? `<ul class="proto-keypoints">${v.acciones.map(a => `<li>${a}</li>`).join('')}</ul>` : '';
-  return `
-    <div class="vpo-veredicto" style="--v:${t.color}">
-      <span class="vpo-chip" style="--chip:${t.color}">${t.label}</span>
-      <h3>${v.titulo}</h3>
-      <p>${v.texto}</p>
-      ${acciones}
-      ${herramientasHTML(v)}
-      ${v.nota ? `<div class="calc-note">${v.nota}</div>` : ''}
-    </div>`;
-}
-
-function rutaCuerpoHTML() {
-  const st = rutaEstado();
-  const p = pasoActual(st);
-  const cuerpo = st.veredicto ? veredictoHTML(st.veredicto) : (p ? pasoHTML(p) : '');
-  const acciones = st.camino.length
-    ? `<button type="button" class="proto-reset" onclick="rmVpoRutaReiniciar()">Empezar de nuevo</button>` : '';
-  return `${migaHTML(st)}${cuerpo}${acciones}
-    <p class="proto-source">Fuente: ${RUTA_FUENTE}</p>`;
-}
-
-function pintarRuta() {
-  const box = document.getElementById('vpo-ruta-body');
-  if (box) box.innerHTML = rutaCuerpoHTML();
-}
-
-function mountRuta(pane) {
-  pane.innerHTML = `
-    <div class="sec-header">
-      <h2>Ruta perioperatoria</h2>
-      <p>El enfoque por pasos de la evaluación cardiaca preoperatoria. Responde cada pregunta y la ruta
-         llega a una conducta concreta; puedes volver a cualquier paso para cambiar la respuesta.</p>
-    </div>
-    <div class="sec-body">
-      <div class="calc-note" style="margin-bottom:18px;">La propia guía advierte que los desenlaces del
-        cuidado guiado por este algoritmo no se han estudiado de forma prospectiva: es una ayuda de
-        decisión, no un sustituto del juicio clínico.</div>
-      <div id="vpo-ruta-body">${rutaCuerpoHTML()}</div>
-    </div>`;
-}
-
-export function rutaElegir(i) {
-  const st = rutaEstado();
-  const p = pasoActual(st);
-  if (!p) return;
-  const op = p.opciones[i];
-  if (!op) return;
-  const d = op.destino || {};
-  st.camino.push({ paso: p.id, label: op.label, siguiente: d.paso || null });
-  st.veredicto = d.veredicto || null;
-  guardarRuta(st);
-  pintarRuta();
-}
-
-// Vuelve al paso de índice i: descarta ese paso y todo lo que vino después, para poder
-// cambiar la respuesta sin reiniciar la ruta entera.
-export function rutaVolver(i) {
-  const st = rutaEstado();
-  st.camino = st.camino.slice(0, i);
-  st.veredicto = null;
-  guardarRuta(st);
-  pintarRuta();
-}
-
-export function rutaReiniciar() {
-  guardarRuta({ camino: [], veredicto: null });
-  pintarRuta();
-}
-
-// Consumido por la pestaña Nota (fase 5).
-export function rutaParaNota() {
-  const st = rutaEstado();
-  if (!st.veredicto) return null;
-  return { camino: st.camino.map(c => ({ paso: (pasos[c.paso] || {}).titulo || c.paso, respuesta: c.label })),
-           veredicto: veredictos[st.veredicto] };
-}
-
-/* ==================== Pestaña: Estudios ==================== */
-// Misma mecánica que Fármacos (ver listaMarcable). Lo que cambia es el énfasis: cada entrada
-// declara tanto sus indicaciones como el escenario en el que NO se pide, que es donde está el
-// error frecuente.
-
-const ESTUDIOS_KEY = 'rm:vpo:estudios';
-const estudioPorId = id => estudios.find(e => e.id === id);
-// El chip dice qué dispara cada estudio, no si es "de rutina": ninguno lo es, así que esa
-// etiqueta salía idéntica en los catorce y no ayudaba a decidir nada.
-const chipEstudio = e => ({
-  label: e.disparador.label,
-  color: (DISPARADORES[e.disparador.tipo] || DISPARADORES.clinica).color
-});
-
-const listaEstudios = listaMarcable({
-  prefijo: 'vpo-est', clave: ESTUDIOS_KEY, items: estudios, grupos: gruposEstudio,
-  nombre: e => e.estudio, sub: e => e.resumen, chip: chipEstudio,
-  heno: e => [e.estudio, e.resumen, e.noIndicado, e.disparador.label, (e.alias || []).join(' ')].join(' '),
-  tituloBoton: 'Marcar como solicitado en la nota de VPO', abrir: 'rmVpoEstudio'
-});
-
-function mountEstudios(pane) {
-  pane.innerHTML = `
-    <div class="sec-header">
-      <h2>Estudios preoperatorios</h2>
-      <p>Cuándo se pide cada estudio y, sobre todo, cuándo no. Ninguno se solicita a todo paciente:
-         el botón <strong>+</strong> marca los que sí indicaste para que entren en la nota.</p>
-    </div>
-    <div class="sec-body">
-      <div class="calc-note" style="margin-bottom:18px;">La pregunta que filtra cualquier estudio es siempre
-        la misma: <strong>¿qué haría distinto si el resultado sale anormal?</strong> Si la respuesta es "nada",
-        el estudio solo retrasa la cirugía y abre una cascada diagnóstica con riesgo propio.
-        <br>Varias indicaciones dependen de que la cirugía sea de <strong>riesgo elevado</strong>, que la guía
-        define combinando paciente y procedimiento: riesgo de evento cardiovascular mayor de 1 % o más
-        (por debajo de 1 % es riesgo bajo).</div>
-      <div class="vpo-drug-search">
-        <input type="text" id="vpo-est-q" autocomplete="off" placeholder="Buscar estudio: electrocardiograma, coagulación, tórax…"
-          oninput="rmVpoListaBuscar('vpo-est')">
-      </div>
-      <div id="vpo-est-results">${listaEstudios.listaHTML('')}</div>
-    </div>`;
-}
-
-export function abrirEstudio(id) {
-  const e = estudioPorId(id);
-  if (!e) return;
-  const g = gruposEstudio.find(x => x.id === e.grupo) || { accent: ACCENT, label: '' };
-  const lista = arr => `<ul class="proto-keypoints">${arr.map(x => `<li>${x}</li>`).join('')}</ul>`;
-  openModalShell(g.accent, `
-    <button class="modal-close" onclick="closeModal()">\u2715</button>
-    <span class="modal-tag" style="color:${g.accent};">${g.label}</span>
-    <h2>${e.estudio}</h2>
-    ${bloqueHTML('Cuándo sí pedirlo', lista(e.indicaciones))}
-    ${bloqueHTML('Cuándo no pedirlo', e.noIndicado)}
-    ${e.vigencia ? bloqueHTML('Vigencia', e.vigencia) : ''}
-    ${(e.notas && e.notas.length) ? bloqueHTML('Notas', lista(e.notas)) : ''}
-    <p class="proto-source">Fuente: ${e.fuente}</p>`);
-}
-
-// Exportadas solo para tests.js: la búsqueda se resuelve al pintar la lista (el pajar incluye
-// alias y etiqueta de grupo), así que probar los datos de cada entrada no la cubre.
-export const listaFarmacosHTML = q => listaFarmacos.listaHTML(q);
-export const listaEstudiosHTML = q => listaEstudios.listaHTML(q);
-
-export const toggleEstudioNota = (id, btn) => listaEstudios.toggle(id, btn);
-export const estudiosParaNota = () => listaEstudios.paraNota();
-export const buscarEstudio = () => listaEstudios.repintar();
-
-// Entrada desde el buscador global a un estudio concreto.
-export function openVpoEstudio(id) {
-  showTab('estudios', { scroll: false });
-  abrirEstudio(id);
-}
-
-/* ==================== Pestaña: Nota ==================== */
-// Reúne lo de las otras tres pestañas en un texto listo para el expediente. Los resultados de
-// las escalas llegan por el aviso que expone engine/calculators.js: cada vez que una escala de
-// VPO da resultado se guarda su fragmento, que es la frase clínica compacta pensada justo para
-// esto. Todo se guarda por paciente y se limpia con "Paciente nuevo".
-
-const ESCALAS_KEY = 'rm:vpo:escalas';
-// El orden de la nota y el reparto entre sus bloques salen del propio descriptor de cada
-// escala (`dominio` y `bloqueNota`, ver protocols/vpo-calc.js), agrupando por dominio clínico
-// en el orden de DOMINIOS. Antes eran dos listas escritas a mano aquí, y añadir una escala
-// obligaba a acordarse de las dos: la que se olvidara se calculaba pero no salía en la nota.
-// Se sigue exportando ORDEN_NOTA porque tests.js comprueba contra ella que no falte ninguna.
-const porDominio = (a, b) => {
-  const i = k => { const n = DOMINIOS.findIndex(d => d.id === k.dominio); return n === -1 ? DOMINIOS.length : n; };
-  return i(a) - i(b) || calculators.indexOf(a) - calculators.indexOf(b);
-};
-export const ORDEN_NOTA = [...calculators].sort(porDominio).map(c => c.key);
-// Las que, aun calculándose como escalas, no estiman un riesgo: dicen qué optimizar antes de
-// operar, deciden una conducta con un fármaco, o dejan indicada una vigilancia para después.
-const delBloque = b => calculators.filter(c => c.bloqueNota === b).map(c => c.key);
-const EN_FARMACOS = delBloque('farmacos');
-const EN_VIGILANCIA = delBloque('vigilancia');
-const EN_OPTIMIZACION = delBloque('optimizacion');
-
-function escalasGuardadas() { return syncGet(ESCALAS_KEY, {}); }
-
-// Recoge el resultado de una escala de VPO. Un resultado null (faltan datos) borra lo que
-// hubiera: si el usuario vacía un campo, la nota no debe seguir citando el número anterior.
-// `inicial` marca el cálculo que el motor hace solo al abrir la calculadora, sobre los valores
-// por defecto: ese número no lo ha afirmado nadie, así que no entra en la nota de un paciente
-// ni borra lo que ya había calculado antes. Abrir una escala para mirarla, desde aquí o desde
-// el tema de estudio, no debe escribir nada en el expediente.
-function recogerResultado(key, r, calc, inicial) {
-  if (!calculators.some(c => c.key === key)) return; // solo escalas de VPO
-  if (inicial) return;
-  const guardadas = escalasGuardadas();
-  if (r === null || r === undefined) {
-    if (!guardadas[key]) return;
-    delete guardadas[key];
-  } else {
-    const frase = calc.fragment ? calc.fragment(r) : calc.format(r);
-    if (guardadas[key] && guardadas[key].frase === frase) return; // sin cambios, no reescribir
-    // Junto a la frase se guarda el resultado en crudo: la nota solo necesita el texto, pero la
-    // ruta lee los numeros para decir que dicen las escalas sobre el umbral de su paso.
-    guardadas[key] = { titulo: calc.title, frase, valor: r, ts: Date.now() };
-  }
-  syncSet(ESCALAS_KEY, guardadas);
-  if (ACTIVE === 'nota') pintarNota();
-  // Si la escala se abrio desde un paso de la ruta, el paso tiene que ensenar ya el resultado.
-  if (ACTIVE === 'ruta') pintarRuta();
-}
-
-function seccionNota(titulo, cuerpo) {
-  return cuerpo ? `<section class="vpo-nota-sec"><h3>${titulo}</h3>${cuerpo}</section>` : '';
-}
-
-// Exportada para tests.js: que cada cosa caiga en su seccion es contenido clinico, no
-// maquetacion, y se comprueba sobre el HTML que se genera.
-export function notaHTML() {
-  const escalas = escalasGuardadas();
-  const ruta = rutaParaNota();
-  const drogas = farmacosParaNota();
-
-  const bloqueRuta = ruta ? `
-    <p><strong>${ruta.veredicto.titulo}.</strong> ${ruta.veredicto.texto}</p>
-    <ul class="cr-list">${ruta.veredicto.acciones.map(a => `<li>${a}</li>`).join('')}</ul>
-    <p class="vpo-nota-fina">Ruta recorrida: ${ruta.camino.map(c => `${c.paso} (${c.respuesta})`).join(' → ')}.</p>` : '';
-
-  // No todas las escalas estiman un riesgo: unas dicen qué optimizar antes de operar, otras
-  // qué hacer con un fármaco y otras qué vigilar después. Cada una se lee en su bloque.
-  const fuera = [...EN_FARMACOS, ...EN_VIGILANCIA, ...EN_OPTIMIZACION];
-  const usadas = ORDEN_NOTA.filter(k => escalas[k] && !fuera.includes(k));
-  const bloqueEscalas = usadas.length
-    ? `<ul class="cr-list">${usadas.map(k => `<li>${escalas[k].frase}.</li>`).join('')}</ul>` : '';
-
-  const antitrombotico = EN_FARMACOS.filter(k => escalas[k]);
-  const bloqueFarmacos = (antitrombotico.length || drogas.length)
-    ? `<ul class="cr-list">${antitrombotico.map(k => `<li>${escalas[k].frase}.</li>`).join('')}${drogas.map(f => {
-        const c = conducta(f);
-        return `<li><strong>${f.farmaco}</strong> (${c.label.toLowerCase()}): ${f.resumen} ${f.postop}</li>`;
-      }).join('')}</ul>` : '';
-
-  // Lo que se puede mejorar antes de operar va junto, y antes de los fármacos: es lo que da
-  // sentido a adelantar la valoración en vez de hacerla la víspera.
-  const optimizables = EN_OPTIMIZACION.filter(k => escalas[k]);
-  const bloqueOptimizacion = optimizables.length
-    ? `<ul class="cr-list">${optimizables.map(k => `<li>${escalas[k].frase}.</li>`).join('')}</ul>` : '';
-
-  // Lo que hay que vigilar después cierra la nota, que es donde se lee: una valoración
-  // preoperatoria que no dice qué mirar en el posoperatorio deja el trabajo a medias.
-  const vigiladas = EN_VIGILANCIA.filter(k => escalas[k]);
-  const bloqueVigilancia = vigiladas.length
-    ? `<ul class="cr-list">${vigiladas.map(k => `<li>${escalas[k].frase}.</li>`).join('')}</ul>` : '';
-
-  const pedidos = estudiosParaNota();
-  // En la nota va solo el nombre: la indicación completa de cada estudio es un párrafo entero
-  // y convierte la lista en algo ilegible. El porqué ya quedó razonado al marcarlo.
-  const bloqueEstudios = pedidos.length
-    ? `<p>Se solicitan: ${pedidos.map(e => e.estudio.toLowerCase()).join(', ')}.</p>` : '';
-
-  const ficha = resumenPaciente(pacienteGuardado(), { largo: true });
-  // La nota acaba en un expediente: lleva la fecha en que se escribe, y el paciente y el
-  // procedimiento salen de la ficha.
-  const fecha = new Date().toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
-  const bloqueFicha = `<p class="vpo-nota-paciente">${ficha ? ficha + '. ' : ''}<span class="vpo-nota-fecha">Valoración del ${fecha}.</span></p>`;
-
-  const vacia = !bloqueRuta && !bloqueEscalas && !bloqueFarmacos && !bloqueEstudios
-    && !bloqueVigilancia && !bloqueOptimizacion;
-  if (vacia) {
-    return `<p class="vpo-empty">Todavía no hay nada que reunir. Recorre la <button type="button" class="vpo-inline-link" onclick="rmVpoTab('ruta')">Ruta</button>,
-      calcula alguna <button type="button" class="vpo-inline-link" onclick="rmVpoTab('escalas')">Escala</button>, marca conductas en
-      <button type="button" class="vpo-inline-link" onclick="rmVpoTab('farmacos')">Fármacos</button> o estudios en
-      <button type="button" class="vpo-inline-link" onclick="rmVpoTab('estudios')">Estudios</button>, y la nota se arma sola.</p>`;
-  }
-
-  return `
-    <div class="calc-result vpo-nota-caja">
-      <span class="cr-label">Nota de valoración preoperatoria</span>
-      <div class="cr-text" id="vpo-nota-texto">
-        ${bloqueFicha}
-        ${seccionNota('Conducta', bloqueRuta)}
-        ${seccionNota('Riesgo estimado', bloqueEscalas)}
-        ${seccionNota('Optimización preoperatoria', bloqueOptimizacion)}
-        ${seccionNota('Manejo perioperatorio de fármacos', bloqueFarmacos)}
-        ${seccionNota('Estudios solicitados', bloqueEstudios)}
-        ${seccionNota('Vigilancia posoperatoria', bloqueVigilancia)}
-      </div>
-      <div class="vpo-nota-acciones">
-        <button class="calc-copy" onclick="rmVpoNotaCopiar(this)">Copiar nota</button>
-        <button type="button" class="calc-btn" onclick="rmVpoNotaImprimir()">Imprimir</button>
-      </div>
-    </div>`;
-}
-
-function pintarNota() {
-  const box = document.getElementById('vpo-nota-body');
-  if (box) box.innerHTML = notaHTML();
-}
-
-function mountNota(pane) {
-  pane.innerHTML = `
-    <div class="sec-header">
-      <h2>Nota de VPO</h2>
-      <p>Reúne el veredicto de la ruta, las escalas que hayas calculado y las conductas de fármacos que
-         hayas marcado. Se actualiza sola conforme trabajas en las otras pestañas.</p>
-    </div>
-    <div class="sec-body">
-      <div id="vpo-nota-body">${notaHTML()}</div>
-      <button type="button" class="proto-reset" style="margin-top:18px" onclick="rmVpoNuevoPaciente()">Paciente nuevo: limpiar todo</button>
-      <p class="proto-source">Material de apoyo: la nota es un borrador para el expediente, no sustituye el juicio clínico ni la valoración por anestesiología.</p>
-    </div>`;
-}
-
-// Imprime solo la nota: la clase en <body> deja visible la caja de la nota y esconde el resto
-// (ver @media print en styles.css). Se quita al volver, y tambien si el navegador avisa con
-// afterprint, porque en algunos el dialogo no bloquea.
-export function imprimirNota() {
-  document.body.classList.add('imprimiendo-nota');
-  const limpiar = () => document.body.classList.remove('imprimiendo-nota');
-  window.addEventListener('afterprint', limpiar, { once: true });
-  try { window.print(); } finally { limpiar(); }
-}
-
-export function copiarNota(btn) {
-  const el = document.getElementById('vpo-nota-texto');
-  if (!el) return;
-  const txt = (el.innerText || el.textContent).replace(/\n{3,}/g, '\n\n').trim();
-  navigator.clipboard.writeText(txt).then(() => {
-    const old = btn.textContent;
-    btn.textContent = 'Copiado ✓';
-    setTimeout(() => { btn.textContent = old; }, 1400);
-  }).catch(() => {});
-}
-
-// Limpia todo lo que es de un paciente concreto: ruta, fármacos marcados y escalas calculadas.
-// La pestaña activa no se toca, porque es una preferencia de uso, no un dato del paciente.
-export function nuevoPaciente() {
-  syncSet(RUTA_KEY, { camino: [], veredicto: null });
-  syncSet(ESCALAS_KEY, {});
-  syncSet(PACIENTE_KEY, {});
-  clearSharedValues();
-  pintarFicha();
-  listaFarmacos.limpiar();
-  listaEstudios.limpiar();
-  pintarNota();
-  const ruta = document.getElementById('vpo-ruta-body');
-  if (ruta) ruta.innerHTML = rutaCuerpoHTML();
-}
-
-/* ==================== Ficha del paciente ====================
-   Los datos que varias escalas repiten (edad, sexo, peso, creatinina, clase ASA, estado
-   funcional y tipo de cirugía) vivían solo dentro de cada calculadora: el motor los copiaba
-   entre las escalas abiertas, pero se perdían al recargar y no cruzaban de dispositivo. Aquí
-   tienen una casa única, sincronizada como el resto del borrador del paciente. Da igual dónde
-   se escriba el dato: el motor avisa de cualquier cambio (setSharedListener) y la ficha le
-   siembra lo que guarda (setSharedValues), de modo que los dos lados dicen lo mismo.
-
-   Las opciones de cirugía, clase ASA y estado funcional no se escriben otra vez: se leen del
-   descriptor de la escala que ya las declara, para que añadir un tipo de cirugía siga siendo
-   un cambio en un solo sitio. */
-
-const campoDe = (key, name) => {
-  const calc = calculators.find(c => c.key === key);
-  return (calc && calc.fields.find(f => f.name === name)) || { options: [] };
-};
-const opcionesCirugia = () => campoDe('guptamica', 'surg').options;
-const opcionesAsa = () => campoDe('guptamica', 'asa').options;
-const opcionesFunc = () => campoDe('guptamica', 'func').options;
-
-const FICHA_CAMPOS = ['edad', 'sexo', 'peso', 'creatinina', 'asa', 'func', 'surg'];
-// La ficha habla el mismo idioma que los campos compartidos del motor, salvo la edad, que allí
-// se llama 'age' porque así la declaran las escalas.
-const A_SHARED = { edad: 'age', sexo: 'sexo', peso: 'peso', creatinina: 'creatinina',
-                   asa: 'asa', func: 'func', surg: 'surg' };
-
-function pacienteGuardado() {
-  const p = syncGet(PACIENTE_KEY, {});
-  return (p && typeof p === 'object') ? p : {};
-}
-function guardarPaciente(p) { syncSet(PACIENTE_KEY, p); }
-
-// Del motor a la ficha: un campo compartido que cambie DENTRO de una escala también se guarda.
-function recogerCompartidos(valores) {
-  const p = pacienteGuardado();
-  let cambio = false;
-  FICHA_CAMPOS.forEach(c => {
-    const v = valores[A_SHARED[c]];
-    if (v === undefined || v === null || v === '') return;
-    if (String(p[c]) === String(v)) return;
-    p[c] = String(v);
-    cambio = true;
-  });
-  if (!cambio) return;
-  guardarPaciente(p);
-  pintarResumenFicha();
-}
-
-// De la ficha al motor.
-function sembrarCompartidos() {
-  const p = pacienteGuardado();
-  const out = {};
-  FICHA_CAMPOS.forEach(c => { if (p[c] !== undefined && p[c] !== '') out[A_SHARED[c]] = p[c]; });
-  setSharedValues(out);
-}
-
-const etiquetaOpcion = (opciones, valor) => {
-  const o = opciones.find(x => String(x.value) === String(valor));
-  return o ? o.label : valor;
-};
-const SEXO_LABEL = { m: 'Varón', f: 'Mujer' };
-
-// Resumen de una línea: corto para la cabecera plegada, largo para encabezar la nota.
-// Exportado para tests.js: es una función pura y es lo que acaba en el expediente.
-export function resumenPaciente(p, { largo = false } = {}) {
-  const partes = [];
-  const sexo = SEXO_LABEL[p.sexo];
-  if (p.edad && sexo) partes.push(`${sexo} de ${p.edad} años`);
-  else if (p.edad) partes.push(`${p.edad} años`);
-  else if (sexo) partes.push(sexo);
-  if (largo && p.peso) partes.push(`${p.peso} kg`);
-  if (largo && p.creatinina) partes.push(`creatinina de ${p.creatinina} mg/dL`);
-  if (p.asa) partes.push(`ASA ${etiquetaOpcion(opcionesAsa(), p.asa)}`);
-  if (largo && p.func) partes.push(`estado funcional ${etiquetaOpcion(opcionesFunc(), p.func).toLowerCase()}`);
-  // El tipo de cirugía se imprime tal cual, sin intentar concordarlo: las 21 etiquetas son
-  // heterogéneas ("Aórtica", "Hernia", "Intestino (bajo el duodeno...)") y cualquier
-  // plantilla produce alguna frase rota. El "(referencia)" de la hernia es del modelo de
-  // Gupta, no del paciente, así que no entra en la nota.
-  if (p.surg) partes.push(`cirugía: ${etiquetaOpcion(opcionesCirugia(), p.surg).replace(' (referencia)', '')}`);
-  if (!partes.length) return '';
-  const texto = partes.join(', ');
-  return texto.charAt(0).toUpperCase() + texto.slice(1);
-}
-
-let FICHA_ABIERTA = false;
-
-function fichaCuerpoHTML() {
-  const p = pacienteGuardado();
-  const val = c => (p[c] === undefined ? '' : p[c]);
-  const opts = (c, opciones) => opciones.map(o =>
-    `<option value="${o.value}"${String(val(c)) === String(o.value) ? ' selected' : ''}>${o.label}</option>`).join('');
-  const numero = (c, label, ph, step) => `
-    <div class="calc-field"><label for="vpf-${c}">${label}</label>
-      <input type="number" id="vpf-${c}"${step ? ` step="${step}"` : ''} placeholder="${ph}" value="${val(c)}"
-        oninput="rmVpoFicha('${c}', this.value)"></div>`;
-  const lista = (c, label, opciones) => `
-    <div class="calc-field"><label for="vpf-${c}">${label}</label>
-      <select id="vpf-${c}" onchange="rmVpoFicha('${c}', this.value)">
-        <option value="">Sin dato</option>${opts(c, opciones)}</select></div>`;
-  return `
-    <div class="vpo-ficha-grid">
-      ${numero('edad', 'Edad (años)', 'ej. 72')}
-      ${lista('sexo', 'Sexo', [{ value: 'm', label: 'Varón' }, { value: 'f', label: 'Mujer' }])}
-      ${numero('peso', 'Peso (kg)', 'ej. 70')}
-      ${numero('creatinina', 'Creatinina (mg/dL)', 'ej. 1.2', '0.01')}
-      ${lista('asa', 'Clase ASA', opcionesAsa())}
-      ${lista('func', 'Estado funcional', opcionesFunc())}
-      ${lista('surg', 'Cirugía prevista', opcionesCirugia())}
-    </div>
-    <p class="vpo-ficha-pie">Lo que escribas aquí llega relleno a todas las escalas, y al revés: lo que
-      escribas dentro de una escala se guarda aquí. La creatinina marca sola los umbrales del índice de
-      Lee (más de 2.0) y de Gupta-MICA (1.5 o más). Se borra con <strong>Paciente nuevo</strong>.</p>`;
-}
-
-function fichaHTML() {
-  const resumen = resumenPaciente(pacienteGuardado());
-  return `
-    <section class="vpo-ficha${FICHA_ABIERTA ? ' abierta' : ''}" id="vpo-ficha">
-      <button type="button" class="vpo-ficha-cab" onclick="rmVpoFichaPlegar()" aria-expanded="${FICHA_ABIERTA}">
-        <span class="vpo-ficha-tit">Paciente</span>
-        <span class="vpo-ficha-resumen" id="vpo-ficha-resumen">${resumen || 'Sin datos todavía'}</span>
-        <span class="vpo-ficha-mas">${FICHA_ABIERTA ? 'Ocultar' : 'Editar'}</span>
-      </button>
-      <div class="vpo-ficha-cuerpo" style="display:${FICHA_ABIERTA ? 'block' : 'none'}">${
-        FICHA_ABIERTA ? fichaCuerpoHTML() : ''}</div>
-    </section>`;
-}
-
-function pintarResumenFicha() {
-  const el = document.getElementById('vpo-ficha-resumen');
-  if (el) el.textContent = resumenPaciente(pacienteGuardado()) || 'Sin datos todavía';
-}
-
-function pintarFicha() {
-  const el = document.getElementById('vpo-ficha');
-  if (el) el.outerHTML = fichaHTML();
-}
-
-export function fichaPlegar() {
-  FICHA_ABIERTA = !FICHA_ABIERTA;
-  pintarFicha();
-}
-
-// Guarda, siembra y refresca el resumen y la nota, pero NO repinta el formulario: repintarlo
-// robaría el foco a media cifra.
-export function fichaCampo(campo, valor) {
-  if (!FICHA_CAMPOS.includes(campo)) return;
-  const p = pacienteGuardado();
-  if (valor === '' || valor === null || valor === undefined) delete p[campo];
-  else p[campo] = String(valor);
-  guardarPaciente(p);
-  if (p[campo] === undefined) {
-    // Borrar un dato no puede dejar puesto el anterior, y los valores compartidos no saben
-    // quitar uno: se vacían y se vuelve a sembrar lo que queda en la ficha.
-    clearSharedValues();
-    sembrarCompartidos();
-  } else {
-    setSharedValues({ [A_SHARED[campo]]: p[campo] });
-  }
-  pintarResumenFicha();
-  if (ACTIVE === 'nota') pintarNota();
-}
+import { TAB_KEY, limpiarEscalas, recogerResultado, setPestanaActiva } from './vpo-estado.js';
+import { fichaCampo, fichaHTML, fichaPlegar, limpiarPaciente,
+  recogerCompartidos, sembrarCompartidos } from './vpo-ficha.js';
+import { abrirEscalaDeTema, abrirEscalaDesdeRuta, enfocarEscalas, mountEscalas } from './vpo-escalas.js';
+import { mountRuta, rutaElegir, rutaReiniciar, rutaVolver } from './vpo-ruta.js';
+import { abrirFarmaco, limpiarFarmacos, mountFarmacos } from './vpo-farmacos.js';
+import { abrirEstudio, limpiarEstudios, mountEstudios } from './vpo-estudios.js';
+import { copiarNota, imprimirNota, mountNota, pintarNota } from './vpo-nota.js';
+
+// Lo que la sección ofrecía antes desde un solo archivo se sigue ofreciendo desde aquí: app.js
+// y tests.js importan de engine/vpo.js, no de las partes. Lo que esta de paso, de paso; lo que
+// además se usa aquí, en el bloque de arriba.
+export { ESCALAS_DE_TEMAS } from './vpo-escalas.js';
+export { rutaParaNota } from './vpo-ruta.js';
+export { toggleFarmacoNota, farmacosParaNota, buscarFarmaco, listaFarmacosHTML } from './vpo-farmacos.js';
+export { toggleEstudioNota, estudiosParaNota, buscarEstudio, listaEstudiosHTML } from './vpo-estudios.js';
+export { ORDEN_NOTA, notaHTML } from './vpo-nota.js';
+export { resumenPaciente } from './vpo-ficha.js';
+export { abrirEscalaDeTema, abrirEscalaDesdeRuta, rutaElegir, rutaVolver, rutaReiniciar,
+  abrirFarmaco, abrirEstudio, imprimirNota, copiarNota, fichaCampo, fichaPlegar };
 
 // focus() se ejecuta cada vez que la pestaña vuelve a quedar activa. Escalas lo necesita
 // porque la sección Calc reapunta CALC_TOPIC a otro tema al abrir una calculadora desde ahí.
 const TABS = [
   { id: 'ruta', label: 'Ruta', mount: mountRuta },
-  { id: 'escalas', label: 'Escalas', mount: mountEscalas, focus: () => setCalcTopic(calcTopic) },
+  { id: 'escalas', label: 'Escalas', mount: mountEscalas, focus: enfocarEscalas },
   { id: 'farmacos', label: 'Fármacos', mount: mountFarmacos },
   { id: 'estudios', label: 'Estudios', mount: mountEstudios },
   { id: 'nota', label: 'Nota', mount: mountNota, focus: pintarNota }
@@ -827,6 +59,18 @@ const TABS = [
 
 let ROOT = null;
 let ACTIVE = null;
+
+// Limpia todo lo que es de un paciente concreto: ruta, ficha, fármacos y estudios marcados y
+// escalas calculadas. La pestaña activa no se toca, porque es una preferencia de uso, no un
+// dato del paciente. Vive aquí porque es la única acción que cruza las cinco pestañas.
+export function nuevoPaciente() {
+  rutaReiniciar();
+  limpiarEscalas();
+  limpiarPaciente();
+  limpiarFarmacos();
+  limpiarEstudios();
+  pintarNota();
+}
 
 // La barra es un juego de pestañas de verdad, no cinco botones sueltos: quien navega con
 // lector de pantalla necesita saber cuántas hay, cuál está activa y qué panel controla cada
@@ -882,6 +126,8 @@ export function showTab(id, { scroll = true } = {}) {
   const body = document.getElementById('vpo-tabbody');
   if (!tab || !body) return;
   ACTIVE = id;
+  // Qué repinta una pestaña cuando otra la toca depende de cuál se está viendo.
+  setPestanaActiva(id);
   syncSet(TAB_KEY, id);
   document.querySelectorAll('.vpo-tabbar .pill').forEach(p => {
     const activa = p.id === 'vpo-tab-' + id;
@@ -920,16 +166,6 @@ export function refocusVpo() {
   if (tab && tab.focus) tab.focus();
 }
 
-// Desde un paso de la ruta: abre la escala encima, sin saltar a la pestaña Escalas, para no
-// perder el paso en el que estabas. Hay que reapuntar el contexto del motor de calculadoras
-// porque la pestaña Ruta, a diferencia de Escalas, no lo toca al entrar.
-export function abrirEscalaDesdeRuta(key) {
-  setCalcTopic(calcTopic);
-  // Se abre como "pedida": el usuario pulso Calcular en el paso que necesita ese numero, asi
-  // que el resultado es suyo aunque no toque nada porque la ficha ya lo relleno todo.
-  openCalc(key, { pedida: true });
-}
-
 // Entrada desde el buscador global: garantiza que la pestaña Escalas esté montada y activa
 // antes de abrir la calculadora, ya que openCalc depende de CALC_TOPIC.
 export function openVpoCalc(key) {
@@ -941,6 +177,12 @@ export function openVpoCalc(key) {
 export function openVpoFarmaco(id) {
   showTab('farmacos', { scroll: false });
   abrirFarmaco(id);
+}
+
+// Entrada desde el buscador global a un estudio concreto.
+export function openVpoEstudio(id) {
+  showTab('estudios', { scroll: false });
+  abrirEstudio(id);
 }
 
 window.rmVpoTab = showTab;

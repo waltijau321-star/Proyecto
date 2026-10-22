@@ -780,6 +780,56 @@ async function run() {
 
   const vpoEngine = await import('./engine/vpo.js');
 
+  // La seccion VPO es ocho modulos, no uno. Las dos pruebas que siguen son las unicas de todo
+  // el archivo que leen el TEXTO de un archivo en vez de importarlo: lo que vigilan es como se
+  // importan unos a otros, y eso no se puede observar desde los modulos ya cargados. Se trae
+  // aqui, fuera de test(), porque el runner es sincrono.
+  const MODULOS_VPO = ['vpo.js', 'vpo-estado.js', 'vpo-ficha.js', 'vpo-escalas.js',
+    'vpo-listas.js', 'vpo-ruta.js', 'vpo-farmacos.js', 'vpo-estudios.js', 'vpo-nota.js'];
+  const fuenteVpo = {};
+  for (const f of MODULOS_VPO) {
+    fuenteVpo[f] = await (await fetch('./engine/' + f + '?v=' + Date.now())).text();
+  }
+  const swFuente = await (await fetch('./sw.js?v=' + Date.now())).text();
+  const hermanosDe = f => [...fuenteVpo[f].matchAll(/from '\.\/(vpo[^']*\.js)'/g)].map(m => m[1]);
+
+  test('VPO: los modulos de la seccion estan todos en CORE del service worker', () => {
+    // El service worker es cache-first: un modulo que no este en CORE no se precachea y la
+    // seccion se cae al abrir la app sin red. Al partir vpo.js en ocho, olvidar uno es el
+    // fallo facil, y no se nota hasta que alguien esta sin conexion.
+    MODULOS_VPO.forEach(f => assert(swFuente.includes(`'./engine/${f}'`),
+      `'engine/${f}' no esta en CORE de sw.js: offline, la seccion VPO se rompe`));
+    // Y que la lista de arriba no se quede corta: cualquier hermano que alguien importe tiene
+    // que estar en ella, o esta prueba dejaria de mirarlo.
+    MODULOS_VPO.forEach(f => hermanosDe(f).forEach(h => assert(MODULOS_VPO.includes(h),
+      `'${f}' importa '${h}', que no esta en la lista de modulos de VPO`)));
+  });
+
+  test('VPO: las dependencias entre modulos van en una sola direccion', () => {
+    // La regla del area: ninguna pestana importa a otra para repintarla, eso pasa por
+    // vpo-estado.js. La nota si LEE datos de las demas, que es su trabajo, y el cascaron
+    // importa a todos. Cualquier otra arista es un ciclo esperando a pasar, y en modulos ES
+    // un ciclo no falla al cargar: falla mas tarde, con un undefined dificil de rastrear.
+    const PERMITIDO = {
+      'vpo-estado.js': [],
+      'vpo-listas.js': [],
+      'vpo-ficha.js': ['vpo-estado.js'],
+      'vpo-escalas.js': ['vpo-estado.js'],
+      'vpo-ruta.js': ['vpo-estado.js'],
+      'vpo-farmacos.js': ['vpo-estado.js', 'vpo-listas.js'],
+      'vpo-estudios.js': ['vpo-estado.js', 'vpo-listas.js'],
+      'vpo-nota.js': ['vpo-estado.js', 'vpo-ficha.js', 'vpo-ruta.js', 'vpo-farmacos.js', 'vpo-estudios.js'],
+      'vpo.js': MODULOS_VPO.filter(f => f !== 'vpo.js')
+    };
+    MODULOS_VPO.forEach(f => {
+      hermanosDe(f).forEach(h => assert(PERMITIDO[f].includes(h),
+        `'${f}' importa '${h}', que no esta permitido: las pestanas se repintan por vpo-estado.js`));
+    });
+    // Nadie importa al cascaron: es la puerta de entrada de la seccion, no una pieza mas.
+    MODULOS_VPO.filter(f => f !== 'vpo.js').forEach(f => assert(!hermanosDe(f).includes('vpo.js'),
+      `'${f}' importa el cascaron engine/vpo.js`));
+  });
+
   test('VPO nota: cada cosa cae en su seccion, y el puente no es un riesgo estimado', () => {
     // El puente dice que hacer con el anticoagulante y el aclaramiento es el dato que lo
     // decide: se leen con los farmacos. Salian bajo "Riesgo estimado" solo porque se calculan
