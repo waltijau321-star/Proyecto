@@ -142,7 +142,7 @@ function buildDiagnostico() {
   const biopsiaTitulo = TOPIC.biopsiaTitulo || 'Biopsia';
   const tituloA = (dg.clinica && dg.clinica.tituloA) || 'Presentación inicial';
   const tituloB = (dg.clinica && dg.clinica.tituloB) || 'Presentación avanzada';
-  const estigmas = (ESTIGMAS_FREQ || []).map((e, i) => `<div class="rank-item rank-clickable" onclick="openStigma(${i})"><span class="rank-num mono">${String(i + 1).padStart(2, '0')}</span><span class="rank-text">${e.s}</span><span class="rank-pct mono">${e.p}</span><span class="rank-icon">${e.photo || e.embed ? 'Foto' : 'Info'}</span></div>`).join('');
+  const estigmas = (ESTIGMAS_FREQ || []).map((e, i) => estigmaRowHTML(e, i)).join('');
   const lab = (dg.laboratorio || []).map(l => `<tr><td style="color:var(--ink);font-weight:600;">${l.prueba}</td><td>${l.utilidad}</td></tr>`).join('');
   const etio = (dg.etiologicos || []).map(l => `<tr><td style="color:var(--ink);font-weight:600;">${l.prueba}</td><td>${l.utilidad}</td></tr>`).join('');
   const ni = (dg.no_invasivos || []).map(m => `<tr><td style="color:var(--ink);font-weight:600;">${m.metodo}</td><td>${m.interpretacion}</td><td>${m.cutoff}</td><td>${(m.metodo === 'FIB-4' || m.metodo === 'APRI') ? calcBtn('fibrosis') : ''}</td></tr>`).join('');
@@ -647,8 +647,32 @@ function answerCase(i) {
 function nextCase() { caseState.step++; caseState.answered = false; caseState.selected = null; renderCase(); }
 
 /* ---------------- Estigmas ---------------- */
+/* ---------------- Normalización de `estigmas` ----------------
+   Los temas han usado DOS formas para este campo. La original, `{ s, p, desc, photo?, embed? }`,
+   es la de cirrosis y los temas de Semiología, y trae el porcentaje de frecuencia. La posterior,
+   `{ nombre, descripcion }`, es la de los 14 temas de Dermatología y de Medicina Crítica escritos
+   después. El motor solo leía la primera, de modo que en esos 14 temas la sección de signos
+   clásicos pintaba "undefined" en el nombre Y en el porcentaje de CADA fila, y al abrir uno el
+   modal salía con el título y el cuerpo en "undefined". No fallaba nada y no se veía en los datos:
+   solo en el DOM. Se aceptan aquí las dos formas, y el porcentaje queda vacío (no "undefined")
+   cuando el tema no lo da, porque no todos los signos tienen una frecuencia publicada.
+   `estigmaRowHTML` se exporta para que tests.js pueda comprobar la fila ya renderizada. */
+export function normalizeEstigma(e) {
+  if (!e) return { s: '', p: '', desc: '' };
+  return Object.assign({}, e, {
+    s: e.s || e.nombre || '',
+    p: e.p || '',
+    desc: e.desc || e.descripcion || ''
+  });
+}
+
+export function estigmaRowHTML(e, i) {
+  const n = normalizeEstigma(e);
+  return `<div class="rank-item rank-clickable" onclick="openStigma(${i})"><span class="rank-num mono">${String(i + 1).padStart(2, '0')}</span><span class="rank-text">${n.s}</span>${n.p ? `<span class="rank-pct mono">${n.p}</span>` : ''}<span class="rank-icon">${n.photo || n.embed ? 'Foto' : 'Info'}</span></div>`;
+}
+
 function openStigma(i) {
-  const e = ESTIGMAS_FREQ[i];
+  const e = normalizeEstigma(ESTIGMAS_FREQ[i]);
   const m = document.getElementById('modal');
   m.style.setProperty('--modal-accent', '#3d5a73');
   let visual;
@@ -668,7 +692,7 @@ function openStigma(i) {
   }
   m.innerHTML = `
     <button class="modal-close" onclick="closeModal()">✕</button>
-    <span class="modal-tag" style="color:#3d5a73;">Estigma clásico · ${e.p}</span>
+    <span class="modal-tag" style="color:#3d5a73;">Estigma clásico${e.p ? ` · ${e.p}` : ''}</span>
     <h2>${e.s}</h2>
     <div class="stigma-illustration">${visual}</div>
     <div class="modal-field"><div class="fbody">${e.desc}</div></div>`;

@@ -1681,6 +1681,8 @@ async function run() {
      usuario, sin necesidad de Node ni un framework de tipos. */
   const { registry, loadTopic } = await import('./topics/registry.js');
 
+  const studyView = await import('./engine/study-view.js');
+
   for (const entry of registry) {
     const topic = await loadTopic(entry.id);
 
@@ -1720,6 +1722,25 @@ async function run() {
         if (f.type === 'number' && f.required !== false && OPCIONAL.test(f.label || '')) mal.push(`${c.key}/${f.name}`);
       }));
       assert(mal.length === 0, `campos opcionales que el motor exigira: ${mal.join(', ')}`);
+    });
+
+    // Los `estigmas` admiten dos formas historicas, { s, p, desc } y { nombre, descripcion }, y el
+    // motor solo leia la primera: la seccion de signos clasicos de 14 temas pintaba "undefined" en
+    // el nombre y en el porcentaje de cada fila, y el modal del estigma salia entero en
+    // "undefined". No lo detectaba ninguna prueba porque los datos estaban bien; lo que estaba mal
+    // era el render. Se comprueba sobre la FILA YA RENDERIZADA, no sobre el objeto del tema.
+    test(`esquema[${entry.id}]: las filas de estigmas se pintan sin "undefined"`, () => {
+      const estigmas = topic.estigmas || [];
+      const malas = estigmas
+        .map((e, i) => [i, studyView.estigmaRowHTML(e, i)])
+        .filter(([, html]) => /undefined/.test(html));
+      assert(malas.length === 0,
+        `${malas.length} de ${estigmas.length} filas de estigmas pintan "undefined" ` +
+        `(¿el tema usa una forma que el motor no normaliza?): ${malas.length ? malas[0][1].slice(0, 160) : ''}`);
+      const sinTexto = estigmas.filter(e => !studyView.normalizeEstigma(e).s.trim());
+      assert(sinTexto.length === 0, `${sinTexto.length} estigma(s) sin nombre legible`);
+      const sinDesc = estigmas.filter(e => !studyView.normalizeEstigma(e).desc.trim());
+      assert(sinDesc.length === 0, `${sinDesc.length} estigma(s) sin descripción: el modal saldría vacío`);
     });
 
     test(`esquema[${entry.id}]: meta.titulo no está vacío`, () => {
