@@ -757,6 +757,14 @@ export const registry = [
     ])
   },
   {
+    id: 'manifestaciones-cutaneas-sistemicas', titulo: 'Manifestaciones cutaneas de enfermedad sistemica',
+    load: () => Promise.all([
+      import('./manifestaciones-cutaneas-sistemicas/content.js'),
+      import('./manifestaciones-cutaneas-sistemicas/calculators.js'),
+      import('./manifestaciones-cutaneas-sistemicas/study.js')
+    ])
+  },
+  {
     id: 'soporte-vital-avanzado', titulo: 'Soporte vital avanzado y RCP',
     load: () => Promise.all([
       import('./soporte-vital-avanzado/content.js'),

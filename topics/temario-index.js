@@ -102,7 +102,7 @@ const DERMATOLOGIA_ITEMS = [
   { label: 'Carcinoma basocelular', topicId: 'cancer-cutaneo-no-melanoma' },
   { label: 'Carcinoma espinocelular', topicId: 'cancer-cutaneo-no-melanoma' },
   { label: 'Sarcoma de Kaposi', topicId: 'cancer-cutaneo-no-melanoma' },
-  'Manifestaciones cutáneas de enfermedad sistémica'
+  { label: 'Manifestaciones cutáneas de enfermedad sistémica', topicId: 'manifestaciones-cutaneas-sistemicas' }
 ];
 
 export const temarioBlocks = [
