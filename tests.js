@@ -1941,7 +1941,8 @@ async function run() {
       'supresion-alcoholica',
       'quemaduras',
       'ahogamiento',
-      'broncoaspiracion']);
+      'broncoaspiracion',
+      'melanoma']);
     // Cola de trabajo pendiente de la auditoría: vacía desde agosto de 2026, cuando los 47 temas
     // quedaron revisados. Un tema nuevo debe escribirse cumpliendo los umbrales y entrar en
     // REVISADOS; esta lista ya no puede crecer (COLA_MAXIMA = 0).

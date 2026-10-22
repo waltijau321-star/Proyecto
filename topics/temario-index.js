@@ -90,7 +90,7 @@ const DERMATOLOGIA_ITEMS = [
   { label: 'Psoriasis', topicId: 'psoriasis' },
   { label: 'Urticaria y angioedema', topicId: 'urticaria' },
   { label: 'Pénfigo y penfigoide', topicId: 'ampollosas' },
-  'Melanoma',
+  { label: 'Melanoma', topicId: 'melanoma' },
   { label: 'Dermatitis atópica', topicId: 'eccemas' },
   'Eritema nodoso y eritema multiforme',
   { label: 'Eritrodermia (dermatitis exfoliativa)', topicId: 'farmacodermias' },

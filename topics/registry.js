@@ -733,6 +733,14 @@ export const registry = [
     ])
   },
   {
+    id: 'melanoma', titulo: 'Melanoma',
+    load: () => Promise.all([
+      import('./melanoma/content.js'),
+      import('./melanoma/calculators.js'),
+      import('./melanoma/study.js')
+    ])
+  },
+  {
     id: 'soporte-vital-avanzado', titulo: 'Soporte vital avanzado y RCP',
     load: () => Promise.all([
       import('./soporte-vital-avanzado/content.js'),
