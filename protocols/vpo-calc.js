@@ -16,6 +16,8 @@
 //  - Bratzler DW, et al. Clinical practice guidelines for antimicrobial prophylaxis in surgery.
 //    Surg Infect. 2013;14(1):73-156 / Am J Health Syst Pharm. 2013;70(3):195-283. (ASHP/IDSA/SIS/SHEA)
 //  - WHO. Global guidelines for the prevention of surgical site infection. 2.a ed. 2018.
+//  - American Diabetes Association. Standards of Care in Diabetes 2026, sección 16
+//    (Diabetes Care in the Hospital), apartado de cuidado perioperatorio.
 
 import { RIESGO_HEMORRAGICO, RIESGO_QUIRURGICO, tablaRiesgoHTML } from './vpo-riesgos.js';
 
@@ -125,6 +127,45 @@ const LEE_RISK = ['0.4%', '0.9%', '7%', '11%'];
 const LEE_CLASS = ['I', 'II', 'III', 'IV'];
 const fragLee = r => `<strong>Índice de Lee grupo ${r.cls}</strong>, probabilidad de complicación cardiovascular mayor (IAM, edema pulmonar, fibrilación ventricular o bloqueo cardiaco completo) ${r.risk}`;
 const fmtLee = r => `${fragLee(r)} (${r.n} de 6 predictores presentes; cohorte de validación, Lee 1999).`;
+
+/* ===== Control glucémico perioperatorio =====
+   ADA 2026, sección 16, apartado de cuidado perioperatorio. La sección tenía la HbA1c entre
+   los estudios y la conducta con cada antidiabético entre los fármacos, pero en ningún sitio
+   decía cuál es el objetivo ni qué hacer con el que llega en 280 la mañana de la cirugía. */
+const GLUCEMIA_OBJETIVO = { bajo: 100, alto: 180 };
+const GLUCEMIA_TRATAMIENTO = {
+  dieta:   { label: 'Dieta o sin tratamiento farmacológico',
+             plan: 'No hay nada que ajustar la mañana de la cirugía; basta con vigilar la glucemia.' },
+  orales:  { label: 'Antidiabéticos orales',
+             plan: 'Suspender los orales el día del procedimiento: la <strong>insulina es el único hipoglucemiante recomendado en el perioperatorio</strong>. Ojo con los dos que no esperan al día de la cirugía: el inhibidor de SGLT2 se suspende 3 a 4 días antes y el agonista de GLP-1 sigue su propio calendario.' },
+  basal:   { label: 'Insulina basal',
+             plan: 'Reducir alrededor del <strong>25 % la dosis basal</strong> de la noche previa, que es lo que más se acerca al objetivo sin provocar hipoglucemia, y omitir la prandial mientras esté en ayuno.' },
+  bolo:    { label: 'Insulina basal-bolo',
+             plan: 'Mantener la basal reducida alrededor del 25 %, omitir la prandial en ayuno y cubrir con correcciones. El esquema basal-bolo da mejores resultados que corregir solo con rápida sin basal.' },
+  bomba:   { label: 'Bomba de infusión continua',
+             plan: 'Puede continuar durante la cirugía si el protocolo del centro lo permite y hay con qué apoyarla; si no, hay que dejar montado el plan alternativo (infusión de insulina, o basal más correcciones) <strong>antes</strong> de entrar.' }
+};
+function glucemiaCompute(v) {
+  const trat = GLUCEMIA_TRATAMIENTO[v.tratamiento];
+  if (!trat) return null;
+  const g = (v.glucosa === null || v.glucosa === undefined) ? null : v.glucosa;
+  const a1c = (v.hba1c === null || v.hba1c === undefined) ? null : v.hba1c;
+  return {
+    glucosa: g, hba1c: a1c, trat,
+    alta: g !== null && g > GLUCEMIA_OBJETIVO.alto,
+    baja: g !== null && g < GLUCEMIA_OBJETIVO.bajo,
+    a1cAlta: a1c !== null && a1c >= 8
+  };
+}
+const fragGlucemia = r => {
+  if (r.glucosa === null) return `<strong>Control glucémico perioperatorio</strong>: objetivo de ${GLUCEMIA_OBJETIVO.bajo} a ${GLUCEMIA_OBJETIVO.alto} mg/dL`;
+  if (r.alta) return `<strong>Glucemia de ${r.glucosa} mg/dL</strong>, por encima del objetivo perioperatorio de ${GLUCEMIA_OBJETIVO.bajo} a ${GLUCEMIA_OBJETIVO.alto}: corregir con insulina`;
+  if (r.baja) return `<strong>Glucemia de ${r.glucosa} mg/dL</strong>, por debajo del objetivo perioperatorio: corregir antes de entrar a quirófano`;
+  return `<strong>Glucemia de ${r.glucosa} mg/dL</strong>, dentro del objetivo perioperatorio de ${GLUCEMIA_OBJETIVO.bajo} a ${GLUCEMIA_OBJETIVO.alto}`;
+};
+const fmtGlucemia = r => `${fragGlucemia(r)}. ${r.trat.plan}${
+  r.a1cAlta ? ` Con una HbA1c de ${r.hba1c} %, por encima del objetivo preoperatorio de 8 % para cirugía electiva, vale la pena optimizar antes si hay tiempo, pero <strong>no posponer la cirugía solo por la HbA1c</strong>: retrasar o negar una cirugía necesaria por ese dato aislado no está recomendado.` : ''
+} Vigilar la glucemia cada 2 a 4 horas mientras esté en ayuno. <span style="color:var(--ink-faint);font-size:12px;">Hasta el 20 % de los pacientes de cirugía mayor tienen diabetes y entre el 23 y el 60 % prediabetes o diabetes no diagnosticada, y la hiperglucemia perioperatoria se asocia a infección de sitio quirúrgico. Objetivos más estrictos que 100 a 180 no mejoran los desenlaces y aumentan la hipoglucemia. El monitor continuo no basta por sí solo durante la cirugía (ADA 2026, sección 16).</span>`;
 
 /* ===== Anemia preoperatoria =====
    Guía ACC/AHA 2024, sección 8.4. El tema la nombraba como "el factor de riesgo modificable
@@ -799,6 +840,20 @@ export const calculators = [
     ],
     compute(v) { return { clase: v.clase, e: v.emergencia }; },
     format: fmtAsa, fragment: fragAsa
+  },
+  {
+    key: 'glucemia', title: 'Control glucémico perioperatorio', accent: '#966b35',
+    subtitle: 'El objetivo, y qué hacer la mañana de la cirugía',
+    dominio: 'general', bloqueNota: 'farmacos',
+    fields: [
+      { name: 'glucosa', id: 'vgl-glucosa', type: 'number', required: false, label: 'Glucemia actual (mg/dL)', placeholder: 'ej. 240', row: 'a' },
+      { name: 'hba1c', id: 'vgl-hba1c', type: 'number', step: '0.1', required: false, label: 'HbA1c de los últimos 3 meses (%)', placeholder: 'si se tiene', row: 'a' },
+      { name: 'tratamiento', id: 'vgl-tratamiento', type: 'select', label: 'Tratamiento actual de la diabetes', options:
+        Object.keys(GLUCEMIA_TRATAMIENTO).map(k => ({ value: k, label: GLUCEMIA_TRATAMIENTO[k].label, selected: k === 'orales' })) },
+      { type: 'note', text: 'El objetivo perioperatorio es <strong>de 100 a 180 mg/dL</strong> antes, durante y después de la cirugía. Más estricto no mejora nada y provoca hipoglucemias.' }
+    ],
+    compute: glucemiaCompute,
+    format: fmtGlucemia, fragment: fragGlucemia
   },
   {
     key: 'anemia', title: 'Anemia preoperatoria', accent: '#7c2d2d',

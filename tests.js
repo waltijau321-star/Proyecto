@@ -686,6 +686,9 @@ async function run() {
     assertEqual(vpoFarm.farmacos.find(f => f.id === 'metformina').conducta, 'continuar');
     metformina.forEach(f => assert(!/se suspende el d[ií]a de la cirug/i.test(f.back),
       'una tarjeta sigue diciendo que la metformina se suspende: la guía de 2024 la continúa'));
+    // Y la entrada de la herramienta dice que las dos guias vigentes no coinciden.
+    assert(/ADA/.test(JSON.stringify(vpoFarm.farmacos.find(f => f.id === 'metformina'))),
+      'la metformina deberia mencionar que la ADA de 2026 la suspende el dia del procedimiento');
 
     sobre(/GLP-1/).forEach(f => assert(!/diaria el d[ií]a previo|diaria la v[ií]spera/i.test(f.back),
       'una tarjeta dice que el arGLP-1 diario se omite la víspera: la ASA dice el mismo día'));
@@ -1050,6 +1053,43 @@ async function run() {
     const conElectiva = vpo('guptaprf').compute({ age: 65, asa: '3', func: 'independent', sepsis: 'none', electiva: true, surg: 'hernia' });
     const sinElectiva = vpo('guptaprf').compute({ age: 65, asa: '3', func: 'independent', sepsis: 'none', electiva: false, surg: 'hernia' });
     assert(conElectiva.pct < sinElectiva.pct, 'la cirugia electiva deberia bajar el riesgo calculado');
+  });
+
+  test('VPO glucemia: el objetivo perioperatorio es de 100 a 180, ni mas estricto ni mas laxo', () => {
+    const gl = vpo('glucemia');
+    const caso = glucosa => gl.compute({ glucosa, tratamiento: 'basal' });
+    assertEqual(caso(240).alta, true);
+    assertEqual(caso(180).alta, false, '180 todavia esta dentro');
+    assertEqual(caso(100).baja, false, '100 tambien');
+    assertEqual(caso(85).baja, true);
+    assert(/100 a 180/.test(gl.format(caso(240))), 'deberia decir cual es el objetivo');
+    assert(/m[a\u00e1]s estrict/i.test(gl.format(caso(140))),
+      'y que apretar mas no mejora nada y provoca hipoglucemias');
+  });
+
+  test('VPO glucemia: no se pospone una cirugia por la HbA1c sola', () => {
+    // La ADA lo dice expresamente: retrasar o negar una cirugia necesaria por ese dato
+    // aislado no esta recomendado, aunque el objetivo preoperatorio sea menos del 8 %.
+    const gl = vpo('glucemia');
+    const alta = gl.compute({ glucosa: 150, hba1c: 9.4, tratamiento: 'orales' });
+    assertEqual(alta.a1cAlta, true);
+    const texto = gl.format(alta);
+    assert(/no posponer/i.test(texto), 'deberia decir que no se pospone solo por eso');
+    assert(/8 %/.test(texto), 'y cual es el objetivo preoperatorio');
+    assertEqual(gl.compute({ glucosa: 150, hba1c: 7.2, tratamiento: 'orales' }).a1cAlta, false);
+    assert(!/no posponer/i.test(gl.format(gl.compute({ glucosa: 150, tratamiento: 'orales' }))),
+      'sin HbA1c no se dice nada de ella');
+  });
+
+  test('VPO glucemia: el plan del dia depende del tratamiento, y la insulina es la unica que queda', () => {
+    const gl = vpo('glucemia');
+    const plan = tratamiento => gl.format(gl.compute({ glucosa: 150, tratamiento }));
+    assert(/\u00fanico hipoglucemiante/.test(plan('orales')), 'los orales se suspenden el dia del procedimiento');
+    assert(/SGLT2/.test(plan('orales')), 'y recuerda los dos que no esperan al dia de la cirugia');
+    assert(/25 %/.test(plan('basal')), 'la basal se reduce alrededor del 25 %');
+    assert(/basal-bolo/.test(plan('bolo')), 'el basal-bolo gana a corregir solo con rapida');
+    assert(/antes<\/strong> de entrar|antes de entrar/.test(plan('bomba')),
+      'con bomba hay que dejar el plan alternativo montado antes');
   });
 
   test('VPO anemia: el umbral de la OMS distingue por sexo', () => {

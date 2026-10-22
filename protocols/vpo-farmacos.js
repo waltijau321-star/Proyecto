@@ -401,10 +401,11 @@ export const farmacos = [
     postop: 'Continuar, vigilando función renal.',
     notas: [
       'La indicación previa de suspenderla nacía del temor a la acidosis láctica bajo estrés fisiológico, pero los datos recientes no muestran esa asociación.',
-      'Sigue siendo prudente suspenderla si se prevé deterioro renal agudo o administración de contraste yodado.'
+      'Sigue siendo prudente suspenderla si se prevé deterioro renal agudo o administración de contraste yodado.',
+      'Las dos guías vigentes no dicen lo mismo: la de 2024 la continúa (clase 2a), y la ADA de 2026 suspende la metformina y los demás orales <em>el día</em> del procedimiento, porque la insulina es el único hipoglucemiante que recomienda en el perioperatorio. La diferencia es de un día, no de conducta crónica: ninguna de las dos vuelve a los 2 días de antes.'
     ],
     evidencia: 'guia',
-    fuente: ACCAHA
+    fuente: ACCAHA + ' · ADA 2026, sección 16'
   },
   {
     id: 'insulina', grupo: 'antidiabeticos', farmaco: 'Insulina',
