@@ -827,6 +827,14 @@ export const registry = [
       import('./enfermedad-renal-cronica/calculators.js'),
       import('./enfermedad-renal-cronica/study.js')
     ])
+  },
+  {
+    id: 'sodio-potasio-acido-base', titulo: 'Sodio, Potasio y Equilibrio Ácido-Base',
+    load: () => Promise.all([
+      import('./sodio-potasio-acido-base/content.js'),
+      import('./sodio-potasio-acido-base/calculators.js'),
+      import('./sodio-potasio-acido-base/study.js')
+    ])
   }
 ];
 
