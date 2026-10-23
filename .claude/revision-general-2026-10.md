@@ -10,8 +10,10 @@ Método: todo lo que se afirma aquí se midió ejecutando la app, no leyendo el 
 - Render real de la vista de estudio en el DOM, en escritorio y en 375 px.
 
 > **Estado al 22 de octubre de 2026.** Los tres defectos que tocan datos de usuarios reales
-> (1.1, 1.2 y 1.3) están corregidos, junto con la pérdida silenciosa de escrituras (1.6).
-> La suite pasó de 2178 a 2288 pruebas, todas en verde. El resto del informe sigue vigente.
+> (1.1, 1.2 y 1.3) están corregidos, junto con la pérdida silenciosa de escrituras (1.6), la
+> afirmación de 318 temas de la portada (3.2) y el protocolo de ACLS (3.3, salvo su bloque
+> posparo). La suite pasó de 2178 a 2288 pruebas, todas en verde. El resto del informe sigue
+> vigente.
 
 ---
 
@@ -248,7 +250,7 @@ El patrón de construcción (hematología y dermatología completas, de punta a 
 funciona: conviene aplicarlo a Nefrología e Infectología, que son las dos de mayor rendimiento
 por tema construido.
 
-### 3.2 La portada afirma 318 temas (alta)
+### 3.2 La portada afirma 318 temas (alta) · RESUELTO el 22/10/2026
 
 "Ya cubrimos 318 temas del programa de Medicina Interna" en la pantalla de acceso, con 102 temas
 construidos y 146 ítems cubiertos. 318 es el tamaño del temario, no el de lo construido. Un
@@ -261,7 +263,7 @@ por quién: la escala original está validada, la implementación la valida el a
 contra CMMI, ACGME y **MKSAP**", que es un producto con derechos de la ACP y mejor no invocarlo
 como vara de contraste.
 
-### 3.3 El protocolo de ACLS cita las guías de 2020 (alta)
+### 3.3 El protocolo de ACLS cita las guías de 2020 (alta) · RESUELTO el 22/10/2026
 
 `protocols/protocols.js` da como fuente "American Heart Association, Guías de ACLS 2020
 (Circulation 2020;142:S366)". Las guías 2025 de AHA para RCP y atención cardiovascular de
@@ -308,8 +310,13 @@ aplicado y las anemias se benefician más de un esquema que varios de los que s�
 ## 4. Orden sugerido
 
 **Esta semana**
-1. Corregir la afirmación de 318 temas en la portada, y las dos afirmaciones vecinas.
-2. Revisar el protocolo de ACLS contra las guías AHA 2025.
+1. ~~Corregir la afirmación de 318 temas en la portada.~~ Hecho el 22/10/2026: ahora dice
+   "146 de 318". Quedan las dos afirmaciones vecinas ("calculadoras validadas" y el contraste
+   contra MKSAP), que son decisión del autor.
+2. ~~Revisar el protocolo de ACLS contra las guías AHA 2025.~~ Hecho el 22/10/2026 contra la
+   Parte 9, que estaba en `Bibliografia/`. **Queda el bloque posparo**, que depende de la Parte 11
+   (Hirsch KG, et al. Circulation. 2025;152(supl 2):S673-S718): no está en `Bibliografia/` ni en
+   PMC, así que hay que conseguir el PDF. Los dos pasos afectados van marcados en la app.
 3. ~~Dar `id` estable a las preguntas antes de seguir editando bancos (1.1).~~ Hecho el 22/10/2026.
 
 **Este mes**

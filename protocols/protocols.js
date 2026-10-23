@@ -9,37 +9,44 @@ export const protocols = [
     title: 'RCP / ACLS — paro cardíaco',
     subtitle: 'Soporte vital cardiovascular avanzado en el adulto',
     accent: '#8c3a34',
-    source: 'American Heart Association, Guías de ACLS 2020 (Circulation 2020;142:S366).',
+    source: 'American Heart Association, Parte 9 (soporte vital avanzado) de las Guías de 2025 para RCP y atención cardiovascular de emergencia: Wigginton JG, Agarwal S, Bartos JA, et al. Circulation. 2025;152(supl 2):S538-S577. doi:10.1161/CIR.0000000000001376.',
     theory: {
+      caveat: 'La reanimación de este protocolo sigue la edición de 2025. El bloque de cuidados posparo es el único que todavía no se ha contrastado contra su fuente de 2025 (Parte 11: Hirsch KG, et al. Circulation. 2025;152(supl 2):S673-S718), que no está en la bibliografía del proyecto: esos dos pasos conservan las cifras de la edición de 2020 y van marcados como tales.',
       intro: 'El paro cardiorrespiratorio es la interrupción brusca de la circulación y la respiración efectivas. La supervivencia depende de la "cadena de supervivencia": reconocimiento inmediato y activación del sistema de respuesta, RCP precoz de alta calidad, desfibrilación temprana cuando el ritmo lo permite, soporte vital avanzado efectivo y cuidados post-paro estructurados. Cada minuto sin RCP ni desfibrilación en un ritmo desfibrilable reduce la supervivencia aproximadamente 7-10%.',
       keyPoints: [
         'La calidad de las compresiones (frecuencia, profundidad, reexpansión completa, mínimas interrupciones) influye más en el pronóstico que cualquier fármaco.',
         'El ritmo determina el algoritmo: los ritmos desfibrilables (FV/TV sin pulso) tienen mejor pronóstico que los no desfibrilables (asistolia/AESP).',
-        'La adrenalina se administra en todos los ritmos, pero el momento óptimo difiere: precoz en los no desfibrilables, tras la 2.ª descarga en los desfibrilables.',
-        'Buscar activamente causas reversibles (5H y 5T) en paralelo a la reanimación, no solo al final.',
-        'La capnografía cuantitativa (EtCO₂) confirma la posición del tubo y es un marcador indirecto de la calidad de las compresiones y del retorno de circulación espontánea (RCE).'
+        'La adrenalina se administra en todos los ritmos, pero el momento difiere: en los no desfibrilables, <strong>cuanto antes</strong>; en los desfibrilables, <strong>después de que fallen los intentos iniciales de desfibrilación</strong>. La dosis alta no se recomienda de rutina, y la vasopresina (sola o añadida a la adrenalina) no aporta ventaja.',
+        'El acceso vascular tiene orden, y es el inverso al que se ha extendido en la práctica: <strong>primero se intenta la vía intravenosa</strong>. La intraósea es la alternativa razonable si ese intento falla o no es viable, y la vía central queda para cuando fallan las dos. La administración de fármacos por el tubo endotraqueal se retiró de las guías.',
+        'Calcio, bicarbonato y magnesio no se administran de rutina, y el beneficio de los esteroides es incierto. Los antiarrítmicos (amiodarona o lidocaína) solo se consideran cuando la FV/TV sin pulso no responde a la desfibrilación, y ninguno ha demostrado ser superior al otro.',
+        'Buscar activamente causas reversibles (5H y 5T) en paralelo a la reanimación, no solo al final. La ecografía a pie de cama puede orientar, pero su utilidad para este fin no está establecida y nunca justifica interrumpir las compresiones.',
+        'La capnografía cuantitativa (EtCO₂) es el método más fiable para confirmar y vigilar la posición del tubo, detecta el retorno de circulación espontánea (RCE) por un ascenso brusco y ayuda a vigilar la calidad de las compresiones. Para decidir cuándo parar, en el paciente <strong>intubado</strong> un EtCO₂ que no supera 10 mmHg tras 20 min de reanimación avanzada es solo un elemento más de una decisión multimodal; en el <strong>no intubado</strong>, ningún valor de corte debe usarse con ese fin.',
+        'Tres maniobras que suelen improvisarse y que las guías no respaldan: el cambio de vector y la desfibrilación secuencial doble tras 3 o más descargas consecutivas tienen <strong>utilidad no establecida</strong>, y la RCP con la cabeza elevada <strong>no se recomienda</strong> fuera de ensayos clínicos.'
       ],
       drugs: [
-        { name: 'Adrenalina (epinefrina)', dose: '1 mg IV/IO cada 3-5 min', indication: 'Todos los ritmos de paro', note: 'Repetir hasta RCE o finalización de la reanimación.' },
-        { name: 'Amiodarona', dose: '300 mg IV/IO bolo; 2.ª dosis 150 mg', indication: 'FV/TV sin pulso refractaria tras la 3.ª descarga', note: 'Antiarrítmico de elección en ritmos desfibrilables refractarios.' },
-        { name: 'Lidocaína', dose: '1-1.5 mg/kg IV/IO; 2.ª dosis 0.5-0.75 mg/kg', indication: 'Alternativa a la amiodarona', note: 'Dosis acumulada máxima ≈3 mg/kg.' },
-        { name: 'Sulfato de magnesio', dose: '1-2 g IV/IO', indication: 'Torsade de pointes o hipomagnesemia documentada', note: 'No usar de rutina en todo paro.' },
-        { name: 'Bicarbonato de sodio', dose: '1 mEq/kg IV', indication: 'Hiperkalemia, acidosis metabólica grave preexistente, sobredosis de tricíclicos', note: 'No usar de rutina.' }
+        { name: 'Adrenalina (epinefrina)', dose: '1 mg IV cada 3-5 min (IO si no se logró la vía intravenosa)', indication: 'Todos los ritmos de paro', note: 'Ritmo no desfibrilable: cuanto antes. Ritmo desfibrilable: tras fallar los intentos iniciales de desfibrilación. Repetir hasta RCE o finalización de la reanimación.' },
+        { name: 'Amiodarona', dose: '300 mg IV/IO bolo; 2.ª dosis 150 mg', indication: 'FV/TV sin pulso que no responde a la desfibrilación', note: 'Recomendación débil: se puede considerar. No sustituye a la desfibrilación ni a la RCP de calidad.' },
+        { name: 'Lidocaína', dose: '1-1.5 mg/kg IV/IO; 2.ª dosis 0.5-0.75 mg/kg', indication: 'Alternativa a la amiodarona, con la misma fuerza de recomendación', note: 'Dosis acumulada máxima ≈3 mg/kg.' },
+        { name: 'Sulfato de magnesio', dose: '1-2 g IV/IO', indication: 'Recurrencias de TV polimorfa con QT largo (torsade de pointes)', note: 'No de rutina en el paro. En la TV polimorfa con QT normal no se recomienda.' },
+        { name: 'Bicarbonato de sodio', dose: '1 mEq/kg IV', indication: 'No de rutina: solo en circunstancias concretas (hiperkalemia, intoxicación por tricíclicos)', note: 'Esas indicaciones se detallan en la Parte 10 de las guías, no en el algoritmo general.' }
       ]
     },
     steps: [
       { phase: 'Reconocimiento e inicio', text: 'Verificar ausencia de respuesta, respiración y pulso (≤10 s)', note: 'Si no hay pulso: iniciar RCP y pedir ayuda / desfibrilador.' },
       { phase: 'Reconocimiento e inicio', text: 'RCP de alta calidad: 100-120 compresiones/min, profundidad 5-6 cm, permitir reexpansión completa', note: 'Minimizar interrupciones (<10 s). Relación 30:2 sin vía aérea avanzada.' },
       { phase: 'Reconocimiento e inicio', text: 'Colocar monitor/desfibrilador y analizar el ritmo', note: 'Definir si es desfibrilable (FV/TVsp) o no (asistolia/AESP).' },
-      { phase: 'Ritmo desfibrilable (FV / TV sin pulso)', text: 'Desfibrilar: bifásico 120-200 J (o máximo del fabricante)', note: 'Reanudar RCP inmediatamente por 2 min tras cada descarga.' },
-      { phase: 'Ritmo desfibrilable (FV / TV sin pulso)', text: 'Adrenalina 1 mg IV/IO cada 3-5 min', note: 'Tras la 2.ª descarga.' },
-      { phase: 'Ritmo desfibrilable (FV / TV sin pulso)', text: 'Amiodarona 300 mg IV/IO (2.ª dosis 150 mg) o lidocaína', note: 'Para FV/TV refractaria tras la 3.ª descarga.' },
+      { phase: 'Reconocimiento e inicio', text: 'Conseguir acceso vascular: intentar primero una vía intravenosa', note: 'La intraósea es la alternativa razonable si el intento intravenoso falla o no es viable; la vía central, solo si fallan las dos y hay quien sepa colocarla.' },
+      { phase: 'Reconocimiento e inicio', text: 'Diferir la vía aérea avanzada si colocarla va a interrumpir las compresiones', note: 'Se pospone hasta que el paciente no responda a la RCP y la desfibrilación iniciales, o hasta el RCE. Una vez colocada, confirmarla y vigilarla con capnografía continua.' },
+      { phase: 'Ritmo desfibrilable (FV / TV sin pulso)', text: 'Desfibrilar con una descarga única, a la energía que indique el fabricante del equipo', note: 'Si esa dosis no se conoce, puede usarse la máxima. Descargas únicas, no apiladas, y reanudar la RCP inmediatamente durante 2 min tras cada una. Con un desfibrilador de energía escalable se puede subir la energía en las siguientes descargas.' },
+      { phase: 'Ritmo desfibrilable (FV / TV sin pulso)', text: 'Adrenalina 1 mg cada 3-5 min, una vez que fallan los intentos iniciales de desfibrilación', note: 'Es el único punto en que el momento se separa del ritmo no desfibrilable: aquí la descarga va primero.' },
+      { phase: 'Ritmo desfibrilable (FV / TV sin pulso)', text: 'Amiodarona 300 mg IV/IO (2.ª dosis 150 mg) o lidocaína, si la FV/TVsp no responde a la desfibrilación', note: 'Se pueden considerar; ninguna ha demostrado ser superior a la otra.' },
+      { phase: 'Ritmo desfibrilable (FV / TV sin pulso)', text: 'Si la FV/TVsp persiste tras 3 o más descargas, no improvisar con el desfibrilador', note: 'El cambio de vector y la desfibrilación secuencial doble tienen utilidad no establecida: no sustituyen a seguir con RCP de calidad y a buscar causas reversibles.' },
       { phase: 'Ritmo NO desfibrilable (asistolia / AESP)', text: 'Adrenalina 1 mg IV/IO cada 3-5 min lo antes posible', note: 'No se desfibrila.' },
       { phase: 'Ritmo NO desfibrilable (asistolia / AESP)', text: 'RCP 2 min y reanálisis del ritmo cíclico', note: '' },
       { phase: 'Causas reversibles (5H y 5T)', text: 'Buscar y tratar: Hipoxia, Hipovolemia, H⁺ (acidosis), Hipo/Hiperkalemia, Hipotermia', note: '' },
       { phase: 'Causas reversibles (5H y 5T)', text: 'Buscar y tratar: Neumotórax a Tensión, Taponamiento, Tóxicos, Trombosis coronaria, Trombosis pulmonar', note: '' },
-      { phase: 'Post-paro (si RCE)', text: 'Optimizar oxigenación (SpO₂ 92-98%) y ventilación; evitar hiperoxia e hipocapnia', note: '' },
-      { phase: 'Post-paro (si RCE)', text: 'PAM ≥65 mmHg, ECG de 12 derivaciones, considerar angiografía; manejo dirigido de temperatura (32-36 °C)', note: '' }
+      { phase: 'Post-paro (si RCE)', text: 'Optimizar oxigenación (SpO₂ 92-98%) y ventilación; evitar hiperoxia e hipocapnia', note: 'Cifras de la edición de 2020: este bloque es el único del protocolo que aún no se ha contrastado contra la Parte 11 de las guías de 2025.' },
+      { phase: 'Post-paro (si RCE)', text: 'PAM ≥65 mmHg, ECG de 12 derivaciones, considerar angiografía; manejo dirigido de temperatura (32-36 °C)', note: 'El control de temperatura es lo que más conviene verificar: la Parte 11 de 2025 revisa objetivo y duración.' }
     ]
   },
   {
