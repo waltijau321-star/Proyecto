@@ -1,5 +1,6 @@
 # .claude/bump-cache-version.ps1
-# Calcula un hash a partir del contenido real de los archivos listados en CORE (sw.js) y lo
+# Calcula un hash a partir del contenido real de los archivos listados en SHELL y CONTENT
+# (sw.js: dos listas desde que el precache se partió en obligatorio y tolerante a fallos) y lo
 # escribe como CACHE_VERSION. Reemplaza el bump manual: en vez de recordar subir un número
 # cada vez que cambia un archivo cacheado, se corre este script y el número sale del contenido.
 param(
@@ -15,22 +16,30 @@ $ErrorActionPreference = "Stop"
 $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
 $fullSwPath = (Resolve-Path $SwPath).Path
 $content = [System.IO.File]::ReadAllText($fullSwPath, [System.Text.Encoding]::UTF8)
-if ($content -notmatch '(?s)const CORE = \[(.*?)\];') {
-  Write-Error "No se encontró el arreglo CORE en $SwPath"
+if ($content -notmatch '(?s)const SHELL = \[(.*?)\];') {
+  Write-Error "No se encontró el arreglo SHELL en $SwPath"
   exit 1
 }
-$coreBlock = $matches[1]
-$files = [System.Text.RegularExpressions.Regex]::Matches($coreBlock, "'\.\/([^']+)'") | ForEach-Object { $_.Groups[1].Value }
+$shellBlock = $matches[1]
+if ($content -notmatch '(?s)const CONTENT = \[(.*?)\];') {
+  Write-Error "No se encontró el arreglo CONTENT en $SwPath"
+  exit 1
+}
+$contentBlock = $matches[1]
+# El orden (shell y después contenido) tiene que ser estable, o el hash cambiaría sin que haya
+# cambiado ningún archivo. Mover un archivo de una lista a la otra SÍ cambia el hash, y es lo
+# correcto: cambia lo que se precachea de forma obligatoria.
+$files = [System.Text.RegularExpressions.Regex]::Matches($shellBlock + $contentBlock, "'\.\/([^']+)'") | ForEach-Object { $_.Groups[1].Value }
 
 # Se hashea el contenido normalizando CRLF -> LF. Sin esa normalización el hash dependía de los
 # finales de línea del árbol de trabajo, que git reescribe solo (autocrlf) al hacer
-# checkout/merge: el resultado era que main y una rama con contenido de CORE idéntico declaraban
-# CACHE_VERSION distintos, y cada bump fantasma forzaba a todos los usuarios a re-descargar los
-# 207 archivos de CORE (imágenes incluidas) sin que nada hubiera cambiado.
+# checkout/merge: el resultado era que main y una rama con contenido idéntico declaraban
+# CACHE_VERSION distintos, y cada bump fantasma forzaba a todos los usuarios a re-descargar
+# todo lo precacheado (imágenes incluidas) sin que nada hubiera cambiado.
 #
 # La normalización se hace vía ISO-8859-1 (codepage 28591), NO vía UTF-8: latin-1 mapea los
-# bytes 0-255 uno a uno, así que el round-trip es sin pérdida para cualquier archivo. CORE
-# incluye PNG/WEBP, y decodificarlos como UTF-8 sería lossy (los bytes inválidos colapsan a
+# bytes 0-255 uno a uno, así que el round-trip es sin pérdida para cualquier archivo. La lista
+# incluye imágenes WebP, y decodificarlas como UTF-8 sería lossy (los bytes inválidos colapsan a
 # U+FFFD), de modo que dos imágenes distintas podrían dar el mismo hash y NO disparar el bump.
 $latin1 = [System.Text.Encoding]::GetEncoding(28591)
 $hashLines = foreach ($f in $files) {
@@ -51,7 +60,7 @@ $oldVersionMatch = [regex]::Match($content, "const CACHE_VERSION = '([^']*)';")
 $oldVersion = $oldVersionMatch.Groups[1].Value
 
 if ($oldVersion -eq $newVersion) {
-  Write-Host "CACHE_VERSION ya está al día: $newVersion (sin cambios en CORE)"
+  Write-Host "CACHE_VERSION ya está al día: $newVersion (sin cambios en SHELL ni CONTENT)"
   exit 0
 }
 

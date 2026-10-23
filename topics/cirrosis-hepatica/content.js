@@ -106,14 +106,14 @@ export const figuras = {
   'fibrogenesis-ilustrativo': {
     titulo: 'Progresión celular de la fibrogénesis',
     html: `
-      <img src="topics/cirrosis-hepatica/assets/fibrogenesis-ilustrativo-ia.png" alt="Ilustración de 5 etapas con íconos: daño hepatocelular crónico, activación de células estrelladas hepáticas, depósito de matriz extracelular, fibrosis en puentes, y cirrosis.">
+      <img src="topics/cirrosis-hepatica/assets/fibrogenesis-ilustrativo-ia.webp" alt="Ilustración de 5 etapas con íconos: daño hepatocelular crónico, activación de células estrelladas hepáticas, depósito de matriz extracelular, fibrosis en puentes, y cirrosis.">
       <div class="figure-source">Adaptado del texto de definición de este tema (ver Definición, arriba).</div>`
   },
   'clif-of-organos': {
     titulo: 'Figura 2 — Sistemas orgánicos evaluados en ACLF',
     fuente: 'EASL Clinical Practice Guidelines on acute-on-chronic liver failure. J Hepatol. 2023 (Fig. 2)',
     html: `
-      <img src="topics/cirrosis-hepatica/assets/aclf-figura2-easl2023.png" alt="Figura 2 EASL 2023: sistemas orgánicos evaluados en ACLF (cerebral, respiratorio, circulatorio, hepático, coagulación, renal) con sus criterios de disfunción y falla, sistemas adicionales afectados (corazón, inmune, adrenal, intestino, músculo) y grados ACLF 1a/1b/2/3a/3b.">
+      <img src="topics/cirrosis-hepatica/assets/aclf-figura2-easl2023.webp" alt="Figura 2 EASL 2023: sistemas orgánicos evaluados en ACLF (cerebral, respiratorio, circulatorio, hepático, coagulación, renal) con sus criterios de disfunción y falla, sistemas adicionales afectados (corazón, inmune, adrenal, intestino, músculo) y grados ACLF 1a/1b/2/3a/3b.">
       <div class="figure-grade-box">
         <strong>Grados de ACLF</strong> (según fallas orgánicas de la figura): <strong>1a</strong> — falla renal aislada. <strong>1b</strong> — falla de un órgano distinto al renal, más disfunción renal o cerebral (columna amarilla). <strong>2</strong> — 2 fallas orgánicas. <strong>3a</strong> — 3 fallas orgánicas. <strong>3b</strong> — ≥4 fallas orgánicas.
       </div>`

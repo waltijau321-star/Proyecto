@@ -882,18 +882,55 @@ async function run() {
     fuenteVpo[f] = await (await fetch('./engine/' + f + '?v=' + Date.now())).text();
   }
   const swFuente = await (await fetch('./sw.js?v=' + Date.now())).text();
+  const bloqueSw = nombre => (swFuente.match(new RegExp('const ' + nombre + ' = \\[([\\s\\S]*?)\\];')) || [, ''])[1];
+  const listaSw = nombre => [...bloqueSw(nombre).matchAll(/'([^']+)'/g)].map(m => m[1]);
+  const SHELL_SW = listaSw('SHELL');
+  const CONTENT_SW = listaSw('CONTENT');
+  // El registro se importa aqui con otro nombre: la desestructuracion de `registry` vive mas
+  // abajo en este mismo archivo y todavia no esta inicializada en este punto.
+  const { registry: registroSw } = await import('./topics/registry.js');
   const hermanosDe = f => [...fuenteVpo[f].matchAll(/from '\.\/(vpo[^']*\.js)'/g)].map(m => m[1]);
 
-  test('VPO: los modulos de la seccion estan todos en CORE del service worker', () => {
-    // El service worker es cache-first: un modulo que no este en CORE no se precachea y la
-    // seccion se cae al abrir la app sin red. Al partir vpo.js en ocho, olvidar uno es el
-    // fallo facil, y no se nota hasta que alguien esta sin conexion.
-    MODULOS_VPO.forEach(f => assert(swFuente.includes(`'./engine/${f}'`),
-      `'engine/${f}' no esta en CORE de sw.js: offline, la seccion VPO se rompe`));
+  test('VPO: los modulos de la seccion estan todos en SHELL del service worker', () => {
+    // El service worker precachea SHELL de forma atomica y CONTENT con tolerancia a fallos, asi
+    // que un modulo del motor que cayera en CONTENT podria quedarse sin cachear y la seccion se
+    // caeria al abrir la app sin red. Al partir vpo.js en ocho, olvidar uno es el fallo facil,
+    // y no se nota hasta que alguien esta sin conexion.
+    MODULOS_VPO.forEach(f => assert(SHELL_SW.includes(`./engine/${f}`),
+      `'engine/${f}' no esta en SHELL de sw.js: offline, la seccion VPO se rompe`));
     // Y que la lista de arriba no se quede corta: cualquier hermano que alguien importe tiene
     // que estar en ella, o esta prueba dejaria de mirarlo.
     MODULOS_VPO.forEach(f => hermanosDe(f).forEach(h => assert(MODULOS_VPO.includes(h),
       `'${f}' importa '${h}', que no esta en la lista de modulos de VPO`)));
+  });
+
+  /* ---------------- Reparto del precache (sw.js: SHELL frente a CONTENT) ---------------- */
+
+  test('sw: SHELL y CONTENT no se solapan y ninguna esta vacia', () => {
+    assert(SHELL_SW.length > 0, 'SHELL vacia: el regex de las listas dejo de casar con sw.js');
+    assert(CONTENT_SW.length > 0, 'CONTENT vacia: el regex de las listas dejo de casar con sw.js');
+    const repetidas = SHELL_SW.filter(u => CONTENT_SW.includes(u));
+    assertEqual(repetidas, [], 'hay rutas en las dos listas: se descargarian dos veces');
+  });
+
+  test('sw: lo que app.js importa de forma estatica esta en SHELL, no en CONTENT', () => {
+    // registry.js y temario-index.js viven bajo topics/ pero no son contenido de un tema: son
+    // dependencias estaticas del arranque. Si cayeran en CONTENT (que tolera fallos), un
+    // precache incompleto dejaria la app sin portada ni buscador al abrirla sin red.
+    ['./topics/registry.js', './topics/temario-index.js'].forEach(u => {
+      assert(SHELL_SW.includes(u), `${u} tiene que estar en SHELL`);
+      assert(!CONTENT_SW.includes(u), `${u} no puede estar en CONTENT`);
+    });
+  });
+
+  test('sw: los tres archivos de cada tema del registro estan precacheados', () => {
+    // Antes esto lo garantizaba una sola lista. Con el reparto en dos, un tema nuevo puede
+    // quedarse fuera de las dos sin que nada chille hasta que alguien lo abre sin conexion.
+    const precache = new Set([...SHELL_SW, ...CONTENT_SW]);
+    registroSw.forEach(t => ['content.js', 'calculators.js', 'study.js'].forEach(f => {
+      assert(precache.has(`./topics/${t.id}/${f}`),
+        `topics/${t.id}/${f} no esta ni en SHELL ni en CONTENT de sw.js`);
+    }));
   });
 
   test('VPO: las dependencias entre modulos van en una sola direccion', () => {

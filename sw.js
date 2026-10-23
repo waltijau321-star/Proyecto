@@ -1,9 +1,21 @@
 /* ResidenteMed: Service Worker
    Estrategia: cache-first para el "app shell" y los módulos, con actualización en segundo plano.
-   CACHE_VERSION se calcula automáticamente a partir del contenido de CORE: correr
-   .claude/bump-cache-version.ps1 después de cambiar cualquier archivo cacheado. */
-const CACHE_VERSION = 'residentemed-273bae3cdc';
-const CORE = [
+   CACHE_VERSION se calcula automáticamente a partir del contenido de SHELL + CONTENT: correr
+   .claude/bump-cache-version.ps1 después de cambiar cualquier archivo cacheado.
+
+   La lista está partida en dos a propósito, y la diferencia está en el install:
+
+   - SHELL es lo que la app necesita para arrancar, y se precachea de forma ATÓMICA. Si algo de
+     aquí falla, el install falla, que es lo correcto: sin shell no hay app offline.
+   - CONTENT son los temas (tres archivos por tema, más las figuras). Se precachea con
+     tolerancia a fallos, DESPUÉS de que el shell ya esté listo y el service worker haya tomado
+     el control. Antes todo estaba en una sola lista y un único `addAll`: 381 peticiones y
+     55 MB, de los cuales 44 MB eran 27 PNG sin optimizar (hoy WebP, 2.9 MB). Como `addAll`
+     es atómico, bastaba que una sola petición fallara (red móvil, cuota de almacenamiento en
+     iOS) para que el install entero se rechazara y el usuario se quedara SIN offline, en
+     silencio y sin forma de notarlo. */
+const CACHE_VERSION = 'residentemed-15e3f3eb6a';
+const SHELL = [
   './',
   './index.html',
   './app.js',
@@ -41,11 +53,19 @@ const CORE = [
   './icons/logo-pieces/rinon-der.png',
   './topics/registry.js',
   './topics/temario-index.js',
+  './protocols/protocols.js',
+  './protocols/vpo-calc.js',
+  './protocols/vpo-farmacos.js',
+  './protocols/vpo-ruta.js',
+  './protocols/vpo-estudios.js',
+  './protocols/vpo-riesgos.js'
+];
+const CONTENT = [
   './topics/cirrosis-hepatica/content.js',
   './topics/cirrosis-hepatica/calculators.js',
   './topics/cirrosis-hepatica/study.js',
-  './topics/cirrosis-hepatica/assets/aclf-figura2-easl2023.png',
-  './topics/cirrosis-hepatica/assets/fibrogenesis-ilustrativo-ia.png',
+  './topics/cirrosis-hepatica/assets/aclf-figura2-easl2023.webp',
+  './topics/cirrosis-hepatica/assets/fibrogenesis-ilustrativo-ia.webp',
   './topics/sepsis/content.js',
   './topics/sepsis/calculators.js',
   './topics/sepsis/study.js',
@@ -55,56 +75,56 @@ const CORE = [
   './topics/historia-clinica/content.js',
   './topics/historia-clinica/calculators.js',
   './topics/historia-clinica/study.js',
-  './topics/historia-clinica/assets/dolor-referido-infografia.png',
-  './topics/historia-clinica/assets/socrates-ilustracion.png',
+  './topics/historia-clinica/assets/dolor-referido-infografia.webp',
+  './topics/historia-clinica/assets/socrates-ilustracion.webp',
   './topics/exploracion-cardiovascular/content.js',
   './topics/exploracion-cardiovascular/calculators.js',
   './topics/exploracion-cardiovascular/study.js',
-  './topics/exploracion-cardiovascular/assets/focos-auscultacion-cardiaca.png',
+  './topics/exploracion-cardiovascular/assets/focos-auscultacion-cardiaca.webp',
   './topics/exploracion-respiratoria/content.js',
   './topics/exploracion-respiratoria/calculators.js',
   './topics/exploracion-respiratoria/study.js',
-  './topics/exploracion-respiratoria/assets/auscultacion-pulmonar-topografia.png',
-  './topics/exploracion-respiratoria/assets/patrones-respiratorios-patologicos.png',
+  './topics/exploracion-respiratoria/assets/auscultacion-pulmonar-topografia.webp',
+  './topics/exploracion-respiratoria/assets/patrones-respiratorios-patologicos.webp',
   './topics/exploracion-abdominal/content.js',
   './topics/exploracion-abdominal/calculators.js',
   './topics/exploracion-abdominal/study.js',
-  './topics/exploracion-abdominal/assets/regiones-topograficas-abdomen.png',
-  './topics/exploracion-abdominal/assets/matidez-cambiante.png',
+  './topics/exploracion-abdominal/assets/regiones-topograficas-abdomen.webp',
+  './topics/exploracion-abdominal/assets/matidez-cambiante.webp',
   './topics/exploracion-neurologica/content.js',
   './topics/exploracion-neurologica/calculators.js',
   './topics/exploracion-neurologica/study.js',
-  './topics/exploracion-neurologica/assets/escala-glasgow.png',
-  './topics/exploracion-neurologica/assets/dermatomas-referencia-clinica.png',
-  './topics/exploracion-neurologica/assets/signos-meningeos.png',
+  './topics/exploracion-neurologica/assets/escala-glasgow.webp',
+  './topics/exploracion-neurologica/assets/dermatomas-referencia-clinica.webp',
+  './topics/exploracion-neurologica/assets/signos-meningeos.webp',
   './topics/exploracion-piel-faneras/content.js',
   './topics/exploracion-piel-faneras/calculators.js',
   './topics/exploracion-piel-faneras/study.js',
-  './topics/exploracion-piel-faneras/assets/lesiones-primarias.png',
-  './topics/exploracion-piel-faneras/assets/lesiones-secundarias.png',
-  './topics/exploracion-piel-faneras/assets/patrones-distribucion.png',
-  './topics/exploracion-piel-faneras/assets/abcde-melanoma.png',
-  './topics/exploracion-piel-faneras/assets/hallazgos-ungueales.png',
-  './topics/exploracion-piel-faneras/assets/patrones-alopecia.png',
+  './topics/exploracion-piel-faneras/assets/lesiones-primarias.webp',
+  './topics/exploracion-piel-faneras/assets/lesiones-secundarias.webp',
+  './topics/exploracion-piel-faneras/assets/patrones-distribucion.webp',
+  './topics/exploracion-piel-faneras/assets/abcde-melanoma.webp',
+  './topics/exploracion-piel-faneras/assets/hallazgos-ungueales.webp',
+  './topics/exploracion-piel-faneras/assets/patrones-alopecia.webp',
   './topics/exploracion-osteoarticular/content.js',
   './topics/exploracion-osteoarticular/calculators.js',
   './topics/exploracion-osteoarticular/study.js',
-  './topics/exploracion-osteoarticular/assets/maniobras-rodilla-liquido.png',
-  './topics/exploracion-osteoarticular/assets/6p-isquemia-arterial.png',
+  './topics/exploracion-osteoarticular/assets/maniobras-rodilla-liquido.webp',
+  './topics/exploracion-osteoarticular/assets/6p-isquemia-arterial.webp',
   './topics/exploracion-cabeza-cuello/content.js',
   './topics/exploracion-cabeza-cuello/calculators.js',
   './topics/exploracion-cabeza-cuello/study.js',
-  './topics/exploracion-cabeza-cuello/assets/cadenas-ganglionares-cervicales.png',
-  './topics/exploracion-cabeza-cuello/assets/ganglio-virchow.png',
+  './topics/exploracion-cabeza-cuello/assets/cadenas-ganglionares-cervicales.webp',
+  './topics/exploracion-cabeza-cuello/assets/ganglio-virchow.webp',
   './topics/signos-clasicos/content.js',
   './topics/signos-clasicos/calculators.js',
   './topics/signos-clasicos/study.js',
-  './topics/signos-clasicos/assets/battle-ojos-mapache.png',
+  './topics/signos-clasicos/assets/battle-ojos-mapache.webp',
   './topics/enfermedad-cerebrovascular/content.js',
   './topics/enfermedad-cerebrovascular/calculators.js',
   './topics/enfermedad-cerebrovascular/study.js',
-  './topics/enfermedad-cerebrovascular/assets/territorios-vasculares-sindromes.png',
-  './topics/enfermedad-cerebrovascular/assets/aspects-guia-visual.png',
+  './topics/enfermedad-cerebrovascular/assets/territorios-vasculares-sindromes.webp',
+  './topics/enfermedad-cerebrovascular/assets/aspects-guia-visual.webp',
   './topics/estado-epileptico/content.js',
   './topics/estado-epileptico/calculators.js',
   './topics/estado-epileptico/study.js',
@@ -210,14 +230,8 @@ const CORE = [
   './topics/embolia-grasa/content.js',
   './topics/embolia-grasa/calculators.js',
   './topics/embolia-grasa/study.js',
-  './topics/embolia-grasa/assets/teorias-fisiopatologicas.png',
-  './topics/embolia-grasa/assets/distribucion-purpura-petequial.png',
-  './protocols/protocols.js',
-  './protocols/vpo-calc.js',
-  './protocols/vpo-farmacos.js',
-  './protocols/vpo-ruta.js',
-  './protocols/vpo-estudios.js',
-  './protocols/vpo-riesgos.js',
+  './topics/embolia-grasa/assets/teorias-fisiopatologicas.webp',
+  './topics/embolia-grasa/assets/distribucion-purpura-petequial.webp',
   './topics/valoracion-preoperatoria/content.js',
   './topics/valoracion-preoperatoria/calculators.js',
   './topics/valoracion-preoperatoria/study.js',
@@ -388,9 +402,35 @@ const CORE = [
   './topics/broncoaspiracion/study.js'
 ];
 
+// Cuántas peticiones de CONTENT van en paralelo. De una en una tarda demasiado en una conexión
+// con latencia alta; todas a la vez satura la red del dispositivo justo cuando el usuario está
+// empezando a usar la app.
+const LOTE_CONTENT = 6;
+
+// Precarga tolerante a fallos: lo que no se pueda traer ahora se queda sin cachear y lo recoge
+// el `fetch` de abajo la primera vez que el usuario lo visite estando en línea. Nunca rechaza,
+// que es justo lo que la distingue de addAll.
+async function precargarContenido(cache) {
+  const faltantes = [];
+  for (const url of CONTENT) {
+    if (!(await cache.match(url))) faltantes.push(url);
+  }
+  for (let i = 0; i < faltantes.length; i += LOTE_CONTENT) {
+    await Promise.allSettled(faltantes.slice(i, i + LOTE_CONTENT).map((url) => cache.add(url)));
+  }
+}
+
 self.addEventListener('install', (e) => {
+  // El orden importa: primero el shell (atómico), luego skipWaiting para que la versión nueva
+  // tome el control cuanto antes, y solo después la descarga larga de los temas. Si el contenido
+  // fuera antes del skipWaiting, un despliegue tardaría en aplicarse lo que tarde en bajar todo.
+  // La descarga sigue dentro de waitUntil para que el navegador no mate al worker a mitad.
   e.waitUntil(
-    caches.open(CACHE_VERSION).then((c) => c.addAll(CORE)).then(() => self.skipWaiting())
+    caches.open(CACHE_VERSION).then((c) =>
+      c.addAll(SHELL)
+        .then(() => self.skipWaiting())
+        .then(() => precargarContenido(c))
+    )
   );
 });
 

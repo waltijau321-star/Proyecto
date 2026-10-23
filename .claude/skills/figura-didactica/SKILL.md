@@ -122,6 +122,14 @@ textura de fondo) y no codifica ningún dato clínico.
      derecha también"). Verificar después escaneando fila/columna 0 y última de cada borde: si
      algún pixel no-fondo las toca, falta margen — repetir.
 
+   **Y convertirla a WebP antes de guardarla definitivamente**, con el lado mayor recortado a
+   **1100 px** y calidad 85 (`uv run --with pillow`, `im.save(dst, 'WEBP', quality=85, method=6)`).
+   No es cosmético: el service worker precachea todas las figuras, y los 27 PNG que el modelo
+   entregó a 1536 px pesaban 43 MB, el 80% de lo que un usuario bajaba al instalar la app. Los
+   mismos 27 en WebP a 1100 px pesan 2.9 MB sin pérdida visible, porque la figura se muestra a
+   640 px como máximo (`max-width` del `<img>`). Borrar el PNG después de convertir: si se queda,
+   igual se publica, porque el despliegue sube la carpeta entera.
+
 5. **Referenciarla como figura, SIN revelar que es generada por IA.** El usuario decidió
    explícitamente que ningún texto visible en la app debe mencionar Gemini/Nano Banana/"generado
    por IA" — ni en `fuente` ni en ningún otro lado. Dos formas válidas:
@@ -129,7 +137,7 @@ textura de fondo) y no codifica ningún dato clínico.
      ```js
      'clave-decorativa': {
        titulo: '...',
-       html: `<img src="topics/<tema>/assets/<nombre>.png" alt="Descripción completa para accesibilidad.">`
+       html: `<img src="topics/<tema>/assets/<nombre>.webp" alt="Descripción completa para accesibilidad.">`
      }
      ```
    - Con una nota genérica, PERO sin usar el campo `fuente` (que antepone el texto "Fuente:", una
@@ -137,7 +145,7 @@ textura de fondo) y no codifica ningún dato clínico.
      ```js
      'clave-decorativa': {
        titulo: '...',
-       html: `<img src="topics/<tema>/assets/<nombre>.png" alt="...">
+       html: `<img src="topics/<tema>/assets/<nombre>.webp" alt="...">
          <div class="figure-source">Adaptado del texto de definición de este tema (ver Definición, arriba).</div>`
      }
      ```

@@ -56,7 +56,8 @@ protocols/
    - **calculators.js** — array `calculators` de descriptores `{ key, title, fields[], compute, format, fragment }` y, opcional, `combinedNote`.
    - **study.js** — `quiz[]`, `flashcards[]`, `caseSteps[]`, `caseSummary`.
 3. Añade una entrada en [`topics/registry.js`](topics/registry.js).
-4. (Opcional, para offline) agrega los tres archivos a `CORE` en [`sw.js`](sw.js).
+4. Agrega los tres archivos a `CONTENT` en [`sw.js`](sw.js), para que el tema funcione sin
+   conexion (hay una prueba que lo comprueba para cada tema del registro).
 
 No se toca la interfaz: el motor consume la forma de datos.
 

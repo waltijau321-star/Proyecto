@@ -11,8 +11,8 @@ Método: todo lo que se afirma aquí se midió ejecutando la app, no leyendo el 
 
 > **Estado al 22 de octubre de 2026.** Los tres defectos que tocan datos de usuarios reales
 > (1.1, 1.2 y 1.3) están corregidos, junto con la pérdida silenciosa de escrituras (1.6), la
-> afirmación de 318 temas de la portada (3.2) y el protocolo de ACLS (3.3, salvo su bloque
-> posparo). La suite pasó de 2178 a 2288 pruebas, todas en verde. El resto del informe sigue
+> afirmación de 318 temas de la portada (3.2), el protocolo de ACLS (3.3, salvo su bloque
+> posparo) y el peso del precache (1.4, salvo la re-descarga por despliegue). La suite pasó de 2178 a 2288 pruebas, todas en verde. El resto del informe sigue
 > vigente.
 
 ---
@@ -76,7 +76,7 @@ solo para VPO (`nuevoPaciente()`); el progreso de estudio queda contaminado.
 Arreglo: limpiar las claves `rm:*` y el espejo en memoria al cambiar de uid, y sembrar solo
 cuando el `lastUid` coincide.
 
-### 1.4 El precache del service worker pesa 55.5 MB y se vuelve a bajar en cada despliegue (alta)
+### 1.4 El precache del service worker pesa 55.5 MB y se vuelve a bajar en cada despliegue (alta) · RESUELTO EN PARTE el 22/10/2026
 
 - `CORE` son 381 rutas: 10.9 MB de JS y **43.8 MB en 27 PNG** de ~1.8 MB cada uno
   (1536x1024 sin optimizar).
@@ -88,10 +88,17 @@ cuando el `lastUid` coincide.
   una tilde en un tema obliga a los 102 temas y los 44 MB de imágenes a bajarse otra vez, en
   todos los dispositivos.
 
-Arreglo: convertir los PNG a WebP a ~1200 px (se espera 10 a 15x menos peso), dejar en `CORE`
-solo el shell y unos pocos temas, y dejar que el `fetch` (que ya cachea lo que pasa por él)
-pueble el resto bajo demanda. Y separar la caché de assets de la de código, para no tirar las
-imágenes en cada bump.
+Hecho el 22/10/2026: los 27 PNG son WebP a 1100 px (**43.0 MB a 2.9 MB, 93% menos**) y el
+precache está partido en dos listas. `SHELL` (43 entradas) se instala de forma atómica, y
+`CONTENT` (339) con tolerancia a fallos, después del `skipWaiting`. **El precache total baja de
+55.5 MB a 15.4 MB.** Comprobado con dos service workers de prueba: con una ruta rota en
+`CONTENT` el worker queda `activated` y cachea las 382 entradas buenas (antes se quedaba sin
+offline entero); con una ruta rota en `SHELL` queda `redundant`, que es lo correcto.
+
+**Lo que sigue pendiente de este punto**: cada despliegue vuelve a bajar los 15.4 MB, porque el
+`activate` sigue borrando la caché anterior y `CACHE_VERSION` sale del hash de todo. La idea
+sería separar la caché de assets (inmutables) de la de código para no tirar las imágenes en cada
+bump.
 
 ### 1.5 Inicio espera a los 102 temas antes de pintar (media)
 
@@ -321,7 +328,8 @@ aplicado y las anemias se benefician más de un esquema que varios de los que s�
 
 **Este mes**
 4. ~~Leer la nube en cada arranque y limpiar el estado al cambiar de usuario (1.2 y 1.3).~~ Hecho el 22/10/2026, junto con la cola de escrituras pendientes (1.6).
-5. Adelgazar el precache: WebP y `CORE` reducido (1.4).
+5. ~~Adelgazar el precache: WebP y `CORE` reducido (1.4).~~ Hecho el 22/10/2026. Queda separar
+   la caché de assets de la de código, para no re-descargar 15 MB en cada despliegue.
 6. Metadatos en el registro para que Inicio no espere a 102 temas (1.5).
 7. Pasada de acentos sobre los 50 temas afectados (3.4).
 8. Resumen de falladas al terminar el examen (2.3).

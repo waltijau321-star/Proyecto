@@ -22,10 +22,10 @@ mocks, no framework — there's no Node/npm in this environment). Add a test by 
 a non-exported function, export it (already done for `mergeValue` in `cloud-sync.js`,
 `checkPasswordRules` in `auth.js`) — exporting a pure function doesn't change app behavior.
 
-**After changing any file listed in `CORE` in `sw.js`** (i.e. most `engine/`, `topics/*/`, or
+**After changing any file listed in `SHELL` or `CONTENT` in `sw.js`** (i.e. most `engine/`, `topics/*/`, or
 `protocols/` files, or `index.html`/`app.js`): run
 `powershell -ExecutionPolicy Bypass -File .claude/bump-cache-version.ps1`. This hashes the real
-content of every `CORE` file and writes the result as `CACHE_VERSION` in `sw.js` — don't bump the
+content of every precached file (both lists) and writes the result as `CACHE_VERSION` in `sw.js` — don't bump the
 version by hand. The service worker is cache-first (`caches.match(req) || fetch(req)`), so a
 stale `CACHE_VERSION` (or a browser that hasn't activated the new SW yet) can serve old assets
 even after the source files are correct on disk. To verify a fix landed in a real browser
@@ -48,7 +48,10 @@ into one `topic` object with a fixed shape; `engine/study-view.js`, `engine/calc
 only ever consume that shape. **Adding a new topic never touches the engine** — copy
 `topics/_template/` (or `topics/_template-semiologia/` for a Semiología-style topic, see
 `topics/historia-clinica/`), fill in the contract described in the template's comments, add an
-entry to `registry.js`, and optionally add the new files to `CORE` in `sw.js` for offline support.
+entry to `registry.js`, and add the new files to `CONTENT` in `sw.js` for offline support (a test
+checks that every registry topic has its three files precached). `sw.js` splits the precache in
+two: `SHELL` is the app shell and installs atomically, `CONTENT` is the topics and tolerates
+individual failures, so one bad request can no longer leave a user with no offline app at all.
 `topics/temario-index.js` is the separate, larger "full syllabus" tree (318 items) shown on
 Inicio — most entries there don't have a built topic yet (`topicId: null`).
 
