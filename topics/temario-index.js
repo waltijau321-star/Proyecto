@@ -176,7 +176,7 @@ export const temarioBlocks = [
     title: 'VI. Nefrología y Trastornos Hidroelectrolíticos',
     intro: 'Función renal, equilibrio ácido-base y electrolítico, ejes transversales a prácticamente todo paciente hospitalizado.',
     clusters: [
-      { name: 'Función renal', items: ['Lesión renal aguda', 'Enfermedad renal crónica y sus complicaciones', 'Glomerulopatías', 'Síndrome nefrótico y síndrome nefrítico', 'Hematuria (enfoque diagnóstico)', 'Proteinuria (enfoque diagnóstico)', 'Nefropatía diabética e hipertensiva', 'Litiasis urinaria y nefropatía obstructiva', 'Enfermedad renal poliquística', 'Enfermedades de la próstata y neoplasias urológicas (riñón, vejiga, próstata)', 'Trasplante renal', 'Nefrotoxicidad por fármacos', 'Nefropatía túbulo-intersticial'] },
+      { name: 'Función renal', items: [{ label: 'Lesión renal aguda', topicId: 'lesion-renal-aguda' }, { label: 'Enfermedad renal crónica y sus complicaciones', topicId: 'enfermedad-renal-cronica' }, 'Glomerulopatías', 'Síndrome nefrótico y síndrome nefrítico', 'Hematuria (enfoque diagnóstico)', 'Proteinuria (enfoque diagnóstico)', 'Nefropatía diabética e hipertensiva', 'Litiasis urinaria y nefropatía obstructiva', 'Enfermedad renal poliquística', 'Enfermedades de la próstata y neoplasias urológicas (riñón, vejiga, próstata)', 'Trasplante renal', 'Nefrotoxicidad por fármacos', 'Nefropatía túbulo-intersticial'] },
       { name: 'Equilibrio interno', items: ['Trastornos ácido-base', 'Trastornos del sodio y del agua', 'Trastornos del potasio, calcio, magnesio y fósforo'] },
       { name: 'Terapias de reemplazo renal', items: ['Hemodiálisis y diálisis peritoneal', 'Terapias de reemplazo renal continuas'] }
     ]

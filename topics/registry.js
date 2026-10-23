@@ -819,6 +819,14 @@ export const registry = [
       import('./broncoaspiracion/calculators.js'),
       import('./broncoaspiracion/study.js')
     ])
+  },
+  {
+    id: 'enfermedad-renal-cronica', titulo: 'Enfermedad Renal Crónica',
+    load: () => Promise.all([
+      import('./enfermedad-renal-cronica/content.js'),
+      import('./enfermedad-renal-cronica/calculators.js'),
+      import('./enfermedad-renal-cronica/study.js')
+    ])
   }
 ];
 
