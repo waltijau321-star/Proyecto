@@ -58,7 +58,16 @@ export const RESIDENCY_YEARS = ['MIP (interno de pregrado)', 'R1 (primer año)',
 const REFERRAL_SOURCES = ['Redes sociales (Instagram, Facebook, X)', 'Recomendación de un colega o profesor', 'Búsqueda en Google', 'Congreso o evento académico', 'Otro'];
 // Excluye el bloque "R1" (acceso rápido) de la cuenta: sus ítems son los mismos que ya
 // se cuentan en su bloque temático de siempre, no temas nuevos.
-const itemCount = temarioBlocks.filter(b => !b.quickAccess).reduce((acc, b) => acc + b.clusters.reduce((a2, c) => a2 + c.items.length, 0), 0);
+// Son DOS numeros distintos y conviene no confundirlos: `itemCount` es el tamano del temario
+// completo y `builtCount` lo que ya tiene tema construido. La portada anunciaba el primero como
+// si fuera el segundo ("Ya cubrimos 318 temas") cuando lo construido es poco menos de la mitad.
+// No hace falta exagerar: el temario entero se hojea desde Inicio, asi que el residente ve en la
+// primera sesion lo que hay y lo que no.
+const temarioItems = temarioBlocks
+  .filter(b => !b.quickAccess)
+  .flatMap(b => b.clusters.flatMap(c => c.items));
+const itemCount = temarioItems.length;
+const builtCount = temarioItems.filter(it => it && typeof it === 'object' && it.topicId).length;
 
 function footerHTML() {
   return `<footer class="home-footer">
@@ -102,8 +111,8 @@ function renderLoginPage(errorMsg) {
           </div>
           <div class="home-feature">
             <svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20v-3"/><path d="M3 8l6-4 6 4 6-4"/></svg>
-            <h3>${itemCount} temas y en crecimiento</h3>
-            <p>Ya cubrimos ${itemCount} temas del programa de Medicina Interna, y seguimos sumando más cada semana.</p>
+            <h3>${builtCount} de ${itemCount} temas</h3>
+            <p>Llevamos ${builtCount} de los ${itemCount} temas del programa de Medicina Interna, y seguimos sumando. El temario completo está dentro, así que ves desde el primer día qué hay construido y qué viene.</p>
           </div>
         </div>
       </div>
