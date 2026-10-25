@@ -86,6 +86,34 @@
 
 </div>
 
+<!-- Notas del tema: panel de comentarios por tema (ver engine/topic-chat.js).
+     Vive FUERA de .app-shell, como hijo directo de <body>, y eso no es cosmético: mountStudy()
+     reconstruye #study-root entero en cada cambio de tema, y .app-section.active conserva para
+     siempre un transform (la animación section-in usa fill-mode:both), que convertiría a la
+     sección en bloque contenedor de cualquier descendiente position:fixed. Dentro del shell, el
+     panel se comportaría distinto según la preferencia de movimiento reducido del usuario. -->
+<button class="chat-fab" id="chat-fab" type="button" hidden
+        aria-label="Notas de este tema" aria-expanded="false" aria-controls="topic-chat">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-8 8H7l-4 3V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8z"/></svg>
+  <span class="chat-fab-count" id="chat-fab-count" hidden></span>
+</button>
+<div class="chat-scrim" id="chat-scrim"></div>
+<aside class="topic-chat" id="topic-chat" hidden aria-label="Notas del tema">
+  <header class="chat-head">
+    <div class="chat-head-top">
+      <h2>Notas del tema</h2>
+      <button class="chat-close" id="chat-close" type="button" aria-label="Cerrar las notas">&#10005;</button>
+    </div>
+    <p class="chat-sub" id="chat-sub"></p>
+    <p class="chat-disclaimer">Las escriben otros residentes y no las revisa el autor. No publiques datos de pacientes.</p>
+  </header>
+  <div class="chat-pinned" id="chat-pinned" hidden></div>
+  <div class="chat-list" id="chat-list" tabindex="0" aria-label="Notas publicadas"></div>
+  <button class="chat-jump" id="chat-jump" type="button" hidden>Notas nuevas &#8595;</button>
+  <div class="chat-compose" id="chat-compose"></div>
+  <p class="chat-status" id="chat-status" aria-live="polite"></p>
+</aside>
+
 <div class="overlay" id="overlay">
   <div class="modal" id="modal"></div>
 </div>

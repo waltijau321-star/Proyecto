@@ -2,9 +2,11 @@
 // Panel de administración: lista de todos los usuarios registrados (solo visible para
 // los correos en ADMIN_EMAILS). Lee directo de Firestore vía fetchAllUsers(); las reglas
 // de seguridad son las que realmente restringen el acceso, esto solo oculta la sección en la UI.
-import { ADMIN_EMAILS } from './firebase-config.js';
+import { collection, getDocs, query, orderBy, limit, doc, deleteDoc } from 'https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js';
+import { ADMIN_EMAILS, db } from './firebase-config.js';
 import { getCurrentUser } from './auth.js';
 import { fetchAllUsers } from './cloud-sync.js';
+import { escHtml as esc } from './texto-seguro.js';
 import { registry } from '../topics/registry.js';
 
 export function isAdmin() {
@@ -17,11 +19,42 @@ function formatDate(ts) {
   return ts.toDate().toLocaleDateString('es', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
-function esc(s) {
-  return String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+function topicTitle(id) { return (registry.find(t => t.id === id) || {}).titulo || id; }
+
+/* ---------------- Reportes de las notas de la comunidad ----------------
+   Los manda engine/topic-chat.js cuando alguien reporta una nota. El id es determinista
+   (mensajeId_uid), así que una persona solo puede reportar una vez cada nota. "Descartar" borra
+   el reporte, no la nota: la nota se borra desde el propio panel de notas del tema. */
+async function fetchReportes() {
+  const snap = await getDocs(query(collection(db, 'reportes'), orderBy('createdAt', 'desc'), limit(50)));
+  return snap.docs.map(d => ({ id: d.id, ...d.data() }));
 }
 
-function topicTitle(id) { return (registry.find(t => t.id === id) || {}).titulo || id; }
+function reportesHTML(reportes, error) {
+  if (error) return `<div class="auth-error">No se pudieron cargar los reportes.</div>`;
+  if (!reportes.length) return `<p class="home-subhead-note">No hay reportes sin revisar.</p>`;
+  const filas = reportes.map(r => `
+    <tr>
+      <td>${esc(topicTitle(r.temaId))}</td>
+      <td>${esc(r.motivo)}</td>
+      <td class="admin-reporte-texto">${esc(r.textoCopia)}</td>
+      <td>${formatDate(r.createdAt)}</td>
+      <td class="admin-reporte-acc">
+        <button type="button" class="home-quick" onclick="rmGoTopic('${esc(r.temaId)}')">Ir al tema</button>
+        <button type="button" class="home-quick" onclick="rmDescartarReporte('${esc(r.id)}')">Descartar</button>
+      </td>
+    </tr>`).join('');
+  return `<p class="home-subhead-note">${reportes.length} reporte${reportes.length === 1 ? '' : 's'} sin revisar. Para borrar la nota, abre el tema y usa el panel de notas.</p>
+    <div class="admin-table-wrap"><table class="admin-table">
+      <thead><tr><th>Tema</th><th>Motivo</th><th>Nota reportada</th><th>Fecha</th><th></th></tr></thead>
+      <tbody>${filas}</tbody>
+    </table></div>`;
+}
+
+window.rmDescartarReporte = async (id) => {
+  try { await deleteDoc(doc(db, 'reportes', id)); } catch (e) { /* la vista se recarga igual */ }
+  mountAdmin(document.getElementById('admin-root'));
+};
 
 function cohortStatsHTML(users) {
   const perTopic = {};
@@ -129,17 +162,22 @@ function usageStatsHTML(users) {
 export async function mountAdmin(root) {
   root.innerHTML = `<div class="sec-body"><p class="home-subhead-note">Cargando usuarios registrados...</p></div>`;
 
+  // Las dos lecturas van en paralelo y con allSettled: un fallo en los reportes no debe dejar sin
+  // estadísticas, ni al revés. Son colecciones distintas con reglas distintas.
   let users = [];
   let loadError = null;
-  try {
-    users = await fetchAllUsers();
-  } catch (e) {
-    loadError = e;
-  }
+  let reportes = [];
+  let reportesError = null;
+  const [resUsers, resReportes] = await Promise.allSettled([fetchAllUsers(), fetchReportes()]);
+  if (resUsers.status === 'fulfilled') users = resUsers.value; else loadError = resUsers.reason;
+  if (resReportes.status === 'fulfilled') reportes = resReportes.value; else reportesError = resReportes.reason;
 
   if (loadError) {
     root.innerHTML = `<div class="sec-body">
-      <h2 class="home-subhead">Usuarios registrados</h2>
+      <h2 class="home-subhead">Reportes de notas</h2>
+      ${reportesHTML(reportes, reportesError)}
+
+      <h2 class="home-subhead" style="margin-top:30px;">Usuarios registrados</h2>
       <div class="auth-error">No se pudo cargar la lista de usuarios. Revisa que las reglas de Firestore permitan la lectura al correo administrador.</div>
     </div>`;
     return;
@@ -168,7 +206,10 @@ export async function mountAdmin(root) {
     </tr>`).join('');
 
   root.innerHTML = `<div class="sec-body">
-    <h2 class="home-subhead">Estadísticas del grupo</h2>
+    <h2 class="home-subhead">Reportes de notas</h2>
+    ${reportesHTML(reportes, reportesError)}
+
+    <h2 class="home-subhead" style="margin-top:30px;">Estadísticas del grupo</h2>
     ${cohortStatsHTML(users)}
 
     <h2 class="home-subhead" style="margin-top:30px;">Uso de la plataforma (opt-in)</h2>

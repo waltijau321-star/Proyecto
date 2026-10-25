@@ -1,0 +1,135 @@
+rules_version = '2';
+
+// firestore.rules — reglas de seguridad de MIOsler (proyecto residentemed-43dd7).
+//
+// ESTE ARCHIVO NO SE DESPLIEGA SOLO. El proyecto no usa la CLI de Firebase (no hay Node en la
+// máquina del autor): para publicar un cambio hay que pegar este contenido en
+// console.firebase.google.com -> Firestore Database -> Reglas -> Publicar.
+// Vive en el repositorio para que las reglas se puedan revisar en un diff, no porque haya
+// despliegue automático. No se sirve en producción: está excluido en _redirects y .assetsignore.
+//
+// Colecciones:
+//   users/{uid}                          perfil + progreso de estudio (privado, ver cloud-sync.js)
+//   temaComentarios/{temaId}/mensajes/   notas de la comunidad por tema (ver engine/topic-chat.js)
+//   reportes/{mensajeId}_{uid}           avisos de contenido inapropiado
+//   flood/{uid}                          marca de tiempo del último mensaje (enfriamiento)
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // El administrador se identifica por el correo del token de Auth. El proyecto no usa custom
+    // claims porque no hay servidor donde correr el Admin SDK. request.auth.token.email lo firma
+    // Firebase, así que no es falsificable desde el cliente.
+    //
+    // OJO: esta lista está DUPLICADA en engine/firebase-config.js (ADMIN_EMAILS). No hay forma de
+    // tener una sola fuente sin custom claims; si cambias una, cambia la otra. Hay un test en
+    // tests.js que falla si divergen.
+    //
+    // No se exige email_verified: la app nunca envía correo de verificación, así que exigirlo
+    // dejaría fuera al propio administrador.
+    function esAdmin() {
+      return request.auth != null
+          && request.auth.token.email == 'waltijau321@gmail.com';
+    }
+
+    function sesion() {
+      return request.auth != null;
+    }
+
+    /* ---------------- Perfil y progreso de estudio ---------------- */
+    // get y list van separados a propósito. Con un solo `allow read` que mirara únicamente si hay
+    // sesión iniciada, cualquier residente registrado podría listar la colección entera y leer el
+    // correo, hospital, país y progreso de todos los demás. El panel de administración
+    // (fetchAllUsers) es el único que necesita listar.
+    match /users/{uid} {
+      allow get:            if sesion() && (request.auth.uid == uid || esAdmin());
+      allow list:           if esAdmin();
+      allow create, update: if sesion() && request.auth.uid == uid;
+      allow delete:         if false;
+    }
+
+    /* ---------------- Notas de la comunidad, por tema ---------------- */
+    match /temaComentarios/{temaId} {
+      // El documento padre no se usa: la subcolección es "fantasma" (existe sin documento).
+      allow read:  if sesion();
+      allow write: if false;
+
+      match /mensajes/{mensajeId} {
+        allow read: if sesion();
+
+        allow create: if sesion()
+          && request.resource.data.keys().hasOnly(['uid', 'autor', 'texto', 'createdAt', 'fijado', 'temaId'])
+          && request.resource.data.keys().hasAll(['uid', 'autor', 'texto', 'createdAt', 'fijado', 'temaId'])
+          && request.resource.data.uid == request.auth.uid
+          && request.resource.data.temaId == temaId
+          // createdAt tiene que ser serverTimestamp(): así nadie antedata un mensaje para colarlo
+          // arriba del todo ni lo posfecha para quedarse fijo al final.
+          && request.resource.data.createdAt == request.time
+          && request.resource.data.fijado == false
+          && request.resource.data.autor is string
+          && request.resource.data.autor.size() > 0
+          && request.resource.data.autor.size() <= 60
+          && request.resource.data.texto is string
+          && request.resource.data.texto.size() > 0
+          // El cliente corta en 1000 y aquí el tope es 1024: size() cuenta sobre la cadena de la
+          // regla y JS cuenta unidades UTF-16, así que con emoji de plano astral los dos números
+          // difieren. El margen absorbe esa diferencia sin tener que replicar la aritmética.
+          && request.resource.data.texto.size() <= 1024
+          // Enfriamiento de verdad, no cosmético: obliga a que en ESTE MISMO lote se haya escrito
+          // flood/{uid} con la hora de la operación. Un lote es una sola transacción con un único
+          // request.time, así que la condición solo se cumple si el cliente mandó las dos
+          // escrituras juntas, y la regla de flood/{uid} (abajo) impone los 15 segundos.
+          && getAfter(/databases/$(database)/documents/flood/$(request.auth.uid)).data.ultimo == request.time;
+
+        // Un mensaje no se edita nunca, ni por su autor: se borra y se vuelve a escribir. Lo único
+        // mutable es `fijado`, y solo el administrador.
+        allow update: if esAdmin()
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['fijado'])
+          && request.resource.data.fijado is bool;
+
+        allow delete: if sesion() && (resource.data.uid == request.auth.uid || esAdmin());
+      }
+    }
+
+    /* ---------------- Reportes de contenido ---------------- */
+    // El id es determinista (mensajeId_uid): una persona solo puede reportar una vez cada mensaje,
+    // sin necesidad de contar nada desde las reglas.
+    match /reportes/{reporteId} {
+      allow create: if sesion()
+        && reporteId == request.resource.data.mensajeId + '_' + request.auth.uid
+        && request.resource.data.keys().hasOnly(['temaId', 'mensajeId', 'uid', 'autorUid', 'textoCopia', 'motivo', 'createdAt'])
+        && request.resource.data.keys().hasAll(['temaId', 'mensajeId', 'uid', 'motivo', 'createdAt'])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.temaId is string
+        && request.resource.data.mensajeId is string
+        && request.resource.data.motivo is string
+        && request.resource.data.motivo.size() <= 80
+        // Copia del texto reportado: sin ella, el administrador abre un reporte de un mensaje ya
+        // borrado y no ve de qué se trataba.
+        && request.resource.data.textoCopia is string
+        && request.resource.data.textoCopia.size() <= 1024;
+
+      allow get, list: if esAdmin();
+      allow update:    if false;
+      allow delete:    if esAdmin();
+    }
+
+    /* ---------------- Enfriamiento entre mensajes ---------------- */
+    match /flood/{uid} {
+      allow get:   if sesion() && request.auth.uid == uid;
+      allow write: if sesion() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['ultimo'])
+        && request.resource.data.ultimo == request.time
+        && (!exists(/databases/$(database)/documents/flood/$(uid))
+            || request.time > resource.data.ultimo + duration.value(15, 's'));
+      allow delete: if false;
+    }
+
+    // Cierre explícito. En Firestore los `allow` son ADITIVOS: este bloque no revoca nada de lo de
+    // arriba, solo deja por escrito que cualquier otra ruta está denegada.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

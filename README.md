@@ -35,6 +35,9 @@ engine/                 Motor genérico (no conoce ningún tema)
   general-calc.js       Calculadoras generales de MI (CURB-65, CKD-EPI, Wells, CHA₂DS₂-VASc)
   protocols.js          Protocolos académicos (teoría + fármacos + checklist interactivo)
   vpo.js                Motor de la sección VPO (Ruta · Escalas · Fármacos · Estudios · Nota)
+  topic-chat.js         Notas del tema: panel de comentarios compartidos, uno por tema
+  texto-seguro.js       Escape y enlazado del texto que escriben los usuarios (puro, con tests)
+firestore.rules         Reglas de seguridad (se pegan a mano en la consola de Firebase)
 topics/
   registry.js           Catálogo de temas (carga perezosa + composición)
   cirrosis-hepatica/    content.js · calculators.js · study.js

@@ -6,6 +6,7 @@ import { sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/12.15
 import { auth } from './firebase-config.js';
 import { getCurrentUser, signOutUser, RESIDENCY_YEARS } from './auth.js';
 import { syncGet, syncSet } from './cloud-sync.js';
+import { escHtml } from './texto-seguro.js';
 
 const SUPPORT_EMAIL = 'waltijau321@gmail.com';
 const THEME_KEY = 'rm:theme-pref';
@@ -30,16 +31,16 @@ function renderMyAccount() {
   const user = getCurrentUser();
   openModal(`
     <span class="modal-tag">Mi cuenta</span>
-    <h2>${user && user.email ? user.email : ''}</h2>
+    <h2>${escHtml(user && user.email ? user.email : '')}</h2>
     <form id="account-form" class="auth-form-grid" style="margin-top:16px;">
-      <div class="calc-field"><label>Nombre</label><input type="text" id="acc-firstname" value="${syncGet('rm:profile-firstname', '')}"></div>
-      <div class="calc-field"><label>Apellido</label><input type="text" id="acc-lastname" value="${syncGet('rm:profile-lastname', '')}"></div>
-      <div class="calc-field"><label>Hospital / institución</label><input type="text" id="acc-hospital" value="${syncGet('rm:profile-hospital', '')}"></div>
+      <div class="calc-field"><label>Nombre</label><input type="text" id="acc-firstname" value="${escHtml(syncGet('rm:profile-firstname', ''))}"></div>
+      <div class="calc-field"><label>Apellido</label><input type="text" id="acc-lastname" value="${escHtml(syncGet('rm:profile-lastname', ''))}"></div>
+      <div class="calc-field"><label>Hospital / institución</label><input type="text" id="acc-hospital" value="${escHtml(syncGet('rm:profile-hospital', ''))}"></div>
       <div class="calc-field"><label>Año de residencia</label>
         <select id="acc-year">${RESIDENCY_YEARS.map(y => `<option value="${y}" ${syncGet('rm:profile-year', '') === y ? 'selected' : ''}>${y}</option>`).join('')}</select>
       </div>
-      <div class="calc-field"><label>País</label><input type="text" id="acc-country" value="${syncGet('rm:profile-country', '')}"></div>
-      <div class="calc-field"><label>Estado / provincia</label><input type="text" id="acc-state" value="${syncGet('rm:profile-state', '')}"></div>
+      <div class="calc-field"><label>País</label><input type="text" id="acc-country" value="${escHtml(syncGet('rm:profile-country', ''))}"></div>
+      <div class="calc-field"><label>Estado / provincia</label><input type="text" id="acc-state" value="${escHtml(syncGet('rm:profile-state', ''))}"></div>
       <button type="submit" class="field-full">Guardar cambios</button>
     </form>
     <p class="auth-note" id="acc-saved-note" style="display:none;">Cambios guardados.</p>

@@ -1114,6 +1114,10 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 .admin-table th{font-family:'Source Sans 3',sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:.03em; color:var(--ink-faint); font-weight:600; background:var(--panel);}
 .admin-table tbody tr:last-child td{border-bottom:none;}
 .admin-table tbody tr:hover{background:var(--panel);}
+/* La tabla es nowrap por defecto (son datos cortos de una línea). El texto de una nota reportada
+   no cabe así: necesita envolverse o estira la tabla hasta sacarla de la pantalla. */
+.admin-reporte-texto{white-space:normal; max-width:420px; font-size:12.5px; color:var(--ink-dim); line-height:1.5;}
+.admin-reporte-acc{display:flex; gap:8px; flex-wrap:wrap;}
 
 /* ---------------- Generador de exámenes ---------------- */
 .exam-topic-checks{display:flex; flex-direction:column; gap:8px; max-height:180px; overflow-y:auto; border:1px solid var(--line); border-radius:var(--radius); padding:10px 12px; background:var(--panel);}
@@ -1159,3 +1163,174 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
   .splash-word{animation:none; opacity:1;}
 }
 
+
+/* ==========================================================================
+   NOTAS DEL TEMA — panel de comentarios por tema (ver engine/topic-chat.js)
+
+   Dos modos, y el breakpoint de abajo es el PRIMER min-width de esta hoja: todo lo demás está
+   escrito mobile-first con max-width. No mezclar.
+
+   - Por defecto (celular y tablet): cajón que entra desde la derecha sobre un fondo oscurecido.
+   - >=1280px: acoplado. El hueco se reserva con padding-right en el <body>, que encoge su caja de
+     contenido y deja que el `margin:0 auto` de .app-shell se recentre solo.
+
+   OJO, y esto es lo único que no se puede cambiar sin romper la app: NO poner un `transform` en
+   .app-shell para correrlo a la izquierda. .app-nav es position:fixed Y es hija del shell, así que
+   un transform en el ancestro la convierte en posicionada respecto del shell: su `bottom:0` deja
+   de ser el borde de la ventana y pasa a ser el final del documento. En Inicio no se nota; en un
+   tema largo, el nav inferior desaparece al hacer scroll. Por eso el nav se compensa aparte, con
+   su propio translateX, que es inofensivo porque un transform no cambia el bloque contenedor del
+   elemento que lo lleva, solo el de sus descendientes.
+   ========================================================================== */
+:root{ --chat-w:340px; }
+
+.topic-chat{
+  position:fixed; top:0; right:0; z-index:90;
+  width:min(400px, 92vw); height:100dvh;
+  display:flex; flex-direction:column;
+  background:var(--panel); border-left:1px solid var(--line); box-shadow:var(--shadow-lg);
+  transform:translateX(100%); transition:transform var(--dur) var(--ease);
+}
+.topic-chat[hidden]{display:none;}
+.topic-chat.open{transform:none;}
+@media (prefers-reduced-motion:reduce){ .topic-chat{transition:none;} }
+
+.chat-scrim{position:fixed; inset:0; background:rgba(35,31,25,.5); z-index:85; display:none;}
+.chat-scrim.open{display:block;}
+/* Con clase, nunca con document.body.style.overflow: closeModal() (study-view.js) limpia ese
+   estilo en línea sin condiciones, y cerrar un modal dejaría el fondo desplazable con el cajón
+   todavía abierto. */
+body.chat-open{overflow:hidden;}
+
+/* Botón flotante. El `right` lo pega al borde de la columna de 900px en pantallas medianas, en vez
+   de dejarlo perdido contra el borde de la ventana. Su visibilidad la decide topic-chat.js con el
+   atributo hidden. */
+.chat-fab{
+  position:fixed; z-index:55;
+  right:max(16px, calc(50vw - 450px + 16px));
+  bottom:calc(var(--nav-h) + 16px + env(safe-area-inset-bottom, 0px));
+  width:52px; height:52px; border-radius:50%; padding:0;
+  border:1px solid var(--line); background:var(--shell); color:#fff;
+  display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:var(--shadow-md);
+}
+.chat-fab[hidden]{display:none;}
+.chat-fab:hover{background:var(--shell-dim);}
+.chat-fab svg{width:23px; height:23px; stroke:currentColor; fill:none; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round;}
+.chat-fab-count{
+  position:absolute; top:-5px; right:-5px; min-width:21px; height:21px; padding:0 5px;
+  border-radius:11px; background:var(--bg2); color:var(--shell); border:1px solid var(--line);
+  font-family:'Source Sans 3',sans-serif; font-size:11px; font-weight:700; line-height:1;
+  display:flex; align-items:center; justify-content:center;
+}
+.chat-fab-count[hidden]{display:none;}
+
+/* Cabecera */
+.chat-head{flex:none; padding:13px 15px 11px; background:var(--bg2); border-bottom:1px solid var(--line);}
+.chat-head-top{display:flex; align-items:center; gap:10px;}
+.chat-head h2{font-family:'Newsreader',serif; font-size:1.05rem; font-weight:600; margin:0; color:var(--ink);}
+.chat-close{
+  margin-left:auto; flex:none; width:30px; height:30px; border-radius:50%; padding:0;
+  border:1px solid var(--line); background:var(--panel); color:var(--ink-dim); cursor:pointer; font-size:14px;
+}
+.chat-close:hover{border-color:var(--shell); color:var(--shell);}
+.chat-sub{margin:1px 0 0; font-size:12px; color:var(--ink-faint);}
+.chat-sub:empty{display:none;}
+.chat-disclaimer{
+  margin:9px 0 0; padding:7px 9px; font-size:11.5px; line-height:1.45; color:var(--ink-faint);
+  background:var(--panel2); border:1px solid var(--line); border-radius:var(--radius);
+}
+
+/* Destacadas */
+.chat-pinned{flex:none; max-height:38vh; overflow-y:auto; background:var(--bg2); border-bottom:1px solid var(--line);}
+.chat-pinned[hidden]{display:none;}
+.chat-fijados-box{padding:8px 14px 12px;}
+.chat-fijados-box summary{
+  cursor:pointer; padding:3px 0; font-family:'Source Sans 3',sans-serif; font-size:11px;
+  text-transform:uppercase; letter-spacing:.04em; font-weight:700; color:var(--ink-faint);
+}
+.chat-fijados-box .chat-msg{margin-top:8px;}
+.chat-msg-destacada{border-left:3px solid var(--shell);}
+
+/* Lista */
+.chat-list{flex:1; overflow-y:auto; padding:14px 14px 8px; display:flex; flex-direction:column; gap:10px;}
+.chat-list:focus-visible{outline:2px solid var(--shell); outline-offset:-2px;}
+.chat-msg{background:var(--panel2); border:1px solid var(--line); border-radius:var(--radius-md); padding:9px 11px;}
+.chat-msg-propio{background:var(--shell-soft);}
+.chat-msg-pendiente{opacity:.6;}
+.chat-msg-fallo{border-color:#8c3a34;}
+.chat-msg-head{display:flex; align-items:baseline; gap:8px; margin-bottom:3px;}
+.chat-autor{font-family:'Source Sans 3',sans-serif; font-size:12px; font-weight:700; color:var(--ink);}
+.chat-marca{margin-left:auto; flex:none; font-size:11px; color:var(--ink-faint); white-space:nowrap;}
+/* overflow-wrap:anywhere para que un enlace largo pegado sin espacios no ensanche el panel. */
+.chat-cuerpo{font-size:13.5px; line-height:1.55; color:var(--ink-dim); overflow-wrap:anywhere;}
+.chat-cuerpo a{color:var(--shell); text-decoration:underline; text-underline-offset:2px;}
+.chat-acciones{display:flex; flex-wrap:wrap; gap:12px; margin-top:7px;}
+.chat-act{
+  background:none; border:none; padding:1px 0; cursor:pointer;
+  font-family:'Source Sans 3',sans-serif; font-size:11.5px; font-weight:600; color:var(--ink-faint);
+}
+.chat-act:hover{color:var(--shell);}
+.chat-act-danger:hover{color:#8c3a34;}
+.chat-inline{
+  display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-top:8px; padding-top:8px;
+  border-top:1px solid var(--line); font-size:12px; color:var(--ink-dim);
+}
+.chat-inline-col{flex-direction:column; align-items:flex-start; gap:7px;}
+.chat-motivos{display:flex; flex-wrap:wrap; gap:12px;}
+
+.chat-vacio{padding:26px 16px; text-align:center; font-size:13px; line-height:1.6; color:var(--ink-faint);}
+.chat-vacio .home-quick{margin-top:12px;}
+.chat-cargando{display:flex; flex-direction:column; gap:10px;}
+.chat-skel{height:48px; border-radius:var(--radius-md);}
+
+/* Píldora de "hay notas nuevas abajo": aparece solo si el usuario estaba leyendo hacia arriba, en
+   vez de arrastrarle el scroll cuando llega un mensaje. */
+.chat-jump{
+  position:absolute; left:50%; transform:translateX(-50%); bottom:104px; z-index:2;
+  padding:6px 14px; border:none; border-radius:999px; background:var(--shell); color:#fff;
+  font-family:'Source Sans 3',sans-serif; font-size:12px; font-weight:600; cursor:pointer; box-shadow:var(--shadow-sm);
+}
+.chat-jump[hidden]{display:none;}
+
+/* Caja de escritura */
+.chat-compose{
+  flex:none; background:var(--bg2); border-top:1px solid var(--line);
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+}
+.chat-campo{display:flex; align-items:flex-end; gap:8px;}
+.chat-campo textarea{
+  flex:1; resize:none; max-height:130px; overflow-y:auto;
+  background:var(--panel2); border:1px solid var(--line); color:var(--ink);
+  border-radius:var(--radius); padding:9px 11px; font-size:14px; line-height:1.45;
+}
+.chat-campo textarea:focus{outline:none; border-color:var(--shell);}
+.chat-enviar{
+  flex:none; width:38px; height:38px; padding:0; border:none; border-radius:var(--radius);
+  background:var(--shell); color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center;
+}
+.chat-enviar:hover{background:var(--shell-dim);}
+.chat-enviar svg{width:17px; height:17px; fill:currentColor;}
+.chat-aviso{margin:7px 0 0; font-size:12px; line-height:1.45; color:#8c3a34;}
+.chat-cuenta{margin:5px 0 0; font-size:11px; color:var(--ink-faint); text-align:right;}
+.chat-cuenta:empty{display:none;}
+.chat-vacio-compose{margin:0; font-size:12.5px; color:var(--ink-faint); text-align:center;}
+.chat-normas{font-size:12.5px; line-height:1.55; color:var(--ink-dim);}
+.chat-normas p{margin:0 0 8px;}
+/* El recuento de notas nuevas ya se ve en la píldora; esta línea existe solo para anunciarlo a un
+   lector de pantalla. aria-live va aquí y NUNCA en la lista: ahí leería cada nota entera en voz
+   alta según va llegando. */
+.chat-status{position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;}
+
+/* ---------- Acoplado ---------- */
+@media (min-width:1280px){
+  body.chat-docked{padding-right:var(--chat-w);}
+  /* El nav es fijo al viewport, así que el padding del body no lo alcanza. Ambos acaban centrados
+     en (ancho de ventana - ancho del panel), a cualquier ancho. */
+  body.chat-docked .app-nav{transform:translateX(calc(-50% - var(--chat-w) / 2));}
+  /* El oscurecido de los modales se detiene en el panel, en vez de taparlo. */
+  body.chat-docked #overlay{right:var(--chat-w);}
+  /* 46vw se sigue midiendo contra la ventana entera aunque el shell se haya encogido. */
+  body.chat-docked .app-header .topic-switch .home-quick{max-width:260px;}
+  body.chat-docked .topic-chat{width:var(--chat-w); transform:none; box-shadow:none; transition:none;}
+  body.chat-docked .chat-close{display:none;}
+}

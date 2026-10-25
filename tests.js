@@ -933,6 +933,150 @@ async function run() {
     }));
   });
 
+  /* ---------------- Notas del tema (engine/texto-seguro.js) ---------------- */
+
+  // El panel de notas es lo primero de la app que pinta texto escrito por OTRA persona: hasta
+  // ahora, las 64 asignaciones a innerHTML del motor pintaban contenido del autor. Todo lo que
+  // hace seguro ese texto vive en texto-seguro.js, que es puro a proposito para poder probarlo
+  // aqui con el runner sincrono.
+  const TS = await import('./engine/texto-seguro.js');
+  const { ADMIN_EMAILS } = await import('./engine/firebase-config.js');
+  const htmlIndex = await (await fetch('./index.html?v=' + Date.now())).text();
+  const docIndex = new DOMParser().parseFromString(htmlIndex, 'text/html');
+  const cssFuente = await (await fetch('./engine/styles.css?v=' + Date.now())).text();
+  // En produccion firestore.rules devuelve 404 a proposito (_redirects), asi que la prueba de
+  // las reglas se salta sola alli y vigila en local, que es donde se corren los tests.
+  const respReglas = await fetch('./firestore.rules?v=' + Date.now());
+  const reglasFuente = respReglas.ok ? await respReglas.text() : null;
+
+  test('notas: escHtml neutraliza los cinco caracteres peligrosos', () => {
+    assertEqual(TS.escHtml('<b>'), '&lt;b&gt;');
+    assertEqual(TS.escHtml('a & b'), 'a &amp; b');
+    assertEqual(TS.escHtml('"x" \'y\''), '&quot;x&quot; &#39;y&#39;');
+    assertEqual(TS.escHtml(null), '');
+    assertEqual(TS.escHtml(undefined), '');
+  });
+
+  test('notas: un comentario con HTML se ve como texto, no se ejecuta', () => {
+    const salida = TS.textoComentarioHTML('<img src=x onerror=alert(1)>');
+    assert(salida.indexOf('<img') === -1, 'el <img> llego crudo al HTML: eso es un XSS almacenado');
+    assert(salida.indexOf('&lt;img') === 0, 'deberia haber quedado escapado desde el primer caracter');
+  });
+
+  test('notas: se enlaza http(s) y ningun otro esquema', () => {
+    const conEnlace = TS.textoComentarioHTML('mira https://pubmed.ncbi.nlm.nih.gov/123');
+    assert(/<a href="https:\/\/pubmed/.test(conEnlace), 'no convirtio el enlace');
+    assert(conEnlace.indexOf('rel="noopener noreferrer nofollow ugc"') !== -1, 'falta el rel de seguridad');
+    assert(conEnlace.indexOf('target="_blank"') !== -1, 'falta target _blank');
+    assert(TS.textoComentarioHTML('javascript:alert(1)').indexOf('<a') === -1, 'convirtio un javascript: en enlace');
+    assert(TS.textoComentarioHTML('data:text/html,hola').indexOf('<a') === -1, 'convirtio un data: en enlace');
+  });
+
+  test('notas: la puntuacion final de la frase no entra en el enlace', () => {
+    const s = TS.textoComentarioHTML('ver https://x.com.');
+    assert(s.indexOf('href="https://x.com"') !== -1, 'el punto quedo dentro del href: ' + s);
+    assert(s.endsWith('.'), 'el punto desaparecio del texto: ' + s);
+  });
+
+  test('notas: un & dentro de una URL sobrevive escapado en el href', () => {
+    // Por esto se trocea el texto CRUDO y se escapa cada trozo, en vez de escapar primero: si no,
+    // recortar el texto visible del enlace podria partir una entidad por la mitad.
+    const s = TS.textoComentarioHTML('https://x.com/a?b=1&c=2');
+    assert(s.indexOf('href="https://x.com/a?b=1&amp;c=2"') !== -1, 'el & del href no quedo escapado: ' + s);
+  });
+
+  test('notas: dos enlaces en la misma linea', () => {
+    const s = TS.textoComentarioHTML('a https://uno.com b https://dos.com c');
+    assertEqual((s.match(/<a /g) || []).length, 2);
+  });
+
+  test('notas: los saltos de linea se conservan', () => {
+    assertEqual(TS.textoComentarioHTML('uno\ndos'), 'uno<br>dos');
+  });
+
+  test('notas: la firma es nombre de pila mas inicial del apellido', () => {
+    assertEqual(TS.nombreCorto('Walter', 'Jauregui'), 'Walter J.');
+    assertEqual(TS.nombreCorto('  ana ', 'de la cruz'), 'ana D.');
+    assertEqual(TS.nombreCorto('Ana', ''), 'Ana');
+    assertEqual(TS.nombreCorto('', ''), 'Residente');
+    assertEqual(TS.nombreCorto('Angel', 'Ñuño'), 'Angel Ñ.');
+    assert(TS.nombreCorto('x'.repeat(80), 'y'.repeat(80)).length <= TS.MAX_FIRMA,
+      'la firma pasa del tope que impone firestore.rules y el servidor rechazaria la nota');
+  });
+
+  test('notas: validarComentario corta por vacio y por longitud', () => {
+    assert(!TS.validarComentario('').ok);
+    assert(!TS.validarComentario('   ').ok);
+    assert(TS.validarComentario('  hola  ').ok);
+    assertEqual(TS.validarComentario('  hola  ').texto, 'hola');
+    assert(TS.validarComentario('x'.repeat(TS.MAX_COMENTARIO)).ok, 'el tope exacto deberia pasar');
+    assert(!TS.validarComentario('x'.repeat(TS.MAX_COMENTARIO + 1)).ok, 'uno mas que el tope deberia fallar');
+  });
+
+  test('notas: tiempoRelativo con un "ahora" fijo', () => {
+    const t0 = Date.UTC(2026, 9, 25, 12, 0, 0);
+    assertEqual(TS.tiempoRelativo(t0, t0), 'ahora');
+    assertEqual(TS.tiempoRelativo(t0 - 5 * 60000, t0), 'hace 5 min');
+    assertEqual(TS.tiempoRelativo(t0 - 3 * 3600000, t0), 'hace 3 h');
+    assertEqual(TS.tiempoRelativo(t0 - 26 * 3600000, t0), 'ayer');
+    // Un reloj del cliente adelantado no debe producir "hace -2 min".
+    assertEqual(TS.tiempoRelativo(t0 + 120000, t0), 'ahora');
+  });
+
+  test('notas: la burbuja optimista va al final y no se duplica', () => {
+    const pendiente = [{ id: 'c' }];
+    assertEqual(TS.fusionarComentarios([{ id: 'a' }, { id: 'b' }], pendiente).map(m => m.id), ['a', 'b', 'c']);
+    // Firestore entrega el documento recien escrito en un snapshot LOCAL, con createdAt todavia
+    // en null, y ordenado ascendente un null va PRIMERO. Sin descartarlo, el usuario veria su
+    // propia nota duplicada: una arriba del todo y otra abajo.
+    assertEqual(TS.fusionarComentarios([{ id: 'c' }, { id: 'a' }], pendiente).map(m => m.id), ['a', 'c']);
+    assertEqual(TS.fusionarComentarios([{ id: 'a' }], []).map(m => m.id), ['a']);
+  });
+
+  test('notas: idReporte coincide con el formato que exige firestore.rules', () => {
+    assertEqual(TS.idReporte('abc123', 'uid456'), 'abc123_uid456');
+  });
+
+  test('notas: el panel cuelga de <body> y no de .app-shell', () => {
+    // No es estetico. .app-section.active conserva un transform para siempre (la animacion
+    // section-in usa fill-mode:both), y un transform en un ancestro lo convierte en bloque
+    // contenedor de sus descendientes position:fixed. Dentro del shell, el panel se comportaria
+    // distinto segun la preferencia de movimiento reducido de cada usuario.
+    assert(docIndex.querySelector('#topic-chat'), 'no existe #topic-chat en index.html');
+    assert(docIndex.querySelector('body > #topic-chat'), '#topic-chat tiene que colgar directo de <body>');
+    assert(!docIndex.querySelector('.app-shell #topic-chat'), '#topic-chat quedo dentro de .app-shell');
+    assert(!docIndex.querySelector('.app-shell #chat-fab'), '#chat-fab quedo dentro de .app-shell');
+  });
+
+  test('notas: ninguna regla de .app-shell lleva transform', () => {
+    // El hueco del panel acoplado se reserva con padding-right en el <body>. Si alguien lo cambia
+    // por un transform en el shell, .app-nav (que es position:fixed y vive DENTRO del shell) deja
+    // de anclarse al viewport: su bottom:0 pasa a ser el final del documento. Se ve bien en
+    // Inicio y se rompe solo en Estudio, al hacer scroll en un tema largo.
+    const bloques = cssFuente.match(/\.app-shell\s*\{[^}]*\}/g) || [];
+    assert(bloques.length > 0, 'no se encontro ninguna regla .app-shell: cambio el nombre de la clase?');
+    bloques.forEach(b => assert(!/transform\s*:/.test(b), 'hay un transform en .app-shell: ' + b));
+  });
+
+  test('notas: los modulos nuevos estan en SHELL y no en CONTENT', () => {
+    ['./engine/texto-seguro.js', './engine/topic-chat.js'].forEach(u => {
+      assert(SHELL_SW.includes(u), u + ' tiene que estar en SHELL de sw.js');
+      assert(!CONTENT_SW.includes(u), u + ' no puede estar en CONTENT');
+    });
+  });
+
+  test('notas: firestore.rules no se quedo atras de ADMIN_EMAILS', () => {
+    // El administrador se identifica por correo en los DOS sitios (no hay custom claims), asi que
+    // divergir deja al autor sin poder moderar, o peor, deja la regla vieja permitiendo de mas.
+    if (!reglasFuente) return; // 404 en produccion, a proposito
+    ADMIN_EMAILS.forEach(correo => assert(reglasFuente.includes(correo),
+      'el correo ' + correo + ' esta en ADMIN_EMAILS pero no en firestore.rules'));
+    assert(/match \/temaComentarios\//.test(reglasFuente), 'faltan las reglas de temaComentarios');
+    assert(/match \/reportes\//.test(reglasFuente), 'faltan las reglas de reportes');
+    assert(!/allow read, write: if request\.auth != null/.test(reglasFuente),
+      'quedo una regla que deja leer y escribir a cualquier usuario registrado');
+  });
+
   test('VPO: las dependencias entre modulos van en una sola direccion', () => {
     // La regla del area: ninguna pestana importa a otra para repintarla, eso pasa por
     // vpo-estado.js. La nota si LEE datos de las demas, que es su trabajo, y el cascaron

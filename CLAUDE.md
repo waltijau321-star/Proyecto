@@ -68,6 +68,19 @@ from a new device (`mergeValue`, exported for testing). **Any new module that st
 progress must use `syncGet`/`syncSet`, never `localStorage` directly**, or it won't sync across
 devices.
 
+**Notes panel: the one deliberate exception to that rule.** `engine/topic-chat.js` (notes written
+by users, one thread per topic) talks to Firestore **directly**, bypassing `cloud-sync.js`. That is
+correct and must not be "fixed": `users/{uid}` is one private document per person, while these are
+shared between users and live in their own collection,
+`temaComentarios/{topicId}/mensajes/{msgId}`, plus `reportes/` and `flood/` (the rate limit).
+Everything a user writes is escaped through `engine/texto-seguro.js` before it reaches `innerHTML`
+(note that the `esc()` in `study-view.js` is a null guard that escapes **nothing**, because topic
+content carries intentional HTML). Two things that bite later: a topic's `id` is the key of its
+notes collection, so **renaming an id in `topics/registry.js` silently orphans every note on that
+topic**; and `ADMIN_EMAILS` is duplicated in `engine/firebase-config.js` and in `firestore.rules`
+(no custom claims without a server), with a test that fails if the two drift apart. `firestore.rules`
+is versioned in the repo but **not deployed from it**: paste it into the Firebase console.
+
 **Figures system** (`topic.figuras`). Each topic can export
 `figuras: { key: { titulo, fuente?, html } }`, rendered by `figuraHTML()`/`oneFiguraHTML()` in
 `engine/study-view.js` inside `.modal-figure`. Attach points: `c.figura`/`c.figuras` per

@@ -280,21 +280,31 @@ function termsAndConditionsHTML() {
       <p>Eres responsable de la veracidad de los datos que proporcionas (nombre, hospital, año de residencia, país, etc.) y de mantener la confidencialidad de tu contraseña. Puedes solicitar la eliminación de tu cuenta y tus datos escribiendo a waltijau321@gmail.com.</p>
 
       <h3>4. Datos y sincronización</h3>
-      <p>Tu progreso de estudio (temas completados, resultados de autoevaluación, fichas) y los datos de tu perfil se guardan de forma asociada a tu cuenta mediante Firebase, para que puedas acceder a ellos desde distintos dispositivos.</p>
+      <p>Tu progreso de estudio (temas completados, resultados de autoevaluación, fichas) y los datos de tu perfil se guardan de forma asociada a tu cuenta mediante Firebase, para que puedas acceder a ellos desde distintos dispositivos. Las notas que publiques en un tema también se guardan asociadas a tu cuenta.</p>
 
       <h3>5. Analítica de uso</h3>
       <p>MIOsler comparte de forma anónima qué secciones y funciones usas, para ayudarme a mejorar la app. No se comparte el contenido de tus respuestas ni tu identidad. Al crear tu cuenta aceptas esta analítica como parte del funcionamiento de la plataforma.</p>
 
-      <h3>6. Propiedad intelectual</h3>
+      <h3>6. Notas del tema (contenido que publicas)</h3>
+      <p>Cada tema tiene un panel de notas donde puedes compartir mnemotecnias, enlaces, correcciones y dudas. Al usarlo aceptas lo siguiente:</p>
+      <ul>
+        <li>Lo que publiques será visible para cualquier otra persona con cuenta en MIOsler. No es privado ni anónimo: cada nota se firma con tu nombre de pila y la inicial de tu apellido.</li>
+        <li><strong>Está prohibido publicar datos que permitan identificar a un paciente</strong> (nombre, expediente, fechas, imágenes o cualquier combinación de detalles que lo haga reconocible), así como insultos, publicidad o material protegido por derechos de autor.</li>
+        <li>Las notas no se revisan antes de publicarse y no son material validado por el autor: la responsabilidad de lo que escribes es tuya, y no debes tratar la nota de otra persona como una recomendación clínica.</li>
+        <li>El autor puede borrar, ocultar o destacar cualquier nota, sin aviso previo, y suspender el acceso de quien incumpla estas reglas.</li>
+        <li>Si solicitas la eliminación de tu cuenta, también se eliminarán tus notas.</li>
+      </ul>
+
+      <h3>7. Propiedad intelectual</h3>
       <p>Los contenidos, calculadoras y protocolos de MIOsler se elaboran con fines educativos a partir de guías internacionales públicas. Su reproducción o distribución fuera de la plataforma requiere autorización previa.</p>
 
-      <h3>7. Limitación de responsabilidad</h3>
-      <p>MIOsler se ofrece "tal cual", sin garantía de exactitud absoluta ni disponibilidad continua. El autor no se hace responsable por decisiones clínicas tomadas con base en el contenido de la app.</p>
+      <h3>8. Limitación de responsabilidad</h3>
+      <p>MIOsler se ofrece "tal cual", sin garantía de exactitud absoluta ni disponibilidad continua. El autor no se hace responsable por decisiones clínicas tomadas con base en el contenido de la app, ni por el contenido que publiquen otros usuarios en las notas de un tema.</p>
 
-      <h3>8. Cambios a estos términos</h3>
+      <h3>9. Cambios a estos términos</h3>
       <p>Estos términos pueden actualizarse conforme evolucione la plataforma. Los cambios relevantes se notificarán dentro de la app.</p>
 
-      <p class="terms-updated">Última actualización: julio de 2026.</p>
+      <p class="terms-updated">Última actualización: octubre de 2026.</p>
     </div>`;
 }
 

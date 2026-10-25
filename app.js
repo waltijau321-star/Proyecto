@@ -16,6 +16,7 @@ import { isAdmin, mountAdmin } from './engine/admin.js';
 import { mountExamPage } from './engine/exam-mode.js';
 import { mountAccountMenu } from './engine/account-menu.js';
 import { trackSection, trackTopic } from './engine/usage-tracking.js';
+import { mountTopicChat, setChatTopic, setChatSection, setChatUser } from './engine/topic-chat.js';
 import { firebaseReady } from './engine/firebase-config.js';
 import './engine/infusion-calc.js';
 import { mountVpo, refocusVpo, vpoSearchEntries, nuevoPaciente } from './engine/vpo.js';
@@ -67,6 +68,9 @@ function showSection(sec) {
   if (secEl) secEl.classList.add('active');
   if (navEl) navEl.classList.add('active');
   renderTopicSwitchSlot(sec);
+  // El panel de notas solo tiene sentido en Estudio, y además necesita saber la sección para
+  // decidir si suscribirse: ver el reconciliador de engine/topic-chat.js.
+  setChatSection(sec);
 
   if (sec === 'estudio' && currentTopic) {
     document.getElementById('app-title').textContent = currentTopic.meta.titulo;
@@ -116,6 +120,9 @@ async function selectTopic(id, { reflectUrl = true } = {}) {
   document.documentElement.style.setProperty('--accent', topic.meta.accent || '#7c2d2d');
 
   mountStudy(topic);
+  // Único punto por el que pasan todos los cambios de tema (arranque, Inicio, "Siguiente tema" y
+  // el buscador), así que es el sitio correcto para que las notas cambien de tema con él.
+  setChatTopic(topic.meta.id, topic.meta.titulo);
 
   // Refleja el tema en la URL sin recargar — pero solo si el llamador lo pide (reflectUrl):
   // el arranque con un tema por defecto (nadie eligió nada todavía) NO debe escribir ?tema=
@@ -231,6 +238,7 @@ async function navigateToSearchResult(entry) {
 /* ---------- Arranque ---------- */
 async function init() {
   mountAccountMenu();
+  mountTopicChat();
   const params = new URLSearchParams(location.search);
   const hasValidTemaParam = params.get('tema') && registry.some(t => t.id === params.get('tema'));
   const initial = hasValidTemaParam ? params.get('tema') : registry[0].id;
@@ -267,6 +275,9 @@ async function init() {
   initAuth(async (user) => {
     const otroUsuario = !!(booted && user && lastUid && user.uid !== lastUid);
     await initCloudSync(user);
+    // Después de initCloudSync, no antes: la firma de las notas sale del perfil que esa llamada
+    // acaba de fusionar en el espejo de cloud-sync.
+    setChatUser(user);
     if (user) lastUid = user.uid;
     document.getElementById('nav-admin').style.display = isAdmin() ? '' : 'none';
     if (!user && firebaseReady) return;
