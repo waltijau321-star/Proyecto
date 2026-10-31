@@ -835,6 +835,14 @@ export const registry = [
       import('./sodio-potasio-acido-base/calculators.js'),
       import('./sodio-potasio-acido-base/study.js')
     ])
+  },
+  {
+    id: 'glomerulopatias-sindromes-glomerulares', titulo: 'Glomerulopatías y Síndromes Glomerulares',
+    load: () => Promise.all([
+      import('./glomerulopatias-sindromes-glomerulares/content.js'),
+      import('./glomerulopatias-sindromes-glomerulares/calculators.js'),
+      import('./glomerulopatias-sindromes-glomerulares/study.js')
+    ])
   }
 ];
 

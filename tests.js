@@ -2187,7 +2187,7 @@ async function run() {
     // 'valoracion-preoperatoria' entra sin reescritura porque la auditoría lo encontró ya en
     // regla (37.5% / 0.98x / 8.3% / 0 atípicas). Sirve de prueba de que los umbrales son
     // alcanzables con contenido clínico real, no un ideal teórico.
-    const REVISADOS = new Set(['sodio-potasio-acido-base', 'enfermedad-renal-cronica', 'valoracion-preoperatoria', 'embolia-grasa',
+    const REVISADOS = new Set(['glomerulopatias-sindromes-glomerulares', 'sodio-potasio-acido-base', 'enfermedad-renal-cronica', 'valoracion-preoperatoria', 'embolia-grasa',
       'anemia-ferropenica', 'anemia-megaloblastica', 'anemia-enfermedad-cronica',
       'anemias-hemoliticas-hereditarias', 'anemias-hemoliticas-adquiridas', 'anemia-aplasica',
       'hemoglobinopatias', 'policitemia-secundaria', 'porfirias',
