@@ -1,0 +1,52 @@
+#!/bin/sh
+# Auto pre-commit: mantiene el CACHE_VERSION de sw.js sincronizado con el contenido real de los
+# archivos precacheados, para que nunca se publique un Service Worker desincronizado.
+# La logica del hash vive en .claude/bump-cache-version.ps1; aqui solo se decide CUANDO aplicarla
+# y si es seguro agregar sw.js al commit que se esta armando.
+#
+# Por que no un "git add sw.js" a secas, que es lo que hacia antes: eso agrega el sw.js COMPLETO
+# del arbol de trabajo, con los cambios a medio hacer que tenga encima. El 1 de noviembre de 2026
+# colo las tres rutas de un tema sin terminar en un commit que solo tocaba documentacion, y habria
+# publicado un Service Worker que precachea archivos que no existen.
+
+# 1. Si el commit no toca sw.js ni ningun archivo precacheado, no hay nada que sincronizar.
+#    Se lee el indice (lo que de verdad va en el commit), no el arbol de trabajo.
+preparados=$(git diff --cached --name-only)
+[ -z "$preparados" ] && exit 0
+
+relevante=no
+while IFS= read -r f; do
+  [ -z "$f" ] && continue
+  if [ "$f" = "sw.js" ]; then relevante=si; break; fi
+  if grep -qF "'./$f'" sw.js 2>/dev/null; then relevante=si; break; fi
+done <<LISTA
+$preparados
+LISTA
+[ "$relevante" = no ] && exit 0
+
+# 2. Recalcular el hash a partir del contenido en disco.
+if ! powershell -NoProfile -ExecutionPolicy Bypass -File .claude/bump-cache-version.ps1; then
+  echo ""
+  echo "pre-commit: fallo bump-cache-version.ps1, no se puede garantizar el CACHE_VERSION."
+  echo "  Arreglalo, o usa --no-verify a sabiendas de que el Service Worker puede ir desfasado."
+  exit 1
+fi
+
+# 3. Si sw.js quedo igual a lo ya preparado, no hay nada que agregar.
+git diff --quiet -- sw.js && exit 0
+
+# 4. Solo se agrega si la UNICA diferencia con el indice es la linea del CACHE_VERSION. Cualquier
+#    otra cosa son cambios que el autor no eligio incluir, y eso lo decide a mano.
+otras=$(git diff -U0 -- sw.js | grep '^[+-]' | grep -v '^[+-][+-]' | grep -v 'CACHE_VERSION')
+if [ -n "$otras" ]; then
+  echo ""
+  echo "pre-commit: sw.js tiene cambios sin preparar que NO son el CACHE_VERSION:"
+  echo "$otras" | sed 's/^/    /'
+  echo ""
+  echo "  No se agrega solo, para no colar trabajo a medias en este commit."
+  echo "  Si van en este commit:  git add sw.js   y repite el commit."
+  echo "  Si no van:              commitealos aparte primero."
+  exit 1
+fi
+
+git add sw.js

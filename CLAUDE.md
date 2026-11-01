@@ -32,6 +32,19 @@ even after the source files are correct on disk. To verify a fix landed in a rea
 session (not just a fresh incognito/no-SW tab): DevTools → Application → Service Workers →
 Unregister, then Application → Storage → Clear site data, then reopen the tab.
 
+**A pre-commit hook does that bump for you, and it is versioned but not enabled by a clone.** It
+lives in `.claude/hooks/pre-commit`, and git only runs it if this repo's local config points there:
+on a fresh clone run `git config core.hooksPath .claude/hooks` once (git will not let a repo
+configure its own hooks path, so there is no way around that one command). The hook skips out
+immediately unless the commit actually stages `sw.js` or a precached file, then runs
+`bump-cache-version.ps1`, and stages `sw.js` **only when its single difference from the index is the
+`CACHE_VERSION` line**. If `sw.js` carries other unstaged edits, the hook aborts the commit and
+prints them instead of folding them in: an earlier version ran a bare `git add sw.js`, which on
+1 Nov 2026 slipped three paths of an unfinished topic into a docs-only commit and would have
+published a service worker precaching files that do not exist. So a commit refused with
+"sw.js tiene cambios sin preparar" is the guard working: either `git add sw.js` deliberately, or
+commit those edits on their own first.
+
 **Deploy**: the live site is a Cloudflare **Worker** named `proyecto`, built by Workers Builds from
 the GitHub repo (`waltijau321-star/Proyecto`) on every push to `main`. No wrangler config is versioned
 here; Cloudflare generates an ephemeral one per build. So a push publishes, and there is no folder to
