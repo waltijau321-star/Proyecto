@@ -843,6 +843,14 @@ export const registry = [
       import('./glomerulopatias-sindromes-glomerulares/calculators.js'),
       import('./glomerulopatias-sindromes-glomerulares/study.js')
     ])
+  },
+  {
+    id: 'nefropatia-diabetica-hipertensiva', titulo: 'Nefropatía Diabética e Hipertensiva',
+    load: () => Promise.all([
+      import('./nefropatia-diabetica-hipertensiva/content.js'),
+      import('./nefropatia-diabetica-hipertensiva/calculators.js'),
+      import('./nefropatia-diabetica-hipertensiva/study.js')
+    ])
   }
 ];
 

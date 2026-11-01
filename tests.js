@@ -944,8 +944,9 @@ async function run() {
   const htmlIndex = await (await fetch('./index.html?v=' + Date.now())).text();
   const docIndex = new DOMParser().parseFromString(htmlIndex, 'text/html');
   const cssFuente = await (await fetch('./engine/styles.css?v=' + Date.now())).text();
-  // En produccion firestore.rules devuelve 404 a proposito (_redirects), asi que la prueba de
-  // las reglas se salta sola alli y vigila en local, que es donde se corren los tests.
+  // En produccion firestore.rules devuelve 404 a proposito (lo excluye .assetsignore), y tests.html
+  // tampoco se publica, asi que la prueba de las reglas se salta sola alli y vigila en local, que es
+  // donde se corren los tests.
   const respReglas = await fetch('./firestore.rules?v=' + Date.now());
   const reglasFuente = respReglas.ok ? await respReglas.text() : null;
 
@@ -2187,7 +2188,7 @@ async function run() {
     // 'valoracion-preoperatoria' entra sin reescritura porque la auditoría lo encontró ya en
     // regla (37.5% / 0.98x / 8.3% / 0 atípicas). Sirve de prueba de que los umbrales son
     // alcanzables con contenido clínico real, no un ideal teórico.
-    const REVISADOS = new Set(['glomerulopatias-sindromes-glomerulares', 'sodio-potasio-acido-base', 'enfermedad-renal-cronica', 'valoracion-preoperatoria', 'embolia-grasa',
+    const REVISADOS = new Set(['nefropatia-diabetica-hipertensiva', 'glomerulopatias-sindromes-glomerulares', 'sodio-potasio-acido-base', 'enfermedad-renal-cronica', 'valoracion-preoperatoria', 'embolia-grasa',
       'anemia-ferropenica', 'anemia-megaloblastica', 'anemia-enfermedad-cronica',
       'anemias-hemoliticas-hereditarias', 'anemias-hemoliticas-adquiridas', 'anemia-aplasica',
       'hemoglobinopatias', 'policitemia-secundaria', 'porfirias',
