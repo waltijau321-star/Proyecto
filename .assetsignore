@@ -3,8 +3,9 @@
 node_modules
 .claude
 
-# Material de trabajo que NO es parte del sitio y no debe publicarse (ver _redirects, que hace lo
-# mismo en Netlify). Bibliografia/ son PDFs con copyright, "solo para uso personal".
+# Material de trabajo que NO es parte del sitio y no debe publicarse. Este archivo es lo UNICO que
+# lo mantiene fuera: el despliegue es un Worker construido desde el repo, asi que se publica todo lo
+# versionado salvo lo que se liste aqui. Bibliografia/ son PDFs con copyright, "solo uso personal".
 Bibliografia
 tools
 imagenes-fuente
@@ -13,7 +14,14 @@ Temario Holistico Medicina Interna.docx
 Calculos dosis.xlsx
 esearch_result.json
 CLAUDE.md
+README.md
 firestore.rules
+LOGO.jpeg
+
+# El ejecutor de pruebas se abre en local (http://localhost:8788/tests.html). No tiene por que
+# estar publico.
+tests.html
+tests.js
 
 # Material suelto de la raiz: capturas de trabajo y notas del autor.
 ChatGPT Image*.png

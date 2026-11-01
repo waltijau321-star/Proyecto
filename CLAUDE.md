@@ -32,12 +32,22 @@ even after the source files are correct on disk. To verify a fix landed in a rea
 session (not just a fresh incognito/no-SW tab): DevTools → Application → Service Workers →
 Unregister, then Application → Storage → Clear site data, then reopen the tab.
 
-**Deploy**: drag-and-drop the folder to Netlify (or connect a repo) — static, no build. The folder
-also carries working material that must never be served: `Bibliografia/` (copyrighted PDFs, "personal
-use only"), `.claude/` (holds `gemini-key.txt` on the author's machine), `tools/`, the temario `.docx`,
-`Calculos dosis.xlsx`, `esearch_result.json`, `CLAUDE.md`. `_redirects` forces a 404 on those paths in
-Netlify (which uploads everything dragged in) and `.assetsignore` keeps them out of a Cloudflare upload.
-Any new root-level working file or folder goes into **both** files.
+**Deploy**: the live site is a Cloudflare **Worker** named `proyecto`, built by Workers Builds from
+the GitHub repo (`waltijau321-star/Proyecto`) on every push to `main`. No wrangler config is versioned
+here; Cloudflare generates an ephemeral one per build. So a push publishes, and there is no folder to
+upload. The repo also carries working material that must never be served: `Bibliografia/` (copyrighted
+PDFs, "personal use only"), `.claude/` (holds `gemini-key.txt` on the author's machine), `tools/`, the
+temario `.docx`, `Calculos dosis.xlsx`, `esearch_result.json`, `CLAUDE.md`, `README.md`, `LOGO.jpeg`,
+`tests.html`, `tests.js`. **`.assetsignore` at the repo root is the only thing keeping them out**, so
+any new root-level working file or folder goes there and nowhere else.
+
+**Never add a `_redirects` file.** Workers validates it strictly and a single invalid rule aborts the
+whole deploy, uploading nothing. A `_redirects` written in Netlify syntax (`404!`, a status Cloudflare
+does not accept) is what failed every build from 16 Oct to 1 Nov 2026: the pushes went through, the
+working copy looked fine, and production silently stayed 50 commits and 13 topics behind. After a push,
+check that it landed: the commit carries a `Workers Builds: proyecto` check run in GitHub (readable
+without credentials, the repo is public), and `CACHE_VERSION` in the live `sw.js` tells you which commit
+is actually being served.
 
 ## Architecture
 
