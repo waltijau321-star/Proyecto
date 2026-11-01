@@ -152,7 +152,7 @@ export const calculators = [
 
   {
     key: 'tiamina-electrolitos', title: 'Tiamina y electrolitos', accent: '#3f6b52',
-    subtitle: 'Lo que acompa&#241;a a todo tratamiento',
+    subtitle: 'Lo que acompaña a todo tratamiento',
     incompleteMsg: 'Indica el ambito.',
     fields: [
       { name: 'ambito', id: 'sup-t1', type: 'select', label: 'Ambito', options: [

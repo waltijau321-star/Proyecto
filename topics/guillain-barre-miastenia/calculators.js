@@ -37,7 +37,7 @@ export const calculators = [
         { v: 'si', t: 'Presente' }
       ] },
       { name: 'mrc', id: 'gm-eg-m', type: 'number', step: '1', label: 'Suma de fuerza del Medical Research Council (0 a 60)', placeholder: 'ej. 44' },
-      { type: 'note', text: 'La suma del Medical Research Council se obtiene puntuando de 0 a 5 la fuerza de seis grupos musculares en ambos lados (abduccion del hombro, flexion del codo, extension de la mu&#241;eca, flexion de la cadera, extension de la rodilla y dorsiflexion del pie), con un maximo de 60. La escala predice la necesidad de ventilacion mecanica y NO sustituye a la vigilancia respiratoria seriada.' }
+      { type: 'note', text: 'La suma del Medical Research Council se obtiene puntuando de 0 a 5 la fuerza de seis grupos musculares en ambos lados (abduccion del hombro, flexion del codo, extension de la muñeca, flexion de la cadera, extension de la rodilla y dorsiflexion del pie), con un maximo de 60. La escala predice la necesidad de ventilacion mecanica y NO sustituye a la vigilancia respiratoria seriada.' }
     ],
     compute(v) {
       if (v.dias == null || v.mrc == null) return null;
@@ -76,7 +76,7 @@ export const calculators = [
   {
     key: 'regla-20-30-40', title: 'Regla de 20, 30 y 40', accent: '#8c3a34',
     subtitle: 'Cuando intubar en la debilidad neuromuscular, antes de que la gasometria se altere',
-    incompleteMsg: 'Introduce la capacidad vital y el peso. A&#241;ade las presiones maximas si se han medido.',
+    incompleteMsg: 'Introduce la capacidad vital y el peso. Añade las presiones maximas si se han medido.',
     fields: [
       { name: 'cv', id: 'gm-rg-cv', type: 'number', step: '10', label: 'Capacidad vital medida (mL)', placeholder: 'ej. 1500', row: 'r1' },
       { name: 'peso', id: 'gm-rg-p', type: 'number', step: '0.5', label: 'Peso (kg)', placeholder: 'ej. 70', row: 'r1' },
@@ -161,7 +161,7 @@ export const calculators = [
       let s = `<strong>${r.total} de 24 puntos: impacto ${r.grado}.</strong> `;
       if (r.total === 0) s += '<span style="color:#3f6b52;">El paciente refiere estar sin sintomas.</span> Es el objetivo del tratamiento: la meta no es normalizar los anticuerpos sino que el paciente este asintomatico o con sintomas minimos y sin efectos adversos limitantes.';
       else if (r.grado === 'LEVE') s += '<span style="color:#3f6b52;">Impacto leve.</span> Conviene comprobar si es un buen control estable o si se ha alcanzado a costa de efectos adversos del tratamiento, sobre todo del corticoide.';
-      else if (r.grado === 'MODERADO') s += '<span style="color:#8a6a1f;">Impacto moderado.</span> Justifica revisar el tratamiento: adherencia, dosis, y si procede a&#241;adir o cambiar de ahorrador. Antes de escalar, descartar un desencadenante como una infeccion o un farmaco nuevo.';
+      else if (r.grado === 'MODERADO') s += '<span style="color:#8a6a1f;">Impacto moderado.</span> Justifica revisar el tratamiento: adherencia, dosis, y si procede añadir o cambiar de ahorrador. Antes de escalar, descartar un desencadenante como una infeccion o un farmaco nuevo.';
       else s += '<span style="color:#8c3a34;">Impacto grave.</span> Enfermedad mal controlada: revisar el tratamiento de fondo y valorar escalada terapeutica, incluida la remision a una unidad con experiencia.';
       if (r.respirar >= 2) {
         s += `<br><strong style="color:#8c3a34;">El item de RESPIRACION puntua ${r.respirar}.</strong> La disnea en reposo referida por el paciente es un dato de alarma que no se puede diluir en la puntuacion total: corresponde medir capacidad vital y presiones maximas de inmediato y valorar si esto es ya una crisis en curso.`;
@@ -170,7 +170,7 @@ export const calculators = [
         s += `<br><strong style="color:#8c3a34;">Predominio BULBAR (${r.bulbar} de 9 puntos entre habla, masticacion y deglucion).</strong> Es el perfil de mayor riesgo de crisis y de aspiracion, y el que mas adelanta la decision de intubar si el cuadro empeora. Conviene valorar formalmente la deglucion.`;
       }
       if (r.soloOcular) {
-        s += '<br><span style="opacity:.8;">Toda la puntuacion procede de los items oculares. En la forma puramente ocular hay que vigilar la generalizacion durante los dos primeros a&#241;os, que es cuando ocurre en la mayoria de los que generalizan, y recordar que la timectomia no esta indicada en esta forma.</span>';
+        s += '<br><span style="opacity:.8;">Toda la puntuacion procede de los items oculares. En la forma puramente ocular hay que vigilar la generalizacion durante los dos primeros años, que es cuando ocurre en la mayoria de los que generalizan, y recordar que la timectomia no esta indicada en esta forma.</span>';
       }
       s += '<br><span style="opacity:.75;">Un cambio de 2 puntos o mas entre visitas se considera clinicamente relevante. Hay que usar siempre el mismo instrumento para poder comparar.</span>';
       return s;

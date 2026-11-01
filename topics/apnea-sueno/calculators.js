@@ -3,7 +3,7 @@
 // - stop-bang: cribado de apnea obstructiva, con la advertencia de que criba y no diagnostica.
 // - epworth: escala de somnolencia diurna, que mide el sintoma y sirve para seguir la respuesta.
 // - iah-gravedad: indice de apnea-hipopnea a partir de los eventos y del tiempo, con la
-//   diferencia entre tiempo de sue&#241;o (polisomnografia) y de registro (poligrafia domiciliaria).
+//   diferencia entre tiempo de sueño (polisomnografia) y de registro (poligrafia domiciliaria).
 // - hipoventilacion-obesidad: criterios diagnosticos del sindrome, con el bicarbonato como
 //   cribado previo a la gasometria.
 //
@@ -49,7 +49,7 @@ export const calculators = [
       { name: 'o', id: 'ap-sb-o', type: 'checkbox', label: 'Alguien ha observado que deja de respirar mientras duerme', row: 'r2' },
       { name: 'p', id: 'ap-sb-p', type: 'checkbox', label: 'Tiene o esta en tratamiento por hipertension arterial', row: 'r2' },
       { name: 'b', id: 'ap-sb-b', type: 'checkbox', label: 'Indice de masa corporal mayor de 35 kg/m2', row: 'r3' },
-      { name: 'a', id: 'ap-sb-a', type: 'checkbox', label: 'Edad mayor de 50 a&#241;os', row: 'r3' },
+      { name: 'a', id: 'ap-sb-a', type: 'checkbox', label: 'Edad mayor de 50 años', row: 'r3' },
       { name: 'n', id: 'ap-sb-n', type: 'checkbox', label: 'Perimetro cervical mayor de 40 cm', row: 'r4' },
       { name: 'g', id: 'ap-sb-g', type: 'checkbox', label: 'Sexo masculino', row: 'r4' },
       { type: 'note', text: 'Los cuatro primeros items forman el acronimo STOP (ronquido, cansancio, apneas observadas y presion arterial) y los cuatro ultimos, BANG (indice de masa corporal, edad, cuello y sexo). Es una herramienta muy SENSIBLE y poco especifica: sirve para priorizar el estudio y para el cribado preoperatorio. Una puntuacion baja NO autoriza a dejar de estudiar a un paciente con clinica sugestiva.' }
@@ -71,7 +71,7 @@ export const calculators = [
     format: r => {
       let s = `<strong>${r.p} de 8 puntos (STOP ${r.stop} de 4): riesgo ${r.riesgo}</strong> de apnea obstructiva moderada o grave. `;
       if (r.riesgo === 'ALTO') {
-        s += '<span style="color:#8c3a34;">Probabilidad alta.</span> Corresponde estudio del sue&#241;o con prioridad, y en el contexto preoperatorio, medidas de precaucion durante la anestesia y el posoperatorio: analgesia multimodal para reducir opioides, extubacion despierto y en semiincorporado, y monitorizacion prolongada de la saturacion.';
+        s += '<span style="color:#8c3a34;">Probabilidad alta.</span> Corresponde estudio del sueño con prioridad, y en el contexto preoperatorio, medidas de precaucion durante la anestesia y el posoperatorio: analgesia multimodal para reducir opioides, extubacion despierto y en semiincorporado, y monitorizacion prolongada de la saturacion.';
       } else if (r.riesgo === 'INTERMEDIO') {
         s += '<span style="color:#8a6a1f;">Zona intermedia.</span> La decision se apoya en la clinica y en la comorbilidad. Ante somnolencia relevante, hipertension resistente, fibrilacion auricular o cirugia mayor prevista, conviene estudiar.';
       } else {
@@ -113,7 +113,7 @@ export const calculators = [
       if (r.grado === 'NORMAL') {
         s += '<span style="color:#3f6b52;">Por debajo del umbral de somnolencia diurna excesiva</span>, que se situa por encima de 10. Ojo: esto NO descarta una apnea grave. Muchos pacientes, y sobre todo muchas MUJERES, consultan por fatiga, insomnio, animo bajo o cefalea matutina en lugar de por somnolencia, y puntuan bajo teniendo la enfermedad.';
       } else {
-        s += `<span style="color:${r.grado === 'GRAVE' ? '#8c3a34' : '#8a6a1f'};">Somnolencia diurna excesiva</span>, por encima del umbral de 10. Obliga a completar el estudio del sue&#241;o y a preguntar por la conduccion. Antes de atribuirla toda a la apnea hay que descartar la causa mas frecuente de somnolencia, que es el SUE&#209;O INSUFICIENTE por habitos, ademas de farmacos sedantes, alcohol, turnos, depresion y narcolepsia.`;
+        s += `<span style="color:${r.grado === 'GRAVE' ? '#8c3a34' : '#8a6a1f'};">Somnolencia diurna excesiva</span>, por encima del umbral de 10. Obliga a completar el estudio del sueño y a preguntar por la conduccion. Antes de atribuirla toda a la apnea hay que descartar la causa mas frecuente de somnolencia, que es el SUEÑO INSUFICIENTE por habitos, ademas de farmacos sedantes, alcohol, turnos, depresion y narcolepsia.`;
       }
       if (r.enCoche) {
         s += '<br><strong style="color:#8c3a34;">Puntua alto en alguna de las situaciones dentro de un coche.</strong> Es el dato con mayor riesgo inmediato, para el paciente y para terceros. Corresponde consejo explicito de no conducir mientras la somnolencia no este controlada, y dejarlo DOCUMENTADO en la historia.';
@@ -127,18 +127,18 @@ export const calculators = [
   {
     key: 'iah-gravedad', title: 'Indice de apnea-hipopnea y gravedad', accent: '#3d5a73',
     subtitle: 'Del numero de eventos a la decision de tratar',
-    incompleteMsg: 'Introduce el numero de eventos y las horas de sue&#241;o o de registro.',
+    incompleteMsg: 'Introduce el numero de eventos y las horas de sueño o de registro.',
     fields: [
       { name: 'eventos', id: 'ap-iah-ev', type: 'number', step: '1', label: 'Apneas mas hipopneas (numero total)', placeholder: 'ej. 186', row: 'r1' },
-      { name: 'horas', id: 'ap-iah-h', type: 'number', step: '0.1', label: 'Horas de sue&#241;o o de registro valido', placeholder: 'ej. 6.2', row: 'r1' },
+      { name: 'horas', id: 'ap-iah-h', type: 'number', step: '0.1', label: 'Horas de sueño o de registro valido', placeholder: 'ej. 6.2', row: 'r1' },
       { name: 'prueba', id: 'ap-iah-pr', type: 'select', label: 'Prueba realizada', row: 'r2', options: [
-        { v: 'psg', t: 'Polisomnografia (divide por tiempo de SUE&#209;O)' },
+        { v: 'psg', t: 'Polisomnografia (divide por tiempo de SUEÑO)' },
         { v: 'pr', t: 'Poligrafia domiciliaria (divide por tiempo de REGISTRO)' }
       ] },
       { name: 'centrales', id: 'ap-iah-ce', type: 'number', step: '1', required: false, label: 'De ellos, eventos CENTRALES (opcional)', placeholder: 'ej. 12', row: 'r2' },
       { name: 't90', id: 'ap-iah-t90', type: 'number', step: '1', required: false, label: 'Tiempo con saturacion por debajo del 90% (% del registro, opcional)', placeholder: 'ej. 14', row: 'r3' },
       { name: 'clinica', id: 'ap-iah-cl', type: 'select', label: 'Sintomas o comorbilidad asociada', row: 'r3', options: [
-        { v: 'si', t: 'Si: somnolencia, sue&#241;o no reparador, hipertension, cardiopatia, ictus o fibrilacion auricular' },
+        { v: 'si', t: 'Si: somnolencia, sueño no reparador, hipertension, cardiopatia, ictus o fibrilacion auricular' },
         { v: 'no', t: 'No: asintomatico y sin comorbilidad relevante' }
       ] },
       { type: 'note', text: 'La poligrafia domiciliaria divide los eventos por el tiempo de REGISTRO, que incluye el tiempo que el paciente estuvo despierto en la cama, de modo que su indice queda INFRAESTIMADO respecto al de la polisomnografia. Por eso una poligrafia negativa o no concluyente en un paciente sospechoso obliga a hacer polisomnografia, no a darle el alta.' }
@@ -171,7 +171,7 @@ export const calculators = [
       }
       if (r.diagnostico) {
         if (r.grav === 'GRAVE') s += 'Tratamiento: <strong>CPAP</strong>, con independencia de los sintomas, y aqui la ADHERENCIA es el tratamiento.';
-        else if (r.grav === 'MODERADA') s += 'Tratamiento: <strong>CPAP</strong> como eleccion; dispositivo de avance mandibular si no la tolera pese a un intento bien acompa&#241;ado.';
+        else if (r.grav === 'MODERADA') s += 'Tratamiento: <strong>CPAP</strong> como eleccion; dispositivo de avance mandibular si no la tolera pese a un intento bien acompañado.';
         else s += 'Tratamiento: medidas conservadoras, <strong>dispositivo de avance mandibular</strong> o terapia posicional; la CPAP tambien es opcion si el paciente la prefiere.';
       }
       if (r.pr) s += '<br><span style="opacity:.8;">Al tratarse de una poligrafia domiciliaria, el indice real es probablemente MAYOR que el calculado, porque el denominador incluye tiempo despierto.</span>';
@@ -185,7 +185,7 @@ export const calculators = [
   {
     key: 'hipoventilacion-obesidad', title: 'Criterios de hipoventilacion-obesidad', accent: '#8c5a2e',
     subtitle: 'El diagnostico que solo se hace con el paciente despierto',
-    incompleteMsg: 'Introduce el indice de masa corporal. A&#241;ade el bicarbonato o la PaCO2 diurna para completar la valoracion.',
+    incompleteMsg: 'Introduce el indice de masa corporal. Añade el bicarbonato o la PaCO2 diurna para completar la valoracion.',
     fields: [
       { name: 'imc', id: 'ap-oh-imc', type: 'number', step: '0.1', label: 'Indice de masa corporal (kg/m2)', placeholder: 'ej. 44', row: 'r1' },
       { name: 'hco3', id: 'ap-oh-hco3', type: 'number', step: '0.1', required: false, label: 'Bicarbonato serico (mEq/L, si se tiene)', placeholder: 'ej. 31', row: 'r1' },
@@ -225,7 +225,7 @@ export const calculators = [
         case 'improbable':
           return `Indice de masa corporal de ${r.imc} con bicarbonato de ${r.hco3} mEq/L, <strong style="color:#3f6b52;">por debajo de 27</strong>. El sindrome de hipoventilacion-obesidad es MUY IMPROBABLE y la gasometria arterial puede evitarse. Esto no descarta la apnea obstructiva, que hay que estudiar aparte si hay clinica.`;
         case 'pedir-gasometria':
-          return `Indice de masa corporal de ${r.imc} con bicarbonato de ${r.hco3} mEq/L, <strong style="color:#8a6a1f;">de 27 o mas</strong>. Ese bicarbonato es la huella de una hipercapnia cronica compensada por el ri&#241;on: <strong>corresponde GASOMETRIA ARTERIAL con el paciente DESPIERTO</strong> y respirando aire ambiente para confirmarlo o descartarlo.`;
+          return `Indice de masa corporal de ${r.imc} con bicarbonato de ${r.hco3} mEq/L, <strong style="color:#8a6a1f;">de 27 o mas</strong>. Ese bicarbonato es la huella de una hipercapnia cronica compensada por el riñon: <strong>corresponde GASOMETRIA ARTERIAL con el paciente DESPIERTO</strong> y respirando aire ambiente para confirmarlo o descartarlo.`;
         case 'descartado':
           return `Indice de masa corporal de ${r.imc} con PaCO2 diurna de ${r.paco2} mmHg, <strong style="color:#3f6b52;">de 45 o menos</strong>. NO se cumple el criterio de hipercapnia diurna: no hay sindrome de hipoventilacion-obesidad. Si hay clinica nocturna, estudiar apnea obstructiva, que puede existir igualmente y ser grave.`;
         case 'hipercapnia-otra-causa':

@@ -29,7 +29,7 @@ export const content = {
   diagnostico: {
     clinica: {
       tituloA: 'El abdomen que se deja leer',
-      tituloB: 'El abdomen que enga&#241;a',
+      tituloB: 'El abdomen que engaña',
       compensada: 'Dolor localizado por cuadrantes (epigastrio, hipocondrio derecho o izquierdo, fosas iliacas) o difuso, con una historia coherente y una exploracion que orienta. La historia y la exploracion siguen siendo el primer paso, como queria Cope: crean el indice de sospecha que luego la imagen confirma o descarta. Y una regla que Rogers y Kirton subrayan: si los sintomas no son congruentes con el diagnostico sospechado, hay que reevaluar y considerar otras posibilidades.',
       descompensada: 'El paciente mayor, con historia poco fiable, sintomas vagos, alteracion del estado mental, multiples enfermedades, una exploracion dificil y poca reserva fisiologica. El paciente que toma glucocorticoides u otros inmunosupresores, que enmascaran la respuesta inflamatoria. En ellos la exploracion puede no reflejar la gravedad, y la tomografia gana valor: el aire libre, los cambios inflamatorios o la isquemia intestinal pueden llevar antes a la laparotomia y al control del foco.'
     },
@@ -114,7 +114,7 @@ export const content = {
       criterios_trasplante: 'No aplica.',
       seguimiento_hospitalario: 'Si la imagen no explica el cuadro, la exploracion seriada sigue mandando.',
       seguimiento_ambulatorio: 'No aplica.',
-      pronostico: 'La campa&#241;a Choosing Wisely del American College of Radiology pide un uso juicioso de los protocolos multifase, con criterios de adecuacion integrados en la peticion.',
+      pronostico: 'La campaña Choosing Wisely del American College of Radiology pide un uso juicioso de los protocolos multifase, con criterios de adecuacion integrados en la peticion.',
       algoritmo: ['Historia y exploracion primero', 'Adulto no gestante: tomografia con contraste intravenoso', 'No retirar el contraste sin valorar el coste diagnostico', 'Embarazada: ecografia primero', 'Peritonitis franca: radiografia para aire libre y cirujano ya', 'No esperar al informe para llamar al cirujano']
     },
     {
@@ -122,9 +122,9 @@ export const content = {
       color: '#5a4a8c',
       definicion: 'Pacientes en los que la presentacion del abdomen agudo es atipica y la exploracion poco fiable, y en los que el retraso se paga mas caro.',
       fisiopatologia: 'La menor reserva fisiologica, la respuesta inflamatoria atenuada (por la edad o por glucocorticoides e inmunosupresores) y la alteracion del estado mental hacen que el peritonismo sea menos evidente y que la progresion a enfermedad sistemica y disfuncion de organo sea mas rapida.',
-      epidemiologia: 'En 2021 uno de cada seis estadounidenses tenia 65 a&#241;os o mas, y los cuadros que requieren cirugia general urgente son mas frecuentes en ellos que en los jovenes.',
+      epidemiologia: 'En 2021 uno de cada seis estadounidenses tenia 65 años o mas, y los cuadros que requieren cirugia general urgente son mas frecuentes en ellos que en los jovenes.',
       factores_riesgo: ['Edad avanzada', 'Alteracion del estado mental', 'Glucocorticoides u otros inmunosupresores', 'Multiples comorbilidades', 'Historia poco fiable o sintomas vagos'],
-      clinica: 'Historia poco fiable, sintomas vagos, alteracion del estado mental, exploracion dificil y poca reserva. La edad de 75 a&#241;os o mas es, por si misma, uno de los criterios de colangitis moderada en Tokio.',
+      clinica: 'Historia poco fiable, sintomas vagos, alteracion del estado mental, exploracion dificil y poca reserva. La edad de 75 años o mas es, por si misma, uno de los criterios de colangitis moderada en Tokio.',
       criterios_dx: 'No aplica.',
       laboratorio: 'Los recuentos y reactantes pueden ser normales pese a un proceso grave.',
       imagen: 'La tomografia con contraste tiene aqui un beneficio particular: detectar aire libre, inflamacion o isquemia puede adelantar la laparotomia y el control del foco.',
@@ -296,7 +296,7 @@ export const arbol = {
       { title: 'Tomografia con contraste', sub: 'Sin esperar el informe', color: '#3d5a73', target: 'complicaciones' }
     ] },
     { title: 'Quien y cuando', sub: 'No esperar', color: '#8c2e2e', target: 'complicaciones', leaves: [
-      { title: 'Mayor o inmunodeprimido', sub: 'Exploracion enga&#241;osa', color: '#5a4a8c', target: 'complicaciones' },
+      { title: 'Mayor o inmunodeprimido', sub: 'Exploracion engañosa', color: '#5a4a8c', target: 'complicaciones' },
       { title: 'Cirujano pronto', sub: 'Control del foco', color: '#8c2e2e', target: 'complicaciones' }
     ] },
     { title: 'Como razonar', sub: 'Sesgos y criterios', color: '#7a4363', target: 'complicaciones', leaves: [
@@ -328,7 +328,7 @@ export const figuras = {
           </tbody>
         </table>
       </div>
-      <div class="figure-grade-box">El diagrama de la revision a&#241;ade los factores del paciente que agravan cada punto: <strong>edad avanzada</strong>, <strong>alteracion del estado mental</strong>, <strong>glucocorticoides u otros inmunosupresores</strong> y la <strong>raza o grupo etnico</strong>, porque los pacientes negros y de otros grupos desatendidos recibieron entre un 22% y un 30% menos analgesia en urgencias y menos consultas quirurgicas. Y el principio que no ha cambiado desde Cope: una historia y una exploracion completas son el primer paso, y si los sintomas no encajan con el diagnostico, hay que reevaluar.</div>`
+      <div class="figure-grade-box">El diagrama de la revision añade los factores del paciente que agravan cada punto: <strong>edad avanzada</strong>, <strong>alteracion del estado mental</strong>, <strong>glucocorticoides u otros inmunosupresores</strong> y la <strong>raza o grupo etnico</strong>, porque los pacientes negros y de otros grupos desatendidos recibieron entre un 22% y un 30% menos analgesia en urgencias y menos consultas quirurgicas. Y el principio que no ha cambiado desde Cope: una historia y una exploracion completas son el primer paso, y si los sintomas no encajan con el diagnostico, hay que reevaluar.</div>`
   },
   'abdomen-imagen': {
     titulo: 'Que imagen, en quien',
@@ -366,6 +366,6 @@ export const figuras = {
           </tbody>
         </table>
       </div>
-      <div class="figure-grade-box">Dos detalles que explican el dise&#241;o. El <strong>signo de Murphy</strong> es especifico pero solo tuvo un 20.5% de sensibilidad, de modo que su ausencia no descarta la colecistitis. Y el <strong>dolor abdominal</strong> se excluyo de los criterios de colangitis porque al incluirlo la especificidad caia al 66% por los falsos positivos de colecistitis; sin el, la sensibilidad fue del 91.8% y la especificidad del 77.7%. La triada de Charcot completa solo aparecio en el 21% al 26% de los pacientes.</div>`
+      <div class="figure-grade-box">Dos detalles que explican el diseño. El <strong>signo de Murphy</strong> es especifico pero solo tuvo un 20.5% de sensibilidad, de modo que su ausencia no descarta la colecistitis. Y el <strong>dolor abdominal</strong> se excluyo de los criterios de colangitis porque al incluirlo la especificidad caia al 66% por los falsos positivos de colecistitis; sin el, la sensibilidad fue del 91.8% y la especificidad del 77.7%. La triada de Charcot completa solo aparecio en el 21% al 26% de los pacientes.</div>`
   }
 };

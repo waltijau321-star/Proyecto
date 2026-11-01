@@ -5,6 +5,7 @@
 import { registry, loadTopic } from '../topics/registry.js';
 import { syncGet, syncSet } from './cloud-sync.js';
 import { trackEvent } from './usage-tracking.js';
+import { SRS_INTERVALS, SRS_MAX_BOX } from './quiz-srs.js';
 
 let CARD_POOL = null; // [{topicId, topicTitulo, cardIndex, front, back}]
 let reviewState = { deck: [], index: 0, showBack: false };
@@ -82,9 +83,8 @@ function rateCard(rating) {
   const card = reviewState.deck[reviewState.index];
   const progress = syncGet(fcKey(card.topicId), {});
   let box = (progress[card.cardIndex] && progress[card.cardIndex].box) || 1;
-  if (rating === 1) box = 1; else if (rating === 2) box = Math.max(1, box); else if (rating === 3) box = Math.min(5, box + 1); else box = Math.min(5, box + 2);
-  const intervals = { 1: 0, 2: 1 * 86400000, 3: 3 * 86400000, 4: 7 * 86400000, 5: 14 * 86400000 };
-  progress[card.cardIndex] = { box, next: Date.now() + (intervals[box] || 0) };
+  if (rating === 1) box = 1; else if (rating === 2) box = Math.max(1, box); else if (rating === 3) box = Math.min(SRS_MAX_BOX, box + 1); else box = Math.min(SRS_MAX_BOX, box + 2);
+  progress[card.cardIndex] = { box, next: Date.now() + (SRS_INTERVALS[box] || 0) };
   syncSet(fcKey(card.topicId), progress);
   reviewState.index++; reviewState.showBack = false; renderReview();
 }

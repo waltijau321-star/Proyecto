@@ -14,7 +14,7 @@ export const quiz = [
   { q: 'Que via de nutricion se elige si el paciente no puede comer pero su intestino funciona?', options: ['La parenteral central', 'La enteral', 'La parenteral periferica', 'La hidratacion sola'], correct: 1, explanation: 'La regla es sencilla y casi siempre se cumple: si el intestino funciona, se usa; y si funciona a medias, se usa a medias y se complementa.', dificultad: 'facil' },
   {
     type: 'cascade', dificultad: 'intermedio',
-    vignette: 'Varon de 58 a&#241;os con consumo excesivo de alcohol, ingresado por neumonia. Pesa 44 kg con un indice de masa corporal de 15.2 y lleva unos 12 dias comiendo practicamente nada. En la analitica de ingreso, el fosforo es de 1.9 mg/dL, el potasio de 3.1 mEq/L y el magnesio de 1.4 mg/dL. Se plantea iniciar nutricion cubriendo desde el primer dia sus requerimientos completos.',
+    vignette: 'Varon de 58 años con consumo excesivo de alcohol, ingresado por neumonia. Pesa 44 kg con un indice de masa corporal de 15.2 y lleva unos 12 dias comiendo practicamente nada. En la analitica de ingreso, el fosforo es de 1.9 mg/dL, el potasio de 3.1 mEq/L y el magnesio de 1.4 mg/dL. Se plantea iniciar nutricion cubriendo desde el primer dia sus requerimientos completos.',
     steps: [
       { q: 'Que riesgo tiene este paciente?', options: ['Un riesgo bajo', 'Un riesgo intermedio', 'Un riesgo alto', 'No se puede estimar'], correct: 2 },
       { q: 'Que hay que administrar antes que nada?', options: ['Un bolo de glucosa', 'Albumina intravenosa', 'Suplemento de zinc', 'Tiamina'], correct: 3 },
@@ -29,7 +29,7 @@ export const quiz = [
   { q: 'Cual es la medida mas eficaz para reducir la aspiracion durante la nutricion enteral?', options: ['Diluir la formula al inicio', 'Administrarla en bolos lentos', 'Elevar el cabecero de la cama', 'Usar una sonda de menor calibre'], correct: 2, explanation: 'Entre 30 y 45 grados. Es gratis, es la mas eficaz y es la que mas se relaja a lo largo del turno, de modo que comprobarla de verdad rinde mas que muchas prescripciones.', dificultad: 'facil' },
   {
     type: 'cascade', dificultad: 'facil',
-    vignette: 'Mujer de 71 a&#241;os ingresada por un ictus extenso, con disfagia grave confirmada por logopedia. Esta hemodinamicamente estable, sin vasoactivos. El abdomen es blando y depresible, sin dolor, pero no se auscultan ruidos intestinales.',
+    vignette: 'Mujer de 71 años ingresada por un ictus extenso, con disfagia grave confirmada por logopedia. Esta hemodinamicamente estable, sin vasoactivos. El abdomen es blando y depresible, sin dolor, pero no se auscultan ruidos intestinales.',
     steps: [
       { q: 'Que via de nutricion corresponde?', options: ['Parenteral central', 'Enteral por sonda', 'Oral con espesantes', 'Sueroterapia sola'], correct: 1 },
       { q: 'La ausencia de ruidos lo contraindica?', options: ['No', 'Si, hasta que aparezcan', 'Solo si hay distension', 'Solo si lleva opioides'], correct: 0 },
@@ -46,7 +46,7 @@ export const quiz = [
     type: 'cascade', dificultad: 'dificil',
     vignette: 'Varon de 175 cm y 118 kg de peso, con un indice de masa corporal de 38.5. Lleva cuatro dias ingresado en la unidad de criticos, ya estabilizado y sin vasoactivos. Recibe sedacion con propofol al 1% a razon de 400 mL al dia. Se va a calcular su objetivo nutricional.',
     steps: [
-      { q: 'Que peso hay que usar para el calculo?', options: ['El peso real de la bascula', 'La media entre real e ideal', 'El peso de hace un a&#241;o', 'El peso ajustado'], correct: 3 },
+      { q: 'Que peso hay que usar para el calculo?', options: ['El peso real de la bascula', 'La media entre real e ideal', 'El peso de hace un año', 'El peso ajustado'], correct: 3 },
       { q: 'Cuantas calorias aportan esos 400 mL de propofol?', options: ['Unas 100 kcal', 'Unas 440 kcal', 'Unas 800 kcal', 'Ninguna, no aporta'], correct: 1 },
       { q: 'Que hay que hacer con esas calorias?', options: ['Sumarlas al objetivo', 'Ignorarlas por ser sedacion', 'Descontarlas del objetivo', 'Compensarlas con proteina'], correct: 2 }
     ],
@@ -86,10 +86,10 @@ export const quiz = [
   { q: 'Que aporta la calorimetria indirecta frente a las formulas por peso?', options: ['Estima mejor la masa muscular', 'Mide el gasto en lugar de estimarlo', 'Calcula el aporte proteico exacto', 'Predice la tolerancia digestiva'], correct: 1, explanation: 'Es lo ideal para individualizar el aporte, pero esta disponible en muy pocos sitios, de modo que en la practica se sigue calculando por peso con las salvedades conocidas.', dificultad: 'intermedio' },
   { q: 'Por que suele diferir lo prescrito de lo que el paciente realmente recibe?', options: ['Por errores de calculo frecuentes', 'Por mala tolerancia digestiva', 'Por perdidas en el sistema de infusion', 'Por las interrupciones acumuladas'], correct: 3, explanation: 'Es una perdida en buena parte organizativa, y por tanto corregible si alguien la mide. Comparar lo recibido con lo prescrito revela una brecha grande y sistematica.', dificultad: 'intermedio' },
   { q: 'Que cuadro puede producir una impactacion fecal no detectada?', options: ['Una diarrea por rebosamiento', 'Una obstruccion completa siempre', 'Una hemorragia digestiva baja', 'Una perforacion espontanea'], correct: 0, explanation: 'Se confunde con exactamente lo contrario de lo que es, y se trata con antidiarreicos que empeoran el problema. El tacto rectal es una exploracion sencilla y muy rentable.', dificultad: 'intermedio' },
-  { q: 'Que caracteriza a la aspiracion silente?', options: ['Que produce fiebre alta', 'Que solo ocurre con liquidos', 'Que no produce tos', 'Que se detecta con la auscultacion'], correct: 2, explanation: 'Precisamente por eso es la de mayor riesgo: no da la se&#241;al que todos esperan. Ante neumonias de repeticion en un paciente con deterioro neurologico hay que valorar la deglucion.', dificultad: 'dificil' },
+  { q: 'Que caracteriza a la aspiracion silente?', options: ['Que produce fiebre alta', 'Que solo ocurre con liquidos', 'Que no produce tos', 'Que se detecta con la auscultacion'], correct: 2, explanation: 'Precisamente por eso es la de mayor riesgo: no da la señal que todos esperan. Ante neumonias de repeticion en un paciente con deterioro neurologico hay que valorar la deglucion.', dificultad: 'dificil' },
   {
     type: 'cascade', dificultad: 'intermedio',
-    vignette: 'Mujer de 82 a&#241;os que lleva 12 dias ingresada por una infeccion urinaria complicada. Ha perdido 6 kg desde el ingreso. En la exploracion destacan temporales hundidos y perdida de masa muscular en los interoseos de las manos. La albumina es de 2.4 g/dL. Revisando la historia, ha estado en ayunas cinco dias por pruebas que se acabaron cancelando o posponiendo.',
+    vignette: 'Mujer de 82 años que lleva 12 dias ingresada por una infeccion urinaria complicada. Ha perdido 6 kg desde el ingreso. En la exploracion destacan temporales hundidos y perdida de masa muscular en los interoseos de las manos. La albumina es de 2.4 g/dL. Revisando la historia, ha estado en ayunas cinco dias por pruebas que se acabaron cancelando o posponiendo.',
     steps: [
       { q: 'Que significa esa albumina de 2.4 g/dL?', options: ['Que la ingesta proteica es nula', 'Que confirma la desnutricion', 'Que refleja la inflamacion', 'Que indica perdida renal'], correct: 2 },
       { q: 'Que criterios permiten hacer el diagnostico?', options: ['Dos criterios fenotipicos', 'Uno fenotipico y uno etiologico', 'La albumina y el peso', 'El indice de masa corporal aislado'], correct: 1 },

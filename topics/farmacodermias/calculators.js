@@ -12,7 +12,7 @@ export const calculators = [
     fields: [
       { name: 'bsa', id: 'fd-bsa', type: 'number', step: '1', label: 'Superficie corporal DESPEGADA o despegable (%)', placeholder: 'ej. 18' },
       { type: 'note', text: 'Solo cuenta la piel despegada o que se despega al rozarla, <strong>no el eritema</strong>: contar el eritema sobrestima la gravedad y es el error mas comun. Se calcula con la regla de los nueves de Wallace o, mejor, con el metodo de Lund-Browder.' },
-      { name: 'edad', id: 'fd-e', type: 'checkbox', label: 'Edad de 40 a&#241;os o mas' },
+      { name: 'edad', id: 'fd-e', type: 'checkbox', label: 'Edad de 40 años o mas' },
       { name: 'neo', id: 'fd-n', type: 'checkbox', label: 'Neoplasia asociada' },
       { name: 'fc', id: 'fd-fc', type: 'checkbox', label: 'Frecuencia cardiaca de 120 por minuto o mas' },
       { name: 'urea', id: 'fd-u', type: 'checkbox', label: 'Urea serica elevada' },
@@ -71,7 +71,7 @@ export const calculators = [
       { name: 'ampollas', id: 'fd-f5', type: 'checkbox', label: 'Ampollas o signo de Nikolsky' },
       { name: 'analitica', id: 'fd-f6', type: 'checkbox', label: 'Alteracion analitica (eosinofilia, linfocitos atipicos, transaminasas o creatinina altas)' },
       { type: 'note', text: 'Y dos datos que no son banderas pero que alarman igual:' },
-      { name: 'pustulas', id: 'fd-f7', type: 'checkbox', label: 'Pustulas peque&#241;as no foliculares diseminadas' },
+      { name: 'pustulas', id: 'fd-f7', type: 'checkbox', label: 'Pustulas pequeñas no foliculares diseminadas' },
       { name: 'progresa', id: 'fd-f8', type: 'checkbox', label: 'Progresa pese a haber retirado el farmaco' }
     ],
     compute(v) {
@@ -104,7 +104,7 @@ export const calculators = [
       if (r.progresa) {
         s += '<br><strong style="color:#8c3a34;">Progresa pese a retirar el farmaco.</strong> Eso no descarta el origen farmacologico: la necrolisis epidermica sigue extendiendose dias despues de la retirada, y el DRESS puede empeorar despues. No es motivo para reintroducir nada.';
       }
-      s += '<br><span style="opacity:.75;">Antes de retirar ningun farmaco, escribe la <strong>cronologia completa</strong> con las fechas de inicio de todos: despues esa informacion se pierde y sin ella no se puede se&#241;alar al culpable.</span>';
+      s += '<br><span style="opacity:.75;">Antes de retirar ningun farmaco, escribe la <strong>cronologia completa</strong> con las fechas de inicio de todos: despues esa informacion se pierde y sin ella no se puede señalar al culpable.</span>';
       return s;
     },
     fragment(r) {
@@ -114,7 +114,7 @@ export const calculators = [
   },
 
   {
-    key: 'cronologia-farmaco', title: 'Cronologia: &#191;encaja el farmaco?', accent: '#3d5a73',
+    key: 'cronologia-farmaco', title: 'Cronologia: ¿encaja el farmaco?', accent: '#3d5a73',
     subtitle: 'Cruza el tipo de reaccion con los dias desde que empezo',
     incompleteMsg: 'Elige el tipo de reaccion e introduce los dias.',
     fields: [
@@ -173,7 +173,7 @@ export const calculators = [
     fields: [
       { name: 'temp', id: 'fd-tp', type: 'number', step: '0.1', label: 'Temperatura (grados centigrados)', placeholder: 'ej. 35.4', row: 'e1' },
       { name: 'alb', id: 'fd-al', type: 'number', step: '0.1', label: 'Albumina (g/dL)', placeholder: 'ej. 2.6', row: 'e1' },
-      { name: 'psoriasis', id: 'fd-ps', type: 'checkbox', label: 'Hay datos de psoriasis previa (placas residuales, u&#241;as, historia)' },
+      { name: 'psoriasis', id: 'fd-ps', type: 'checkbox', label: 'Hay datos de psoriasis previa (placas residuales, uñas, historia)' },
       { name: 'farmaco', id: 'fd-fa', type: 'checkbox', label: 'Se ha iniciado algun farmaco nuevo en las ultimas semanas' },
       { name: 'adenopatias', id: 'fd-ad', type: 'checkbox', label: 'Adenopatias generalizadas o celulas atipicas en sangre' },
       { name: 'fiebre', id: 'fd-fi', type: 'checkbox', label: 'Fiebre o sospecha de infeccion' }
@@ -209,7 +209,7 @@ export const calculators = [
         s += '<br><strong style="color:#8c3a34;">Cuidado con el corticoide sistemico:</strong> si la causa es una psoriasis, su retirada precipita un brote pustuloso. Conviene identificar la causa antes de instaurarlo.';
       }
       if (r.sinCausa) {
-        s += '<br><span style="opacity:.85;">Sin pistas de la causa: biopsiar, y REPETIR la biopsia si sale inespecifica. Parte de las eritrodermias idiopaticas acaban revelandose como linfoma cutaneo a&#241;os despues.</span>';
+        s += '<br><span style="opacity:.85;">Sin pistas de la causa: biopsiar, y REPETIR la biopsia si sale inespecifica. Parte de las eritrodermias idiopaticas acaban revelandose como linfoma cutaneo años despues.</span>';
       }
       return s;
     },

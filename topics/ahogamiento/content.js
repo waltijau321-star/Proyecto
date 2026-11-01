@@ -15,7 +15,7 @@ export const meta = {
 
 export const definicionText = `<p style="margin:0 0 14px;">El Congreso Mundial sobre Ahogamiento de 2002 lo definio como <strong>el proceso de sufrir un deterioro respiratorio por sumersion o inmersion en un liquido</strong>, y admite solo tres desenlaces: con morbilidad, sin morbilidad o muerte. Los terminos antiguos (casi ahogamiento, ahogamiento humedo o seco, activo o pasivo, en agua dulce o salada, secundario) <strong>no deben usarse</strong>: los datos de decadas muestran que no tienen relevancia fisiologica, porque la via final comun es siempre la misma, la <strong>hipoxemia</strong> que acaba en parada cardiorrespiratoria.</p>
 <p style="margin:0 0 14px;">Esa idea lo ordena todo. Como la lesion primaria es la <strong>hipoxia cerebral</strong>, la reanimacion del ahogado no sigue el orden de la parada cardiaca habitual: aqui se recupera el modelo <strong>A-B-C</strong>, con la via aerea y las ventilaciones por delante, porque la RCP solo con compresiones no sirve para un problema que empezo en el pulmon. La fibrilacion ventricular es rara (menos del 10%), y el ritmo tipico es taquicardia, luego bradicardia, actividad electrica sin pulso y asistolia.</p>
-<p style="margin:0 0 14px;">Se estiman unas <strong>372.000 muertes al a&#241;o</strong> en el mundo. El grupo de mayor riesgo son los ni&#241;os de 1 a 4 a&#241;os en piscinas domesticas, seguidos de adolescentes y adultos jovenes en aguas naturales. Hasta un 10% de los ahogamientos pueden deberse a quedar atrapado en un vehiculo sumergido, y el alcohol aparece en el 30% al 70% de las muertes. La prevencion salva mas vidas que cualquier rescate o tratamiento.</p>`;
+<p style="margin:0 0 14px;">Se estiman unas <strong>372.000 muertes al año</strong> en el mundo. El grupo de mayor riesgo son los niños de 1 a 4 años en piscinas domesticas, seguidos de adolescentes y adultos jovenes en aguas naturales. Hasta un 10% de los ahogamientos pueden deberse a quedar atrapado en un vehiculo sumergido, y el alcohol aparece en el 30% al 70% de las muertes. La prevencion salva mas vidas que cualquier rescate o tratamiento.</p>`;
 
 export const bibliografia = [
   'Schmidt AC, Sempsrott JR, Hawkins SC, Arastu AS, Cushing TA, Auerbach PS. Wilderness Medical Society Practice Guidelines for the Prevention and Treatment of Drowning. Wilderness Environ Med. 2016;27(2):236-251. doi:10.1016/j.wem.2015.12.019.',
@@ -60,7 +60,7 @@ export const content = {
       { nombre: 'Cuando cesar el rescate (calculadora disponible)', componentes: 'Tiempo de sumersion conocido, temperatura del agua, duracion de la RCP continua y seguridad del equipo.', formula: 'Umbrales de la guia.', interpretacion: 'Puede ser razonable cesar con una sumersion de mas de 30 minutos en agua de mas de 6 grados, de mas de 90 minutos en agua de menos de 6, o tras 25 minutos de RCP continua. Si peligra la seguridad del equipo, se cesa siempre.' },
       { nombre: 'Alta tras observacion (calculadora disponible)', componentes: 'Sintomas, auscultacion, estado mental, tension y horas de observacion.', formula: 'Criterios de la guia para el lugar y para urgencias.', interpretacion: 'Asintomatico salvo tos leve y auscultacion normal: puede liberarse en el lugar. En urgencias, alta tras 4 a 6 horas con estado mental normal, funcion respiratoria normalizada y sin deterioro.' },
       { nombre: 'Ventilacion protectora (calculadora disponible)', componentes: 'Sexo y talla para el peso predicho.', formula: 'Volumen corriente de 6 a 8 mL/kg de peso predicho.', interpretacion: 'Protocolo de SDRA: meseta menor de 30 cmH2O, y PEEP y FiO2 ajustadas para una PaO2 de 55 a 80 mmHg.' },
-      { nombre: 'Tiempo de sumersion', componentes: 'Minutos bajo el agua.', formula: 'Factor pronostico principal.', interpretacion: 'Es el predictor mas importante del resultado. Mas de 10 minutos se asocian a mayor mortalidad o supervivencia con da&#241;o neurologico grave; el pronostico es malo por encima de 30 minutos sea cual sea la temperatura del agua.' },
+      { nombre: 'Tiempo de sumersion', componentes: 'Minutos bajo el agua.', formula: 'Factor pronostico principal.', interpretacion: 'Es el predictor mas importante del resultado. Mas de 10 minutos se asocian a mayor mortalidad o supervivencia con daño neurologico grave; el pronostico es malo por encima de 30 minutos sea cual sea la temperatura del agua.' },
       { nombre: 'Criterios de inmovilizacion cervical', componentes: 'Mecanismo significativo, estado mental alterado (Glasgow menor de 15 o intoxicacion), deficit focal y lesion que distraiga.', formula: 'Considerar si hay traumatismo cerrado y alguno de ellos.', interpretacion: 'La inmovilizacion de rutina es innecesaria sin signos de trauma ni zambullida, y nunca debe retrasar la via aerea en el paciente con dificultad respiratoria grave.' }
     ]
   },
@@ -68,7 +68,7 @@ export const content = {
     {
       nombre: 'Rescate seguro y reanimacion en el agua',
       color: '#2f5f7a',
-      definicion: 'Conjunto de decisiones para sacar al ahogado del agua sin a&#241;adir victimas y para decidir si se ventila antes de llegar a tierra.',
+      definicion: 'Conjunto de decisiones para sacar al ahogado del agua sin añadir victimas y para decidir si se ventila antes de llegar a tierra.',
       fisiopatologia: 'Las mismas condiciones que hicieron ahogarse al paciente siguen presentes y ponen en riesgo al rescatador. Dentro del agua no es posible hacer compresiones toracicas eficaces, y el objetivo es revertir la hipoxia cerebral cuanto antes.',
       epidemiologia: 'Hay una alta prevalencia de ahogamientos mortales y no mortales entre personas sin formacion que intentan un rescate dentro del agua. En las inundaciones, hasta un 10% de los accidentes de trafico acaban en ahogamiento en el vehiculo.',
       factores_riesgo: ['Rescatador sin formacion que entra en el agua', 'Aguas rapidas, oleaje o hielo', 'Vehiculo que se hunde', 'Ausencia de dispositivos de flotacion'],
@@ -86,14 +86,14 @@ export const content = {
       criterios_trasplante: 'No aplica.',
       seguimiento_hospitalario: 'No aplica.',
       seguimiento_ambulatorio: 'No aplica.',
-      pronostico: 'Los datos de la reanimacion en el agua proceden de un unico estudio retrospectivo de socorristas brasile&#241;os en el oceano, que mostro mejor supervivencia y resultado neurologico.',
+      pronostico: 'Los datos de la reanimacion en el agua proceden de un unico estudio retrospectivo de socorristas brasileños en el oceano, que mostro mejor supervivencia y resultado neurologico.',
       algoritmo: ['Seguridad del rescatador ante todo', 'Sin formacion: alcanzar, lanzar, remar, no entrar', 'Vehiculo: salir en los primeros segundos de flotacion', 'En el agua: solo ventilaciones y solo si hay pulso', 'Sin pulso: sacar del agua cuanto antes', 'Nunca compresiones dentro del agua']
     },
     {
       nombre: 'Reanimacion inicial: la via aerea primero',
       color: '#8c2e2e',
       definicion: 'Reanimacion del ahogado en parada o con dificultad respiratoria, en la que la oxigenacion y la ventilacion tienen prioridad sobre las compresiones.',
-      fisiopatologia: 'El ahogamiento obstruye la via aerea con agua y produce hipoxia cerebral; peque&#241;as cantidades llegan al pulmon y causan atelectasias, lesion celular y edema. El corazon se para por hipoxia: taquicardia por la lucha, despues bradicardia, actividad electrica sin pulso y asistolia. Si la hipoxia miocardica persiste, la desfibrilacion puede fallar sin oxigenar y ventilar a la vez.',
+      fisiopatologia: 'El ahogamiento obstruye la via aerea con agua y produce hipoxia cerebral; pequeñas cantidades llegan al pulmon y causan atelectasias, lesion celular y edema. El corazon se para por hipoxia: taquicardia por la lucha, despues bradicardia, actividad electrica sin pulso y asistolia. Si la hipoxia miocardica persiste, la desfibrilacion puede fallar sin oxigenar y ventilar a la vez.',
       epidemiologia: 'La fibrilacion ventricular aparece en menos del 10% de los ahogados.',
       factores_riesgo: ['Iniciar con compresiones sin ventilar', 'Retrasar las ventilaciones por la maniobra de Heimlich', 'Inmovilizacion cervical que retrasa la via aerea', 'Hipotermia no tratada'],
       clinica: 'Paciente en parada o con respiracion ineficaz tras la sumersion.',
@@ -127,14 +127,14 @@ export const content = {
       complementarios: 'Pulsioximetria y capnografia continuas.',
       dx_diferencial: 'Neumonia precoz frente a neumonitis inflamatoria por el agua: la fiebre y la leucocitosis pueden deberse al estres y a la irritacion, sin infeccion.',
       tx_medico: 'Ventilacion mecanica segun los protocolos de SDRA: volumen corriente de 6 a 8 mL/kg, ajustando volumen y frecuencia para una presion meseta menor de 30, y PEEP y FiO2 para una PaO2 de 55 a 80 mmHg. La ventilacion no invasiva puede usarse en el paciente ALERTA con sintomas leves o moderados; precaucion si hay alteracion mental o vomitos, por el riesgo de aspiracion.',
-      tx_farmacologico: 'Corticoides: NO de rutina; una revision de 35 a&#241;os no encontro ensayos aleatorizados. Antibioticos: NO de forma empirica; solo si hay neumonia tras la reanimacion inicial, guiados por los cultivos.',
+      tx_farmacologico: 'Corticoides: NO de rutina; una revision de 35 años no encontro ensayos aleatorizados. Antibioticos: NO de forma empirica; solo si hay neumonia tras la reanimacion inicial, guiados por los cultivos.',
       tx_intervencionista: 'Intubacion si la ventilacion no invasiva fracasa, hay alteracion mental o vomitos.',
       criterios_uci: 'Edema pulmonar, hipotension, necesidad de ventilacion o deterioro neurologico.',
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'No aplica.',
       seguimiento_hospitalario: 'Vigilar la aparicion de neumonia: fiebre, mas esputo y cambios en la auscultacion que persisten tras la fase inicial.',
       seguimiento_ambulatorio: 'No aplica.',
-      pronostico: 'La lesion pulmonar del ahogado sin da&#241;o cerebral grave suele recuperarse.',
+      pronostico: 'La lesion pulmonar del ahogado sin daño cerebral grave suele recuperarse.',
       algoritmo: ['Gasometria si hay hipoxemia', 'Paciente alerta y leve o moderado: no invasiva posible', 'Alteracion mental o vomitos: precaucion o intubar', 'Ventilacion protectora: 6 a 8 mL/kg, meseta menor de 30', 'PaO2 objetivo de 55 a 80', 'Sin corticoides ni antibiotico empirico']
     },
     {
@@ -142,7 +142,7 @@ export const content = {
       color: '#5a4a8c',
       definicion: 'Practicas extendidas en el ahogamiento que la guia desaconseja o considera sin evidencia suficiente.',
       fisiopatologia: 'Muchas de estas practicas nacen de modelos animales con volumenes de agua muy superiores a los que aspira el ser humano, o de la vieja distincion entre agua dulce y salada, que no tiene relevancia clinica.',
-      epidemiologia: 'Los estudios caninos de los a&#241;os sesenta instilaban hasta 44 mL/kg; el ahogado humano aspira de 1 a 3 mL/kg, y las alteraciones electroliticas solo aparecieron con 11 mL/kg o mas.',
+      epidemiologia: 'Los estudios caninos de los años sesenta instilaban hasta 44 mL/kg; el ahogado humano aspira de 1 a 3 mL/kg, y las alteraciones electroliticas solo aparecieron con 11 mL/kg o mas.',
       factores_riesgo: ['Clasificar por agua dulce o salada', 'Pedir analitica completa a todos', 'Antibiotico empirico por una radiografia alterada', 'Corticoides para el pulmon'],
       clinica: 'El paciente estable tras un ahogamiento.',
       criterios_dx: 'No aplica.',
@@ -165,8 +165,8 @@ export const content = {
       nombre: 'Gravedad, pronostico y cuando parar',
       color: '#7a4363',
       definicion: 'Estimacion del pronostico por la clinica inicial y el tiempo de sumersion, y decision de cesar el rescate o la reanimacion.',
-      fisiopatologia: 'La duracion de la hipoxia cerebral es lo que determina el da&#241;o, y por eso el tiempo de sumersion es el predictor principal. El agua muy fria puede proteger el cerebro, sobre todo en ni&#241;os peque&#241;os.',
-      epidemiologia: 'En una serie holandesa de 160 ni&#241;os ahogados con hipotermia, de los 98 que recibieron mas de 30 minutos de RCP solo sobrevivieron 11, todos con da&#241;o neurologico grave.',
+      fisiopatologia: 'La duracion de la hipoxia cerebral es lo que determina el daño, y por eso el tiempo de sumersion es el predictor principal. El agua muy fria puede proteger el cerebro, sobre todo en niños pequeños.',
+      epidemiologia: 'En una serie holandesa de 160 niños ahogados con hipotermia, de los 98 que recibieron mas de 30 minutos de RCP solo sobrevivieron 11, todos con daño neurologico grave.',
       factores_riesgo: ['Sumersion de mas de 10 minutos', 'Mas de 25 minutos de reanimacion', 'Tiempo prolongado hasta la atencion avanzada', 'Edema pulmonar con hipotension', 'Parada cardiorrespiratoria'],
       clinica: 'Grados de Szpilman de 0 a 6 segun auscultacion, espuma, edema, tension y parada.',
       criterios_dx: 'No aplica.',
@@ -176,7 +176,7 @@ export const content = {
       dx_diferencial: 'No aplica.',
       tx_medico: 'Puede ser razonable cesar el rescate y la reanimacion con una sumersion conocida de mas de 30 minutos en agua de mas de 6 grados, de mas de 90 minutos en agua de menos de 6, o tras 25 minutos de RCP continua. El tiempo de sumersion se cuenta desde la llegada de los servicios de emergencia, porque el total suele desconocerse. Si peligra el equipo, se cesa siempre.',
       tx_farmacologico: 'No aplica.',
-      tx_intervencionista: 'Hay casos de buena recuperacion neurologica tras sumersiones prolongadas, sobre todo en ni&#241;os de 6 a&#241;os o menos en agua de menos de 6 grados, y con oxigenacion extracorporea.',
+      tx_intervencionista: 'Hay casos de buena recuperacion neurologica tras sumersiones prolongadas, sobre todo en niños de 6 años o menos en agua de menos de 6 grados, y con oxigenacion extracorporea.',
       criterios_uci: 'Grados 3 a 6.',
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'No aplica.',
@@ -272,7 +272,7 @@ export const compGroups = [
   { title: 'Decidir', items: ['Gravedad, pronostico y cuando parar', 'Alta, observacion y prevencion'] }
 ];
 
-export const complicacionesIntro = 'Las dos primeras fichas son el agua y la orilla: rescatar sin a&#241;adir victimas y reanimar con la via aerea por delante, que es lo que distingue al ahogado de la parada cardiaca habitual. Las dos siguientes son el hospital: el pulmon se ventila como un SDRA, y buena parte de lo que se hacia por costumbre (analitica completa, corticoides, antibiotico empirico, Heimlich) no tiene respaldo. Las dos ultimas son las decisiones: el pronostico y cuando parar, y cuando puede irse a casa.';
+export const complicacionesIntro = 'Las dos primeras fichas son el agua y la orilla: rescatar sin añadir victimas y reanimar con la via aerea por delante, que es lo que distingue al ahogado de la parada cardiaca habitual. Las dos siguientes son el hospital: el pulmon se ventila como un SDRA, y buena parte de lo que se hacia por costumbre (analitica completa, corticoides, antibiotico empirico, Heimlich) no tiene respaldo. Las dos ultimas son las decisiones: el pronostico y cuando parar, y cuando puede irse a casa.';
 
 export const categories = [
   { id: 'definicion', label: 'Definicion' },
@@ -344,7 +344,7 @@ export const figuras = {
           </tbody>
         </table>
       </div>
-      <div class="figure-grade-box">Dos datos de exploracion hacen todo el trabajo: la <strong>auscultacion</strong> y la <strong>tension</strong>. Quien solo tiene tos leve y pulmones limpios tuvo una mortalidad del 0% y puede liberarse en el lugar. La aparicion de estertores marca el limite para evacuar, y la caida de la tension (sistolica menor de 90 o media menor de 60) produce el siguiente gran salto. En ni&#241;os con sintomas leves y Glasgow de 13 o mas, todo deterioro ocurrio en las primeras 4 horas, y de ahi la observacion de 4 a 6 horas antes del alta.</div>`
+      <div class="figure-grade-box">Dos datos de exploracion hacen todo el trabajo: la <strong>auscultacion</strong> y la <strong>tension</strong>. Quien solo tiene tos leve y pulmones limpios tuvo una mortalidad del 0% y puede liberarse en el lugar. La aparicion de estertores marca el limite para evacuar, y la caida de la tension (sistolica menor de 90 o media menor de 60) produce el siguiente gran salto. En niños con sintomas leves y Glasgow de 13 o mas, todo deterioro ocurrio en las primeras 4 horas, y de ahi la observacion de 4 a 6 horas antes del alta.</div>`
   },
   'ahogamiento-recomendaciones': {
     titulo: 'Recomendaciones clave y su grado',

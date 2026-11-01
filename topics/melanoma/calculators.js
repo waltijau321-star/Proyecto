@@ -58,20 +58,20 @@ function grupoEstadio(T, N, M) {
   return null;
 }
 
-// Supervivencia especifica de melanoma a 5 y 10 a&#241;os. Solo las cifras que publica la octava
+// Supervivencia especifica de melanoma a 5 y 10 años. Solo las cifras que publica la octava
 // edicion: donde el dato es del estadio agrupado (I y II) se dice asi, en vez de inventar el
 // del subgrupo.
 const SUPERVIVENCIA = {
   '0': { txt: 'Melanoma in situ: no hay riesgo de metastasis mientras no invada.', exacta: false },
-  'IA': { txt: '99% a 5 a&#241;os y 98% a 10 a&#241;os.', exacta: true },
-  'IB': { txt: 'El estadio I agrupado es del 98% a 5 a&#241;os y del 95% a 10 a&#241;os.', exacta: false },
-  'IIA': { txt: 'El estadio II agrupado es del 90% a 5 a&#241;os y del 84% a 10 a&#241;os.', exacta: false },
-  'IIB': { txt: 'El estadio II agrupado es del 90% a 5 a&#241;os y del 84% a 10 a&#241;os.', exacta: false },
-  'IIC': { txt: '82% a 5 a&#241;os y 75% a 10 a&#241;os.', exacta: true },
-  'IIIA': { txt: '93% a 5 a&#241;os y 88% a 10 a&#241;os.', exacta: true },
-  'IIIB': { txt: '83% a 5 a&#241;os y 77% a 10 a&#241;os.', exacta: true },
-  'IIIC': { txt: '69% a 5 a&#241;os y 60% a 10 a&#241;os.', exacta: true },
-  'IIID': { txt: '32% a 5 a&#241;os y 24% a 10 a&#241;os.', exacta: true },
+  'IA': { txt: '99% a 5 años y 98% a 10 años.', exacta: true },
+  'IB': { txt: 'El estadio I agrupado es del 98% a 5 años y del 95% a 10 años.', exacta: false },
+  'IIA': { txt: 'El estadio II agrupado es del 90% a 5 años y del 84% a 10 años.', exacta: false },
+  'IIB': { txt: 'El estadio II agrupado es del 90% a 5 años y del 84% a 10 años.', exacta: false },
+  'IIC': { txt: '82% a 5 años y 75% a 10 años.', exacta: true },
+  'IIIA': { txt: '93% a 5 años y 88% a 10 años.', exacta: true },
+  'IIIB': { txt: '83% a 5 años y 77% a 10 años.', exacta: true },
+  'IIIC': { txt: '69% a 5 años y 60% a 10 años.', exacta: true },
+  'IIID': { txt: '32% a 5 años y 24% a 10 años.', exacta: true },
   'IV': { txt: 'Ya no se describe con las tablas de la octava edicion: depende del sitio, de la LDH y sobre todo del tratamiento.', exacta: false }
 };
 
@@ -103,7 +103,7 @@ export const calculators = [
         { value: 'c', label: 'Otra viscera, no sistema nervioso central (M1c)' },
         { value: 'd', label: 'Sistema nervioso central (M1d)' }
       ] },
-      { name: 'ldh', id: 'mel-ldh', type: 'checkbox', label: 'LDH elevada (a&#241;ade el descriptor 1 a la M)' },
+      { name: 'ldh', id: 'mel-ldh', type: 'checkbox', label: 'LDH elevada (añade el descriptor 1 a la M)' },
       { type: 'note', text: 'El corte de 0,8 mm separa T1a de T1b, no T1 de T2. El grosor se informa con UN decimal: 0,75 mm se registra como 0,8 mm y eso cambia la subcategoria.' }
     ],
     compute(v) {
@@ -182,7 +182,7 @@ export const calculators = [
       if (r.acral) s += '<br><span style="color:#8a5a1a;">Localizacion acral o facial: se aceptan margenes reducidos o cirugia micrografica para preservar la funcion. En el lentigo maligna, el consenso prefiere tecnicas con control de margen y no fija un margen de seguridad definitivo.</span>';
       if (r.ganglioClinico) s += '<br><span style="color:#8a5a2e;">Con ganglios clinica o radiologicamente positivos el centinela ya no es la pregunta: el caso es un estadio III y entra en la via de neoadyuvancia o de linfadenectomia discutida en comite.</span>';
       if (r.omitible) s += '<br><span style="opacity:.85;">En un primario grueso que ya va a recibir adyuvancia se puede DISCUTIR omitir el centinela, explicando lo que se pierde: informacion de estadio y control locorregional.</span>';
-      s += '<br><span style="opacity:.75;font-size:12.5px;">Si el centinela sale positivo: NO linfadenectomia completa y NO radioterapia ganglionar. Antes de a&#241;adir cualquier tratamiento, estadificacion con TC, PET-TC y resonancia cerebral.</span>';
+      s += '<br><span style="opacity:.75;font-size:12.5px;">Si el centinela sale positivo: NO linfadenectomia completa y NO radioterapia ganglionar. Antes de añadir cualquier tratamiento, estadificacion con TC, PET-TC y resonancia cerebral.</span>';
       return s;
     },
     fragment: r => `${r.T}, margen ${r.margen}, centinela ${r.centinela === 'indicado' ? 'indicado' : 'a valorar'}`
@@ -242,7 +242,7 @@ export const calculators = [
       s += `<br><strong>Imagen</strong><br>${r.imagen.map(i => '&bull; ' + i).join('<br>')}`;
       s += `<br><strong>Estudio molecular</strong><br>${r.molecular.map(i => '&bull; ' + i).join('<br>')}`;
       s += `<br><strong>LDH.</strong> ${r.ldh}`;
-      if (r.centinelaPos && !['IIB', 'IIC', 'IIIres', 'IIInores', 'IV'].includes(r.estadio)) s += '<br><span style="color:#8a5a1a;">El centinela positivo obliga a la estadificacion completa ANTES de a&#241;adir tratamiento, al margen de lo que dijera el estadio del primario.</span>';
+      if (r.centinelaPos && !['IIB', 'IIC', 'IIIres', 'IIInores', 'IV'].includes(r.estadio)) s += '<br><span style="color:#8a5a1a;">El centinela positivo obliga a la estadificacion completa ANTES de añadir tratamiento, al margen de lo que dijera el estadio del primario.</span>';
       if (r.sintomaNeuro) s += '<br><span style="color:#8c3a34;">Sintoma neurologico nuevo en un paciente con melanoma: resonancia cerebral. El melanoma es uno de los tumores que mas metastatiza al sistema nervioso central y la octava edicion le dio categoria propia (M1d).</span>';
       if (!r.imagenRutina) s += '<br><span style="opacity:.75;font-size:12.5px;">Pedir TC o PET-TC en el estadio I o IIA no mejora nada y multiplica los hallazgos incidentales.</span>';
       return s;
@@ -262,7 +262,7 @@ export const calculators = [
         { value: 'nras', label: 'NRAS mutado, BRAF nativo' },
         { value: 'nativo', label: 'BRAF nativo o desconocido' }
       ] },
-      { name: 'inmuno', id: 'mel-pl-inm', type: 'select', label: '&#191;Es candidato a inmunoterapia?', options: [
+      { name: 'inmuno', id: 'mel-pl-inm', type: 'select', label: '¿Es candidato a inmunoterapia?', options: [
         { value: 'si', label: 'Si' },
         { value: 'no', label: 'No: contraindicacion o no disponible' }
       ], row: 'pl1' },
@@ -317,12 +317,12 @@ export const calculators = [
       } else if (v.toxicidadPreocupa) {
         principal = 'Anti PD-1 en monoterapia: nivolumab o pembrolizumab';
         motivo = 'Cuando la toxicidad preocupa, la monoterapia es una primera linea recomendada con nivel I y grado A: los efectos adversos de grado 3-4 fueron del 16,3% con nivolumab solo frente al 55,0% de la combinacion.';
-        extras.push('Existe una pauta alternativa de nivolumab 3 mg/kg con ipilimumab 1 mg/kg de menor toxicidad, pero el ensayo que la evaluo estaba dise&#241;ado para seguridad y no para eficacia, de modo que no se recomienda de forma general.');
+        extras.push('Existe una pauta alternativa de nivolumab 3 mg/kg con ipilimumab 1 mg/kg de menor toxicidad, pero el ensayo que la evaluo estaba diseñado para seguridad y no para eficacia, de modo que no se recomienda de forma general.');
         if (v.pdl1 === 'menor1') extras.push('Con PD-L1 menor del 1%, nivolumab con relatlimab es la otra alternativa de menor toxicidad que la combinacion con ipilimumab: la mediana de supervivencia libre de progresion fue de 10,1 frente a 4,6 meses con nivolumab solo.');
       } else {
         principal = 'Nivolumab con ipilimumab';
-        motivo = 'Es la opcion preferida para todos, con mutacion de BRAF o sin ella, siempre que se pueda administrar con seguridad los primeros meses (nivel I, grado A). A 10 a&#241;os de CheckMate 067, la mediana de supervivencia global fue de 71,9 meses con la combinacion frente a 36,9 con nivolumab solo.';
-        if (dirigidaPosible) extras.push('En DREAMSEQ, empezar por la combinacion y reservar dabrafenib-trametinib dio una supervivencia global a 2 a&#241;os del 71,8% frente al 51,5% de la secuencia inversa: la mitad de los que progresaron con terapia dirigida no llegaron a recibir la inmunoterapia.');
+        motivo = 'Es la opcion preferida para todos, con mutacion de BRAF o sin ella, siempre que se pueda administrar con seguridad los primeros meses (nivel I, grado A). A 10 años de CheckMate 067, la mediana de supervivencia global fue de 71,9 meses con la combinacion frente a 36,9 con nivolumab solo.';
+        if (dirigidaPosible) extras.push('En DREAMSEQ, empezar por la combinacion y reservar dabrafenib-trametinib dio una supervivencia global a 2 años del 71,8% frente al 51,5% de la secuencia inversa: la mitad de los que progresaron con terapia dirigida no llegaron a recibir la inmunoterapia.');
         if (v.pdl1 === 'menor1') extras.push('Con PD-L1 menor del 1% tambien cabe nivolumab con relatlimab, que es la unica situacion en la que la agencia europea lo aprobo.');
       }
       if (braf === 'v600k' && dirigidaPosible) extras.push('Aviso del V600K: en adyuvancia NO debe ofrecerse dabrafenib-trametinib por el posible perjuicio sobre la supervivencia global visto en COMBI-AD (nivel II, grado D). Los datos retrospectivos sugieren que el V600K se beneficia mas de la inmunoterapia que de la terapia dirigida.');

@@ -42,9 +42,9 @@ export const calculators = [
         { v: 'mmse', t: 'Mini-Mental (MMSE)' }
       ] },
       { name: 'puntos', id: 'dc-cc-p', type: 'number', step: '1', label: 'Puntuacion obtenida (0 a 30)', placeholder: 'ej. 22', row: 'r1' },
-      { name: 'escolaridad', id: 'dc-cc-es', type: 'select', label: 'A&#241;os de escolaridad', row: 'r2', options: [
-        { v: 'baja', t: '12 a&#241;os o menos' },
-        { v: 'alta', t: 'Mas de 12 a&#241;os' }
+      { name: 'escolaridad', id: 'dc-cc-es', type: 'select', label: 'Años de escolaridad', row: 'r2', options: [
+        { v: 'baja', t: '12 años o menos' },
+        { v: 'alta', t: 'Mas de 12 años' }
       ] },
       { name: 'sensorial', id: 'dc-cc-se', type: 'checkbox', label: 'Hipoacusia, mala vision o barrera idiomatica durante la prueba', row: 'r2' },
       { name: 'quejas', id: 'dc-cc-qu', type: 'checkbox', label: 'Hay quejas cognitivas del paciente o de un informante' },
@@ -69,11 +69,11 @@ export const calculators = [
       if (r.invalido) return 'Revisa el valor: la puntuacion debe estar entre 0 y 30.';
       const nombre = r.esMoca ? 'MoCA' : 'Mini-Mental';
       let s = `<strong>${nombre}: ${r.puntos} de 30`;
-      if (r.ajuste) s += ` (+1 por escolaridad de 12 a&#241;os o menos, total ${r.total})`;
+      if (r.ajuste) s += ` (+1 por escolaridad de 12 años o menos, total ${r.total})`;
       s += `. Resultado ${r.franja}.</strong> `;
       if (r.normal) {
         s += '<span style="color:#3f6b52;">Por encima del umbral habitual.</span> ';
-        if (r.quejas) s += '<strong style="color:#8a6a1f;">Pero hay quejas cognitivas, y eso NO se descarta con un cribado normal</strong>, sobre todo si el paciente tiene nivel educativo alto: el Mini-Mental tiene efecto techo y se le escapan los perfiles frontales y ejecutivos. Si el MoCA tambien es normal y las quejas persisten, corresponde valoracion neuropsicologica formal, y descartar depresion, ansiedad, apnea del sue&#241;o y farmacos antes de dar el caso por cerrado.';
+        if (r.quejas) s += '<strong style="color:#8a6a1f;">Pero hay quejas cognitivas, y eso NO se descarta con un cribado normal</strong>, sobre todo si el paciente tiene nivel educativo alto: el Mini-Mental tiene efecto techo y se le escapan los perfiles frontales y ejecutivos. Si el MoCA tambien es normal y las quejas persisten, corresponde valoracion neuropsicologica formal, y descartar depresion, ansiedad, apnea del sueño y farmacos antes de dar el caso por cerrado.';
         else s += 'Sin quejas cognitivas ni del paciente ni de un informante, no hay indicacion de seguir estudiando en este momento.';
       } else {
         s += `<span style="color:#8c3a34;">Por debajo del umbral.</span> Un resultado alterado NO es un diagnostico: hay que decidir si es deterioro cognitivo leve o demencia, y eso depende de la AUTONOMIA en las actividades instrumentales, no de esta puntuacion. Y hay que buscar la causa con el estudio minimo.`;
@@ -84,7 +84,7 @@ export const calculators = [
       if (r.sensorial) {
         s += '<br><strong style="color:#8c3a34;">Cuidado: habia hipoacusia, mala vision o barrera idiomatica durante la prueba.</strong> Eso invalida buena parte del resultado, porque el paciente puede fallar items que no ha oido o no ha visto bien. Hay que repetir la prueba con audifonos y gafas puestos, en un entorno silencioso y en su idioma, antes de darla por valida. Es una de las causas mas frecuentes de falso positivo.';
       }
-      s += '<br><span style="opacity:.75;">Ninguna de las dos escalas distingue la CAUSA del deterioro, y ambas se distorsionan con el nivel educativo. La prueba del reloj a&#241;ade informacion ejecutiva y visuoespacial en menos de dos minutos.</span>';
+      s += '<br><span style="opacity:.75;">Ninguna de las dos escalas distingue la CAUSA del deterioro, y ambas se distorsionan con el nivel educativo. La prueba del reloj añade informacion ejecutiva y visuoespacial en menos de dos minutos.</span>';
       return s;
     },
     fragment: r => r.invalido ? 'valor no valido' : `${r.esMoca ? 'MoCA' : 'Mini-Mental'} ${r.total}/30: ${r.normal ? 'normal' : 'alterado'}`
@@ -140,11 +140,11 @@ export const calculators = [
         : '';
       switch (r.veredicto) {
         case 'delirium':
-          return '<strong style="color:#8c3a34;">Esto parece un DELIRIUM, no una demencia.</strong> El inicio agudo, el curso fluctuante y la alteracion de la ATENCION lo definen. Corresponde buscar la causa aguda: infeccion, farmacos, dolor, retencion urinaria, estre&#241;imiento, alteracion metabolica, abstinencia. Ojo con dos cosas: la demencia es el principal factor de riesgo de delirium, de modo que ambos coexisten con frecuencia; y el diagnostico de demencia NO se puede establecer durante un delirium, hay que reevaluar la cognicion cuando el episodio agudo se haya resuelto.' + faltaInformante;
+          return '<strong style="color:#8c3a34;">Esto parece un DELIRIUM, no una demencia.</strong> El inicio agudo, el curso fluctuante y la alteracion de la ATENCION lo definen. Corresponde buscar la causa aguda: infeccion, farmacos, dolor, retencion urinaria, estreñimiento, alteracion metabolica, abstinencia. Ojo con dos cosas: la demencia es el principal factor de riesgo de delirium, de modo que ambos coexisten con frecuencia; y el diagnostico de demencia NO se puede establecer durante un delirium, hay que reevaluar la cognicion cuando el episodio agudo se haya resuelto.' + faltaInformante;
         case 'sin-cambio':
-          return '<strong style="color:#3f6b52;">Sin cambio cognitivo demostrable respecto al rendimiento previo</strong>, no se cumple el criterio ni de deterioro cognitivo leve ni de demencia. Si hay preocupacion, conviene establecer un basal ahora con un instrumento concreto para poder comparar mas adelante, y revisar de todos modos la medicacion, el estado de animo, la audicion y el sue&#241;o.' + faltaInformante;
+          return '<strong style="color:#3f6b52;">Sin cambio cognitivo demostrable respecto al rendimiento previo</strong>, no se cumple el criterio ni de deterioro cognitivo leve ni de demencia. Si hay preocupacion, conviene establecer un basal ahora con un instrumento concreto para poder comparar mas adelante, y revisar de todos modos la medicacion, el estado de animo, la audicion y el sueño.' + faltaInformante;
         case 'queja-subjetiva':
-          return '<strong style="color:#8a6a1f;">Queja subjetiva sin hallazgos objetivos.</strong> Aislada, se asocia mas a ANSIEDAD y a DEPRESION que a demencia, aunque en algunos pacientes es la primera manifestacion. Corresponde: descartar depresion, revisar farmacos, valorar audicion, vision y apnea del sue&#241;o, y establecer un basal para reevaluar en 6 a 12 meses. Si el paciente tiene nivel educativo alto, un cribado breve normal no basta y puede hacer falta valoracion neuropsicologica formal.' + faltaInformante;
+          return '<strong style="color:#8a6a1f;">Queja subjetiva sin hallazgos objetivos.</strong> Aislada, se asocia mas a ANSIEDAD y a DEPRESION que a demencia, aunque en algunos pacientes es la primera manifestacion. Corresponde: descartar depresion, revisar farmacos, valorar audicion, vision y apnea del sueño, y establecer un basal para reevaluar en 6 a 12 meses. Si el paciente tiene nivel educativo alto, un cribado breve normal no basta y puede hacer falta valoracion neuropsicologica formal.' + faltaInformante;
         case 'demencia':
           return `<strong style="color:#8c3a34;">Cumple criterio de DEMENCIA</strong> (trastorno neurocognitivo mayor): hay cambio cognitivo objetivable y ya ha perdido autonomia en ${r.perdidas.length ? r.perdidas.join(', ') : 'las actividades basicas'}.${r.basicas ? ' La afectacion de las actividades BASICAS indica ademas una fase avanzada.' : ''} Ahora toca la segunda pregunta, que es la CAUSA: completar el estudio minimo (analitica con calcio, TSH y vitamina B12, y neuroimagen estructural), revisar la medicacion, caracterizar el perfil clinico y buscar lo tratable.` + faltaInformante + cola;
         default:
@@ -205,10 +205,10 @@ export const calculators = [
       { name: 'imagen', id: 'dc-es-im', type: 'checkbox', label: 'Hecha: neuroimagen estructural (resonancia o tomografia)', row: 'r2' },
       { name: 'farmacos', id: 'dc-es-fa', type: 'checkbox', label: 'Hecha: revision completa de la medicacion', row: 'r3' },
       { name: 'depresion', id: 'dc-es-de', type: 'checkbox', label: 'Hecho: cribado de depresion', row: 'r3' },
-      { name: 'precoz', id: 'dc-es-pr', type: 'checkbox', label: 'Inicio antes de los 65 a&#241;os, presentacion atipica o progresion rapida', row: 'r4' },
+      { name: 'precoz', id: 'dc-es-pr', type: 'checkbox', label: 'Inicio antes de los 65 años, presentacion atipica o progresion rapida', row: 'r4' },
       { name: 'sensorial', id: 'dc-es-se', type: 'checkbox', label: 'Hipoacusia o perdida de vision no corregidas', row: 'r4' },
       { name: 'ronca', id: 'dc-es-ro', type: 'checkbox', label: 'Ronquido con apneas presenciadas o somnolencia diurna' },
-      { type: 'note', text: 'Las causas totalmente reversibles son minoria, pero las CONTRIBUYENTES son muy frecuentes y corregirlas mejora al paciente aunque haya una degeneracion de fondo. Las tres que mas se pasan por alto no salen en ninguna analitica: los farmacos con carga anticolinergica, la depresion y la apnea del sue&#241;o con la hipoacusia no corregida.' }
+      { type: 'note', text: 'Las causas totalmente reversibles son minoria, pero las CONTRIBUYENTES son muy frecuentes y corregirlas mejora al paciente aunque haya una degeneracion de fondo. Las tres que mas se pasan por alto no salen en ninguna analitica: los farmacos con carga anticolinergica, la depresion y la apnea del sueño con la hipoacusia no corregida.' }
     ],
     compute(v) {
       const faltan = [];
@@ -220,7 +220,7 @@ export const calculators = [
       if (!v.farmacos) olvidos.push('revisar la medicacion completa y retirar la carga anticolinergica y las benzodiacepinas');
       if (!v.depresion) olvidos.push('cribar la depresion, que puede imitar una demencia y que coexiste con frecuencia');
       if (v.sensorial) olvidos.push('corregir la HIPOACUSIA o la perdida de vision, que empeoran el rendimiento y son de los factores modificables de mayor impacto');
-      if (v.ronca) olvidos.push('estudiar la APNEA DEL SUE&#209;O, que deteriora la cognicion y es tratable');
+      if (v.ronca) olvidos.push('estudiar la APNEA DEL SUEÑO, que deteriora la cognicion y es tratable');
       return { faltan, olvidos, precoz: !!v.precoz, completo: faltan.length === 0 };
     },
     format: r => {
@@ -233,7 +233,7 @@ export const calculators = [
       if (r.olvidos.length) {
         s += `<br><strong style="color:#8a6a1f;">Y queda pendiente lo que no sale en ninguna analitica:</strong><br>${r.olvidos.map(x => '&nbsp;· ' + x).join('<br>')}`;
       } else {
-        s += '<br><span style="color:#3f6b52;">Ademas se han cubierto las causas contribuyentes que no aparecen en la analitica: medicacion, depresion, audicion, vision y sue&#241;o. Ahi es donde mas se gana con menos esfuerzo.</span>';
+        s += '<br><span style="color:#3f6b52;">Ademas se han cubierto las causas contribuyentes que no aparecen en la analitica: medicacion, depresion, audicion, vision y sueño. Ahi es donde mas se gana con menos esfuerzo.</span>';
       }
       if (r.precoz) {
         s += '<br><strong style="color:#6b2d4a;">Inicio precoz, presentacion atipica o progresion rapida: hay que AMPLIAR el estudio.</strong> Serologia de VIH y de sifilis, autoinmunidad y anticuerpos onconeuronales y de superficie neuronal, analisis de liquido cefalorraquideo, busqueda de neoplasia oculta y valoracion de estudio genetico con consejo previo. Los biomarcadores de amiloide y tau, que en un caso tipico no aportan, aqui si tienen indicacion. Y si la progresion es de semanas, el estudio se hace EN PARALELO y con urgencia.';

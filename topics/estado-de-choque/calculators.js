@@ -5,7 +5,7 @@
 // - respuesta-volumen: separa las pruebas DINAMICAS, que si predicen la respuesta a un bolo, de
 //   las estaticas que no la predicen, y calcula el indice de choque.
 // - hemorragia-atls: grado de hemorragia segun la Tabla 3-1 del manual ATLS 10.a edicion en
-//   espa&#241;ol que hay en Bibliografia/, transcrita del PDF ([[feedback-verificar-edicion-guias]]).
+//   español que hay en Bibliografia/, transcrita del PDF ([[feedback-verificar-edicion-guias]]).
 //
 // Sin em dash en el archivo (ver [[feedback-no-em-dash]]).
 
@@ -112,7 +112,7 @@ export const calculators = [
       { name: 'pvc', id: 'ch-rv-pvc', type: 'checkbox', label: 'Se esta usando la presion venosa central para decidir el volumen', row: 'r3' },
       { name: 'sobrecarga', id: 'ch-rv-s', type: 'checkbox', label: 'Signos de sobrecarga: lineas B en el pulmon, edemas o empeoramiento de la oxigenacion', row: 'r4' },
       { name: 'vasopresor', id: 'ch-rv-v', type: 'checkbox', label: 'Ya recibe vasopresor', row: 'r4' },
-      { type: 'note', text: 'Solo la mitad de los pacientes en choque responde a un bolo de volumen; al resto se le a&#241;ade edema pulmonar, intestinal y renal sin ganar nada. Las pruebas DINAMICAS predicen la respuesta; las ESTATICAS, y en particular la presion venosa central, NO la predicen, pese a lo extendido de la costumbre. La elevacion pasiva de las piernas es la mas util porque equivale a un bolo REVERSIBLE que no deja liquido dentro.' }
+      { type: 'note', text: 'Solo la mitad de los pacientes en choque responde a un bolo de volumen; al resto se le añade edema pulmonar, intestinal y renal sin ganar nada. Las pruebas DINAMICAS predicen la respuesta; las ESTATICAS, y en particular la presion venosa central, NO la predicen, pese a lo extendido de la costumbre. La elevacion pasiva de las piernas es la mas util porque equivale a un bolo REVERSIBLE que no deja liquido dentro.' }
     ],
     compute(v) {
       if (v.fc == null || v.tas == null || !v.prueba || !v.resultado) return null;
@@ -140,7 +140,7 @@ export const calculators = [
       if (r.respondedor) {
         s += '<br><strong style="color:#3f6b52;">Prueba dinamica POSITIVA: el paciente es respondedor a volumen.</strong> Corresponde dar un bolo de cristaloide balanceado y REEVALUAR de nuevo despues, porque la condicion de respondedor se pierde a medida que se llena.';
       } else if (r.noRespondedor) {
-        s += '<br><strong style="color:#8c3a34;">Prueba dinamica NEGATIVA: no es respondedor.</strong> Mas volumen no va a aumentar el gasto y solo a&#241;adira edema. Lo que toca es vasopresor, inotropico si el problema es la bomba, y sobre todo revisar si la CAUSA esta corregida.';
+        s += '<br><strong style="color:#8c3a34;">Prueba dinamica NEGATIVA: no es respondedor.</strong> Mas volumen no va a aumentar el gasto y solo añadira edema. Lo que toca es vasopresor, inotropico si el problema es la bomba, y sobre todo revisar si la CAUSA esta corregida.';
       } else if (r.dinamica) {
         s += '<br><span style="opacity:.75;">La prueba esta hecha pero el resultado no se ha valorado. Hay que medir el efecto: aumento del gasto por ecografia, de la presion de pulso o de la integral velocidad-tiempo.</span>';
       } else {
@@ -149,7 +149,7 @@ export const calculators = [
       if (r.prueba === 'piernas') s += '<br><span style="opacity:.75;">La elevacion pasiva de las piernas es la prueba con mejor rendimiento y la unica que no deja liquido dentro del paciente si resulta negativa. Requiere medir el efecto, no solo mirar la tension.</span>';
       if (r.prueba === 'vpp') s += '<br><span style="opacity:.75;">La variacion de la presion de pulso solo es valida en el paciente ventilado, sin esfuerzos respiratorios, en ritmo sinusal y con volumen corriente suficiente. Fuera de esas condiciones no sirve.</span>';
       if (r.pvc) s += '<br><strong style="color:#8c3a34;">No se debe usar la presion venosa central para decidir si dar volumen:</strong> no predice la respuesta, como han mostrado de forma consistente los metaanalisis. Puede aportar informacion sobre congestion, pero no responde a esta pregunta.';
-      if (r.sobrecarga) s += '<br><strong style="color:#8c3a34;">Hay signos de SOBRECARGA.</strong> Es una se&#241;al de parar el volumen con independencia de las pruebas dinamicas, y de plantear el paso a balance negativo en cuanto la perfusion lo permita.';
+      if (r.sobrecarga) s += '<br><strong style="color:#8c3a34;">Hay signos de SOBRECARGA.</strong> Es una señal de parar el volumen con independencia de las pruebas dinamicas, y de plantear el paso a balance negativo en cuanto la perfusion lo permita.';
       if (!r.vasopresor && r.noRespondedor) s += '<br><span style="opacity:.75;">Si persiste la hipotension y el paciente no responde a volumen, corresponde iniciar NORADRENALINA sin esperar, incluso por via periferica con vigilancia mientras se canaliza una central.</span>';
       return s;
     },
@@ -158,7 +158,7 @@ export const calculators = [
 
   {
     key: 'hemorragia-atls', title: 'Grado de hemorragia', accent: '#7a3f2e',
-    subtitle: 'Los cuatro grados del manual de trauma, y por que la tension enga&#241;a',
+    subtitle: 'Los cuatro grados del manual de trauma, y por que la tension engaña',
     incompleteMsg: 'Introduce frecuencia cardiaca, tension sistolica y diastolica, frecuencia respiratoria y Glasgow, y elige la diuresis.',
     fields: [
       { name: 'fc', id: 'ch-hg-fc', type: 'number', step: '1', label: 'Frecuencia cardiaca (por minuto)', placeholder: 'ej. 122', row: 'r1' },
@@ -173,7 +173,7 @@ export const calculators = [
       ] },
       { name: 'be', id: 'ch-hg-be', type: 'number', step: '0.5', required: false, label: 'Deficit de base (mEq/L, en negativo)', placeholder: 'ej. -7', row: 'r4' },
       { name: 'anticoagulado', id: 'ch-hg-a', type: 'checkbox', label: 'Anticoagulado, antiagregado, betabloqueado o de edad avanzada', row: 'r4' },
-      { type: 'note', text: 'Transcrito de la Tabla 3-1 del manual ATLS 10.a edicion en espa&#241;ol. El dato mas util para la practica: la TENSION SISTOLICA se mantiene normal hasta el grado III. Lo primero que se altera es la PRESION DE PULSO, porque la vasoconstriccion eleva la diastolica. El deficit de base es la aportacion de esta edicion y se altera antes que la tension. La estimacion de la perdida es orientativa: manda la respuesta del paciente a la reposicion.' }
+      { type: 'note', text: 'Transcrito de la Tabla 3-1 del manual ATLS 10.a edicion en español. El dato mas util para la practica: la TENSION SISTOLICA se mantiene normal hasta el grado III. Lo primero que se altera es la PRESION DE PULSO, porque la vasoconstriccion eleva la diastolica. El deficit de base es la aportacion de esta edicion y se altera antes que la tension. La estimacion de la perdida es orientativa: manda la respuesta del paciente a la reposicion.' }
     ],
     compute(v) {
       if (v.fc == null || v.tas == null || v.tad == null || v.fr == null || v.gcs == null || !v.diuresis) return null;

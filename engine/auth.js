@@ -123,8 +123,8 @@ function renderLoginPage(errorMsg) {
           <p class="auth-note">Tu progreso se guarda en tu cuenta y se sincroniza entre dispositivos.</p>
           ${errorMsg ? `<div class="auth-error">${errorMsg}</div>` : ''}
           <form id="auth-form">
-            <div class="calc-field"><label>Correo</label><input type="email" id="auth-email" required autocomplete="email" value="${rememberedEmail.replace(/"/g, '&quot;')}"></div>
-            <div class="calc-field"><label>Contraseña</label><input type="password" id="auth-password" required minlength="6" autocomplete="current-password"></div>
+            <div class="calc-field"><label for="auth-email">Correo</label><input type="email" id="auth-email" required autocomplete="email" value="${rememberedEmail.replace(/"/g, '&quot;')}"></div>
+            <div class="calc-field"><label for="auth-password">Contraseña</label><input type="password" id="auth-password" required minlength="6" autocomplete="current-password"></div>
             <div class="auth-remember-row">
               <label class="auth-checkbox-row"><input type="checkbox" id="auth-remember-user" ${rememberUser ? 'checked' : ''}> Recordar usuario</label>
             </div>
@@ -178,20 +178,20 @@ function renderSignupPage(errorMsg) {
           <p class="auth-note">Cuéntanos un poco de ti para personalizar tu progreso. Tu avance se guarda en tu cuenta y se sincroniza entre dispositivos.</p>
           ${errorMsg ? `<div class="auth-error">${errorMsg}</div>` : ''}
           <form id="auth-form" class="auth-form-grid">
-            <div class="calc-field"><label>Nombre</label><input type="text" id="auth-firstname" required autocomplete="given-name"></div>
-            <div class="calc-field"><label>Apellido</label><input type="text" id="auth-lastname" required autocomplete="family-name"></div>
-            <div class="calc-field"><label>Hospital / institución</label><input type="text" id="auth-hospital" required autocomplete="organization"></div>
-            <div class="calc-field"><label>Año de residencia</label>
+            <div class="calc-field"><label for="auth-firstname">Nombre</label><input type="text" id="auth-firstname" required autocomplete="given-name"></div>
+            <div class="calc-field"><label for="auth-lastname">Apellido</label><input type="text" id="auth-lastname" required autocomplete="family-name"></div>
+            <div class="calc-field"><label for="auth-hospital">Hospital / institución</label><input type="text" id="auth-hospital" required autocomplete="organization"></div>
+            <div class="calc-field"><label for="auth-year">Año de residencia</label>
               <select id="auth-year">${RESIDENCY_YEARS.map(y => `<option value="${y}">${y}</option>`).join('')}</select>
             </div>
-            <div class="calc-field"><label>País</label><input type="text" id="auth-country" required autocomplete="country-name"></div>
-            <div class="calc-field"><label>Estado / provincia</label><input type="text" id="auth-state" required autocomplete="address-level1"></div>
-            <div class="calc-field field-full"><label>¿Dónde escuchaste de nosotros?</label>
+            <div class="calc-field"><label for="auth-country">País</label><input type="text" id="auth-country" required autocomplete="country-name"></div>
+            <div class="calc-field"><label for="auth-state">Estado / provincia</label><input type="text" id="auth-state" required autocomplete="address-level1"></div>
+            <div class="calc-field field-full"><label for="auth-referral">¿Dónde escuchaste de nosotros?</label>
               <select id="auth-referral">${REFERRAL_SOURCES.map(r => `<option value="${r}">${r}</option>`).join('')}</select>
             </div>
-            <div class="calc-field field-full"><label>Correo</label><input type="email" id="auth-email" required autocomplete="email"></div>
-            <div class="calc-field"><label>Contraseña</label><input type="password" id="auth-password" required minlength="8" autocomplete="new-password"></div>
-            <div class="calc-field"><label>Confirmar contraseña</label><input type="password" id="auth-password-confirm" required minlength="8" autocomplete="new-password"></div>
+            <div class="calc-field field-full"><label for="auth-email">Correo</label><input type="email" id="auth-email" required autocomplete="email"></div>
+            <div class="calc-field"><label for="auth-password">Contraseña</label><input type="password" id="auth-password" required minlength="8" autocomplete="new-password"></div>
+            <div class="calc-field"><label for="auth-password-confirm">Confirmar contraseña</label><input type="password" id="auth-password-confirm" required minlength="8" autocomplete="new-password"></div>
             <ul class="pw-rules field-full" id="pw-rules">
               <li data-rule="len"><span class="pw-rule-mark">○</span>Mínimo 8 caracteres</li>
               <li data-rule="upper"><span class="pw-rule-mark">○</span>Una letra mayúscula</li>

@@ -11,7 +11,7 @@
 
 const ALSFRS_ITEMS = [
   ['lenguaje', 'Lenguaje', ['0 · Perdida del habla util', '1 · Solo comunicacion no verbal', '2 · Inteligible repitiendo', '3 · Alteracion perceptible', '4 · Normal']],
-  ['salivacion', 'Salivacion', ['0 · Babeo constante marcado', '1 · Babeo, precisa pa&#241;uelo', '2 · Exceso moderado, algo de babeo', '3 · Exceso leve, babeo nocturno', '4 · Normal']],
+  ['salivacion', 'Salivacion', ['0 · Babeo constante marcado', '1 · Babeo, precisa pañuelo', '2 · Exceso moderado, algo de babeo', '3 · Exceso leve, babeo nocturno', '4 · Normal']],
   ['deglucion', 'Deglucion', ['0 · Nutricion solo por sonda', '1 · Necesita sonda complementaria', '2 · Cambios en la consistencia', '3 · Se atraganta alguna vez', '4 · Normal']],
   ['escritura', 'Escritura', ['0 · No sostiene el boligrafo', '1 · No escribe pero sujeta el boligrafo', '2 · No todas las palabras legibles', '3 · Lenta, todo legible', '4 · Normal']],
   ['cubiertos', 'Cortar alimentos y usar cubiertos', ['0 · Necesita que le den de comer', '1 · Necesita ayuda para todo', '2 · Puede pero lento y torpe', '3 · Torpe y lento pero sin ayuda', '4 · Normal']],
@@ -115,7 +115,7 @@ export const calculators = [
       if (r.banderas.includes('ela')) s += '<br><strong style="color:#8c3a34;">Fasciculaciones con reflejos vivos y sin alteracion sensitiva.</strong> Esa combinacion de motoneurona inferior y superior en el mismo paciente no ocurre en ninguna otra enfermedad y es la firma de la esclerosis lateral amiotrofica. Antes de decirlo, resonancia cervical y estudio neurofisiologico en varias regiones.';
       if (r.banderas.includes('inferiorPuro')) s += '<br><strong style="color:#3f6b52;">Patron de motoneurona inferior sin signos superiores.</strong> Aqui hay que buscar de forma activa BLOQUEOS DE CONDUCCION y pedir anticuerpos anti-GM1 e inmunofijacion: la neuropatia motora multifocal responde a inmunoglobulinas y confundirla con una enfermedad de motoneurona es el error mas costoso del tema.';
       if (r.banderas.includes('noEla')) s += '<br><strong style="color:#8a6a1f;">Hay alteracion sensitiva</strong>, y eso descarta en la practica una esclerosis lateral amiotrofica pura. Obliga a buscar mielopatia, neuropatia o una combinacion de procesos.';
-      if (r.banderas.includes('inclusion')) s += '<br><strong style="color:#8a6a1f;">Debilidad asimetrica con enzima poco elevada:</strong> pensar en MIOPATIA POR CUERPOS DE INCLUSION si afecta a cuadriceps y a los flexores profundos de los dedos en un mayor de 50 a&#241;os. No responde a la inmunosupresion, de modo que reconocerla evita a&#241;os de tratamiento inutil.';
+      if (r.banderas.includes('inclusion')) s += '<br><strong style="color:#8a6a1f;">Debilidad asimetrica con enzima poco elevada:</strong> pensar en MIOPATIA POR CUERPOS DE INCLUSION si afecta a cuadriceps y a los flexores profundos de los dedos en un mayor de 50 años. No responde a la inmunosupresion, de modo que reconocerla evita años de tratamiento inutil.';
       if (r.banderas.includes('ckNormal')) s += '<br><span style="opacity:.75;">Debilidad proximal con creatina cinasa normal: una enzima normal NO descarta una miopatia. La miopatia por corticoides y el hipotiroidismo cursan asi, y ambos son tratables.</span>';
       s += '<br><span style="opacity:.75;">Esta herramienta ordena la sospecha inicial. NO sustituye al electromiograma, que es lo que separa de verdad miopatia, neuropatia y enfermedad de motoneurona.</span>';
       return s;
@@ -177,7 +177,7 @@ export const calculators = [
     fields: [
       { name: 'cvf', id: 'em-se-cvf', type: 'number', step: '1', label: 'Capacidad vital forzada (% del predicho)', placeholder: 'ej. 62', row: 'r1' },
       { name: 'snip', id: 'em-se-sn', type: 'number', step: '1', required: false, label: 'Presion inspiratoria nasal, valor absoluto (cmH2O)', placeholder: 'ej. 42', row: 'r1' },
-      { name: 'sintomas', id: 'em-se-si', type: 'checkbox', label: 'Sintomas de hipoventilacion: ortopnea, cefalea matutina, sue&#241;o no reparador o somnolencia diurna', row: 'r2' },
+      { name: 'sintomas', id: 'em-se-si', type: 'checkbox', label: 'Sintomas de hipoventilacion: ortopnea, cefalea matutina, sueño no reparador o somnolencia diurna', row: 'r2' },
       { name: 'oximetria', id: 'em-se-ox', type: 'checkbox', label: 'Desaturaciones en la oximetria nocturna o hipercapnia en la gasometria', row: 'r2' },
       { name: 'disfagia', id: 'em-se-df', type: 'select', label: 'Deglucion', row: 'r3', options: [
         { v: 'no', t: 'Sin dificultad' },
@@ -218,7 +218,7 @@ export const calculators = [
       if (r.vni) {
         s += `<strong style="color:#8c3a34;">Corresponde OFRECER ventilacion no invasiva</strong>, por ${r.razones.join(', ')}. Prolonga la supervivencia y mejora la calidad de vida, y se ofrece ante SINTOMAS aunque los numeros todavia no lo exijan. `;
       } else {
-        s += `<span style="color:#3f6b52;">Por ahora no se cumplen criterios de ventilacion no invasiva</span> con una capacidad vital forzada del ${r.cvf}% y sin sintomas nocturnos. Hay que repetir las medidas cada 2 o 3 meses y preguntar de forma activa por ortopnea, cefalea matutina y sue&#241;o no reparador, porque el paciente no siempre los refiere. `;
+        s += `<span style="color:#3f6b52;">Por ahora no se cumplen criterios de ventilacion no invasiva</span> con una capacidad vital forzada del ${r.cvf}% y sin sintomas nocturnos. Hay que repetir las medidas cada 2 o 3 meses y preguntar de forma activa por ortopnea, cefalea matutina y sueño no reparador, porque el paciente no siempre los refiere. `;
       }
       if (r.bulbarGrave) s += '<br><strong style="color:#8a6a1f;">Hay afectacion bulbar grave</strong>, y eso limita mucho la tolerancia y el beneficio de la ventilacion no invasiva. Aqui pesan mas el manejo de las secreciones, la asistencia a la tos y el plan paliativo acordado con el paciente.';
       if (r.ventana === 'abierta') {

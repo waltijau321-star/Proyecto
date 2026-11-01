@@ -32,7 +32,8 @@ engine/                 Motor genérico (no conoce ningún tema)
   styles.css            Sistema de diseño (shell app + tipografía editorial)
   study-view.js         Render del módulo de estudio (mapa, modales, quiz, fichas, caso, buscador, citas)
   calculators.js        Motor declarativo de calculadoras + nota combinada
-  general-calc.js       Calculadoras generales de MI (CURB-65, CKD-EPI, Wells, CHA₂DS₂-VASc)
+  general-calc.js       Calculadoras generales de MI (hoy solo CHA₂DS₂-VASc; CURB-65, CKD-EPI y
+                        Wells estan comentadas desde el 18/07/2026, a pedido del autor)
   protocols.js          Protocolos académicos (teoría + fármacos + checklist interactivo)
   vpo.js                Motor de la sección VPO (Ruta · Escalas · Fármacos · Estudios · Nota)
   topic-chat.js         Notas del tema: panel de comentarios compartidos, uno por tema

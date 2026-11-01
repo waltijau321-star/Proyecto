@@ -1,7 +1,7 @@
 // topics/disfuncion-organica-multiple/calculators.js
 // 3 herramientas:
 // - sofa: calcula A LA VEZ la escala clasica (1996) y SOFA-2 (JAMA 2025) con los mismos datos, y
-//   se&#241;ala donde difieren. Los puntos de corte de SOFA-2 estan tomados de la Tabla 2 del articulo
+//   señala donde difieren. Los puntos de corte de SOFA-2 estan tomados de la Tabla 2 del articulo
 //   original que hay en Bibliografia/ (Ranzani et al), leyendo el PDF.
 // - cribado-deterioro: NEWS2 y qSOFA en paralelo, con la recomendacion FUERTE de la Surviving
 //   Sepsis Campaign 2026 de preferir las escalas de alerta precoz frente a qSOFA como cribado.
@@ -112,7 +112,7 @@ function hemostasia1(plq) {
   return 4;
 }
 
-const NOMBRES = ['cerebro', 'respiratorio', 'cardiovascular', 'higado', 'ri&#241;on', 'hemostasia'];
+const NOMBRES = ['cerebro', 'respiratorio', 'cardiovascular', 'higado', 'riñon', 'hemostasia'];
 
 // ---------- NEWS2 ----------
 function newsFr(fr) { if (fr <= 8) return 3; if (fr <= 11) return 1; if (fr <= 20) return 0; if (fr <= 24) return 2; return 3; }
@@ -276,7 +276,7 @@ export const calculators = [
       } else if (r.qPositivo) {
         s += '<br><strong style="color:#8c3a34;">qSOFA positivo</strong>, lo que se asocia a peor pronostico en el paciente con infeccion. No es un cribado, pero un qSOFA positivo si obliga a pensar en sepsis y a actuar.';
       }
-      s += '<br><span style="opacity:.75;">Ninguna de las dos diagnostica nada: detectan DETERIORO. La causa puede ser infeccion, hemorragia, tromboembolia, arritmia, dolor o deprivacion. Y su utilidad real depende del sistema de respuesta que las acompa&#241;e, no del numero.</span>';
+      s += '<br><span style="opacity:.75;">Ninguna de las dos diagnostica nada: detectan DETERIORO. La causa puede ser infeccion, hemorragia, tromboembolia, arritmia, dolor o deprivacion. Y su utilidad real depende del sistema de respuesta que las acompañe, no del numero.</span>';
       return s;
     },
     fragment: r => r.invalido ? 'valores no validos' : `NEWS2 ${r.news}, riesgo ${r.banda.toLowerCase()}; qSOFA ${r.q}/3`
@@ -301,13 +301,13 @@ export const calculators = [
       { name: 'hto', id: 'do-ap-ht', type: 'number', step: '0.1', label: 'Hematocrito (%)', placeholder: 'ej. 32', row: 'r6' },
       { name: 'leu', id: 'do-ap-l', type: 'number', step: '0.1', label: 'Leucocitos (x1000/microL)', placeholder: 'ej. 18.5', row: 'r7' },
       { name: 'gcs', id: 'do-ap-g', type: 'number', step: '1', label: 'Escala de coma de Glasgow (3 a 15)', placeholder: 'ej. 12', row: 'r7' },
-      { name: 'edad', id: 'do-ap-e', type: 'number', step: '1', label: 'Edad (a&#241;os)', placeholder: 'ej. 71', row: 'r8' },
+      { name: 'edad', id: 'do-ap-e', type: 'number', step: '1', label: 'Edad (años)', placeholder: 'ej. 71', row: 'r8' },
       { name: 'cronica', id: 'do-ap-cr', type: 'select', label: 'Insuficiencia organica cronica grave o inmunodepresion', row: 'r8', options: [
         { v: 'no', t: 'No' },
         { v: 'urgente', t: 'Si, ingreso medico o posoperatorio urgente' },
         { v: 'electivo', t: 'Si, posoperatorio electivo' }
       ] },
-      { type: 'note', text: 'Se usan los PEORES valores de las primeras 24 horas de ingreso en la unidad y se calcula UNA sola vez: no es una escala de seguimiento, para eso esta SOFA. Predice la mortalidad esperada de POBLACIONES y sirve para ajustar por gravedad, comparar unidades y dise&#241;ar estudios. NO esta validada para decidir el techo terapeutico de un paciente concreto ni para comunicar un pronostico individual a la familia.' }
+      { type: 'note', text: 'Se usan los PEORES valores de las primeras 24 horas de ingreso en la unidad y se calcula UNA sola vez: no es una escala de seguimiento, para eso esta SOFA. Predice la mortalidad esperada de POBLACIONES y sirve para ajustar por gravedad, comparar unidades y diseñar estudios. NO esta validada para decidir el techo terapeutico de un paciente concreto ni para comunicar un pronostico individual a la familia.' }
     ],
     compute(v) {
       const req = ['temp', 'pam', 'fc', 'fr', 'oxi', 'ph', 'na', 'k', 'creat', 'hto', 'leu', 'gcs', 'edad'];
@@ -350,12 +350,12 @@ export const calculators = [
       return { aps, sumaAps, pEdad, pCronica, total, banda, top, edad: v.edad, fra: !!v.fra };
     },
     format: r => {
-      if (r.invalido) return 'Revisa los valores: Glasgow de 3 a 15, edad de 0 a 120 a&#241;os, pH de 6.5 a 8 y temperatura de 25 a 45 grados.';
+      if (r.invalido) return 'Revisa los valores: Glasgow de 3 a 15, edad de 0 a 120 años, pH de 6.5 a 8 y temperatura de 25 a 45 grados.';
       let s = `<strong>APACHE II: ${r.total} puntos de 71. Gravedad ${r.banda}.</strong>`;
       s += `<br><span style="opacity:.85;">Variables fisiologicas ${r.sumaAps}, edad ${r.pEdad}, salud cronica ${r.pCronica}.</span>`;
       if (r.top.length) s += `<br><span style="opacity:.8;">Lo que mas pesa: ${r.top.join(', ')}.</span>`;
       if (r.fra) s += '<br><span style="opacity:.75;">Los puntos de la creatinina se han duplicado por tratarse de un fracaso renal agudo, tal como indica la escala original.</span>';
-      s += '<br><strong style="color:#8c3a34;">Como se interpreta y como NO.</strong> La puntuacion estima la mortalidad esperada de una POBLACION con esa gravedad y sirve para ajustar por gravedad, comparar unidades y dise&#241;ar estudios. No esta validada para predecir el desenlace de este paciente, ni para decidir su techo terapeutico, ni para comunicar un pronostico a la familia.';
+      s += '<br><strong style="color:#8c3a34;">Como se interpreta y como NO.</strong> La puntuacion estima la mortalidad esperada de una POBLACION con esa gravedad y sirve para ajustar por gravedad, comparar unidades y diseñar estudios. No esta validada para predecir el desenlace de este paciente, ni para decidir su techo terapeutico, ni para comunicar un pronostico a la familia.';
       s += '<br><span style="opacity:.75;">Es una escala de INGRESO: se calcula una sola vez con los peores valores de las primeras 24 horas y no se repite. Para el seguimiento diario, la escala que corresponde es SOFA, cuya TENDENCIA si aporta informacion pronostica.</span>';
       if (r.edad >= 65) s += `<br><span style="opacity:.75;">La edad aporta ${r.pEdad} puntos, que es una parte relevante del total. Conviene tenerlo presente al comparar pacientes de edades muy distintas.</span>`;
       return s;

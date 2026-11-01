@@ -4,7 +4,7 @@
 //   intrinseca o extrinseca con la DLCO y la KCO, incluyendo la caida postural de la FVC.
 // - patron-tcar: clasifica la tomografia de alta resolucion en los cuatro patrones de la guia de
 //   2022 y dice si hace falta muestra histologica.
-// - fibrosis-progresiva: criterios de fibrosis pulmonar progresiva (2 de 3 en el ultimo a&#241;o).
+// - fibrosis-progresiva: criterios de fibrosis pulmonar progresiva (2 de 3 en el ultimo año).
 // - gap: indice GAP de mortalidad en la fibrosis pulmonar idiopatica (Ley 2012).
 //
 // Sin em dash en el archivo (ver [[feedback-no-em-dash]]).
@@ -84,11 +84,11 @@ export const calculators = [
         if (r.kco !== null && r.kco >= 100) s += 'La KCO por encima del 100% lo confirma: el pulmon transfiere mas por unidad de volumen porque esta poco distendido. ';
         s += 'Toca exploracion neurologica, presiones respiratorias maximas, FVC en decubito y pulsioximetria nocturna.';
       }
-      if (r.obstruccion) s += ' <strong>Hay ademas obstruccion</strong>: valorar la combinacion de enfisema y fibrosis, que da volumenes enga&#241;osamente conservados con DLCO desproporcionadamente baja, o una EPID sobre un obstructivo previo.';
+      if (r.obstruccion) s += ' <strong>Hay ademas obstruccion</strong>: valorar la combinacion de enfisema y fibrosis, que da volumenes engañosamente conservados con DLCO desproporcionadamente baja, o una EPID sobre un obstructivo previo.';
       if (r.caida !== null) {
         s += ` <strong>Caida postural de la FVC del ${r.caida.toFixed(0)}%.</strong> `;
         s += r.caida > 20
-          ? 'Por encima del 20%: indica <strong>disfuncion diafragmatica significativa</strong>. Solicitar presiones respiratorias maximas y estudio del sue&#241;o, y valorar ventilacion no invasiva domiciliaria antes de que aparezca la hipercapnia diurna.'
+          ? 'Por encima del 20%: indica <strong>disfuncion diafragmatica significativa</strong>. Solicitar presiones respiratorias maximas y estudio del sueño, y valorar ventilacion no invasiva domiciliaria antes de que aparezca la hipercapnia diurna.'
           : 'Por debajo del 20%, dentro de lo esperable. No descarta debilidad leve: si la sospecha persiste, medir las presiones respiratorias maximas.';
       }
       return s;
@@ -107,11 +107,11 @@ export const calculators = [
         { value: 'peribronco', label: 'Peribroncovascular' },
         { value: 'difusa', label: 'Difusa, sin predominio claro' } ] },
       { type: 'note', text: 'Hallazgos que apoyan el patron de neumonia intersticial usual.' },
-      { name: 'panal', id: 'ei-tc-panal', type: 'checkbox', label: 'Panal de abeja: quistes agrupados, de pared gruesa y tama&#241;o similar, en varias capas subpleurales' },
+      { name: 'panal', id: 'ei-tc-panal', type: 'checkbox', label: 'Panal de abeja: quistes agrupados, de pared gruesa y tamaño similar, en varias capas subpleurales' },
       { name: 'reticulacion', id: 'ei-tc-ret', type: 'checkbox', label: 'Reticulacion subpleural' },
       { name: 'traccion', id: 'ei-tc-trac', type: 'checkbox', label: 'Bronquiectasias o bronquiolectasias de traccion perifericas' },
       { type: 'note', text: 'Hallazgos que apuntan a un DIAGNOSTICO ALTERNATIVO. Cualquiera de ellos, si es prominente, saca el caso del patron de neumonia intersticial usual.' },
-      { name: 'vidrio', id: 'ei-tc-vid', type: 'checkbox', label: 'Vidrio deslustrado EXTENSO, mas alla de lo que acompa&#241;a a la fibrosis' },
+      { name: 'vidrio', id: 'ei-tc-vid', type: 'checkbox', label: 'Vidrio deslustrado EXTENSO, mas alla de lo que acompaña a la fibrosis' },
       { name: 'mosaico', id: 'ei-tc-mos', type: 'checkbox', label: 'Mosaico con atrapamiento aereo en espiracion en tres o mas lobulos' },
       { name: 'quistes', id: 'ei-tc-qui', type: 'checkbox', label: 'Quistes no en panal, nodulos centrolobulillares profusos o consolidacion' },
       { name: 'perilinfatico', id: 'ei-tc-peri', type: 'checkbox', label: 'Nodulos de distribucion perilinfatica o adenopatias hiliares simetricas' },
@@ -158,7 +158,7 @@ export const calculators = [
   },
   {
     key: 'fibrosis-progresiva', title: 'Criterios de fibrosis pulmonar progresiva', accent: '#8c3a34',
-    subtitle: 'Dos de tres criterios en el ultimo a&#241;o, en una EPID que NO es fibrosis idiopatica',
+    subtitle: 'Dos de tres criterios en el ultimo año, en una EPID que NO es fibrosis idiopatica',
     incompleteMsg: 'Indica el diagnostico de base y los valores de FVC y DLCO previos y actuales.',
     fields: [
       { name: 'base', id: 'ei-fp-base', type: 'select', label: 'Diagnostico de base', options: [
@@ -202,7 +202,7 @@ export const calculators = [
         return s;
       }
       if (r.cumple) {
-        s += '<strong style="color:#8c3a34;">Cumple criterios de FIBROSIS PULMONAR PROGRESIVA.</strong> A&#241;adir NINTEDANIB, que redujo la caida de la FVC en este fenotipo con independencia de la enfermedad de base. A diferencia de la fibrosis idiopatica, aqui el inmunosupresor SI tiene papel cuando la enfermedad de base lo justifica, y con frecuencia se combinan las dos estrategias. Reevaluar ademas si persiste una causa corregible (antigeno en la neumonitis por hipersensibilidad, farmaco, exposicion laboral), valorar trasplante en el candidato y llevar el caso de nuevo al comite.';
+        s += '<strong style="color:#8c3a34;">Cumple criterios de FIBROSIS PULMONAR PROGRESIVA.</strong> Añadir NINTEDANIB, que redujo la caida de la FVC en este fenotipo con independencia de la enfermedad de base. A diferencia de la fibrosis idiopatica, aqui el inmunosupresor SI tiene papel cuando la enfermedad de base lo justifica, y con frecuencia se combinan las dos estrategias. Reevaluar ademas si persiste una causa corregible (antigeno en la neumonitis por hipersensibilidad, farmaco, exposicion laboral), valorar trasplante en el candidato y llevar el caso de nuevo al comite.';
       } else if (r.n >= 2 && !r.alternativa) {
         s += '<strong style="color:#8a6a1f;">Hay criterios suficientes, pero falta descartar otras explicaciones.</strong> Antes de aceptar la progresion hay que excluir infeccion respiratoria, insuficiencia cardiaca, sobrecarga de volumen, embolia pulmonar, toxicidad de un farmaco nuevo y mala tecnica en las pruebas de funcion. Sin ese paso, el diagnostico no se sostiene.';
       } else {
@@ -221,7 +221,7 @@ export const calculators = [
         { value: '', label: 'Selecciona' },
         { value: 'm', label: 'Mujer (0)' },
         { value: 'h', label: 'Hombre (1)' } ] },
-      { name: 'edad', id: 'ei-gap-edad', type: 'number', step: '1', label: 'Edad (a&#241;os)', placeholder: 'ej. 68', row: 'r1' },
+      { name: 'edad', id: 'ei-gap-edad', type: 'number', step: '1', label: 'Edad (años)', placeholder: 'ej. 68', row: 'r1' },
       { name: 'fvc', id: 'ei-gap-fvc', type: 'number', step: '1', label: 'FVC (% del predicho)', placeholder: 'ej. 62', row: 'r1' },
       { name: 'dlco', id: 'ei-gap-dlco', type: 'number', step: '1', required: false, label: 'DLCO (% del predicho; dejar vacio si no se pudo realizar)', placeholder: 'ej. 44' },
       { type: 'note', text: 'Puntuacion: sexo (mujer 0, hombre 1). Edad (60 o menos 0, de 61 a 65 un punto, mas de 65 dos puntos). FVC (mas del 75% 0, del 50 al 75% un punto, menos del 50% dos puntos). DLCO (mas del 55% 0, del 36 al 55% un punto, 35% o menos dos puntos, no realizable tres puntos). Total de 0 a 8, en tres estadios. Se desarrollo para la fibrosis pulmonar idiopatica y despues se ha aplicado a otras EPID fibrosantes.' }
@@ -241,8 +241,8 @@ export const calculators = [
       return { total, estadio, mort1, mort3, pSexo, pEdad, pFvc, pDlco, sinDlco: v.dlco == null, fvc: v.fvc };
     },
     format: r => {
-      if (r.invalido) return 'Revisa los valores: edad de 1 a 120 a&#241;os y porcentajes del predicho entre 1 y 200.';
-      let s = `<strong>GAP ${r.total} de 8 puntos: estadio ${r.estadio}.</strong> Mortalidad estimada al a&#241;o ${r.mort1} y a los 3 a&#241;os ${r.mort3}. Desglose: sexo ${r.pSexo}, edad ${r.pEdad}, FVC ${r.pFvc}, DLCO ${r.pDlco}. `;
+      if (r.invalido) return 'Revisa los valores: edad de 1 a 120 años y porcentajes del predicho entre 1 y 200.';
+      let s = `<strong>GAP ${r.total} de 8 puntos: estadio ${r.estadio}.</strong> Mortalidad estimada al año ${r.mort1} y a los 3 años ${r.mort3}. Desglose: sexo ${r.pSexo}, edad ${r.pEdad}, FVC ${r.pFvc}, DLCO ${r.pDlco}. `;
       if (r.sinDlco) s += '<strong>La DLCO no se ha introducido</strong> y se ha puntuado como no realizable, que son 3 puntos: si el paciente si puede hacerla, conviene medirla, porque puede bajar el estadio de forma sustancial. ';
       if (r.estadio === 'III') s += 'Estadio de maximo riesgo: asegurar que el paciente ya esta remitido a trasplante, valorar la inclusion en lista y plantear cuidados paliativos en paralelo, no como alternativa. Conviene hablar de objetivos de cuidado antes de la primera exacerbacion aguda, porque en ese momento la ventilacion invasiva rara vez cambia el desenlace.';
       else if (r.estadio === 'II') s += 'Riesgo intermedio: antifibrotico, rehabilitacion respiratoria, oxigeno si procede y seguimiento funcional cada 3 a 6 meses. Si no se ha hecho, remitir a trasplante ahora.';

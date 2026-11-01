@@ -15,7 +15,7 @@ const HISTORY_KEY = 'rm:exam-history';
 const HISTORY_MAX = 50;
 
 let TOPIC_POOL = null; // [{id, titulo, accent, quiz:[...]}]
-let examState = { deck: [], qIndex: 0, score: 0, answered: false, startedAt: 0, selected: null };
+let examState = { deck: [], qIndex: 0, score: 0, answered: false, startedAt: 0, selected: null, falladas: [] };
 let timerInterval = null;
 let EXAM_ROOT = null;
 
@@ -57,7 +57,27 @@ function buildPool(pool, difficulty, topicIds) {
       const include = difficulty === 'mixta' ? true
         : difficulty === 'inteligente' ? dueIdx.has(qIndex)
         : difficulty === lvl;
-      if (include) bag.push({ ...q, topicId: t.id, topicTitulo: t.titulo, topicAccent: t.accent, srsIndex: qIndex });
+      if (!include) return;
+      const comun = { topicId: t.id, topicTitulo: t.titulo, topicAccent: t.accent, srsIndex: qIndex };
+      // Un caso en cascada NO tiene `options` (las tienen sus `steps`), y renderExamPage pinta
+      // `q.options.map(...)`: entraban al mazo tal cual y el examen se quedaba EN BLANCO en
+      // cuanto salia uno, con un TypeError en consola y sin forma de seguir. Son 565 de 3823
+      // entradas (15%), asi que un examen de 20 preguntas se rompia el 96% de las veces.
+      // Entran por su PRIMER paso, que es el unico que no depende de haber contestado los
+      // anteriores, con la vineta delante para que el escenario viaje con la pregunta. Se
+      // conservan `type` y `steps` a proposito: questionId() de quiz-srs.js identifica una
+      // cascada por su vineta y su primer paso, de modo que el repaso espaciado sigue apuntando
+      // al MISMO item que el quiz del tema. Mejora posible: repartir tambien los pasos 2 y 3.
+      if (q.type === 'cascade') {
+        const paso = (q.steps || [])[0];
+        if (!paso || !Array.isArray(paso.options) || typeof paso.correct !== 'number') return;
+        bag.push({ ...q, ...comun, options: paso.options, correct: paso.correct,
+                   q: (q.vignette ? q.vignette + '<br><br>' : '') + paso.q });
+        return;
+      }
+      // Cinturon: nada sin opciones utilizables llega a la pantalla.
+      if (!Array.isArray(q.options) || !q.options.length || typeof q.correct !== 'number') return;
+      bag.push({ ...q, ...comun });
     });
   });
   // Si nadie ha respondido nada todavía (o no hay vencidas), cae a "mixta" completo en vez de un examen vacío.
@@ -142,7 +162,7 @@ async function openExamConfigModal() {
 function startExam(numQuestions, difficulty, topicIds) {
   const bag = shuffle(buildPool(TOPIC_POOL, difficulty, topicIds));
   const deck = bag.slice(0, numQuestions);
-  examState = { deck, qIndex: 0, score: 0, answered: false, difficulty, startedAt: Date.now(), selected: null };
+  examState = { deck, qIndex: 0, score: 0, answered: false, difficulty, startedAt: Date.now(), selected: null, falladas: [] };
   trackEvent('examStart');
   if (window.rmGoToExam) window.rmGoToExam();
 }
@@ -156,6 +176,33 @@ function pageShellHTML(inner) {
     </div>
     ${inner}
   </div>`;
+}
+
+// Resumen de lo fallado al cerrar el examen: el enunciado, lo que se eligio, lo correcto, la
+// explicacion y un boton que abre el tema. Agrupa por tema para que se vea de donde viene el
+// error. rmGoTopic ya existe como global (lo monta home.js y lo usa tambien Admin).
+function falladasHTML(falladas) {
+  if (!falladas.length) return '<p class="fbody" style="color:var(--ink-dim);margin-bottom:20px;">Sin fallos: nada que repasar de este examen.</p>';
+  const porTema = new Map();
+  falladas.forEach(f => {
+    if (!porTema.has(f.topicId)) porTema.set(f.topicId, { titulo: f.topicTitulo, items: [] });
+    porTema.get(f.topicId).items.push(f);
+  });
+  const bloques = [...porTema.entries()].map(([id, g]) => `
+    <div class="exam-fallo-tema">
+      <div class="exam-fallo-cab">
+        <strong>${g.titulo}</strong>
+        <button class="home-quick" onclick="rmGoTopic('${id}')">Abrir el tema</button>
+      </div>
+      ${g.items.map(f => `
+        <div class="exam-fallo">
+          <p class="fbody exam-fallo-q">${f.q}</p>
+          <p class="fbody exam-fallo-linea">Respondiste: <span class="exam-fallo-mal">${f.elegida}</span></p>
+          <p class="fbody exam-fallo-linea">Correcta: <span class="exam-fallo-bien">${f.correcta}</span></p>
+          ${f.explanation ? `<p class="fbody exam-fallo-exp">${f.explanation}</p>` : ''}
+        </div>`).join('')}
+    </div>`).join('');
+  return `<h3 class="home-subhead" style="margin-top:4px;">Lo que fallaste (${falladas.length} de ${examState.deck.length})</h3>${bloques}`;
 }
 
 function renderExamPage() {
@@ -184,7 +231,8 @@ function renderExamPage() {
       <span class="modal-tag" style="color:#3d5a73;">Resultado del examen</span>
       <h2>${examState.score} / ${deck.length} correctas (${pct}%)</h2>
       <p class="fbody" style="color:var(--ink-dim);">Tiempo total: ${elapsed}.</p>
-      <p class="fbody" style="color:var(--ink-dim);margin-bottom:20px;">${pct >= 80 ? 'Excelente dominio del material mezclado.' : pct >= 60 ? 'Buen desempeño, repasa los temas donde fallaste.' : 'Conviene repasar antes de tu próximo intento.'}</p>
+      <p class="fbody" style="color:var(--ink-dim);margin-bottom:20px;">${pct >= 80 ? 'Excelente dominio del material mezclado.' : pct >= 60 ? 'Buen desempeño.' : 'Conviene repasar antes de tu próximo intento.'}</p>
+      ${falladasHTML(examState.falladas)}
       <button class="calc-copy" onclick="rmExitExam()">Volver a Inicio</button>`);
     return;
   }
@@ -217,6 +265,13 @@ function answerExam(i) {
   const q = examState.deck[examState.qIndex];
   const correct = i === q.correct;
   if (correct) examState.score++;
+  // Se guarda la fallada para el resumen final: la pantalla de cierre solo decia "repasa los
+  // temas donde fallaste", sin decir cuales, y la revision del error es donde ocurre el
+  // aprendizaje de un simulacro.
+  else examState.falladas.push({
+    q: q.q, elegida: q.options[i], correcta: q.options[q.correct],
+    explanation: q.explanation, topicId: q.topicId, topicTitulo: q.topicTitulo
+  });
   recordExamProgress(q.topicId, correct);
   updateQuizSRS(q.topicId, q, correct);
   document.querySelectorAll('#exam-options .quiz-opt').forEach((btn, idx) => {

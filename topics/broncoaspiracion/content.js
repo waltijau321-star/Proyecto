@@ -15,7 +15,7 @@ export const meta = {
 };
 
 export const definicionText = `<p style="margin:0 0 14px;">La aspiracion es la <strong>inhalacion de contenido orofaringeo o gastrico</strong> hacia la laringe y la via aerea inferior. De ella salen varios sindromes segun la cantidad y la naturaleza del material, la frecuencia y la respuesta del paciente, pero dos dominan la practica y se confunden todo el tiempo: la <strong>neumonitis por aspiracion</strong>, una lesion QUIMICA por contenido gastrico esteril, y la <strong>neumonia por aspiracion</strong>, una INFECCION por secreciones orofaringeas colonizadas. Se solapan, pero son entidades distintas y se tratan distinto.</p>
-<p style="margin:0 0 14px;">Marik se&#241;alaba cuatro errores frecuentes: no distinguir la neumonitis de la neumonia, considerar infecciosa toda complicacion de la aspiracion, no reconocer el espectro real de germenes, y creer que la aspiracion tiene que ser <strong>presenciada</strong> para diagnosticarla. La consecuencia practica de los dos primeros es la mas visible: antibioticos a pacientes con una quemadura quimica que no los necesitan, y que seleccionan germenes resistentes.</p>
+<p style="margin:0 0 14px;">Marik señalaba cuatro errores frecuentes: no distinguir la neumonitis de la neumonia, considerar infecciosa toda complicacion de la aspiracion, no reconocer el espectro real de germenes, y creer que la aspiracion tiene que ser <strong>presenciada</strong> para diagnosticarla. La consecuencia practica de los dos primeros es la mas visible: antibioticos a pacientes con una quemadura quimica que no los necesitan, y que seleccionan germenes resistentes.</p>
 <p style="margin:0 0 14px;">Para dimensionarla: entre el <strong>5% y el 15%</strong> de las neumonias comunitarias son por aspiracion, y es la causa de muerte mas frecuente en los pacientes con disfagia neurologica. La neumonitis aparece en alrededor del <strong>10%</strong> de los ingresados por sobredosis y en 1 de cada 3.000 anestesias, donde explica entre el 10% y el 30% de las muertes atribuibles a la anestesia. Este tema se centra en el paciente agudo y critico; la neumonia comunitaria y nosocomial en general se tratan en el tema de Neumonia.</p>`;
 
 export const bibliografia = [
@@ -51,7 +51,7 @@ export const content = {
     imagen: [
       { modalidad: 'Radiografia de torax', hallazgos: 'Infiltrado en un segmento declive. Si la aspiracion ocurrio en decubito: segmentos posteriores de los lobulos superiores y apicales de los inferiores. Si ocurrio sentado o semiincorporado: segmentos basales de los lobulos inferiores. La afectacion del lobulo inferior derecho es la tipica.' },
       { modalidad: 'Tomografia de torax', hallazgos: 'Para las complicaciones: cavitacion, absceso, neumonia necrotizante y empiema, que obligan a cubrir anaerobios y pueden requerir drenaje.' },
-      { modalidad: 'Broncoscopia', hallazgos: 'Ante sospecha de obstruccion endobronquial por tumor o cuerpo extra&#241;o, que hace que el absceso no responda al antibiotico. Tambien para el drenaje endoscopico del absceso.' },
+      { modalidad: 'Broncoscopia', hallazgos: 'Ante sospecha de obstruccion endobronquial por tumor o cuerpo extraño, que hace que el absceso no responda al antibiotico. Tambien para el drenaje endoscopico del absceso.' },
       { modalidad: 'Videofluoroscopia', hallazgos: 'Demuestra la aspiracion durante la deglucion y orienta las estrategias de alimentacion.' }
     ]
   },
@@ -95,7 +95,7 @@ export const content = {
       nombre: 'Neumonia por aspiracion: una infeccion',
       color: '#8c3a34',
       definicion: 'Infiltrado radiologico en un paciente con riesgo de aspiracion orofaringea, por inhalacion de secreciones colonizadas por bacterias patogenas.',
-      fisiopatologia: 'Aproximadamente la mitad de los adultos sanos aspira peque&#241;as cantidades de secrecion orofaringea durante el sue&#241;o, y la baja carga bacteriana, la tos, el aclaramiento ciliar y la inmunidad lo resuelven. Si esos mecanismos fallan o el volumen es grande, aparece la neumonia. Cualquier condicion que aumente el volumen o la carga bacteriana de las secreciones en un paciente con defensas alteradas la favorece.',
+      fisiopatologia: 'Aproximadamente la mitad de los adultos sanos aspira pequeñas cantidades de secrecion orofaringea durante el sueño, y la baja carga bacteriana, la tos, el aclaramiento ciliar y la inmunidad lo resuelven. Si esos mecanismos fallan o el volumen es grande, aparece la neumonia. Cualquier condicion que aumente el volumen o la carga bacteriana de las secreciones en un paciente con defensas alteradas la favorece.',
       epidemiologia: 'Entre el 5% y el 15% de las neumonias comunitarias. En un estudio, el 18% de las neumonias de residencia frente al 5% de las comunitarias. En el ictus, la disfagia afecta al 40% a 70% y la neumonia es 7 veces mas probable si se confirma la aspiracion.',
       factores_riesgo: ['Disfagia neurologica (ictus, enfermedad neurodegenerativa)', 'Alteracion de la union gastroesofagica', 'Anomalias de la via aerodigestiva superior', 'Edad avanzada y reflujo', 'Mala higiene oral y colonizacion', 'Institucionalizacion'],
       clinica: 'La de una neumonia aguda: taquipnea, tos, fiebre y signos de consolidacion, en un paciente de riesgo. La aspiracion casi nunca se presencia.',
@@ -105,7 +105,7 @@ export const content = {
       complementarios: 'Valoracion de la deglucion.',
       dx_diferencial: 'Neumonia comunitaria sin aspiracion (aunque se solapan: los ancianos sanos con neumonia tienen mas aspiracion silente que los controles), neumonitis quimica, neoplasia con obstruccion.',
       tx_medico: 'Tratar la neumonia y la causa: valorar la deglucion, adaptar la dieta y cuidar la higiene oral.',
-      tx_farmacologico: 'El antibiotico esta INEQUIVOCAMENTE indicado, elegido segun donde se produjo la aspiracion y el estado del paciente. Suele hacer falta actividad frente a gramnegativos (cefalosporinas de tercera generacion, fluoroquinolonas, piperacilina). La penicilina y la clindamicina, consideradas clasicamente el estandar, son insuficientes para la mayoria. La guia ATS/IDSA de 2019 recomienda no a&#241;adir de rutina cobertura anaerobia en la sospecha de neumonia por aspiracion salvo que se sospeche absceso o empiema.',
+      tx_farmacologico: 'El antibiotico esta INEQUIVOCAMENTE indicado, elegido segun donde se produjo la aspiracion y el estado del paciente. Suele hacer falta actividad frente a gramnegativos (cefalosporinas de tercera generacion, fluoroquinolonas, piperacilina). La penicilina y la clindamicina, consideradas clasicamente el estandar, son insuficientes para la mayoria. La guia ATS/IDSA de 2019 recomienda no añadir de rutina cobertura anaerobia en la sospecha de neumonia por aspiracion salvo que se sospeche absceso o empiema.',
       tx_intervencionista: 'Drenaje si hay empiema o absceso que no responde.',
       criterios_uci: 'Los de cualquier neumonia grave.',
       criterios_tips: 'No aplica.',
@@ -118,8 +118,8 @@ export const content = {
     {
       nombre: 'Germenes: lo que muestran los estudios modernos',
       color: '#5a4a8c',
-      definicion: 'Espectro bacteriano real de la neumonia por aspiracion y de la neumonitis sobreinfectada, que difiere del que se ense&#241;aba clasicamente.',
-      fisiopatologia: 'Los estudios de los a&#241;os setenta, con muestras transtraqueales tomadas tarde y en pacientes con complicaciones (abscesos, neumonia necrotizante, empiema), a menudo alcoholicos con esputo putrido, encontraron sobre todo anaerobios. Pero esas muestras podian estar contaminadas por flora orofaringea. Con el cepillo protegido y cultivo cuantitativo en los a&#241;os noventa, el panorama fue otro.',
+      definicion: 'Espectro bacteriano real de la neumonia por aspiracion y de la neumonitis sobreinfectada, que difiere del que se enseñaba clasicamente.',
+      fisiopatologia: 'Los estudios de los años setenta, con muestras transtraqueales tomadas tarde y en pacientes con complicaciones (abscesos, neumonia necrotizante, empiema), a menudo alcoholicos con esputo putrido, encontraron sobre todo anaerobios. Pero esas muestras podian estar contaminadas por flora orofaringea. Con el cepillo protegido y cultivo cuantitativo en los años noventa, el panorama fue otro.',
       epidemiologia: 'En 52 pacientes de criticos con neumonia por aspiracion, solo 19 tuvieron patogenos en cantidad significativa, y NINGUNO anaerobios. En otro estudio de 25 aspiraciones gastricas, 12 tuvieron patogenos, 8 de ellos con factores de colonizacion gastrica, y tampoco hubo anaerobios patogenos.',
       factores_riesgo: ['Antiacidos, antagonistas H2 o inhibidores de la bomba de protones', 'Nutricion enteral', 'Gastroparesia u obstruccion de intestino delgado', 'Mala higiene oral en el anciano', 'Origen hospitalario'],
       clinica: 'No aplica.',
@@ -168,7 +168,7 @@ export const content = {
       color: '#3f6b52',
       definicion: 'Identificacion del paciente con disfagia y medidas para reducir la aspiracion, incluida la decision sobre las sondas de alimentacion.',
       fisiopatologia: 'Las sondas de alimentacion no protegen frente a las secreciones orofaringeas colonizadas, que son la amenaza principal en la disfagia, y la gammagrafia ha demostrado aspiracion de contenido gastrico tambien con gastrostomia.',
-      epidemiologia: 'La disfagia neurologica afecta a entre 300.000 y 600.000 personas al a&#241;o en Estados Unidos. En 1995 se colocaron mas de 121.000 gastrostomias endoscopicas en Medicare, sobre todo por disfagia tras un ictus.',
+      epidemiologia: 'La disfagia neurologica afecta a entre 300.000 y 600.000 personas al año en Estados Unidos. En 1995 se colocaron mas de 121.000 gastrostomias endoscopicas en Medicare, sobre todo por disfagia tras un ictus.',
       factores_riesgo: ['Ictus', 'Enfermedad neurodegenerativa', 'Aspiracion silente', 'Mala higiene oral', 'Alimentacion con consistencias inadecuadas'],
       clinica: 'Tos o atragantamiento con la ingesta, voz humeda, neumonias de repeticion; o nada, en la aspiracion silente.',
       criterios_dx: 'Valoracion completa de la deglucion por logopedia, completada con videofluoroscopia o endoscopia. Los reflejos tusigeno y nauseoso no son fiables.',
@@ -176,7 +176,7 @@ export const content = {
       imagen: 'Videofluoroscopia de la deglucion.',
       complementarios: 'Endoscopia de la deglucion con fibra optica.',
       dx_diferencial: 'No aplica.',
-      tx_medico: 'Dieta blanda y estrategias compensadoras: bocados peque&#241;os, barbilla hacia abajo, cabeza girada y degluciones repetidas. Higiene oral intensiva. Sonda si sigue aspirando el pure pese a esas estrategias.',
+      tx_medico: 'Dieta blanda y estrategias compensadoras: bocados pequeños, barbilla hacia abajo, cabeza girada y degluciones repetidas. Higiene oral intensiva. Sonda si sigue aspirando el pure pese a esas estrategias.',
       tx_farmacologico: 'No aplica.',
       tx_intervencionista: 'La gastrostomia no ha demostrado ser superior a la sonda nasogastrica para prevenir la aspiracion tras un ictus: aporta mejor la nutricion, pero la incidencia de neumonia fue similar, y tambien con sondas pospiloricas. Se prefiere para el largo plazo por la comodidad. No es para quien recuperara la deglucion en pocas semanas.',
       criterios_uci: 'No aplica.',
@@ -193,7 +193,7 @@ export const content = {
       definicion: 'Necrosis y cavitacion del parenquima como complicacion de la neumonia por aspiracion no tratada o que no responde, junto con la neumonia necrotizante y el empiema.',
       fisiopatologia: 'El organismo intenta contener la infeccion y el parenquima se necrosa. Sin tratamiento, la neumonia por aspiracion tiene mas tendencia a cavitar y formar abscesos.',
       epidemiologia: 'El antibiotico sistemico, tratamiento de referencia, tiene un exito del 63% al 67%; hasta un 37% de los abscesos no responden y pueden necesitar otras intervenciones.',
-      factores_riesgo: ['Obstruccion endobronquial por tumor o cuerpo extra&#241;o', 'Absceso mayor de 6 cm', 'Antibiotico inadecuado o demasiado corto', 'Germenes inusuales: micobacterias, hongos', 'Inmunosupresion'],
+      factores_riesgo: ['Obstruccion endobronquial por tumor o cuerpo extraño', 'Absceso mayor de 6 cm', 'Antibiotico inadecuado o demasiado corto', 'Germenes inusuales: micobacterias, hongos', 'Inmunosupresion'],
       clinica: 'Fiebre persistente, esputo putrido, perdida de peso y mal estado general pese al antibiotico.',
       criterios_dx: 'Cavidad con nivel hidroaereo en la imagen.',
       laboratorio: 'Cultivos, incluidos de micobacterias y hongos si no responde.',
@@ -274,7 +274,7 @@ export const compGroups = [
   { title: 'Cuando se complica', items: ['Absceso pulmonar y complicaciones'] }
 ];
 
-export const complicacionesIntro = 'Las tres primeras fichas son la distincion que lo decide todo: la neumonitis es una quemadura quimica que no lleva antibiotico de entrada, la neumonia es una infeccion que si lo lleva, y los germenes reales no son los anaerobios que se ense&#241;aban. Las dos siguientes son los escenarios donde ocurre: el paciente critico, sobre todo tras la extubacion, y el paciente con disfagia, donde las sondas no protegen tanto como se cree. La ultima es la complicacion que si obliga a cubrir anaerobios: el absceso.';
+export const complicacionesIntro = 'Las tres primeras fichas son la distincion que lo decide todo: la neumonitis es una quemadura quimica que no lleva antibiotico de entrada, la neumonia es una infeccion que si lo lleva, y los germenes reales no son los anaerobios que se enseñaban. Las dos siguientes son los escenarios donde ocurre: el paciente critico, sobre todo tras la extubacion, y el paciente con disfagia, donde las sondas no protegen tanto como se cree. La ultima es la complicacion que si obliga a cubrir anaerobios: el absceso.';
 
 export const categories = [
   { id: 'definicion', label: 'Definicion' },
@@ -330,7 +330,7 @@ export const figuras = {
           </tbody>
         </table>
       </div>
-      <div class="figure-grade-box">Hay solapamiento, pero son entidades distintas. Los cuatro errores que se&#241;alaba Marik siguen vigentes: no distinguir una de otra, considerar infecciosa toda complicacion de la aspiracion, no reconocer el espectro real de germenes y creer que la aspiracion tiene que haberse <strong>visto</strong> para diagnosticarla. La neumonia por aspiracion casi nunca se presencia: se infiere ante un paciente de riesgo con un infiltrado en un segmento declive.</div>`
+      <div class="figure-grade-box">Hay solapamiento, pero son entidades distintas. Los cuatro errores que señalaba Marik siguen vigentes: no distinguir una de otra, considerar infecciosa toda complicacion de la aspiracion, no reconocer el espectro real de germenes y creer que la aspiracion tiene que haberse <strong>visto</strong> para diagnosticarla. La neumonia por aspiracion casi nunca se presencia: se infiere ante un paciente de riesgo con un infiltrado en un segmento declive.</div>`
   },
   'aspiracion-antibiotico': {
     titulo: 'Cuando antibiotico, y con que espectro',
@@ -349,7 +349,7 @@ export const figuras = {
           </tbody>
         </table>
       </div>
-      <div class="figure-grade-box">La guia ATS/IDSA de 2019 recomienda <strong>no a&#241;adir de rutina cobertura anaerobia</strong> en la sospecha de neumonia por aspiracion salvo que se sospeche absceso o empiema, en linea con lo que ya se&#241;alaba Marik: la <strong>penicilina y la clindamicina</strong>, consideradas clasicamente el estandar, son insuficientes para la mayoria, porque lo que suele hacer falta es actividad frente a gramnegativos. En el intubado, el cultivo cuantitativo de la via aerea inferior permite dirigir el tratamiento y suspenderlo si es negativo.</div>`
+      <div class="figure-grade-box">La guia ATS/IDSA de 2019 recomienda <strong>no añadir de rutina cobertura anaerobia</strong> en la sospecha de neumonia por aspiracion salvo que se sospeche absceso o empiema, en linea con lo que ya señalaba Marik: la <strong>penicilina y la clindamicina</strong>, consideradas clasicamente el estandar, son insuficientes para la mayoria, porque lo que suele hacer falta es actividad frente a gramnegativos. En el intubado, el cultivo cuantitativo de la via aerea inferior permite dirigir el tratamiento y suspenderlo si es negativo.</div>`
   },
   'aspiracion-mitos': {
     titulo: 'Lo que se hace por costumbre y lo que dice la evidencia',

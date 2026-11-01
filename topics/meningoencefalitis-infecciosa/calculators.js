@@ -19,7 +19,7 @@ export const calculators = [
       { name: 'papiledema', id: 'mn-tc-p', type: 'checkbox', label: 'Papiledema en el fondo de ojo', row: 'r2' },
       { name: 'conciencia', id: 'mn-tc-n', type: 'checkbox', label: 'Alteracion del nivel de conciencia', row: 'r3' },
       { name: 'focalidad', id: 'mn-tc-f', type: 'checkbox', label: 'Focalidad neurologica: paresia, afasia, campimetria o paralisis de mirada', row: 'r3' },
-      { name: 'edad', id: 'mn-tc-e', type: 'number', step: '1', required: false, label: 'Edad (a&#241;os)', placeholder: 'ej. 64' },
+      { name: 'edad', id: 'mn-tc-e', type: 'number', step: '1', required: false, label: 'Edad (años)', placeholder: 'ej. 64' },
       { name: 'tratado', id: 'mn-tc-t', type: 'select', label: 'Se ha administrado ya la dexametasona con el antibiotico?', options: [
         { v: 'no', t: 'Todavia no' },
         { v: 'si', t: 'Si, ya estan puestos' }
@@ -46,21 +46,21 @@ export const calculators = [
       };
     },
     format: r => {
-      if (r.invalido) return 'Revisa la edad: se admite de 0 a 120 a&#241;os.';
+      if (r.invalido) return 'Revisa la edad: se admite de 0 a 120 años.';
       let s = '';
       if (r.tc) {
         s += `<strong style="color:#8a6a1f;">Hay ${r.n} criterio${r.n > 1 ? 's' : ''} para hacer tomografia ANTES de la puncion</strong>: ${r.presentes.join(', ')}. `;
         s += 'Se busca una lesion con efecto de masa, desplazamiento de linea media o hidrocefalia que desaconsejen puncionar.';
       } else {
         s += '<strong style="color:#3f6b52;">No hay ningun criterio: se puede puncionar directamente, sin tomografia previa.</strong> Con ninguno de estos datos, la probabilidad de una lesion con efecto de masa es muy baja, y pedir la imagen solo consigue retrasar el diagnostico y el tratamiento.';
-        if (r.mayor) s += `<br><span style="opacity:.75;">El paciente tiene ${r.edad} a&#241;os. Algunas recomendaciones incluyen la edad avanzada entre los criterios, de modo que aqui cabe el juicio clinico, siempre sin retrasar el tratamiento.</span>`;
+        if (r.mayor) s += `<br><span style="opacity:.75;">El paciente tiene ${r.edad} años. Algunas recomendaciones incluyen la edad avanzada entre los criterios, de modo que aqui cabe el juicio clinico, siempre sin retrasar el tratamiento.</span>`;
       }
       if (r.tratado) {
         s += '<br><strong style="color:#3f6b52;">La dexametasona y el antibiotico ya estan puestos.</strong> Ese es el orden correcto: a partir de aqui, el tiempo que consuman la imagen y la puncion ya no perjudica al paciente, y el liquido sigue informando porque la celularidad, la glucosa y las proteinas no se normalizan en unas horas.';
       } else {
         s += '<br><strong style="color:#8c3a34;">Todavia no se ha tratado.</strong> Sea cual sea el resultado de esta regla, corresponde extraer HEMOCULTIVOS y administrar DEXAMETASONA seguida del ANTIBIOTICO ahora, antes de la tomografia y antes de la puncion. El retraso de la primera dosis es el factor pronostico modificable mas importante de este cuadro.';
       }
-      if (r.sinEdad) s += '<br><span style="opacity:.75;">No se ha introducido la edad, que ademas de figurar en algunas versiones de la regla decide si hace falta a&#241;adir ampicilina para cubrir Listeria.</span>';
+      if (r.sinEdad) s += '<br><span style="opacity:.75;">No se ha introducido la edad, que ademas de figurar en algunas versiones de la regla decide si hace falta añadir ampicilina para cubrir Listeria.</span>';
       s += '<br><span style="opacity:.75;">Una tomografia normal NO descarta hipertension intracraneal ni autoriza a puncionar si la clinica sugiere herniacion inminente.</span>';
       return s;
     },
@@ -158,7 +158,7 @@ export const calculators = [
     subtitle: 'Que cubrir segun edad, huesped y sindrome, y si corresponde dexametasona',
     incompleteMsg: 'Introduce la edad y elige el sindrome y el contexto del paciente.',
     fields: [
-      { name: 'edad', id: 'mn-em-e', type: 'number', step: '1', label: 'Edad (a&#241;os)', placeholder: 'ej. 58', row: 'r1' },
+      { name: 'edad', id: 'mn-em-e', type: 'number', step: '1', label: 'Edad (años)', placeholder: 'ej. 58', row: 'r1' },
       { name: 'sindrome', id: 'mn-em-s', type: 'select', label: 'Sindrome predominante', row: 'r1', options: [
         { v: 'meningeo', t: 'Meningeo: funcion cerebral conservada' },
         { v: 'encefalitico', t: 'Encefalitico: conducta, lenguaje o crisis' }
@@ -173,14 +173,14 @@ export const calculators = [
         { v: 'embarazo', t: 'Embarazo' }
       ] },
       { name: 'alergia', id: 'mn-em-a', type: 'checkbox', label: 'Alergia grave documentada a betalactamicos' },
-      { type: 'note', text: 'El error mas repetido de este apartado es olvidar la AMPICILINA: las cefalosporinas NO cubren Listeria monocytogenes, que aparece por encima de los 50 a&#241;os, en el embarazo y en la inmunodepresion. La dexametasona se administra ANTES o CON la primera dosis de antibiotico y se suspende si el germen no resulta ser neumococo.' }
+      { type: 'note', text: 'El error mas repetido de este apartado es olvidar la AMPICILINA: las cefalosporinas NO cubren Listeria monocytogenes, que aparece por encima de los 50 años, en el embarazo y en la inmunodepresion. La dexametasona se administra ANTES o CON la primera dosis de antibiotico y se suspende si el germen no resulta ser neumococo.' }
     ],
     compute(v) {
       if (v.edad == null || !v.sindrome || !v.origen || !v.huesped) return null;
       if (!(v.edad >= 0 && v.edad <= 120)) return { invalido: true };
       const listeria = v.edad > 50 || v.huesped === 'inmuno' || v.huesped === 'embarazo';
       const motivos = [];
-      if (v.edad > 50) motivos.push(`edad de ${v.edad} a&#241;os`);
+      if (v.edad > 50) motivos.push(`edad de ${v.edad} años`);
       if (v.huesped === 'inmuno') motivos.push('inmunodepresion');
       if (v.huesped === 'embarazo') motivos.push('embarazo');
       const neuroqx = v.origen === 'neuroqx';
@@ -202,7 +202,7 @@ export const calculators = [
       };
     },
     format: r => {
-      if (r.invalido) return 'Revisa la edad: se admite de 0 a 120 a&#241;os.';
+      if (r.invalido) return 'Revisa la edad: se admite de 0 a 120 años.';
       let s = `<strong>Cobertura empirica: ${r.farmacos.join(' + ')}.</strong> Todo a dosis de sistema nervioso central, que son mas altas que las habituales porque la penetracion a traves de la barrera es limitada. `;
       if (r.listeria) {
         s += `<br><strong style="color:#8c3a34;">AMPICILINA obligada</strong> por ${r.motivos.join(' y ')}. Las cefalosporinas NO cubren Listeria monocytogenes, y esa omision es el error mas repetido de este apartado: deja al paciente sin tratamiento frente al germen que su perfil hace mas probable.`;
@@ -211,7 +211,7 @@ export const calculators = [
       }
       if (r.neuroqx) s += '<br><strong style="color:#3d5a73;">Origen neuroquirurgico o asociado a dispositivo:</strong> la flora cambia a estafilococos y bacilos gramnegativos, incluida Pseudomonas, de ahi la cobertura antipseudomonica. Y hay una parte no farmacologica sin la cual el tratamiento suele fracasar: RETIRAR el dispositivo infectado.';
       if (r.encefalitis) s += '<br><strong style="color:#6b4a8c;">Perfil encefalitico: ACICLOVIR de inmediato</strong>, sin esperar a la prueba molecular ni a la resonancia, porque el pronostico depende del tiempo hasta la primera dosis. Hidratar bien para evitar la cristalizacion renal, y NO suspenderlo por una prueba negativa en las primeras 72 horas si la sospecha sigue alta.';
-      if (r.dexa) s += '<br><strong style="color:#3f6b52;">DEXAMETASONA</strong> antes o con la primera dosis de antibiotico, durante 4 dias, y se SUSPENDE si el germen no resulta ser neumococo. Fuera de esa ventana ya no aporta: administrada despues del antibiotico, no modula la respuesta inflamatoria que causa el da&#241;o.';
+      if (r.dexa) s += '<br><strong style="color:#3f6b52;">DEXAMETASONA</strong> antes o con la primera dosis de antibiotico, durante 4 dias, y se SUSPENDE si el germen no resulta ser neumococo. Fuera de esa ventana ya no aporta: administrada despues del antibiotico, no modula la respuesta inflamatoria que causa el daño.';
       else if (r.neuroqx) s += '<br><span style="opacity:.75;">El beneficio de la dexametasona esta demostrado en la meningitis bacteriana adquirida en la comunidad, no en la asociada a neurocirugia o a dispositivo, donde no se recomienda de rutina.</span>';
       else if (r.encefalitis) s += '<br><span style="opacity:.75;">Con perfil encefalitico, la dexametasona no es sistematica: se valora caso a caso, y si no se puede descartar una meningitis bacteriana se sigue el esquema de esta.</span>';
       if (r.alergia) s += '<br><strong style="color:#8a6a1f;">Alergia grave a betalactamicos:</strong> hay alternativas para cada hueco (entre otras, cotrimoxazol o meropenem valorando la reactividad cruzada para Listeria, y moxifloxacino con vancomicina en lugar de la cefalosporina). Consultar con farmacia o infecciosas, PERO sin que esa consulta retrase la primera dosis.';

@@ -62,6 +62,16 @@ check that it landed: the commit carries a `Workers Builds: proyecto` check run 
 without credentials, the repo is public), and `CACHE_VERSION` in the live `sw.js` tells you which commit
 is actually being served.
 
+**`_headers` is the one `_`-file that is welcome**, and it works the same way: Cloudflare reads it at
+deploy time from the repo root and does not serve it. It carries the response headers
+(`X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, HSTS, `Permissions-Policy`,
+`Cross-Origin-Opener-Policy`). There is deliberately **no** `Content-Security-Policy` yet: the app has
+104 inline `onclick` handlers, so a policy would need `'unsafe-inline'` for scripts plus an exact list
+of every destination (`www.gstatic.com` for the Firebase SDK, Google Fonts, and
+identitytoolkit / securetoken / firestore under `googleapis.com`), and getting one of those wrong locks
+residents out of signing in, which cannot be checked without a real session. Same caution as above:
+after touching this file, confirm the build went green.
+
 ## Architecture
 
 **Engine/content split.** `engine/` is a generic rendering engine that knows nothing about any

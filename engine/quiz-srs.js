@@ -13,7 +13,32 @@
 // de fondo sí lo reinicia, que es justo lo que corresponde porque ya es otra pregunta.
 import { syncGet, syncSet } from './cloud-sync.js';
 
-const INTERVALS = { 1: 0, 2: 1 * 86400000, 3: 3 * 86400000, 4: 7 * 86400000, 5: 14 * 86400000 };
+// Cajas de Leitner. Hasta el 1 de noviembre de 2026 eran 5 y el intervalo maximo era de 14
+// dias, de modo que una pregunta dominada volvia 26 veces al año para siempre: con 4954
+// subpreguntas y 3188 fichas en la biblioteca, el volumen diario de repaso solo podia crecer y
+// terminaba empujando al usuario a abandonar la cola. Las cajas 1 a 5 conservan su significado,
+// asi que el progreso ya guardado sigue valiendo tal cual y nadie pierde su calendario.
+// Son la UNICA definicion de los intervalos: las fichas (flashcard-deck.js y study-view.js)
+// importan estas mismas, que antes estaban copiadas en tres sitios.
+export const SRS_INTERVALS = {
+  1: 0, 2: 1 * 86400000, 3: 3 * 86400000, 4: 7 * 86400000, 5: 14 * 86400000,
+  6: 30 * 86400000, 7: 60 * 86400000, 8: 120 * 86400000, 9: 240 * 86400000
+};
+export const SRS_MAX_BOX = 9;
+
+// Factor de facilidad por item, estilo SM-2 ligero: multiplica el intervalo de su caja, de modo
+// que dos preguntas en la misma caja no se espacian igual si una se ha fallado antes. Los items
+// guardados sin `ease` valen 1, asi que al desplegar esto no cambia nada de golpe para nadie.
+const EASE_DEF = 1, EASE_MIN = 0.6, EASE_MAX = 2;
+export function nextEase(prev, correct) {
+  const e = typeof prev === 'number' ? prev : EASE_DEF;
+  const bruto = correct ? e + 0.1 : e - 0.2;
+  return Math.max(EASE_MIN, Math.min(EASE_MAX, Math.round(bruto * 100) / 100));
+}
+export function srsDue(box, ease) {
+  const f = typeof ease === 'number' ? ease : EASE_DEF;
+  return Date.now() + Math.round((SRS_INTERVALS[box] || 0) * f);
+}
 
 function key(topicId) { return 'rm:quiz-srs:' + topicId; }
 
@@ -108,8 +133,10 @@ export function loadQuizSRS(topicId, quiz) {
 export function updateQuizSRS(topicId, question, correct) {
   const id = questionId(question);
   const store = loadQuizSRS(topicId);
-  const box = correct ? Math.min(5, ((store[id] && store[id].box) || 1) + 1) : 1;
-  store[id] = { box, next: Date.now() + (INTERVALS[box] || 0) };
+  const prev = store[id] || {};
+  const box = correct ? Math.min(SRS_MAX_BOX, (prev.box || 1) + 1) : 1;
+  const ease = nextEase(prev.ease, correct);
+  store[id] = { box, ease, next: srsDue(box, ease) };
   syncSet(key(topicId), store);
 }
 

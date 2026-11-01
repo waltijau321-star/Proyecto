@@ -5,7 +5,7 @@
 // - derrame-paraneumonico: estadio del derrame de la neumonia y decision de drenaje.
 // - rapid: escala pronostica de la infeccion pleural (Rahman 2014).
 // - neumotorax-manejo: algoritmo de la guia BTS 2023, por sintomas y caracteristicas de alto
-//   riesgo en lugar de por el tama&#241;o.
+//   riesgo en lugar de por el tamaño.
 //
 // Sin em dash en el archivo (ver [[feedback-no-em-dash]]).
 
@@ -61,7 +61,7 @@ export const calculators = [
         if (r.gradAlb !== null) s += `El gradiente de albumina es de ${r.gradAlb.toFixed(1)} g/dL `;
         s += `y el de proteinas de ${r.gradProt.toFixed(1)} g/dL. Con un gradiente de albumina mayor de 1.2 o de proteinas mayor de 3.1 en un paciente con clinica de insuficiencia cardiaca tratada con diureticos, el derrame se reclasifica como <strong>TRASUDADO</strong>: tratar la enfermedad de base y no seguir estudiando la pleura. Los criterios de Light etiquetan mal como exudado alrededor de una cuarta parte de los trasudados, y este es el escenario tipico.`;
       } else if (r.exudado) {
-        s += 'Hay que buscar la causa: paraneumonico y empiema, neoplasia, tuberculosis, embolia pulmonar, pancreatitis, enfermedad autoinmunitaria, quilotorax o farmacos. Completar con glucosa, pH, recuento y formula, citologia y cultivo, y a&#241;adir adenosina desaminasa, amilasa o trigliceridos segun la sospecha.';
+        s += 'Hay que buscar la causa: paraneumonico y empiema, neoplasia, tuberculosis, embolia pulmonar, pancreatitis, enfermedad autoinmunitaria, quilotorax o farmacos. Completar con glucosa, pH, recuento y formula, citologia y cultivo, y añadir adenosina desaminasa, amilasa o trigliceridos segun la sospecha.';
         if (r.diureticos) s += ` Se han marcado diureticos, pero los gradientes no alcanzan el umbral de rescate (albumina ${r.gradAlb !== null ? r.gradAlb.toFixed(1) : 'no introducida'}, proteinas ${r.gradProt.toFixed(1)}): el derrame se mantiene como exudado.`;
       } else {
         s += 'Ningun criterio cumplido: es un trasudado. Las causas habituales son la insuficiencia cardiaca (la mas frecuente de todas), la cirrosis con hidrotorax hepatico, el sindrome nefrotico, la dialisis peritoneal y la hipoalbuminemia. Se trata la enfermedad de base y no hace falta seguir estudiando la pleura.';
@@ -87,7 +87,7 @@ export const calculators = [
       { name: 'tamano', id: 'pp-dp-tam', type: 'number', step: '1', required: false, label: 'Separacion pleural maxima en la ecografia (mm, opcional)', placeholder: 'ej. 25', row: 'r2' },
       { name: 'germen', id: 'pp-dp-ger', type: 'checkbox', label: 'Tincion de Gram o cultivo positivos en el liquido' },
       { name: 'tabiques', id: 'pp-dp-tab', type: 'checkbox', label: 'Tabiques o loculaciones en la ecografia' },
-      { type: 'note', text: 'El pH es la variable que mas decide y la que peor se maneja: se recoge en JERINGA DE GASOMETRIA, sin burbujas de aire (que lo elevan falsamente) y sin anestesico local dentro de la muestra (que lo baja), y se procesa pronto. En el pus franco no se mide, porque estropea el gasometro y no cambia la conducta: el pus se drena. Un pH mayor de 7.2 pero menor de 7.4 es zona intermedia y se decide con la clinica, el tama&#241;o y la presencia de tabiques.' }
+      { type: 'note', text: 'El pH es la variable que mas decide y la que peor se maneja: se recoge en JERINGA DE GASOMETRIA, sin burbujas de aire (que lo elevan falsamente) y sin anestesico local dentro de la muestra (que lo baja), y se procesa pronto. En el pus franco no se mide, porque estropea el gasometro y no cambia la conducta: el pus se drena. Un pH mayor de 7.2 pero menor de 7.4 es zona intermedia y se decide con la clinica, el tamaño y la presencia de tabiques.' }
     ],
     compute(v) {
       if (!v.aspecto) return null;
@@ -119,7 +119,7 @@ export const calculators = [
         s += '<strong style="color:#8c3a34;">Colocar tubo de drenaje guiado por ecografia.</strong> Un calibre fino de 10 a 14 French es tan eficaz como uno grueso y mucho menos doloroso. El antibiotico solo no resuelve un derrame complicado ni un empiema, por muchos dias que se prolongue. Antibiotico prolongado con cobertura anaerobia, ajustado a los cultivos. ';
         s += 'Si el drenaje cesa y queda coleccion residual: <strong>activador tisular del plasminogeno 10 mg mas DNasa 5 mg, dos veces al dia durante 3 dias</strong>; los dos juntos, porque por separado no funcionan, y nunca estreptoquinasa. Sin respuesta a los 5 a 7 dias, con sepsis persistente o con pulmon atrapado: cirugia toracoscopica con desbridamiento y decorticacion.';
       } else if (r.intermedio) {
-        s += `Con un pH de ${r.ph}, por encima de 7.2 pero por debajo de 7.4, el derrame queda en ZONA INTERMEDIA: no hay criterio automatico de drenaje y la decision se individualiza con la evolucion clinica, el tama&#241;o del derrame y la presencia de tabiques. `;
+        s += `Con un pH de ${r.ph}, por encima de 7.2 pero por debajo de 7.4, el derrame queda en ZONA INTERMEDIA: no hay criterio automatico de drenaje y la decision se individualiza con la evolucion clinica, el tamaño del derrame y la presencia de tabiques. `;
         s += 'Mantener el antibiotico, repetir la ecografia y no perder de vista al paciente: si no mejora en 24 a 48 horas, repuncionar y drenar.';
       } else {
         s += 'Sin criterios de drenaje: <strong style="color:#3f6b52;">antibiotico solo</strong>. El derrame simple se resuelve al tratar la neumonia. Reevaluar clinica y ecograficamente si el paciente no mejora en 48 a 72 horas.';
@@ -137,7 +137,7 @@ export const calculators = [
     incompleteMsg: 'Completa urea, edad, purulencia, origen de la infeccion y albumina.',
     fields: [
       { name: 'urea', id: 'pp-ra-urea', type: 'number', step: '0.1', label: 'Urea serica (mmol/L)', placeholder: 'ej. 9.2', row: 'r1' },
-      { name: 'edad', id: 'pp-ra-edad', type: 'number', step: '1', label: 'Edad (a&#241;os)', placeholder: 'ej. 68', row: 'r1' },
+      { name: 'edad', id: 'pp-ra-edad', type: 'number', step: '1', label: 'Edad (años)', placeholder: 'ej. 68', row: 'r1' },
       { name: 'albumina', id: 'pp-ra-alb', type: 'number', step: '1', label: 'Albumina serica (g/L)', placeholder: 'ej. 24', row: 'r2' },
       { name: 'purulencia', id: 'pp-ra-pur', type: 'select', label: 'Aspecto del liquido pleural', options: [
         { value: '', label: 'Selecciona' },
@@ -147,7 +147,7 @@ export const calculators = [
         { value: '', label: 'Selecciona' },
         { value: '0', label: 'Comunitaria (0)' },
         { value: '1', label: 'Nosocomial (1)' } ] },
-      { type: 'note', text: 'Puntuacion: urea menor de 5 mmol/L 0 puntos, de 5 a 8 un punto, mayor de 8 dos puntos (para pasar de mg/dL de nitrogeno ureico a mmol/L de urea, multiplicar por 0.357). Edad menor de 50 a&#241;os 0 puntos, de 50 a 70 un punto, mayor de 70 dos puntos. Liquido no purulento un punto. Infeccion nosocomial un punto. Albumina menor de 27 g/L un punto. La escala ESTRATIFICA el riesgo e informa la conversacion con el paciente: no decide por si sola el drenaje ni la cirugia, que dependen del analisis del liquido y de la evolucion.' }
+      { type: 'note', text: 'Puntuacion: urea menor de 5 mmol/L 0 puntos, de 5 a 8 un punto, mayor de 8 dos puntos (para pasar de mg/dL de nitrogeno ureico a mmol/L de urea, multiplicar por 0.357). Edad menor de 50 años 0 puntos, de 50 a 70 un punto, mayor de 70 dos puntos. Liquido no purulento un punto. Infeccion nosocomial un punto. Albumina menor de 27 g/L un punto. La escala ESTRATIFICA el riesgo e informa la conversacion con el paciente: no decide por si sola el drenaje ni la cirugia, que dependen del analisis del liquido y de la evolucion.' }
     ],
     compute(v) {
       if (v.urea == null || v.edad == null || v.albumina == null || !v.purulencia || !v.origen) return null;
@@ -163,7 +163,7 @@ export const calculators = [
       return { total, riesgo, mortalidad, pUrea, pEdad, pPur, pOri, pAlb, albumina: v.albumina };
     },
     format: r => {
-      if (r.invalido) return 'Revisa los valores: urea de 0 a 100 mmol/L, edad de 0 a 120 a&#241;os y albumina de 5 a 60 g/L.';
+      if (r.invalido) return 'Revisa los valores: urea de 0 a 100 mmol/L, edad de 0 a 120 años y albumina de 5 a 60 g/L.';
       let s = `<strong>RAPID ${r.total} de 7 puntos: riesgo ${r.riesgo}.</strong> Mortalidad a los 3 meses <strong>${r.mortalidad}</strong>. Desglose: urea ${r.pUrea}, edad ${r.pEdad}, purulencia ${r.pPur}, origen ${r.pOri}, albumina ${r.pAlb}. `;
       if (r.riesgo === 'alto') {
         s += 'Grupo de alto riesgo: conviene un seguimiento estrecho, valoracion precoz por cirugia toracica si no responde, soporte nutricional activo y una conversacion explicita con el paciente y la familia sobre el pronostico y los objetivos del tratamiento.';
@@ -180,7 +180,7 @@ export const calculators = [
   },
   {
     key: 'neumotorax-manejo', title: 'Manejo del neumotorax (guia BTS 2023)', accent: '#3d5a73',
-    subtitle: 'Por sintomas y caracteristicas de alto riesgo, no por el tama&#241;o',
+    subtitle: 'Por sintomas y caracteristicas de alto riesgo, no por el tamaño',
     incompleteMsg: 'Selecciona el tipo de neumotorax y la carga sintomatica.',
     fields: [
       { name: 'tipo', id: 'pp-nx-tipo', type: 'select', label: 'Tipo de neumotorax', options: [
@@ -198,12 +198,12 @@ export const calculators = [
       { name: 'hipoxia', id: 'pp-nx-hip', type: 'checkbox', label: 'Hipoxia significativa' },
       { name: 'bilateral', id: 'pp-nx-bil', type: 'checkbox', label: 'Neumotorax bilateral' },
       { name: 'hemo', id: 'pp-nx-hem', type: 'checkbox', label: 'Hemoneumotorax' },
-      { name: 'mayor50', id: 'pp-nx-50', type: 'checkbox', label: 'Edad mayor de 50 a&#241;os con carga tabaquica importante' },
+      { name: 'mayor50', id: 'pp-nx-50', type: 'checkbox', label: 'Edad mayor de 50 años con carga tabaquica importante' },
       { name: 'ventilado', id: 'pp-nx-vm', type: 'checkbox', label: 'Paciente en ventilacion mecanica' },
       { type: 'note', text: 'Contexto para la prevencion de recurrencias.' },
       { name: 'segundoIpsi', id: 'pp-nx-2i', type: 'checkbox', label: 'Segundo episodio del mismo lado, o primero del lado contrario' },
       { name: 'profesion', id: 'pp-nx-pro', type: 'checkbox', label: 'Profesion de riesgo: buceador, piloto o militar' },
-      { type: 'note', text: 'El cambio principal de la guia de 2023 es que el TAMA&#209;O deja de ser el criterio: el manejo conservador puede considerarse en el neumotorax espontaneo primario poco sintomatico con independencia de su tama&#241;o, porque el ensayo que lo comparo con el drenaje mostro resultados no inferiores y muchas menos complicaciones. Todas las opciones se comentan con el paciente, priorizando la menos invasiva.' }
+      { type: 'note', text: 'El cambio principal de la guia de 2023 es que el TAMAÑO deja de ser el criterio: el manejo conservador puede considerarse en el neumotorax espontaneo primario poco sintomatico con independencia de su tamaño, porque el ensayo que lo comparo con el drenaje mostro resultados no inferiores y muchas menos complicaciones. Todas las opciones se comentan con el paciente, priorizando la menos invasiva.' }
     ],
     compute(v) {
       if (!v.tipo || !v.sintomas) return null;
@@ -212,7 +212,7 @@ export const calculators = [
       if (v.hipoxia) altoRiesgo.push('hipoxia significativa');
       if (v.bilateral) altoRiesgo.push('neumotorax bilateral');
       if (v.hemo) altoRiesgo.push('hemoneumotorax');
-      if (v.mayor50) altoRiesgo.push('mayor de 50 a&#241;os con tabaquismo importante');
+      if (v.mayor50) altoRiesgo.push('mayor de 50 años con tabaquismo importante');
       if (v.ventilado) altoRiesgo.push('ventilacion mecanica');
       if (v.tipo === 'secundario') altoRiesgo.push('enfermedad pulmonar de base');
       let conducta;
@@ -234,7 +234,7 @@ export const calculators = [
       } else if (r.tipo === 'traumatico') {
         s += 'El neumotorax traumatico o iatrogenico se drena, sobre todo si el paciente va a recibir ventilacion con presion positiva o va a ser trasladado, porque puede evolucionar a tension con rapidez. ';
       } else if (r.conducta === 'MANEJO CONSERVADOR') {
-        s += '<strong style="color:#3f6b52;">Sin caracteristicas de alto riesgo y poco sintomatico: se puede manejar de forma conservadora con independencia del TAMA&#209;O.</strong> Observacion, analgesia y control clinico y radiologico, con instrucciones escritas de cuando volver a consultar. Es el cambio principal de la guia de 2023 respecto al viejo umbral de 2 cm. ';
+        s += '<strong style="color:#3f6b52;">Sin caracteristicas de alto riesgo y poco sintomatico: se puede manejar de forma conservadora con independencia del TAMAÑO.</strong> Observacion, analgesia y control clinico y radiologico, con instrucciones escritas de cuando volver a consultar. Es el cambio principal de la guia de 2023 respecto al viejo umbral de 2 cm. ';
       } else {
         s += 'Sin caracteristicas de alto riesgo pero sintomatico: <strong>dispositivo ambulatorio</strong> con valvula unidireccional donde haya experiencia y seguimiento, que acorta el ingreso, o bien aspiracion con aguja o drenaje si no procede. Comentar las opciones con el paciente y priorizar la menos invasiva. ';
       }

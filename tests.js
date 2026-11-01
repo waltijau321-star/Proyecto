@@ -1967,6 +1967,27 @@ async function run() {
     // El progreso de repaso se guarda bajo un id derivado del enunciado (ver engine/quiz-srs.js).
     // Dos preguntas de un mismo tema con el mismo id compartirian caja y fecha sin que nada lo
     // delate: responder una marcaria la otra como respondida.
+    // El examen simulado (engine/exam-mode.js) mete TODO el banco de cada tema en su mazo y
+    // pinta `q.options.map(...)`. Una entrada sin opciones utilizables deja la pantalla del
+    // examen en blanco con un TypeError: paso exactamente eso con los casos en cascada, que
+    // guardan sus opciones dentro de `steps`, y al ser el 15% del banco el examen de 20
+    // preguntas se rompia el 96% de las veces. Esta prueba vigila el contrato que el examen
+    // necesita: toda entrada es o una pregunta suelta con opciones, o una cascada cuyo primer
+    // paso las tiene.
+    test(`esquema[${entry.id}]: toda entrada del banco es utilizable por el examen simulado`, () => {
+      const malas = [];
+      (topic.study.quiz || []).forEach((q, i) => {
+        const usable = (o, c) => Array.isArray(o) && o.length >= 2 && typeof c === 'number' && c >= 0 && c < o.length;
+        if (q.type === 'cascade') {
+          const paso = (q.steps || [])[0];
+          if (!paso || !usable(paso.options, paso.correct)) malas.push(`#${i} cascada sin primer paso utilizable`);
+        } else if (!usable(q.options, q.correct)) {
+          malas.push(`#${i} sin options/correct utilizables`);
+        }
+      });
+      assert(malas.length === 0, malas.join(' | '));
+    });
+
     test(`esquema[${entry.id}]: ninguna pregunta del banco comparte id de repaso con otra`, () => {
       const vistos = new Map();
       ((topic.study && topic.study.quiz) || []).forEach((q, i) => {

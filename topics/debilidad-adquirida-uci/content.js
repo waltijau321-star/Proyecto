@@ -1,6 +1,6 @@
 // topics/debilidad-adquirida-uci/content.js: Debilidad adquirida en la unidad de criticos.
 // Cubre el item "Miopatia y neuropatia del paciente critico" del cluster Fallas organicas
-// (bloque IV, Medicina Critica) del temario, y a&#241;ade las secuelas del superviviente, porque el
+// (bloque IV, Medicina Critica) del temario, y añade las secuelas del superviviente, porque el
 // item pierde casi todo su sentido si se corta en el momento del alta.
 //
 // DELIMITACION frente a `ela-miopatias`: alli esta la debilidad neuromuscular cronica y
@@ -8,7 +8,7 @@
 // fuera. Aqui esta la que se ADQUIERE dentro del hospital, durante el ingreso en criticos.
 //
 // Guias verificadas en Bibliografia/ ([[feedback-verificar-edicion-guias]]): guia PADIS de 2018
-// sobre dolor, agitacion, delirium, inmovilidad y sue&#241;o, y recomendaciones de 2016 sobre bloqueo
+// sobre dolor, agitacion, delirium, inmovilidad y sueño, y recomendaciones de 2016 sobre bloqueo
 // neuromuscular sostenido. El resto son articulos y guias de sociedades que NO estan en la carpeta.
 //
 // Solo `diagnostico`, `clasificacion`, `complicaciones` y `seguimiento_intrahospitalario` van
@@ -38,7 +38,7 @@ const reconocerHtml = `
   <div style="border:1.5px solid #6b2e6b;border-radius:8px;padding:6px 9px;background:#6b2e6b08;margin-bottom:6px;">
     <div style="font-weight:700;color:#6b2e6b;margin-bottom:3px;">COMO SE MIDE: LA SUMA DE FUERZA DEL MEDICAL RESEARCH COUNCIL</div>
     <div style="color:var(--ink-dim);line-height:1.7;">
-      Se puntua de <strong style="color:var(--ink);">0 a 5</strong> la fuerza de <strong style="color:var(--ink);">SEIS grupos musculares</strong> en cada lado: abduccion del hombro, flexion del codo, extension de la mu&#241;eca, flexion de la cadera, extension de la rodilla y dorsiflexion del pie.<br>
+      Se puntua de <strong style="color:var(--ink);">0 a 5</strong> la fuerza de <strong style="color:var(--ink);">SEIS grupos musculares</strong> en cada lado: abduccion del hombro, flexion del codo, extension de la muñeca, flexion de la cadera, extension de la rodilla y dorsiflexion del pie.<br>
       Doce mediciones, maximo <strong>60 puntos</strong>. Por debajo de <strong style="color:#8c3a34;">48</strong> se habla de debilidad adquirida, y por debajo de <strong style="color:#8c3a34;">36</strong>, de debilidad grave.<br>
       <span style="color:#8a6a1f;">Requisito imprescindible: el paciente tiene que estar <strong>DESPIERTO y COLABORADOR</strong>. En quien no obedece ordenes, la escala no es aplicable y hay que repetirla cuando lo este.</span>
     </div>
@@ -65,7 +65,7 @@ const tiposHtml = `
     </div>
     <div style="display:grid;grid-template-columns:100px 1fr;gap:6px;align-items:stretch;">
       <div style="background:#8c3a3422;border:1px solid #8c3a34;border-radius:7px;padding:5px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;color:#8c3a34;">NEUROPATIA</div>
-      <div style="border:1px solid var(--line);border-radius:7px;padding:5px 9px;color:var(--ink-dim);">Degeneracion axonal distal, sensitivomotora. A&#241;ade alteracion SENSITIVA, que la miopatia no tiene. <strong style="color:#8c3a34;">Peor pronostico</strong>: la recuperacion axonal es lenta y puede dejar secuela permanente.</div>
+      <div style="border:1px solid var(--line);border-radius:7px;padding:5px 9px;color:var(--ink-dim);">Degeneracion axonal distal, sensitivomotora. Añade alteracion SENSITIVA, que la miopatia no tiene. <strong style="color:#8c3a34;">Peor pronostico</strong>: la recuperacion axonal es lenta y puede dejar secuela permanente.</div>
     </div>
     <div style="display:grid;grid-template-columns:100px 1fr;gap:6px;align-items:stretch;">
       <div style="background:#6b2e6b22;border:1px solid #6b2e6b;border-radius:7px;padding:5px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;color:#6b2e6b;">MIXTA</div>
@@ -97,7 +97,7 @@ const prevenirHtml = `
     </div>
   </div>
   <div style="padding:5px 9px;border:1px solid #6b2e6b;border-radius:8px;background:#6b2e6b10;color:var(--ink-dim);">
-    <strong style="color:#6b2e6b;">Y lo que viene despues, que casi nunca se organiza.</strong> El superviviente sale con un <strong>SINDROME POST-CUIDADOS INTENSIVOS</strong>: debilidad, deterioro cognitivo y sintomas de ansiedad, depresion y estres postraumatico, que pueden durar a&#241;os. Muchos no vuelven a su trabajo. El alta de criticos no es el final del problema sino el comienzo de otra fase, y la familia tambien lo sufre.
+    <strong style="color:#6b2e6b;">Y lo que viene despues, que casi nunca se organiza.</strong> El superviviente sale con un <strong>SINDROME POST-CUIDADOS INTENSIVOS</strong>: debilidad, deterioro cognitivo y sintomas de ansiedad, depresion y estres postraumatico, que pueden durar años. Muchos no vuelven a su trabajo. El alta de criticos no es el final del problema sino el comienzo de otra fase, y la familia tambien lo sufre.
   </div>
 </div>`;
 
@@ -157,7 +157,7 @@ export const content = {
     ],
     no_invasivos: [
       { metodo: 'Suma de fuerza del Medical Research Council (calculadora disponible)', interpretacion: 'Puntua de 0 a 5 la fuerza de seis grupos musculares en cada lado, con un maximo de 60. Requiere un paciente despierto y colaborador.', cutoff: 'Por debajo de 48 puntos define debilidad adquirida; por debajo de 36, grave' },
-      { metodo: 'Riesgo de debilidad adquirida (calculadora disponible)', interpretacion: 'Suma los factores modificables y no modificables presentes y se&#241;ala sobre cuales se puede actuar hoy mismo.', cutoff: 'Casi todos los factores mas importantes son modificables' },
+      { metodo: 'Riesgo de debilidad adquirida (calculadora disponible)', interpretacion: 'Suma los factores modificables y no modificables presentes y señala sobre cuales se puede actuar hoy mismo.', cutoff: 'Casi todos los factores mas importantes son modificables' },
       { metodo: 'Diferencial de la debilidad en el critico (calculadora disponible)', interpretacion: 'Cruza los datos de la exploracion con las banderas que no encajan y orienta hacia las causas tratables que imitan el cuadro.', cutoff: 'Oftalmoparesia, asimetria o nivel sensitivo: no es debilidad adquirida' },
       { metodo: 'Fuerza de prension manual', interpretacion: 'Medida con dinamometro, es rapida, objetiva y se correlaciona bien con la suma de fuerza global. Util para el seguimiento porque no depende de explorar doce grupos musculares.', cutoff: 'Complementa la escala de fuerza, no la sustituye' },
       { metodo: 'Ecografia diafragmatica', interpretacion: 'Mide el grosor del diafragma y su fraccion de engrosamiento durante la inspiracion. Detecta la atrofia inducida por la ventilacion mecanica, que aparece en pocos dias.', cutoff: 'Util ante un fracaso del destete que no se explica por el pulmon' },
@@ -171,14 +171,14 @@ export const content = {
     ]
   },
   clasificacion: {
-    compensada_descompensada: `Se clasifica por el <strong>sustrato</strong>: polineuropatia del paciente critico, miopatia del paciente critico y la forma <strong>mixta</strong>, que es la mas frecuente en la practica. En paralelo, por la <strong>gravedad</strong> medida con la suma de fuerza, y por la <strong>afectacion del diafragma</strong>, que puede ir por libre respecto a la de los miembros y que es la que explica muchos fracasos del destete. Y despues del alta, por el <strong>sindrome post-cuidados intensivos</strong>, que a&#241;ade a la debilidad el deterioro cognitivo y las secuelas afectivas.`,
+    compensada_descompensada: `Se clasifica por el <strong>sustrato</strong>: polineuropatia del paciente critico, miopatia del paciente critico y la forma <strong>mixta</strong>, que es la mas frecuente en la practica. En paralelo, por la <strong>gravedad</strong> medida con la suma de fuerza, y por la <strong>afectacion del diafragma</strong>, que puede ir por libre respecto a la de los miembros y que es la que explica muchos fracasos del destete. Y despues del alta, por el <strong>sindrome post-cuidados intensivos</strong>, que añade a la debilidad el deterioro cognitivo y las secuelas afectivas.`,
     escalas: [
-      { nombre: 'Suma de fuerza del Medical Research Council (calculadora disponible)', componentes: 'Abduccion del hombro, flexion del codo, extension de la mu&#241;eca, flexion de la cadera, extension de la rodilla y dorsiflexion del pie, puntuados de 0 a 5 en cada lado.', formula: 'Doce mediciones, con un maximo de 60 puntos.', interpretacion: 'Por debajo de 48 define debilidad adquirida y por debajo de 36, debilidad grave. Su requisito es imprescindible y se olvida: el paciente tiene que estar DESPIERTO y ser capaz de obedecer ordenes. En quien no colabora la escala no es aplicable y hay que repetirla despues.' },
+      { nombre: 'Suma de fuerza del Medical Research Council (calculadora disponible)', componentes: 'Abduccion del hombro, flexion del codo, extension de la muñeca, flexion de la cadera, extension de la rodilla y dorsiflexion del pie, puntuados de 0 a 5 en cada lado.', formula: 'Doce mediciones, con un maximo de 60 puntos.', interpretacion: 'Por debajo de 48 define debilidad adquirida y por debajo de 36, debilidad grave. Su requisito es imprescindible y se olvida: el paciente tiene que estar DESPIERTO y ser capaz de obedecer ordenes. En quien no colabora la escala no es aplicable y hay que repetirla despues.' },
       { nombre: 'Riesgo de debilidad adquirida (calculadora disponible)', componentes: 'Sepsis, disfuncion multiorganica, dias de ventilacion, dias de inmovilidad, sedacion profunda, bloqueo neuromuscular, corticoides, hiperglucemia y edad.', formula: 'Acumulacion de factores, separando los modificables de los que no lo son.', interpretacion: 'Su utilidad no es predecir sino orientar la accion: la mayoria de los factores mas importantes son MODIFICABLES hoy mismo, y esa es toda la base de la prevencion, que es lo unico que ha demostrado funcionar.' },
       { nombre: 'Diferencial de la debilidad en el critico (calculadora disponible)', componentes: 'Simetria, territorio afectado, reflejos, presencia de nivel sensitivo, afectacion ocular o facial, curso temporal y alteraciones metabolicas.', formula: 'Combinacion de esos datos para separar la debilidad adquirida de las entidades que la imitan.', interpretacion: 'Su valor esta en las banderas: oftalmoparesia, asimetria, nivel sensitivo, afectacion de esfinteres o progresion tras salir de criticos NO son debilidad adquirida y obligan a buscar una causa con tratamiento propio.' },
       { nombre: 'Escalas de movilidad del paciente critico', componentes: 'Nivel de actividad alcanzado, desde el decubito pasivo hasta la deambulacion.', formula: 'Gradacion progresiva del nivel de movilizacion conseguido cada dia.', interpretacion: 'Sirven para fijar un objetivo diario concreto y para medir si el programa de movilizacion precoz se esta cumpliendo de verdad, que es donde suele fallar: se prescribe y no se hace.' },
       { nombre: 'Fraccion de engrosamiento diafragmatico', componentes: 'Grosor del diafragma al final de la espiracion y al final de la inspiracion, medidos por ecografia.', formula: 'Incremento porcentual del grosor durante la inspiracion.', interpretacion: 'Un valor bajo indica poco esfuerzo o debilidad diafragmatica y se asocia a fracaso del destete. Es la exploracion que da respuesta cuando el destete falla y el pulmon parece razonable.' },
-      { nombre: 'Sindrome post-cuidados intensivos', componentes: 'Tres dominios: fisico (debilidad, disnea, deterioro funcional), cognitivo (memoria, atencion, funcion ejecutiva) y afectivo (ansiedad, depresion, estres postraumatico).', formula: 'Presencia de alteraciones nuevas o agravadas en cualquiera de los tres dominios tras el alta.', interpretacion: 'Puede durar a&#241;os y afecta tambien a la FAMILIA. El alta de criticos no es el final del problema sino el comienzo de otra fase, y el seguimiento estructurado existe en muy pocos sitios.' }
+      { nombre: 'Sindrome post-cuidados intensivos', componentes: 'Tres dominios: fisico (debilidad, disnea, deterioro funcional), cognitivo (memoria, atencion, funcion ejecutiva) y afectivo (ansiedad, depresion, estres postraumatico).', formula: 'Presencia de alteraciones nuevas o agravadas en cualquiera de los tres dominios tras el alta.', interpretacion: 'Puede durar años y afecta tambien a la FAMILIA. El alta de criticos no es el final del problema sino el comienzo de otra fase, y el seguimiento estructurado existe en muy pocos sitios.' }
     ]
   },
   complicaciones: [
@@ -202,8 +202,8 @@ export const content = {
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'No aplica.',
       seguimiento_hospitalario: 'Repetir la valoracion de la fuerza a medida que el paciente colabora. Continuar la rehabilitacion tras el alta de criticos, momento en el que con frecuencia se interrumpe justo cuando mas podria rendir.',
-      seguimiento_ambulatorio: 'Rehabilitacion prolongada y valoracion de las secuelas fisicas, cognitivas y afectivas. La recuperacion se mide en meses y a veces en a&#241;os.',
-      pronostico: 'La miopatia se recupera mejor y mas rapido; la neuropatia puede dejar secuela permanente. La debilidad al alta se asocia de forma consistente a peor situacion funcional y a mayor mortalidad al a&#241;o.',
+      seguimiento_ambulatorio: 'Rehabilitacion prolongada y valoracion de las secuelas fisicas, cognitivas y afectivas. La recuperacion se mide en meses y a veces en años.',
+      pronostico: 'La miopatia se recupera mejor y mas rapido; la neuropatia puede dejar secuela permanente. La debilidad al alta se asocia de forma consistente a peor situacion funcional y a mayor mortalidad al año.',
       algoritmo: ['Sospecharla en todo paciente critico que despierta debil', 'Comprobar que esta DESPIERTO y colabora antes de puntuar', 'Aplicar la suma de fuerza de los doce grupos musculares', 'Comprobar que la debilidad es SIMETRICA y proximal', 'Comprobar que respeta la cara y los ojos', 'Pedir fosforo, potasio, magnesio y calcio', 'Revisar la lista de farmacos', 'Buscar banderas que no encajen y estudiarlas', 'Iniciar rehabilitacion sin esperar a nada mas', 'Explicar al paciente y a la familia lo que esta pasando']
     },
     {
@@ -217,7 +217,7 @@ export const content = {
       criterios_dx: 'La separacion definitiva es NEUROFISIOLOGICA, y en la practica solo se busca cuando el cuadro no encaja o cuando el pronostico va a cambiar una decision.',
       laboratorio: 'Creatina cinasa, iones completos con fosforo y magnesio, funcion renal y hepatica, glucemia y funcion tiroidea. Todo dirigido mas a descartar otras causas que a confirmar cual de las dos formas es.',
       imagen: 'Ecografia muscular, que muestra reduccion del grosor y aumento de la ecogenicidad por sustitucion fibroadiposa. Util para seguir la evolucion mas que para el diagnostico inicial.',
-      complementarios: 'ELECTRONEUROGRAMA con amplitudes reducidas y velocidades conservadas en la neuropatia axonal, y ELECTROMIOGRAMA con potenciales de unidad motora peque&#241;os y breves en la miopatia. La estimulacion muscular directa ayuda a separarlas cuando el paciente no colabora.',
+      complementarios: 'ELECTRONEUROGRAMA con amplitudes reducidas y velocidades conservadas en la neuropatia axonal, y ELECTROMIOGRAMA con potenciales de unidad motora pequeños y breves en la miopatia. La estimulacion muscular directa ayuda a separarlas cuando el paciente no colabora.',
       dx_diferencial: 'Entre ambas, y frente a las entidades que imitan el cuadro. Un dato practico: si el estudio muestra bloqueos de conduccion o desmielinizacion, NO es una polineuropatia del paciente critico y hay que pensar en un sindrome de Guillain-Barre.',
       tx_medico: 'El mismo para las dos: rehabilitacion precoz, retirada de factores modificables y soporte. La distincion no cambia el tratamiento, solo el pronostico que se comunica.',
       tx_farmacologico: 'Ninguno especifico.',
@@ -282,7 +282,7 @@ export const content = {
       nombre: 'Debilidad diafragmatica y fracaso del destete',
       color: '#8a6a1f',
       definicion: 'Perdida de fuerza y de masa del diafragma asociada a la enfermedad critica y a la propia ventilacion mecanica, que es una causa frecuente y poco reconocida de fracaso del destete.',
-      fisiopatologia: 'El diafragma es un musculo esqueletico y sufre los mismos mecanismos que el resto, pero a&#241;ade uno propio y paradojico: la ventilacion mecanica que lo sustituye tambien lo atrofia. Cuando el respirador hace todo el trabajo, el diafragma deja de contraerse y su grosor disminuye de forma medible en POCOS DIAS, mucho mas rapido que en los musculos de los miembros. Y el exceso contrario tambien da&#241;a: un esfuerzo inspiratorio excesivo produce lesion por sobrecarga. Esa doble vulnerabilidad, a la inactividad y al esfuerzo excesivo, es la base del concepto de ventilacion protectora del diafragma, que busca un nivel intermedio de esfuerzo.',
+      fisiopatologia: 'El diafragma es un musculo esqueletico y sufre los mismos mecanismos que el resto, pero añade uno propio y paradojico: la ventilacion mecanica que lo sustituye tambien lo atrofia. Cuando el respirador hace todo el trabajo, el diafragma deja de contraerse y su grosor disminuye de forma medible en POCOS DIAS, mucho mas rapido que en los musculos de los miembros. Y el exceso contrario tambien daña: un esfuerzo inspiratorio excesivo produce lesion por sobrecarga. Esa doble vulnerabilidad, a la inactividad y al esfuerzo excesivo, es la base del concepto de ventilacion protectora del diafragma, que busca un nivel intermedio de esfuerzo.',
       epidemiologia: 'La debilidad diafragmatica es mas frecuente que la de los miembros y puede aparecer de forma independiente: hay pacientes con diafragma debil y fuerza periferica conservada, y al reves. Se asocia de forma consistente a mas dias de ventilacion, mas fracasos de extubacion y peor desenlace.',
       factores_riesgo: ['Ventilacion mecanica controlada, sin esfuerzo del paciente', 'Sedacion profunda', 'Bloqueo neuromuscular', 'Sepsis', 'Esfuerzo inspiratorio excesivo mantenido', 'Corticoides', 'Alteraciones electroliticas, sobre todo hipofosfatemia', 'Desnutricion', 'Cirugia toracica o abdominal alta', 'Lesion del nervio frenico tras cirugia cardiaca'],
       clinica: 'FRACASO DEL DESTETE sin causa pulmonar que lo explique: taquipnea, respiracion superficial, uso de musculatura accesoria y respiracion PARADOJICA, con el abdomen que se hunde en inspiracion. Puede haber ortopnea. Y una pista util: el paciente tolera bien el soporte y se agota cuando se le reduce.',
@@ -307,24 +307,24 @@ export const content = {
       color: '#4a3f7a',
       definicion: 'Conjunto de alteraciones fisicas, cognitivas y afectivas nuevas o agravadas que persisten tras el alta de la unidad de criticos, y que afectan tambien a la familia.',
       fisiopatologia: 'Los tres dominios tienen sustratos distintos. El FISICO es la debilidad adquirida y sus consecuencias sobre la marcha, la fuerza y la capacidad de esfuerzo, a lo que se suma la disfuncion pulmonar residual. El COGNITIVO se relaciona con la neuroinflamacion, la hipoperfusion cerebral y, de forma muy consistente, con la duracion del DELIRIUM durante el ingreso, que es el mejor predictor conocido del deterioro cognitivo posterior. Y el AFECTIVO se relaciona con la experiencia vivida: recuerdos delirantes, dolor, inmovilidad, imposibilidad de comunicarse y miedo, que dejan sintomas de ansiedad, depresion y estres postraumatico.',
-      epidemiologia: 'Es muy frecuente entre los supervivientes y puede durar a&#241;os. En cohortes de pacientes que sobrevivieron a un sindrome de distres respiratorio, la limitacion funcional persistia a los cinco a&#241;os. Muchos supervivientes no vuelven a su trabajo. Y una proporcion relevante de los FAMILIARES presenta sintomas de ansiedad, depresion o estres postraumatico, lo que se conoce como sindrome post-cuidados intensivos familiar.',
-      factores_riesgo: ['Duracion del delirium durante el ingreso', 'Sedacion profunda y prolongada', 'Debilidad adquirida', 'Ventilacion mecanica prolongada', 'Sepsis', 'Hipoglucemia e hipoxemia durante el ingreso', 'Enfermedad psiquiatrica previa', 'Recuerdos delirantes de la estancia', 'Ausencia de informacion y de acompa&#241;amiento a la familia', 'Falta de seguimiento estructurado tras el alta'],
+      epidemiologia: 'Es muy frecuente entre los supervivientes y puede durar años. En cohortes de pacientes que sobrevivieron a un sindrome de distres respiratorio, la limitacion funcional persistia a los cinco años. Muchos supervivientes no vuelven a su trabajo. Y una proporcion relevante de los FAMILIARES presenta sintomas de ansiedad, depresion o estres postraumatico, lo que se conoce como sindrome post-cuidados intensivos familiar.',
+      factores_riesgo: ['Duracion del delirium durante el ingreso', 'Sedacion profunda y prolongada', 'Debilidad adquirida', 'Ventilacion mecanica prolongada', 'Sepsis', 'Hipoglucemia e hipoxemia durante el ingreso', 'Enfermedad psiquiatrica previa', 'Recuerdos delirantes de la estancia', 'Ausencia de informacion y de acompañamiento a la familia', 'Falta de seguimiento estructurado tras el alta'],
       clinica: 'FISICO: debilidad, fatiga, disnea de esfuerzo y limitacion para las actividades cotidianas. COGNITIVO: fallos de memoria, de atencion y de funcion ejecutiva, que a veces se confunden con depresion. AFECTIVO: ansiedad, animo bajo, pesadillas, evitacion y reviviscencias. Muchos pacientes no relacionan estos sintomas con su ingreso y no los cuentan si no se les pregunta.',
       criterios_dx: 'Alteraciones nuevas o agravadas en cualquiera de los tres dominios tras el alta. No requiere ninguna prueba: requiere preguntar.',
       laboratorio: 'El dirigido a descartar causas corregibles de fatiga: anemia, hipotiroidismo, deficits nutricionales y alteraciones metabolicas.',
       imagen: 'Solo si hay hallazgos que lo justifiquen. Las pruebas de imagen no diagnostican este sindrome.',
       complementarios: 'VALORACION NEUROPSICOLOGICA en quien refiere fallos cognitivos. Cribado de ansiedad, depresion y estres postraumatico. Valoracion funcional y de la capacidad de esfuerzo.',
-      dx_diferencial: 'Deterioro cognitivo previo no conocido, depresion mayor, anemia, hipotiroidismo, apnea del sue&#241;o, efectos residuales de farmacos y secuelas de la enfermedad de base.',
+      dx_diferencial: 'Deterioro cognitivo previo no conocido, depresion mayor, anemia, hipotiroidismo, apnea del sueño, efectos residuales de farmacos y secuelas de la enfermedad de base.',
       tx_medico: 'REHABILITACION multidisciplinar: fisica, respiratoria y cognitiva. Apoyo psicologico. Y algo tan sencillo como explicar al paciente lo que le paso, porque muchos tienen lagunas y recuerdos delirantes que no saben interpretar. Los DIARIOS de la unidad, escritos por el personal y la familia durante el ingreso, ayudan a reconstruir esa historia y han mostrado reducir los sintomas postraumaticos.',
       tx_farmacologico: 'Tratamiento de la ansiedad y de la depresion cuando esten indicados. No hay ningun farmaco especifico para el sindrome.',
       tx_intervencionista: 'No aplica.',
       criterios_uci: 'No aplica: es lo que viene despues.',
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'No aplica.',
-      seguimiento_hospitalario: 'Prevencion durante el ingreso: minimizar el delirium, sedacion ligera, movilizacion precoz, favorecer el sue&#241;o, orientar al paciente y facilitar la presencia de la familia. Y preparar el alta explicando lo que cabe esperar.',
+      seguimiento_hospitalario: 'Prevencion durante el ingreso: minimizar el delirium, sedacion ligera, movilizacion precoz, favorecer el sueño, orientar al paciente y facilitar la presencia de la familia. Y preparar el alta explicando lo que cabe esperar.',
       seguimiento_ambulatorio: 'Consulta de seguimiento tras el alta, que existe en muy pocos sitios y que los pacientes agradecen enormemente. Deberia incluir valoracion de los tres dominios y atencion a la familia.',
-      pronostico: 'Mejora con el tiempo pero puede persistir a&#241;os. La rehabilitacion precoz y el seguimiento estructurado mejoran la trayectoria, y su ausencia deja al paciente solo ante un problema que no entiende.',
-      algoritmo: ['Prevenir durante el ingreso: menos delirium, menos sedacion, mas movilidad', 'Favorecer el sue&#241;o y la orientacion', 'Facilitar la presencia y la informacion a la familia', 'Considerar un diario de la unidad', 'Explicar al paciente lo que le ha pasado antes del alta', 'Valorar los tres dominios: fisico, cognitivo y afectivo', 'Preguntar de forma expresa, porque no se cuenta solo', 'Descartar causas corregibles de fatiga', 'Derivar a rehabilitacion y a apoyo psicologico', 'Organizar una consulta de seguimiento tras el alta']
+      pronostico: 'Mejora con el tiempo pero puede persistir años. La rehabilitacion precoz y el seguimiento estructurado mejoran la trayectoria, y su ausencia deja al paciente solo ante un problema que no entiende.',
+      algoritmo: ['Prevenir durante el ingreso: menos delirium, menos sedacion, mas movilidad', 'Favorecer el sueño y la orientacion', 'Facilitar la presencia y la informacion a la familia', 'Considerar un diario de la unidad', 'Explicar al paciente lo que le ha pasado antes del alta', 'Valorar los tres dominios: fisico, cognitivo y afectivo', 'Preguntar de forma expresa, porque no se cuenta solo', 'Descartar causas corregibles de fatiga', 'Derivar a rehabilitacion y a apoyo psicologico', 'Organizar una consulta de seguimiento tras el alta']
     }
   ],
   seguimiento_intrahospitalario: {

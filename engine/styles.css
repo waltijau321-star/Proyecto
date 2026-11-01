@@ -604,8 +604,13 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 .sec-body{max-width:1040px; margin:0 auto; padding:18px 20px 40px;}
 
 /* Bottom nav */
+/* Se centra con inset-inline + margin-inline:auto, no con width:100% y un transform. En un
+   elemento fijo, width:100% se resuelve contra el viewport INCLUYENDO la barra de
+   desplazamiento donde esa barra ocupa espacio, de modo que el documento acababa midiendo mas
+   que la ventana (386 px a 375) y la pagina se desplazaba en horizontal con la ultima pestana
+   recortada. Sin transform, ademas, el nav no crea bloque contenedor para nada. */
 .app-nav{
-  position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:900px; z-index:60;
+  position:fixed; bottom:0; inset-inline:0; margin-inline:auto; max-width:900px; z-index:60;
   display:flex; background:var(--bg2); border-top:1px solid var(--line);
   padding:6px 0 calc(6px + env(safe-area-inset-bottom, 0px));
 }
@@ -759,6 +764,17 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 }
 
 .exam-summary-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;}
+
+/* Resumen de lo fallado al cerrar el examen simulado, agrupado por tema. */
+.exam-fallo-tema{border:1px solid var(--line); border-radius:var(--radius-md); padding:14px 16px; margin-bottom:12px; background:var(--panel);}
+.exam-fallo-cab{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:10px;}
+.exam-fallo{border-top:1px solid var(--line); padding-top:10px; margin-top:10px;}
+.exam-fallo:first-of-type{border-top:none; padding-top:0; margin-top:0;}
+.exam-fallo-q{margin:0 0 6px; font-weight:600;}
+.exam-fallo-linea{margin:0 0 3px; font-size:13.5px;}
+.exam-fallo-mal{color:#8c3a34;}
+.exam-fallo-bien{color:#2f6a62; font-weight:600;}
+.exam-fallo-exp{margin:6px 0 0; font-size:13px; color:var(--ink-dim);}
 
 .exam-page-header{display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;}
 .exam-page-timer{font-size:1.1rem; font-weight:600; color:var(--shell); background:var(--panel2); border:1px solid var(--line); padding:6px 16px; border-radius:20px;}
@@ -1324,9 +1340,10 @@ body.chat-open{overflow:hidden;}
 /* ---------- Acoplado ---------- */
 @media (min-width:1280px){
   body.chat-docked{padding-right:var(--chat-w);}
-  /* El nav es fijo al viewport, así que el padding del body no lo alcanza. Ambos acaban centrados
-     en (ancho de ventana - ancho del panel), a cualquier ancho. */
-  body.chat-docked .app-nav{transform:translateX(calc(-50% - var(--chat-w) / 2));}
+  /* El nav es fijo al viewport, así que el padding del body no lo alcanza. Se le recorta la banda
+     por la derecha y su margin-inline:auto lo vuelve a centrar en lo que queda, de modo que shell
+     y nav acaban centrados en (ancho de ventana - ancho del panel), a cualquier ancho. */
+  body.chat-docked .app-nav{right:var(--chat-w);}
   /* El oscurecido de los modales se detiene en el panel, en vez de taparlo. */
   body.chat-docked #overlay{right:var(--chat-w);}
   /* 46vw se sigue midiendo contra la ventana entera aunque el shell se haya encogido. */

@@ -18,7 +18,7 @@ export const calculators = [
       { name: 'nikolsky', id: 'am-n', type: 'checkbox', label: 'Signo de Nikolsky positivo (la piel sana se despega al frotar)' },
       { name: 'mucosas', id: 'am-m', type: 'checkbox', label: 'Hay afectacion de mucosas' },
       { name: 'primeroBoca', id: 'am-b', type: 'checkbox', label: 'Empezo por la boca, antes que por la piel' },
-      { name: 'anciano', id: 'am-a', type: 'checkbox', label: 'Paciente mayor de 70 a&#241;os' },
+      { name: 'anciano', id: 'am-a', type: 'checkbox', label: 'Paciente mayor de 70 años' },
       { name: 'prurito', id: 'am-p', type: 'checkbox', label: 'Prurito intenso, que domina el cuadro' },
       { name: 'simetrico', id: 'am-s', type: 'checkbox', label: 'Excoriaciones simetricas en codos, rodillas y nalgas' },
       { name: 'mucositis', id: 'am-mr', type: 'checkbox', label: 'Mucositis grave que no responde a nada' }
@@ -56,7 +56,7 @@ export const calculators = [
       }[r.sospecha];
       if (texto) s += '<br>' + texto;
       if (r.preampolloso) {
-        s += '<br><strong style="color:#5a4a8c;">Ojo con la fase preampollosa del penfigoide:</strong> en la mayoria de los casos empieza SIN ampollas, con prurito y lesiones eccematosas, urticariformes o nodulares, y esa fase puede durar de semanas a a&#241;os. Es la razon principal del retraso diagnostico. Antes, descarta escabiosis.';
+        s += '<br><strong style="color:#5a4a8c;">Ojo con la fase preampollosa del penfigoide:</strong> en la mayoria de los casos empieza SIN ampollas, con prurito y lesiones eccematosas, urticariformes o nodulares, y esa fase puede durar de semanas a años. Es la razon principal del retraso diagnostico. Antes, descarta escabiosis.';
       }
       s += '<br><span style="opacity:.75;">Decidas lo que decidas, la confirmacion es la misma: <strong>dos biopsias</strong>, una de lesion para histologia y otra de piel PERILESIONAL para inmunofluorescencia directa, y si es posible antes de empezar el corticoide.</span>';
       return s;
@@ -69,7 +69,7 @@ export const calculators = [
     subtitle: 'El patron del deposito es lo que diagnostica',
     incompleteMsg: 'Elige el patron observado.',
     fields: [
-      { name: 'sitio', id: 'am-if-s', type: 'select', label: '&#191;De donde se tomo la muestra para la inmunofluorescencia directa?', options: [
+      { name: 'sitio', id: 'am-if-s', type: 'select', label: '¿De donde se tomo la muestra para la inmunofluorescencia directa?', options: [
         { value: '', label: 'Elegir...' },
         { value: 'peri', label: 'Piel PERILESIONAL sana' },
         { value: 'ampolla', label: 'De dentro de la ampolla' },
@@ -133,11 +133,11 @@ export const calculators = [
     subtitle: 'Actividad del penfigoide ampolloso &middot; 0 a 360',
     incompleteMsg: 'Introduce los tres apartados de actividad.',
     fields: [
-      { type: 'note', text: 'Tres apartados de actividad, de 0 a 120 cada uno, con ponderacion segun las zonas afectadas. La puntuacion de da&#241;o y la de prurito van aparte.' },
+      { type: 'note', text: 'Tres apartados de actividad, de 0 a 120 cada uno, con ponderacion segun las zonas afectadas. La puntuacion de daño y la de prurito van aparte.' },
       { name: 'ampollas', id: 'am-bp-1', type: 'number', step: '1', label: 'Ampollas y erosiones cutaneas (0 a 120)', placeholder: 'ej. 24', row: 'b1' },
       { name: 'eritema', id: 'am-bp-2', type: 'number', step: '1', label: 'Eritema y urticaria cutaneos (0 a 120)', placeholder: 'ej. 18', row: 'b1' },
       { name: 'mucosas', id: 'am-bp-3', type: 'number', step: '1', label: 'Lesiones mucosas (0 a 120)', placeholder: 'ej. 0', row: 'b2' },
-      { name: 'dano', id: 'am-bp-4', type: 'number', step: '1', required: false, label: 'Da&#241;o (0 a 12, opcional)', placeholder: 'ej. 2', row: 'b2' },
+      { name: 'dano', id: 'am-bp-4', type: 'number', step: '1', required: false, label: 'Daño (0 a 12, opcional)', placeholder: 'ej. 2', row: 'b2' },
       { name: 'prurito', id: 'am-bp-5', type: 'number', step: '1', required: false, label: 'BPDAI-prurito (0 a 30, opcional)', placeholder: 'ej. 22' },
       { name: 'previo', id: 'am-bp-6', type: 'number', step: '1', required: false, label: 'Actividad en la visita anterior (opcional)', placeholder: 'ej. 55' }
     ],
@@ -167,19 +167,19 @@ export const calculators = [
       };
     },
     format(r) {
-      if (r.invalido) return 'Cada apartado de actividad va de <strong>0 a 120</strong> y el da&#241;o de 0 a 12. Revisa los valores.';
+      if (r.invalido) return 'Cada apartado de actividad va de <strong>0 a 120</strong> y el daño de 0 a 12. Revisa los valores.';
       let s = `<strong>BPDAI de actividad ${r.total} / 360: enfermedad ${r.banda}.</strong>`;
       if (r.curso === 'empeora') s += `<br><strong style="color:#8c3a34;">Ha subido ${r.delta} puntos:</strong> un aumento de 3 o mas se considera empeoramiento relevante.`;
       else if (r.curso === 'mejora') s += `<br><span style="color:#3f6b52;">Ha bajado ${Math.abs(r.delta)} puntos:</span> un descenso de 4 o mas se considera mejoria relevante.`;
       else if (r.curso === 'estable') s += '<br><span style="opacity:.85;">El cambio no alcanza el umbral de relevancia, ni al alza ni a la baja.</span>';
-      if (r.mucosas > 0) s += '<br><span style="opacity:.85;">Hay afectacion mucosa, que hace el control mas dificil y a&#241;ade sufrimiento al paciente.</span>';
-      if (r.dano !== null) s += `<br><span style="opacity:.85;">Da&#241;o ${r.dano} / 12: recoge lo que ya es permanente (hiperpigmentacion posinflamatoria, cicatrices) y no mejora con el tratamiento.</span>`;
+      if (r.mucosas > 0) s += '<br><span style="opacity:.85;">Hay afectacion mucosa, que hace el control mas dificil y añade sufrimiento al paciente.</span>';
+      if (r.dano !== null) s += `<br><span style="opacity:.85;">Daño ${r.dano} / 12: recoge lo que ya es permanente (hiperpigmentacion posinflamatoria, cicatrices) y no mejora con el tratamiento.</span>`;
       if (r.prurito !== null && r.prurito >= 15) {
         s += `<br><strong style="color:#5a4a8c;">El prurito esta en ${r.prurito} de 30.</strong> Va aparte de la actividad justamente porque es lo que mas condiciona la vida del paciente, y puede seguir alto con la piel casi limpia.`;
       } else if (r.prurito === null) {
         s += '<br><span style="opacity:.75;">Sin el apartado de prurito la foto queda incompleta: en el penfigoide el picor es el sintoma que mas pesa en la calidad de vida.</span>';
       }
-      s += '<br><span style="opacity:.75;">Y en un paciente anciano hay que medir tambien lo otro: la toxicidad acumulada del corticoide, que en esta enfermedad hace tanto da&#241;o como la propia enfermedad.</span>';
+      s += '<br><span style="opacity:.75;">Y en un paciente anciano hay que medir tambien lo otro: la toxicidad acumulada del corticoide, que en esta enfermedad hace tanto daño como la propia enfermedad.</span>';
       return s;
     },
     fragment: r => (r.invalido ? 'valores no validos' : `BPDAI ${r.total}/360 (${r.banda})`)
@@ -210,7 +210,7 @@ export const calculators = [
     },
     format(r) {
       if (r.listo) {
-        return '<strong style="color:#3f6b52;">El estudio previo esta completo.</strong> Recuerda registrar el titulo basal de desmogleinas: sirve para valorar la falta de respuesta, predecir la recaida y planificar las infusiones de mantenimiento.<br><span style="opacity:.75;">Y planifica ya la profilaxis de osteoporosis y el control de glucemia y tension, porque el corticoide va a acompa&#241;ar durante meses.</span>';
+        return '<strong style="color:#3f6b52;">El estudio previo esta completo.</strong> Recuerda registrar el titulo basal de desmogleinas: sirve para valorar la falta de respuesta, predecir la recaida y planificar las infusiones de mantenimiento.<br><span style="opacity:.75;">Y planifica ya la profilaxis de osteoporosis y el control de glucemia y tension, porque el corticoide va a acompañar durante meses.</span>';
       }
       let s = '<strong style="color:#8c3a34;">Falta por completar:</strong><br>' + r.faltan.map(f => '&middot; ' + f).join('<br>');
       if (!r.ecoNecesario) s += '<br><span style="opacity:.75;">El ecocardiograma solo se pide si hay cardiopatia conocida o alteracion en el electrocardiograma.</span>';

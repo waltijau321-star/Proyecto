@@ -56,7 +56,7 @@ export const calculators = [
           'Pedir ANCA y anticuerpos anti-membrana basal glomerular el mismo dia',
           'Biopsia renal, que aqui es ESENCIAL y no opcional',
           'El diagnostico de enfermedad anti-MBG debe hacerse SIN DEMORA ante toda sospecha de rapidamente progresiva',
-          'Buscar hemorragia alveolar: puede presentarse como sindrome pulmon-ri&#241;on'
+          'Buscar hemorragia alveolar: puede presentarse como sindrome pulmon-riñon'
         ];
       } else if (nefrotico) {
         sindrome = 'SINDROME NEFROTICO';
@@ -89,7 +89,7 @@ export const calculators = [
       } else if (rangoSinSindrome) {
         sindrome = 'PROTEINURIA EN RANGO NEFROTICO, SIN sindrome nefrotico';
         color = C_AZUL;
-        detalle = 'Proteinuria de ' + pu + ' g/d pero albumina de ' + alb + ' g/dl: falta la HIPOALBUMINEMIA, de modo que no es un sindrome nefrotico. La guia se&#241;ala este escenario expresamente y lo asocia sobre todo a la glomeruloesclerosis focal y segmentaria SECUNDARIA y a la nefropatia IgA.';
+        detalle = 'Proteinuria de ' + pu + ' g/d pero albumina de ' + alb + ' g/dl: falta la HIPOALBUMINEMIA, de modo que no es un sindrome nefrotico. La guia señala este escenario expresamente y lo asocia sobre todo a la glomeruloesclerosis focal y segmentaria SECUNDARIA y a la nefropatia IgA.';
         pasos = [
           'No tratarlo como un sindrome nefrotico: el pronostico y la conducta son distintos',
           'Comprobar con que metodo se midio la albumina: el verde de bromocresol lee unos 5,5 g/l por encima',
@@ -136,9 +136,9 @@ export const calculators = [
         { value: 'mujer', label: 'Mujer' },
         { value: 'hombre', label: 'Hombre' }
       ] },
-      { name: 'edad', id: 'gl-mh-ed', type: 'number', step: '1', label: 'Edad en a&#241;os', placeholder: 'ej. 54' },
+      { name: 'edad', id: 'gl-mh-ed', type: 'number', step: '1', label: 'Edad en años', placeholder: 'ej. 54' },
       { name: 'hematies', id: 'gl-mh-he', type: 'number', step: '1', label: 'Hematies por campo de gran aumento', placeholder: 'ej. 12' },
-      { name: 'paquetes', id: 'gl-mh-pa', type: 'number', step: '1', required: false, label: 'Paquetes-a&#241;o de tabaco (dejar vacio si nunca fumo)', placeholder: 'ej. 20' },
+      { name: 'paquetes', id: 'gl-mh-pa', type: 'number', step: '1', required: false, label: 'Paquetes-año de tabaco (dejar vacio si nunca fumo)', placeholder: 'ej. 20' },
       { name: 'macro', id: 'gl-mh-ma', type: 'checkbox', label: 'Antecedente de hematuria macroscopica' },
       { name: 'otros', id: 'gl-mh-ot', type: 'checkbox', label: 'Otros factores de riesgo de carcinoma urotelial', row: true },
       { name: 'repetido', id: 'gl-mh-re', type: 'checkbox', label: 'Es un analisis REPETIDO en paciente de bajo riesgo que no se habia estudiado' },
@@ -156,15 +156,15 @@ export const calculators = [
       }
 
       const altos = [];
-      if (edad >= 60) altos.push('60 a&#241;os o mas');
-      if (paq > 30) altos.push('mas de 30 paquetes-a&#241;o');
+      if (edad >= 60) altos.push('60 años o mas');
+      if (paq > 30) altos.push('mas de 30 paquetes-año');
       if (he > 25) altos.push('mas de 25 hematies por campo');
       if (v.macro) altos.push('antecedente de hematuria macroscopica');
 
       const inter = [];
-      if (v.sexo === 'mujer' && edad >= 50 && edad <= 59) inter.push('mujer de 50 a 59 a&#241;os');
-      if (v.sexo === 'hombre' && edad >= 40 && edad <= 59) inter.push('hombre de 40 a 59 a&#241;os');
-      if (paq >= 10 && paq <= 30) inter.push('de 10 a 30 paquetes-a&#241;o');
+      if (v.sexo === 'mujer' && edad >= 50 && edad <= 59) inter.push('mujer de 50 a 59 años');
+      if (v.sexo === 'hombre' && edad >= 40 && edad <= 59) inter.push('hombre de 40 a 59 años');
+      if (paq >= 10 && paq <= 30) inter.push('de 10 a 30 paquetes-año');
       if (he >= 11 && he <= 25) inter.push('de 11 a 25 hematies por campo');
       if (v.repetido && he >= 3 && he <= 10) inter.push('bajo riesgo sin estudio previo con 3 a 10 hematies por campo en analisis repetido');
       if (v.otros) inter.push('otros factores de riesgo de carcinoma urotelial');
@@ -222,7 +222,7 @@ export const calculators = [
         { value: '', label: 'Elegir...' },
         { value: 'orina24', label: 'Orina de 24 horas' },
         { value: 'intencionada', label: 'Cociente en aliquota de una recogida intencionada de 12 a 24 horas' },
-        { value: 'primera', label: 'Primera orina de la ma&#241;ana' },
+        { value: 'primera', label: 'Primera orina de la mañana' },
         { value: 'aislada', label: 'Muestra aislada al azar' }
       ] },
       { name: 'valor', id: 'gl-pu-va', type: 'number', step: '0.01', label: 'Proteinuria en g/d (o g/g de creatinina)', placeholder: 'ej. 1.2' },
@@ -232,7 +232,7 @@ export const calculators = [
         { value: 'cambiosminimos', label: 'Cambios minimos o sindrome nefrotico corticosensible' }
       ] },
       { name: 'soporte90', id: 'gl-pu-so', type: 'checkbox', label: 'Lleva 90 dias o mas de tratamiento de soporte optimizado' },
-      { type: 'note', text: 'La primera orina de la ma&#241;ana subestima la excrecion de 24 horas en torno a un 20%, y ese sesgo se aplica aqui para que los umbrales se comparen con lo mismo.' }
+      { type: 'note', text: 'La primera orina de la mañana subestima la excrecion de 24 horas en torno a un 20%, y ese sesgo se aplica aqui para que los umbrales se comparen con lo mismo.' }
     ],
     compute(v) {
       const num = x => (x === null || x === undefined || x === '' || isNaN(x)) ? null : Number(x);
@@ -243,7 +243,7 @@ export const calculators = [
       let corregido = val, nota = '';
       if (v.metodo === 'primera') {
         corregido = Math.round(val / 0.8 * 100) / 100;
-        nota = 'La primera orina de la ma&#241;ana equivale a una recogida nocturna y tiende a SUBESTIMAR la excrecion de 24 horas en torno a un 20% por el efecto del decubito. Corrigiendo ese sesgo, ' + val + ' equivale aproximadamente a ' + corregido + ' g/d. El efecto es menor si la proteinuria es de rango nefrotico.';
+        nota = 'La primera orina de la mañana equivale a una recogida nocturna y tiende a SUBESTIMAR la excrecion de 24 horas en torno a un 20% por el efecto del decubito. Corrigiendo ese sesgo, ' + val + ' equivale aproximadamente a ' + corregido + ' g/d. El efecto es menor si la proteinuria es de rango nefrotico.';
       } else if (v.metodo === 'aislada') {
         nota = 'El cociente en muestra AISLADA al azar esta desaconsejado en glomerulopatia, porque tanto la proteina como la creatinina varian a lo largo del dia. Solo es interpretable si se recoge siempre a la misma hora y en condiciones comparables de actividad, con el paciente estable. El valor de abajo se da tal cual, sin corregir, porque el sesgo no tiene una direccion fija.';
       } else if (v.metodo === 'intencionada') {

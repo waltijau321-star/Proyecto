@@ -37,7 +37,7 @@ export const calculators = [
       ] },
       { name: 'sistemicos', id: 'np-pa-sis', type: 'checkbox', label: 'Sintomas sistemicos: fiebre, perdida de peso, artralgias o lesiones cutaneas', row: 'r2' },
       { name: 'cavos', id: 'np-pa-ca', type: 'checkbox', label: 'Pies cavos, dedos en martillo o antecedente familiar de neuropatia', row: 'r2' },
-      { type: 'note', text: 'Definir el patron antes de pedir ninguna prueba etiologica es lo que convierte un diferencial inabarcable en uno corto. La razon es anatomica: lo metabolico y lo toxico da&#241;a primero las fibras mas largas, lo vascular produce infartos en puntos aleatorios, y lo inmunitario ataca raices y troncos por igual.' }
+      { type: 'note', text: 'Definir el patron antes de pedir ninguna prueba etiologica es lo que convierte un diferencial inabarcable en uno corto. La razon es anatomica: lo metabolico y lo toxico daña primero las fibras mas largas, lo vascular produce infartos en puntos aleatorios, y lo inmunitario ataca raices y troncos por igual.' }
     ],
     compute(v) {
       if (v.semanas == null) return null;
@@ -54,7 +54,7 @@ export const calculators = [
       if (r.p === 'asimetrica') {
         s += '<strong style="color:#8c3a34;">MONONEURITIS MULTIPLE. Es el unico patron URGENTE del tema.</strong> Varios nervios afectados de forma sucesiva y asimetrica significa infartos del tronco nervioso por inflamacion de los vasa nervorum: es una VASCULITIS hasta que se demuestre lo contrario. ';
         s += 'Corresponde estudio SIN DEMORA: velocidad de sedimentacion, proteina C reactiva, ANCA, factor reumatoide, crioglobulinas, complemento, anticuerpos antinucleares, serologias de hepatitis B y C, y VIH. Si la sospecha es alta, no se espera a la biopsia para iniciar corticoides e inmunosupresor, porque cada dia de retraso son axones que no se recuperan. ';
-        if (r.sistemicos) s += '<br><strong style="color:#8c3a34;">Ademas hay sintomas sistemicos</strong>, lo que refuerza mucho la sospecha de vasculitis sistemica y obliga a buscar afectacion de otros organos: ri&#241;on, pulmon y piel.';
+        if (r.sistemicos) s += '<br><strong style="color:#8c3a34;">Ademas hay sintomas sistemicos</strong>, lo que refuerza mucho la sospecha de vasculitis sistemica y obliga a buscar afectacion de otros organos: riñon, pulmon y piel.';
         else s += '<br>La ausencia de sintomas sistemicos no descarta nada: existe la vasculitis NO sistemica limitada al nervio periferico, cuyo diagnostico se apoya en la biopsia de nervio sural.';
         return s;
       }
@@ -77,7 +77,7 @@ export const calculators = [
         s += '<br><strong style="color:#6b4a8c;">Con predominio de dolor quemante y fuerza y reflejos normales, hay que pensar en NEUROPATIA DE FIBRA FINA.</strong> El electroneurograma explora la fibra gruesa y por eso saldra NORMAL, lo que no descarta nada. La confirmacion es la biopsia cutanea con densidad de fibras intraepidermicas, y la causa mas frecuente que se pasa por alto es la PREDIABETES, que solo aparece con sobrecarga oral de glucosa.';
       }
       if (r.cavos) {
-        s += '<br><strong style="color:#8a6a1f;">Pies cavos, dedos en martillo o antecedente familiar</strong>: la deformidad indica que el proceso lleva a&#241;os, desde el desarrollo. Apunta a una NEUROPATIA HEREDITARIA, y pedir el estudio genetico dirigido ahorra un estudio etiologico largo e inutil.';
+        s += '<br><strong style="color:#8a6a1f;">Pies cavos, dedos en martillo o antecedente familiar</strong>: la deformidad indica que el proceso lleva años, desde el desarrollo. Apunta a una NEUROPATIA HEREDITARIA, y pedir el estudio genetico dirigido ahorra un estudio etiologico largo e inutil.';
       }
       return s;
     },
@@ -102,7 +102,7 @@ export const calculators = [
       { name: 'mielopatia', id: 'np-es-mi', type: 'checkbox', label: 'Hay mielopatia asociada, cirugia bariatrica previa o suplementos de zinc', row: 'r4' },
       { name: 'familiar', id: 'np-es-fam', type: 'checkbox', label: 'Antecedente familiar, pies cavos o dedos en martillo', row: 'r4' },
       { name: 'seca', id: 'np-es-sec', type: 'checkbox', label: 'Sequedad de boca y de ojos, o artralgias' },
-      { type: 'note', text: 'Pedir un panel amplio de entrada encuentra hallazgos irrelevantes y no aumenta el rendimiento diagnostico. La glucemia, la vitamina B12 y la inmunofijacion en suero son las tres que si lo hacen en la polineuropatia distal simetrica, y la sobrecarga oral a&#241;ade valor porque detecta la prediabetes.' }
+      { type: 'note', text: 'Pedir un panel amplio de entrada encuentra hallazgos irrelevantes y no aumenta el rendimiento diagnostico. La glucemia, la vitamina B12 y la inmunofijacion en suero son las tres que si lo hacen en la polineuropatia distal simetrica, y la sobrecarga oral añade valor porque detecta la prediabetes.' }
     ],
     compute(v) {
       const faltan = [];
@@ -222,7 +222,7 @@ export const calculators = [
       { name: 'padP', id: 'np-or-padp', type: 'number', step: '1', label: 'Presion diastolica de pie (mmHg)', placeholder: 'ej. 66', row: 'r3' },
       { name: 'fcP', id: 'np-or-fcp', type: 'number', step: '1', label: 'Frecuencia cardiaca de pie (lpm)', placeholder: 'ej. 74', row: 'r3' },
       { name: 'farmacos', id: 'np-or-fa', type: 'checkbox', label: 'Toma antihipertensivos, diureticos, alfabloqueantes, antidepresivos o agonistas dopaminergicos' },
-      { type: 'note', text: 'La medicion se hace tras 5 minutos en decubito y a los 3 minutos de bipedestacion ACTIVA. Lo que separa la hipotension ortostatica neurogenica de la que no lo es no es la magnitud de la caida sino la respuesta del PULSO: si el reflejo simpatico esta intacto, la frecuencia cardiaca sube para compensar; si esta da&#241;ado, no lo hace.' }
+      { type: 'note', text: 'La medicion se hace tras 5 minutos en decubito y a los 3 minutos de bipedestacion ACTIVA. Lo que separa la hipotension ortostatica neurogenica de la que no lo es no es la magnitud de la caida sino la respuesta del PULSO: si el reflejo simpatico esta intacto, la frecuencia cardiaca sube para compensar; si esta dañado, no lo hace.' }
     ],
     compute(v) {
       const req = ['pasD', 'padD', 'fcD', 'pasP', 'padP', 'fcP'];
@@ -247,7 +247,7 @@ export const calculators = [
         if (r.pots) {
           s += `<br><strong style="color:#3d5a73;">Pero la frecuencia cardiaca ha subido ${r.dFc} latidos SIN caida tensional que cumpla criterio.</strong> Eso apunta a un SINDROME DE TAQUICARDIA POSTURAL, que es una entidad distinta: exige un aumento de 30 latidos o mas en los 10 primeros minutos de bipedestacion y sintomas de al menos 3 meses. Antes de etiquetarlo hay que descartar deshidratacion, anemia, hipertiroidismo, feocromocitoma, farmacos y desacondicionamiento. El tratamiento es sal, liquidos, medias de compresion y EJERCICIO PROGRESIVO, no reposo, que empeora el cuadro.`;
         } else {
-          s += 'Si el paciente tiene sintomas ortostaticos claros, conviene repetir la medicion en otro momento del dia, preferentemente por la MA&#209;ANA y en ayunas, o tras una comida, que es cuando la hipotension postprandial se hace evidente.';
+          s += 'Si el paciente tiene sintomas ortostaticos claros, conviene repetir la medicion en otro momento del dia, preferentemente por la MAÑANA y en ayunas, o tras una comida, que es cuando la hipotension postprandial se hace evidente.';
         }
         return s;
       }
@@ -261,9 +261,9 @@ export const calculators = [
         }
       }
       if (r.farmacos) {
-        s += '<br><strong style="color:#8a6a1f;">El paciente toma farmacos que pueden producirla.</strong> Antes de a&#241;adir nada, hay que REVISAR Y AJUSTAR esa medicacion: es la causa mas frecuente y la mas facil de corregir, y anteponer midodrina o fludrocortisona a esa revision es un error habitual.';
+        s += '<br><strong style="color:#8a6a1f;">El paciente toma farmacos que pueden producirla.</strong> Antes de añadir nada, hay que REVISAR Y AJUSTAR esa medicacion: es la causa mas frecuente y la mas facil de corregir, y anteponer midodrina o fludrocortisona a esa revision es un error habitual.';
       }
-      s += '<br><strong>Manejo, y en este orden:</strong> retirar o ajustar los farmacos implicados; aumentar sal y agua; medias de compresion hasta la cintura; ELEVAR EL CABECERO de la cama por la noche, que reduce la natriuresis nocturna y mejora la hipotension de la ma&#241;ana; levantarse en dos tiempos; y maniobras de contrapresion. Solo si eso no basta, midodrina o fludrocortisona.';
+      s += '<br><strong>Manejo, y en este orden:</strong> retirar o ajustar los farmacos implicados; aumentar sal y agua; medias de compresion hasta la cintura; ELEVAR EL CABECERO de la cama por la noche, que reduce la natriuresis nocturna y mejora la hipotension de la mañana; levantarse en dos tiempos; y maniobras de contrapresion. Solo si eso no basta, midodrina o fludrocortisona.';
       if (r.pasD >= 140) {
         s += `<br><strong style="color:#8c3a34;">Ojo: la sistolica en decubito es de ${r.pasD} mmHg.</strong> La combinacion de hipertension acostado con hipotension de pie es caracteristica del fallo autonomico y es un problema terapeutico real, porque los farmacos que corrigen una empeoran la otra. Por eso no se administran en las horas previas a acostarse y se eleva el cabecero.`;
       }

@@ -60,7 +60,7 @@ export const calculators = [
       ] },
       { name: 'rcp', id: 'aho-c3', required: false, type: 'number', step: '1', label: 'Minutos de RCP continua sin signos de vida', placeholder: 'ej. 15' },
       { name: 'seguridad', id: 'aho-c4', type: 'checkbox', label: 'La seguridad del equipo de rescate esta amenazada' },
-      { name: 'nino', id: 'aho-c5', type: 'checkbox', label: 'Ni&#241;o de 6 a&#241;os o menos en agua helada, o se dispone de oxigenacion extracorporea' },
+      { name: 'nino', id: 'aho-c5', type: 'checkbox', label: 'Niño de 6 años o menos en agua helada, o se dispone de oxigenacion extracorporea' },
       { type: 'note', text: 'El tiempo de sumersion se cuenta desde la llegada de los servicios de emergencia, porque el total suele desconocerse.' }
     ],
     compute(v) {
@@ -79,8 +79,8 @@ export const calculators = [
       else if (r.motivos.length) s = `<strong>Puede ser razonable cesar el rescate y la reanimacion,</strong> segun los recursos: ${r.motivos.join('; ')}.`;
       else s = '<strong>No se alcanzan los umbrales de la guia para cesar:</strong> continuar.';
       if (r.faltaTemp) s += '<br><span style="opacity:.85;">Indica la temperatura del agua: el umbral es de 30 minutos por encima de 6 grados y de 90 minutos por debajo.</span>';
-      if (r.mayor10 && !r.seguridad) s += '<br><span style="opacity:.85;">Mas de 10 minutos de sumersion se asocian a mayor mortalidad o a supervivencia con da&#241;o neurologico grave.</span>';
-      if (r.nino && r.motivos.length && !r.seguridad) s += '<br><strong>Pero:</strong> hay casos de buena recuperacion neurologica tras sumersiones prolongadas, sobre todo en ni&#241;os de 6 a&#241;os o menos en agua de menos de 6 grados y con oxigenacion extracorporea. Valorar seguir.';
+      if (r.mayor10 && !r.seguridad) s += '<br><span style="opacity:.85;">Mas de 10 minutos de sumersion se asocian a mayor mortalidad o a supervivencia con daño neurologico grave.</span>';
+      if (r.nino && r.motivos.length && !r.seguridad) s += '<br><strong>Pero:</strong> hay casos de buena recuperacion neurologica tras sumersiones prolongadas, sobre todo en niños de 6 años o menos en agua de menos de 6 grados y con oxigenacion extracorporea. Valorar seguir.';
       s += '<br><span style="opacity:.75;">Con recursos y seguridad, la recuperacion del cuerpo puede continuar mas alla del periodo de rescate, sabiendo que la reanimacion sera probablemente inutil.</span>';
       return s;
     },

@@ -557,7 +557,7 @@ export const registry = [
     ])
   },
   {
-    id: 'apnea-sueno', titulo: 'Apnea del Sue&#241;o',
+    id: 'apnea-sueno', titulo: 'Apnea del Sueño',
     load: () => Promise.all([
       import('./apnea-sueno/content.js'),
       import('./apnea-sueno/calculators.js'),

@@ -54,13 +54,13 @@ export const calculators = [
   {
     key: 'adrenalina-im', title: 'Adrenalina intramuscular', accent: '#8c2e2e',
     subtitle: '0.01 mg/kg en el muslo, con techo por edad',
-    incompleteMsg: 'Introduce el peso y elige adulto o ni&#241;o.',
+    incompleteMsg: 'Introduce el peso y elige adulto o niño.',
     fields: [
       { name: 'peso', id: 'ana-a1', type: 'number', step: '0.1', label: 'Peso (kg)', placeholder: 'ej. 70', row: true },
       { name: 'grupo', id: 'ana-a2', type: 'select', label: 'Paciente', row: true, options: [
         { value: '', label: 'Elegir...' },
         { value: 'adulto', label: 'Adulto' },
-        { value: 'nino', label: 'Ni&#241;o' }
+        { value: 'nino', label: 'Niño' }
       ] },
       { name: 'dosis', id: 'ana-a3', required: false, type: 'number', step: '1', label: 'Dosis ya administradas en este episodio', placeholder: 'ej. 0' }
     ],
@@ -74,7 +74,7 @@ export const calculators = [
     },
     format(r) {
       let s = `<strong>${r.mg} mg intramuscular = ${r.mL} mL de la solucion de 1 mg/mL (1:1000)</strong>, en la cara anterolateral del MUSLO.`;
-      if (r.topado) s += `<br><span style="opacity:.85;">Se aplica el maximo de ${r.techo} mg para ${r.grupo === 'adulto' ? 'el adulto' : 'el ni&#241;o'}.</span>`;
+      if (r.topado) s += `<br><span style="opacity:.85;">Se aplica el maximo de ${r.techo} mg para ${r.grupo === 'adulto' ? 'el adulto' : 'el niño'}.</span>`;
       s += '<br>Se puede repetir cada <strong>5 a 15 minutos</strong> segun la respuesta.';
       if (r.previas >= 1) {
         s += `<br><strong style="color:#8c3a34;">Esta sera la dosis numero ${r.previas + 1}.</strong> Necesitar mas de una es el factor de riesgo de reaccion bifasica de mas peso (odds ratio 4.82): la guia sugiere observacion prolongada.`;
@@ -139,13 +139,13 @@ export const calculators = [
       { name: 'variasDosis', id: 'ana-o3', type: 'checkbox', label: 'Necesito mas de una dosis de adrenalina' },
       { name: 'pulso', id: 'ana-o4', type: 'checkbox', label: 'Presion de pulso amplia' },
       { name: 'desconocido', id: 'ana-o5', type: 'checkbox', label: 'Desencadenante desconocido' },
-      { name: 'farmacoNino', id: 'ana-o6', type: 'checkbox', label: 'Ni&#241;o con un farmaco como desencadenante' },
+      { name: 'farmacoNino', id: 'ana-o6', type: 'checkbox', label: 'Niño con un farmaco como desencadenante' },
       { name: 'mortal', id: 'ana-o7', type: 'checkbox', label: 'Comorbilidad cardiovascular, sin acceso a adrenalina o a emergencias, o escasa capacidad de autocuidado' }
     ],
     compute(v) {
       if (!v.resuelto) return null;
       const mayores = [v.grave && 'reaccion grave', v.variasDosis && 'mas de una dosis de adrenalina'].filter(Boolean);
-      const menores = [v.pulso && 'presion de pulso amplia', v.desconocido && 'desencadenante desconocido', v.farmacoNino && 'farmaco en el ni&#241;o'].filter(Boolean);
+      const menores = [v.pulso && 'presion de pulso amplia', v.desconocido && 'desencadenante desconocido', v.farmacoNino && 'farmaco en el niño'].filter(Boolean);
       return { activo: v.resuelto === 'no', mayores, menores, mortal: !!v.mortal };
     },
     format(r) {

@@ -60,7 +60,7 @@ export const calculators = [
         grupos = 'grupo 2';
       } else if (v.pcp > 15 && rvp > 2) {
         perfil = 'COMBINADA pre y poscapilar';
-        grupos = 'grupo 2 con componente vascular a&#241;adido';
+        grupos = 'grupo 2 con componente vascular añadido';
       } else {
         perfil = 'no clasificable (enclavamiento normal con resistencia de 2 o menos)';
         grupos = null;
@@ -81,7 +81,7 @@ export const calculators = [
       if (r.perfil === 'PRECAPILAR') {
         s += 'El corazon izquierdo esta bien y el problema esta en el vaso pulmonar o en el pulmon. Antes de pensar en el grupo 1 hay que haber descartado enfermedad pulmonar (grupo 3) y, sobre todo, haber hecho la <strong>gammagrafia de ventilacion y perfusion</strong> para excluir el grupo 4, que es el unico potencialmente curable con cirugia. Solo el grupo 1 tiene tratamiento vasodilatador especifico establecido.';
       } else if (r.perfil === 'POSCAPILAR AISLADA') {
-        s += 'Es transmision pasiva de la presion del corazon izquierdo. Se trata la cardiopatia: optimizar la insuficiencia cardiaca, corregir la valvulopatia, controlar la volemia y la frecuencia y tratar la apnea del sue&#241;o. <strong style="color:#8c3a34;">Los vasodilatadores pulmonares estan contraindicados</strong>: aumentan el flujo hacia un ventriculo izquierdo que no puede manejarlo y precipitan edema pulmonar.';
+        s += 'Es transmision pasiva de la presion del corazon izquierdo. Se trata la cardiopatia: optimizar la insuficiencia cardiaca, corregir la valvulopatia, controlar la volemia y la frecuencia y tratar la apnea del sueño. <strong style="color:#8c3a34;">Los vasodilatadores pulmonares estan contraindicados</strong>: aumentan el flujo hacia un ventriculo izquierdo que no puede manejarlo y precipitan edema pulmonar.';
       } else if (r.perfil === 'COMBINADA pre y poscapilar') {
         s += 'La cardiopatia izquierda ha producido ademas remodelado del vaso pulmonar. Peor pronostico que la forma aislada, y <strong>sigue sin haber indicacion establecida de vasodilatador</strong>. Optimizar la cardiopatia y reevaluar; si la hipertension persiste desproporcionada, remitir a centro experto.';
       } else {
@@ -182,13 +182,13 @@ export const calculators = [
         if (r.riesgo === 'BAJO' || r.riesgo === 'INTERMEDIO') {
           s += '<strong>Tratamiento inicial: DOBLE TERAPIA ORAL</strong> con antagonista del receptor de la endotelina mas inhibidor de la fosfodiesterasa 5. La monoterapia ha quedado reservada a casos muy concretos, como el paciente mayor con comorbilidad cardiopulmonar o el vasorreactivo.';
         } else {
-          s += '<strong style="color:#8c3a34;">Riesgo ALTO: triple terapia inicial que incluya PROSTACICLINA PARENTERAL</strong>, y remision inmediata a trasplante pulmonar. No es momento de escalar poco a poco: la mortalidad al a&#241;o en este estrato supera el 20% y el tiempo perdido no se recupera.';
+          s += '<strong style="color:#8c3a34;">Riesgo ALTO: triple terapia inicial que incluya PROSTACICLINA PARENTERAL</strong>, y remision inmediata a trasplante pulmonar. No es momento de escalar poco a poco: la mortalidad al año en este estrato supera el 20% y el tiempo perdido no se recupera.';
         }
       } else {
         if (r.riesgo === 'BAJO') {
           s += 'Objetivo terapeutico alcanzado. Mantener el tratamiento y seguir reestratificando cada 3 a 6 meses: el riesgo bajo hay que conservarlo, no solo alcanzarlo.';
         } else if (r.riesgo === 'BAJO-INTERMEDIO' || r.riesgo === 'ALTO-INTERMEDIO') {
-          s += '<strong style="color:#8a6a1f;">No se ha alcanzado el riesgo bajo: hay que ESCALAR el tratamiento</strong>, no observar. A&#241;adir un tercer farmaco (selexipag o un analogo de prostaciclina), o cambiar el inhibidor de la fosfodiesterasa 5 por riociguat, y valorar sotatercept. En el estrato alto-intermedio, considerar ademas prostaciclina parenteral y remitir a trasplante.';
+          s += '<strong style="color:#8a6a1f;">No se ha alcanzado el riesgo bajo: hay que ESCALAR el tratamiento</strong>, no observar. Añadir un tercer farmaco (selexipag o un analogo de prostaciclina), o cambiar el inhibidor de la fosfodiesterasa 5 por riociguat, y valorar sotatercept. En el estrato alto-intermedio, considerar ademas prostaciclina parenteral y remitir a trasplante.';
         } else {
           s += '<strong style="color:#8c3a34;">Riesgo ALTO en el seguimiento.</strong> Escalar a prostaciclina parenteral si no la lleva, revisar la adherencia y buscar un desencadenante (infeccion, arritmia, anemia, progresion). Remision urgente a trasplante y valoracion en centro experto.';
         }
@@ -234,7 +234,7 @@ export const calculators = [
       if (r.positiva) {
         s += '<strong style="color:#3f6b52;">Criterios de POSITIVIDAD cumplidos</strong> (descenso de 10 mmHg o mas hasta un valor absoluto de 40 mmHg o menor, con gasto conservado). ';
         if (r.indicada) {
-          s += 'El paciente es candidato a <strong>antagonistas del calcio a dosis altas</strong>, que son eficaces en esta minoria (alrededor del 10% de las formas idiopaticas). Pero hay que reevaluar: <strong>solo la mitad de los respondedores agudos mantiene la respuesta al a&#241;o</strong>, de modo que se comprueba a los 3 a 6 meses que el paciente esta en clase funcional I o II con hemodinamica casi normal, y si no es asi se pasa al tratamiento especifico convencional.';
+          s += 'El paciente es candidato a <strong>antagonistas del calcio a dosis altas</strong>, que son eficaces en esta minoria (alrededor del 10% de las formas idiopaticas). Pero hay que reevaluar: <strong>solo la mitad de los respondedores agudos mantiene la respuesta al año</strong>, de modo que se comprueba a los 3 a 6 meses que el paciente esta en clase funcional I o II con hemodinamica casi normal, y si no es asi se pasa al tratamiento especifico convencional.';
         }
       } else {
         s += '<strong>NO cumple los criterios de positividad.</strong> ';

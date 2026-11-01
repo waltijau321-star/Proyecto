@@ -12,7 +12,7 @@
 const GRUPOS = [
   ['hombro', 'Abduccion del hombro'],
   ['codo', 'Flexion del codo'],
-  ['muneca', 'Extension de la mu&#241;eca'],
+  ['muneca', 'Extension de la muñeca'],
   ['cadera', 'Flexion de la cadera'],
   ['rodilla', 'Extension de la rodilla'],
   ['tobillo', 'Dorsiflexion del pie']
@@ -74,7 +74,7 @@ export const calculators = [
       }
       let s = `<strong>Suma de fuerza: ${r.total} de 60 puntos. ${r.banda}.</strong>`;
       s += `<br><span style="opacity:.85;">Miembros superiores ${r.superior} de 30, miembros inferiores ${r.inferior} de 30.</span>`;
-      if (r.total < 36) s += '<br><strong style="color:#8c3a34;">Debilidad grave.</strong> Se asocia a mas dias de ventilacion, mayor dependencia al alta y peor situacion funcional al a&#241;o. Toca rehabilitacion intensiva y revision de todos los factores modificables que sigan presentes.';
+      if (r.total < 36) s += '<br><strong style="color:#8c3a34;">Debilidad grave.</strong> Se asocia a mas dias de ventilacion, mayor dependencia al alta y peor situacion funcional al año. Toca rehabilitacion intensiva y revision de todos los factores modificables que sigan presentes.';
       else if (r.total < 48) s += '<br><strong style="color:#8a6a1f;">Cumple criterio de debilidad adquirida en la unidad de criticos</strong>, siempre que no haya otra causa que lo explique.';
       else s += '<br><span style="color:#3f6b52;">Por encima del umbral de 48.</span> Eso no excluye una debilidad en desarrollo: conviene repetir la medicion, sobre todo si el paciente sigue inmovil, sedado o con factores de riesgo activos.';
       if (r.asimetrias.length) s += `<br><strong style="color:#8c3a34;">Hay ASIMETRIA de dos o mas puntos en ${r.asimetrias.length} grupo${r.asimetrias.length > 1 ? 's' : ''} (${r.asimetrias.join(', ')}).</strong> La debilidad adquirida es simetrica: una asimetria marcada obliga a buscar una lesion focal, como un ictus, una mielopatia, una plexopatia o una neuropatia por compresion, esta ultima frecuente tras una inmovilidad prolongada.`;
@@ -91,7 +91,7 @@ export const calculators = [
     incompleteMsg: 'Introduce los dias de ventilacion y marca los factores presentes.',
     fields: [
       { name: 'diasVm', id: 'du-rd-v', type: 'number', step: '1', label: 'Dias de ventilacion mecanica', placeholder: 'ej. 8', row: 'r1' },
-      { name: 'edad', id: 'du-rd-e', type: 'number', step: '1', required: false, label: 'Edad (a&#241;os)', placeholder: 'ej. 68', row: 'r1' },
+      { name: 'edad', id: 'du-rd-e', type: 'number', step: '1', required: false, label: 'Edad (años)', placeholder: 'ej. 68', row: 'r1' },
       { name: 'sepsis', id: 'du-rd-s', type: 'checkbox', label: 'Sepsis o respuesta inflamatoria sistemica', row: 'r2' },
       { name: 'multiorganica', id: 'du-rd-m', type: 'checkbox', label: 'Disfuncion de dos o mas organos', row: 'r2' },
       { name: 'sedacion', id: 'du-rd-se', type: 'checkbox', label: 'Sedacion profunda, sin objetivo definido o sin interrupcion diaria', row: 'r3' },
@@ -109,7 +109,7 @@ export const calculators = [
       const noModificables = [];
       if (v.sepsis) noModificables.push('sepsis');
       if (v.multiorganica) noModificables.push('disfuncion multiorganica');
-      if (v.edad != null && v.edad >= 70) noModificables.push(`edad de ${v.edad} a&#241;os`);
+      if (v.edad != null && v.edad >= 70) noModificables.push(`edad de ${v.edad} años`);
       if (v.diasVm >= 7) noModificables.push(`${v.diasVm} dias de ventilacion`);
 
       const modificables = [];
@@ -129,12 +129,12 @@ export const calculators = [
       return { noModificables, modificables, total, banda, diasVm: v.diasVm, hiperglucemia: !!v.hiperglucemia };
     },
     format: r => {
-      if (r.invalido) return 'Revisa los valores: dias de ventilacion de 0 a 400 y edad de 0 a 120 a&#241;os.';
+      if (r.invalido) return 'Revisa los valores: dias de ventilacion de 0 a 400 y edad de 0 a 120 años.';
       let s = `<strong>${r.total} factores de riesgo presentes: riesgo ${r.banda}.</strong>`;
       if (r.noModificables.length) s += `<br><span style="opacity:.8;">No modificables ahora: ${r.noModificables.join(', ')}.</span>`;
       if (r.modificables.length) {
         s += `<br><strong style="color:#3f6b52;">MODIFICABLES hoy mismo (${r.modificables.length}):</strong><br>`;
-        s += r.modificables.map(m => '&#8226; ' + m).join('<br>');
+        s += r.modificables.map(m => '• ' + m).join('<br>');
         s += '<br><span style="opacity:.8;">Como no existe tratamiento farmacologico para la debilidad adquirida, actuar sobre esta lista es literalmente lo unico que puede cambiar el resultado.</span>';
       } else {
         s += '<br><span style="color:#3f6b52;">No hay factores modificables pendientes,</span> lo que significa que el manejo preventivo ya esta bien orientado. Conviene mantenerlo y explorar la fuerza en cuanto el paciente colabore.';
@@ -204,7 +204,7 @@ export const calculators = [
         s += '<br><span style="opacity:.8;">Eso no exime de lo basico: comprobar fosforo, potasio, magnesio y calcio, y revisar la lista de farmacos. Y si el paciente no mejora como se espera, volver a explorar y volver a preguntarse si la etiqueta era correcta.</span>';
       } else {
         s = `<strong style="color:#8c3a34;">Hay ${r.banderas.length} dato${r.banderas.length > 1 ? 's' : ''} que NO encaja${r.banderas.length > 1 ? 'n' : ''} con una debilidad adquirida:</strong><br>`;
-        s += r.banderas.map(b => `&#8226; ${b.dato} &#8594; ${b.hacia}`).join('<br>');
+        s += r.banderas.map(b => `• ${b.dato} → ${b.hacia}`).join('<br>');
         s += '<br><span style="opacity:.85;">Casi todas esas alternativas tienen tratamiento propio, de modo que merece la pena estudiarlas en lugar de asumir que la recuperacion es lenta.</span>';
       }
       if (r.urgente) s += '<br><strong style="color:#8c3a34;">Y hay prisa.</strong> Un nivel sensitivo obliga a RESONANCIA MEDULAR urgente, porque una compresion tiene ventana terapeutica. Y una debilidad que progresa obliga a descartar un sindrome de Guillain-Barre sin demora, porque el tratamiento es tanto mas eficaz cuanto antes se administra.';

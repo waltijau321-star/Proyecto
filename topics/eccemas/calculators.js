@@ -21,16 +21,16 @@ export const calculators = [
       { type: 'note', text: 'Y ademas, tres o mas de los siguientes cinco:' },
       { name: 'pliegues', id: 'ec-c1', type: 'checkbox', label: 'Antecedente de afectacion de pliegues (codos, rodillas, tobillos, cuello)' },
       { name: 'atopia', id: 'ec-c2', type: 'checkbox', label: 'Antecedente personal de asma o rinitis alergica' },
-      { name: 'seca', id: 'ec-c3', type: 'checkbox', label: 'Piel seca generalizada en el ultimo a&#241;o' },
+      { name: 'seca', id: 'ec-c3', type: 'checkbox', label: 'Piel seca generalizada en el ultimo año' },
       { name: 'visible', id: 'ec-c4', type: 'checkbox', label: 'Eccema flexural visible en la exploracion' },
-      { name: 'inicio', id: 'ec-c5', type: 'checkbox', label: 'Inicio antes de los dos a&#241;os de edad' },
+      { name: 'inicio', id: 'ec-c5', type: 'checkbox', label: 'Inicio antes de los dos años de edad' },
       { type: 'note', text: 'Estos criterios sirven para el uso clinico y epidemiologico, y no sustituyen al juicio ante una presentacion atipica. En el adulto que debuta sin historia previa de atopia, conviene desconfiar y pensar en contacto, escabiosis o linfoma cutaneo.' }
     ],
     compute(v) {
       const items = [
         ['afectacion de pliegues', v.pliegues], ['asma o rinitis alergica', v.atopia],
-        ['piel seca en el ultimo a&#241;o', v.seca], ['eccema flexural visible', v.visible],
-        ['inicio antes de los dos a&#241;os', v.inicio]
+        ['piel seca en el ultimo año', v.seca], ['eccema flexural visible', v.visible],
+        ['inicio antes de los dos años', v.inicio]
       ];
       const positivos = items.filter(i => i[1]).map(i => i[0]);
       return {
@@ -62,17 +62,17 @@ export const calculators = [
     incompleteMsg: 'Responde las siete preguntas.',
     fields: [
       { type: 'note', text: 'Lo responde el PACIENTE sobre la ULTIMA SEMANA. Su virtud es que recoge lo que el vive, no lo que el medico ve el dia de la consulta.' },
-      poemItem('picor', 'ec-p1', '&#191;Cuantos dias ha tenido PICOR?'),
-      poemItem('sueno', 'ec-p2', '&#191;Cuantos dias le ha alterado el SUE&#209;O?'),
-      poemItem('exuda', 'ec-p3', '&#191;Cuantos dias le ha SUPURADO o exudado la piel?'),
-      poemItem('fisuras', 'ec-p4', '&#191;Cuantos dias ha tenido GRIETAS o fisuras?'),
-      poemItem('descama', 'ec-p5', '&#191;Cuantos dias se le ha DESCAMADO la piel?'),
-      poemItem('seca', 'ec-p6', '&#191;Cuantos dias ha notado la piel SECA o aspera?'),
-      poemItem('sangra', 'ec-p7', '&#191;Cuantos dias le ha SANGRADO la piel?')
+      poemItem('picor', 'ec-p1', '¿Cuantos dias ha tenido PICOR?'),
+      poemItem('sueno', 'ec-p2', '¿Cuantos dias le ha alterado el SUEÑO?'),
+      poemItem('exuda', 'ec-p3', '¿Cuantos dias le ha SUPURADO o exudado la piel?'),
+      poemItem('fisuras', 'ec-p4', '¿Cuantos dias ha tenido GRIETAS o fisuras?'),
+      poemItem('descama', 'ec-p5', '¿Cuantos dias se le ha DESCAMADO la piel?'),
+      poemItem('seca', 'ec-p6', '¿Cuantos dias ha notado la piel SECA o aspera?'),
+      poemItem('sangra', 'ec-p7', '¿Cuantos dias le ha SANGRADO la piel?')
     ],
     compute(v) {
       const items = [
-        ['picor', v.picor], ['sue&#241;o', v.sueno], ['exudacion', v.exuda], ['fisuras', v.fisuras],
+        ['picor', v.picor], ['sueño', v.sueno], ['exudacion', v.exuda], ['fisuras', v.fisuras],
         ['descamacion', v.descama], ['sequedad', v.seca], ['sangrado', v.sangra]
       ];
       const total = items.reduce((a, b) => a + b[1], 0);
@@ -89,7 +89,7 @@ export const calculators = [
       let s = `<strong>POEM ${r.total} / 28: enfermedad ${r.banda}.</strong>`;
       if (r.peores.length) s += `<br><span style="opacity:.85;">Lo que mas dias le afecta: ${r.peores.join(', ')}.</span>`;
       if (r.sueno >= 3) {
-        s += '<br><strong style="color:#8c3a34;">El sue&#241;o esta alterado casi a diario.</strong> Es el dato que mas pesa en la calidad de vida y el que mas rapido mejora con los sistemicos modernos: merece la pena preguntarlo siempre y usarlo al decidir si se escala.';
+        s += '<br><strong style="color:#8c3a34;">El sueño esta alterado casi a diario.</strong> Es el dato que mas pesa en la calidad de vida y el que mas rapido mejora con los sistemicos modernos: merece la pena preguntarlo siempre y usarlo al decidir si se escala.';
       }
       if (r.total >= 17) {
         s += '<br><span style="color:#8c3a34;">Enfermedad grave o muy grave:</span> si no se controla con tratamiento topico bien aplicado, es candidato a fototerapia o a tratamiento sistemico.';
@@ -153,12 +153,12 @@ export const calculators = [
       if (r.razonesA.length) s += `<br><span style="opacity:.85;">A favor de alergica: ${r.razonesA.join(', ')}.</span>`;
       if (r.razonesI.length) s += `<br><span style="opacity:.85;">A favor de irritativa: ${r.razonesI.join(', ')}.</span>`;
       if (r.previo) {
-        s += '<br><span style="opacity:.85;">Haber usado el producto durante a&#241;os sin problema <strong>no descarta</strong> la alergia: al contrario, es tipico. La sensibilizacion es silenciosa y puede tardar mucho en producirse.</span>';
+        s += '<br><span style="opacity:.85;">Haber usado el producto durante años sin problema <strong>no descarta</strong> la alergia: al contrario, es tipico. La sensibilizacion es silenciosa y puede tardar mucho en producirse.</span>';
       }
       if (r.veredicto === 'mixta') {
         s += '<br><span style="opacity:.85;">Es una situacion frecuente y no un fallo de la valoracion: la irritacion rompe la barrera y facilita que el hapteno penetre y sensibilice, de modo que las dos coexisten a menudo.</span>';
       }
-      s += '<br><span style="opacity:.75;"><strong>En los tres casos se hacen pruebas epicutaneas</strong> si el eccema no mejora: en la alergica para identificar el alergeno, y en la irritativa para descartar una alergia sobrea&#241;adida, incluida la alergia al propio tratamiento topico.</span>';
+      s += '<br><span style="opacity:.75;"><strong>En los tres casos se hacen pruebas epicutaneas</strong> si el eccema no mejora: en la alergica para identificar el alergeno, y en la irritativa para descartar una alergia sobreañadida, incluida la alergia al propio tratamiento topico.</span>';
       return s;
     },
     fragment: r => `contacto de perfil ${r.veredicto}`

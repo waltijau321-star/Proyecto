@@ -8,7 +8,7 @@
 // `insuficiencia-respiratoria-sdra`, y el marco general en `disfuncion-organica-multiple`.
 //
 // Fuentes verificadas en Bibliografia/ ([[feedback-verificar-edicion-guias]]): manual ATLS 10.a
-// edicion en espa&#241;ol (la tabla de grados de hemorragia se transcribio del PDF, no de memoria),
+// edicion en español (la tabla de grados de hemorragia se transcribio del PDF, no de memoria),
 // Surviving Sepsis Campaign 2026, declaracion cientifica de la AHA sobre choque cardiogenico de
 // 2017, guia AHA/ACC de embolia pulmonar de 2026 y parametro de practica de anafilaxia de 2020.
 //
@@ -42,7 +42,7 @@ const reconocerHtml = `
       <div style="border:1px solid var(--line);border-radius:7px;padding:5px 9px;color:var(--ink-dim);">Frialdad, palidez, <strong style="color:var(--ink);">MOTEADO</strong> de rodillas y relleno capilar lento. Es la ventana mas barata al estado de la microcirculacion y tiene valor pronostico demostrado. En el choque distributivo, en cambio, la piel puede estar CALIENTE, y eso confunde.</div>
     </div>
     <div style="display:grid;grid-template-columns:92px 1fr;gap:6px;align-items:stretch;">
-      <div style="background:#3d5a7322;border:1px solid #3d5a73;border-radius:7px;padding:5px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;color:#3d5a73;">EL RI&#209;ON</div>
+      <div style="background:#3d5a7322;border:1px solid #3d5a73;border-radius:7px;padding:5px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;color:#3d5a73;">EL RIÑON</div>
       <div style="border:1px solid var(--line);border-radius:7px;padding:5px 9px;color:var(--ink-dim);"><strong style="color:var(--ink);">OLIGURIA</strong>, por debajo de 0.5 mL/kg/h. Es el organo que primero avisa y el mas facil de medir, y sin embargo se pierde constantemente porque nadie sonda ni cuantifica hasta que el paciente ya lleva horas sin orinar.</div>
     </div>
     <div style="display:grid;grid-template-columns:92px 1fr;gap:6px;align-items:stretch;">
@@ -63,7 +63,7 @@ const reconocerHtml = `
 const perfilesHtml = `
 <div style="max-width:660px;margin:0 auto;font-size:9.5px;color:var(--ink);">
   <div style="text-align:center;border:1px solid #8c2e3a;border-radius:8px;padding:5px 9px;background:#8c2e3a12;margin-bottom:6px;">
-    <strong style="color:#8c2e3a;">Tres preguntas clasifican cualquier choque:</strong> <span style="color:var(--ink-dim);">&#191;falta VOLUMEN, falla la BOMBA, o se ha perdido el TONO? Y una cuarta que hay que descartar siempre porque se resuelve con las manos: &#191;hay algo que OBSTRUYE?</span>
+    <strong style="color:#8c2e3a;">Tres preguntas clasifican cualquier choque:</strong> <span style="color:var(--ink-dim);">¿falta VOLUMEN, falla la BOMBA, o se ha perdido el TONO? Y una cuarta que hay que descartar siempre porque se resuelve con las manos: ¿hay algo que OBSTRUYE?</span>
   </div>
   <div style="overflow-x:auto;margin-bottom:6px;">
   <table style="width:100%;border-collapse:collapse;font-size:8.5px;">
@@ -117,7 +117,7 @@ const perfilesHtml = `
 const reanimarHtml = `
 <div style="max-width:660px;margin:0 auto;font-size:9.5px;color:var(--ink);">
   <div style="text-align:center;border:1px solid #8a6a1f;border-radius:8px;padding:5px 9px;background:#8a6a1f12;margin-bottom:6px;">
-    <strong style="color:#8a6a1f;">La pregunta de la reanimacion no es cuanto volumen dar, sino cuando PARAR.</strong> <span style="color:var(--ink-dim);">Solo la mitad de los pacientes en choque responde a un bolo de volumen, y al resto se le a&#241;ade edema sin ganar nada.</span>
+    <strong style="color:#8a6a1f;">La pregunta de la reanimacion no es cuanto volumen dar, sino cuando PARAR.</strong> <span style="color:var(--ink-dim);">Solo la mitad de los pacientes en choque responde a un bolo de volumen, y al resto se le añade edema sin ganar nada.</span>
   </div>
   <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:6px;">
     <div style="display:grid;grid-template-columns:96px 1fr;gap:6px;align-items:stretch;">
@@ -141,15 +141,15 @@ const reanimarHtml = `
 export const definicionText = `<p style="margin:0 0 14px;">El choque es un fallo circulatorio agudo y generalizado en el que el aporte de oxigeno no cubre las necesidades del tejido. Su definicion es por tanto de <strong>perfusion</strong>, no de tension arterial, y esa distincion no es academica: una parte relevante de los pacientes en choque llega con la tension todavia normal, sostenida por la vasoconstriccion hasta que esta claudica.</p>
 
 <p style="margin:18px 0 6px;"><strong style="color:var(--accent-fg);">Primero: reconocerlo.</strong></p>
-<p style="margin:0 0 12px;">Tres ventanas clinicas cuentan lo que pasa en la microcirculacion sin necesidad de aparatos: la <strong>piel</strong>, el <strong>ri&#241;on</strong> y el <strong>cerebro</strong>. El lactato cierra el circulo, con la advertencia de que lo que aporta pronostico es su aclaramiento y no la cifra aislada.</p>
+<p style="margin:0 0 12px;">Tres ventanas clinicas cuentan lo que pasa en la microcirculacion sin necesidad de aparatos: la <strong>piel</strong>, el <strong>riñon</strong> y el <strong>cerebro</strong>. El lactato cierra el circulo, con la advertencia de que lo que aporta pronostico es su aclaramiento y no la cifra aislada.</p>
 ${figBlock('Figura 1', 'Reconocer el choque: tres ventanas y dos trampas de la tension', reconocerHtml)}
 
 <p style="margin:18px 0 6px;"><strong style="color:var(--accent-fg);">Segundo: clasificarlo.</strong></p>
-<p style="margin:0 0 12px;">Tres preguntas bastan (&#191;falta volumen, falla la bomba, se ha perdido el tono?) mas una cuarta que hay que descartar siempre porque se resuelve con las manos: &#191;hay algo que obstruye? La ecografia a pie de cama contesta las cuatro en minutos, y conviene recordar que los perfiles se <strong>mezclan</strong>.</p>
+<p style="margin:0 0 12px;">Tres preguntas bastan (¿falta volumen, falla la bomba, se ha perdido el tono?) mas una cuarta que hay que descartar siempre porque se resuelve con las manos: ¿hay algo que obstruye? La ecografia a pie de cama contesta las cuatro en minutos, y conviene recordar que los perfiles se <strong>mezclan</strong>.</p>
 ${figBlock('Figura 2', 'Los cuatro perfiles hemodinamicos y como se separan', perfilesHtml)}
 
 <p style="margin:18px 0 6px;"><strong style="color:var(--accent-fg);">Tercero: reanimarlo.</strong></p>
-<p style="margin:0 0 12px;">La pregunta relevante no es cuanto volumen dar sino cuando parar, porque solo la mitad de los pacientes responde a un bolo y al resto se le a&#241;ade edema. Noradrenalina precoz, objetivos de perfusion mas alla del numero de tension, y sobre todo la correccion de la <strong>causa</strong>, que es lo unico que resuelve el cuadro.</p>
+<p style="margin:0 0 12px;">La pregunta relevante no es cuanto volumen dar sino cuando parar, porque solo la mitad de los pacientes responde a un bolo y al resto se le añade edema. Noradrenalina precoz, objetivos de perfusion mas alla del numero de tension, y sobre todo la correccion de la <strong>causa</strong>, que es lo unico que resuelve el cuadro.</p>
 ${figBlock('Figura 3', 'Reanimacion: fluidos, vasoactivos, objetivos y la causa', reanimarHtml)}
 
 <p style="margin:18px 0 6px;"><strong style="color:var(--accent-fg);">Lo que no hay que hacer.</strong></p>
@@ -180,7 +180,7 @@ export const content = {
       tituloA: 'Choque frio',
       tituloB: 'Choque caliente',
       compensada: 'Piel FRIA, palida, con moteado de rodillas y relleno capilar lento, que es el patron del choque hipovolemico, cardiogenico y obstructivo. La vasoconstriccion compensadora eleva la diastolica y por eso lo primero que se estrecha es la PRESION DE PULSO, mucho antes de que caiga la sistolica. Hay taquicardia, oliguria, inquietud y despues somnolencia. Ojo con dos situaciones que enmascaran la taquicardia: el paciente betabloqueado y el choque neurogenico, donde la respuesta cronotropa esta abolida.',
-      descompensada: 'Piel CALIENTE y bien perfundida con hipotension, que es el patron del choque DISTRIBUTIVO en su fase inicial: el gasto cardiaco esta alto y lo que ha caido son las resistencias. Ese aspecto enga&#241;a, porque un paciente rosado y caliente puede estar profundamente hipoperfundido a nivel tisular, con lactato elevado y oliguria. En fases avanzadas el choque distributivo tambien se vuelve frio, por la disfuncion miocardica asociada y por el agotamiento de la respuesta. La presencia de exantema, angioedema o broncoespasmo orienta a anafilaxia, y la bradicardia paradojica con piel caliente y seca, a un origen neurogenico.'
+      descompensada: 'Piel CALIENTE y bien perfundida con hipotension, que es el patron del choque DISTRIBUTIVO en su fase inicial: el gasto cardiaco esta alto y lo que ha caido son las resistencias. Ese aspecto engaña, porque un paciente rosado y caliente puede estar profundamente hipoperfundido a nivel tisular, con lactato elevado y oliguria. En fases avanzadas el choque distributivo tambien se vuelve frio, por la disfuncion miocardica asociada y por el agotamiento de la respuesta. La presencia de exantema, angioedema o broncoespasmo orienta a anafilaxia, y la bradicardia paradojica con piel caliente y seca, a un origen neurogenico.'
     },
     laboratorio: [
       { prueba: 'Lactato arterial seriado', utilidad: 'Por encima de 2 mmol/L apoya hipoperfusion y forma parte de la definicion de choque septico. Lo que mas pronostico aporta es el ACLARAMIENTO: un lactato que no baja con la reanimacion obliga a replantear el mecanismo, no a repetir el mismo bolo.' },
@@ -223,10 +223,10 @@ export const content = {
       nombre: 'Reconocer el choque',
       color: '#8c2e3a',
       definicion: 'Fallo circulatorio agudo y generalizado en el que el aporte de oxigeno no cubre las necesidades del tejido, con independencia de cual sea la cifra de tension arterial.',
-      fisiopatologia: 'Cuando el gasto cardiaco o el tono vascular caen, el organismo responde con vasoconstriccion selectiva: sacrifica piel, musculo, ri&#241;on y territorio esplacnico para preservar corazon y cerebro. Esa redistribucion explica toda la clinica precoz (piel fria y moteada, oliguria, inquietud) y explica tambien la trampa central del tema: mientras la vasoconstriccion aguanta, la TENSION SE MANTIENE. La hipotension no es el comienzo del choque sino el momento en que la compensacion se agota, y por eso esperar a que aparezca es esperar demasiado. En paralelo, el metabolismo anaerobio genera lactato, que es el marcador bioquimico de que ese sacrificio ya se esta pagando.',
+      fisiopatologia: 'Cuando el gasto cardiaco o el tono vascular caen, el organismo responde con vasoconstriccion selectiva: sacrifica piel, musculo, riñon y territorio esplacnico para preservar corazon y cerebro. Esa redistribucion explica toda la clinica precoz (piel fria y moteada, oliguria, inquietud) y explica tambien la trampa central del tema: mientras la vasoconstriccion aguanta, la TENSION SE MANTIENE. La hipotension no es el comienzo del choque sino el momento en que la compensacion se agota, y por eso esperar a que aparezca es esperar demasiado. En paralelo, el metabolismo anaerobio genera lactato, que es el marcador bioquimico de que ese sacrificio ya se esta pagando.',
       epidemiologia: 'Una proporcion relevante de los pacientes en choque llega con la tension arterial todavia dentro de rango, lo que se conoce como choque normotenso u oculto. El retraso en reconocerlo es uno de los determinantes mas consistentes del pronostico, y es un retraso evitable con una exploracion que no cuesta nada.',
       factores_riesgo: ['Edad avanzada, con menor capacidad de compensacion', 'Hipertension cronica, que desplaza el umbral de hipotension hacia arriba', 'Tratamiento con betabloqueantes, que enmascara la taquicardia', 'Marcapasos, que impide la respuesta cronotropa', 'Insuficiencia cardiaca previa', 'Insuficiencia suprarrenal o corticoterapia cronica', 'Embarazo, que aumenta la reserva y retrasa los signos', 'Deportistas y pacientes jovenes, que compensan hasta desplomarse', 'Diabetes con neuropatia autonomica', 'Hipotermia, que enmascara la respuesta adrenergica'],
-      clinica: 'Tres ventanas: PIEL fria, palida, moteada y con relleno capilar lento (aunque puede estar caliente en el distributivo); RI&#209;ON con oliguria por debajo de 0.5 mL/kg/h; y CEREBRO con inquietud, agitacion y despues somnolencia. La agitacion se confunde con ansiedad y se trata con sedantes, que es exactamente lo contrario de lo que hace falta.',
+      clinica: 'Tres ventanas: PIEL fria, palida, moteada y con relleno capilar lento (aunque puede estar caliente en el distributivo); RIÑON con oliguria por debajo de 0.5 mL/kg/h; y CEREBRO con inquietud, agitacion y despues somnolencia. La agitacion se confunde con ansiedad y se trata con sedantes, que es exactamente lo contrario de lo que hace falta.',
       criterios_dx: 'Signos de hipoperfusion en al menos una de las tres ventanas, con o sin hipotension, habitualmente con lactato por encima de 2 mmol/L. Ver la Figura 1 de Definicion.',
       laboratorio: 'LACTATO seriado y gasometria con DEFICIT DE BASE. Hemograma (recordando que la hemoglobina inicial puede ser normal en la hemorragia aguda), coagulacion, funcion renal y hepatica, ionograma y calcio. Hemocultivos si hay sospecha de infeccion.',
       imagen: 'ECOGRAFIA A PIE DE CAMA, que orienta el perfil en minutos. Radiografia de torax. Electrocardiograma en el mismo gesto.',
@@ -247,7 +247,7 @@ export const content = {
       nombre: 'Choque hipovolemico y hemorragico',
       color: '#7a3f2e',
       definicion: 'Choque por descenso del volumen intravascular, ya sea por perdida de sangre (hemorragico) o de agua y electrolitos (no hemorragico).',
-      fisiopatologia: 'La caida de la precarga reduce el volumen de eyeccion y el gasto cardiaco. La respuesta adrenergica produce taquicardia y vasoconstriccion, y esta ultima eleva la DIASTOLICA: por eso lo primero que se altera es el estrechamiento de la presion de pulso, mucho antes de que caiga la sistolica. En la hemorragia se a&#241;ade la coagulopatia precoz del traumatizado, que se retroalimenta con la HIPOTERMIA y la ACIDOSIS formando la triada letal: cada una empeora a las otras dos, y por eso la reanimacion moderna intenta romper el circulo desde el principio en lugar de corregirlas por separado.',
+      fisiopatologia: 'La caida de la precarga reduce el volumen de eyeccion y el gasto cardiaco. La respuesta adrenergica produce taquicardia y vasoconstriccion, y esta ultima eleva la DIASTOLICA: por eso lo primero que se altera es el estrechamiento de la presion de pulso, mucho antes de que caiga la sistolica. En la hemorragia se añade la coagulopatia precoz del traumatizado, que se retroalimenta con la HIPOTERMIA y la ACIDOSIS formando la triada letal: cada una empeora a las otras dos, y por eso la reanimacion moderna intenta romper el circulo desde el principio en lugar de corregirlas por separado.',
       epidemiologia: 'La hemorragia es la causa de muerte evitable mas frecuente en el traumatizado. En el paciente medico, la hipovolemia por perdidas digestivas, por diureticos o por tercer espacio es una causa muy frecuente de choque y con frecuencia se subestima.',
       factores_riesgo: ['Traumatismo, sobre todo cerrado de abdomen y pelvis', 'Anticoagulacion o antiagregacion', 'Hemorragia digestiva y varices esofagicas', 'Aneurisma de aorta abdominal', 'Embarazo ectopico y hemorragia posparto', 'Vomitos y diarrea prolongados', 'Quemaduras extensas, por perdida hacia el tercer espacio', 'Diureticos a dosis alta', 'Cetoacidosis y estado hiperosmolar', 'Pancreatitis aguda grave'],
       clinica: 'Piel FRIA, palida y sudorosa, taquicardia, estrechamiento de la PRESION DE PULSO, oliguria e inquietud. La sistolica se mantiene normal hasta que la perdida supera el 30%, lo que explica por que confiar en ella retrasa el diagnostico. En el sangrado externo el origen es evidente; en el interno hay que buscarlo en torax, abdomen, pelvis, retroperitoneo y huesos largos.',
@@ -258,7 +258,7 @@ export const content = {
       dx_diferencial: 'Otros perfiles de choque, sobre todo el obstructivo, que tambien cursa con piel fria y baja precarga aparente. El taponamiento y el neumotorax a tension pueden confundirse con hipovolemia si no se explora la ingurgitacion yugular ni se hace ecografia.',
       tx_medico: 'CONTROL DE LA HEMORRAGIA como prioridad absoluta: compresion directa, torniquete en la extremidad, empaquetamiento, faja pelvica y traslado urgente a quirofano o a radiologia intervencionista. Reposicion con cristaloides balanceados de forma limitada y paso precoz a HEMODERIVADOS.',
       tx_farmacologico: 'ACIDO TRANEXAMICO precoz en el traumatizado con hemorragia significativa. Transfusion con proporciones equilibradas de concentrados, plasma y plaquetas en la hemorragia masiva. Calcio para corregir la hipocalcemia por citrato. Vasopresores solo como puente, porque no sustituyen al volumen ni a la hemostasia.',
-      tx_intervencionista: 'CIRUGIA DE CONTROL DE DA&#209;OS, embolizacion, endoscopia hemostatica o reparacion endovascular segun el origen. En la hemorragia, la mejor reanimacion es cerrar el punto que sangra.',
+      tx_intervencionista: 'CIRUGIA DE CONTROL DE DAÑOS, embolizacion, endoscopia hemostatica o reparacion endovascular segun el origen. En la hemorragia, la mejor reanimacion es cerrar el punto que sangra.',
       criterios_uci: 'Hemorragia grado III o IV, necesidad de transfusion masiva, coagulopatia establecida e inestabilidad pese a la reposicion.',
       criterios_tips: 'La derivacion portosistemica intrahepatica transyugular es una opcion en la hemorragia variceal refractaria, cuyo detalle esta en el tema de cirrosis hepatica.',
       criterios_trasplante: 'No aplica en la fase aguda.',
@@ -271,10 +271,10 @@ export const content = {
       nombre: 'Choque distributivo',
       color: '#3f6b52',
       definicion: 'Choque por perdida del tono vascular y redistribucion del flujo, con gasto cardiaco alto o normal y resistencias perifericas bajas. Incluye el septico, el anafilactico y el neurogenico.',
-      fisiopatologia: 'La vasodilatacion arteriolar y venular produce un desajuste entre el continente y el contenido: hay volumen, pero el lecho vascular se ha ampliado y la sangre se redistribuye mal. En la sepsis se a&#241;aden la fuga capilar y una alteracion de la microcirculacion que hace que el tejido siga hipoperfundido incluso con un flujo global alto, lo que explica el lactato elevado con la piel caliente. En la anafilaxia el mecanismo es la liberacion masiva de mediadores por mastocitos y basofilos. Y en el choque neurogenico se pierde el tono simpatico por lesion medular alta, con vasodilatacion Y ausencia de taquicardia compensadora, que es lo que lo hace unico.',
+      fisiopatologia: 'La vasodilatacion arteriolar y venular produce un desajuste entre el continente y el contenido: hay volumen, pero el lecho vascular se ha ampliado y la sangre se redistribuye mal. En la sepsis se añaden la fuga capilar y una alteracion de la microcirculacion que hace que el tejido siga hipoperfundido incluso con un flujo global alto, lo que explica el lactato elevado con la piel caliente. En la anafilaxia el mecanismo es la liberacion masiva de mediadores por mastocitos y basofilos. Y en el choque neurogenico se pierde el tono simpatico por lesion medular alta, con vasodilatacion Y ausencia de taquicardia compensadora, que es lo que lo hace unico.',
       epidemiologia: 'El septico es, con diferencia, el mas frecuente de los cuatro perfiles en el hospital. La anafilaxia es menos frecuente pero su desenlace depende por completo de la rapidez del tratamiento. El neurogenico aparece en lesiones medulares por encima del sexto segmento toracico.',
       factores_riesgo: ['Infeccion grave, sobre todo respiratoria, urinaria y abdominal', 'Inmunodepresion', 'Dispositivos intravasculares y sondas', 'Alergia conocida a farmacos, alimentos o himenopteros', 'Antecedente de anafilaxia previa', 'Tratamiento con betabloqueantes, que dificulta la respuesta a la adrenalina', 'Lesion medular cervical o toracica alta', 'Insuficiencia suprarrenal', 'Pancreatitis y quemaduras extensas', 'Hepatopatia avanzada, que cursa con vasodilatacion basal'],
-      clinica: 'Hipotension con piel CALIENTE, bien perfundida y con relleno capilar rapido en la fase inicial, lo que enga&#241;a mucho. En la ANAFILAXIA hay exantema, prurito, angioedema, broncoespasmo y sintomas digestivos, y el cuadro se instaura en minutos. En el NEUROGENICO la combinacion es muy caracteristica: hipotension con BRADICARDIA y piel caliente y SECA, mas el deficit neurologico correspondiente.',
+      clinica: 'Hipotension con piel CALIENTE, bien perfundida y con relleno capilar rapido en la fase inicial, lo que engaña mucho. En la ANAFILAXIA hay exantema, prurito, angioedema, broncoespasmo y sintomas digestivos, y el cuadro se instaura en minutos. En el NEUROGENICO la combinacion es muy caracteristica: hipotension con BRADICARDIA y piel caliente y SECA, mas el deficit neurologico correspondiente.',
       criterios_dx: 'Perfil hemodinamico con gasto alto y resistencias bajas mas una causa compatible. En la anafilaxia el diagnostico es CLINICO y no se espera a ninguna prueba. Ver la Figura 2 de Definicion.',
       laboratorio: 'Lactato, hemocultivos y cultivos del foco en el septico. TRIPTASA en la anafilaxia, extraida en las primeras horas y comparada con un basal posterior, pero SIN retrasar el tratamiento. Estudio general en todos.',
       imagen: 'La dirigida a localizar el foco en el septico. Resonancia o tomografia de columna en el neurogenico. La ecografia a pie de cama muestra un corazon hiperdinamico, que apoya el perfil.',
@@ -300,7 +300,7 @@ export const content = {
       factores_riesgo: ['Infarto agudo de miocardio, sobre todo anterior extenso', 'Edad avanzada', 'Diabetes mellitus', 'Insuficiencia cardiaca previa', 'Enfermedad coronaria de varios vasos', 'Retraso en la reperfusion', 'Miocarditis aguda', 'Valvulopatia aguda o rotura de cuerdas', 'Arritmias mal toleradas', 'Farmacos con efecto inotropo negativo y toxicos'],
       clinica: 'Hipotension con piel FRIA, sudorosa y moteada, oliguria, alteracion de la conciencia y, a diferencia del hipovolemico, signos de CONGESTION: ingurgitacion yugular, crepitantes y a veces tercer ruido. Esa combinacion de hipoperfusion CON congestion es la firma del perfil.',
       criterios_dx: 'Hipotension mantenida con signos de hipoperfusion, presiones de llenado elevadas y evidencia de disfuncion cardiaca, habiendo descartado hipovolemia. Ver la Figura 2 de Definicion.',
-      laboratorio: 'TROPONINA y peptidos natriureticos, recordando que la troponina se eleva en casi cualquier choque. Lactato, funcion renal y hepatica (la hepatitis isquemica y el ri&#241;on congestivo son frecuentes), gasometria y ionograma.',
+      laboratorio: 'TROPONINA y peptidos natriureticos, recordando que la troponina se eleva en casi cualquier choque. Lactato, funcion renal y hepatica (la hepatitis isquemica y el riñon congestivo son frecuentes), gasometria y ionograma.',
       imagen: 'ECOCARDIOGRAMA URGENTE, que es la prueba clave: valora la contractilidad, identifica las complicaciones mecanicas y descarta otros perfiles. Radiografia de torax con congestion. Coronariografia urgente si la causa es isquemica.',
       complementarios: 'ELECTROCARDIOGRAMA inmediato buscando infarto y arritmia. Monitorizacion continua. En casos seleccionados, cateterismo derecho para caracterizar el perfil cuando la situacion es ambigua.',
       dx_diferencial: 'Choque obstructivo, sobre todo embolia pulmonar y taponamiento, que tambien cursan con hipotension e ingurgitacion yugular y se separan con ecografia. Choque septico con disfuncion miocardica. Y sobrecarga de volumen sin choque.',
@@ -313,7 +313,7 @@ export const content = {
       seguimiento_hospitalario: 'Vigilar la funcion renal y hepatica, el equilibrio entre congestion y perfusion, y las complicaciones del soporte. Reevaluar con ecocardiograma la respuesta y las complicaciones mecanicas.',
       seguimiento_ambulatorio: 'Tratamiento de la insuficiencia cardiaca segun la funcion residual, rehabilitacion cardiaca y valoracion de dispositivos.',
       pronostico: 'Sigue siendo la forma de choque con mayor mortalidad. Lo que mas la modifica es la revascularizacion precoz cuando la causa es isquemica.',
-      algoritmo: ['Reconocer la combinacion de hipoperfusion CON congestion', 'Hacer ELECTROCARDIOGRAMA de inmediato', 'Hacer ECOCARDIOGRAMA urgente', 'Buscar complicaciones mecanicas del infarto', 'Descartar embolia y taponamiento con la misma ecografia', 'Dar volumen con mucha cautela y reevaluando', 'Iniciar NORADRENALINA y a&#241;adir inotropico si el gasto es bajo', 'Activar la revascularizacion urgente si la causa es isquemica', 'Revascularizar solo la arteria responsable de entrada', 'Valorar traslado a un centro con soporte mecanico']
+      algoritmo: ['Reconocer la combinacion de hipoperfusion CON congestion', 'Hacer ELECTROCARDIOGRAMA de inmediato', 'Hacer ECOCARDIOGRAMA urgente', 'Buscar complicaciones mecanicas del infarto', 'Descartar embolia y taponamiento con la misma ecografia', 'Dar volumen con mucha cautela y reevaluando', 'Iniciar NORADRENALINA y añadir inotropico si el gasto es bajo', 'Activar la revascularizacion urgente si la causa es isquemica', 'Revascularizar solo la arteria responsable de entrada', 'Valorar traslado a un centro con soporte mecanico']
     },
     {
       nombre: 'Choque obstructivo',
@@ -349,7 +349,7 @@ export const content = {
       clinica: 'La reevaluacion se hace con lo mismo con lo que se hizo el diagnostico: piel, diuresis, conciencia y lactato. Un ensayo aleatorizado comparo dirigir la reanimacion por el relleno capilar frente al lactato, con resultados al menos comparables, lo que devolvio valor a la exploracion mas simple.',
       criterios_dx: 'No aplica: es la fase de tratamiento. Ver la Figura 3 de Definicion.',
       laboratorio: 'Lactato seriado para valorar el aclaramiento. Gasometria, ionograma y calcio. Funcion renal. Y en la hemorragia, coagulacion y fibrinogeno.',
-      imagen: 'ECOGRAFIA repetida para valorar la respuesta, la aparicion de lineas B (que indican sobrecarga y son una se&#241;al de parar) y la evolucion de la funcion cardiaca.',
+      imagen: 'ECOGRAFIA repetida para valorar la respuesta, la aparicion de lineas B (que indican sobrecarga y son una señal de parar) y la evolucion de la funcion cardiaca.',
       complementarios: 'Monitorizacion continua, diuresis horaria y, en casos seleccionados, monitorizacion avanzada del gasto cardiaco cuando la situacion no se aclara con lo anterior.',
       dx_diferencial: 'Ante la falta de respuesta: causa no corregida, perfil equivocado o mezclado, hipovolemia no reconocida, insuficiencia suprarrenal relativa, acidosis grave que reduce la respuesta a las catecolaminas, o una complicacion nueva.',
       tx_medico: 'Bolos de CRISTALOIDE BALANCEADO con reevaluacion tras cada uno. Elevacion pasiva de las piernas como prueba de respuesta, que equivale a un bolo REVERSIBLE. Y una vez restaurada la perfusion, dejar de dar volumen y plantear el balance negativo.',
@@ -358,7 +358,7 @@ export const content = {
       criterios_uci: 'Todo paciente que precisa vasoactivos o que mantiene hipoperfusion pese a la reanimacion inicial.',
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'No aplica.',
-      seguimiento_hospitalario: 'Reevaluacion estructurada y frecuente. Cuando la perfusion se restablece, cambiar el objetivo: pasar de reanimar a retirar volumen, porque el balance positivo acumulado se paga en pulmon y ri&#241;on.',
+      seguimiento_hospitalario: 'Reevaluacion estructurada y frecuente. Cuando la perfusion se restablece, cambiar el objetivo: pasar de reanimar a retirar volumen, porque el balance positivo acumulado se paga en pulmon y riñon.',
       seguimiento_ambulatorio: 'Depende de la causa. Conviene explorar las secuelas de un choque prolongado, que son frecuentes y se buscan poco.',
       pronostico: 'Mejora con la precocidad y con la correccion de la causa. Empeora con el exceso de volumen y con el tiempo en hipoperfusion.',
       algoritmo: ['Comprobar si el paciente va a RESPONDER antes de dar volumen', 'Usar la elevacion pasiva de las piernas como bolo reversible', 'No usar la presion venosa central para esa decision', 'Dar cristaloides BALANCEADOS en bolos y reevaluar tras cada uno', 'Iniciar NORADRENALINA pronto, incluso por via periferica', 'Fijar una tension media en torno a 65, individualizada', 'Mirar la perfusion: piel, diuresis, conciencia y lactato', 'Parar el volumen cuando aparezcan signos de sobrecarga', 'Corregir la CAUSA, que es lo unico que resuelve el choque', 'Cuando el paciente mejore, pasar a balance negativo']
@@ -431,7 +431,7 @@ export const arbol = {
   branches: [
     { title: 'RECONOCERLO', sub: 'Perfusion, no tension', color: '#8c2e3a', target: 'complicaciones', leaves: [
       { title: 'La piel', sub: 'Moteado y relleno lento', color: '#7a3f2e', target: 'diagnostico' },
-      { title: 'El ri&#241;on', sub: 'Oliguria, y hay que medirla', color: '#3d5a73', target: 'diagnostico' },
+      { title: 'El riñon', sub: 'Oliguria, y hay que medirla', color: '#3d5a73', target: 'diagnostico' },
       { title: 'El cerebro', sub: 'Agitacion, no ansiedad', color: '#6b4a8c', target: 'complicaciones' },
       { title: 'Choque normotenso', sub: 'Existe y se escapa', color: '#8c2e3a', target: 'complicaciones' }
     ] },

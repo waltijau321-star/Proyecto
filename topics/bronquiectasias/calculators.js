@@ -34,7 +34,7 @@ export const calculators = [
     subtitle: 'Nueve variables que predicen mortalidad, ingresos y exacerbaciones',
     incompleteMsg: 'Introduce la edad, el indice de masa corporal y el FEV1, y completa el resto de campos.',
     fields: [
-      { name: 'edad', id: 'br-bsi-e', type: 'number', step: '1', label: 'Edad (a&#241;os)', placeholder: 'ej. 68', row: 'r1' },
+      { name: 'edad', id: 'br-bsi-e', type: 'number', step: '1', label: 'Edad (años)', placeholder: 'ej. 68', row: 'r1' },
       { name: 'imc', id: 'br-bsi-imc', type: 'number', step: '0.1', label: 'Indice de masa corporal (kg/m2)', placeholder: 'ej. 21', row: 'r1' },
       { name: 'fev1', id: 'br-bsi-f', type: 'number', step: '1', label: 'FEV1 (% del predicho)', placeholder: 'ej. 55', row: 'r2' },
       { name: 'mrc', id: 'br-bsi-mrc', type: 'select', label: 'Disnea (Medical Research Council)', row: 'r2', options: [
@@ -44,7 +44,7 @@ export const calculators = [
         { v: '4', t: '4 · Para tras 100 metros o unos minutos' },
         { v: '5', t: '5 · No sale de casa o se ahoga al vestirse' }
       ] },
-      { name: 'ingreso', id: 'br-bsi-ing', type: 'checkbox', label: 'INGRESO hospitalario por bronquiectasias en los ultimos 2 a&#241;os', row: 'r3' },
+      { name: 'ingreso', id: 'br-bsi-ing', type: 'checkbox', label: 'INGRESO hospitalario por bronquiectasias en los ultimos 2 años', row: 'r3' },
       { name: 'exac', id: 'br-bsi-ex', type: 'checkbox', label: '3 o mas exacerbaciones en los ultimos 12 meses', row: 'r3' },
       { name: 'pseudo', id: 'br-bsi-ps', type: 'checkbox', label: 'Colonizacion por Pseudomonas aeruginosa', row: 'r4' },
       { name: 'otros', id: 'br-bsi-ot', type: 'checkbox', label: 'Colonizacion por otros microorganismos', row: 'r4' },
@@ -59,12 +59,12 @@ export const calculators = [
       const det = [];
       let p = 0;
       const pe = puntosEdadBsi(v.edad);
-      if (pe) { p += pe; det.push(`edad de ${v.edad} a&#241;os (+${pe})`); }
+      if (pe) { p += pe; det.push(`edad de ${v.edad} años (+${pe})`); }
       if (v.imc < 18.5) { p += 2; det.push('indice de masa corporal por debajo de 18.5 (+2)'); }
       const pf = puntosFev1Bsi(v.fev1);
       if (pf) { p += pf; det.push(`FEV1 del ${v.fev1}% (+${pf})`); }
-      if (v.ingreso) { p += 5; det.push('ingreso en los ultimos 2 a&#241;os (+5)'); }
-      if (v.exac) { p += 2; det.push('3 o mas exacerbaciones en el ultimo a&#241;o (+2)'); }
+      if (v.ingreso) { p += 5; det.push('ingreso en los ultimos 2 años (+5)'); }
+      if (v.exac) { p += 2; det.push('3 o mas exacerbaciones en el ultimo año (+2)'); }
       const pm = puntosMrcBsi(v.mrc);
       if (pm) { p += pm; det.push(`disnea de grado ${v.mrc} (+${pm})`); }
       if (v.pseudo) { p += 3; det.push('colonizacion por Pseudomonas (+3)'); }
@@ -77,13 +77,13 @@ export const calculators = [
       return { p, grav, det, pseudo: !!v.pseudo, exac: !!v.exac, imc: v.imc, fev1: v.fev1 };
     },
     format: r => {
-      if (r.invalido) return 'Revisa los valores: edad de 15 a 110 a&#241;os, indice de masa corporal de 8 a 80 y FEV1 del 1 al 160% del predicho.';
+      if (r.invalido) return 'Revisa los valores: edad de 15 a 110 años, indice de masa corporal de 8 a 80 y FEV1 del 1 al 160% del predicho.';
       let s = `<strong>${r.p} de 26 puntos: gravedad ${r.grav}.</strong> `;
       if (r.grav === 'LEVE') s += '<span style="color:#3f6b52;">Mortalidad y riesgo de ingreso bajos.</span> Seguimiento habitual, con el foco en la fisioterapia respiratoria diaria, el ejercicio, las vacunas y el tratamiento de la causa si se identifico.';
       else if (r.grav === 'MODERADA') s += '<span style="color:#8a6a1f;">Riesgo intermedio.</span> Conviene revisar de forma activa lo que se puede optimizar: tecnica de fisioterapia, adherencia, estado nutricional, causa no tratada y estudio microbiologico actualizado.';
       else s += '<span style="color:#8c3a34;">Riesgo alto de mortalidad, ingresos y exacerbaciones.</span> Seguimiento estrecho en consulta especializada, revision completa del tratamiento y valoracion de escalada terapeutica. En la enfermedad muy avanzada, valorar la remision a una unidad de trasplante antes de que sea tarde.';
       if (r.det.length) s += `<br><span style="opacity:.75;">Aportan: ${r.det.join(', ')}.</span>`;
-      if (r.exac) s += '<br><strong style="color:#8a6a1f;">Con 3 o mas exacerbaciones al a&#241;o</strong>, esta indicado valorar un MACROLIDO a largo plazo, siempre tras DESCARTAR micobacterias no tuberculosas con cultivos de esputo y comprobar el QT y la audicion.';
+      if (r.exac) s += '<br><strong style="color:#8a6a1f;">Con 3 o mas exacerbaciones al año</strong>, esta indicado valorar un MACROLIDO a largo plazo, siempre tras DESCARTAR micobacterias no tuberculosas con cultivos de esputo y comprobar el QT y la audicion.';
       if (r.pseudo) s += '<br><strong style="color:#8c3a34;">Con colonizacion por Pseudomonas</strong> y exacerbaciones frecuentes, esta indicado valorar un ANTIBIOTICO INHALADO a largo plazo, con la primera dosis supervisada por el riesgo de broncoespasmo.';
       if (r.imc < 18.5) s += '<br><strong style="color:#8a6a1f;">El bajo peso puntua y ademas es modificable</strong>: la valoracion nutricional forma parte del tratamiento y no es un complemento.';
       return s;
@@ -134,10 +134,10 @@ export const calculators = [
       if (r.completo) {
         s += '<strong style="color:#3f6b52;">El estudio minimo esta completo.</strong> Hemograma, inmunoglobulinas, estudio de Aspergillus y cultivo de esputo con micobacterias son las cuatro pruebas que se piden a todos los pacientes. ';
       } else {
-        s += `<strong style="color:#8c3a34;">Falta parte del estudio que se pide a TODOS</strong>: ${r.faltan.join('; ')}. Las inmunoglobulinas son la omision mas costosa, porque la inmunodeficiencia comun variable es una causa TRATABLE con sustitucion que se diagnostica con a&#241;os de retraso. Y el cultivo de micobacterias no se hace si no se solicita de forma explicita. `;
+        s += `<strong style="color:#8c3a34;">Falta parte del estudio que se pide a TODOS</strong>: ${r.faltan.join('; ')}. Las inmunoglobulinas son la omision mas costosa, porque la inmunodeficiencia comun variable es una causa TRATABLE con sustitucion que se diagnostica con años de retraso. Y el cultivo de micobacterias no se hace si no se solicita de forma explicita. `;
       }
       if (r.broncoscopia) {
-        s += '<br><strong style="color:#8c3a34;">Afectacion LOCALIZADA en una sola zona: indicacion de BRONCOSCOPIA.</strong> Hay que descartar obstruccion bronquial por cuerpo extra&#241;o, tumor endobronquial o estenosis. Es una de las pocas indicaciones claras de broncoscopia en este tema y no debe posponerse.';
+        s += '<br><strong style="color:#8c3a34;">Afectacion LOCALIZADA en una sola zona: indicacion de BRONCOSCOPIA.</strong> Hay que descartar obstruccion bronquial por cuerpo extraño, tumor endobronquial o estenosis. Es una de las pocas indicaciones claras de broncoscopia en este tema y no debe posponerse.';
       }
       if (r.dirigido.length) {
         s += `<br><strong style="color:#8a6a1f;">Estudio dirigido sugerido por las pistas presentes:</strong><br>${r.dirigido.map(x => '&nbsp;· ' + x).join('<br>')}`;
@@ -199,10 +199,10 @@ export const calculators = [
       else s += '<strong style="color:#8c3a34;">RECOGER CULTIVO DE ESPUTO AHORA, antes del antibiotico.</strong> Es el paso que mas se omite. Sin el, el paciente se queda sin mapa microbiologico para la proxima exacerbacion.';
       s += '<br><strong>2.</strong> Antibiotico dirigido al ULTIMO AISLAMIENTO del propio paciente mientras llega el cultivo actual';
       s += r.pseudo ? ', y en este caso <strong style="color:#8c3a34;">cubriendo Pseudomonas desde el inicio</strong> por sus aislamientos previos.' : '. Revisar el historico de cultivos antes de elegir.';
-      s += '<br><strong>3. DURACION: 14 DIAS</strong>, no 5 ni 7. La biopelicula y la carga bacteriana alta de una via aerea da&#241;ada no se resuelven con pautas cortas, y acortarlas deja al paciente recayendo a las pocas semanas.';
+      s += '<br><strong>3. DURACION: 14 DIAS</strong>, no 5 ni 7. La biopelicula y la carga bacteriana alta de una via aerea dañada no se resuelven con pautas cortas, y acortarlas deja al paciente recayendo a las pocas semanas.';
       s += '<br><strong>4.</strong> INTENSIFICAR la fisioterapia respiratoria, que en la exacerbacion se hace mas veces al dia, no menos. Y radiografia de torax para descartar neumonia u otra complicacion.';
       if (r.hemoptisis) s += '<br><strong style="color:#8c3a34;">Con hemoptisis</strong>: valorar su magnitud y, si es amenazante, contactar con radiologia intervencionista para embolizacion de arterias bronquiales.';
-      s += '<br><span style="opacity:.75;">Y despues: contar esta exacerbacion. Si es la tercera del a&#241;o, cambia el plan cronico y hay que valorar macrolido a largo plazo, siempre tras descartar micobacterias.</span>';
+      s += '<br><span style="opacity:.75;">Y despues: contar esta exacerbacion. Si es la tercera del año, cambia el plan cronico y hay que valorar macrolido a largo plazo, siempre tras descartar micobacterias.</span>';
       return s;
     },
     fragment: r => r.cumple ? `exacerbacion (${r.n}/6 sintomas): cultivo y 14 dias de antibiotico` : `${r.n}/6 sintomas: no cumple la definicion`
@@ -224,9 +224,9 @@ export const calculators = [
         { v: 'fallido', t: 'Se intento y no funciono' },
         { v: 'exito', t: 'Se intento y los cultivos se negativizaron' }
       ] },
-      { name: 'exac', id: 'br-ps-ex', type: 'checkbox', label: '3 o mas exacerbaciones en el ultimo a&#241;o', row: 'r2' },
+      { name: 'exac', id: 'br-ps-ex', type: 'checkbox', label: '3 o mas exacerbaciones en el ultimo año', row: 'r2' },
       { name: 'inhalado', id: 'br-ps-in', type: 'checkbox', label: 'Ya recibe antibiotico inhalado a largo plazo', row: 'r2' },
-      { type: 'note', text: 'Pseudomonas forma biopelicula sobre el epitelio da&#241;ado, una matriz que la protege de los antibioticos y del sistema inmunitario. Por eso, una vez establecida la colonizacion cronica, eliminarla resulta practicamente imposible y el objetivo pasa a ser suprimir la carga bacteriana. El PRIMER aislamiento es una oportunidad terapeutica que no se repite.' }
+      { type: 'note', text: 'Pseudomonas forma biopelicula sobre el epitelio dañado, una matriz que la protege de los antibioticos y del sistema inmunitario. Por eso, una vez establecida la colonizacion cronica, eliminarla resulta practicamente imposible y el objetivo pasa a ser suprimir la carga bacteriana. El PRIMER aislamiento es una oportunidad terapeutica que no se repite.' }
     ],
     compute(v) {
       if (v.cultivos == null) return null;
@@ -250,8 +250,8 @@ export const calculators = [
         case 'cronica':
           {
             let s = `<strong style="color:#7a2f5c;">COLONIZACION CRONICA</strong> (${r.cultivos} cultivos positivos separados 3 meses o mas en 12 meses). Aporta 3 puntos en el indice de gravedad y se asocia a mas exacerbaciones, peor funcion pulmonar y mayor mortalidad. El objetivo ya no es erradicar sino SUPRIMIR la carga bacteriana. `;
-            if (r.exac && !r.inhalado) s += '<br><strong style="color:#8c3a34;">Con 3 o mas exacerbaciones al a&#241;o y sin antibiotico inhalado: esta indicado iniciarlo</strong> (colistina, tobramicina o gentamicina), con la <strong>PRIMERA DOSIS SUPERVISADA</strong> por el riesgo de broncoespasmo y con broncodilatador previo.';
-            else if (r.exac && r.inhalado) s += '<br>Ya recibe antibiotico inhalado y sigue con 3 o mas exacerbaciones al a&#241;o: revisar la ADHERENCIA y la tecnica antes de cambiar nada, y despues valorar cambio de antibiotico inhalado, a&#241;adir un macrolido a largo plazo (tras descartar micobacterias) o remitir a una unidad especializada.';
+            if (r.exac && !r.inhalado) s += '<br><strong style="color:#8c3a34;">Con 3 o mas exacerbaciones al año y sin antibiotico inhalado: esta indicado iniciarlo</strong> (colistina, tobramicina o gentamicina), con la <strong>PRIMERA DOSIS SUPERVISADA</strong> por el riesgo de broncoespasmo y con broncodilatador previo.';
+            else if (r.exac && r.inhalado) s += '<br>Ya recibe antibiotico inhalado y sigue con 3 o mas exacerbaciones al año: revisar la ADHERENCIA y la tecnica antes de cambiar nada, y despues valorar cambio de antibiotico inhalado, añadir un macrolido a largo plazo (tras descartar micobacterias) o remitir a una unidad especializada.';
             else s += '<br>Sin exacerbaciones frecuentes por ahora, la indicacion de antibiotico inhalado no esta establecida: se mantiene el aclaramiento, la vacunacion y el seguimiento con cultivos, y se reevalua si aumentan las exacerbaciones.';
             s += '<br>En cada exacerbacion, <strong>cubrir Pseudomonas desde el inicio</strong> y tratar 14 dias.';
             return s + cola;

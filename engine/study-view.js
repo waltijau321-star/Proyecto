@@ -5,7 +5,7 @@
 // Migrado desde el prototipo de Cirrosis y parametrizado.
 
 import { syncGet, syncSet } from './cloud-sync.js';
-import { updateQuizSRS, dueQuestionIndices, isQuizCompleted, remainingToComplete } from './quiz-srs.js';
+import { updateQuizSRS, dueQuestionIndices, isQuizCompleted, remainingToComplete, SRS_INTERVALS, SRS_MAX_BOX } from './quiz-srs.js';
 import { trackEvent } from './usage-tracking.js';
 import { setCalcTopic } from './calculators.js';
 
@@ -583,9 +583,8 @@ function rateFlashcard(rating) {
   const card = fcState.deck[fcState.index];
   const progress = loadFlashcardProgress();
   let box = (progress[card.id] && progress[card.id].box) || 1;
-  if (rating === 1) box = 1; else if (rating === 2) box = Math.max(1, box); else if (rating === 3) box = Math.min(5, box + 1); else box = Math.min(5, box + 2);
-  const intervals = { 1: 0, 2: 1 * 86400000, 3: 3 * 86400000, 4: 7 * 86400000, 5: 14 * 86400000 };
-  progress[card.id] = { box, next: Date.now() + (intervals[box] || 0) };
+  if (rating === 1) box = 1; else if (rating === 2) box = Math.max(1, box); else if (rating === 3) box = Math.min(SRS_MAX_BOX, box + 1); else box = Math.min(SRS_MAX_BOX, box + 2);
+  progress[card.id] = { box, next: Date.now() + (SRS_INTERVALS[box] || 0) };
   saveFlashcardProgress(progress);
   fcState.index++; fcState.showBack = false; renderFlashcard();
 }
@@ -845,6 +844,24 @@ document.addEventListener('keydown', e => {
   const lb = document.getElementById('img-lightbox');
   if (lb && lb.classList.contains('active')) closeImgLightbox();
   else closeModal();
+});
+// Trampa de foco del modal compartido: mientras el overlay esta activo, el tabulador no se
+// escapa a la pagina de detras. Importa sobre todo en la puerta de acceso, que es un modal del
+// que no se puede salir, y de paso en cualquier otro modal. Solo actua en los dos extremos del
+// recorrido, asi que no interfiere con el tabulado normal de dentro. Se salta si el cajon de
+// notas esta abierto, porque entonces el foco le pertenece a el.
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Tab') return;
+  const ov = document.getElementById('overlay');
+  if (!ov || !ov.classList.contains('active')) return;
+  if (document.body.classList.contains('chat-open')) return;
+  const foco = [...ov.querySelectorAll(
+    'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+  )].filter(el => el.offsetParent !== null);
+  if (!foco.length) return;
+  const primero = foco[0], ultimo = foco[foco.length - 1];
+  if (e.shiftKey && document.activeElement === primero) { e.preventDefault(); ultimo.focus(); }
+  else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primero.focus(); }
 });
 document.addEventListener('click', e => {
   if (!e.target.closest('.searchbar')) {

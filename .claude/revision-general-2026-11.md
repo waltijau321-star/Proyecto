@@ -1,0 +1,358 @@
+# Revisión general de MIOsler, noviembre de 2026
+
+Continuación de [`revision-general-2026-10.md`](revision-general-2026-10.md). Mismo método: todo
+lo que se afirma aquí se midió ejecutando la app, no leyendo el código. Lo que no se pudo medir
+va dicho como tal en la sección 5.
+
+Lo que se ejecutó para este informe:
+
+- Suite real en el navegador: **2391/2391 OK**, cero fallos.
+- Carga en vivo de los **106 temas** del registro, con **816 fichas de complicación** y
+  **494 estigmas** abiertos uno por uno en el DOM.
+- **315 calculadoras** y **2008 campos**, simulando la ruta real del motor (los `select` y las
+  casillas ya traen valor, los numéricos vacíos) y no solo `compute()` por debajo.
+- 14 casos clínicos con respuesta conocida por las calculadoras de Nefrología, que es el
+  contenido más nuevo.
+- Integridad del precache en disco y en producción, y las cabeceras reales del sitio en vivo.
+
+> **Estado al 1 de noviembre de 2026.** Producción está al día por primera vez desde el 16 de
+> octubre: ese día un `_redirects` con sintaxis de Netlify empezó a abortar todos los
+> despliegues del Worker, y los 50 commits siguientes nunca se publicaron. Corregido hoy. El
+> sitio sirve los 106 temas, el panel de notas y, por fin, ya no sirve la bibliografía con
+> derechos de autor.
+
+> **El hallazgo mas grave aparecio al verificar los arreglos**, no en la revision: el examen
+> simulado se quedaba en blanco en cuanto salia un caso en cascada, lo que con el valor por
+> defecto de 20 preguntas ocurria el **96%** de las veces. Ver 1.4. Corregido y con prueba.
+
+> **Arreglado el 1 de noviembre de 2026, el mismo día.** Once de los hallazgos de este informe
+> quedaron corregidos y verificados: el recuento de la calculadora de los cuatro pilares (1.1),
+> el README (1.2), las cabeceras de seguridad salvo la CSP (1.3), los intervalos del SRS y el
+> factor de facilidad (2.2), el resumen de falladas del examen (2.3), las 4026 entidades HTML
+> (mitad de 2.5), y los cinco menores de 2.7: `Function(entry.action)`, la accesibilidad del
+> formulario de acceso con trampa de foco incluida, las diez carpetas vacías, el comentario de
+> `usage-tracking` y el `width:100%` de la nav. Suite en **2391/2391** después de todo, con el
+> barrido de 816 fichas y 494 estigmas otra vez en cero anomalías. Lo que sigue abierto, y por
+> qué, está en la sección 7.
+
+---
+
+## 0. Lo que está sólido (medido, no supuesto)
+
+| Área | Evidencia |
+|---|---|
+| Integridad de los temas | Los 106 cargan y componen. Ninguna carpeta sin entrada en el registro ni al contrario, ningún `topicId` del temario apuntando a un tema inexistente, ninguna cita fuera del rango de su propia bibliografía, ninguna clave de figura huérfana, ninguna tarjeta sin `front`/`back`. |
+| Render en el DOM | 816 fichas de complicación y 494 estigmas abiertos: **0 excepciones** y **0** apariciones de `undefined`, `NaN`, `[object Object]` o entidades HTML crudas en el texto renderizado. Es el barrido que en septiembre y octubre destapó cuatro defectos silenciosos; hoy sale limpio. |
+| Calculadoras | 315 descriptores, 2008 campos. Reproduciendo la apertura real: **0** resultados con `NaN` o `undefined` visibles. Incluye las 162 que no tienen ningún campo numérico obligatorio (donde el guard `missingRequired` nunca salta) y las 89 que tienen campos opcionales (donde el guard tampoco llega). El motor ya acepta las dos formas de `options`, `{value,label}` y `{v,t}`. |
+| Aritmética clínica nueva | Nefrología, 14 casos: Winter da 22.5-26.5 con bicarbonato de 11 y el observado de 25 cae dentro; anión gap 29 con cociente delta 1.31; G3a A2 en riesgo alto y G4 A3 en muy alto, como el mapa de KDIGO; la regla del 30% distingue bien 25% (continuar) de 40% (replantear); el techo de corrección de sodio marca los 10 mmol y señala el exceso de 2; hiperpotasemia de 6.8 con cambios en el ECG saca gluconato cálcico y el esquema de insulina de dos fases; 2 mL/kg de salino al 3% da 140 mL para 70 kg. |
+| Service worker | 395 rutas precacheadas (44 en `SHELL`, 351 en `CONTENT`), todas existen en disco. En producción, las 44 del `SHELL` responden 200 y 59 de 351 muestreadas de `CONTENT` también. |
+| Producción | `CACHE_VERSION` en vivo igual al commiteado, 106 temas, panel de notas en el DOM colgando de `<body>`, cero errores de consola en una carga limpia, y las 9 rutas de material de trabajo en 404. |
+| Capa de sincronización | Los tres arreglos de octubre que tocan datos reales siguen en pie: se lee la nube en cada arranque (el marcador `rm:cloud-synced:` ahora solo se borra), `clearLocalData()` se llama al cambiar de uid y al cerrar sesión, y la cola de escrituras pendientes **persiste en `localStorage`**, que es mejor que lo que se propuso en octubre. |
+| Protocolos | Los 3 sin una sola anomalía de forma. El ACLS ya cita la Parte 9 de las guías AHA **2025** y el bundle de sepsis la Surviving Sepsis Campaign **2026**. |
+
+---
+
+## 1. Hallazgos nuevos
+
+### 1.1 La calculadora de los cuatro pilares cuenta cinco (alta en confianza) · RESUELTO el 1/11/2026
+
+En `topics/nefropatia-diabetica-hipertensiva/calculators.js:100` la frase de cierre se arma con
+`r.si.length`, que es la lista completa de tratamientos indicados, y esa lista incluye la
+metformina. Reproducido:
+
+| Caso | Dice | Debería decir |
+|---|---|---|
+| TFG 50, UACR 300, K normal, ya en bloqueo máximo, fuera de objetivo glucémico | **"Le corresponden 5 de los pilares"** | 4 |
+| TFG 50, potasio **5.6** | "Le corresponden 4 de los pilares", con el antagonista no esteroideo listado abajo en *no indicado por ahora* | 3 |
+
+El segundo caso es el que más confunde: el potasio alto excluye correctamente el no esteroideo,
+pero la metformina ocupa el hueco y el recuento no se mueve. Y contradice lo que enseña el propio
+tema: el árbol, la tarjeta "Los cuatro pilares, en una línea" y el quiz dicen que los cuatro son
+bloqueo, cotransportador, no esteroideo y GLP-1, y que la metformina va aparte con su umbral de
+30. El tema está construido alrededor de esa idea, así que el número importa.
+
+Arreglo: contar solo las cuatro entradas que son pilares, o cambiar la frase a "tratamientos
+indicados". Una línea.
+
+### 1.2 El README anuncia tres calculadoras generales que no existen (baja) · RESUELTO el 1/11/2026
+
+`engine/general-calc.js` tiene hoy **una sola** calculadora, el CHA₂DS₂-VASc. CURB-65, CKD-EPI y
+Wells se quitaron el 18 de julio de 2026 a pedido del autor y el código quedó dentro de un bloque
+comentado. El README sigue describiendo el archivo como "Calculadoras generales de MI (CURB-65,
+CKD-EPI, Wells, CHA₂DS₂-VASc)". Relacionado con el 3.1 de octubre, que señalaba que no hay Wells
+ni PERC en ninguna calculadora: sigue siendo cierto, y ahora además está mal documentado.
+
+### 1.3 Producción no manda una sola cabecera de seguridad (media) · RESUELTO EN PARTE el 1/11/2026
+
+Medido contra el sitio en vivo: `content-security-policy`, `x-content-type-options`,
+`strict-transport-security`, `x-frame-options`, `referrer-policy` y `permissions-policy` están
+las seis **ausentes**. En octubre esto se anotó como "no hay `_headers` de Netlify" y se quedó
+ahí. Lo que cambia hoy es el coste: el sitio es un Worker con assets estáticos, que **sí** lee un
+archivo `_headers` en la raíz, así que son cuatro líneas y un push. Con el matiz que ya estaba
+anotado: los 104 `onclick` en línea obligarían a `'unsafe-inline'` en la CSP mientras no se
+migren a listeners, así que conviene empezar por las cabeceras que no dependen de eso
+(`x-content-type-options`, `referrer-policy`, HSTS).
+
+Cuidado al escribirlo: un `_headers` mal formado **no** es como un `_redirects` mal formado (que
+aborta el despliegue entero), pero conviene comprobar el build igual, porque hoy sabemos que un
+build fallido no avisa.
+
+**Hecho el 1/11/2026.** `_headers` en la raíz con `X-Content-Type-Options`, `Referrer-Policy`,
+`X-Frame-Options`, HSTS a un año, `Permissions-Policy` y `Cross-Origin-Opener-Policy`. **Queda la
+CSP a propósito**, por lo dicho arriba: necesita `'unsafe-inline'` mientras existan los 104
+`onclick`, y la lista de destinos hay que verificarla con una sesión real para no dejar a nadie
+fuera. El archivo lleva escrito ese razonamiento.
+
+### 1.4 El examen simulado se rompia con los casos en cascada (critica) · RESUELTO el 1/11/2026
+
+Encontrado al verificar el arreglo de 2.3, no en la revision: el examen fallaba unas veces y
+otras no, y lo atribui a mi arnes de pruebas hasta que vi que dependia de QUE preguntas salian.
+
+`loadTopicPool()` mete en el mazo `topic.study.quiz` **entero**, y `renderExamPage()` pinta
+`q.options.map(...)`. Un caso en cascada no tiene `options`: las tienen sus `steps`. Asi que en
+cuanto una cascada caia en el mazo, la pantalla del examen se quedaba **en blanco** con un
+`TypeError` en consola y sin forma de continuar: ni resultado, ni siguiente, nada.
+
+Las cascadas son **565 de las 3823 entradas (14.8%)**, de modo que la probabilidad de que un
+examen de 20 preguntas, que es el valor por defecto, se rompiera era de
+`1 - 0.852^20` = **96%**. Un examen de 4 preguntas se rompia una de cada dos veces, que es
+exactamente el patron intermitente que observe.
+
+Que no lo hubiera visto nadie antes encaja con lo demas de este informe: fallaba en silencio, en
+una seccion que hay que atravesar entera para llegar al error.
+
+**Arreglo**: las cascadas entran por su **primer paso**, que es el unico que no depende de haber
+contestado los anteriores, con la vineta delante para que el escenario viaje con la pregunta. Se
+conservan `type` y `steps` en la entrada del mazo a proposito, porque `questionId()` identifica
+una cascada por su vineta y su primer paso: asi el repaso espaciado del examen sigue apuntando al
+MISMO item que el quiz del tema, y nadie pierde progreso. Y un cinturon: nada sin `options` y
+`correct` utilizables llega a la pantalla.
+
+**Verificado** corriendo un examen de 20 preguntas de punta a punta, las 20 sin un error, hasta la
+pantalla final. Y queda una prueba nueva por tema (106 en total, la suite pasa de 2391 a 2497)
+que vigila el contrato: toda entrada del banco es o una pregunta suelta con opciones utilizables,
+o una cascada cuyo primer paso las tiene.
+
+---
+
+## 2. Lo que sigue abierto de octubre, re-medido
+
+### 2.1 Inicio carga los 106 temas antes de pintar, y empeoró (media)
+
+| | Octubre (102 temas) | Hoy (106 temas) |
+|---|---|---|
+| Tiempo | 2.7 s | **3.29 s** |
+| Peticiones | 212 | 208 |
+| Transferido | 7.5 MB | **7.97 MB** |
+
+Cada tema nuevo encarece la portada, porque `mountHomeSection()`,
+`buildAndSetGlobalIndex()` y `mountAllCalculatorsSection()` recorren el registro entero llamando
+a `loadTopic`. Medido en localhost, que es el mejor caso posible: en red móvil son más de 10 s
+con la pantalla vacía. El arreglo propuesto en octubre sigue siendo el correcto: meter `titulo`,
+`subtitulo`, `accent` y el número de preguntas en la entrada del registro, y construir el índice
+global en `requestIdleCallback`.
+
+### 2.2 El SRS sigue topando en 14 días (alta) · RESUELTO el 1/11/2026
+
+`engine/quiz-srs.js` define `INTERVALS = { 1: 0, 2: 1 día, 3: 3, 4: 7, 5: 14 }`. Con **4954
+subpreguntas** y **3188 tarjetas**, una pregunta dominada vuelve 26 veces al año para siempre, y
+el volumen diario de repaso solo crece. Sigue siendo un cambio de dos constantes y una
+multiplicación.
+
+Nota buena del mismo archivo: la identidad de la pregunta ya se deriva del enunciado normalizado
+y no de la posición en el array, con el razonamiento escrito en el encabezado. El 1.1 de octubre
+quedó bien cerrado.
+
+### 2.3 El examen simulado sigue sin decir qué se falló (media) · RESUELTO el 1/11/2026
+
+Confirmado en `engine/exam-mode.js`: la pantalla final da puntaje, porcentaje, tiempo, una frase
+genérica según el tramo y un botón de volver. No hay lista de falladas ni enlace al tema. La
+revisión del error es donde ocurre el aprendizaje de un simulacro.
+
+### 2.4 Las fichas siguen bloqueadas tras el banco completo (media)
+
+`study-view.js` sigue pintando la tarjeta con candado y el texto "Responde N preguntas". Para
+quien tiene diez minutos entre pases, la ficha es el formato de entrada.
+
+### 2.5 Los acentos: el problema creció (media) · RESUELTO EN PARTE el 1/11/2026
+
+| | Octubre | Hoy |
+|---|---|---|
+| `content.js` sin una sola vocal acentuada | 50 de 104 | **50 de 106** |
+| `study.js` sin una sola vocal acentuada | 55 de 104 | **56 de 106** |
+| Entidades `&#NNN;` | 1770 en 41 archivos | **3612 en 45 temas** |
+
+Las entidades se duplicaron, así que los temas nuevos se seguian escribiendo así. Dato nuevo de
+esta revisión: en el DOM **se ven bien**, eso quedó comprobado en el barrido de las 816 fichas
+(cero entidades crudas en el texto renderizado), porque todo se pinta con `innerHTML`. El riesgo
+era el que se anotó: el día que algo pase por `textContent`, y la inconsistencia visible dentro
+de un mismo tema.
+
+**Hecho el 1/11/2026, la mitad.** Las **4026 entidades numéricas pasaron a caracteres reales** en
+131 archivos de `topics/`, dejando intacto `engine/` (donde los tres `&#...;` que hay son parte de
+expresiones regulares) y cualquier código por debajo de 160, para no convertir un `&#39;` en una
+comilla y romper el JavaScript. Se comprobó antes lo único que podía doler: `normalizeStem()` de
+`quiz-srs.js` decodifica las entidades y quita las tildes **antes** de calcular el id de la
+pregunta, así que ningún id cambió y nadie perdió su calendario de repaso. La suite siguió en
+2391/2391, que importaba porque los umbrales de calidad del quiz miden longitudes de opción y
+decodificar las acorta.
+
+**Lo que NO se tocó, y es la otra mitad**: los 50 `content.js` y 56 `study.js` que no tienen una
+sola vocal acentuada siguen igual, porque esos archivos usaban entidades solo para la ñ y el ¿,
+y las vocales las escribieron directamente sin tilde ("Neumonia", "Definicion", "segun"). Eso no
+es mecanizable sin criterio: "diagnostico" puede ser sustantivo o primera persona, y una tilde mal
+puesta en texto clínico es peor que la falta. Va tema por tema, revisando el diff, como decía el
+informe de octubre.
+
+### 2.6 Veintiún temas con menos de 8 citas (media)
+
+Mediana de 15 citas por tema y 1441 en total, pero 21 temas por debajo de 8. Los seis que
+señalaba octubre siguen ahí y se sumaron los de dermatología y nefrología. Los más bajos, con 2:
+`manifestaciones-cutaneas-sistemicas`, `quemaduras`, `ahogamiento` y
+`glomerulopatias-sindromes-glomerulares`. La portada promete que cada tema cita su fuente.
+
+### 2.7 Menores
+
+- **Las fichas por tema van de 20 a 32** y **51 de 106** temas no están en 32, que es la norma
+  escrita del proyecto. Sigue pendiente la decisión de octubre: si la norma es el número o la
+  cobertura. Hoy la prueba solo exige que existan.
+- `Function(entry.action)()` sigue en `app.js:234`. Funciona porque el contenido es propio; una
+  comilla en el nombre de una escala lo rompe.
+- **Accesibilidad de la puerta de entrada** (1.8 de octubre): sin cambios. Las etiquetas de
+  `engine/auth.js` siguen siendo `<label>Correo</label>` sueltas, sin `for`, y en todo
+  `index.html` y `auth.js` hay **cero** `role="dialog"` y cero `aria-modal`. La vista de estudio
+  sigue estando mejor que el formulario de acceso.
+- **Nueve carpetas vacías `topicsXXX`** sin el separador de ruta, más una "New folder". Octubre
+  ya las señaló. No se publican (git no versiona carpetas vacías) pero ensucian la raíz.
+- El encabezado de `engine/usage-tracking.js` sigue diciendo "nada de contenido de las respuestas
+  ni identificación del usuario" mientras las estadísticas se guardan con `syncSet`, es decir en
+  `users/{uid}`, junto al correo y el nombre, y Admin las muestra por usuario. Que se haga está
+  bien y está en los términos; el comentario es el que induce a error.
+- **La nav inferior y el desborde horizontal a 375 px**: no se reproduce. Con una barra vertical
+  forzada, el documento mide 375 y la nav va de 0 a 375, desborde 0. El CSS que lo causaba sigue
+  igual (`position:fixed` con `width:100%`), así que lo más probable es que el motor de este
+  navegador use barras superpuestas y el defecto aparezca solo donde la barra ocupa espacio.
+  Cambiar a `inset-inline:0; margin-inline:auto` sigue siendo gratis y quita la dependencia.
+
+---
+
+## 3. Lo que mejoró desde octubre
+
+| | Octubre | Hoy |
+|---|---|---|
+| Temas construidos | 102 | **106** |
+| Pruebas | 2288 | **2391** |
+| Cobertura del temario | 146/318 (46%) | **156/318 (49%)** |
+| Nefrología | 0/18 | **10/18 (56%)** |
+| Calculadoras | 278 | **315** |
+| Citas | 1417 | **1441** |
+| Preguntas sueltas con escena clínica | 2.9% | **12.7%** |
+| Preguntas planas de dato | 33.8% | **23.6%** |
+| Reglas de Firestore en el repo | no | **sí** (`firestore.rules`, 1.7 cerrado) |
+| Bibliografía con derechos de autor en el sitio | se servía | **404** |
+
+El punto 2.1 de octubre pedía llevar el razonamiento al 40-50% del banco. Contando los pasos de
+cascada, que son el formato correcto y de los que 1672 de 1696 llevan viñeta, hoy **2110 de las
+4954 subpreguntas (42.6%)** se apoyan en una escena clínica. La meta está alcanzada; lo que
+queda es que las preguntas sueltas suban su propio 12.7%.
+
+---
+
+## 4. Cobertura por bloque
+
+156 de 318 ítems, descontando el bloque duplicado R1.
+
+| Bloque | Cubierto |
+|---|---|
+| Semiología, Neumología, Medicina Crítica, Hematología, Neurología, Dermatología | 100% |
+| Endocrinología y Metabolismo | 64% (16/25) |
+| **Nefrología e hidroelectrolítico** | **56% (10/18)** |
+| Geriatría | 44% (4/9) |
+| Cardiovascular | 18% (4/22) |
+| Habilidades y procedimientos | 6% (1/16) |
+| Gastroenterología y Hepatología | 5% (1/22) |
+| Infectología | **0% (0/20)** |
+| Reumatología e Inmunología | **0% (0/16)** |
+| Farmacología y Toxicología | **0% (0/11)** |
+| Paliativos y Bioética | 0% (0/10) |
+| Salud de la Mujer | 0% (0/8) |
+| Psiquiatría, Oftalmo/ORL | 0% (0/6 cada uno) |
+| Oncología | 0% (0/5) |
+| Ambulatoria y Preventiva | 0% (0/4) |
+
+Nefrología pasó de cero a 56% desde octubre, con el patrón de construcción ya probado. Las dos de
+mayor rendimiento por tema construido siguen siendo **Infectología** y **Reumatología**, que
+suman 36 ítems entre las dos y están las dos en cero.
+
+---
+
+## 5. Lo que no pude verificar
+
+- **El ciclo completo del panel de notas**: publicar, borrar, destacar y reportar. Necesita dos
+  sesiones reales y no puedo iniciar sesión en las cuentas del autor. Lo que sí está comprobado:
+  el panel se monta en producción, `topic-chat.js` y `texto-seguro.js` responden 200, las
+  funciones puras de escape están cubiertas por 12 pruebas, y el panel cuelga de `<body>` como
+  debe.
+- **Que las reglas de Firestore publicadas sean las del repo.** El autor confirmó el 1 de
+  noviembre que están puestas. Una sonda sin sesión devuelve permiso denegado con las reglas
+  viejas y con las nuevas, así que desde fuera no se distingue.
+- **El contenido clínico de los 106 temas uno por uno.** Esta revisión comprobó estructura,
+  render y aritmética. La verificación clínica a fondo del contenido nuevo (Dermatología y
+  Nefrología) está en sus propias notas de construcción.
+
+---
+
+## 6. Orden sugerido, con lo hecho tachado
+
+**Ahora, son minutos**
+1. ~~El recuento de la calculadora de los cuatro pilares (1.1).~~ Hecho. De paso salio a la luz
+   una concordancia: con un solo pilar decia "Le corresponden 1", corregido tambien.
+2. ~~Corregir el README sobre `general-calc.js` (1.2).~~ Hecho.
+3. ~~Borrar las diez carpetas vacias de la raiz (2.7).~~ Hecho.
+
+**Esta semana**
+4. ~~`_headers` con las cabeceras que no dependen de la CSP (1.3).~~ Hecho; la CSP queda aparte.
+5. ~~Resumen de falladas al terminar el examen (2.3).~~ Hecho, agrupado por tema y con boton al
+   tema. Verificado corriendo un examen de 4 preguntas y fallando 3 a proposito.
+6. Metadatos en el registro para que Inicio no espere a 106 temas (2.1). **Pendiente a proposito**,
+   ver la seccion 7.
+
+**Este mes**
+7. ~~Extender los intervalos del SRS y anadir factor de facilidad (2.2).~~ Hecho: 9 cajas,
+   0/1/3/7/14/30/60/120/240 dias, y los intervalos dejaron de estar copiados en tres archivos.
+8. ~~Pasada de acentos (2.5).~~ Hecha la mitad: las 4026 entidades. La otra mitad, en la seccion 7.
+9. Cerrar los 21 temas con menos de 8 citas (2.6). **Pendiente**, ver la seccion 7.
+10. ~~Accesibilidad de la puerta de entrada (2.7).~~ Hecho: las 12 etiquetas asociadas con `for`,
+    `role="dialog"` y `aria-modal` en el modal compartido, y una trampa de foco que acota el
+    tabulador al modal mientras esta abierto.
+
+**Este trimestre**
+11. Infectologia y Reumatologia, los dos bloques en cero de mayor rendimiento (36 items entre los
+    dos).
+12. Decidir la norma de las fichas: 32 por tema, o cobertura del tema. **Es una decision del
+    autor**, no un defecto.
+13. Objetivos de aprendizaje por tema (2.5 de octubre, sin empezar).
+
+---
+
+## 7. Lo que queda abierto, y por que no se cerro hoy
+
+- **Los metadatos del registro para Inicio (2.1).** Es un refactor de verdad, no un arreglo:
+  cuatro campos nuevos en las 106 entradas del registro, `home.js` dejando de llamar a
+  `loadTopic`, el indice global movido a `requestIdleCallback` y la seccion Calc cargando
+  perezosa. Toca el arranque de la app, que es justo donde una regresion se nota en todos los
+  usuarios a la vez. Va en su propio cambio, con su propia medicion antes y despues, y no
+  mezclado con los diez arreglos de hoy.
+- **Las tildes que faltan en 50 temas (la otra mitad de 2.5).** No es mecanizable: "diagnostico"
+  puede ser sustantivo o verbo, y una tilde mal puesta en texto clinico es peor que la falta. Va
+  tema por tema revisando el diff.
+- **Los 21 temas con menos de 8 citas (2.6).** Necesita buscar y leer la fuente de cada uno. No
+  se inventan citas, asi que esto es trabajo de contenido, no de script.
+- **El candado de las fichas (2.4).** El informe propone dos alternativas (desbloquear por
+  subtema o tras las primeras 10 preguntas) y elegir una es una decision sobre el diseno
+  didactico de la app, no un defecto que arreglar por cuenta propia. Un cambio de una linea en
+  cuanto se decida.
+- **La CSP (parte de 1.3).** Necesita la lista exacta de destinos y una sesion real para
+  comprobar que nadie se queda sin iniciar sesion.
+- **La cobertura (seccion 4).** Es escribir temas nuevos.
+- **El ciclo del panel de notas.** Sigue necesitando dos sesiones reales.

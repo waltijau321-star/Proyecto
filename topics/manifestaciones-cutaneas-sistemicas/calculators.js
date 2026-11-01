@@ -18,7 +18,7 @@ export const calculators = [
     fields: [
       { name: 'morfologia', id: 'mcs-pm-m', type: 'select', label: 'Aspecto de la lesion', options: [
         { value: '', label: 'Elegir...' },
-        { value: 'petequias', label: 'Petequias (maculas peque&#241;as que no desaparecen a la presion)' },
+        { value: 'petequias', label: 'Petequias (maculas pequeñas que no desaparecen a la presion)' },
         { value: 'equimosis', label: 'Equimosis tras traumatismo minimo' },
         { value: 'palpable', label: 'Purpura PALPABLE (se nota relieve al pasar el dedo)' },
         { value: 'retiforme', label: 'Purpura RETIFORME: arboriforme o estrellada' },
@@ -45,7 +45,7 @@ export const calculators = [
 
       if (ctx === 'presion') {
         mecanismo = 'Pico de presion intravascular';
-        detalle = 'Petequias por encima del punto de presion tras el parto, accesos de tos o de vomitos, o llanto intenso en el ni&#241;o. El torniquete produce lo mismo por encima de la zona comprimida. Es un fenomeno mecanico.';
+        detalle = 'Petequias por encima del punto de presion tras el parto, accesos de tos o de vomitos, o llanto intenso en el niño. El torniquete produce lo mismo por encima de la zona comprimida. Es un fenomeno mecanico.';
         pedir = ['Nada. Reconocer el contexto es el diagnostico'];
         destino = 'Ninguno: no hay enfermedad que buscar';
         color = C_VERDE;
@@ -82,7 +82,7 @@ export const calculators = [
         color = C_ROJO;
       } else if (v.morfologia === 'pigmentaria') {
         mecanismo = 'Purpura pigmentaria cronica';
-        detalle = 'Afectan a vasos de peque&#241;o calibre de la dermis y dejan la coloracion ocre de la hemosiderina. Son el Schamberg (aspecto de pimienta de cayena), el Doucas-Kapetanakis, la purpura anular telangiectodes de Majocchi y el liquen aureus. Benignas y cronicas.';
+        detalle = 'Afectan a vasos de pequeño calibre de la dermis y dejan la coloracion ocre de la hemosiderina. Son el Schamberg (aspecto de pimienta de cayena), el Doucas-Kapetanakis, la purpura anular telangiectodes de Majocchi y el liquen aureus. Benignas y cronicas.';
         pedir = ['Hemograma y coagulacion basicos para descartar otra causa', 'Si hay sospecha de gammapatia policlonal, proteinograma: la purpura hipergammaglobulinemica de Waldenstrom aparece en zonas declives y bajo ropa ajustada, asociada al sindrome de Sjogren y a la sarcoidosis'];
         destino = 'Ninguno urgente. Si hay Sjogren o sarcoidosis detras, el tema de Sarcoidosis';
         color = C_VERDE;
@@ -134,7 +134,7 @@ export const calculators = [
     incompleteMsg: 'Indica cuantas semanas lleva y si hay una dermatosis que lo explique.',
     fields: [
       { name: 'semanas', id: 'mcs-pe-s', type: 'number', step: '1', label: 'Semanas de evolucion', placeholder: 'ej. 10' },
-      { name: 'lesionPrimaria', id: 'mcs-pe-lp', type: 'select', label: '&#191;Hay una dermatosis primaria que lo explique?', options: [
+      { name: 'lesionPrimaria', id: 'mcs-pe-lp', type: 'select', label: '¿Hay una dermatosis primaria que lo explique?', options: [
         { value: '', label: 'Elegir...' },
         { value: 'si', label: 'Si, hay una dermatosis que lo explica' },
         { value: 'no', label: 'No, solo lesiones de rascado o nada' },
@@ -279,7 +279,7 @@ export const calculators = [
     ],
     compute(v) {
       const M = {
-        acantosis: { buscar: 'Hiperinsulinemia. Y si es de aparicion SUBITA, en persona NO obesa y SIN endocrinopatia, un adenocarcinoma gastrico', frec: 'Puede PRECEDER al diagnostico de diabetes con hemoglobina glucosilada todavia normal; en la forma paraneoplasica, mas del 95% de los tumores son adenocarcinomas', pedir: ['Glucemia y hemoglobina glucosilada', 'Comprobar las tres se&#241;ales de paraneoplasia: subita, no obeso, sin endocrinopatia', 'Si las cumple, imagen de abdomen y endoscopia digestiva alta'], destino: 'Diabetes mellitus; y la ficha de signos paraneoplasicos de este modulo si cumple las tres se&#241;ales', alerta: true },
+        acantosis: { buscar: 'Hiperinsulinemia. Y si es de aparicion SUBITA, en persona NO obesa y SIN endocrinopatia, un adenocarcinoma gastrico', frec: 'Puede PRECEDER al diagnostico de diabetes con hemoglobina glucosilada todavia normal; en la forma paraneoplasica, mas del 95% de los tumores son adenocarcinomas', pedir: ['Glucemia y hemoglobina glucosilada', 'Comprobar las tres señales de paraneoplasia: subita, no obeso, sin endocrinopatia', 'Si las cumple, imagen de abdomen y endoscopia digestiva alta'], destino: 'Diabetes mellitus; y la ficha de signos paraneoplasicos de este modulo si cumple las tres señales', alerta: true },
         necrobiosis: { buscar: 'Diabetes. Es la necrobiosis lipoidica: empieza como papulas eritematosas y progresa a una placa pardo-amarillenta con centro atrofico y telangiectasias, simetrica y mas frecuente en mujeres', frec: 'Se ULCERA en el 35% de los casos, y entonces se sobreinfecta', pedir: ['Glucemia y hemoglobina glucosilada', 'Vigilar la ulceracion, que es la complicacion esperable'], destino: 'Diabetes mellitus', alerta: false },
         'ampollas-pies': { buscar: 'Diabetes. Es la bullosis diabeticorum: ampollas tensas, INDOLORAS, sin inflamacion alrededor, de crecimiento rapido y curacion en semanas', frec: 'La presenta alrededor del 0,5% de los diabeticos, y puede ser la manifestacion inicial de la enfermedad', pedir: ['Glucemia y hemoglobina glucosilada', 'Descartar una ampollosa autoinmune si hay inflamacion o dolor, que no son propios de esta'], destino: 'Diabetes mellitus; Ampollosas autoinmunes si el cuadro no encaja', alerta: false },
         'infeccion-repeticion': { buscar: 'Diabetes. Las infecciones cutaneas de repeticion son motivo para investigarla: estafilococicas (foliculitis, abscesos, impetigo), estreptococicas (ectima, celulitis), candidiasis cutanea, mucosa y periungueal, y dermatofitosis', frec: 'Sin frecuencia unica; lo importante es el umbral de sospecha', pedir: ['Glucemia y hemoglobina glucosilada', 'En el diabetico descompensado, vigilar la fascitis necrosante y la gangrena de Fournier, de alta mortalidad', 'Ante otalgia con supuracion, descartar otitis externa maligna', 'Ante cetoacidosis con sinusitis de secrecion serosanguinolenta, pensar en mucormicosis rinocerebral'], destino: 'Diabetes mellitus; Cetoacidosis diabetica si hay mucormicosis; Infecciones de piel y partes blandas', alerta: true },
@@ -295,8 +295,8 @@ export const calculators = [
         rubor: { buscar: 'Feocromocitoma. El rubor paroxistico muy llamativo en cara, torax y extremidades superiores es su unica manifestacion cutanea relevante', frec: 'Manifestacion paroxistica, no permanente: hay que preguntarla', pedir: ['Metanefrinas fraccionadas en plasma u orina de 24 horas', 'Tension arterial en crisis y fuera de ellas', 'Imagen suprarrenal si el laboratorio lo apoya'], destino: 'Crisis hipertensivas; Hipertension arterial secundaria', alerta: false },
         bazex: { buscar: 'Carcinoma EPIDERMOIDE de la via aerodigestiva superior: laringe, faringe, traquea, bronquios y esofago superior. Es el sindrome de Bazex o acroqueratosis paraneoplasica, que puede progresar a queratodermia palmoplantar y distrofia ungueal', frec: 'Suele haber ya metastasis en ganglios cervicales al diagnostico', pedir: ['Exploracion de cabeza y cuello, con palpacion de las cadenas cervicales', 'Imagen de cabeza, cuello y pelvis', 'Derivacion a otorrinolaringologia para endoscopia'], destino: 'La ficha de signos paraneoplasicos de este modulo; Nodulo pulmonar y cancer de pulmon', alerta: true },
         'ampollosa-mucositis': { buscar: 'Penfigo paraneoplasico y una neoplasia del sistema LINFORRETICULAR: enfermedad de Castleman, linfoma no hodgkiniano, timoma, sarcoma de celulas dendriticas foliculares y leucemia linfocitica cronica', frec: 'Las dos pistas de paraneoplasia son la inmunofluorescencia directa NEGATIVA, o con depositos lineales de IgA en la membrana basal, y la mucositis exuberante', pedir: ['Biopsia con inmunofluorescencia directa, interpretando la negatividad como una PISTA y no como normalidad', 'Hemograma, proteinograma e imagen de torax y abdomen', 'Vigilar las lesiones bronquiales, que dan insuficiencia respiratoria y empeoran el pronostico'], destino: 'Ampollosas autoinmunes, que lo desarrolla entero; Linfomas; Leucemia linfocitica cronica', alerta: true },
-        eritrodermia: { buscar: 'Una neoplasia. La eritrodermia es rara y se asocia a malignidad, tambien cuando acompa&#241;a a una dermatomiositis', frec: 'Rara; su rareza es justamente lo que obliga a estudiarla', pedir: ['Hemograma con frotis, buscando celulas de Sezary', 'Imagen de torax y abdomen', 'Biopsia cutanea', 'Revisar farmacos y descartar psoriasis o eccema eritrodermico'], destino: 'Linfomas; Reacciones cutaneas a farmacos', alerta: true },
-        vitiligo: { buscar: 'Otras enfermedades autoinmunes. El vitiligo acompa&#241;a con frecuencia a la diabetes insulinodependiente y a la enfermedad tiroidea autoinmune', frec: 'Asociacion frecuente, no constante', pedir: ['Funcion tiroidea y anticuerpos antitiroideos', 'Glucemia y hemoglobina glucosilada', 'Revisar el resto del eje autoinmune segun la clinica'], destino: 'Hipotiroidismo; Hipertiroidismo y tiroiditis; Diabetes mellitus', alerta: false },
+        eritrodermia: { buscar: 'Una neoplasia. La eritrodermia es rara y se asocia a malignidad, tambien cuando acompaña a una dermatomiositis', frec: 'Rara; su rareza es justamente lo que obliga a estudiarla', pedir: ['Hemograma con frotis, buscando celulas de Sezary', 'Imagen de torax y abdomen', 'Biopsia cutanea', 'Revisar farmacos y descartar psoriasis o eccema eritrodermico'], destino: 'Linfomas; Reacciones cutaneas a farmacos', alerta: true },
+        vitiligo: { buscar: 'Otras enfermedades autoinmunes. El vitiligo acompaña con frecuencia a la diabetes insulinodependiente y a la enfermedad tiroidea autoinmune', frec: 'Asociacion frecuente, no constante', pedir: ['Funcion tiroidea y anticuerpos antitiroideos', 'Glucemia y hemoglobina glucosilada', 'Revisar el resto del eje autoinmune segun la clinica'], destino: 'Hipotiroidismo; Hipertiroidismo y tiroiditis; Diabetes mellitus', alerta: false },
         'lesion-pigmentada': { buscar: 'Melanoma. No es una manifestacion de enfermedad sistemica, pero es el signo cutaneo que mas cambia el pronostico cuando se reconoce a tiempo', frec: 'El espesor de Breslow es el que manda sobre todo lo demas', pedir: ['Dermatoscopia y regla ABCDE', 'Exeresis con margen estrecho para biopsia, no biopsia incisional de rutina'], destino: 'Modulo 79 de Melanoma, que lo desarrolla entero; Exploracion de piel y faneras para las lesiones elementales', alerta: true }
       };
       if (!v.signo || !M[v.signo]) return null;
@@ -318,7 +318,7 @@ export const calculators = [
       s += `<br><br><strong>Con que frecuencia</strong><br><span style="opacity:.9;">${r.frec}.</span>`;
       s += '<br><br><strong>Que se pide</strong><br>' + r.pedir.map(x => '&bull; ' + x).join('<br>');
       s += `<br><br><strong>A donde lleva:</strong> ${r.destino}.`;
-      if (r.alerta) s += '<br><br><span style="color:#8c3a34;">Este signo tiene se&#241;ales de alarma asociadas: no lo cierres como banal sin haberlas comprobado.</span>';
+      if (r.alerta) s += '<br><br><span style="color:#8c3a34;">Este signo tiene señales de alarma asociadas: no lo cierres como banal sin haberlas comprobado.</span>';
       s += '<br><span style="opacity:.75;font-size:12.5px;">Si el tema de destino no te aparece, escribe su nombre en el buscador global de la app, que cubre todos los temas, los protocolos y la valoracion preoperatoria.</span>';
       return s;
     },
@@ -326,8 +326,8 @@ export const calculators = [
   },
 
   {
-    key: 'paraneoplasico', title: '&#191;Es esto paraneoplasico?', accent: '#7a3a6b',
-    subtitle: 'Criterios de Curth y se&#241;ales de alarma',
+    key: 'paraneoplasico', title: '¿Es esto paraneoplasico?', accent: '#7a3a6b',
+    subtitle: 'Criterios de Curth y señales de alarma',
     incompleteMsg: 'Elige el signo y responde a la cronologia.',
     fields: [
       { name: 'signo', id: 'mcs-pn-s', type: 'select', label: 'Signo cutaneo', options: [
@@ -360,7 +360,7 @@ export const calculators = [
         acantosis: { tumor: 'Adenocarcinoma GASTRICO sobre todo, y otros de la cavidad abdominal, digestivos y genitourinarios; en mas del 95% de los casos es un adenocarcinoma', donde: 'Abdomen: imagen y endoscopia digestiva alta' },
         bazex: { tumor: 'Carcinoma EPIDERMOIDE de la via aerodigestiva superior: laringe, faringe, traquea, bronquios y esofago superior', donde: 'Cabeza, cuello y pelvis; suele haber metastasis en ganglios cervicales' },
         ampollosa: { tumor: 'Sistema LINFORRETICULAR en el penfigo paraneoplasico: enfermedad de Castleman, linfoma no hodgkiniano, timoma, sarcoma de celulas dendriticas foliculares y leucemia linfocitica cronica. El penfigoide cicatricial antiepiligrina se asocia en cambio a adenocarcinomas', donde: 'Hematologia e imagen de torax y abdomen; vigilar la afectacion bronquial' },
-        eritrodermia: { tumor: 'Es rara y se asocia a malignidad, tambien cuando acompa&#241;a a una dermatomiositis', donde: 'Estudio amplio, con frotis en busca de celulas de Sezary' },
+        eritrodermia: { tumor: 'Es rara y se asocia a malignidad, tambien cuando acompaña a una dermatomiositis', donde: 'Estudio amplio, con frotis en busca de celulas de Sezary' },
         necrolitico: { tumor: 'Glucagonoma', donde: 'Pancreas, y glucagon serico' },
         herpetiforme: { tumor: 'Linfoma intestinal, con riesgo relativo aumentado igual que en la propia celiaquia', donde: 'Digestivo, con serologia de celiaquia' },
         porfiria: { tumor: 'Se ha relacionado con tumores hepaticos, pero la asociacion parece CASUAL', donde: 'No procede un estudio oncologico por este motivo' }
@@ -404,13 +404,13 @@ export const calculators = [
         conducta = [
           'Completar los criterios de Curth que falten antes de ampliar el estudio',
           'Estudio dirigido razonable: ' + M.donde,
-          esAcantosis ? 'En la acantosis, las tres se&#241;ales van JUNTAS: subita, no obeso y sin endocrinopatia. Con una o dos, lo mas probable sigue siendo la hiperinsulinemia' : 'Reevaluar en semanas si el cuadro cambia'
+          esAcantosis ? 'En la acantosis, las tres señales van JUNTAS: subita, no obeso y sin endocrinopatia. Con una o dos, lo mas probable sigue siendo la hiperinsulinemia' : 'Reevaluar en semanas si el cuadro cambia'
         ];
       } else {
         nivel = 'Sospecha BAJA con los datos que has dado';
         color = C_VERDE;
         conducta = [
-          'Con cronologia separada y sin se&#241;ales de alarma, la asociacion es poco creible',
+          'Con cronologia separada y sin señales de alarma, la asociacion es poco creible',
           esAcantosis ? 'Lo mas probable es hiperinsulinemia: mide glucemia y hemoglobina glucosilada, y recuerda que la acantosis puede preceder al diagnostico de diabetes con glucosilada normal' : 'Tratar la dermatosis y reevaluar',
           'No hace falta un estudio oncologico amplio solo por este signo'
         ];
@@ -422,8 +422,8 @@ export const calculators = [
       s += `<br><br><strong>Tumor al que apunta este signo</strong><br><span style="opacity:.95;">${r.tumor}.</span>`;
       if (!r.esPorfiria) s += `<br><br><strong>Donde dirigir el estudio</strong><br><span style="opacity:.9;">${r.donde}.</span>`;
       s += '<br><br><strong>Lo que corresponde</strong><br>' + r.conducta.map(x => '&bull; ' + x).join('<br>');
-      if (r.senales.length) s += `<br><br><span style="opacity:.9;">Se&#241;ales presentes: ${r.senales.join(', ')}.</span>`;
-      s += `<br><span style="opacity:.75;font-size:12.5px;">Criterios de Curth cumplidos de los dos que mas rinden: ${r.curth} de 2 (aparicion simultanea y mejoria de la piel al tratar el tumor).${r.nosabe ? ' Has indicado que todavia no hay tumor conocido, de modo que la cronologia no puede valorarse y el juicio depende solo de las se&#241;ales de alarma.' : ''}</span>`;
+      if (r.senales.length) s += `<br><br><span style="opacity:.9;">Señales presentes: ${r.senales.join(', ')}.</span>`;
+      s += `<br><span style="opacity:.75;font-size:12.5px;">Criterios de Curth cumplidos de los dos que mas rinden: ${r.curth} de 2 (aparicion simultanea y mejoria de la piel al tratar el tumor).${r.nosabe ? ' Has indicado que todavia no hay tumor conocido, de modo que la cronologia no puede valorarse y el juicio depende solo de las señales de alarma.' : ''}</span>`;
       return s;
     },
     fragment: r => `${r.nivel.toLowerCase()}, Curth ${r.curth} de 2`

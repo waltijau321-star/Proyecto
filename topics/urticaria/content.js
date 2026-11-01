@@ -11,7 +11,7 @@ export const meta = {
   accentDim: '#c4764c'
 };
 
-export const definicionText = `<p style="margin:0 0 14px;">La urticaria es una enfermedad <strong>mediada por el mastocito</strong> que se define por la aparicion rapida de <strong>habones, angioedema o ambos</strong>. El habon tiene tres rasgos que hay que comprobar siempre: es una elevacion central de tama&#241;o variable rodeada de eritema reflejo, <strong>pica</strong> (a veces quema) y, sobre todo, es <strong>fugaz</strong>: la piel vuelve a su aspecto normal en menos de 24 horas. El angioedema es mas profundo, afecta a dermis y tejido subcutaneo o a las mucosas, duele mas de lo que pica y tarda mas en resolverse, hasta 72 horas.</p>
+export const definicionText = `<p style="margin:0 0 14px;">La urticaria es una enfermedad <strong>mediada por el mastocito</strong> que se define por la aparicion rapida de <strong>habones, angioedema o ambos</strong>. El habon tiene tres rasgos que hay que comprobar siempre: es una elevacion central de tamaño variable rodeada de eritema reflejo, <strong>pica</strong> (a veces quema) y, sobre todo, es <strong>fugaz</strong>: la piel vuelve a su aspecto normal en menos de 24 horas. El angioedema es mas profundo, afecta a dermis y tejido subcutaneo o a las mucosas, duele mas de lo que pica y tarda mas en resolverse, hasta 72 horas.</p>
 <p style="margin:0 0 14px;">Para el internista hay tres ideas que ordenan el tema. La primera es que <strong>el reloj clasifica</strong>: menos de seis semanas es urticaria aguda y seis semanas o mas es cronica, y esa frontera cambia por completo el estudio y el pronostico. La segunda es que <strong>el estudio de la urticaria cronica es muy corto</strong>: hemograma con formula y velocidad de sedimentacion o proteina C reactiva, y poco mas; la bateria amplia de pruebas que se pide por costumbre no encuentra nada y retrasa el tratamiento. La tercera es que <strong>hay un algoritmo y conviene respetarlo</strong>: antihistaminico de segunda generacion a dosis estandar, subir hasta cuadruplicar la dosis, y despues omalizumab.</p>
 <p style="margin:0 0 14px;">Y una advertencia que vale por todo el tema: si el habon <strong>dura mas de 24 horas</strong> en el mismo sitio, si <strong>duele</strong> mas que pica, o si al desaparecer <strong>deja purpura o pigmentacion</strong>, eso ya no es una urticaria comun y hay que biopsiar buscando vasculitis urticarial.</p>`;
 
@@ -26,7 +26,7 @@ export const content = {
     clinica: {
       tituloA: 'El habon tipico',
       tituloB: 'Datos que dicen que NO es urticaria comun',
-      compensada: 'Elevacion central de tama&#241;o variable, casi siempre rodeada de un eritema reflejo, que PICA o quema, y que es FUGAZ: la piel vuelve a su aspecto normal en menos de 24 horas. Las lesiones migran, de modo que las de hoy no estan donde estaban las de ayer. El angioedema acompa&#241;a en muchos casos: es mas profundo, afecta parpados, labios, manos, pies o genitales, y a veces mucosa oral; molesta mas por tension o dolor que por picor, y tarda hasta 72 horas en irse. Pedir al paciente que FOTOGRAFIE las lesiones resuelve muchas consultas, porque casi nunca llega con ellas puestas.',
+      compensada: 'Elevacion central de tamaño variable, casi siempre rodeada de un eritema reflejo, que PICA o quema, y que es FUGAZ: la piel vuelve a su aspecto normal en menos de 24 horas. Las lesiones migran, de modo que las de hoy no estan donde estaban las de ayer. El angioedema acompaña en muchos casos: es mas profundo, afecta parpados, labios, manos, pies o genitales, y a veces mucosa oral; molesta mas por tension o dolor que por picor, y tarda hasta 72 horas en irse. Pedir al paciente que FOTOGRAFIE las lesiones resuelve muchas consultas, porque casi nunca llega con ellas puestas.',
       descompensada: 'Banderas que sacan el cuadro de la urticaria comun: habon que dura MAS DE 24 HORAS en el mismo sitio, que DUELE mas de lo que pica, o que al desaparecer deja PURPURA o pigmentacion residual, que apuntan a vasculitis urticarial y obligan a biopsiar. Fiebre, artralgias o elevacion mantenida de reactantes, que orientan a un sindrome autoinflamatorio. Angioedema SIN habones y sin respuesta a antihistaminicos, que obliga a pensar en angioedema por bradicinina (hereditario o por inhibidores de la enzima convertidora). Y compromiso respiratorio, digestivo o hipotension, que ya no es urticaria sino ANAFILAXIA y se trata con adrenalina intramuscular.'
     },
     laboratorio: [
@@ -44,7 +44,7 @@ export const content = {
       { metodo: 'Test de control de la urticaria (calculadora disponible)', interpretacion: 'Cuatro preguntas sobre las ultimas cuatro semanas. Mide CONTROL, es decir, si el tratamiento esta funcionando.', cutoff: '12 o mas: controlada' },
       { metodo: 'Escalon terapeutico (calculadora disponible)', interpretacion: 'Cruza el tratamiento actual con el grado de control y devuelve el siguiente paso del algoritmo.', cutoff: 'No saltarse escalones y no pasar de cuadruplicar la dosis' },
       { metodo: 'Banderas rojas (calculadora disponible)', interpretacion: 'Comprueba los datos que indican que no se trata de una urticaria comun y que obligan a estudiar otra cosa.', cutoff: 'Una sola bandera ya cambia el plan' },
-      { metodo: 'Pruebas de provocacion en las inducibles', interpretacion: 'Cubito de hielo para la urticaria por frio, dermografometro para el dermografismo, ejercicio o ba&#241;o caliente para la colinergica, y luz de longitud de onda conocida para la solar.', cutoff: 'Confirman el desencadenante y permiten medir el umbral' },
+      { metodo: 'Pruebas de provocacion en las inducibles', interpretacion: 'Cubito de hielo para la urticaria por frio, dermografometro para el dermografismo, ejercicio o baño caliente para la colinergica, y luz de longitud de onda conocida para la solar.', cutoff: 'Confirman el desencadenante y permiten medir el umbral' },
       { metodo: 'Fotografia de las lesiones', interpretacion: 'La herramienta mas rentable y la mas barata. El paciente rara vez llega con habones, y una foto evita semanas de dudas sobre si lo que tuvo eran habones o no.', cutoff: 'Comprobar la fugacidad: si sale en la foto y sigue ahi al dia siguiente, sospechar' }
     ],
     imagen: [
@@ -56,7 +56,7 @@ export const content = {
   clasificacion: {
     compensada_descompensada: `Primero por el <strong>reloj</strong>: menos de seis semanas es AGUDA y seis semanas o mas es CRONICA. Despues, la cronica se divide en <strong>espontanea</strong> (sin desencadenante identificable) e <strong>inducible</strong> (siempre aparece con el mismo estimulo: frio, presion, rascado, calor, sol, agua, vibracion o ejercicio). Y por ultimo se mide, que es lo que casi nunca se hace: el <strong>UAS7</strong> dice cuanta enfermedad hay y el <strong>test de control</strong> dice si el tratamiento funciona. Son cosas distintas y las dos hacen falta.`,
     escalas: [
-      { nombre: 'UAS7 (calculadora disponible)', componentes: 'Cada dia, durante siete dias: numero de habones (0 ninguno, 1 menos de 20, 2 de 20 a 50, 3 mas de 50) e intensidad del picor (0 nada, 1 leve, 2 moderado, 3 intenso).', formula: 'Suma de los dos apartados cada dia, sumados los siete dias. Rango 0 a 42.', interpretacion: '0 libre de enfermedad; 1 a 6 bien controlada; 7 a 15 leve; 16 a 27 moderada; 28 a 42 grave. Su limitacion importa: mide habones y picor, de modo que un paciente con ANGIOEDEMA predominante puede tener un UAS7 enga&#241;osamente bajo.' },
+      { nombre: 'UAS7 (calculadora disponible)', componentes: 'Cada dia, durante siete dias: numero de habones (0 ninguno, 1 menos de 20, 2 de 20 a 50, 3 mas de 50) e intensidad del picor (0 nada, 1 leve, 2 moderado, 3 intenso).', formula: 'Suma de los dos apartados cada dia, sumados los siete dias. Rango 0 a 42.', interpretacion: '0 libre de enfermedad; 1 a 6 bien controlada; 7 a 15 leve; 16 a 27 moderada; 28 a 42 grave. Su limitacion importa: mide habones y picor, de modo que un paciente con ANGIOEDEMA predominante puede tener un UAS7 engañosamente bajo.' },
       { nombre: 'Test de control de la urticaria (calculadora disponible)', componentes: 'Cuatro preguntas sobre las ultimas cuatro semanas: sintomas fisicos, calidad de vida, insuficiencia del tratamiento y control global.', formula: 'Cada pregunta de 0 a 4. Rango 0 a 16.', interpretacion: '12 o mas indica enfermedad CONTROLADA; por debajo de 12, control insuficiente y hay que subir un escalon. Es retrospectivo y no necesita diario, lo que lo hace comodo para la consulta.' },
       { nombre: 'Escala de actividad del angioedema', componentes: 'Diario de episodios de angioedema, su duracion y su repercusion funcional.', formula: 'Puntuacion diaria acumulada.', interpretacion: 'Existe porque el UAS7 no mide el angioedema. En el paciente cuyo problema principal es el angioedema, usar solo el UAS7 lleva a infravalorar la enfermedad y a no escalar el tratamiento.' },
       { nombre: 'Clasificacion por duracion', componentes: 'Tiempo transcurrido desde el primer brote.', formula: 'Menos de 6 semanas o 6 semanas o mas.', interpretacion: 'Es la decision que mas cambia la conducta. La aguda no se estudia y suele resolverse; la cronica se estudia (poco) y se trata de forma escalonada y prolongada.' },
@@ -77,7 +77,7 @@ export const content = {
       laboratorio: 'Ninguno de rutina. Solo lo que la historia sugiera de forma concreta.',
       imagen: 'No se necesita.',
       complementarios: 'Fotografia de las lesiones si el paciente acude sin ellas. Revision de la medicacion de las dos semanas previas.',
-      dx_diferencial: 'Anafilaxia (que a&#241;ade compromiso respiratorio, digestivo o hipotension), exantema virico, exantema por farmacos, eritema multiforme, picaduras y dermatitis de contacto aguda.',
+      dx_diferencial: 'Anafilaxia (que añade compromiso respiratorio, digestivo o hipotension), exantema virico, exantema por farmacos, eritema multiforme, picaduras y dermatitis de contacto aguda.',
       tx_medico: 'Antihistaminico de SEGUNDA generacion a dosis estandar durante unas semanas, retirada del desencadenante si se identifica, y explicacion de que suele resolverse. Evitar antiinflamatorios no esteroideos mientras dure el brote, porque agravan la urticaria por un mecanismo distinto del alergico.',
       tx_farmacologico: 'Bilastina, cetirizina, desloratadina, ebastina, fexofenadina, levocetirizina, loratadina, mizolastina o rupatadina. Un ciclo CORTO de corticoide oral puede plantearse en un brote intenso, pero no es parte del tratamiento de fondo ni se debe prolongar. Los antihistaminicos de PRIMERA generacion se desaconsejan.',
       tx_intervencionista: 'No aplica. Si hay anafilaxia, adrenalina intramuscular en el muslo, que es otro cuadro y otro tema.',
@@ -94,24 +94,24 @@ export const content = {
       color: '#8c3a34',
       definicion: 'Habones, angioedema o ambos durante seis semanas o mas, sin desencadenante externo identificable que los reproduzca.',
       fisiopatologia: 'El mastocito se activa sin estimulo externo. En una parte importante de los pacientes hay un mecanismo AUTOINMUNITARIO: autoanticuerpos que activan al mastocito directamente (contra el receptor de la inmunoglobulina E) o autoanticuerpos de tipo inmunoglobulina E dirigidos contra autoantigenos. Esa doble via explica por que el omalizumab, que baja la inmunoglobulina E libre y desensibiliza al mastocito, funciona en muchos de ellos, y por que en otros hace falta un inmunosupresor.',
-      epidemiologia: 'Mucho menos frecuente que la aguda, pero mucho mas incapacitante: dura a&#241;os, altera el sue&#241;o y el rendimiento, y tiene un impacto en la calidad de vida comparable al de una cardiopatia isquemica. Predomina en mujeres de edad media.',
+      epidemiologia: 'Mucho menos frecuente que la aguda, pero mucho mas incapacitante: dura años, altera el sueño y el rendimiento, y tiene un impacto en la calidad de vida comparable al de una cardiopatia isquemica. Predomina en mujeres de edad media.',
       factores_riesgo: ['Sexo femenino', 'Enfermedad tiroidea autoinmune', 'Otras enfermedades autoinmunes', 'Estres psicologico, que la agrava aunque no la cause', 'Antiinflamatorios no esteroideos, que agravan hasta un tercio de los casos'],
-      clinica: 'Brotes de habones casi diarios, con o sin angioedema, que empeoran por la tarde y por la noche y alteran el sue&#241;o. El paciente suele llegar convencido de que es alergia a algo y con una lista larga de alimentos retirados sin beneficio.',
+      clinica: 'Brotes de habones casi diarios, con o sin angioedema, que empeoran por la tarde y por la noche y alteran el sueño. El paciente suele llegar convencido de que es alergia a algo y con una lista larga de alimentos retirados sin beneficio.',
       criterios_dx: 'Habones o angioedema durante seis semanas o mas sin desencadenante reproducible. Se apoya en el diario y en la fotografia.',
       laboratorio: 'ESTUDIO CORTO: hemograma con formula y velocidad de sedimentacion o proteina C reactiva. Nada mas de rutina. Inmunoglobulina E total y antitiroperoxidasa solo si van a orientar la respuesta al omalizumab.',
       imagen: 'No se necesita.',
       complementarios: 'UAS7 para medir actividad y test de control para medir control. Diario de sintomas.',
       dx_diferencial: 'Urticaria inducible, vasculitis urticarial, sindromes autoinflamatorios, mastocitosis, penfigoide ampolloso en fase preampollosa y reaccion por farmacos.',
       tx_medico: 'Retirar los antiinflamatorios no esteroideos, tratar la comorbilidad que exista y explicar que NO suele ser alergia alimentaria, para evitar dietas restrictivas inutiles. Y explicar tambien que el tratamiento es sintomatico y prolongado, no un ciclo corto.',
-      tx_farmacologico: 'Algoritmo: antihistaminico de segunda generacion a dosis estandar; si no controla en 2 a 4 semanas, subir la dosis hasta CUADRUPLICARLA (fuera de ficha tecnica, y sin pasar de ahi); si sigue sin controlar, a&#241;adir omalizumab. La guia se&#241;ala que subir la dosis es preferible a MEZCLAR distintos antihistaminicos de segunda generacion.',
+      tx_farmacologico: 'Algoritmo: antihistaminico de segunda generacion a dosis estandar; si no controla en 2 a 4 semanas, subir la dosis hasta CUADRUPLICARLA (fuera de ficha tecnica, y sin pasar de ahi); si sigue sin controlar, añadir omalizumab. La guia señala que subir la dosis es preferible a MEZCLAR distintos antihistaminicos de segunda generacion.',
       tx_intervencionista: 'No aplica.',
       criterios_uci: 'No aplica salvo anafilaxia concurrente.',
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'No aplica.',
       seguimiento_hospitalario: 'No requiere ingreso.',
       seguimiento_ambulatorio: 'Reevaluar con test de control cada pocas semanas y ajustar el escalon. Intentar bajar cuando lleve meses controlada, porque la enfermedad remite sola con el tiempo en muchos pacientes.',
-      pronostico: 'Remite espontaneamente en un plazo de a&#241;os en la mayoria, aunque una minoria persiste mucho tiempo. El control con tratamiento es alcanzable en casi todos.',
-      algoritmo: ['Confirmar seis semanas o mas y ausencia de desencadenante', 'Estudio CORTO: hemograma y reactantes', 'Medir con UAS7 y con el test de control', 'Antihistaminico de segunda generacion a dosis estandar', 'Sin control en 2 a 4 semanas: subir hasta cuadruplicar', 'Sin control: a&#241;adir omalizumab', 'Refractario a todo: valorar ciclosporina']
+      pronostico: 'Remite espontaneamente en un plazo de años en la mayoria, aunque una minoria persiste mucho tiempo. El control con tratamiento es alcanzable en casi todos.',
+      algoritmo: ['Confirmar seis semanas o mas y ausencia de desencadenante', 'Estudio CORTO: hemograma y reactantes', 'Medir con UAS7 y con el test de control', 'Antihistaminico de segunda generacion a dosis estandar', 'Sin control en 2 a 4 semanas: subir hasta cuadruplicar', 'Sin control: añadir omalizumab', 'Refractario a todo: valorar ciclosporina']
     },
     {
       nombre: 'Urticarias cronicas inducibles',
@@ -120,13 +120,13 @@ export const content = {
       fisiopatologia: 'El estimulo fisico act&uacute;a de forma directa sobre el mastocito o sobre estructuras cutaneas que lo activan. En la urticaria por frio se han implicado crioaglutininas en una minoria de casos. En la colinergica el estimulo es el aumento de la temperatura corporal y la sudoracion, no el calor externo, lo que explica que se dispare con el ejercicio, la ducha caliente o una emocion intensa.',
       epidemiologia: 'El dermografismo sintomatico es la mas frecuente. La colinergica predomina en adultos jovenes. Pueden coexistir con una urticaria cronica espontanea en el mismo paciente, lo que confunde el cuadro.',
       factores_riesgo: ['Exposicion laboral o recreativa al frio', 'Ejercicio y ambientes calurosos', 'Presion mantenida por cinturones, tirantes o asientos', 'Exposicion solar', 'Contacto con agua, en la rara urticaria acuagenica'],
-      clinica: 'Habones limitados a la zona estimulada y con la morfologia del estimulo: lineales en el dermografismo, peque&#241;os y numerosos en la colinergica, en la zona expuesta en la solar y en la de frio. La por presion retardada aparece HORAS despues del estimulo y es dolorosa mas que pruriginosa.',
-      criterios_dx: 'Historia compatible mas PRUEBA DE PROVOCACION positiva: cubito de hielo para el frio, dermografometro para el dermografismo, ejercicio o ba&#241;o caliente para la colinergica y luz de longitud de onda conocida para la solar.',
+      clinica: 'Habones limitados a la zona estimulada y con la morfologia del estimulo: lineales en el dermografismo, pequeños y numerosos en la colinergica, en la zona expuesta en la solar y en la de frio. La por presion retardada aparece HORAS despues del estimulo y es dolorosa mas que pruriginosa.',
+      criterios_dx: 'Historia compatible mas PRUEBA DE PROVOCACION positiva: cubito de hielo para el frio, dermografometro para el dermografismo, ejercicio o baño caliente para la colinergica y luz de longitud de onda conocida para la solar.',
       laboratorio: 'El mismo estudio corto que la espontanea si hay duda. En la urticaria por frio se puede buscar crioglobulinas si el cuadro es atipico o grave.',
       imagen: 'No se necesita.',
       complementarios: 'Medir el UMBRAL de desencadenamiento, que permite dar consejos concretos y seguir la respuesta al tratamiento de forma objetiva.',
       dx_diferencial: 'Urticaria cronica espontanea, dermatitis de contacto, eritema por calor y, en la colinergica, la anafilaxia inducida por ejercicio, que es mucho mas grave y obliga a llevar adrenalina.',
-      tx_medico: 'Evitar o graduar el estimulo, que en muchos casos es lo que mas cambia la vida del paciente. En la urticaria por frio hay que advertir del riesgo de un ba&#241;o en agua fria: la exposicion masiva y simultanea de toda la superficie corporal puede producir una reaccion sistemica grave.',
+      tx_medico: 'Evitar o graduar el estimulo, que en muchos casos es lo que mas cambia la vida del paciente. En la urticaria por frio hay que advertir del riesgo de un baño en agua fria: la exposicion masiva y simultanea de toda la superficie corporal puede producir una reaccion sistemica grave.',
       tx_farmacologico: 'El mismo algoritmo que la espontanea: antihistaminico de segunda generacion, subida de dosis hasta cuadruplicar y omalizumab si no se controla.',
       tx_intervencionista: 'La induccion de tolerancia se ha usado en casos seleccionados de urticaria por frio y solar, con resultados variables y en centros con experiencia.',
       criterios_uci: 'Reaccion sistemica grave tras exposicion masiva al frio, o anafilaxia inducida por ejercicio.',
@@ -140,9 +140,9 @@ export const content = {
     {
       nombre: 'Angioedema: con habones y sin habones',
       color: '#5a4a8c',
-      definicion: 'Edema subito, profundo y bien delimitado de dermis profunda, tejido subcutaneo o mucosas. La pregunta que lo ordena todo es si se acompa&#241;a de habones o no.',
-      fisiopatologia: 'Hay dos mecanismos y distinguirlos cambia el tratamiento por completo. El angioedema HISTAMINERGICO acompa&#241;a a la urticaria, responde a antihistaminicos y adrenalina, y suele cursar con habones. El angioedema por BRADICININA (hereditario por deficit o disfuncion del inhibidor de C1, o adquirido por inhibidores de la enzima convertidora de angiotensina) NO responde a antihistaminicos, corticoides ni adrenalina, y necesita farmacos dirigidos contra la via de la bradicinina.',
-      epidemiologia: 'El angioedema acompa&#241;a a los habones en una proporcion importante de las urticarias cronicas. El inducido por inhibidores de la enzima convertidora puede aparecer tras a&#241;os de tratamiento sin incidencias, lo que hace que se pase por alto con frecuencia.',
+      definicion: 'Edema subito, profundo y bien delimitado de dermis profunda, tejido subcutaneo o mucosas. La pregunta que lo ordena todo es si se acompaña de habones o no.',
+      fisiopatologia: 'Hay dos mecanismos y distinguirlos cambia el tratamiento por completo. El angioedema HISTAMINERGICO acompaña a la urticaria, responde a antihistaminicos y adrenalina, y suele cursar con habones. El angioedema por BRADICININA (hereditario por deficit o disfuncion del inhibidor de C1, o adquirido por inhibidores de la enzima convertidora de angiotensina) NO responde a antihistaminicos, corticoides ni adrenalina, y necesita farmacos dirigidos contra la via de la bradicinina.',
+      epidemiologia: 'El angioedema acompaña a los habones en una proporcion importante de las urticarias cronicas. El inducido por inhibidores de la enzima convertidora puede aparecer tras años de tratamiento sin incidencias, lo que hace que se pase por alto con frecuencia.',
       factores_riesgo: ['Tratamiento con inhibidores de la enzima convertidora de angiotensina', 'Antecedente familiar de angioedema', 'Antiinflamatorios no esteroideos', 'Traumatismo o cirugia, sobre todo dental, en el hereditario', 'Estres y cambios hormonales'],
       clinica: 'Tumefaccion asimetrica de parpados, labios, lengua, manos, pies o genitales, que TENSA o duele mas de lo que pica, y que tarda hasta 72 horas en resolverse. El compromiso de lengua, suelo de boca o laringe es una urgencia de via aerea. En el hereditario son frecuentes las crisis de dolor abdominal por edema de la pared intestinal, que simulan un abdomen agudo y llevan a laparotomias innecesarias.',
       criterios_dx: 'Clinico. La clave esta en la anamnesis: presencia o no de habones, respuesta o no a antihistaminicos, medicacion actual y antecedentes familiares.',
@@ -159,7 +159,7 @@ export const content = {
       seguimiento_hospitalario: 'Observacion prolongada tras un episodio con afectacion de via aerea. Revision de toda la medicacion antes del alta.',
       seguimiento_ambulatorio: 'Plan escrito de actuacion. En el hereditario, profilaxis a largo plazo y cobertura antes de procedimientos dentales o cirugia.',
       pronostico: 'Bueno si se identifica el mecanismo. El riesgo vital esta en el episodio laringeo y en confundir el mecanismo por bradicinina con una alergia.',
-      algoritmo: ['Asegurar la via aerea si hay afectacion laringea', '&#191;Hay habones? Si los hay, es via histaminergica', 'Revisar si toma un inhibidor de la enzima convertidora y retirarlo', 'Sin habones y sin respuesta a antihistaminico: pedir C4', 'Tratar segun el mecanismo, no segun el aspecto', 'Plan escrito y profilaxis si es hereditario']
+      algoritmo: ['Asegurar la via aerea si hay afectacion laringea', '¿Hay habones? Si los hay, es via histaminergica', 'Revisar si toma un inhibidor de la enzima convertidora y retirarlo', 'Sin habones y sin respuesta a antihistaminico: pedir C4', 'Tratar segun el mecanismo, no segun el aspecto', 'Plan escrito y profilaxis si es hereditario']
     },
     {
       nombre: 'Lo que parece urticaria y no lo es',
@@ -183,7 +183,7 @@ export const content = {
       seguimiento_hospitalario: 'Segun la enfermedad de base.',
       seguimiento_ambulatorio: 'Derivacion al especialista que corresponda una vez identificada la entidad.',
       pronostico: 'Depende por completo de la enfermedad de base. Lo que empeora el pronostico de todas ellas es el retraso diagnostico bajo la etiqueta de urticaria resistente.',
-      algoritmo: ['Preguntar cuanto dura UNA lesion concreta', '&#191;Pica o duele? &#191;Deja marca al irse?', 'Buscar fiebre, artralgias y reactantes mantenidos', 'Biopsiar ante cualquier bandera roja', 'A&#241;adir inmunofluorescencia si se sospecha penfigoide', 'No seguir escalando antihistaminicos a ciegas']
+      algoritmo: ['Preguntar cuanto dura UNA lesion concreta', '¿Pica o duele? ¿Deja marca al irse?', 'Buscar fiebre, artralgias y reactantes mantenidos', 'Biopsiar ante cualquier bandera roja', 'Añadir inmunofluorescencia si se sospecha penfigoide', 'No seguir escalando antihistaminicos a ciegas']
     },
     {
       nombre: 'Tratamiento escalonado y control',
@@ -199,7 +199,7 @@ export const content = {
       complementarios: 'Test de control en cada visita. UAS7 cuando se quiera medir actividad de forma fina.',
       dx_diferencial: 'Ante falta de respuesta a todo el algoritmo, revisar el DIAGNOSTICO antes de seguir escalando: vasculitis urticarial, autoinflamatorio, penfigoide o mastocitosis.',
       tx_medico: 'Retirar antiinflamatorios no esteroideos, tratar comorbilidad, y explicar que el objetivo es el control completo y que el tratamiento se mantiene mientras la enfermedad este activa.',
-      tx_farmacologico: 'Escalon 1: antihistaminico de segunda generacion moderno a DOSIS ESTANDAR. Escalon 2: subir hasta CUADRUPLICAR esa dosis, que es preferible a mezclar moleculas distintas; por encima de cuatro veces no esta probado y no se recomienda. Escalon 3: a&#241;adir omalizumab. Con dupilumab como opcion, con la ventaja de que su eficacia no depende de una inmunoglobulina E basal alta, a diferencia del omalizumab. La CICLOSPORINA queda para la enfermedad grave refractaria a todo lo autorizado, fuera de ficha tecnica y por sus efectos adversos. Los antihistaminicos de PRIMERA generacion se desaconsejan como primera linea por sus efectos adversos, y astemizol y terfenadina no deben usarse.',
+      tx_farmacologico: 'Escalon 1: antihistaminico de segunda generacion moderno a DOSIS ESTANDAR. Escalon 2: subir hasta CUADRUPLICAR esa dosis, que es preferible a mezclar moleculas distintas; por encima de cuatro veces no esta probado y no se recomienda. Escalon 3: añadir omalizumab. Con dupilumab como opcion, con la ventaja de que su eficacia no depende de una inmunoglobulina E basal alta, a diferencia del omalizumab. La CICLOSPORINA queda para la enfermedad grave refractaria a todo lo autorizado, fuera de ficha tecnica y por sus efectos adversos. Los antihistaminicos de PRIMERA generacion se desaconsejan como primera linea por sus efectos adversos, y astemizol y terfenadina no deben usarse.',
       tx_intervencionista: 'No aplica.',
       criterios_uci: 'No aplica.',
       criterios_tips: 'No aplica.',
@@ -207,7 +207,7 @@ export const content = {
       seguimiento_hospitalario: 'No aplica.',
       seguimiento_ambulatorio: 'Con un antihistaminico, si no ha mejorado en una o dos semanas ya no va a mejorar mas a esa dosis: hay que subir. Una vez controlada de forma estable, intentar bajar, porque la enfermedad remite sola con el tiempo.',
       pronostico: 'El control completo es alcanzable en la gran mayoria si se respeta el algoritmo y se mide.',
-      algoritmo: ['Medir el control antes de decidir', 'Antihistaminico de segunda generacion a dosis estandar', 'Sin control en 2 a 4 semanas: subir hasta cuadruplicar', 'Sin control: a&#241;adir omalizumab', 'Refractario a lo autorizado: valorar ciclosporina', 'Si nada funciona, revisar el DIAGNOSTICO', 'Cuando lleve meses controlada, intentar bajar']
+      algoritmo: ['Medir el control antes de decidir', 'Antihistaminico de segunda generacion a dosis estandar', 'Sin control en 2 a 4 semanas: subir hasta cuadruplicar', 'Sin control: añadir omalizumab', 'Refractario a lo autorizado: valorar ciclosporina', 'Si nada funciona, revisar el DIAGNOSTICO', 'Cuando lleve meses controlada, intentar bajar']
     }
   ],
   seguimiento_intrahospitalario: {
@@ -238,12 +238,12 @@ export const compCites = {
 
 export const estigmasTitulo = 'Los tres rasgos del habon, y lo que los rompe';
 export const estigmas = [
-  { nombre: 'Elevacion central con eritema reflejo', descripcion: 'El habon es una papula o placa edematosa de tama&#241;o variable, rodeada casi siempre de un halo eritematoso. Es el rasgo morfologico.' },
+  { nombre: 'Elevacion central con eritema reflejo', descripcion: 'El habon es una papula o placa edematosa de tamaño variable, rodeada casi siempre de un halo eritematoso. Es el rasgo morfologico.' },
   { nombre: 'Picor, a veces quemazon', descripcion: 'El habon PICA. Si lo que predomina es el dolor o el escozor, hay que dudar del diagnostico y pensar en vasculitis urticarial.' },
   { nombre: 'Fugacidad de menos de 24 horas', descripcion: 'Es el rasgo que mas rinde y el que menos se pregunta. La lesion INDIVIDUAL desaparece en menos de 24 horas sin dejar marca. Hay que preguntar por una lesion concreta, no por el brote.' },
   { nombre: 'Migracion', descripcion: 'Los habones de hoy no estan donde estaban los de ayer. Una lesion fija en el mismo sitio durante dias no es un habon.' },
   { nombre: 'Dermografismo', descripcion: 'Al rascar la piel con un objeto romo aparece un habon lineal en pocos minutos. Es la prueba de provocacion mas sencilla y se hace en la propia consulta.' },
-  { nombre: 'Purpura residual', descripcion: 'Si al resolverse la lesion deja purpura o una mancha pigmentada, NO es una urticaria comun: es la se&#241;al de vasculitis urticarial y obliga a biopsiar.' }
+  { nombre: 'Purpura residual', descripcion: 'Si al resolverse la lesion deja purpura o una mancha pigmentada, NO es una urticaria comun: es la señal de vasculitis urticarial y obliga a biopsiar.' }
 ];
 
 export const biopsiaTitulo = 'Biopsia cutanea: solo ante banderas rojas';
@@ -307,7 +307,7 @@ export const arbol = {
       { title: 'Espontanea', sub: 'Sin desencadenante &middot; estudio corto', color: '#8c3a34', target: 'complicaciones' },
       { title: 'Inducible', sub: 'Estimulo fijo &middot; prueba de provocacion', color: '#3d5a73', target: 'complicaciones' }
     ] },
-    { title: 'Angioedema', sub: '&#191;Hay habones?', color: '#5a4a8c', target: 'complicaciones', leaves: [
+    { title: 'Angioedema', sub: '¿Hay habones?', color: '#5a4a8c', target: 'complicaciones', leaves: [
       { title: 'Con habones', sub: 'Histaminergico &middot; antihistaminico', color: '#5a4a8c', target: 'complicaciones' },
       { title: 'Sin habones', sub: 'Bradicinina &middot; C4 y via propia', color: '#7a4363', target: 'complicaciones' }
     ] }
@@ -329,15 +329,15 @@ export const figuras = {
         <table>
           <thead><tr><th>Pregunta sobre UNA lesion</th><th>Urticaria comun</th><th>Sospechar otra cosa</th></tr></thead>
           <tbody>
-            <tr><td class="figure-org">&#191;Cuanto dura?</td><td>Menos de 24 horas</td><td><span class="figure-tag fail">Mas de 24 horas</span></td></tr>
-            <tr><td class="figure-org">&#191;Pica o duele?</td><td>Pica, a veces quema</td><td><span class="figure-tag fail">Duele o escuece</span></td></tr>
-            <tr><td class="figure-org">&#191;Que deja al irse?</td><td>Nada, la piel queda normal</td><td><span class="figure-tag fail">Purpura o pigmentacion</span></td></tr>
-            <tr><td class="figure-org">&#191;Se mueve?</td><td>Si, migra de un dia a otro</td><td><span class="figure-tag dys">Fija en el mismo sitio</span></td></tr>
-            <tr><td class="figure-org">&#191;Hay sintomas generales?</td><td>No, salvo el propio picor</td><td><span class="figure-tag fail">Fiebre, artralgias, reactantes altos</span></td></tr>
+            <tr><td class="figure-org">¿Cuanto dura?</td><td>Menos de 24 horas</td><td><span class="figure-tag fail">Mas de 24 horas</span></td></tr>
+            <tr><td class="figure-org">¿Pica o duele?</td><td>Pica, a veces quema</td><td><span class="figure-tag fail">Duele o escuece</span></td></tr>
+            <tr><td class="figure-org">¿Que deja al irse?</td><td>Nada, la piel queda normal</td><td><span class="figure-tag fail">Purpura o pigmentacion</span></td></tr>
+            <tr><td class="figure-org">¿Se mueve?</td><td>Si, migra de un dia a otro</td><td><span class="figure-tag dys">Fija en el mismo sitio</span></td></tr>
+            <tr><td class="figure-org">¿Hay sintomas generales?</td><td>No, salvo el propio picor</td><td><span class="figure-tag fail">Fiebre, artralgias, reactantes altos</span></td></tr>
           </tbody>
         </table>
       </div>
-      <div class="figure-grade-box">La pregunta tiene que ser sobre <strong>una lesion concreta</strong>, no sobre el brote. Un paciente con habones a diario durante meses sigue teniendo una urticaria comun si cada habon individual dura menos de un dia. Preguntar "&#191;cuanto le dura el brote?" no sirve: hay que preguntar "&#191;cuanto le dura UN habon, el que le sale aqui?". Ante cualquier bandera, <strong>biopsiar</strong> buscando vasculitis urticarial.</div>`
+      <div class="figure-grade-box">La pregunta tiene que ser sobre <strong>una lesion concreta</strong>, no sobre el brote. Un paciente con habones a diario durante meses sigue teniendo una urticaria comun si cada habon individual dura menos de un dia. Preguntar "¿cuanto le dura el brote?" no sirve: hay que preguntar "¿cuanto le dura UN habon, el que le sale aqui?". Ante cualquier bandera, <strong>biopsiar</strong> buscando vasculitis urticarial.</div>`
   },
   'escalones-urticaria': {
     titulo: 'Algoritmo de tratamiento',
@@ -349,7 +349,7 @@ export const figuras = {
           <tbody>
             <tr><td class="figure-org">1</td><td>Antihistaminico de <strong>segunda generacion</strong> moderno a dosis estandar (bilastina, cetirizina, desloratadina, ebastina, fexofenadina, levocetirizina, loratadina, mizolastina o rupatadina)</td><td>Sin control en 2 a 4 semanas</td></tr>
             <tr><td class="figure-org">2</td><td>Subir la dosis del mismo antihistaminico <strong>hasta cuadruplicarla</strong>. Es preferible a mezclar moleculas distintas</td><td>Sin control en 2 a 4 semanas</td></tr>
-            <tr><td class="figure-org">3</td><td>A&#241;adir <strong>omalizumab</strong>. Dupilumab como opcion, con eficacia que no depende de una IgE basal alta</td><td>Sin control pese a dosis y tiempo suficientes</td></tr>
+            <tr><td class="figure-org">3</td><td>Añadir <strong>omalizumab</strong>. Dupilumab como opcion, con eficacia que no depende de una IgE basal alta</td><td>Sin control pese a dosis y tiempo suficientes</td></tr>
             <tr><td class="figure-org">4</td><td><strong>Ciclosporina</strong>, solo en enfermedad grave refractaria a todo lo autorizado</td><td>Ultimo recurso</td></tr>
           </tbody>
         </table>

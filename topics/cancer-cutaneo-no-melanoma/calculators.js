@@ -147,7 +147,7 @@ export const calculators = [
         { value: 'africa', label: 'Procedente del Africa subsahariana, sin VIH' },
         { value: 'hsh', label: 'Hombre que tiene sexo con hombres, sin VIH ni inmunodepresion' }
       ] },
-      { name: 'esNino', id: 'cc-ks-nino', type: 'checkbox', label: 'Es un ni&#241;o' },
+      { name: 'esNino', id: 'cc-ks-nino', type: 'checkbox', label: 'Es un niño' },
       { name: 'biopsiado', id: 'cc-ks-bx', type: 'checkbox', label: 'Ya hay confirmacion por biopsia' },
       { name: 'sintomasViscerales', id: 'cc-ks-visc', type: 'checkbox', label: 'Hay sintomas respiratorios o digestivos' },
       { name: 'artReciente', id: 'cc-ks-art', type: 'checkbox', label: 'Inicio el antirretroviral hace menos de 12 semanas' },

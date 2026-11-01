@@ -18,7 +18,7 @@ export const calculators = [
     subtitle: 'Calculo, valor esperado para la edad y mecanismo de la hipoxemia',
     incompleteMsg: 'Introduce edad, PaO2, PaCO2 y fraccion inspirada de oxigeno.',
     fields: [
-      { name: 'edad', id: 'ir-aa-edad', type: 'number', step: '1', label: 'Edad (a&#241;os)', placeholder: 'ej. 62', row: 'r1' },
+      { name: 'edad', id: 'ir-aa-edad', type: 'number', step: '1', label: 'Edad (años)', placeholder: 'ej. 62', row: 'r1' },
       { name: 'fio2', id: 'ir-aa-fio2', type: 'number', step: '1', label: 'Fraccion inspirada de oxigeno (%)', placeholder: 'ej. 21', row: 'r1' },
       { name: 'pao2', id: 'ir-aa-pao2', type: 'number', step: '1', label: 'PaO2 medida (mmHg)', placeholder: 'ej. 55', row: 'r2' },
       { name: 'paco2', id: 'ir-aa-paco2', type: 'number', step: '1', label: 'PaCO2 medida (mmHg)', placeholder: 'ej. 32', row: 'r2' },
@@ -28,7 +28,7 @@ export const calculators = [
         { value: 'si', label: 'Si, mejora claramente' },
         { value: 'no', label: 'No, apenas cambia' },
         { value: 'nd', label: 'No comprobado todavia' } ] },
-      { type: 'note', text: 'Presion alveolar de oxigeno = fraccion inspirada por (presion barometrica menos 47) menos PaCO2 dividida entre 0.8. A nivel del mar respirando aire equivale a 150 menos 1.25 por la PaCO2. El valor NORMAL del gradiente sube con la edad: aproximadamente la edad dividida entre 4 mas 4, de modo que 22 es normal a los 70 a&#241;os y claramente patologico a los 25. En altitud hay que introducir la presion barometrica real del lugar, o el resultado sale falsamente alterado.' }
+      { type: 'note', text: 'Presion alveolar de oxigeno = fraccion inspirada por (presion barometrica menos 47) menos PaCO2 dividida entre 0.8. A nivel del mar respirando aire equivale a 150 menos 1.25 por la PaCO2. El valor NORMAL del gradiente sube con la edad: aproximadamente la edad dividida entre 4 mas 4, de modo que 22 es normal a los 70 años y claramente patologico a los 25. En altitud hay que introducir la presion barometrica real del lugar, o el resultado sale falsamente alterado.' }
     ],
     compute(v) {
       if (v.edad == null || v.fio2 == null || v.pao2 == null || v.paco2 == null) return null;
@@ -50,8 +50,8 @@ export const calculators = [
       return { pAO2, gradiente, esperado, alto, hipercapnia, mecanismo, responde: v.responde, pb, fio2: v.fio2, pao2: v.pao2, edad: v.edad };
     },
     format: r => {
-      if (r.invalido) return 'Revisa los valores: edad de 0 a 120 a&#241;os, fraccion inspirada del 15 al 100%, PaO2 de 10 a 700 mmHg, PaCO2 de 5 a 200 mmHg y presion barometrica de 400 a 800 mmHg.';
-      let s = `<strong>Presion alveolar de oxigeno ${r.pAO2.toFixed(0)} mmHg. Gradiente alveolo-arterial ${r.gradiente.toFixed(0)} mmHg</strong> (esperado para ${r.edad} a&#241;os: hasta ${r.esperado.toFixed(0)}). `;
+      if (r.invalido) return 'Revisa los valores: edad de 0 a 120 años, fraccion inspirada del 15 al 100%, PaO2 de 10 a 700 mmHg, PaCO2 de 5 a 200 mmHg y presion barometrica de 400 a 800 mmHg.';
+      let s = `<strong>Presion alveolar de oxigeno ${r.pAO2.toFixed(0)} mmHg. Gradiente alveolo-arterial ${r.gradiente.toFixed(0)} mmHg</strong> (esperado para ${r.edad} años: hasta ${r.esperado.toFixed(0)}). `;
       s += r.alto ? '<strong style="color:#8c3a34;">Gradiente ALTO</strong>: hay alteracion del intercambio en el pulmon. ' : '<strong style="color:#3f6b52;">Gradiente NORMAL</strong> para la edad: el intercambio pulmonar esta conservado. ';
       s += `Mecanismo mas probable: <strong>${r.mecanismo}</strong>. `;
       if (!r.alto && r.hipercapnia) s += 'Buscar la causa en el estimulo central (opioides, sedantes, lesion del tronco) o en la bomba (enfermedad neuromuscular, cifoescoliosis, obesidad extrema, fatiga del diafragma). El tratamiento es ventilar, no oxigenar.';
@@ -138,7 +138,7 @@ export const calculators = [
       { name: 'ph', id: 'ir-ht-ph', type: 'number', step: '0.01', label: 'pH arterial', placeholder: 'ej. 7.29', row: 'r1' },
       { name: 'paco2', id: 'ir-ht-co2', type: 'number', step: '1', label: 'PaCO2 (mmHg)', placeholder: 'ej. 68', row: 'r1' },
       { name: 'hco3', id: 'ir-ht-hco3', type: 'number', step: '0.1', label: 'Bicarbonato (mmol/L)', placeholder: 'ej. 31', row: 'r2' },
-      { type: 'note', text: 'Reglas de compensacion, partiendo de una PaCO2 de 40 mmHg y un bicarbonato de 24 mmol/L. AGUDA: por cada 10 mmHg de ascenso de la PaCO2, el bicarbonato sube alrededor de 1 mmol/L y el pH baja unas 0.08 unidades. CRONICA: el bicarbonato sube de 3.5 a 4 mmol/L y el pH baja unas 0.03. El ri&#241;on tarda de 3 a 5 dias en completar la compensacion, y esa lentitud es justo lo que permite fechar el cuadro con una sola gasometria.' }
+      { type: 'note', text: 'Reglas de compensacion, partiendo de una PaCO2 de 40 mmHg y un bicarbonato de 24 mmol/L. AGUDA: por cada 10 mmHg de ascenso de la PaCO2, el bicarbonato sube alrededor de 1 mmol/L y el pH baja unas 0.08 unidades. CRONICA: el bicarbonato sube de 3.5 a 4 mmol/L y el pH baja unas 0.03. El riñon tarda de 3 a 5 dias en completar la compensacion, y esa lentitud es justo lo que permite fechar el cuadro con una sola gasometria.' }
     ],
     compute(v) {
       if (v.ph == null || v.paco2 == null || v.hco3 == null) return null;
@@ -161,7 +161,7 @@ export const calculators = [
       if (r.sinHipercapnia) return `<strong>PaCO2 de ${r.paco2} mmHg: no hay hipercapnia</strong> (el umbral es 45 mmHg). Si el paciente esta hipoxemico, el mecanismo no es la hipoventilacion: calcular el gradiente alveolo-arterial y comprobar la respuesta al oxigeno.`;
       let s = `<strong>Hipercapnia ${r.patron}.</strong> Con una PaCO2 de ${r.paco2} mmHg, el bicarbonato esperado seria de ${r.hco3Agudo.toFixed(1)} mmol/L si fuera aguda y de ${r.hco3Cronico.toFixed(1)} si fuera cronica; el medido es ${r.hco3}. El pH esperado seria ${r.phAgudo.toFixed(2)} en la aguda y ${r.phCronico.toFixed(2)} en la cronica; el medido es ${r.ph}. `;
       if (r.patron === 'aguda') {
-        s += '<strong style="color:#8c3a34;">El ri&#241;on todavia no ha compensado</strong>, de modo que el ascenso de la PaCO2 lleva horas y no dias. Buscar la causa aguda: sedantes u opioides, agotamiento del musculo respiratorio, broncoespasmo grave, neumotorax o lesion del sistema nervioso central. Si el pH es de 7.35 o menor, la ventilacion no invasiva es tratamiento de primera linea y no debe demorarse.';
+        s += '<strong style="color:#8c3a34;">El riñon todavia no ha compensado</strong>, de modo que el ascenso de la PaCO2 lleva horas y no dias. Buscar la causa aguda: sedantes u opioides, agotamiento del musculo respiratorio, broncoespasmo grave, neumotorax o lesion del sistema nervioso central. Si el pH es de 7.35 o menor, la ventilacion no invasiva es tratamiento de primera linea y no debe demorarse.';
       } else if (r.patron === 'cronica agudizada') {
         s += '<strong style="color:#8c3a34;">Hay una descompensacion aguda sobre una hipercapnia cronica</strong>: el bicarbonato alto demuestra que la PaCO2 llevaba tiempo elevada, y el pH bajo indica que ha subido mas en los ultimos dias. Es el patron tipico de la exacerbacion de EPOC. Ventilacion no invasiva si el pH es 7.35 o menor, oxigeno controlado con objetivo del 88 al 92% y tratamiento del desencadenante.';
       } else {

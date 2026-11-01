@@ -28,7 +28,7 @@ export const content = {
     clinica: {
       tituloA: 'La abstinencia que se ve venir',
       tituloB: 'La abstinencia que se disfraza',
-      compensada: 'Ansiedad, insomnio, sue&#241;os vividos, anorexia, nauseas, cefalea, temblor, sudoracion, taquicardia, hipertension, hiperreflexia y febricula, que empiezan entre 6 y 24 horas despues de reducir o suspender el consumo. El diagnostico se hace con criterios como los del DSM-5, y la clave es la historia: cuanto bebe, con que frecuencia y a que hora fue la ultima toma, completada con familiares cuando hace falta.',
+      compensada: 'Ansiedad, insomnio, sueños vividos, anorexia, nauseas, cefalea, temblor, sudoracion, taquicardia, hipertension, hiperreflexia y febricula, que empiezan entre 6 y 24 horas despues de reducir o suspender el consumo. El diagnostico se hace con criterios como los del DSM-5, y la clave es la historia: cuanto bebe, con que frecuencia y a que hora fue la ultima toma, completada con familiares cuando hace falta.',
       descompensada: 'La que no se presenta en orden: una convulsion sin otros sintomas llamativos, un delirium en el postoperatorio o en la unidad de criticos, o un paciente que no refiere el consumo. Los betabloqueantes pueden enmascarar los signos autonomicos. Una alcoholemia positiva no descarta la abstinencia: puede haber sintomas con alcohol todavia en sangre, y eso es en si un factor de riesgo de complicacion. Y en el anciano el calendario puede ser distinto.'
     },
     laboratorio: [
@@ -72,7 +72,7 @@ export const content = {
       definicion: 'Identificacion del sindrome de supresion y, sobre todo, del riesgo de que evolucione a una forma grave o complicada, que es lo que decide el tratamiento y el ambito.',
       fisiopatologia: 'El consumo cronico adapta el sistema nervioso a la presencia del alcohol. Al retirarlo queda un estado de hiperexcitabilidad que se traduce en hiperactividad autonomica, temblor, convulsiones y, en el extremo, delirium. Cada episodio aumenta la gravedad de los siguientes, por un fenomeno de encendido o kindling.',
       epidemiologia: 'Afecta a personas con dependencia fisica del alcohol y es frecuente en el paciente hospitalizado por otro motivo. Por eso la guia pide cribar a todos los que ingresan.',
-      factores_riesgo: ['Delirium o convulsiones por abstinencia previos', 'Muchas abstinencias previas', 'Comorbilidad medica o quirurgica, sobre todo traumatismo craneal', 'Edad mayor de 65 a&#241;os', 'Consumo intenso y prolongado', 'Convulsion en el episodio actual', 'Hiperactividad autonomica marcada', 'Dependencia de benzodiacepinas o barbituricos'],
+      factores_riesgo: ['Delirium o convulsiones por abstinencia previos', 'Muchas abstinencias previas', 'Comorbilidad medica o quirurgica, sobre todo traumatismo craneal', 'Edad mayor de 65 años', 'Consumo intenso y prolongado', 'Convulsion en el episodio actual', 'Hiperactividad autonomica marcada', 'Dependencia de benzodiacepinas o barbituricos'],
       clinica: 'Ansiedad, insomnio, temblor, sudoracion, nauseas, taquicardia e hipertension que empiezan entre 6 y 24 horas tras la ultima toma.',
       criterios_dx: 'Criterios del DSM-5. La CIWA-Ar y las demas escalas de gravedad NO deben usarse para diagnosticar, porque otras enfermedades elevan su puntuacion. Una alcoholemia positiva no confirma ni descarta la abstinencia.',
       laboratorio: 'Perfil metabolico, hepatico y hemograma; magnesio y fosforo; toxicos. Sin retrasar el tratamiento.',
@@ -103,13 +103,13 @@ export const content = {
       imagen: 'No aplica.',
       complementarios: 'Escala validada para guiar las dosis y vigilancia de la sedacion.',
       dx_diferencial: 'No aplica.',
-      tx_medico: 'El tratamiento GUIADO POR SINTOMAS es el metodo de dosificacion preferido. La pauta fija descendente se reserva para cuando no se puede usar, y aun asi se vigilan los sintomas y se a&#241;aden dosis si hacen falta. Con benzodiacepinas de accion corta, una pauta fija con descenso gradual reduce los rebotes.',
+      tx_medico: 'El tratamiento GUIADO POR SINTOMAS es el metodo de dosificacion preferido. La pauta fija descendente se reserva para cuando no se puede usar, y aun asi se vigilan los sintomas y se añaden dosis si hacen falta. Con benzodiacepinas de accion corta, una pauta fija con descenso gradual reduce los rebotes.',
       tx_farmacologico: 'Dosis de CARGA inicial (front loading) en la abstinencia grave, con diazepam o clordiazepoxido como agentes preferidos. Alternativas si hay contraindicacion: carbamazepina o gabapentina en la leve o moderada; fenobarbital en manos experimentadas. Coadyuvantes una vez dada una dosis adecuada de benzodiacepina: carbamazepina, gabapentina o valproico (no en hepatopatia ni en mujeres con posibilidad de embarazo). Agonistas alfa-2 y betabloqueantes solo como coadyuvantes para la hiperactividad autonomica persistente.',
       tx_intervencionista: 'No aplica.',
       criterios_uci: 'Necesidad de dosis muy altas, sedacion excesiva o necesidad de vigilancia estrecha.',
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'No aplica.',
-      seguimiento_hospitalario: 'Si los sintomas no se controlan, primero aumentar la dosis. Si preocupa la sedacion o no se puede vigilar bien, reconsiderar el ambito, cambiar de farmaco o a&#241;adir un coadyuvante.',
+      seguimiento_hospitalario: 'Si los sintomas no se controlan, primero aumentar la dosis. Si preocupa la sedacion o no se puede vigilar bien, reconsiderar el ambito, cambiar de farmaco o añadir un coadyuvante.',
       seguimiento_ambulatorio: 'La prescripcion de benzodiacepinas para la abstinencia se suspende al terminar el tratamiento.',
       pronostico: 'Lo que NO debe usarse: alcohol oral o intravenoso para prevenir o tratar la abstinencia; baclofeno, por falta de evidencia; valproico en monoterapia; y magnesio como profilaxis o tratamiento de la abstinencia en si.',
       algoritmo: ['Leve con riesgo minimo: soporte o farmaco', 'Moderada: tratamiento farmacologico', 'Grave: benzodiacepina con dosis de carga', 'Guiado por sintomas, mejor que pauta fija', 'Accion larga; menos metabolismo hepatico si hay hepatopatia', 'Coadyuvantes solo tras dosis adecuada', 'No alcohol, no baclofeno']
@@ -134,7 +134,7 @@ export const content = {
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'No aplica.',
       seguimiento_hospitalario: 'Magnesio si hay antecedente de convulsiones por abstinencia o hipomagnesemia.',
-      seguimiento_ambulatorio: 'Un antecedente de abstinencia complicada en el ultimo a&#241;o desaconseja el manejo ambulatorio de menor intensidad.',
+      seguimiento_ambulatorio: 'Un antecedente de abstinencia complicada en el ultimo año desaconseja el manejo ambulatorio de menor intensidad.',
       pronostico: 'La convulsion avisa de un episodio de alto riesgo: obliga a vigilar la evolucion a delirium.',
       algoritmo: ['Confirmar la relacion temporal con la suspension', 'Exploracion neurologica', 'Primera convulsion o patron nuevo: EEG y neuroimagen', 'Benzodiacepina rapida parenteral de inmediato', 'No fenitoina sin epilepsia de base', 'Ingreso vigilado: reevaluar cada 12 h', 'Vigilar la evolucion a delirium']
     },
@@ -158,14 +158,14 @@ export const content = {
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'No aplica.',
       seguimiento_hospitalario: 'Cuando el paciente esta tranquilo y colaborador con somnolencia ligera, pasar de la via intravenosa a la oral guiada por sintomas. Monitorizacion de constantes, oximetria y ritmo, con material de reanimacion a mano.',
-      seguimiento_ambulatorio: 'Un delirium por abstinencia en el ultimo a&#241;o desaconseja el manejo ambulatorio de menor intensidad.',
+      seguimiento_ambulatorio: 'Un delirium por abstinencia en el ultimo año desaconseja el manejo ambulatorio de menor intensidad.',
       pronostico: 'Es la forma con mayor mortalidad de la abstinencia, y se reduce con el reconocimiento y el tratamiento adecuados.',
       algoritmo: ['Descartar otras causas de delirium', 'Ingreso en criticos con observacion estrecha', 'Benzodiacepina intravenosa: objetivo somnolencia ligera', 'No temer a las dosis altas, vigilando la sedacion', 'Seguir con CAM-ICU o RASS, no con CIWA-Ar', 'Resistente: fenobarbital, propofol si ventilado, dexmedetomidina', 'Mas de 72 h: buscar otra causa']
     },
     {
       nombre: 'Tiamina, electrolitos y nutricion',
       color: '#3f6b52',
-      definicion: 'Medidas de soporte que acompa&#241;an a todo tratamiento de la abstinencia y que previenen complicaciones graves como la encefalopatia de Wernicke.',
+      definicion: 'Medidas de soporte que acompañan a todo tratamiento de la abstinencia y que previenen complicaciones graves como la encefalopatia de Wernicke.',
       fisiopatologia: 'El consumo intenso favorece el deficit de tiamina por mala ingesta y porque el alcohol inhibe la enzima que forma el difosfato de tiamina y acelera su degradacion. El deficit puede producir la encefalopatia de Wernicke, cuyos signos se confunden con los de la propia abstinencia.',
       epidemiologia: 'La malnutricion, la hipomagnesemia y la hipofosfatemia son frecuentes en la persona con consumo intenso.',
       factores_riesgo: ['Malnutricion', 'Malabsorcion', 'Abstinencia complicada', 'Ingreso en la unidad de criticos', 'Vomitos persistentes'],
@@ -206,7 +206,7 @@ export const content = {
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'No aplica.',
       seguimiento_hospitalario: 'En la cirugia programada, cribar el consumo y completar la abstinencia antes de operar. Ante una abstinencia tras cirugia o trauma, tratar de inmediato.',
-      seguimiento_ambulatorio: 'Usar el periodo de abstinencia para iniciar el tratamiento del trastorno por consumo de alcohol, incluido el farmacologico cuando el estado cognitivo lo permita, con una derivacion activa. En atencion primaria, visitas al menos mensuales durante un a&#241;o.',
+      seguimiento_ambulatorio: 'Usar el periodo de abstinencia para iniciar el tratamiento del trastorno por consumo de alcohol, incluido el farmacologico cuando el estado cognitivo lo permita, con una derivacion activa. En atencion primaria, visitas al menos mensuales durante un año.',
       pronostico: 'Terminar la abstinencia sin iniciar el tratamiento del trastorno de base deja la puerta abierta al siguiente episodio, mas grave por el efecto de encendido.',
       algoritmo: ['Valorar riesgo, gravedad, apoyo y entorno', 'Leve o moderada sin complicaciones: ambulatorio posible', 'Grave o complicada: ingreso', 'Riesgo de suicidio: entorno preparado para ello', 'Embarazada: considerar ingreso', 'Iniciar el tratamiento del trastorno por consumo']
     }
@@ -319,7 +319,7 @@ export const figuras = {
         <table>
           <thead><tr><th>Horas tras la ultima toma</th><th>Que aparece</th></tr></thead>
           <tbody>
-            <tr><td class="figure-org">6 a 24</td><td>Sintomas iniciales: ansiedad, insomnio, sue&#241;os vividos, anorexia, nauseas, cefalea, temblor, sudoracion, taquicardia, hipertension, hiperreflexia</td></tr>
+            <tr><td class="figure-org">6 a 24</td><td>Sintomas iniciales: ansiedad, insomnio, sueños vividos, anorexia, nauseas, cefalea, temblor, sudoracion, taquicardia, hipertension, hiperreflexia</td></tr>
             <tr><td class="figure-org">Desde 8, pico a las 24, hasta 48</td><td><span class="figure-tag fail">Convulsiones</span> Pueden llegar sin otros sintomas llamativos</td></tr>
             <tr><td class="figure-org">12 a 24</td><td>Alucinaciones, que se resuelven en 24 a 48 horas si no aparecen otros signos de delirium</td></tr>
             <tr><td class="figure-org">72 a 96</td><td><span class="figure-tag fail">Delirium por supresion</span> Dura de unas horas a, lo habitual, 2 a 3 dias</td></tr>
@@ -363,6 +363,6 @@ export const figuras = {
           </tbody>
         </table>
       </div>
-      <div class="figure-grade-box">Antes de a&#241;adir cualquier coadyuvante, la guia pide asegurarse de que se ha dado una <strong>dosis adecuada de benzodiacepina</strong>; si los sintomas no se controlan, lo primero es <strong>subir la dosis</strong>. En el delirium pueden hacer falta dosis mucho mayores que en cualquier otra poblacion, y no hay que dudar en darlas vigilando la sedacion. Y la <strong>fenitoina</strong> no se usa para las convulsiones por abstinencia salvo que haya una epilepsia de base.</div>`
+      <div class="figure-grade-box">Antes de añadir cualquier coadyuvante, la guia pide asegurarse de que se ha dado una <strong>dosis adecuada de benzodiacepina</strong>; si los sintomas no se controlan, lo primero es <strong>subir la dosis</strong>. En el delirium pueden hacer falta dosis mucho mayores que en cualquier otra poblacion, y no hay que dudar en darlas vigilando la sedacion. Y la <strong>fenitoina</strong> no se usa para las convulsiones por abstinencia salvo que haya una epilepsia de base.</div>`
   }
 };

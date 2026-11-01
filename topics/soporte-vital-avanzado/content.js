@@ -11,9 +11,9 @@ export const meta = {
   accentDim: '#a85252'
 };
 
-export const definicionText = `<p style="margin:0 0 14px;">El soporte vital avanzado es lo que se a&#241;ade a la reanimacion basica cuando hay un equipo y material: monitorizacion del ritmo, desfibrilacion, acceso vascular, farmacos, via aerea avanzada y busqueda de causas reversibles. Pero la edicion de <strong>2025</strong> de las guias de la American Heart Association empieza por otra cosa: insiste en que lo primero no es el algoritmo sino <strong>valorar la estabilidad clinica</strong>, y dedica mas espacio que nunca a describir como se manifiesta la mala perfusion de organo.</p>
+export const definicionText = `<p style="margin:0 0 14px;">El soporte vital avanzado es lo que se añade a la reanimacion basica cuando hay un equipo y material: monitorizacion del ritmo, desfibrilacion, acceso vascular, farmacos, via aerea avanzada y busqueda de causas reversibles. Pero la edicion de <strong>2025</strong> de las guias de la American Heart Association empieza por otra cosa: insiste en que lo primero no es el algoritmo sino <strong>valorar la estabilidad clinica</strong>, y dedica mas espacio que nunca a describir como se manifiesta la mala perfusion de organo.</p>
 <p style="margin:0 0 14px;">Esa edicion trae ademas varias cosas que <strong>contradicen lo que mucha gente aprendio</strong>: el acceso <strong>intravenoso sigue siendo el de primera eleccion</strong> y el intraoseo es la alternativa razonable, no al reves; se han <strong>retirado</strong> procedimientos obsoletos como administrar farmacos por el tubo endotraqueal; la <strong>RCP con la cabeza elevada se desaconseja</strong> fuera de ensayos; el cambio de vector y la desfibrilacion secuencial doble <strong>no tienen utilidad establecida</strong> en la fibrilacion refractaria; y el <strong>dioxido de carbono espirado no debe usarse de forma aislada</strong> para decidir el fin de la reanimacion.</p>
-<p style="margin:0 0 14px;">Dos cifras para dimensionar el problema. Fuera del hospital la incidencia atendida por los servicios de emergencia es de <strong>83.4 casos por cada 100.000 habitantes y a&#241;o</strong>, y la supervivencia al alta ronda el <strong>10%</strong>. Dentro del hospital la parada ocurre en aproximadamente <strong>1 de cada 100 ingresados</strong>, se recupera circulacion en el 72.2%, sobrevive al alta el 24.2%, y de los que sobreviven alrededor del <strong>85% lo hace con buen resultado neurologico</strong>. Es decir: dentro del hospital el pronostico es mucho mejor, y quien sobrevive suele hacerlo bien.</p>`;
+<p style="margin:0 0 14px;">Dos cifras para dimensionar el problema. Fuera del hospital la incidencia atendida por los servicios de emergencia es de <strong>83.4 casos por cada 100.000 habitantes y año</strong>, y la supervivencia al alta ronda el <strong>10%</strong>. Dentro del hospital la parada ocurre en aproximadamente <strong>1 de cada 100 ingresados</strong>, se recupera circulacion en el 72.2%, sobrevive al alta el 24.2%, y de los que sobreviven alrededor del <strong>85% lo hace con buen resultado neurologico</strong>. Es decir: dentro del hospital el pronostico es mucho mejor, y quien sobrevive suele hacerlo bien.</p>`;
 
 export const bibliografia = [
   'Wigginton JG, Agarwal S, Bartos JA, et al. Part 9: Adult Advanced Life Support: 2025 American Heart Association Guidelines for Cardiopulmonary Resuscitation and Emergency Cardiovascular Care. Circulation. 2025;152(suppl 2):S538-S577. doi:10.1161/CIR.0000000000001376.',
@@ -44,7 +44,7 @@ export const content = {
       { metodo: 'Momento de la adrenalina (calculadora disponible)', interpretacion: 'Aplica la recomendacion de 2025, que es distinta segun el ritmo.', cutoff: 'No desfibrilable: cuanto antes. Desfibrilable: tras los primeros intentos de desfibrilacion' },
       { metodo: 'Energia de la descarga (calculadora disponible)', interpretacion: 'Distingue desfibrilacion de cardioversion y recoge el cambio de 2025 en la fibrilacion y el flutter auriculares.', cutoff: 'Cardioversion de fibrilacion o flutter auricular: 200 J o mas en la primera' },
       { metodo: 'Terminar la reanimacion (calculadora disponible)', interpretacion: 'Recoge las reglas actualizadas y el aviso expreso de la guia sobre el dioxido de carbono espirado.', cutoff: 'El carbonico espirado NO se usa de forma aislada' },
-      { metodo: 'Monitorizacion del dioxido de carbono espirado', interpretacion: 'Confirma la colocacion del tubo, informa de la calidad de las compresiones y su subida brusca sugiere recuperacion de la circulacion. La guia se&#241;ala que sus valores durante la ventilacion con bolsa y mascarilla son tan fiables como con otros dispositivos.', cutoff: 'Util para muchas cosas; no para decidir a solas cuando parar' },
+      { metodo: 'Monitorizacion del dioxido de carbono espirado', interpretacion: 'Confirma la colocacion del tubo, informa de la calidad de las compresiones y su subida brusca sugiere recuperacion de la circulacion. La guia señala que sus valores durante la ventilacion con bolsa y mascarilla son tan fiables como con otros dispositivos.', cutoff: 'Util para muchas cosas; no para decidir a solas cuando parar' },
       { metodo: 'Ecografia a pie de cama', interpretacion: 'La guia de 2025 permite considerarla, en manos expertas, para diagnosticar causas reversibles, con una condicion que se incumple a menudo: que no interrumpa la reanimacion.', cutoff: 'Si interrumpe las compresiones, no se hace' }
     ],
     imagen: [
@@ -70,7 +70,7 @@ export const content = {
       nombre: 'Reconocer la inestabilidad antes de la parada',
       color: '#8a5a2e',
       definicion: 'Situacion de perfusion insuficiente de los organos que precede a la parada y en la que una intervencion a tiempo puede evitarla.',
-      fisiopatologia: 'El gasto cardiaco cae por debajo de lo necesario para mantener la perfusion. El organismo compensa con taquicardia y vasoconstriccion, y por eso la tension arterial puede ser lo ULTIMO que se altere: cuando cae, la compensacion ya ha fallado. De ahi que la guia de 2025 insista en buscar la mala perfusion en los organos (cerebro, piel, ri&#241;on) y no solo en el tensiometro.',
+      fisiopatologia: 'El gasto cardiaco cae por debajo de lo necesario para mantener la perfusion. El organismo compensa con taquicardia y vasoconstriccion, y por eso la tension arterial puede ser lo ULTIMO que se altere: cuando cae, la compensacion ya ha fallado. De ahi que la guia de 2025 insista en buscar la mala perfusion en los organos (cerebro, piel, riñon) y no solo en el tensiometro.',
       epidemiologia: 'La parada intrahospitalaria ocurre en aproximadamente 1 de cada 100 ingresados, y en la mayoria de los casos hay signos de deterioro en las horas previas. Ese es todo el fundamento de los sistemas de alerta temprana.',
       factores_riesgo: ['Deterioro progresivo de las constantes en las horas previas', 'Alteracion nueva del estado mental', 'Insuficiencia respiratoria', 'Sepsis', 'Alteraciones electroliticas', 'Cardiopatia estructural o isquemica', 'Farmacos con efecto sobre la conduccion', 'Preocupacion del personal de enfermeria, que por si sola es criterio de escalada'],
       clinica: 'Alteracion del estado mental, piel fria y moteada con relleno capilar lento, oliguria, dolor toracico isquemico, disnea con signos de congestion e hipotension. La guia describe con detalle estas manifestaciones porque son lo que de verdad define la inestabilidad.',
@@ -88,7 +88,7 @@ export const content = {
       seguimiento_hospitalario: 'Constantes con frecuencia aumentada, monitorizacion continua y umbral bajo para escalar el nivel de cuidados.',
       seguimiento_ambulatorio: 'No aplica en la fase aguda.',
       pronostico: 'Reconocer y tratar la inestabilidad antes de la parada es, con diferencia, la intervencion mas eficaz de todo este tema.',
-      algoritmo: ['Valorar la PERFUSION de organo, no solo la tension', 'Buscar la causa proximal de la inestabilidad', '&#191;La arritmia es causa o consecuencia?', 'Tratar la causa: oxigeno, volumen, sangre, antibiotico', 'Si la arritmia es la causa y hay inestabilidad, cardiovertir', 'Avisar pronto y subir el nivel de cuidados']
+      algoritmo: ['Valorar la PERFUSION de organo, no solo la tension', 'Buscar la causa proximal de la inestabilidad', '¿La arritmia es causa o consecuencia?', 'Tratar la causa: oxigeno, volumen, sangre, antibiotico', 'Si la arritmia es la causa y hay inestabilidad, cardiovertir', 'Avisar pronto y subir el nivel de cuidados']
     },
     {
       nombre: 'Ritmos desfibrilables: lo que salva es la descarga',
@@ -105,7 +105,7 @@ export const content = {
       dx_diferencial: 'Artefacto por movimiento, desconexion de electrodos y fibrilacion fina que puede confundirse con asistolia. Ante la duda, comprobar derivaciones y ganancia antes de dar por sentado que es asistolia.',
       tx_medico: 'DESFIBRILAR de inmediato y reanudar compresiones sin comprobar el pulso. Minimizar las interrupciones: la fraccion de tiempo con compresiones es lo que mas se asocia al resultado.',
       tx_farmacologico: 'Adrenalina 1 mg cada 3 a 5 minutos, y en el ritmo desfibrilable es razonable administrarla DESPUES de los intentos iniciales de desfibrilacion. Amiodarona o lidocaina pueden considerarse en la fibrilacion ventricular o taquicardia ventricular sin pulso que no responde a la desfibrilacion (recomendacion debil). El uso de betabloqueantes, bretilio, procainamida o sotalol en ese contexto es de beneficio incierto.',
-      tx_intervencionista: 'La utilidad del CAMBIO DE VECTOR y de la DESFIBRILACION SECUENCIAL DOBLE en la fibrilacion refractaria NO esta establecida segun la guia de 2025, aunque se&#241;ala que merecen mas investigacion. La reanimacion con soporte extracorporeo se plantea en centros con programa y en pacientes seleccionados.',
+      tx_intervencionista: 'La utilidad del CAMBIO DE VECTOR y de la DESFIBRILACION SECUENCIAL DOBLE en la fibrilacion refractaria NO esta establecida segun la guia de 2025, aunque señala que merecen mas investigacion. La reanimacion con soporte extracorporeo se plantea en centros con programa y en pacientes seleccionados.',
       criterios_uci: 'Todo paciente que recupera circulacion tras una parada.',
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'No aplica.',
@@ -128,7 +128,7 @@ export const content = {
       complementarios: 'Dioxido de carbono espirado, que orienta sobre la calidad de la reanimacion y avisa de la recuperacion de la circulacion con una subida brusca.',
       dx_diferencial: 'Fibrilacion ventricular fina que aparenta asistolia, y seudoactividad electrica sin pulso (hay contraccion en la ecografia pero no pulso palpable), que tiene mejor pronostico que la ausencia real de contraccion.',
       tx_medico: 'Compresiones de calidad con el minimo de interrupciones y busqueda sistematica de las causas reversibles. Aqui el trabajo intelectual pesa mas que el farmacologico.',
-      tx_farmacologico: 'Adrenalina 1 mg cada 3 a 5 minutos, y en el ritmo NO desfibrilable es razonable administrarla CUANTO ANTES. La guia de 2025 NO recomienda la administracion sistematica de calcio, de bicarbonato sodico ni de magnesio en la parada, y se&#241;ala que el beneficio de los corticoides es incierto. Eso no impide usarlos cuando hay una indicacion concreta, como el calcio en una hiperpotasemia conocida.',
+      tx_farmacologico: 'Adrenalina 1 mg cada 3 a 5 minutos, y en el ritmo NO desfibrilable es razonable administrarla CUANTO ANTES. La guia de 2025 NO recomienda la administracion sistematica de calcio, de bicarbonato sodico ni de magnesio en la parada, y señala que el beneficio de los corticoides es incierto. Eso no impide usarlos cuando hay una indicacion concreta, como el calcio en una hiperpotasemia conocida.',
       tx_intervencionista: 'Segun la causa: descompresion de un neumotorax a tension, pericardiocentesis en el taponamiento, transfusion y control del sangrado en la hemorragia, fibrinolisis en la tromboembolia con alta sospecha.',
       criterios_uci: 'Todo paciente que recupera circulacion.',
       criterios_tips: 'No aplica.',
@@ -143,7 +143,7 @@ export const content = {
       color: '#5a4a8c',
       definicion: 'Conjunto de recomendaciones sobre por donde y con que se trata la parada, donde la edicion de 2025 introduce cambios que contradicen practicas extendidas.',
       fisiopatologia: 'La adrenalina act&uacute;a sobre los receptores alfa produciendo vasoconstriccion, lo que aumenta la presion de perfusion coronaria y cerebral durante las compresiones. Ese es su mecanismo, y explica por que importa el momento: en el ritmo desfibrilable lo que reinicia el corazon es la descarga, de modo que la adrenalina no debe retrasarla; en el no desfibrilable no hay descarga que dar, y por eso se administra cuanto antes.',
-      epidemiologia: 'El acceso vascular es uno de los puntos donde mas ha cambiado la practica en los ultimos a&#241;os, con una tendencia creciente al intraoseo que la guia de 2025 matiza de forma explicita.',
+      epidemiologia: 'El acceso vascular es uno de los puntos donde mas ha cambiado la practica en los ultimos años, con una tendencia creciente al intraoseo que la guia de 2025 matiza de forma explicita.',
       factores_riesgo: ['Acceso venoso dificil', 'Retraso en conseguir acceso', 'Interrupcion de compresiones para colocar accesos o via aerea', 'Uso de rutas de administracion obsoletas'],
       clinica: 'La decision practica en la cabecera es doble: por donde administro, y cuando doy la adrenalina.',
       criterios_dx: 'No aplica.',
@@ -167,13 +167,13 @@ export const content = {
       color: '#3f6b52',
       definicion: 'Conjunto de decisiones sobre como se ventila, que se monitoriza y como se busca lo que ha provocado la parada.',
       fisiopatologia: 'Cada interrupcion de las compresiones hace caer la presion de perfusion coronaria, que tarda varios segundos en recuperarse al reanudarlas. Ese hecho explica por que la guia condiciona tanto la via aerea como la ecografia a que no interrumpan la reanimacion: el beneficio potencial de ambas no compensa el coste de parar.',
-      epidemiologia: 'La intubacion durante la parada tiene una tasa de exito muy dependiente de la experiencia de quien la hace, y ese es el motivo de que la guia lo se&#241;ale de forma expresa.',
+      epidemiologia: 'La intubacion durante la parada tiene una tasa de exito muy dependiente de la experiencia de quien la hace, y ese es el motivo de que la guia lo señale de forma expresa.',
       factores_riesgo: ['Escasa experiencia o falta de entrenamiento reciente en intubacion', 'Intentos repetidos que interrumpen las compresiones', 'Ecografia realizada por personal sin experiencia', 'No repasar las causas reversibles de forma sistematica'],
       clinica: 'La via aerea avanzada no es una prioridad inmediata: la guia indica que si su colocacion va a interrumpir las compresiones, se DIFIERA hasta que el paciente no responda a la reanimacion inicial y a la desfibrilacion.',
       criterios_dx: 'No aplica.',
       laboratorio: 'Gasometria, potasio, glucemia y toxicos, dirigidos a las causas.',
       imagen: 'Ecografia a pie de cama en manos expertas y sin interrumpir. Radiografia de torax tras recuperar circulacion.',
-      complementarios: 'Dioxido de carbono espirado de forma continua. La guia se&#241;ala que sus valores durante la ventilacion con bolsa y mascarilla son tan fiables como con otros dispositivos, lo que amplia su utilidad a situaciones sin via aerea avanzada.',
+      complementarios: 'Dioxido de carbono espirado de forma continua. La guia señala que sus valores durante la ventilacion con bolsa y mascarilla son tan fiables como con otros dispositivos, lo que amplia su utilidad a situaciones sin via aerea avanzada.',
       dx_diferencial: 'Las causas reversibles: hipoxia, hipovolemia, acidosis, alteraciones del potasio, hipotermia, neumotorax a tension, taponamiento, toxicos, trombosis coronaria y trombosis pulmonar.',
       tx_medico: 'Ventilacion con bolsa y mascarilla bien hecha mientras no haya indicacion clara de via aerea avanzada. Evitar la hiperventilacion, que aumenta la presion intratoracica y reduce el retorno venoso.',
       tx_farmacologico: 'El correspondiente a la causa que se identifique.',
@@ -207,7 +207,7 @@ export const content = {
       criterios_trasplante: 'Valorar la donacion en asistolia segun los protocolos locales.',
       seguimiento_hospitalario: 'Revision del caso con el equipo y comunicacion con la familia.',
       seguimiento_ambulatorio: 'Apoyo a la familia y, cuando proceda, informacion sobre estudio familiar si se sospecha una cardiopatia hereditaria.',
-      pronostico: 'Las reglas estan dise&#241;adas para no terminar la reanimacion en alguien que podria sobrevivir. Por eso su aplicacion debe ser cuidadosa y nunca basarse en un solo parametro.',
+      pronostico: 'Las reglas estan diseñadas para no terminar la reanimacion en alguien que podria sobrevivir. Por eso su aplicacion debe ser cuidadosa y nunca basarse en un solo parametro.',
       algoritmo: ['Comprobar que la reanimacion ha sido de calidad', 'Descartar causas reversibles y situaciones que obligan a prolongar', 'Aplicar la regla que corresponde al ambito y al nivel', 'NO usar el carbonico espirado de forma aislada', 'Valorar soporte extracorporeo si el paciente es candidato', 'Decidir en equipo, comunicar y documentar', 'Atender a la familia y al equipo']
     }
   ],
@@ -226,7 +226,7 @@ export const content = {
     criterios_uci_general: 'Todo paciente que recupera la circulacion tras una parada, y toda inestabilidad mantenida que requiera vasopresores, ventilacion o monitorizacion invasiva.',
     criterios_tips_general: 'No aplica en la parada cardiaca.',
     criterios_trasplante_general: 'Valorar la donacion en asistolia segun los protocolos locales cuando se termina la reanimacion.',
-    prevencion: 'Sistemas de alerta temprana con un equipo que acuda, monitorizacion adecuada al riesgo, correccion de las alteraciones electroliticas, revision de los farmacos que prolongan el QT, y entrenamiento frecuente del personal, que la guia se&#241;ala de forma expresa para quien intuba.'
+    prevencion: 'Sistemas de alerta temprana con un equipo que acuda, monitorizacion adecuada al riesgo, correccion de las alteraciones electroliticas, revision de los farmacos que prolongan el QT, y entrenamiento frecuente del personal, que la guia señala de forma expresa para quien intuba.'
   }
 };
 
@@ -267,7 +267,7 @@ export const compGroups = [
   { title: 'Cuando parar', items: ['Cuando parar: terminar la reanimacion'] }
 ];
 
-export const complicacionesIntro = 'La primera ficha es la que mas vidas salva y la que menos se estudia: reconocer la inestabilidad ANTES de la parada, que la edicion de 2025 pone por delante del algoritmo. Las dos siguientes son las dos ramas del algoritmo, separadas por la unica pregunta que importa al principio: si el ritmo se desfibrila o no. Las dos que vienen despues son el como, y ahi estan casi todos los cambios de 2025, varios de los cuales contradicen lo que mucha gente aprendio. Y la ultima es la decision que nadie ense&#241;a a tomar: cuando parar.';
+export const complicacionesIntro = 'La primera ficha es la que mas vidas salva y la que menos se estudia: reconocer la inestabilidad ANTES de la parada, que la edicion de 2025 pone por delante del algoritmo. Las dos siguientes son las dos ramas del algoritmo, separadas por la unica pregunta que importa al principio: si el ritmo se desfibrila o no. Las dos que vienen despues son el como, y ahi estan casi todos los cambios de 2025, varios de los cuales contradicen lo que mucha gente aprendio. Y la ultima es la decision que nadie enseña a tomar: cuando parar.';
 
 export const categories = [
   { id: 'definicion', label: 'Definicion' },

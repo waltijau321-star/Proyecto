@@ -1,8 +1,11 @@
 // engine/usage-tracking.js
 // Analítica de uso mínima: solo cuenta (secciones visitadas, temas abiertos,
-// inicios/finalizaciones de quiz/examen/fichas/caso). Nada de terceros, nada de contenido
-// de las respuestas ni identificación del usuario. Se informa en los términos y condiciones,
-// no es una preferencia configurable.
+// inicios/finalizaciones de quiz/examen/fichas/caso). Nada de terceros y nada del contenido de
+// las respuestas. Lo que SÍ queda asociado a la persona: los contadores se guardan con syncSet,
+// o sea en users/{uid}, el mismo documento que lleva el correo, el nombre y el hospital, y
+// Admin los muestra por usuario. Es deliberado y está informado en los términos y condiciones;
+// no es una preferencia configurable. (El comentario anterior decía "ni identificación del
+// usuario", que no era cierto.)
 import { syncGet, syncSet } from './cloud-sync.js';
 
 const STATS_KEY = 'rm:usage-stats';

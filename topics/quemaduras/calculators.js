@@ -20,7 +20,7 @@ export const calculators = [
       { name: 'mii', id: 'que-n7', type: 'checkbox', label: 'Miembro inferior izquierdo (18%)' },
       { name: 'perine', id: 'que-n8', type: 'checkbox', label: 'Perine (1%)' },
       { name: 'palmas', id: 'que-n9', required: false, type: 'number', step: '1', label: 'Palmas del paciente en zonas parciales (1% cada una)', placeholder: 'ej. 0' },
-      { name: 'nino', id: 'que-n10', type: 'checkbox', label: 'Es un ni&#241;o' }
+      { name: 'nino', id: 'que-n10', type: 'checkbox', label: 'Es un niño' }
     ],
     compute(v) {
       const pesos = { cabeza: 9, msd: 9, msi: 9, tant: 18, tpost: 18, mid: 18, mii: 18, perine: 1 };
@@ -40,7 +40,7 @@ export const calculators = [
       if (r.cat === 'reanimacion') s += '<br><strong>Por encima del 20%:</strong> en general requiere reanimacion con liquidos; y el espesor parcial de mas del 10% ya es criterio de traslado.';
       else if (r.cat === 'traslado') s += '<br><strong>Entre el 10% y el 20%:</strong> el espesor parcial de mas del 10% es criterio de traslado a un centro de quemados.';
       else s += '<br>Por debajo del 10%: puede ser una quemadura menor si no hay zonas especiales, tercer grado, inhalacion u otros criterios.';
-      if (r.nino) s += '<br><strong style="color:#8c3a34;">En el ni&#241;o la regla de los nueves es inexacta:</strong> la cabeza es proporcionalmente mayor y las extremidades menores. Usa los diagramas de Lund y Browder.';
+      if (r.nino) s += '<br><strong style="color:#8c3a34;">En el niño la regla de los nueves es inexacta:</strong> la cabeza es proporcionalmente mayor y las extremidades menores. Usa los diagramas de Lund y Browder.';
       s += '<br><span style="opacity:.75;">Las superficiales (primer grado) no se cuentan. Las estimaciones previas al traslado son a menudo inexactas, incluso por expertos.</span>';
       return s;
     },
@@ -57,7 +57,7 @@ export const calculators = [
       { name: 'tipo', id: 'que-l3', type: 'select', label: 'Paciente', options: [
         { value: '', label: 'Elegir...' },
         { value: 'adulto', label: 'Adulto, quemadura termica' },
-        { value: 'nino', label: 'Ni&#241;o, quemadura termica' },
+        { value: 'nino', label: 'Niño, quemadura termica' },
         { value: 'electrica', label: 'Electrica con orina oscura (mioglobinuria)' }
       ] },
       { name: 'horas', id: 'que-l4', required: false, type: 'number', step: '0.5', label: 'Horas transcurridas desde la quemadura', placeholder: 'ej. 2' },
@@ -94,7 +94,7 @@ export const calculators = [
       s += `<br>Segunda mitad en 16 horas: unos ${r.ritmo2} mL/h, sin bajar de golpe: segun la diuresis.`;
       if (r.diez !== null) s += `<br><span style="opacity:.85;">Regla de los dieces para comparar: ${r.diez} mL/h iniciales.</span>`;
       s += `<br><strong>Diuresis objetivo:</strong> ${r.diuresis}.`;
-      if (r.nino30) s += '<br><span style="opacity:.85;">En el ni&#241;o de menos de 30 kg, a&#241;adir mantenimiento con dextrosa en Ringer lactato.</span>';
+      if (r.nino30) s += '<br><span style="opacity:.85;">En el niño de menos de 30 kg, añadir mantenimiento con dextrosa en Ringer lactato.</span>';
       if (r.tipo === 'electrica') s += '<br><span style="opacity:.85;">Consultar con la unidad de quemados antes de usar bicarbonato o manitol.</span>';
       if (r.menor20) s += '<br><span style="opacity:.85;">Por debajo del 20% muchas quemaduras no necesitan reanimacion formal, salvo electrica, inhalacion o trauma asociado.</span>';
       s += '<br><span style="opacity:.75;">La formula solo fija el ritmo INICIAL: se titula cada hora por la diuresis, sin bolos salvo hipotension. Si se dispara (mas de 1500 mL/h durante 2 h), valorar albumina al 5% o plasma.</span>';
@@ -108,7 +108,7 @@ export const calculators = [
     subtitle: 'Edad mas superficie, y la inhalacion en la version modificada',
     incompleteMsg: 'Introduce la edad y la superficie quemada.',
     fields: [
-      { name: 'edad', id: 'que-b1', type: 'number', step: '1', label: 'Edad (a&#241;os)', placeholder: 'ej. 60', row: true },
+      { name: 'edad', id: 'que-b1', type: 'number', step: '1', label: 'Edad (años)', placeholder: 'ej. 60', row: true },
       { name: 'scq', id: 'que-b2', type: 'number', step: '1', label: '% de superficie quemada', placeholder: 'ej. 30', row: true },
       { name: 'inhal', id: 'que-b3', type: 'checkbox', label: 'Lesion por inhalacion' }
     ],
@@ -122,7 +122,7 @@ export const calculators = [
     format(r) {
       let s = `<strong>Baux: ${r.baux}. Baux modificado: ${r.mod}.</strong>`;
       if (r.inhal) s += '<br>La lesion por inhalacion suma 17 puntos en la version modificada.';
-      s += '<br><span style="opacity:.85;">La edad y la superficie contribuyen por igual a la mortalidad prevista, y a mayor puntuacion, peor pronostico. La version modificada es hoy el predictor mas aceptado y se aplica tambien en ni&#241;os.</span>';
+      s += '<br><span style="opacity:.85;">La edad y la superficie contribuyen por igual a la mortalidad prevista, y a mayor puntuacion, peor pronostico. La version modificada es hoy el predictor mas aceptado y se aplica tambien en niños.</span>';
       s += '<br><span style="opacity:.75;">Es una estimacion poblacional: no decide por si sola la futilidad, y las preferencias del paciente sobre su calidad de vida deben entrar en la decision.</span>';
       return s;
     },
@@ -142,7 +142,7 @@ export const calculators = [
       { name: 'inhal', id: 'que-t6', type: 'checkbox', label: 'Lesion por inhalacion' },
       { name: 'comorb', id: 'que-t7', type: 'checkbox', label: 'Enfermedad previa que complica el tratamiento (diabetes, insuficiencia renal)' },
       { name: 'trauma', id: 'que-t8', type: 'checkbox', label: 'Trauma asociado' },
-      { name: 'ninoSinMedios', id: 'que-t9', type: 'checkbox', label: 'Ni&#241;o en un hospital sin personal o equipo adecuado' },
+      { name: 'ninoSinMedios', id: 'que-t9', type: 'checkbox', label: 'Niño en un hospital sin personal o equipo adecuado' },
       { name: 'social', id: 'que-t10', type: 'checkbox', label: 'Necesidad de apoyo social, emocional o de rehabilitacion' },
       { name: 'traumaPrimero', id: 'que-t11', type: 'checkbox', label: 'El trauma es el mayor riesgo inmediato' },
       { name: 'largo', id: 'que-t12', type: 'checkbox', label: 'Traslado largo, de mas de 2 horas o 100 km por tierra' }
@@ -150,7 +150,7 @@ export const calculators = [
     compute(v) {
       const lista = [v.parcial10 && 'espesor parcial mayor del 10%', v.zonas && 'zona especial', v.tercero && 'tercer grado',
         v.electrica && 'electrica', v.quimica && 'quimica', v.inhal && 'inhalacion', v.comorb && 'comorbilidad',
-        v.trauma && 'trauma asociado', v.ninoSinMedios && 'ni&#241;o sin medios adecuados', v.social && 'necesidad de apoyo'].filter(Boolean);
+        v.trauma && 'trauma asociado', v.ninoSinMedios && 'niño sin medios adecuados', v.social && 'necesidad de apoyo'].filter(Boolean);
       if (!lista.length && !v.largo) return null;
       return { lista, inhal: !!v.inhal, traumaPrimero: !!(v.trauma && v.traumaPrimero), largo: !!v.largo };
     },

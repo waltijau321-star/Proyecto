@@ -25,7 +25,7 @@ export const calculators = [
       { name: 'actividad', id: 'asma-cg-act', type: 'checkbox', label: 'Limitacion de la actividad por el asma' },
       { type: 'note', text: 'Riesgo futuro de exacerbacion. Es una dimension INDEPENDIENTE: un paciente con pocos sintomas puede estar en alto riesgo.' },
       { name: 'intubado', id: 'asma-cg-int', type: 'checkbox', label: 'Intubacion o ingreso en cuidados intensivos por asma en cualquier momento' },
-      { name: 'ingreso', id: 'asma-cg-ing', type: 'checkbox', label: 'Ingreso o visita a urgencias por asma en el ultimo a&#241;o' },
+      { name: 'ingreso', id: 'asma-cg-ing', type: 'checkbox', label: 'Ingreso o visita a urgencias por asma en el ultimo año' },
       { name: 'sinCI', id: 'asma-cg-sci', type: 'checkbox', label: 'No usa corticoide inhalado, o lo usa con mala adherencia o mala tecnica' },
       { name: 'sabaAlto', id: 'asma-cg-sab', type: 'checkbox', label: 'Consume mas de un envase de rescate al mes' },
       { name: 'corticoOral', id: 'asma-cg-cor', type: 'checkbox', label: 'Uso actual o reciente de corticoide oral' },
@@ -38,7 +38,7 @@ export const calculators = [
       const control = (v.diurnos ? 1 : 0) + (v.nocturnos ? 1 : 0) + (v.rescate ? 1 : 0) + (v.actividad ? 1 : 0);
       const riesgos = [];
       if (v.intubado) riesgos.push('intubacion o cuidados intensivos previos por asma');
-      if (v.ingreso) riesgos.push('ingreso o urgencias en el ultimo a&#241;o');
+      if (v.ingreso) riesgos.push('ingreso o urgencias en el ultimo año');
       if (v.sinCI) riesgos.push('sin corticoide inhalado o con mala adherencia');
       if (v.sabaAlto) riesgos.push('mas de un envase de rescate al mes');
       if (v.corticoOral) riesgos.push('corticoide oral actual o reciente');
@@ -216,7 +216,7 @@ export const calculators = [
         if (r.silente) s += 'El torax silente no es mejoria: es ausencia de flujo aereo suficiente para generar sibilancias. ';
         s += 'Preparar la intubacion sin demorarla, con ketamina como inductor por su efecto broncodilatador, y ventilar con volumen y frecuencia bajos, tiempo espiratorio largo e hipercapnia permisiva para evitar el barotrauma.';
       } else if (r.categoria === 'GRAVE') {
-        s += 'A&#241;adir <strong>bromuro de ipratropio</strong> al salbutamol y valorar <strong>sulfato de magnesio 2 g intravenosos en 20 minutos</strong> si no responde al tratamiento inicial. Reevaluar con clinica y flujo pico a la hora, y solicitar gasometria si hay agotamiento o la saturacion no remonta.';
+        s += 'Añadir <strong>bromuro de ipratropio</strong> al salbutamol y valorar <strong>sulfato de magnesio 2 g intravenosos en 20 minutos</strong> si no responde al tratamiento inicial. Reevaluar con clinica y flujo pico a la hora, y solicitar gasometria si hay agotamiento o la saturacion no remonta.';
       } else {
         s += 'Reevaluar a la hora con clinica y flujo pico. Puede darse el alta si el flujo pico supera el 60 al 80% del mejor valor personal y el paciente se mantiene estable al menos 1 hora tras el ultimo broncodilatador.';
       }

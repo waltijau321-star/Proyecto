@@ -13,12 +13,12 @@ export const meta = {
 };
 
 export const definicionText = `<p style="margin:0 0 14px;">La mayoria de las reacciones cutaneas a farmacos son <strong>benignas y autolimitadas</strong>: un exantema maculopapular que aparece a la semana o dos de empezar el farmaco, pica, y se resuelve al retirarlo. Pero alrededor del <strong>2%</strong> de las erupciones cutaneas por farmacos son graves y pueden matar. El trabajo del internista no es memorizar listas de farmacos: es <strong>separar esas dos categorias delante del paciente</strong>, y hacerlo pronto.</p>
-<p style="margin:0 0 14px;">Las cuatro graves tienen nombre propio y se distinguen entre si por tres cosas: la <strong>latencia</strong> desde que empezo el farmaco, la <strong>morfologia</strong> de la lesion y el <strong>organo</strong> que se afecta ademas de la piel. El sindrome de Stevens-Johnson y la necrolisis epidermica toxica son un mismo espectro que se separa por la superficie despegada. El DRESS tiene la latencia mas larga de todas y afecta a higado, ri&#241;on y corazon. La pustulosis exantematica generalizada aguda tiene la latencia mas corta y se confunde con una psoriasis pustulosa. Y la <strong>eritrodermia</strong> no es una enfermedad sino un estado en el que la piel deja de funcionar como organo.</p>
+<p style="margin:0 0 14px;">Las cuatro graves tienen nombre propio y se distinguen entre si por tres cosas: la <strong>latencia</strong> desde que empezo el farmaco, la <strong>morfologia</strong> de la lesion y el <strong>organo</strong> que se afecta ademas de la piel. El sindrome de Stevens-Johnson y la necrolisis epidermica toxica son un mismo espectro que se separa por la superficie despegada. El DRESS tiene la latencia mas larga de todas y afecta a higado, riñon y corazon. La pustulosis exantematica generalizada aguda tiene la latencia mas corta y se confunde con una psoriasis pustulosa. Y la <strong>eritrodermia</strong> no es una enfermedad sino un estado en el que la piel deja de funcionar como organo.</p>
 <p style="margin:0 0 14px;">Hay una regla practica que resume casi todo: ante un exantema por farmaco, buscar <strong>fiebre, afectacion de mucosas, dolor cutaneo, edema facial, ampollas y alteracion analitica</strong>. Si no hay nada de eso, casi siempre es benigno. Si hay algo, hay que parar y pensar, porque esas seis cosas son la frontera entre retirar un farmaco en consulta y un ingreso en una unidad de quemados.</p>`;
 
 export const bibliografia = [
   'Murillo-Casas AD, Zwiener R, Giavina-Bianchi P, et al. Latin American guidelines for the diagnosis and treatment of Stevens-Johnson syndrome and toxic epidermal necrolysis. World Allergy Organ J. 2025;18(4):101046. doi:10.1016/j.waojou.2025.101046.',
-  'Hoetzenecker W, N&#228;geli M, Mehra ET, et al. Adverse cutaneous drug eruptions: current understanding. Semin Immunopathol. 2016. doi:10.1007/s00281-015-0540-2.',
+  'Hoetzenecker W, Nägeli M, Mehra ET, et al. Adverse cutaneous drug eruptions: current understanding. Semin Immunopathol. 2016. doi:10.1007/s00281-015-0540-2.',
   'Tso S, Satchwell F, Moiz H, et al. Erythroderma (exfoliative dermatitis). Part 1: underlying causes, clinical presentation and pathogenesis. Clin Exp Dermatol. 2021;46(6):1001-1010.',
   'Zuberbier T, Abdul Latiff AH, Bernstein JA, et al. The International Guideline for the Definition, Classification, Diagnosis and Management of Urticaria. Allergy. 2026;81(8):2582-2632. doi:10.1111/all.70210.'
 ];
@@ -44,7 +44,7 @@ export const content = {
     no_invasivos: [
       { metodo: 'SCORTEN (calculadora disponible)', interpretacion: 'Siete variables al ingreso que estiman la mortalidad de la necrolisis epidermica toxica. Incluye la superficie despegada, que ademas clasifica el cuadro.', cutoff: 'Cada punto sube la mortalidad de forma marcada' },
       { metodo: 'Banderas de gravedad (calculadora disponible)', interpretacion: 'Comprueba de forma ordenada las seis banderas y orienta hacia cual de las farmacodermias graves encaja mejor.', cutoff: 'Una sola bandera ya cambia el nivel de cuidados' },
-      { metodo: 'Cronologia del farmaco (calculadora disponible)', interpretacion: 'Cruza el tipo de reaccion con el tiempo transcurrido desde que se inicio cada farmaco, que es el dato mas util para se&#241;alar al culpable.', cutoff: 'Cada reaccion tiene su ventana de latencia' },
+      { metodo: 'Cronologia del farmaco (calculadora disponible)', interpretacion: 'Cruza el tipo de reaccion con el tiempo transcurrido desde que se inicio cada farmaco, que es el dato mas util para señalar al culpable.', cutoff: 'Cada reaccion tiene su ventana de latencia' },
       { metodo: 'Soporte en la eritrodermia (calculadora disponible)', interpretacion: 'Estima las necesidades de reposicion y recuerda lo que hay que corregir cuando la piel deja de funcionar como barrera.', cutoff: 'Temperatura, volumen, albumina y busqueda de infeccion' },
       { metodo: 'Algoritmo ALDEN', interpretacion: 'Herramienta especifica para atribuir la causalidad de una necrolisis epidermica a un farmaco concreto: valora latencia, presencia del farmaco el dia del inicio, exposicion previa, notoriedad del farmaco y causas alternativas.', cutoff: 'La guia latinoamericana lo sugiere ante duda sobre el culpable' },
       { metodo: 'Superficie corporal despegada', interpretacion: 'Se calcula con la regla de los nueves de Wallace o, mejor, con el metodo de Lund-Browder, que es mas preciso. Solo cuenta la piel DESPEGADA o despegable, no el eritema.', cutoff: 'Menos del 10%, del 10 al 30%, o mas del 30%' }
@@ -60,9 +60,9 @@ export const content = {
     compensada_descompensada: `Primero, <strong>benigna o grave</strong>: las seis banderas resuelven esa pregunta a pie de cama. Despues, dentro de las graves, la <strong>latencia</strong> y la <strong>morfologia</strong> separan las cuatro entidades: pustulosis exantematica generalizada aguda (latencia muy corta, pustulas esteriles), sindrome de Stevens-Johnson y necrolisis epidermica toxica (una a tres semanas, ampollas y despegamiento con mucosas), y DRESS (la latencia mas larga, de dos a ocho semanas, con edema facial, eosinofilia y organos internos). Y el espectro de Stevens-Johnson y necrolisis se gradua por la <strong>superficie despegada</strong>: menos del 10%, del 10 al 30%, o el 30% o mas.`,
     escalas: [
       { nombre: 'Superficie despegada (calculadora disponible)', componentes: 'Porcentaje de superficie corporal con epidermis despegada o despegable, medido por la regla de los nueves de Wallace o por el metodo de Lund-Browder.', formula: 'Porcentaje de superficie corporal total.', interpretacion: 'Sindrome de Stevens-Johnson por debajo del 10%; sindrome de solapamiento entre el 10 y menos del 30%; necrolisis epidermica toxica en el 30% o mas. El error habitual es contar el ERITEMA: solo cuenta la piel despegada o que se despega al rozarla.' },
-      { nombre: 'SCORTEN (calculadora disponible)', componentes: 'Edad de 40 a&#241;os o mas, neoplasia, frecuencia cardiaca de 120 o mas, superficie despegada mayor del 10%, urea elevada, bicarbonato bajo y glucemia elevada.', formula: 'Un punto por variable, de 0 a 7, medido en las primeras 24 horas.', interpretacion: 'Estima la mortalidad y sube de forma marcada con cada punto. Se calcula al ingreso y conviene repetirlo al tercer dia, porque mejora su capacidad predictiva. No decide el tratamiento, pero si el nivel de cuidados.' },
+      { nombre: 'SCORTEN (calculadora disponible)', componentes: 'Edad de 40 años o mas, neoplasia, frecuencia cardiaca de 120 o mas, superficie despegada mayor del 10%, urea elevada, bicarbonato bajo y glucemia elevada.', formula: 'Un punto por variable, de 0 a 7, medido en las primeras 24 horas.', interpretacion: 'Estima la mortalidad y sube de forma marcada con cada punto. Se calcula al ingreso y conviene repetirlo al tercer dia, porque mejora su capacidad predictiva. No decide el tratamiento, pero si el nivel de cuidados.' },
       { nombre: 'Banderas de gravedad (calculadora disponible)', componentes: 'Fiebre, afectacion de mucosas, dolor cutaneo, edema facial, ampollas o signo de Nikolsky, y alteracion analitica.', formula: 'Presencia o ausencia de cada una.', interpretacion: 'Es la herramienta mas util del tema y no necesita nada mas que la exploracion. Ninguna bandera hace muy probable un exantema benigno; una sola bandera obliga a replantear el nivel de cuidados.' },
-      { nombre: 'Cronologia del farmaco (calculadora disponible)', componentes: 'Tipo de reaccion y dias transcurridos desde el inicio de cada farmaco sospechoso.', formula: 'Comparacion con la ventana de latencia propia de cada reaccion.', interpretacion: 'Es el dato que mas rinde para se&#241;alar al culpable: la pustulosis aparece en uno o dos dias, el exantema maculopapular entre 4 y 14, el Stevens-Johnson entre una y tres semanas, y el DRESS entre dos y ocho semanas. Un farmaco que empezo ayer casi nunca explica un DRESS.' },
+      { nombre: 'Cronologia del farmaco (calculadora disponible)', componentes: 'Tipo de reaccion y dias transcurridos desde el inicio de cada farmaco sospechoso.', formula: 'Comparacion con la ventana de latencia propia de cada reaccion.', interpretacion: 'Es el dato que mas rinde para señalar al culpable: la pustulosis aparece en uno o dos dias, el exantema maculopapular entre 4 y 14, el Stevens-Johnson entre una y tres semanas, y el DRESS entre dos y ocho semanas. Un farmaco que empezo ayer casi nunca explica un DRESS.' },
       { nombre: 'Criterios de DRESS', componentes: 'Exantema, fiebre, adenopatias, eosinofilia o linfocitos atipicos, afectacion de al menos un organo interno y curso prolongado.', formula: 'Sistemas de puntuacion que graduan el caso en posible, probable o definitivo.', interpretacion: 'Su utilidad practica es recordar que el DRESS es un diagnostico SISTEMICO y no cutaneo: sin analitica no se puede diagnosticar ni excluir, y el organo que mas veces marca el pronostico es el higado.' },
       { nombre: 'Algoritmo ALDEN', componentes: 'Latencia, presencia del farmaco el dia del inicio, exposicion previa, notoriedad del farmaco como causa de necrolisis y presencia de causas alternativas.', formula: 'Puntuacion por farmaco.', interpretacion: 'La guia latinoamericana lo sugiere cuando hay dudas sobre cual de varios farmacos es el responsable, que es la situacion habitual en un paciente polimedicado. Identificar al culpable no es academico: de ello depende que el paciente pueda recibir tratamientos seguros en el futuro.' }
     ]
@@ -79,7 +79,7 @@ export const content = {
       criterios_dx: 'Clinico, apoyado en la cronologia. La ausencia de las seis banderas de gravedad es lo que permite quedarse tranquilo.',
       laboratorio: 'Hemograma y funcion hepatica y renal para comprobar que no hay eosinofilia ni afectacion de organos. Si son normales y no hay banderas, no hace falta mas.',
       imagen: 'No se necesita.',
-      complementarios: 'Cronologia escrita de todos los farmacos con fechas de inicio, que es lo que despues permitira se&#241;alar al culpable.',
+      complementarios: 'Cronologia escrita de todos los farmacos con fechas de inicio, que es lo que despues permitira señalar al culpable.',
       dx_diferencial: 'Exantema virico (que puede ser indistinguible, y de hecho a menudo coexisten), exantema por enfermedad de base, sifilis secundaria y las fases iniciales de una farmacodermia grave, que empiezan pareciendose a esta.',
       tx_medico: 'RETIRAR el farmaco sospechoso. Emolientes, y explicar que la resolucion tarda una o dos semanas y que suele haber descamacion, para que el paciente no crea que empeora.',
       tx_farmacologico: 'Corticoide topico y antihistaminico para el prurito, sabiendo que el alivio es parcial. El corticoide sistemico rara vez hace falta.',
@@ -95,8 +95,8 @@ export const content = {
     {
       nombre: 'Stevens-Johnson y necrolisis epidermica toxica',
       color: '#8c2e3a',
-      definicion: 'Reaccion de hipersensibilidad grave con epidermolisis y despegamiento cutaneo difuso acompa&#241;ado de necrosis y afectacion de mucosas. Son un espectro de la misma enfermedad, separado por el porcentaje de superficie despegada.',
-      fisiopatologia: 'Es una hipersensibilidad de tipo IVc: linfocitos T citotoxicos y celulas asesinas naturales reconocen el farmaco y destruyen los queratinocitos de forma masiva, con granulisina como mediador principal. El resultado es la necrosis de TODO el espesor de la epidermis, que se despega de la dermis como una sabana. Los mecanismos exactos que inician el da&#241;o siguen sin estar bien entendidos.',
+      definicion: 'Reaccion de hipersensibilidad grave con epidermolisis y despegamiento cutaneo difuso acompañado de necrosis y afectacion de mucosas. Son un espectro de la misma enfermedad, separado por el porcentaje de superficie despegada.',
+      fisiopatologia: 'Es una hipersensibilidad de tipo IVc: linfocitos T citotoxicos y celulas asesinas naturales reconocen el farmaco y destruyen los queratinocitos de forma masiva, con granulisina como mediador principal. El resultado es la necrosis de TODO el espesor de la epidermis, que se despega de la dermis como una sabana. Los mecanismos exactos que inician el daño siguen sin estar bien entendidos.',
       epidemiologia: 'Poco frecuente pero de altisima gravedad: la mortalidad en fase aguda va del 10 al 40% segun la extension. La causa principal de muerte es la SEPSIS con fallo multiorganico posinfeccioso, seguida de la afectacion pulmonar.',
       factores_riesgo: ['Alopurinol', 'Antiepilepticos aromaticos: carbamazepina, fenitoina, lamotrigina', 'Sulfamidas', 'Antiinflamatorios de tipo oxicam', 'Nevirapina', 'Infeccion por VIH', 'Determinados alelos HLA segun el farmaco y la etnia'],
       clinica: 'Prodromos inespecificos, despues eritema extenso doloroso, lesiones EN DIANA ATIPICAS de centro oscuro y ampollas flacidas grandes con signo de NIKOLSKY positivo (la epidermis se despega al frotar suavemente). En torno al 80% de los casos hay afectacion de DOS O MAS mucosas: nasofaringe, orofaringe, ojos, genitales. El dolor cutaneo suele preceder al despegamiento y es una pista precoz.',
@@ -123,19 +123,19 @@ export const content = {
       fisiopatologia: 'Hipersensibilidad retardada con expansion de linfocitos T especificos frente al farmaco y activacion eosinofilica intensa. Un rasgo propio es la REACTIVACION de virus del grupo herpes, sobre todo el herpesvirus humano 6, que se asocia a los brotes tardios y a las recaidas cuando se baja el corticoide. Esa reactivacion explica el curso prolongado y ondulante, tan distinto del de las demas farmacodermias.',
       epidemiologia: 'Poco frecuente pero con mortalidad relevante, en buena parte por la afectacion hepatica. El retraso diagnostico es la norma, porque la latencia larga hace que se descarte el farmaco como causa precisamente por llevar semanas tomandolo.',
       factores_riesgo: ['Antiepilepticos aromaticos: carbamazepina, fenitoina, lamotrigina, fenobarbital', 'Alopurinol', 'Sulfamidas', 'Vancomicina', 'Minociclina', 'Antituberculosos', 'Determinados alelos HLA'],
-      clinica: 'Exantema extenso que puede llegar a eritrodermia, FIEBRE, EDEMA FACIAL (muy caracteristico y de gran valor diagnostico), adenopatias generalizadas y afectacion visceral. El higado es el organo mas frecuente y el que marca el pronostico; tambien ri&#241;on (nefritis intersticial), pulmon, corazon (miocarditis, que puede ser tardia) y tiroides.',
+      clinica: 'Exantema extenso que puede llegar a eritrodermia, FIEBRE, EDEMA FACIAL (muy caracteristico y de gran valor diagnostico), adenopatias generalizadas y afectacion visceral. El higado es el organo mas frecuente y el que marca el pronostico; tambien riñon (nefritis intersticial), pulmon, corazon (miocarditis, que puede ser tardia) y tiroides.',
       criterios_dx: 'Combinacion de exantema, fiebre, adenopatias, eosinofilia o linfocitos atipicos, afectacion de al menos un organo y curso prolongado. Existen sistemas de puntuacion que lo graduan en posible, probable o definitivo.',
       laboratorio: 'Hemograma con EOSINOFILIA y linfocitos atipicos, transaminasas, funcion renal y sedimento, y serologias o carga viral de herpesvirus. Hay que REPETIR la analitica: la afectacion de organos puede aparecer o empeorar despues de retirar el farmaco.',
       imagen: 'Ecografia abdominal si hay afectacion hepatica. Ecocardiograma ante sospecha de miocarditis.',
       complementarios: 'Vigilancia de la funcion tiroidea a MESES vista, porque la tiroiditis autoinmune es una secuela tardia caracteristica y se diagnostica cuando ya nadie relaciona los sintomas con aquel episodio.',
       dx_diferencial: 'Infeccion virica aguda (mononucleosis), linfoma, sindrome hipereosinofilico, vasculitis y sepsis.',
       tx_medico: 'Retirada del farmaco y soporte. La clave que diferencia a esta entidad es que el curso es PROLONGADO y ondulante: hay que avisar al paciente y al equipo de que puede haber brotes tardios y recaidas, sobre todo al reducir el corticoide.',
-      tx_farmacologico: 'Corticoide sistemico en los casos con afectacion visceral significativa, con descenso LENTO a lo largo de semanas o meses, porque un descenso rapido produce recaida. En formas leves puede bastar con corticoide topico potente. Evitar a&#241;adir farmacos nuevos innecesarios durante la fase aguda, porque hay riesgo de reacciones cruzadas y de confundir el cuadro.',
+      tx_farmacologico: 'Corticoide sistemico en los casos con afectacion visceral significativa, con descenso LENTO a lo largo de semanas o meses, porque un descenso rapido produce recaida. En formas leves puede bastar con corticoide topico potente. Evitar añadir farmacos nuevos innecesarios durante la fase aguda, porque hay riesgo de reacciones cruzadas y de confundir el cuadro.',
       tx_intervencionista: 'No aplica.',
       criterios_uci: 'Fallo hepatico, miocarditis o inestabilidad hemodinamica.',
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'El trasplante hepatico se ha planteado en casos excepcionales de fallo hepatico fulminante.',
-      seguimiento_hospitalario: 'Analitica seriada de higado y ri&#241;on. Vigilancia de la reactivacion viral y de la aparicion de miocarditis, que puede ser tardia.',
+      seguimiento_hospitalario: 'Analitica seriada de higado y riñon. Vigilancia de la reactivacion viral y de la aparicion de miocarditis, que puede ser tardia.',
       seguimiento_ambulatorio: 'Seguimiento PROLONGADO, de meses: funcion tiroidea, funcion hepatica y vigilancia de autoinmunidad de aparicion tardia. Tarjeta de alergia con el farmaco y sus congeneres.',
       pronostico: 'Mortalidad relevante, sobre todo por la afectacion hepatica. Las secuelas autoinmunes tardias son una particularidad de esta entidad.',
       algoritmo: ['Sospechar ante exantema con fiebre y EDEMA FACIAL', 'Pedir hemograma con formula y funcion hepatica y renal', 'Calcular la latencia: de 2 a 8 semanas orienta aqui', 'Retirar el farmaco y NO reintroducirlo', 'Corticoide sistemico si hay afectacion visceral', 'Descenso LENTO del corticoide para evitar recaida', 'Vigilar tiroides y autoinmunidad a meses vista']
@@ -143,7 +143,7 @@ export const content = {
     {
       nombre: 'Pustulosis exantematica generalizada aguda',
       color: '#8a5a2e',
-      definicion: 'Erupcion aguda de multiples pustulas esteriles peque&#241;as sobre piel eritematosa y edematosa, con fiebre y leucocitosis, desencadenada casi siempre por un farmaco y con la latencia mas corta de las farmacodermias graves.',
+      definicion: 'Erupcion aguda de multiples pustulas esteriles pequeñas sobre piel eritematosa y edematosa, con fiebre y leucocitosis, desencadenada casi siempre por un farmaco y con la latencia mas corta de las farmacodermias graves.',
       fisiopatologia: 'Linfocitos T especificos frente al farmaco producen interleucina 8 y otros factores quimiotacticos, que reclutan neutrofilos de forma masiva hacia la epidermis y forman pustulas SUBCORNEAS esteriles. Es el mismo resultado morfologico que en la psoriasis pustulosa, con la que comparte parte de la via, y de ahi la enorme dificultad para separarlas.',
       epidemiologia: 'Poco frecuente. El desencadenante es un farmaco en la gran mayoria de los casos, tipicamente un antibiotico, y la latencia se mide en HORAS o pocos dias, no en semanas.',
       factores_riesgo: ['Aminopenicilinas', 'Pristinamicina y otros macrolidos', 'Antagonistas del calcio, sobre todo diltiazem', 'Antipaludicos', 'Antifungicos', 'Antecedente personal o familiar de psoriasis, que complica el diferencial'],
@@ -154,7 +154,7 @@ export const content = {
       complementarios: 'Historia dirigida a la latencia: un farmaco iniciado ayer o anteayer es el sospechoso principal, al contrario que en el DRESS.',
       dx_diferencial: 'PSORIASIS PUSTULOSA GENERALIZADA, que es el diferencial principal y el mas dificil: a favor de la pustulosis por farmacos juegan la latencia corta y clara respecto al farmaco, la fiebre de aparicion simultanea y la resolucion rapida al retirarlo; a favor de la psoriasis, el antecedente personal de psoriasis y la recurrencia sin farmaco. Tambien foliculitis, infeccion cutanea y necrolisis epidermica en su inicio.',
       tx_medico: 'Retirada del farmaco, que suele bastar. Soporte, cuidado de la piel y control de la temperatura. La resolucion espontanea en una o dos semanas es la regla.',
-      tx_farmacologico: 'Corticoide topico potente para acortar el curso. El corticoide sistemico se reserva a casos extensos o con afectacion sistemica. No hacen falta antibioticos: las pustulas son esteriles, y a&#241;adir un antibiotico nuevo en este contexto es a la vez inutil y arriesgado.',
+      tx_farmacologico: 'Corticoide topico potente para acortar el curso. El corticoide sistemico se reserva a casos extensos o con afectacion sistemica. No hacen falta antibioticos: las pustulas son esteriles, y añadir un antibiotico nuevo en este contexto es a la vez inutil y arriesgado.',
       tx_intervencionista: 'No aplica.',
       criterios_uci: 'Excepcional: afectacion muy extensa con inestabilidad o alteracion de la termorregulacion.',
       criterios_tips: 'No aplica.',
@@ -162,7 +162,7 @@ export const content = {
       seguimiento_hospitalario: 'Vigilar la temperatura y el estado general. Comprobar que las pustulas no se sobreinfectan.',
       seguimiento_ambulatorio: 'Documentar el farmaco. Explicar la descamacion en collarete de la resolucion para que no se interprete como empeoramiento.',
       pronostico: 'Bueno: se resuelve al retirar el farmaco, con mortalidad baja.',
-      algoritmo: ['Reconocer: pustulas peque&#241;as no foliculares con fiebre', 'Calcular la latencia: horas o pocos dias', 'Cultivar el pus para confirmar que es esteril', 'Retirar el farmaco sospechoso', 'Corticoide topico potente', 'NO a&#241;adir antibiotico', 'Separar de la psoriasis pustulosa por la cronologia']
+      algoritmo: ['Reconocer: pustulas pequeñas no foliculares con fiebre', 'Calcular la latencia: horas o pocos dias', 'Cultivar el pus para confirmar que es esteril', 'Retirar el farmaco sospechoso', 'Corticoide topico potente', 'NO añadir antibiotico', 'Separar de la psoriasis pustulosa por la cronologia']
     },
     {
       nombre: 'Eritrodermia: cuando la piel deja de ser un organo',
@@ -184,9 +184,9 @@ export const content = {
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'No aplica.',
       seguimiento_hospitalario: 'Constantes con temperatura, balance hidrico, albumina, ionograma y funcion renal a diario. Vigilancia activa de infeccion, que es la causa principal de mortalidad.',
-      seguimiento_ambulatorio: 'Seguir hasta identificar la causa. Si no se aclara, repetir biopsias en el tiempo: parte de las eritrodermias idiopaticas acaban revelandose como linfoma cutaneo a&#241;os despues.',
+      seguimiento_ambulatorio: 'Seguir hasta identificar la causa. Si no se aclara, repetir biopsias en el tiempo: parte de las eritrodermias idiopaticas acaban revelandose como linfoma cutaneo años despues.',
       pronostico: 'Depende de la causa y de la edad. Las de origen farmacologico y las secundarias a una dermatosis conocida tienen mejor pronostico que las asociadas a linfoma.',
-      algoritmo: ['Confirmar la extension y valorar el estado general', 'Ingresar y estabilizar: temperatura, volumen y albumina', 'Retirar todo farmaco no imprescindible', 'Buscar pistas de la causa en piel, u&#241;as e historia', 'Biopsiar, y repetir si es inespecifica', 'Vigilancia activa de infeccion', 'Cuidado con el corticoide sistemico si puede ser psoriasis']
+      algoritmo: ['Confirmar la extension y valorar el estado general', 'Ingresar y estabilizar: temperatura, volumen y albumina', 'Retirar todo farmaco no imprescindible', 'Buscar pistas de la causa en piel, uñas e historia', 'Biopsiar, y repetir si es inespecifica', 'Vigilancia activa de infeccion', 'Cuidado con el corticoide sistemico si puede ser psoriasis']
     },
     {
       nombre: 'Identificar al culpable y evitar la reexposicion',
@@ -221,7 +221,7 @@ export const content = {
       'Dolor cutaneo que precede a las lesiones: es el aviso precoz de la necrolisis epidermica. No esperar a las ampollas.',
       'Edema facial con eosinofilia: pedir funcion hepatica hoy y repetirla, porque el DRESS puede empeorar despues de retirar el farmaco.',
       'En la necrolisis epidermica, el traslado a una unidad de quemados debe ser PRECOZ, y la valoracion oftalmologica tambien: las secuelas oculares son en buena parte evitables.',
-      'No a&#241;adir farmacos nuevos innecesarios durante la fase aguda de una farmacodermia, y evitar la profilaxis antibiotica sistemica de rutina en la necrolisis.',
+      'No añadir farmacos nuevos innecesarios durante la fase aguda de una farmacodermia, y evitar la profilaxis antibiotica sistemica de rutina en la necrolisis.',
       'Antes del alta, comprobar que la alergia esta registrada en el sistema, en el informe y en una tarjeta para el paciente.'
     ],
     criterios_uci_general: 'Necrolisis epidermica toxica con superficie despegada relevante o SCORTEN elevado; DRESS con fallo hepatico o miocarditis; eritrodermia con inestabilidad, hipotermia refractaria o sepsis.',
@@ -348,7 +348,7 @@ export const figuras = {
       <div class="figure-grade-box">Dos datos mas que no son banderas pero que alarman igual: la <strong>extension rapida y progresiva</strong> pese a haber retirado el farmaco, y las <strong>lesiones en diana atipicas</strong> de centro oscuro. Si no hay ninguna de las seis banderas ni estos dos datos, la probabilidad de que sea un exantema benigno es muy alta y basta con retirar el farmaco y vigilar. Si hay una sola, hay que parar y pensar: la diferencia entre estas dos situaciones es la que hay entre una consulta y una unidad de quemados.</div>`
   },
   'farmaco-latencias': {
-    titulo: 'La latencia se&#241;ala al culpable',
+    titulo: 'La latencia señala al culpable',
     fuente: 'Hoetzenecker W, et al. Semin Immunopathol 2016, y guias latinoamericanas de SJS y NET (Murillo-Casas AD, et al. World Allergy Organ J 2025;18(4):101046).',
     html: `
       <div class="table-wrap">
@@ -356,7 +356,7 @@ export const figuras = {
           <thead><tr><th>Reaccion</th><th>Latencia tipica</th><th>Pista que la identifica</th></tr></thead>
           <tbody>
             <tr><td class="figure-org">Urticaria o anafilaxia</td><td><span class="figure-tag fail">Minutos a horas</span></td><td>Habones fugaces; si hay hipotension o broncoespasmo, es anafilaxia</td></tr>
-            <tr><td class="figure-org">Pustulosis exantematica aguda</td><td><span class="figure-tag fail">1 a 2 dias</span></td><td>Pustulas peque&#241;as esteriles, fiebre y neutrofilia</td></tr>
+            <tr><td class="figure-org">Pustulosis exantematica aguda</td><td><span class="figure-tag fail">1 a 2 dias</span></td><td>Pustulas pequeñas esteriles, fiebre y neutrofilia</td></tr>
             <tr><td class="figure-org">Exantema maculopapular</td><td>4 a 14 dias</td><td>Pica, no hay mucosas ni analitica alterada</td></tr>
             <tr><td class="figure-org">Stevens-Johnson y necrolisis</td><td>1 a 3 semanas</td><td>Dolor cutaneo, dianas atipicas, mucosas, Nikolsky</td></tr>
             <tr><td class="figure-org">DRESS</td><td><span class="figure-tag dys">2 a 8 semanas</span></td><td>Edema facial, eosinofilia, higado</td></tr>
@@ -383,7 +383,7 @@ export const figuras = {
         <table>
           <thead><tr><th>SCORTEN: un punto por cada variable</th></tr></thead>
           <tbody>
-            <tr><td>Edad de 40 a&#241;os o mas</td></tr>
+            <tr><td>Edad de 40 años o mas</td></tr>
             <tr><td>Neoplasia asociada</td></tr>
             <tr><td>Frecuencia cardiaca de 120 por minuto o mas</td></tr>
             <tr><td>Superficie despegada mayor del 10%</td></tr>

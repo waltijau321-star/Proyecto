@@ -39,7 +39,7 @@ export const calculators = [
   {
     key: 'gold-abe', title: 'Grado y grupo GOLD (EPOC estable)', accent: '#2f5d6e',
     subtitle: 'Grado espirometrico 1 a 4 y grupo A, B o E con el tratamiento inicial',
-    incompleteMsg: 'Introduce el cociente FEV1/FVC, el FEV1 en porcentaje del predicho, las exacerbaciones del ultimo a&#241;o y la disnea mMRC.',
+    incompleteMsg: 'Introduce el cociente FEV1/FVC, el FEV1 en porcentaje del predicho, las exacerbaciones del ultimo año y la disnea mMRC.',
     fields: [
       { name: 'ratio', id: 'epoc-g-ratio', type: 'number', step: '0.01', label: 'Cociente FEV1/FVC POSBRONCODILATADOR', placeholder: 'ej. 0.58', row: 'r1' },
       { name: 'fev1', id: 'epoc-g-fev1', type: 'number', step: '1', label: 'FEV1 (% del predicho, posbroncodilatador)', placeholder: 'ej. 45', row: 'r1' },
@@ -52,8 +52,8 @@ export const calculators = [
         { value: '4', label: '4: no sale de casa o se ahoga al vestirse' } ] },
       { name: 'cat', id: 'epoc-g-cat', type: 'number', step: '1', required: false, label: 'CAT (0 a 40, opcional)', placeholder: 'ej. 18', row: 'r2' },
       { name: 'eos', id: 'epoc-g-eos', type: 'number', step: '10', required: false, label: 'Eosinofilos en sangre (celulas/microlitro, opcional)', placeholder: 'ej. 340', row: 'r2' },
-      { name: 'exMod', id: 'epoc-g-exmod', type: 'number', step: '1', label: 'Exacerbaciones moderadas en el ultimo a&#241;o (tratadas sin ingreso)', placeholder: 'ej. 1', row: 'r3' },
-      { name: 'exIng', id: 'epoc-g-exing', type: 'number', step: '1', label: 'Exacerbaciones que requirieron INGRESO en el ultimo a&#241;o', placeholder: 'ej. 0', row: 'r3' },
+      { name: 'exMod', id: 'epoc-g-exmod', type: 'number', step: '1', label: 'Exacerbaciones moderadas en el ultimo año (tratadas sin ingreso)', placeholder: 'ej. 1', row: 'r3' },
+      { name: 'exIng', id: 'epoc-g-exing', type: 'number', step: '1', label: 'Exacerbaciones que requirieron INGRESO en el ultimo año', placeholder: 'ej. 0', row: 'r3' },
       { type: 'note', text: 'El grado GOLD 1 a 4 y el grupo A, B o E son ejes INDEPENDIENTES: el grado mide la obstruccion y sirve para el pronostico, el grupo mide sintomas y exacerbaciones y decide el tratamiento inicial. Si se rellenan mMRC y CAT, basta con que uno de los dos supere su umbral (mMRC 2 o mas, CAT 10 o mas) para considerar sintomatico al paciente. Este mapa vale para el tratamiento INICIAL: en el seguimiento se escala por el rasgo dominante, disnea o exacerbaciones, y no se recalcula el grupo.' }
     ],
     compute(v) {
@@ -75,13 +75,13 @@ export const calculators = [
       if (r.invalido) return 'Revisa los valores: el cociente FEV1/FVC se expresa como decimal (por ejemplo 0.58), el FEV1 en porcentaje del predicho y las exacerbaciones como numeros no negativos.';
       if (r.noObstruccion) return `<strong>Cociente FEV1/FVC de ${r.ratio.toFixed(2)}: NO hay obstruccion.</strong> Con un cociente posbroncodilatador de 0.70 o mas <strong>no se puede diagnosticar EPOC</strong>, por muchos sintomas y por mucho tabaco que haya. Buscar otra causa de la disnea: asma, insuficiencia cardiaca, enfermedad intersticial, obesidad, anemia o desacondicionamiento. Si el valor esta muy cerca de 0.70, repetir la espirometria en otra ocasion y comparar con el limite inferior de la normalidad para la edad.`;
       let s = `<strong>${r.grado} con FEV1 del ${r.fev1}% del predicho. Grupo GOLD ${r.grupo}.</strong> `;
-      s += `Sintomas: mMRC ${r.mmrc}${r.cat !== null ? ` y CAT ${r.cat}` : ''}, paciente ${r.sintomatico ? 'SINTOMATICO' : 'poco sintomatico'}. Exacerbaciones del ultimo a&#241;o: ${r.exMod} moderadas y ${r.exIng} con ingreso. `;
+      s += `Sintomas: mMRC ${r.mmrc}${r.cat !== null ? ` y CAT ${r.cat}` : ''}, paciente ${r.sintomatico ? 'SINTOMATICO' : 'poco sintomatico'}. Exacerbaciones del ultimo año: ${r.exMod} moderadas y ${r.exIng} con ingreso. `;
       if (r.grupo === 'E') {
         s += '<strong>Tratamiento inicial: LABA + LAMA.</strong> ';
         if (r.eos !== null && r.eos >= 300) s += `Con <strong>${r.eos} eosinofilos por microlitro (300 o mas)</strong> se recomienda TRIPLE TERAPIA de inicio, LABA + LAMA + corticoide inhalado. `;
-        else if (r.eos !== null && r.eos < 100) s += `Con <strong>${r.eos} eosinofilos por microlitro (menos de 100)</strong> el corticoide inhalado aporta poco y a&#241;ade riesgo de neumonia: mantener la doble broncodilatacion. `;
-        else if (r.eos !== null) s += `Con ${r.eos} eosinofilos por microlitro (zona intermedia) el corticoide inhalado se decide caso a caso: apoya a&#241;adirlo el ingreso previo por exacerbacion, dos o mas exacerbaciones moderadas al a&#241;o o el antecedente de asma. `;
-        else s += 'Falta el recuento de eosinofilos, que es el dato que decide si se a&#241;ade corticoide inhalado desde el inicio (300 o mas por microlitro). ';
+        else if (r.eos !== null && r.eos < 100) s += `Con <strong>${r.eos} eosinofilos por microlitro (menos de 100)</strong> el corticoide inhalado aporta poco y añade riesgo de neumonia: mantener la doble broncodilatacion. `;
+        else if (r.eos !== null) s += `Con ${r.eos} eosinofilos por microlitro (zona intermedia) el corticoide inhalado se decide caso a caso: apoya añadirlo el ingreso previo por exacerbacion, dos o mas exacerbaciones moderadas al año o el antecedente de asma. `;
+        else s += 'Falta el recuento de eosinofilos, que es el dato que decide si se añade corticoide inhalado desde el inicio (300 o mas por microlitro). ';
         s += 'El grupo E ignora los sintomas a proposito: haber exacerbado pesa mas que la disnea.';
       } else if (r.grupo === 'B') {
         s += '<strong>Tratamiento inicial: LABA + LAMA.</strong> La doble broncodilatacion es superior a cualquier monoterapia en sintomas y funcion pulmonar. El corticoide inhalado <strong>no esta indicado de entrada</strong> en el grupo B.';
@@ -129,7 +129,7 @@ export const calculators = [
     },
     format: r => {
       if (r.invalido) return 'Revisa los valores: peso de 20 a 300 kg, talla de 100 a 230 cm, FEV1 en porcentaje del predicho y distancia de 0 a 1000 metros.';
-      let s = `<strong>BODE ${r.total} de 10 puntos (cuartil ${r.cuartil}).</strong> Supervivencia aproximada a 4 a&#241;os del <strong>${r.superv}%</strong> en la cohorte original. Desglose: indice de masa corporal ${r.imc.toFixed(1)} (${r.pImc} punto${r.pImc === 1 ? '' : 's'}), FEV1 del ${r.fev1}% (${r.pFev1}), disnea (${r.pDisnea}), marcha de ${r.marcha} metros (${r.pMarcha}). `;
+      let s = `<strong>BODE ${r.total} de 10 puntos (cuartil ${r.cuartil}).</strong> Supervivencia aproximada a 4 años del <strong>${r.superv}%</strong> en la cohorte original. Desglose: indice de masa corporal ${r.imc.toFixed(1)} (${r.pImc} punto${r.pImc === 1 ? '' : 's'}), FEV1 del ${r.fev1}% (${r.pFev1}), disnea (${r.pDisnea}), marcha de ${r.marcha} metros (${r.pMarcha}). `;
       if (r.total >= 7) s += '<strong>Cuartil de maximo riesgo.</strong> Es uno de los criterios para remitir a valoracion de trasplante pulmonar, junto con FEV1 o DLCO por debajo del 20%, hipercapnia o hipertension pulmonar progresivas. Conviene ademas plantear la conversacion sobre objetivos de cuidado y techo terapeutico antes de la proxima crisis.';
       else if (r.total >= 5) s += 'Riesgo elevado. Priorizar rehabilitacion respiratoria, revisar la indicacion de oxigenoterapia con gasometria en situacion estable y optimizar el tratamiento de fondo y las comorbilidades.';
       else s += 'Riesgo bajo o intermedio. El margen de mejora esta sobre todo en el abandono del tabaco, la rehabilitacion y el estado nutricional: el peso y la distancia recorrida son los dos componentes modificables del indice.';
@@ -155,7 +155,7 @@ export const calculators = [
       { type: 'note', text: 'Marca tambien si el paciente va a necesitar soporte ventilatorio: es indicacion de antibiotico por si sola, con independencia del esputo.' },
       { name: 'ventilacion', id: 'epoc-a-vm', type: 'checkbox', label: 'Requiere ventilacion mecanica, invasiva o no invasiva' },
       { name: 'pseudomonas', id: 'epoc-a-pseudo', type: 'checkbox', label: 'Riesgo de Pseudomonas: bronquiectasias, FEV1 muy bajo, ingresos o antibioticos recientes, o aislamiento previo' },
-      { type: 'note', text: 'La lectura moderna de estos criterios es mas estricta que la original de 1987: el dato que mejor identifica la carga bacteriana es la PURULENCIA del esputo. Se trata con antibiotico la exacerbacion con purulencia acompa&#241;ada de aumento de disnea o de volumen, y la que requiere ventilacion. Duracion habitual de 5 a 7 dias. El corticoide sistemico (prednisona 40 mg durante 5 dias) es una decision INDEPENDIENTE de esta: se pauta en practicamente toda exacerbacion que llega al hospital, haya o no antibiotico.' }
+      { type: 'note', text: 'La lectura moderna de estos criterios es mas estricta que la original de 1987: el dato que mejor identifica la carga bacteriana es la PURULENCIA del esputo. Se trata con antibiotico la exacerbacion con purulencia acompañada de aumento de disnea o de volumen, y la que requiere ventilacion. Duracion habitual de 5 a 7 dias. El corticoide sistemico (prednisona 40 mg durante 5 dias) es una decision INDEPENDIENTE de esta: se pauta en practicamente toda exacerbacion que llega al hospital, haya o no antibiotico.' }
     ],
     compute(v) {
       const cardinales = (v.disnea ? 1 : 0) + (v.volumen ? 1 : 0) + (v.purulencia ? 1 : 0);

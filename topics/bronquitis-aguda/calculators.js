@@ -43,7 +43,7 @@ export const calculators = [
       if (r.indicado) {
         s += `<strong style="color:#8c3a34;">SI hay una razon para tratar</strong>: ${r.razones.join('; ')}. Esto ya no es una bronquitis aguda de adulto sano y no se le aplica la regla general. `;
         if (r.neumonia) s += 'Ante sospecha de neumonia, lo primero es la RADIOGRAFIA y despues el antibiotico segun gravedad y factores de riesgo. ';
-        if (r.ferina) s += 'En la tos ferina el macrolido corta la TRANSMISION mas que el curso clinico, y hay que a&#241;adir aislamiento durante 5 dias, declaracion y profilaxis de los contactos de riesgo. ';
+        if (r.ferina) s += 'En la tos ferina el macrolido corta la TRANSMISION mas que el curso clinico, y hay que añadir aislamiento durante 5 dias, declaracion y profilaxis de los contactos de riesgo. ';
       } else {
         s += '<strong style="color:#3f6b52;">NO esta indicado el antibiotico.</strong> Se trata de una bronquitis aguda de adulto sano, virica en mas del 90% de los casos. El beneficio del antibiotico aqui es de aproximadamente medio dia menos de tos, a costa de efectos adversos y de resistencias. ';
         s += '<br><strong>Lo que si se hace:</strong> nombrar el diagnostico (decir "es una bronquitis virica" funciona mejor que decir "no es nada"), explicar la duracion esperable, ofrecer tratamiento sintomatico y dejar una red de seguridad explicita sobre cuando volver. Valorar RECETA DIFERIDA si la presion es alta: reduce el consumo frente a la prescripcion inmediata sin empeorar la satisfaccion.';
@@ -55,7 +55,7 @@ export const calculators = [
         s += '<br><strong style="color:#8c5a2e;">Anciano fragil o comorbilidad significativa</strong>: aqui el umbral para pedir radiografia baja mucho, porque la fiebre y la taquipnea pueden faltar y una neumonia puede presentarse solo como confusion o caidas. Antes de cerrar la consulta sin antibiotico, conviene haber descartado la neumonia con imagen.';
       }
       if (r.subaguda) {
-        s += `<br><strong style="color:#8a6a1f;">Lleva ${r.dias} dias de tos, es decir, ya no es tos aguda.</strong> Por encima de 3 semanas es tos SUBAGUDA: la mayoria son postinfecciosas, pero es justo la franja en la que hay que acordarse de la TOS FERINA, sobre todo si convive con lactantes o trabaja con ni&#241;os.`;
+        s += `<br><strong style="color:#8a6a1f;">Lleva ${r.dias} dias de tos, es decir, ya no es tos aguda.</strong> Por encima de 3 semanas es tos SUBAGUDA: la mayoria son postinfecciosas, pero es justo la franja en la que hay que acordarse de la TOS FERINA, sobre todo si convive con lactantes o trabaja con niños.`;
       } else if (!r.indicado) {
         s += `<br><span style="opacity:.8;">Lleva ${r.dias} dias de tos. Recordar que la media de duracion es de unas 3 SEMANAS: decirselo al paciente ahora evita la consulta de vuelta a los diez dias.</span>`;
       }
@@ -128,7 +128,7 @@ export const calculators = [
       { name: 'contacto', id: 'ba-tf-co', type: 'checkbox', label: 'Contacto conocido con un caso', row: 'r3' },
       { name: 'fiebre', id: 'ba-tf-fi', type: 'checkbox', label: 'Fiebre significativa durante el cuadro', row: 'r3' },
       { name: 'lactantes', id: 'ba-tf-la', type: 'checkbox', label: 'Convive con lactantes o con una embarazada en el tercer trimestre' },
-      { type: 'note', text: 'En el ADULTO la tos ferina rara vez da el cuadro clasico del ni&#241;o: suele ser solo una tos persistente, seca y de predominio nocturno, sin fiebre. El vomito postusigeno y el gallo inspiratorio son los datos que mas aumentan la probabilidad, y la ausencia de tos paroxistica es la que mas la reduce. La fiebre significativa, en cambio, orienta en contra.' }
+      { type: 'note', text: 'En el ADULTO la tos ferina rara vez da el cuadro clasico del niño: suele ser solo una tos persistente, seca y de predominio nocturno, sin fiebre. El vomito postusigeno y el gallo inspiratorio son los datos que mas aumentan la probabilidad, y la ausencia de tos paroxistica es la que mas la reduce. La fiebre significativa, en cambio, orienta en contra.' }
     ],
     compute(v) {
       if (v.semanas == null) return null;
@@ -156,12 +156,12 @@ export const calculators = [
       if (r.enContra.length) s += `En contra: ${r.enContra.join(', ')}. `;
       s += '<br><strong>Prueba que corresponde por el tiempo de evolucion: </strong>';
       if (r.prueba === 'pcr') {
-        s += `con ${r.semanas} semanas de tos, <strong style="color:#8a6a1f;">REACCION EN CADENA DE LA POLIMERASA</strong> en muestra nasofaringea. Su rendimiento es maximo en las primeras 3 a 4 semanas y cae despues, porque la bacteria desaparece aunque la tos persista por el da&#241;o ya causado.`;
+        s += `con ${r.semanas} semanas de tos, <strong style="color:#8a6a1f;">REACCION EN CADENA DE LA POLIMERASA</strong> en muestra nasofaringea. Su rendimiento es maximo en las primeras 3 a 4 semanas y cae despues, porque la bacteria desaparece aunque la tos persista por el daño ya causado.`;
       } else {
         s += `con ${r.semanas} semanas de tos, la reaccion en cadena de la polimerasa ya ha perdido rendimiento: corresponde <strong style="color:#8a6a1f;">SEROLOGIA</strong>, teniendo en cuenta el antecedente vacunal, que complica su interpretacion en vacunados recientes.`;
       }
       if (r.prob !== 'BAJA') {
-        s += '<br><strong>Tratamiento:</strong> MACROLIDO (azitromicina, claritromicina o eritromicina) sin esperar el resultado si la sospecha es alta. Hay que explicar que corta la TRANSMISION pero apenas modifica el curso clinico si se da tarde, y que la tos puede durar semanas o meses porque se debe al da&#241;o ya causado. Aislamiento respiratorio durante los primeros 5 dias de tratamiento y DECLARACION del caso.';
+        s += '<br><strong>Tratamiento:</strong> MACROLIDO (azitromicina, claritromicina o eritromicina) sin esperar el resultado si la sospecha es alta. Hay que explicar que corta la TRANSMISION pero apenas modifica el curso clinico si se da tarde, y que la tos puede durar semanas o meses porque se debe al daño ya causado. Aislamiento respiratorio durante los primeros 5 dias de tratamiento y DECLARACION del caso.';
       } else {
         s += '<br>Con probabilidad baja, antes de etiquetar el cuadro conviene revisar el resto de causas de tos en esta franja: postinfecciosa, que es la mas frecuente, asma, sindrome de tos de via aerea superior, reflujo y tos por inhibidor de la enzima convertidora.';
       }
@@ -243,7 +243,7 @@ export const calculators = [
           s += '<br>&nbsp;1. <strong>SINDROME DE TOS DE VIA AEREA SUPERIOR</strong>: carraspeo, goteo posnasal, empedrado faringeo. Antihistaminico y corticoide nasal, y la respuesta confirma el diagnostico.';
           s += '<br>&nbsp;2. <strong>ASMA</strong>, incluida la variante tusigena, en la que la tos es el unico sintoma y no hay sibilancias. Espirometria con prueba broncodilatadora y, si es normal, provocacion bronquial, cuyo valor principal es el negativo.';
           s += '<br>&nbsp;3. <strong>REFLUJO GASTROESOFAGICO</strong>, que puede cursar SIN pirosis. Medidas posturales y dieteticas mas inhibidor de la bomba de protones durante varias semanas antes de darlo por fallido.';
-          s += '<br><span style="opacity:.75;">Una respuesta parcial no descarta una causa: puede haber dos o tres a la vez. No retirar lo que ha funcionado en parte al a&#241;adir el siguiente escalon.</span>';
+          s += '<br><span style="opacity:.75;">Una respuesta parcial no descarta una causa: puede haber dos o tres a la vez. No retirar lo que ha funcionado en parte al añadir el siguiente escalon.</span>';
         }
       }
       return s;

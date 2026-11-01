@@ -194,14 +194,14 @@ async function buildAndSetGlobalIndex() {
     const D = topic.content || {};
     const itemLabel = (topic.modalLabels && topic.modalLabels.itemName) || 'Complicación';
     (D.complicaciones || []).forEach((c, i) => {
-      index.push({ label: c.nombre, type: itemLabel, scope: t.titulo, section: 'estudio', topicId: t.id, action: `openModal(${i})` });
+      index.push({ label: c.nombre, type: itemLabel, scope: t.titulo, section: 'estudio', topicId: t.id, action: () => window.openModal(i) });
     });
     (topic.estigmas || []).forEach((e, i) => {
-      index.push({ label: e.s, type: 'Estigma clásico', scope: t.titulo, section: 'estudio', topicId: t.id, action: `openStigma(${i})` });
+      index.push({ label: e.s, type: 'Estigma clásico', scope: t.titulo, section: 'estudio', topicId: t.id, action: () => window.openStigma(i) });
     });
     if (D.clasificacion && D.clasificacion.escalas) {
       D.clasificacion.escalas.forEach(e => {
-        index.push({ label: e.nombre, type: 'Escala', scope: t.titulo, section: 'estudio', topicId: t.id, action: `jumpToEscala('${slugify(e.nombre)}')` });
+        index.push({ label: e.nombre, type: 'Escala', scope: t.titulo, section: 'estudio', topicId: t.id, action: () => window.jumpToEscala(slugify(e.nombre)) });
       });
     }
     // Las escalas de VPO las aporta vpoSearchEntries() apuntando a la sección VPO, que es su
@@ -209,18 +209,18 @@ async function buildAndSetGlobalIndex() {
     // en Calc, así que indexarlas aquí también las duplicaría en el buscador.
     if (t.id !== 'valoracion-preoperatoria') {
       (topic.calculators || []).forEach(c => {
-        index.push({ label: c.title, type: 'Calculadora', scope: t.titulo, section: 'calc', topicId: t.id, action: `openCalcFor('${t.id}','${c.key}')` });
+        index.push({ label: c.title, type: 'Calculadora', scope: t.titulo, section: 'calc', topicId: t.id, action: () => window.openCalcFor(t.id, c.key) });
       });
     }
   }
   // Las calculadoras generales no pertenecen a ningún tema, así que el recorrido de arriba no
   // las ve: sin esto, una escala general existe en la sección Calc pero no se puede buscar.
   generalCalculators.forEach(c => {
-    index.push({ label: c.title, type: 'Calculadora', scope: 'General', section: 'calc', action: `openCalc('${c.key}')` });
+    index.push({ label: c.title, type: 'Calculadora', scope: 'General', section: 'calc', action: () => window.openCalc(c.key) });
   });
   vpoSearchEntries().forEach(e => index.push(e));
   protocols.forEach(p => {
-    index.push({ label: p.title, type: 'Protocolo', scope: 'Protocolos', section: 'protocolos', action: `rmProtoOpen('${p.id}')` });
+    index.push({ label: p.title, type: 'Protocolo', scope: 'Protocolos', section: 'protocolos', action: () => window.rmProtoOpen(p.id) });
   });
   setGlobalSearch(index, navigateToSearchResult);
 }
@@ -230,8 +230,11 @@ async function navigateToSearchResult(entry) {
     await selectTopic(entry.topicId);
   }
   showSection(entry.section || 'estudio');
-  if (entry.action) {
-    try { Function(entry.action)(); } catch (e) { console.error('Búsqueda: no se pudo abrir el resultado', e); }
+  // entry.action es una FUNCION, no una cadena. Antes se evaluaba con Function(entry.action)(),
+  // es decir evaluacion de codigo armado por interpolacion: funcionaba porque el contenido es
+  // propio, pero una comilla en el nombre de una escala lo rompia.
+  if (typeof entry.action === 'function') {
+    try { entry.action(); } catch (e) { console.error('Búsqueda: no se pudo abrir el resultado', e); }
   }
 }
 

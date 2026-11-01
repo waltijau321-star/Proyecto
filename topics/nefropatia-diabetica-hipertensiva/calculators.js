@@ -28,7 +28,7 @@ export const calculators = [
       { name: 'hta', id: 'ndh-pi-ht', type: 'checkbox', label: 'Hipertension arterial' },
       { name: 'rasiMax', id: 'ndh-pi-rm', type: 'checkbox', label: 'Ya con IECA o ARA II a dosis maxima tolerada', row: true },
       { name: 'objetivos', id: 'ndh-pi-ob', type: 'checkbox', label: 'NO alcanza los objetivos glucemicos individualizados' },
-      { type: 'note', text: 'Los pilares se SUMAN. El antagonista no esteroideo se a&#241;ade al bloqueo y al inhibidor del cotransportador, no los sustituye.' }
+      { type: 'note', text: 'Los pilares se SUMAN. El antagonista no esteroideo se añade al bloqueo y al inhibidor del cotransportador, no los sustituye.' }
     ],
     compute(v) {
       const num = x => (x === null || x === undefined || x === '' || isNaN(x)) ? null : Number(x);
@@ -57,14 +57,14 @@ export const calculators = [
       } else if (dm2) {
         no.push({ n: 'Inhibidor del cotransportador', d: 'Filtrado de ' + eg + ', por debajo del umbral de 20 que exige la recomendacion.' });
       } else if (tipo === 'sindm') {
-        faltan.push('Sin diabetes tipo 2 no aplica esta recomendacion, aunque la guia se&#241;ala que el inhibidor del cotransportador ha demostrado seguridad y beneficio tambien en enfermedad renal sin diabetes tipo 2.');
+        faltan.push('Sin diabetes tipo 2 no aplica esta recomendacion, aunque la guia señala que el inhibidor del cotransportador ha demostrado seguridad y beneficio tambien en enfermedad renal sin diabetes tipo 2.');
       }
 
       // 3. Antagonista no esteroideo
       if (dm2) {
         const kOk = k === null ? null : (k >= 3.5 && k <= 5.0);
         if (eg >= 25 && uacr !== null && uacr >= 30 && v.rasiMax && kOk === true) {
-          si.push({ n: 'Antagonista NO esteroideo del receptor mineralocorticoide', g: '2A', d: 'Cumple los cuatro requisitos: filtrado de 25 o mas, potasio normal, albuminuria de 30 mg/g o mas y dosis maxima tolerada de bloqueo. Se A&#209;ADE al bloqueo y al inhibidor del cotransportador.' });
+          si.push({ n: 'Antagonista NO esteroideo del receptor mineralocorticoide', g: '2A', d: 'Cumple los cuatro requisitos: filtrado de 25 o mas, potasio normal, albuminuria de 30 mg/g o mas y dosis maxima tolerada de bloqueo. Se AÑADE al bloqueo y al inhibidor del cotransportador.' });
         } else {
           const falla = [];
           if (eg < 25) falla.push('filtrado de ' + eg + ', por debajo de 25');
@@ -78,7 +78,11 @@ export const calculators = [
       }
 
       // 4. Metformina y GLP-1
-      if (dm2 && eg >= 30) si.push({ n: 'Metformina', g: '1B', d: 'Filtrado de ' + eg + ', por encima del umbral de 30.' });
+      // noPilar: la metformina se indica y se lista, pero NO es uno de los cuatro pilares (el
+      // tema ensena que son bloqueo, cotransportador, no esteroideo y GLP-1). Sin esta marca el
+      // recuento la contaba y la calculadora llegaba a decir "5 de los pilares", o a decir 4
+      // mientras el no esteroideo aparecia abajo como no indicado.
+      if (dm2 && eg >= 30) si.push({ n: 'Metformina', g: '1B', d: 'Filtrado de ' + eg + ', por encima del umbral de 30.', noPilar: true });
       else if (dm2) no.push({ n: 'Metformina', d: 'Filtrado de ' + eg + ', por debajo del umbral de 30.' });
 
       if (dm2 && v.objetivos) si.push({ n: 'Agonista del receptor de GLP-1 de accion prolongada', g: '1B', d: 'No alcanza los objetivos glucemicos individualizados pese a metformina e inhibidor del cotransportador, o no puede usarlos.' });
@@ -90,14 +94,17 @@ export const calculators = [
       if (si.some(x => x.n.indexOf('NO esteroideo') >= 0)) {
         avisos.push('Tras iniciar el antagonista no esteroideo, monitoriza el potasio con regularidad. Y no lo confundas con el antagonista ESTEROIDEO, cuyo sitio es la insuficiencia cardiaca, el hiperaldosteronismo y la hipertension refractaria.');
       }
-      if (tipo === 'dm1') avisos.push('En diabetes tipo 1 las recomendaciones de inhibidor del cotransportador, metformina y antagonista no esteroideo de la guia VIGENTE de 2022 estan dirigidas a la tipo 2. El borrador de 2026 a&#241;ade el antagonista no esteroideo para la tipo 1 (2C, filtrado 25 o mas, potasio normal, albuminuria de 200 mg/g o mas), pero es un borrador.');
+      if (tipo === 'dm1') avisos.push('En diabetes tipo 1 las recomendaciones de inhibidor del cotransportador, metformina y antagonista no esteroideo de la guia VIGENTE de 2022 estan dirigidas a la tipo 2. El borrador de 2026 añade el antagonista no esteroideo para la tipo 1 (2C, filtrado 25 o mas, potasio normal, albuminuria de 200 mg/g o mas), pero es un borrador.');
 
       return { si, no, faltan, avisos, eg, tipo, uacr, k };
     },
     format(r) {
       let s;
+      const pilares = r.si.filter(x => !x.noPilar).length;
       if (r.si.length) {
-        s = `<strong style="color:${C_VERDE};font-size:14.5px;">Le corresponden ${r.si.length} de los pilares.</strong>`;
+        s = pilares
+          ? `<strong style="color:${C_VERDE};font-size:14.5px;">Le corresponde${pilares === 1 ? '' : 'n'} ${pilares} de los cuatro pilares.</strong>`
+          : `<strong style="color:${C_AMBAR};font-size:14.5px;">Ninguno de los cuatro pilares le corresponde con estos datos.</strong>`;
         s += '<br><br><strong>Indicado</strong><br>' + r.si.map(x => `&bull; <strong>${x.n}</strong> <span style="opacity:.8;">(${x.g})</span><br><span style="opacity:.9;padding-left:12px;">${x.d}</span>`).join('<br>');
       } else {
         s = `<strong style="color:${C_AMBAR};font-size:14.5px;">Con los datos dados no se cumple ningun pilar.</strong>`;
@@ -111,7 +118,7 @@ export const calculators = [
   },
 
   {
-    key: 'medida-estandarizada', title: '&#191;Tu medida de tension vale?', accent: '#8c3a34',
+    key: 'medida-estandarizada', title: '¿Tu medida de tension vale?', accent: '#8c3a34',
     subtitle: 'Sin medida estandarizada no hay objetivo de 120',
     incompleteMsg: 'Marca los requisitos que se cumplieron.',
     fields: [
@@ -122,7 +129,7 @@ export const calculators = [
       { name: 'ropa', id: 'ndh-me-ro', type: 'checkbox', label: 'Sin ropa bajo el manguito' },
       { name: 'nocamilla', id: 'ndh-me-nc', type: 'checkbox', label: 'En silla, NO en la camilla de exploracion', row: true },
       { name: 'brazo', id: 'ndh-me-br', type: 'checkbox', label: 'Brazo apoyado y manguito a la altura del punto medio del esternon' },
-      { name: 'manguito', id: 'ndh-me-ma', type: 'checkbox', label: 'Manguito del tama&#241;o correcto, rodeando el 80% del brazo', row: true },
+      { name: 'manguito', id: 'ndh-me-ma', type: 'checkbox', label: 'Manguito del tamaño correcto, rodeando el 80% del brazo', row: true },
       { name: 'dispositivo', id: 'ndh-me-di', type: 'checkbox', label: 'Dispositivo validado y calibrado' },
       { name: 'promedio', id: 'ndh-me-pr', type: 'checkbox', label: 'Se promediaron varias lecturas', row: true },
       { name: 'sistolica', id: 'ndh-me-sy', type: 'number', step: '1', required: false, label: 'Sistolica obtenida en mmHg (opcional)', placeholder: 'ej. 134' },
@@ -137,7 +144,7 @@ export const calculators = [
         ['ropa', 'sin ropa bajo el manguito'],
         ['nocamilla', 'en silla y no en la camilla'],
         ['brazo', 'brazo apoyado y manguito a la altura correcta'],
-        ['manguito', 'tama&#241;o de manguito correcto'],
+        ['manguito', 'tamaño de manguito correcto'],
         ['dispositivo', 'dispositivo validado y calibrado'],
         ['promedio', 'lecturas promediadas']
       ];
@@ -171,7 +178,7 @@ export const calculators = [
   },
 
   {
-    key: 'manejo-rasi', title: 'Bloqueo: &#191;se mantiene o se toca?', accent: '#4a6b7a',
+    key: 'manejo-rasi', title: 'Bloqueo: ¿se mantiene o se toca?', accent: '#4a6b7a',
     subtitle: 'La regla del 30% y el potasio',
     incompleteMsg: 'Indica la creatinina antes y despues.',
     fields: [
@@ -212,7 +219,7 @@ export const calculators = [
 
       let avisoK = null;
       if (k !== null && k > 5.0) {
-        avisoK = 'Potasio de ' + k + '. La hiperpotasemia asociada al bloqueo puede CON FRECUENCIA manejarse con medidas para reducir el potasio, en lugar de disminuir la dosis o suspenderlo. Revisa dieta, farmacos acompa&#241;antes y acidosis metabolica antes de tocar el bloqueo.';
+        avisoK = 'Potasio de ' + k + '. La hiperpotasemia asociada al bloqueo puede CON FRECUENCIA manejarse con medidas para reducir el potasio, en lugar de disminuir la dosis o suspenderlo. Revisa dieta, farmacos acompañantes y acidosis metabolica antes de tocar el bloqueo.';
       }
       const prohibido = !!v.combinado;
 
@@ -230,12 +237,12 @@ export const calculators = [
   },
 
   {
-    key: 'indicacion-rasi', title: 'Bloqueo segun albuminuria: &#191;que grado?', accent: '#2f6a62',
+    key: 'indicacion-rasi', title: 'Bloqueo segun albuminuria: ¿que grado?', accent: '#2f6a62',
     subtitle: 'La misma categoria cambia segun haya diabetes',
     incompleteMsg: 'Indica la albuminuria y si hay diabetes.',
     fields: [
       { name: 'uacr', id: 'ndh-ir-ua', type: 'number', step: '1', label: 'Cociente albumina-creatinina (mg/g)', placeholder: 'ej. 120' },
-      { name: 'diabetes', id: 'ndh-ir-db', type: 'select', label: '&#191;Tiene diabetes?', options: [
+      { name: 'diabetes', id: 'ndh-ir-db', type: 'select', label: '¿Tiene diabetes?', options: [
         { value: '', label: 'Elegir...' },
         { value: 'si', label: 'Si' },
         { value: 'no', label: 'No' }

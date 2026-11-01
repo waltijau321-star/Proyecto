@@ -23,13 +23,13 @@ export const calculators = [
     subtitle: 'Cribado rapido del lugar de tratamiento en la neumonia comunitaria',
     incompleteMsg: 'Introduce edad, nitrogeno ureico, frecuencia respiratoria y presion arterial.',
     fields: [
-      { name: 'edad', id: 'nm-cu-edad', type: 'number', step: '1', label: 'Edad (a&#241;os)', placeholder: 'ej. 72', row: 'r1' },
+      { name: 'edad', id: 'nm-cu-edad', type: 'number', step: '1', label: 'Edad (años)', placeholder: 'ej. 72', row: 'r1' },
       { name: 'bun', id: 'nm-cu-bun', type: 'number', step: '1', label: 'Nitrogeno ureico en sangre (mg/dL)', placeholder: 'ej. 24', row: 'r1' },
       { name: 'fr', id: 'nm-cu-fr', type: 'number', step: '1', label: 'Frecuencia respiratoria (por minuto)', placeholder: 'ej. 28', row: 'r2' },
       { name: 'pas', id: 'nm-cu-pas', type: 'number', step: '1', label: 'Presion arterial sistolica (mmHg)', placeholder: 'ej. 105', row: 'r3' },
       { name: 'pad', id: 'nm-cu-pad', type: 'number', step: '1', label: 'Presion arterial diastolica (mmHg)', placeholder: 'ej. 62', row: 'r3' },
       { name: 'confusion', id: 'nm-cu-conf', type: 'checkbox', label: 'Confusion de nueva aparicion' },
-      { type: 'note', text: 'Un punto por cada criterio: Confusion, Urea (nitrogeno ureico mayor de 19 mg/dL, equivalente a urea mayor de 7 mmol/L), Respiraciones de 30 o mas, presion arterial sistolica menor de 90 o diastolica de 60 o menos, y edad de 65 a&#241;os o mas. Es un cribado, no una orden: no valora la hipoxemia, la comorbilidad descompensada, la tolerancia oral ni el soporte social, y penaliza al anciano solo por la edad.' }
+      { type: 'note', text: 'Un punto por cada criterio: Confusion, Urea (nitrogeno ureico mayor de 19 mg/dL, equivalente a urea mayor de 7 mmol/L), Respiraciones de 30 o mas, presion arterial sistolica menor de 90 o diastolica de 60 o menos, y edad de 65 años o mas. Es un cribado, no una orden: no valora la hipoxemia, la comorbilidad descompensada, la tolerancia oral ni el soporte social, y penaliza al anciano solo por la edad.' }
     ],
     compute(v) {
       if (v.edad == null || v.bun == null || v.fr == null || v.pas == null || v.pad == null) return null;
@@ -45,7 +45,7 @@ export const calculators = [
       return { total, destino, c, u, r, b, e, edad: v.edad };
     },
     format: r => {
-      if (r.invalido) return 'Revisa los valores: edad de 0 a 120 a&#241;os, frecuencia respiratoria de 5 a 80, presion sistolica de 30 a 300 y diastolica de 10 a 200 mmHg.';
+      if (r.invalido) return 'Revisa los valores: edad de 0 a 120 años, frecuencia respiratoria de 5 a 80, presion sistolica de 30 a 300 y diastolica de 10 a 200 mmHg.';
       let s = `<strong>CURB-65 de ${r.total} puntos: ${r.destino}.</strong> Desglose: confusion ${r.c}, urea ${r.u}, frecuencia respiratoria ${r.r}, presion arterial ${r.b}, edad ${r.e}. `;
       if (r.total <= 1) s += 'Mortalidad baja. Puede tratarse en casa si tolera la via oral, tiene soporte social y no hay comorbilidad descompensada ni hipoxemia, tres cosas que la escala no mide.';
       else if (r.total === 2) s += 'Mortalidad intermedia. Valorar ingreso u observacion, integrando la comorbilidad, la saturacion y la situacion social.';
@@ -65,7 +65,7 @@ export const calculators = [
         { value: '', label: 'Selecciona' },
         { value: 'h', label: 'Hombre' },
         { value: 'm', label: 'Mujer' } ] },
-      { name: 'edad', id: 'nm-psi-edad', type: 'number', step: '1', label: 'Edad (a&#241;os)', placeholder: 'ej. 68', row: 'r1' },
+      { name: 'edad', id: 'nm-psi-edad', type: 'number', step: '1', label: 'Edad (años)', placeholder: 'ej. 68', row: 'r1' },
       { name: 'residencia', id: 'nm-psi-res', type: 'checkbox', label: 'Vive en residencia o centro sociosanitario (10)' },
       { type: 'note', text: 'Comorbilidad.' },
       { name: 'neoplasia', id: 'nm-psi-neo', type: 'checkbox', label: 'Enfermedad neoplasica activa (30)' },
@@ -119,9 +119,9 @@ export const calculators = [
       return { p, clase: cl.n, mort: cl.mort, destino: cl.destino, claseI, faltan, edad: v.edad };
     },
     format: r => {
-      if (r.invalido) return 'Revisa los valores: edad de 0 a 120 a&#241;os, frecuencia respiratoria de 5 a 80, presion sistolica de 30 a 300 mmHg, temperatura de 25 a 45 grados y frecuencia cardiaca de 20 a 250.';
+      if (r.invalido) return 'Revisa los valores: edad de 0 a 120 años, frecuencia respiratoria de 5 a 80, presion sistolica de 30 a 300 mmHg, temperatura de 25 a 45 grados y frecuencia cardiaca de 20 a 250.';
       let s = r.claseI
-        ? `<strong>Clase I del PSI</strong> (menor de 51 a&#241;os, sin comorbilidad de la lista y sin alteraciones en la exploracion): mortalidad en torno al ${r.mort}. `
+        ? `<strong>Clase I del PSI</strong> (menor de 51 años, sin comorbilidad de la lista y sin alteraciones en la exploracion): mortalidad en torno al ${r.mort}. `
         : `<strong>${r.p} puntos: clase ${r.clase} del PSI.</strong> Mortalidad esperada del ${r.mort}. `;
       s += `Destino sugerido: <strong>${r.destino}</strong>. `;
       if (r.clase === 'I' || r.clase === 'II') s += 'El PSI es especialmente bueno identificando al paciente de bajo riesgo, y ese es el motivo por el que las guias lo prefieren al CURB-65 para decidir el alta. Aun asi, no valora la tolerancia oral, el soporte social ni la comorbilidad descompensada.';
@@ -151,7 +151,7 @@ export const calculators = [
       { name: 'plaquetas', id: 'nm-ng-pla', type: 'checkbox', label: 'Plaquetas por debajo de 100000 por microlitro' },
       { name: 'hipotermia', id: 'nm-ng-hipo', type: 'checkbox', label: 'Temperatura central por debajo de 36 grados' },
       { name: 'hipotension', id: 'nm-ng-pa', type: 'checkbox', label: 'Hipotension que exige reposicion agresiva de volumen' },
-      { type: 'note', text: 'La leucopenia y la hipotermia enga&#241;an porque parecen tranquilizadoras frente a la leucocitosis y la fiebre alta, y sin embargo son marcadores de gravedad. Esta escala no solo decide el ingreso en cuidados intensivos: tambien selecciona a quien se le piden hemocultivos, esputo y antigenos urinarios, a quien se le a&#241;ade corticoide sistemico (salvo neumonia gripal) y a quien se le mantiene el antibiotico 5 dias o mas.' }
+      { type: 'note', text: 'La leucopenia y la hipotermia engañan porque parecen tranquilizadoras frente a la leucocitosis y la fiebre alta, y sin embargo son marcadores de gravedad. Esta escala no solo decide el ingreso en cuidados intensivos: tambien selecciona a quien se le piden hemocultivos, esputo y antigenos urinarios, a quien se le añade corticoide sistemico (salvo neumonia gripal) y a quien se le mantiene el antibiotico 5 dias o mas.' }
     ],
     compute(v) {
       const mayores = (v.vm ? 1 : 0) + (v.choque ? 1 : 0);
@@ -175,7 +175,7 @@ export const calculators = [
       if (r.menores) s += `Menores presentes: ${r.menoresLista.join(', ')}. `;
       if (r.grave) {
         s += '<strong style="color:#8c3a34;">Conducta:</strong> valorar ingreso en cuidados intensivos y avisar de forma PRECOZ, porque el traslado tardio tras el deterioro tiene peor pronostico que el ingreso directo. Extraer hemocultivos, cultivo de esputo y antigenos urinarios de neumococo y de Legionella <strong>antes de la primera dosis, sin retrasarla</strong>. Antibiotico combinado: betalactamico mas macrolido, o betalactamico mas fluoroquinolona. ';
-        s += 'A&#241;adir <strong>corticoide sistemico</strong>, que la guia de 2026 sugiere en la neumonia grave y recomienda en contra en la no grave, con la <strong>excepcion explicita de la neumonia gripal</strong>. Duracion del antibiotico de <strong>5 dias o mas</strong>, con recomendacion fuerte.';
+        s += 'Añadir <strong>corticoide sistemico</strong>, que la guia de 2026 sugiere en la neumonia grave y recomienda en contra en la no grave, con la <strong>excepcion explicita de la neumonia gripal</strong>. Duracion del antibiotico de <strong>5 dias o mas</strong>, con recomendacion fuerte.';
         if (r.vm || r.choque) s += ' Con un criterio mayor presente no hace falta contar los menores: la neumonia ya es grave.';
       } else {
         s += 'Tratamiento en planta o ambulatorio segun el PSI o el CURB-65. No estan indicados el corticoide sistemico (recomendacion fuerte en contra en la neumonia no grave) ni los cultivos de rutina. Si alcanza estabilidad clinica, la duracion sugerida es <strong>menor de 5 dias, con un minimo de 3</strong>. Reevaluar los criterios en las primeras 24 a 48 horas, porque pueden aparecer despues.';
@@ -217,7 +217,7 @@ export const calculators = [
       if (v.estructural) razonesPseudo.push('bronquiectasias o fibrosis quistica');
       if (nosocomial && v.atb90) razonesPseudo.push('antibiotico intravenoso en 90 dias');
       if (nosocomial && v.altoRiesgo) razonesPseudo.push('alto riesgo de muerte');
-      if (!nosocomial && v.atb90 && v.estructural) razonesPseudo.push('antibiotico intravenoso reciente sobre pulmon estructuralmente da&#241;ado');
+      if (!nosocomial && v.atb90 && v.estructural) razonesPseudo.push('antibiotico intravenoso reciente sobre pulmon estructuralmente dañado');
       const doble = nosocomial && (!!v.altoRiesgo || !!v.resPseudo || !!v.estructural || !!v.aislPseudo);
       return { nosocomial, sarm: razonesSarm.length > 0, pseudo: razonesPseudo.length > 0,
         razonesSarm, razonesPseudo, doble, altoRiesgo: !!v.altoRiesgo };

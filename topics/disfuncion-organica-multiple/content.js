@@ -46,7 +46,7 @@ const cascadaHtml = `
     </div>
     <div style="display:grid;grid-template-columns:96px 1fr;gap:6px;align-items:stretch;">
       <div style="background:#8a6a1f22;border:1px solid #8a6a1f;border-radius:7px;padding:5px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;color:#8a6a1f;">RESPUESTA</div>
-      <div style="border:1px solid var(--line);border-radius:7px;padding:5px 9px;color:var(--ink-dim);">Activacion inmunitaria <strong style="color:var(--ink);">DESREGULADA</strong>, con componentes proinflamatorio y antiinflamatorio a la vez. De ahi salen a la vez el da&#241;o tisular y la inmunosupresion que favorece las infecciones tardias.</div>
+      <div style="border:1px solid var(--line);border-radius:7px;padding:5px 9px;color:var(--ink-dim);">Activacion inmunitaria <strong style="color:var(--ink);">DESREGULADA</strong>, con componentes proinflamatorio y antiinflamatorio a la vez. De ahi salen a la vez el daño tisular y la inmunosupresion que favorece las infecciones tardias.</div>
     </div>
     <div style="display:grid;grid-template-columns:96px 1fr;gap:6px;align-items:stretch;">
       <div style="background:#3d5a7322;border:1px solid #3d5a73;border-radius:7px;padding:5px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;color:#3d5a73;">ENDOTELIO</div>
@@ -62,7 +62,7 @@ const cascadaHtml = `
       <strong style="color:#8c3a34;">El SEGUNDO GOLPE.</strong> Un paciente ya sensibilizado por el primer insulto responde de forma desproporcionada al siguiente, que muchas veces es <strong>IATROGENICO</strong>: ventilacion con volumenes altos, sobrecarga de fluidos, sedacion profunda, transfusion innecesaria, nefrotoxicos o una infeccion asociada a dispositivos.
     </div>
     <div style="border:1px solid #6b4a8c;border-radius:8px;padding:5px 8px;color:var(--ink-dim);">
-      <strong style="color:#6b4a8c;">Primario o secundario.</strong> El <strong>PRIMARIO</strong> es da&#241;o directo del insulto y aparece pronto (contusion pulmonar, rabdomiolisis). El <strong>SECUNDARIO</strong> es consecuencia de la respuesta del huesped y aparece dias despues, con frecuencia lejos del organo lesionado. Distinguirlos cambia donde se busca la causa.
+      <strong style="color:#6b4a8c;">Primario o secundario.</strong> El <strong>PRIMARIO</strong> es daño directo del insulto y aparece pronto (contusion pulmonar, rabdomiolisis). El <strong>SECUNDARIO</strong> es consecuencia de la respuesta del huesped y aparece dias despues, con frecuencia lejos del organo lesionado. Distinguirlos cambia donde se busca la causa.
     </div>
   </div>
 </div>`;
@@ -70,7 +70,7 @@ const cascadaHtml = `
 const sofa2Html = `
 <div style="max-width:660px;margin:0 auto;font-size:9px;color:var(--ink);">
   <div style="text-align:center;border:1px solid #8c3a34;border-radius:8px;padding:5px 9px;background:#8c3a3412;margin-bottom:6px;">
-    <strong style="color:#8c3a34;">SOFA-2 (2025) es la primera actualizacion de la escala en 30 a&#241;os.</strong> <span style="color:var(--ink-dim);">Mantiene los <strong>6 sistemas</strong> y el rango de 0 a 24: los dominios inmune y digestivo se propusieron, se evaluaron y se <strong>DESCARTARON</strong>.</span>
+    <strong style="color:#8c3a34;">SOFA-2 (2025) es la primera actualizacion de la escala en 30 años.</strong> <span style="color:var(--ink-dim);">Mantiene los <strong>6 sistemas</strong> y el rango de 0 a 24: los dominios inmune y digestivo se propusieron, se evaluaron y se <strong>DESCARTARON</strong>.</span>
   </div>
   <div style="overflow-x:auto;margin-bottom:6px;">
   <table style="width:100%;border-collapse:collapse;font-size:8.5px;">
@@ -90,38 +90,38 @@ const sofa2Html = `
     </tr>
     <tr>
       <td style="border:1px solid var(--line);padding:3px 4px;"><strong>Respiratorio</strong></td>
-      <td style="border:1px solid var(--line);padding:3px 4px;">PaO2/FiO2 &#8804;300</td>
-      <td style="border:1px solid var(--line);padding:3px 4px;">&#8804;225</td>
-      <td style="border:1px solid var(--line);padding:3px 4px;">&#8804;150 <strong style="color:#8c3a34;">+ soporte avanzado</strong></td>
-      <td style="border:1px solid var(--line);padding:3px 4px;">&#8804;75 + soporte, o ECMO</td>
+      <td style="border:1px solid var(--line);padding:3px 4px;">PaO2/FiO2 ≤300</td>
+      <td style="border:1px solid var(--line);padding:3px 4px;">≤225</td>
+      <td style="border:1px solid var(--line);padding:3px 4px;">≤150 <strong style="color:#8c3a34;">+ soporte avanzado</strong></td>
+      <td style="border:1px solid var(--line);padding:3px 4px;">≤75 + soporte, o ECMO</td>
     </tr>
     <tr>
       <td style="border:1px solid var(--line);padding:3px 4px;"><strong>Cardiovascular</strong></td>
       <td style="border:1px solid var(--line);padding:3px 4px;">PAM &lt;70 sin vasoactivos</td>
-      <td style="border:1px solid var(--line);padding:3px 4px;"><strong style="color:#8c3a34;">Nor+adr &#8804;0.2</strong> o cualquier otro vasoactivo</td>
-      <td style="border:1px solid var(--line);padding:3px 4px;">Nor+adr &gt;0.2 y &#8804;0.4, o &#8804;0.2 con otro</td>
+      <td style="border:1px solid var(--line);padding:3px 4px;"><strong style="color:#8c3a34;">Nor+adr ≤0.2</strong> o cualquier otro vasoactivo</td>
+      <td style="border:1px solid var(--line);padding:3px 4px;">Nor+adr &gt;0.2 y ≤0.4, o ≤0.2 con otro</td>
       <td style="border:1px solid var(--line);padding:3px 4px;">Nor+adr &gt;0.4, o soporte mecanico</td>
     </tr>
     <tr>
       <td style="border:1px solid var(--line);padding:3px 4px;"><strong>Higado</strong></td>
-      <td style="border:1px solid var(--line);padding:3px 4px;">Bilirrubina &#8804;3.0</td>
-      <td style="border:1px solid var(--line);padding:3px 4px;">&#8804;6.0</td>
-      <td style="border:1px solid var(--line);padding:3px 4px;">&#8804;12.0</td>
+      <td style="border:1px solid var(--line);padding:3px 4px;">Bilirrubina ≤3.0</td>
+      <td style="border:1px solid var(--line);padding:3px 4px;">≤6.0</td>
+      <td style="border:1px solid var(--line);padding:3px 4px;">≤12.0</td>
       <td style="border:1px solid var(--line);padding:3px 4px;">&gt;12 mg/dL</td>
     </tr>
     <tr>
-      <td style="border:1px solid var(--line);padding:3px 4px;"><strong>Ri&#241;on</strong></td>
-      <td style="border:1px solid var(--line);padding:3px 4px;">Creatinina &#8804;2.0</td>
-      <td style="border:1px solid var(--line);padding:3px 4px;">&#8804;3.5</td>
+      <td style="border:1px solid var(--line);padding:3px 4px;"><strong>Riñon</strong></td>
+      <td style="border:1px solid var(--line);padding:3px 4px;">Creatinina ≤2.0</td>
+      <td style="border:1px solid var(--line);padding:3px 4px;">≤3.5</td>
       <td style="border:1px solid var(--line);padding:3px 4px;">&gt;3.5 o anuria</td>
       <td style="border:1px solid var(--line);padding:3px 4px;"><strong style="color:#8c3a34;">Recibe o CUMPLE criterios de depuracion</strong></td>
     </tr>
     <tr>
       <td style="border:1px solid var(--line);padding:3px 4px;"><strong>Hemostasia</strong></td>
-      <td style="border:1px solid var(--line);padding:3px 4px;">Plaquetas &#8804;150</td>
-      <td style="border:1px solid var(--line);padding:3px 4px;">&#8804;100</td>
-      <td style="border:1px solid var(--line);padding:3px 4px;">&#8804;80</td>
-      <td style="border:1px solid var(--line);padding:3px 4px;"><strong style="color:#8c3a34;">&#8804;50</strong> (antes &lt;20)</td>
+      <td style="border:1px solid var(--line);padding:3px 4px;">Plaquetas ≤150</td>
+      <td style="border:1px solid var(--line);padding:3px 4px;">≤100</td>
+      <td style="border:1px solid var(--line);padding:3px 4px;">≤80</td>
+      <td style="border:1px solid var(--line);padding:3px 4px;"><strong style="color:#8c3a34;">≤50</strong> (antes &lt;20)</td>
     </tr>
   </table>
   </div>
@@ -137,15 +137,15 @@ const escalasHtml = `
   </div>
   <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:6px;">
     <div style="display:grid;grid-template-columns:104px 1fr;gap:6px;align-items:stretch;">
-      <div style="background:#3f6b5222;border:1px solid #3f6b52;border-radius:7px;padding:5px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;color:#3f6b52;">CRIBAR<br><span style="font-weight:400;font-size:8.5px;">&#191;puede estar grave?</span></div>
+      <div style="background:#3f6b5222;border:1px solid #3f6b52;border-radius:7px;padding:5px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;color:#3f6b52;">CRIBAR<br><span style="font-weight:400;font-size:8.5px;">¿puede estar grave?</span></div>
       <div style="border:1px solid var(--line);border-radius:7px;padding:5px 9px;color:var(--ink-dim);"><strong style="color:var(--ink);">NEWS2, MEWS o SIRS</strong>, con constantes de la planta. La guia de sepsis de 2026 recomienda de forma <strong style="color:#3f6b52;">FUERTE</strong> usar cualquiera de estas por encima de <strong>qSOFA</strong> como herramienta unica de cribado, porque la sensibilidad de qSOFA es baja. Un qSOFA positivo alerta, pero no vale para cribar.</div>
     </div>
     <div style="display:grid;grid-template-columns:104px 1fr;gap:6px;align-items:stretch;">
-      <div style="background:#8c3a3422;border:1px solid #8c3a34;border-radius:7px;padding:5px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;color:#8c3a34;">DEFINIR<br><span style="font-weight:400;font-size:8.5px;">&#191;hay disfuncion?</span></div>
+      <div style="background:#8c3a3422;border:1px solid #8c3a34;border-radius:7px;padding:5px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;color:#8c3a34;">DEFINIR<br><span style="font-weight:400;font-size:8.5px;">¿hay disfuncion?</span></div>
       <div style="border:1px solid var(--line);border-radius:7px;padding:5px 9px;color:var(--ink-dim);"><strong style="color:var(--ink);">SOFA</strong>, en su version clasica o en SOFA-2. Es lo que convierte "esta grave" en un numero por organos. Con infeccion sospechada, un incremento AGUDO de <strong>2 o mas puntos</strong> sobre el basal define SEPSIS.</div>
     </div>
     <div style="display:grid;grid-template-columns:104px 1fr;gap:6px;align-items:stretch;">
-      <div style="background:#8a6a1f22;border:1px solid #8a6a1f;border-radius:7px;padding:5px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;color:#8a6a1f;">PRONOSTICAR<br><span style="font-weight:400;font-size:8.5px;">&#191;como le ira al grupo?</span></div>
+      <div style="background:#8a6a1f22;border:1px solid #8a6a1f;border-radius:7px;padding:5px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;color:#8a6a1f;">PRONOSTICAR<br><span style="font-weight:400;font-size:8.5px;">¿como le ira al grupo?</span></div>
       <div style="border:1px solid var(--line);border-radius:7px;padding:5px 9px;color:var(--ink-dim);"><strong style="color:var(--ink);">APACHE II</strong> y similares, con los PEORES valores de las primeras 24 horas. Sirven para comparar poblaciones, ajustar por gravedad y auditar unidades. <strong style="color:#8c3a34;">NO sirven para decidir el techo terapeutico de un paciente concreto.</strong></div>
     </div>
   </div>
@@ -162,11 +162,11 @@ const escalasHtml = `
 export const definicionText = `<p style="margin:0 0 14px;">El <strong>sindrome de disfuncion organica multiple</strong> es la alteracion aguda y potencialmente reversible de la funcion de dos o mas organos en un paciente critico, hasta el punto de que la homeostasis no puede mantenerse sin intervencion. No es una enfermedad concreta sino la <strong>via final comun</strong> de casi todo lo que ingresa en una unidad de criticos, y es la principal causa de muerte en ellas.</p>
 
 <p style="margin:18px 0 6px;"><strong style="color:var(--accent-fg);">Primero: como se llega hasta aqui.</strong></p>
-<p style="margin:0 0 12px;">Un insulto suficientemente intenso desencadena una respuesta inmunitaria <strong>desregulada</strong>, que da&#241;a el endotelio y la microcirculacion y termina alterando el metabolismo celular. Hay dos ideas con consecuencias practicas: que parte de la disfuncion parece una <strong>adaptacion</strong> metabolica y por eso es reversible, y que el <strong>segundo golpe</strong> que empeora al paciente es con frecuencia <strong>iatrogenico</strong>.</p>
+<p style="margin:0 0 12px;">Un insulto suficientemente intenso desencadena una respuesta inmunitaria <strong>desregulada</strong>, que daña el endotelio y la microcirculacion y termina alterando el metabolismo celular. Hay dos ideas con consecuencias practicas: que parte de la disfuncion parece una <strong>adaptacion</strong> metabolica y por eso es reversible, y que el <strong>segundo golpe</strong> que empeora al paciente es con frecuencia <strong>iatrogenico</strong>.</p>
 ${figBlock('Figura 1', 'Del insulto a la disfuncion: la cascada y el segundo golpe', cascadaHtml)}
 
 <p style="margin:18px 0 6px;"><strong style="color:var(--accent-fg);">Segundo: como se mide.</strong></p>
-<p style="margin:0 0 12px;">La escala SOFA se actualizo en 2025 por primera vez en treinta a&#241;os. <strong>SOFA-2</strong> mantiene los seis sistemas y el rango de 0 a 24, pero cambia los puntos de corte y, sobre todo, incorpora los soportes que hoy se usan de verdad: la canula nasal de alto flujo y la ventilacion no invasiva cuentan como soporte respiratorio avanzado, las dosis de vasoactivos sustituyen al esquema centrado en la dopamina, y la depuracion extrarrenal puntua el maximo.</p>
+<p style="margin:0 0 12px;">La escala SOFA se actualizo en 2025 por primera vez en treinta años. <strong>SOFA-2</strong> mantiene los seis sistemas y el rango de 0 a 24, pero cambia los puntos de corte y, sobre todo, incorpora los soportes que hoy se usan de verdad: la canula nasal de alto flujo y la ventilacion no invasiva cuentan como soporte respiratorio avanzado, las dosis de vasoactivos sustituyen al esquema centrado en la dopamina, y la depuracion extrarrenal puntua el maximo.</p>
 ${figBlock('Figura 2', 'SOFA-2: los seis sistemas y lo que cambia respecto al clasico', sofa2Html)}
 
 <p style="margin:18px 0 6px;"><strong style="color:var(--accent-fg);">Tercero: que escala para que pregunta.</strong></p>
@@ -204,11 +204,11 @@ export const content = {
       descompensada: 'Disfuncion establecida de dos o mas organos: hipoxemia con necesidad de soporte respiratorio, hipotension dependiente de vasoactivos, oliguria o anuria con ascenso de creatinina, alteracion del nivel de conciencia, ictericia y trombocitopenia con o sin sangrado. Aparecen ademas la acidosis metabolica con lactato elevado, la hiperglucemia de estres y el balance hidrico marcadamente positivo. En esta fase el numero de organos afectados y, sobre todo, la PERSISTENCIA de la disfuncion a lo largo de los dias son los que marcan el pronostico.'
     },
     laboratorio: [
-      { prueba: 'Lactato arterial', utilidad: 'Marcador de hipoperfusion y de estres metabolico. Su valor pronostico esta sobre todo en el ACLARAMIENTO: un lactato que no baja con la reanimacion es peor se&#241;al que un valor inicial alto. Ojo, tambien sube por adrenergicos, insuficiencia hepatica y convulsiones.' },
+      { prueba: 'Lactato arterial', utilidad: 'Marcador de hipoperfusion y de estres metabolico. Su valor pronostico esta sobre todo en el ACLARAMIENTO: un lactato que no baja con la reanimacion es peor señal que un valor inicial alto. Ojo, tambien sube por adrenergicos, insuficiencia hepatica y convulsiones.' },
       { prueba: 'Gasometria arterial con PaO2 y FiO2', utilidad: 'Permite calcular el cociente PaO2/FiO2, que es el dominio respiratorio de la escala SOFA. Si no hay gasometria, SOFA-2 acepta el cociente de saturacion sobre FiO2, pero solo cuando la saturacion es menor del 98%.' },
       { prueba: 'Creatinina y diuresis horaria', utilidad: 'Ambas puntuan en el dominio renal. La DIURESIS se altera antes que la creatinina, que necesita dias para reflejar la caida del filtrado, de modo que vigilar solo la creatinina retrasa el diagnostico de lesion renal aguda.' },
       { prueba: 'Bilirrubina total', utilidad: 'Dominio hepatico de la escala. Conviene recordar que en el paciente critico se eleva por muchas causas ademas de la hepatica: hemolisis, transfusion, nutricion parenteral, farmacos y colestasis asociada a la propia sepsis.' },
-      { prueba: 'Plaquetas y estudio de coagulacion', utilidad: 'Dominio de hemostasia. La trombocitopenia es muy frecuente y precoz, y su descenso mantenido se asocia a peor pronostico. Si se acompa&#241;a de consumo de fibrinogeno y elevacion del dimero D, hay que valorar coagulacion intravascular diseminada.' },
+      { prueba: 'Plaquetas y estudio de coagulacion', utilidad: 'Dominio de hemostasia. La trombocitopenia es muy frecuente y precoz, y su descenso mantenido se asocia a peor pronostico. Si se acompaña de consumo de fibrinogeno y elevacion del dimero D, hay que valorar coagulacion intravascular diseminada.' },
       { prueba: 'Hemocultivos y cultivos del foco', utilidad: 'Antes del antibiotico siempre que no lo retrasen. El CONTROL DEL FOCO es lo unico que detiene la cascada, y no se puede controlar un foco que no se ha buscado.' },
       { prueba: 'Proteina C reactiva y procalcitonina', utilidad: 'Apoyan y ayudan a acortar la duracion del antibiotico, pero NO definen disfuncion organica ni sustituyen al juicio clinico. Un valor normal no descarta y uno alto no confirma.' },
       { prueba: 'Analitica general y balance', utilidad: 'Hemograma, ionograma, funcion hepatica y renal, glucemia, calcio y magnesio, y un BALANCE HIDRICO acumulado bien registrado, que es un dato pronostico por si mismo y uno de los peor recogidos en la historia.' }
@@ -217,9 +217,9 @@ export const content = {
       { metodo: 'Escala SOFA y SOFA-2 (calculadora disponible)', interpretacion: 'Puntua de 0 a 4 la disfuncion de seis sistemas y suma de 0 a 24. La calculadora del tema devuelve a la vez la version clasica y SOFA-2, para ver donde difieren.', cutoff: 'Con infeccion sospechada, un incremento agudo de 2 o mas puntos define SEPSIS' },
       { metodo: 'Cribado con NEWS2 y qSOFA (calculadora disponible)', interpretacion: 'Calcula las dos herramientas con las constantes de cabecera y explica por que la guia de 2026 prefiere las escalas de alerta precoz frente a qSOFA.', cutoff: 'NEWS2 de 5 o mas, o 3 en un solo parametro: respuesta urgente' },
       { metodo: 'APACHE II (calculadora disponible)', interpretacion: 'Doce variables fisiologicas con los PEORES valores de las primeras 24 horas, mas edad y salud cronica previa. Se calcula una sola vez, al ingreso.', cutoff: 'De 0 a 71 puntos. Predice mortalidad de POBLACIONES, no de individuos' },
-      { metodo: 'Escala de coma de Glasgow', interpretacion: 'Es el dominio cerebral de la escala SOFA. En el paciente sedado se usa el ultimo valor ANTERIOR a la sedacion, y si no se conoce se puntua 0.', cutoff: 'SOFA-2 a&#241;ade un punto si recibe farmacos para el delirium, aunque el Glasgow sea 15' },
+      { metodo: 'Escala de coma de Glasgow', interpretacion: 'Es el dominio cerebral de la escala SOFA. En el paciente sedado se usa el ultimo valor ANTERIOR a la sedacion, y si no se conoce se puntua 0.', cutoff: 'SOFA-2 añade un punto si recibe farmacos para el delirium, aunque el Glasgow sea 15' },
       { metodo: 'Ecografia a pie de cama', interpretacion: 'Valora la funcion cardiaca, la volemia, el pulmon, la vena cava y descarta focos ocultos. Ha desplazado a buena parte de la monitorizacion invasiva en la valoracion inicial.', cutoff: 'Responde a la pregunta practica: es un problema de bomba, de volumen o de tono' },
-      { metodo: 'Balance hidrico acumulado y peso diario', interpretacion: 'Un balance positivo acumulado se asocia de forma consistente a peor evolucion, sobre todo en el pulmon y en el ri&#241;on. Se mide sin aparatos y se registra mal.', cutoff: 'Cuando termina la fase de reanimacion, el objetivo pasa a ser el balance negativo' }
+      { metodo: 'Balance hidrico acumulado y peso diario', interpretacion: 'Un balance positivo acumulado se asocia de forma consistente a peor evolucion, sobre todo en el pulmon y en el riñon. Se mide sin aparatos y se registra mal.', cutoff: 'Cuando termina la fase de reanimacion, el objetivo pasa a ser el balance negativo' }
     ],
     imagen: [
       { modalidad: 'Radiografia de torax', hallazgos: 'Valora infiltrados, congestion, derrame y la posicion de los dispositivos. Es la prueba mas repetida en el paciente critico y con frecuencia la peor mirada: conviene compararla con la previa y no leerla aislada.' },
@@ -229,14 +229,14 @@ export const content = {
     ]
   },
   clasificacion: {
-    compensada_descompensada: `Se clasifica por el <strong>momento</strong> y el <strong>mecanismo</strong>: el SDMO <strong>primario</strong> es da&#241;o directo del insulto y aparece pronto, mientras que el <strong>secundario</strong> es consecuencia de la respuesta del huesped y aparece dias despues, con frecuencia lejos del organo lesionado. En paralelo se clasifica por el <strong>numero de organos</strong> afectados y por la <strong>gravedad</strong> de cada uno, que es lo que cuantifican las escalas. Y una tercera division, la mas util para el pronostico: la disfuncion que <strong>se resuelve</strong> frente a la que <strong>persiste</strong> mas alla de los primeros dias.`,
+    compensada_descompensada: `Se clasifica por el <strong>momento</strong> y el <strong>mecanismo</strong>: el SDMO <strong>primario</strong> es daño directo del insulto y aparece pronto, mientras que el <strong>secundario</strong> es consecuencia de la respuesta del huesped y aparece dias despues, con frecuencia lejos del organo lesionado. En paralelo se clasifica por el <strong>numero de organos</strong> afectados y por la <strong>gravedad</strong> de cada uno, que es lo que cuantifican las escalas. Y una tercera division, la mas util para el pronostico: la disfuncion que <strong>se resuelve</strong> frente a la que <strong>persiste</strong> mas alla de los primeros dias.`,
     escalas: [
-      { nombre: 'Escala SOFA y SOFA-2 (calculadora disponible)', componentes: 'Seis sistemas: cerebro (Glasgow), respiratorio (PaO2/FiO2 y soporte), cardiovascular (tension media y vasoactivos), higado (bilirrubina), ri&#241;on (creatinina y diuresis) y hemostasia (plaquetas).', formula: 'Cada sistema puntua de 0 a 4 y se suman, de 0 a 24. SOFA-2, publicada en 2025, mantiene los seis sistemas y el rango pero cambia los puntos de corte y las definiciones de soporte.', interpretacion: 'Los dominios inmune y digestivo se propusieron para SOFA-2, se evaluaron y se DESCARTARON: el digestivo no demostro validez predictiva y el inmune no cumplio la de contenido. Lo que mas informa no es el valor aislado sino la TENDENCIA a lo largo de los dias.' },
+      { nombre: 'Escala SOFA y SOFA-2 (calculadora disponible)', componentes: 'Seis sistemas: cerebro (Glasgow), respiratorio (PaO2/FiO2 y soporte), cardiovascular (tension media y vasoactivos), higado (bilirrubina), riñon (creatinina y diuresis) y hemostasia (plaquetas).', formula: 'Cada sistema puntua de 0 a 4 y se suman, de 0 a 24. SOFA-2, publicada en 2025, mantiene los seis sistemas y el rango pero cambia los puntos de corte y las definiciones de soporte.', interpretacion: 'Los dominios inmune y digestivo se propusieron para SOFA-2, se evaluaron y se DESCARTARON: el digestivo no demostro validez predictiva y el inmune no cumplio la de contenido. Lo que mas informa no es el valor aislado sino la TENDENCIA a lo largo de los dias.' },
       { nombre: 'Criterios de Sepsis-3', componentes: 'Infeccion sospechada o documentada mas disfuncion organica medida con SOFA.', formula: 'SEPSIS: infeccion mas incremento AGUDO de 2 o mas puntos de SOFA sobre el basal. CHOQUE SEPTICO: sepsis mas necesidad de vasopresores para mantener una tension arterial media de 65 mmHg o mas y lactato por encima de 2 mmol/L pese a una reanimacion adecuada.', interpretacion: 'Si no se conoce disfuncion previa, el basal se asume 0. La definicion abandono los criterios de respuesta inflamatoria sistemica como definitorios de sepsis, aunque siguen siendo utiles para CRIBAR.' },
       { nombre: 'Cribado con NEWS2 y qSOFA (calculadora disponible)', componentes: 'NEWS2: frecuencia respiratoria, saturacion, uso de oxigeno, tension sistolica, frecuencia cardiaca, nivel de conciencia y temperatura. qSOFA: frecuencia respiratoria de 22 o mas, alteracion del estado mental y tension sistolica de 100 mmHg o menos.', formula: 'NEWS2 suma de 0 a 20. qSOFA suma de 0 a 3 y se considera positivo con 2 o mas.', interpretacion: 'La guia de sepsis de 2026 recomienda de forma FUERTE usar NEWS, NEWS2, MEWS o SIRS por encima de qSOFA como herramienta unica de cribado, porque la sensibilidad de qSOFA es baja. Un qSOFA positivo sigue siendo una alerta valiosa de deterioro, pero no es un cribado.' },
-      { nombre: 'APACHE II (calculadora disponible)', componentes: 'Doce variables fisiologicas (temperatura, tension media, frecuencia cardiaca y respiratoria, oxigenacion, pH, sodio, potasio, creatinina, hematocrito, leucocitos y Glasgow), mas puntos por edad y por salud cronica previa.', formula: 'Se usan los PEORES valores de las primeras 24 horas de ingreso. Suma de 0 a 71 puntos.', interpretacion: 'Predice mortalidad de POBLACIONES y sirve para ajustar por gravedad, comparar unidades y dise&#241;ar estudios. NO esta validada para decidir el techo terapeutico de un paciente concreto, y usarla asi es un error frecuente y grave.' },
+      { nombre: 'APACHE II (calculadora disponible)', componentes: 'Doce variables fisiologicas (temperatura, tension media, frecuencia cardiaca y respiratoria, oxigenacion, pH, sodio, potasio, creatinina, hematocrito, leucocitos y Glasgow), mas puntos por edad y por salud cronica previa.', formula: 'Se usan los PEORES valores de las primeras 24 horas de ingreso. Suma de 0 a 71 puntos.', interpretacion: 'Predice mortalidad de POBLACIONES y sirve para ajustar por gravedad, comparar unidades y diseñar estudios. NO esta validada para decidir el techo terapeutico de un paciente concreto, y usarla asi es un error frecuente y grave.' },
       { nombre: 'Criterios de ingreso y de alta de la unidad de criticos', componentes: 'Necesidad actual o previsible de soporte de organos, reversibilidad del proceso, comorbilidad, situacion funcional previa y voluntad del paciente.', formula: 'Modelo de prioridades: el beneficio esperado es mayor cuanto mas reversible es el proceso y menos deteriorada esta la situacion basal.', interpretacion: 'La pregunta correcta no es si el paciente esta grave sino si el ingreso en criticos va a CAMBIAR su desenlace. Esa pregunta obliga a conocer la situacion funcional previa y las preferencias del paciente, que es lo que mas se omite.' },
-      { nombre: 'Escala de alerta precoz en planta', componentes: 'Constantes vitales registradas de forma seriada y un umbral que activa una respuesta.', formula: 'Puntuacion por rangos de cada constante, con umbrales de respuesta escalonada.', interpretacion: 'Su valor no esta en el numero sino en el SISTEMA que lo acompa&#241;a: si nadie acude cuando la puntuacion sube, la escala no sirve de nada. El deterioro fisiologico precede en horas a la parada cardiaca, y la frecuencia respiratoria es el parametro que antes se altera y el que peor se registra.' }
+      { nombre: 'Escala de alerta precoz en planta', componentes: 'Constantes vitales registradas de forma seriada y un umbral que activa una respuesta.', formula: 'Puntuacion por rangos de cada constante, con umbrales de respuesta escalonada.', interpretacion: 'Su valor no esta en el numero sino en el SISTEMA que lo acompaña: si nadie acude cuando la puntuacion sube, la escala no sirve de nada. El deterioro fisiologico precede en horas a la parada cardiaca, y la frecuencia respiratoria es el parametro que antes se altera y el que peor se registra.' }
     ]
   },
   complicaciones: [
@@ -244,7 +244,7 @@ export const content = {
       nombre: 'Sindrome de disfuncion organica multiple',
       color: '#5a4a8c',
       definicion: 'Alteracion aguda y potencialmente reversible de la funcion de dos o mas organos en un paciente critico, de tal magnitud que la homeostasis no puede mantenerse sin intervencion.',
-      fisiopatologia: 'Un insulto suficientemente intenso desencadena una respuesta inmunitaria DESREGULADA, con componentes proinflamatorio y antiinflamatorio simultaneos. Esa respuesta da&#241;a el glucocalix y el endotelio, aumenta la permeabilidad, produce edema intersticial y microtrombosis, y altera la MICROCIRCULACION: el flujo global puede ser normal y el tejido seguir hipoperfundido, que es la razon por la que una tension arterial correcta no garantiza perfusion. A nivel celular hay disfuncion mitocondrial con descenso del consumo de oxigeno, y se ha propuesto que parte de esa disfuncion es una ADAPTACION metabolica, algo parecido a una hibernacion, lo que explicaria que los organos se recuperen casi sin cicatriz en quienes sobreviven. Sobre ese terreno actua el SEGUNDO GOLPE, con frecuencia iatrogenico.',
+      fisiopatologia: 'Un insulto suficientemente intenso desencadena una respuesta inmunitaria DESREGULADA, con componentes proinflamatorio y antiinflamatorio simultaneos. Esa respuesta daña el glucocalix y el endotelio, aumenta la permeabilidad, produce edema intersticial y microtrombosis, y altera la MICROCIRCULACION: el flujo global puede ser normal y el tejido seguir hipoperfundido, que es la razon por la que una tension arterial correcta no garantiza perfusion. A nivel celular hay disfuncion mitocondrial con descenso del consumo de oxigeno, y se ha propuesto que parte de esa disfuncion es una ADAPTACION metabolica, algo parecido a una hibernacion, lo que explicaria que los organos se recuperen casi sin cicatriz en quienes sobreviven. Sobre ese terreno actua el SEGUNDO GOLPE, con frecuencia iatrogenico.',
       epidemiologia: 'Es la principal causa de muerte en las unidades de cuidados intensivos. La mortalidad aumenta de forma escalonada con el numero de organos disfuncionantes y, sobre todo, con la PERSISTENCIA de la disfuncion mas alla de los primeros dias. Muchos supervivientes quedan con secuelas fisicas, cognitivas y afectivas prolongadas.',
       factores_riesgo: ['Edad avanzada', 'Comorbilidad y fragilidad previas', 'Gravedad del insulto inicial', 'Retraso en el control del foco', 'Retraso en el antibiotico en la sepsis', 'Sobrecarga de fluidos y balance positivo acumulado', 'Ventilacion con volumenes o presiones altos', 'Sedacion profunda e inmovilidad prolongada', 'Transfusion no indicada', 'Farmacos nefrotoxicos evitables', 'Hiperglucemia mal controlada', 'Infeccion asociada a dispositivos'],
       clinica: 'Al principio, signos sutiles: TAQUIPNEA (el parametro que antes se altera y el que peor se registra), taquicardia, tension en el limite bajo para ese paciente, oliguria incipiente, inquietud, relleno capilar lento y piel moteada. Despues, disfuncion establecida de dos o mas organos con hipoxemia, hipotension dependiente de vasoactivos, oliguria, alteracion de la conciencia, ictericia y trombocitopenia.',
@@ -267,11 +267,11 @@ export const content = {
     {
       nombre: 'SOFA-2: la escala actualizada',
       color: '#8c3a34',
-      definicion: 'Version actualizada en 2025 de la escala de evaluacion secuencial de disfuncion organica, primera revision en treinta a&#241;os, desarrollada con un proceso Delphi y validada sobre millones de ingresos en unidades de criticos de nueve paises.',
-      fisiopatologia: 'La escala clasica se dise&#241;o con la practica de los a&#241;os noventa y por eso no capturaba los soportes actuales: la canula nasal de alto flujo y la ventilacion no invasiva no existian como estandar, los vasopresores se dosificaban alrededor de la dopamina, y la depuracion extrarrenal se iniciaba mas tarde. SOFA-2 no cambia el concepto sino su calibracion: describe la misma disfuncion con los umbrales y los tratamientos de hoy, lo que mejora su rendimiento en contextos muy distintos, incluidos los paises de renta baja y media.',
+      definicion: 'Version actualizada en 2025 de la escala de evaluacion secuencial de disfuncion organica, primera revision en treinta años, desarrollada con un proceso Delphi y validada sobre millones de ingresos en unidades de criticos de nueve paises.',
+      fisiopatologia: 'La escala clasica se diseño con la practica de los años noventa y por eso no capturaba los soportes actuales: la canula nasal de alto flujo y la ventilacion no invasiva no existian como estandar, los vasopresores se dosificaban alrededor de la dopamina, y la depuracion extrarrenal se iniciaba mas tarde. SOFA-2 no cambia el concepto sino su calibracion: describe la misma disfuncion con los umbrales y los tratamientos de hoy, lo que mejora su rendimiento en contextos muy distintos, incluidos los paises de renta baja y media.',
       epidemiologia: 'El desarrollo se apoyo en mas de dos millones de pacientes para la fase de construccion y validacion interna, y en mas de un millon adicional para la validacion externa, procedentes de mas de mil unidades. Es, con diferencia, el mayor esfuerzo de validacion de una escala de disfuncion organica.',
       factores_riesgo: ['Puntuar el Glasgow de un paciente sedado sin usar el valor previo', 'Olvidar el punto que suman los farmacos para el delirium', 'Puntuar 3 o 4 en respiratorio sin soporte ventilatorio avanzado', 'No contar la canula de alto flujo ni la ventilacion no invasiva como soporte avanzado', 'Sumar mal las dosis de noradrenalina y adrenalina', 'Ignorar el soporte mecanico circulatorio', 'No puntuar la depuracion extrarrenal como 4 en el dominio renal', 'Usar los umbrales de plaquetas antiguos', 'Rellenar los datos faltantes con suposiciones en lugar de las reglas del score', 'Comparar puntuaciones de SOFA-1 y SOFA-2 como si fueran la misma escala'],
-      clinica: 'No es un cuadro clinico sino un instrumento. Sus seis dominios son cerebro, respiratorio, cardiovascular, higado, ri&#241;on y hemostasia, cada uno de 0 a 4, con un total de 0 a 24.',
+      clinica: 'No es un cuadro clinico sino un instrumento. Sus seis dominios son cerebro, respiratorio, cardiovascular, higado, riñon y hemostasia, cada uno de 0 a 4, con un total de 0 a 24.',
       criterios_dx: 'Cada dominio tiene sus puntos de corte, detallados en la Figura 2 de Definicion. El total es la suma de los MAXIMOS de cada sistema dentro de un periodo de 24 horas.',
       laboratorio: 'Los mismos que la escala clasica: gasometria, bilirrubina, creatinina y plaquetas, mas la diuresis. La novedad practica es que no basta el laboratorio: hay que registrar tambien el SOPORTE que recibe el paciente, porque puntua.',
       imagen: 'No aplica: la escala no incluye ningun dominio de imagen.',
@@ -293,7 +293,7 @@ export const content = {
       color: '#3d5a73',
       definicion: 'Version original de la escala, publicada en 1996, que sigue siendo la base sobre la que se construyo la definicion actual de sepsis y la que aparece en la mayoria de los estudios y protocolos vigentes.',
       fisiopatologia: 'La escala nacio para describir la disfuncion organica de la sepsis y despues se generalizo a todo el paciente critico. Su logica es sencilla y sigue siendo valida: seis organos, cada uno con una variable objetiva y disponible, y una gradacion de 0 a 4 que refleja el continuo entre la funcion normal y el fallo establecido. Esa simplicidad explica por que se impuso sobre alternativas mas complejas y por que sigue en uso.',
-      epidemiologia: 'Es la escala de disfuncion organica mas utilizada del mundo. La transicion a SOFA-2 sera gradual, y durante a&#241;os convivira con la clasica en protocolos, historias electronicas y publicaciones, de modo que hay que saber usar las dos y NO comparar puntuaciones entre ellas.',
+      epidemiologia: 'Es la escala de disfuncion organica mas utilizada del mundo. La transicion a SOFA-2 sera gradual, y durante años convivira con la clasica en protocolos, historias electronicas y publicaciones, de modo que hay que saber usar las dos y NO comparar puntuaciones entre ellas.',
       factores_riesgo: ['Asumir un basal de 0 sin comprobar si hay disfuncion cronica', 'Confundir el valor absoluto con el incremento agudo', 'Aplicar los criterios sin sospecha de infeccion', 'Puntuar el Glasgow de un paciente sedado', 'Olvidar que el choque septico exige lactato ademas de vasopresores', 'Usar los criterios de respuesta inflamatoria sistemica como definicion de sepsis', 'No repetir la escala y quedarse con el valor del ingreso', 'Mezclar puntuaciones de la escala clasica y de SOFA-2', 'Calcularla sin diuresis horaria disponible', 'Interpretar una puntuacion alta como indicacion automatica de limitar el esfuerzo'],
       clinica: 'La escala en si no tiene clinica. Lo que si tiene consecuencias clinicas es la definicion que sostiene: SEPSIS es infeccion sospechada o documentada mas un incremento AGUDO de 2 o mas puntos de SOFA sobre el basal.',
       criterios_dx: 'CHOQUE SEPTICO: sepsis mas necesidad de vasopresores para mantener una tension arterial media de 65 mmHg o mas, mas lactato por encima de 2 mmol/L, ambas cosas PESE a una reanimacion con volumen adecuada. Ver la Figura 3 de Definicion.',
@@ -358,13 +358,13 @@ export const content = {
       seguimiento_hospitalario: 'No se repite. Para el seguimiento diario se usa SOFA.',
       seguimiento_ambulatorio: 'No aplica.',
       pronostico: 'Estima la mortalidad esperada de POBLACIONES. Su uso legitimo es ajustar por gravedad y comparar; usarla para decidir sobre un paciente concreto o para comunicar un pronostico individual a la familia es un error grave y frecuente.',
-      algoritmo: ['Recoger los PEORES valores de las primeras 24 horas', 'Puntuar las doce variables fisiologicas', 'A&#241;adir los puntos por EDAD', 'A&#241;adir los puntos por SALUD CRONICA previa', 'Sumar el total, de 0 a 71', 'Interpretarlo como gravedad al ingreso, no como pronostico individual', 'No repetirlo: para el seguimiento diario, usar SOFA', 'No usarlo para decidir el techo terapeutico', 'No comunicarlo a la familia como probabilidad de ese paciente', 'Usarlo para ajustar por gravedad y comparar resultados']
+      algoritmo: ['Recoger los PEORES valores de las primeras 24 horas', 'Puntuar las doce variables fisiologicas', 'Añadir los puntos por EDAD', 'Añadir los puntos por SALUD CRONICA previa', 'Sumar el total, de 0 a 71', 'Interpretarlo como gravedad al ingreso, no como pronostico individual', 'No repetirlo: para el seguimiento diario, usar SOFA', 'No usarlo para decidir el techo terapeutico', 'No comunicarlo a la familia como probabilidad de ese paciente', 'Usarlo para ajustar por gravedad y comparar resultados']
     },
     {
       nombre: 'Manejo integral y decisiones de adecuacion',
       color: '#7a3f2e',
       definicion: 'Estrategia de tratamiento del paciente con falla organica multiple, basada en tratar la causa, sostener los organos con la menor agresividad posible y decidir de forma explicita hasta donde se llega.',
-      fisiopatologia: 'No existe un tratamiento del sindrome en si: todos los ensayos de moduladores de la respuesta inflamatoria han fracasado. Lo que si funciona es actuar sobre los dos extremos de la cascada: eliminar el ESTIMULO (control del foco) y evitar que el soporte se convierta en un SEGUNDO GOLPE. De ahi que casi todas las intervenciones que han demostrado beneficio en el paciente critico sean, en realidad, formas de hacer menos da&#241;o: volumenes corrientes bajos, menos fluidos, menos sedacion, menos transfusion, menos dias de cateter.',
+      fisiopatologia: 'No existe un tratamiento del sindrome en si: todos los ensayos de moduladores de la respuesta inflamatoria han fracasado. Lo que si funciona es actuar sobre los dos extremos de la cascada: eliminar el ESTIMULO (control del foco) y evitar que el soporte se convierta en un SEGUNDO GOLPE. De ahi que casi todas las intervenciones que han demostrado beneficio en el paciente critico sean, en realidad, formas de hacer menos daño: volumenes corrientes bajos, menos fluidos, menos sedacion, menos transfusion, menos dias de cateter.',
       epidemiologia: 'La mortalidad de las unidades de criticos ha bajado en las ultimas decadas sin que haya aparecido ningun farmaco especifico, lo que apoya que la mejora viene de la organizacion, de la prevencion de la iatrogenia y del control precoz del foco.',
       factores_riesgo: ['Foco no controlado o controlado tarde', 'Balance hidrico positivo acumulado', 'Ventilacion con volumenes o presiones altos', 'Sedacion profunda prolongada', 'Inmovilidad', 'Transfusion sin indicacion', 'Nefrotoxicos evitables', 'Dispositivos mantenidos mas de lo necesario', 'Ausencia de objetivos de tratamiento definidos', 'Conversacion sobre adecuacion pospuesta hasta que el paciente ya no puede participar'],
       clinica: 'La valoracion diaria se organiza por sistemas y con una pregunta por cada uno: que soporte necesita hoy, cuanto se puede reducir y que hay que retirar. Esa revision sistematica es lo que evita que el soporte se perpetue por inercia.',
@@ -386,7 +386,7 @@ export const content = {
     }
   ],
   seguimiento_intrahospitalario: {
-    intro: 'Este tema es el marco del resto del bloque: aqui estan el concepto, las escalas y el metodo. El detalle de cada organo vive en su propio tema. Y hay un mensaje que atraviesa todo: no existe tratamiento del sindrome, existe tratamiento de la causa y soporte que no da&#241;e.',
+    intro: 'Este tema es el marco del resto del bloque: aqui estan el concepto, las escalas y el metodo. El detalle de cada organo vive en su propio tema. Y hay un mensaje que atraviesa todo: no existe tratamiento del sindrome, existe tratamiento de la causa y soporte que no dañe.',
     parametros: ['Reconocer la fase precoz: taquipnea, oliguria, confusion y piel moteada', 'Contar de verdad la frecuencia respiratoria, que es lo que antes se altera', 'Cribar con NEWS2, MEWS o SIRS, no con qSOFA como herramienta unica', 'Calcular la escala SOFA cada dia y mirar la TENDENCIA', 'En el paciente sedado, usar el Glasgow previo a la sedacion', 'Recordar que sin soporte ventilatorio avanzado el maximo respiratorio son 2 puntos', 'Controlar el FOCO cuanto antes', 'Evitar el segundo golpe: menos volumen, menos sedacion, menos transfusion', 'Revisar a diario cada dispositivo y cada farmaco', 'No usar APACHE II para decidir sobre un paciente concreto', 'Reevaluar el foco si el paciente no mejora', 'Definir y anotar el nivel de cuidados acordado'],
     criterios_uci_general: 'Necesidad actual o previsible de soporte de uno o mas organos en un proceso potencialmente reversible: insuficiencia respiratoria que precisa ventilacion, inestabilidad que precisa vasoactivos, alteracion de la conciencia con riesgo para la via aerea, lesion renal aguda con criterios de depuracion y trastornos metabolicos graves. La pregunta que ordena la decision no es cuan grave esta el paciente, sino si el ingreso en criticos va a CAMBIAR su desenlace, y eso obliga a conocer la situacion funcional previa y la voluntad del paciente.',
     criterios_tips_general: 'No aplica a este tema.',
@@ -410,7 +410,7 @@ export const estigmas = [
   { s: 'Tension arterial normal con lactato alto', p: 'No hay perfusion', photo: null, desc: 'La alteracion de la microcirculacion explica que el tejido siga hipoperfundido con un flujo global correcto. Por eso el objetivo de la reanimacion no es un numero de tension sino signos de perfusion y aclaramiento del lactato.' },
   { s: 'Lactato que no baja', p: 'Peor que un lactato alto', photo: null, desc: 'El valor pronostico esta en el ACLARAMIENTO, no en la cifra inicial. Un lactato que no desciende con la reanimacion obliga a replantear el foco, el volumen y el soporte, no a repetir la misma medida.' },
   { s: 'Oliguria antes que creatinina alta', p: 'La diuresis avisa antes', photo: null, desc: 'La creatinina necesita dias para reflejar la caida del filtrado. Vigilar solo la creatinina retrasa el diagnostico de lesion renal aguda, y por eso la diuresis horaria puntua en las escalas de disfuncion.' },
-  { s: 'Trombocitopenia precoz', p: 'Marcador de gravedad', photo: null, desc: 'Muy frecuente y de aparicion temprana en el paciente critico. Su descenso mantenido se asocia a peor pronostico, y si se acompa&#241;a de consumo de fibrinogeno hay que valorar coagulacion intravascular diseminada.' },
+  { s: 'Trombocitopenia precoz', p: 'Marcador de gravedad', photo: null, desc: 'Muy frecuente y de aparicion temprana en el paciente critico. Su descenso mantenido se asocia a peor pronostico, y si se acompaña de consumo de fibrinogeno hay que valorar coagulacion intravascular diseminada.' },
   { s: 'Balance hidrico positivo acumulado', p: 'Dato pronostico', photo: null, desc: 'Se asocia de forma consistente a peor evolucion, sobre todo pulmonar y renal. Se mide sin aparatos, no cuesta nada y es de los datos peor recogidos en la historia del paciente critico.' },
   { s: 'Glasgow en el paciente sedado', p: 'Usar el previo', photo: null, desc: 'La escala SOFA puntua el ultimo Glasgow ANTERIOR a la sedacion, y si no se conoce se puntua 0. Puntuar el Glasgow bajo un sedante infla la escala y hace incomparables las mediciones entre dias.' },
   { s: 'Farmacos para el delirium', p: 'Puntuan en SOFA-2', photo: null, desc: 'Es una de las novedades de la version de 2025: recibir tratamiento farmacologico para el delirium suma un punto en el dominio cerebral aunque el Glasgow sea 15. Reconoce que el delirium es disfuncion organica.' },
@@ -438,7 +438,7 @@ export const compGroups = [
   { name: 'Detectar y pronosticar', items: ['Cribado y deteccion precoz del deterioro', 'APACHE II y las escalas de gravedad al ingreso'] },
   { name: 'Tratar y decidir', items: ['Manejo integral y decisiones de adecuacion'] }
 ];
-export const complicacionesIntro = 'La primera ficha es el concepto: que es la disfuncion organica multiple, como se llega hasta ella y por que es reversible. Las dos siguientes son las escalas que la miden: SOFA-2, actualizada en 2025 tras treinta a&#241;os, y la version clasica, que sigue siendo la que sostiene la definicion de sepsis y con la que hay que saber convivir. Las dos siguientes responden a preguntas distintas de la anterior: cribar al que se esta deteriorando en planta, y estimar la gravedad al ingreso, con la advertencia de que esa ultima escala predice poblaciones y no personas. Y la ultima es el manejo, donde casi todo lo que ha demostrado funcionar consiste, en el fondo, en hacer menos da&#241;o.';
+export const complicacionesIntro = 'La primera ficha es el concepto: que es la disfuncion organica multiple, como se llega hasta ella y por que es reversible. Las dos siguientes son las escalas que la miden: SOFA-2, actualizada en 2025 tras treinta años, y la version clasica, que sigue siendo la que sostiene la definicion de sepsis y con la que hay que saber convivir. Las dos siguientes responden a preguntas distintas de la anterior: cribar al que se esta deteriorando en planta, y estimar la gravedad al ingreso, con la advertencia de que esa ultima escala predice poblaciones y no personas. Y la ultima es el manejo, donde casi todo lo que ha demostrado funcionar consiste, en el fondo, en hacer menos daño.';
 export const categories = [
   { id: 'definicion', label: 'Definicion' },
   { id: 'diagnostico', label: 'Diagnostico' },
@@ -465,7 +465,7 @@ export const arbol = {
     ] },
     { title: 'QUE SE HACE', sub: 'Causa, soporte y decisiones', color: '#7a3f2e', target: 'complicaciones', leaves: [
       { title: 'Controlar el foco', sub: 'Lo unico que detiene todo', color: '#8c3a34', target: 'complicaciones' },
-      { title: 'Hacer menos da&#241;o', sub: 'Menos volumen y sedacion', color: '#3f6b52', target: 'seguimiento' },
+      { title: 'Hacer menos daño', sub: 'Menos volumen y sedacion', color: '#3f6b52', target: 'seguimiento' },
       { title: 'Mirar la tendencia', sub: 'No el valor aislado', color: '#3d5a73', target: 'clasificacion' },
       { title: 'Definir hasta donde', sub: 'Pronto, no al final', color: '#6b4a8c', target: 'complicaciones' }
     ] }

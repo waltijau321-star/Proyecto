@@ -214,33 +214,33 @@ setSharedListener(recogerCompartidos);
 export function vpoSearchEntries() {
   const entries = calculators.map(c => ({
     label: c.title, type: 'Calculadora', scope: 'VPO', section: 'vpo',
-    action: `rmVpoOpenCalc('${c.key}')`
+    action: () => window.rmVpoOpenCalc(c.key)
   }));
   if (combinedNote) {
     entries.push({
       label: combinedNote.title, type: 'Nota clínica', scope: 'VPO', section: 'vpo',
-      action: "rmVpoOpenCalc('notacombinada')"
+      action: () => window.rmVpoOpenCalc('notacombinada')
     });
   }
   farmacos.forEach(f => {
     entries.push({
       label: f.farmaco, type: 'Manejo perioperatorio', scope: 'VPO', section: 'vpo',
-      action: `rmVpoOpenFarmaco('${f.id}')`
+      action: () => window.rmVpoOpenFarmaco(f.id)
     });
   });
   entries.push({
     label: 'Ruta perioperatoria', type: 'Algoritmo', scope: 'VPO', section: 'vpo',
-    action: "rmVpoTab('ruta')"
+    action: () => window.rmVpoTab('ruta')
   });
   estudios.forEach(e => {
     entries.push({
       label: e.estudio, type: 'Estudio preoperatorio', scope: 'VPO', section: 'vpo',
-      action: `rmVpoOpenEstudio('${e.id}')`
+      action: () => window.rmVpoOpenEstudio(e.id)
     });
   });
   entries.push({
     label: 'Nota de VPO', type: 'Nota clínica', scope: 'VPO', section: 'vpo',
-    action: "rmVpoTab('nota')"
+    action: () => window.rmVpoTab('nota')
   });
   return entries;
 }

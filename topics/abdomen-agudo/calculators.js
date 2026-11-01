@@ -82,7 +82,7 @@ export const calculators = [
       ...CAMPOS_GRADO3('abd-k'),
       { name: 'leuco', id: 'abd-k7', type: 'checkbox', label: 'Leucocitos por encima de 12.000 o por debajo de 4.000' },
       { name: 'f39', id: 'abd-k8', type: 'checkbox', label: 'Fiebre de 39 grados o mas' },
-      { name: 'edad', id: 'abd-k9', type: 'checkbox', label: 'Edad de 75 a&#241;os o mas' },
+      { name: 'edad', id: 'abd-k9', type: 'checkbox', label: 'Edad de 75 años o mas' },
       { name: 'bili', id: 'abd-k10', type: 'checkbox', label: 'Bilirrubina total de 5 mg/dL o mas' },
       { name: 'alb', id: 'abd-k11', type: 'checkbox', label: 'Hipoalbuminemia (menos de 0.7 veces el limite inferior normal)' }
     ],

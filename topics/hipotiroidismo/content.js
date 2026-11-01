@@ -43,17 +43,17 @@ const ejeHtml = `
         <div style="font-weight:700;color:#6b4a8c;">Hipotalamo</div>
         <div style="color:var(--ink-dim);">Libera <strong>TRH</strong> hacia la hipofisis por el sistema portal</div>
       </div>
-      <div style="text-align:center;color:var(--ink-dim);font-size:12px;line-height:1;">&#9660;</div>
+      <div style="text-align:center;color:var(--ink-dim);font-size:12px;line-height:1;">▼</div>
       <div style="border:1px solid #3d5a73;border-radius:8px;padding:5px 8px;background:#3d5a7312;">
         <div style="font-weight:700;color:#3d5a73;">Hipofisis anterior</div>
         <div style="color:var(--ink-dim);">Libera <strong>TSH</strong>. Es la celula mas sensible del cuerpo a la hormona tiroidea: percibe cambios minimos de T4 libre</div>
       </div>
-      <div style="text-align:center;color:var(--ink-dim);font-size:12px;line-height:1;">&#9660;</div>
+      <div style="text-align:center;color:var(--ink-dim);font-size:12px;line-height:1;">▼</div>
       <div style="border:1px solid #4a6fa5;border-radius:8px;padding:5px 8px;background:#4a6fa512;">
         <div style="font-weight:700;color:#4a6fa5;">Tiroides</div>
         <div style="color:var(--ink-dim);">Secreta sobre todo <strong>T4</strong> (unas 20 veces mas que T3). La T4 es el reservorio; la <strong>T3</strong> es la hormona activa</div>
       </div>
-      <div style="text-align:center;color:var(--ink-dim);font-size:12px;line-height:1;">&#9660;</div>
+      <div style="text-align:center;color:var(--ink-dim);font-size:12px;line-height:1;">▼</div>
       <div style="border:1px solid #3f6b52;border-radius:8px;padding:5px 8px;background:#3f6b5212;">
         <div style="font-weight:700;color:#3f6b52;">Tejidos perifericos</div>
         <div style="color:var(--ink-dim);">Las <strong>desyodasas tipo 1 y 2</strong> convierten T4 en T3. La <strong>tipo 3</strong> la inactiva a T3 reversa: es la via que se dispara en la enfermedad grave</div>

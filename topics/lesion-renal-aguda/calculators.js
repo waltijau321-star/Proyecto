@@ -30,13 +30,13 @@ export const calculators = [
         { v: 'larga', t: 'Mas de 48 horas y hasta 7 dias' },
         { v: 'akd', t: 'Mas de 7 dias' }
       ] },
-      { name: 'biomarcador', id: 'lr-kd-bm', type: 'select', label: 'Biomarcador de da&#241;o renal, si se ha medido', row: 'r3', options: [
+      { name: 'biomarcador', id: 'lr-kd-bm', type: 'select', label: 'Biomarcador de daño renal, si se ha medido', row: 'r3', options: [
         { v: 'nd', t: 'No medido' },
         { v: 'neg', t: 'Negativo' },
         { v: 'pos', t: 'Positivo' }
       ] },
       { name: 'trs', id: 'lr-kd-t', type: 'checkbox', label: 'Se ha iniciado depuracion extrarrenal' },
-      { type: 'note', text: 'Basta UN criterio para el diagnostico. El estadio se toma del eje MAS ALTO entre creatinina y diuresis. El borrador de la guia de 2026, que esta en revision publica, propone dejar de dar un estadio unico e informar los tres ejes por separado (C de creatinina, U de diuresis y B de biomarcador), porque un paciente C1 U3 y otro C3 U0 tienen problemas distintos. Ese borrador a&#241;ade ademas la cistatina C como alternativa a la creatinina cuando esta es poco fiable.' }
+      { type: 'note', text: 'Basta UN criterio para el diagnostico. El estadio se toma del eje MAS ALTO entre creatinina y diuresis. El borrador de la guia de 2026, que esta en revision publica, propone dejar de dar un estadio unico e informar los tres ejes por separado (C de creatinina, U de diuresis y B de biomarcador), porque un paciente C1 U3 y otro C3 U0 tienen problemas distintos. Ese borrador añade ademas la cistatina C como alternativa a la creatinina cuando esta es poco fiable.' }
     ],
     compute(v) {
       if (v.crAct == null || v.crBas == null || !v.diuresis || !v.duracion || !v.biomarcador) return null;
@@ -86,10 +86,10 @@ export const calculators = [
       if (r.crAct >= 4.0 && r.ratio < 3) s += '<br><span style="opacity:.8;">La creatinina ha alcanzado 4.0 mg/dL, que por si sola define el estadio 3 aunque el cociente respecto al basal no llegue a 3.</span>';
       s += `<br><strong>Duracion: ${r.dur}.</strong> `;
       if (r.dur === 'TRANSITORIA') s += 'Suele ser funcional y reversible. Aun asi hay que retirar los nefrotoxicos y corregir la causa, porque lo que empieza siendo funcional se vuelve estructural si el insulto continua.';
-      else if (r.dur === 'PERSISTENTE') s += 'Mas alla de 48 horas se asocia a da&#241;o estructural y a mayor riesgo de enfermedad renal cronica posterior. Conviene revisar si sigue habiendo un insulto activo.';
+      else if (r.dur === 'PERSISTENTE') s += 'Mas alla de 48 horas se asocia a daño estructural y a mayor riesgo de enfermedad renal cronica posterior. Conviene revisar si sigue habiendo un insulto activo.';
       else s += 'Pasados 7 dias se habla de enfermedad renal aguda, un periodo que llega hasta los 3 meses y en el que se decide si la funcion se recupera del todo, en parte o nada. Es el momento de asegurar el SEGUIMIENTO tras el alta.';
-      if (r.sinBio) s += '<br><span style="opacity:.75;">No se ha medido ningun biomarcador de da&#241;o. El borrador de 2026 los incorpora para separar el descenso funcional del filtrado del da&#241;o estructural real, algo que la creatinina sola no distingue.</span>';
-      else if (r.b === 'B1') s += '<br><span style="color:#8c3a34;">Biomarcador de da&#241;o POSITIVO:</span> apoya que hay lesion estructural y no solo un descenso funcional del filtrado.';
+      if (r.sinBio) s += '<br><span style="opacity:.75;">No se ha medido ningun biomarcador de daño. El borrador de 2026 los incorpora para separar el descenso funcional del filtrado del daño estructural real, algo que la creatinina sola no distingue.</span>';
+      else if (r.b === 'B1') s += '<br><span style="color:#8c3a34;">Biomarcador de daño POSITIVO:</span> apoya que hay lesion estructural y no solo un descenso funcional del filtrado.';
       if (r.sinHoras) s += '<br><span style="opacity:.75;">No se ha indicado el tiempo transcurrido desde el basal. Los criterios tienen plazo: 48 horas para el ascenso de 0.3 mg/dL y 7 dias para el cociente de 1.5.</span>';
       return s;
     },
@@ -109,10 +109,10 @@ export const calculators = [
         { v: 'nd', t: 'No disponible' }
       ] },
       { name: 'eco', id: 'lr-lo-e', type: 'select', label: 'Ecografia renal y vesical', row: 'r2', options: [
-        { v: 'normal', t: 'Sin dilatacion, ri&#241;ones de tama&#241;o normal' },
+        { v: 'normal', t: 'Sin dilatacion, riñones de tamaño normal' },
         { v: 'dilatacion', t: 'Dilatacion del sistema colector' },
         { v: 'globo', t: 'Globo vesical' },
-        { v: 'cronico', t: 'Ri&#241;ones peque&#241;os e hiperecogenicos' },
+        { v: 'cronico', t: 'Riñones pequeños e hiperecogenicos' },
         { v: 'nd', t: 'No realizada todavia' }
       ] },
       { name: 'contexto', id: 'lr-lo-c', type: 'select', label: 'Contexto predominante', row: 'r2', options: [
@@ -167,15 +167,15 @@ export const calculators = [
     format: r => {
       if (r.invalido) return 'Revisa los indices urinarios: sodio en orina de 0 a 300, creatinina en orina de 1 a 1000, sodio plasmatico de 81 a 200 y creatinina plasmatica de 0.01 a 30.';
       let s = `<strong>La orientacion apunta a una causa ${r.nombre}.</strong> `;
-      if (r.top === 'prerrenal') s += 'El ri&#241;on esta sano pero mal perfundido. Toca corregir la causa, restaurar la perfusion sin sobrecargar y retirar los farmacos que anulan la autorregulacion. Es REVERSIBLE si se actua pronto.';
-      else if (r.top === 'renal') s += 'Hay da&#241;o del parenquima. Toca retirar nefrotoxicos, ajustar dosis, dar soporte y tiempo, porque el epitelio tubular se regenera. Dar mas volumen ya no lo resuelve.';
+      if (r.top === 'prerrenal') s += 'El riñon esta sano pero mal perfundido. Toca corregir la causa, restaurar la perfusion sin sobrecargar y retirar los farmacos que anulan la autorregulacion. Es REVERSIBLE si se actua pronto.';
+      else if (r.top === 'renal') s += 'Hay daño del parenquima. Toca retirar nefrotoxicos, ajustar dosis, dar soporte y tiempo, porque el epitelio tubular se regenera. Dar mas volumen ya no lo resuelve.';
       else s += 'Hay obstruccion, que es lo que mas rapido se resuelve de todo el tema. Sondaje si hay globo, y desobstruccion urgente (cateter o nefrostomia) segun el nivel.';
 
       if (r.eco === 'globo') s += '<br><strong style="color:#6b4a8c;">Hay GLOBO VESICAL: sondar es diagnostico y terapeutico a la vez, y se hace ahora.</strong> Despues hay que vigilar la POLIURIA POSOBSTRUCTIVA, que puede ser masiva y producir deshidratacion y alteraciones electroliticas si no se repone.';
       else if (r.eco === 'dilatacion') s += '<br><strong style="color:#6b4a8c;">Dilatacion del sistema colector: desobstruir es la prioridad,</strong> y cuanto antes mejor, porque la recuperacion empeora con la duracion. Vigilar despues la poliuria posobstructiva.';
       if (r.sedimento === 'glomerular') s += '<br><strong style="color:#8c3a34;">Sedimento GLOMERULAR: esto cambia todo el estudio.</strong> Hay que pedir inmunologia sin demora (anticuerpos antinucleares, ANCA, anti-membrana basal, complemento y proteinograma) y plantear biopsia, porque hay glomerulonefritis rapidamente progresivas que se tratan y en las que cada dia cuesta nefronas.';
       if (r.sedimento === 'leucocitos') s += '<br><span style="color:#8a6a1f;">Sedimento con leucocitos:</span> valorar NEFRITIS INTERSTICIAL por farmacos, cuya triada de fiebre, exantema y eosinofilia esta completa en una minoria. El tratamiento empieza por retirar el sospechoso.';
-      if (r.cronico) s += '<br><strong style="color:#8a6a1f;">Ri&#241;ones peque&#241;os e hiperecogenicos:</strong> eso sugiere enfermedad renal CRONICA de base y obliga a replantear si lo que se esta viendo es agudo, cronico o agudo sobre cronico. Cambia el pronostico y el plan.';
+      if (r.cronico) s += '<br><strong style="color:#8a6a1f;">Riñones pequeños e hiperecogenicos:</strong> eso sugiere enfermedad renal CRONICA de base y obliga a replantear si lo que se esta viendo es agudo, cronico o agudo sobre cronico. Cambia el pronostico y el plan.';
       if (r.sinEco) s += '<br><strong style="color:#8c3a34;">No se ha hecho la ecografia.</strong> Es la primera prueba del tema: descarta la obstruccion, que es la causa mas rapidamente reversible y la que mas se pasa por alto. Y hay que medir la vejiga.';
       if (r.sinSedimento) s += '<br><span style="opacity:.75;">No se ha mirado el sedimento, que es la prueba mas rentable y la mas olvidada de todo el tema.</span>';
 
@@ -185,7 +185,7 @@ export const calculators = [
         } else {
           s += `<br><span style="opacity:.85;">Excrecion fraccional de sodio ${r.fena.toFixed(1)}%.</span> `;
           if (r.fena < 1) s += 'Por debajo del 1% orienta a prerrenal, aunque hay causas renales que tambien cursan con sodio bajo: contraste, rabdomiolisis y sindrome hepatorrenal.';
-          else if (r.fena > 2) s += 'Por encima del 2% orienta a necrosis tubular, porque el tubulo da&#241;ado ya no puede retener sodio.';
+          else if (r.fena > 2) s += 'Por encima del 2% orienta a necrosis tubular, porque el tubulo dañado ya no puede retener sodio.';
           else s += 'En zona intermedia, que no discrimina. El sedimento y la ecografia aportan mas que cualquier indice.';
         }
       } else {
@@ -246,7 +246,7 @@ export const calculators = [
         s = `<strong style="color:#3f6b52;">No se cumple ninguna de las cinco indicaciones establecidas.</strong> Con un estadio ${r.estadio}, la evidencia disponible NO apoya adelantar la depuracion: los ensayos que compararon el inicio precoz frente a esperar no encontraron beneficio en supervivencia, si mas complicaciones asociadas al cateter y a la tecnica, y una parte relevante de los pacientes del grupo conservador nunca llego a necesitarla.`;
         s += '<br><strong>Lo que si hay que hacer ahora,</strong> que rinde mas que cualquier tecnica: RETIRAR nefrotoxicos, AJUSTAR todos los farmacos a la funcion renal empezando por antibioticos y heparinas, optimizar la perfusion sin sobrecargar, descartar obstruccion, tratar la causa y vigilar el potasio de forma estrecha.';
       }
-      if (r.reversible) s += '<br><strong style="color:#8a6a1f;">Hay un insulto activo todavia corregible.</strong> Ese es el argumento mas fuerte para actuar sobre la causa antes que sobre la consecuencia: mientras el insulto siga, ninguna tecnica de depuracion va a permitir que el ri&#241;on se recupere.';
+      if (r.reversible) s += '<br><strong style="color:#8a6a1f;">Hay un insulto activo todavia corregible.</strong> Ese es el argumento mas fuerte para actuar sobre la causa antes que sobre la consecuencia: mientras el insulto siga, ninguna tecnica de depuracion va a permitir que el riñon se recupere.';
       s += '<br><span style="opacity:.75;">Y una vez iniciada, hay que reevaluar cada dia si sigue siendo necesaria: saber retirarla forma parte del tratamiento.</span>';
       return s;
     },

@@ -77,7 +77,7 @@ export const calculators = [
     format(r) {
       let s = `<strong>${r.decision}</strong>`;
       if (r.espectro) s += `<br>Espectro: ${r.espectro}.`;
-      if (r.anaerobios && !r.sinAb) s += '<br><strong style="color:#8c3a34;">A&#241;adir cobertura anaerobia</strong> (piperacilina-tazobactam o carbapenem, o asociar clindamicina o metronidazol): hay absceso, empiema, necrosis, periodontitis grave o esputo putrido.';
+      if (r.anaerobios && !r.sinAb) s += '<br><strong style="color:#8c3a34;">Añadir cobertura anaerobia</strong> (piperacilina-tazobactam o carbapenem, o asociar clindamicina o metronidazol): hay absceso, empiema, necrosis, periodontitis grave o esputo putrido.';
       else if (!r.sinAb) s += '<br><span style="opacity:.85;">Sin cobertura anaerobia de rutina: la guia ATS/IDSA de 2019 la reserva a la sospecha de absceso o empiema. Penicilina y clindamicina solas son insuficientes para la mayoria.</span>';
       if (r.anaerobios && r.sinAb) s += '<br><span style="opacity:.85;">Si ya hay absceso o empiema no se trata de una neumonitis de pocas horas: reevalua el escenario.</span>';
       if (r.intubado) s += '<br><span style="opacity:.85;">En el intubado, cepillo protegido o lavado broncoalveolar con cultivo cuantitativo para dirigir el tratamiento y suspenderlo si es negativo.</span>';

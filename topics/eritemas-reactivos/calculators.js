@@ -14,10 +14,10 @@
 export const calculators = [
   {
     key: 'nodulo-doloroso', title: 'Orientacion del nodulo o placa dolorosa', accent: '#9c3a52',
-    subtitle: 'La profundidad y una pregunta: &#191;se ulcera?',
+    subtitle: 'La profundidad y una pregunta: ¿se ulcera?',
     incompleteMsg: 'Elige a que profundidad esta la lesion.',
     fields: [
-      { name: 'profundidad', id: 'er-nd-prof', type: 'select', label: '&#191;Donde esta la lesion?', options: [
+      { name: 'profundidad', id: 'er-nd-prof', type: 'select', label: '¿Donde esta la lesion?', options: [
         { value: '', label: 'Elegir...' },
         { value: 'grasa', label: 'Nodulo PROFUNDO, mal delimitado, se palpa mas de lo que se ve' },
         { value: 'dermis', label: 'PLACA infiltrada, caliente, elevada sobre el plano de la piel' },
@@ -110,7 +110,7 @@ export const calculators = [
       ];
       const dirigido = [];
       const pistas = [];
-      if (v.faringitis) { dirigido.push('El estudio de estreptococo pasa a ser prioritario: el eritema nodoso aparece 2 a 3 semanas despues de la faringitis'); pistas.push({ causa: 'Faringitis estreptococica', frec: '44% de los adultos y 48% de los ni&#241;os' }); }
+      if (v.faringitis) { dirigido.push('El estudio de estreptococo pasa a ser prioritario: el eritema nodoso aparece 2 a 3 semanas despues de la faringitis'); pistas.push({ causa: 'Faringitis estreptococica', frec: '44% de los adultos y 48% de los niños' }); }
       if (v.digestivo) { dirigido.push('Coprocultivo y estudio de huevos y parasitos, y valoracion de enfermedad inflamatoria intestinal'); pistas.push({ causa: 'Enteropatia inflamatoria', frec: '1 a 4%' }); }
       if (v.respiratorio || v.adenopatias) { dirigido.push('Radiografia de torax leida buscando adenopatias hiliares bilaterales; si estan, sarcoidosis'); pistas.push({ causa: 'Sarcoidosis', frec: '11 a 25%' }); }
       if (v.farmaco) { dirigido.push('Revisar y, si se puede, retirar el farmaco sospechoso'); pistas.push({ causa: 'Farmacos', frec: '3 a 10%' }); }
@@ -152,7 +152,7 @@ export const calculators = [
       { name: 'farmaco', id: 'er-em-fco', type: 'checkbox', label: 'Farmaco nuevo en las semanas previas' },
       { name: 'en72h', id: 'er-em-72', type: 'checkbox', label: 'Todas las lesiones aparecieron en las primeras 72 horas y son fijas' },
       { name: 'despegamiento', id: 'er-em-des', type: 'checkbox', label: 'Hay despegamiento cutaneo o signo de Nikolsky positivo' },
-      { name: 'episodios', id: 'er-em-epi', type: 'number', required: false, label: 'Episodios en el ultimo a&#241;o (dejar vacio si es el primero)', placeholder: 'ej. 7' },
+      { name: 'episodios', id: 'er-em-epi', type: 'number', required: false, label: 'Episodios en el ultimo año (dejar vacio si es el primero)', placeholder: 'ej. 7' },
       { type: 'note', text: 'La afectacion mucosa NO separa las dos enfermedades: las dos la tienen. Solo separa el eritema multiforme menor del mayor.' }
     ],
     compute(v) {
@@ -174,7 +174,7 @@ export const calculators = [
       if (r.dx === 'em') {
         s = `<strong style="color:#b05a2e;">Los rasgos apuntan a ERITEMA MULTIFORME ${r.mucosa ? 'MAYOR' : 'MENOR'}.</strong>`;
         s += `<br><span style="opacity:.9;">${r.mucosa ? 'Tiene afectacion mucosa, y eso es lo unico que lo hace "mayor": sigue siendo un eritema multiforme, no un Stevens-Johnson.' : 'Sin afectacion mucosa es eritema multiforme menor.'}</span>`;
-        s += '<br>Conducta: buscar el VIRUS. La infeccion explica alrededor del 90% de los casos y el herpes simple es el primero de la lista; en el ni&#241;o, Mycoplasma pneumoniae. Los farmacos explican menos del 10%.';
+        s += '<br>Conducta: buscar el VIRUS. La infeccion explica alrededor del 90% de los casos y el herpes simple es el primero de la lista; en el niño, Mycoplasma pneumoniae. Los farmacos explican menos del 10%.';
         s += '<br><span style="opacity:.85;">Y un detalle que se falla: el antiviral iniciado cuando ya hay lesiones NO modifica el curso clinico. Su papel es la profilaxis de las recurrencias.</span>';
       } else if (r.dx === 'sjs') {
         s = '<strong style="color:#8c3a34;">Los rasgos NO encajan con eritema multiforme.</strong>';
@@ -183,7 +183,7 @@ export const calculators = [
         s = '<strong style="color:#8a6a1f;">Los rasgos no separan bien las dos entidades.</strong><br>Las dos preguntas que mas discriminan son si la lesion es papular o macular y si predomina en zonas acrales o en el tronco. Ante la duda, se trata como la posibilidad mas grave: buscar y retirar farmacos y valorar como Stevens-Johnson.';
       }
       if (r.despegamiento) s += '<br><strong style="color:#8c3a34;">Hay despegamiento cutaneo:</strong> eso saca el caso de este tema. Va al modulo de Farmacodermias y eritrodermia.';
-      if (r.recurrente) s += `<br><strong style="color:#b05a2e;">Mas de seis episodios en un a&#241;o (${r.episodios}): es un eritema multiforme RECURRENTE.</strong> Cambia el tratamiento: prueba de seis meses de antiviral continuo (aciclovir 400 mg dos veces al dia, valaciclovir 500 mg dos veces al dia o famciclovir 250 mg dos veces al dia), y se ofrece AUNQUE no se identifique el herpes, porque en las formas idiopaticas se ha detectado ADN viral en la piel hasta en el 50% de los casos.`;
+      if (r.recurrente) s += `<br><strong style="color:#b05a2e;">Mas de seis episodios en un año (${r.episodios}): es un eritema multiforme RECURRENTE.</strong> Cambia el tratamiento: prueba de seis meses de antiviral continuo (aciclovir 400 mg dos veces al dia, valaciclovir 500 mg dos veces al dia o famciclovir 250 mg dos veces al dia), y se ofrece AUNQUE no se identifique el herpes, porque en las formas idiopaticas se ha detectado ADN viral en la piel hasta en el 50% de los casos.`;
       if (r.mucosa && r.dx === 'em') s += '<br><span style="opacity:.85;">Si la mucositis impide la ingesta, valorar ingreso por el desequilibrio hidroelectrolitico, y prednisona 40-60 mg al dia con descenso en 2 a 4 semanas. Si hay afectacion ocular, consulta a oftalmologia.</span>';
       return s;
     },
@@ -266,10 +266,10 @@ export const calculators = [
       ] },
       { name: 'inicioPustula', id: 'er-pg-pus', type: 'checkbox', label: 'Empezo como una papula o pustula esteril' },
       { name: 'rapida', id: 'er-pg-rap', type: 'checkbox', label: 'Crecio rapidamente' },
-      { name: 'dolorDespro', id: 'er-pg-dol', type: 'checkbox', label: 'Dolor desproporcionado al tama&#241;o' },
+      { name: 'dolorDespro', id: 'er-pg-dol', type: 'checkbox', label: 'Dolor desproporcionado al tamaño' },
       { name: 'patergia', id: 'er-pg-pat', type: 'checkbox', label: 'Empeoro despues de un desbridamiento, una cura o una cirugia' },
       { name: 'vascular', id: 'er-pg-vas', type: 'checkbox', label: 'Hay insuficiencia venosa o arteriopatia conocidas' },
-      { name: 'edad', id: 'er-pg-eda', type: 'number', required: false, label: 'Edad en a&#241;os (dejar vacio si no se conoce)', placeholder: 'ej. 58' },
+      { name: 'edad', id: 'er-pg-eda', type: 'number', required: false, label: 'Edad en años (dejar vacio si no se conoce)', placeholder: 'ej. 58' },
       { name: 'eii', id: 'er-pg-eii', type: 'checkbox', label: 'Enfermedad inflamatoria intestinal conocida o clinica digestiva' },
       { type: 'note', text: 'El diagnostico del pioderma es CLINICO. La biopsia se hace para excluir otras causas de ulcera, no para confirmarlo: la histologia es inespecifica.' }
     ],
@@ -286,10 +286,10 @@ export const calculators = [
       const edad = (v.edad === null || v.edad === undefined || v.edad === '' || isNaN(v.edad)) ? null : Number(v.edad);
       const busqueda = [];
       if (edad !== null && edad < 65) {
-        busqueda.push('Por debajo de los 65 a&#241;os, lo PRIMERO es el intestino: la enfermedad inflamatoria intestinal es significativamente mas frecuente en este grupo de edad');
+        busqueda.push('Por debajo de los 65 años, lo PRIMERO es el intestino: la enfermedad inflamatoria intestinal es significativamente mas frecuente en este grupo de edad');
         busqueda.push('Enfermedad inflamatoria intestinal: 17,6% en la estimacion agrupada y del 26 al 41% en grandes bases de datos. Mas frecuente en enfermedad ACTIVA (45%) que en remision (18%), sin diferencia entre Crohn y colitis ulcerosa');
       } else if (edad !== null) {
-        busqueda.push('Por encima de los 65 a&#241;os, la artritis, los tumores solidos y los trastornos hematologicos son significativamente mas frecuentes que por debajo de esa edad');
+        busqueda.push('Por encima de los 65 años, la artritis, los tumores solidos y los trastornos hematologicos son significativamente mas frecuentes que por debajo de esa edad');
         busqueda.push('Artritis inflamatoria (12,8%), reumatoide o seronegativa');
         busqueda.push('Estudio hematologico: trastornos hematologicos en el 3 al 6%');
       } else {
@@ -316,7 +316,7 @@ export const calculators = [
         s += '<br>Tratamiento de primera linea: un inmunosupresor de accion RAPIDA, corticoide sistemico o ciclosporina, seguido de un ahorrador de corticoide, con cuidados de la herida. La evidencia es escasa: solo hay dos ensayos aleatorizados publicados.';
         s += '<br><br><strong>Busqueda sistemica</strong><br>' + r.busqueda.map(b => '&bull; ' + b).join('<br>');
         if (r.eii) s += '<br><span style="color:#3f6b52;">Con enfermedad inflamatoria intestinal de fondo, controlar la actividad intestinal puede resolver la piel: hay descrita desaparicion del pioderma en un mes al tratar la colitis ulcerosa.</span>';
-        s += '<br><span style="opacity:.75;font-size:12.5px;">Prudencia con los tumores solidos: un estudio no encontro asociacion bidireccional significativa, y los pacientes con las dos cosas eran bastante mayores (71,7 frente a 51,9 a&#241;os), lo que sugiere el riesgo propio de la edad y no un vinculo causal.</span>';
+        s += '<br><span style="opacity:.75;font-size:12.5px;">Prudencia con los tumores solidos: un estudio no encontro asociacion bidireccional significativa, y los pacientes con las dos cosas eran bastante mayores (71,7 frente a 51,9 años), lo que sugiere el riesgo propio de la edad y no un vinculo causal.</span>';
       }
       return s;
     },
@@ -325,7 +325,7 @@ export const calculators = [
 ];
 
 export const combinedNote = {
-  title: 'La piel se&#241;ala, y hay que seguir el dedo', accent: '#9c3a52',
+  title: 'La piel señala, y hay que seguir el dedo', accent: '#9c3a52',
   subtitle: 'Encadena las calculadoras del tema',
   items: ['nodulo-doloroso', 'eritema-nodoso-estudio', 'em-vs-sjs', 'sweet-vs-celulitis', 'pioderma-vs-ulcera'],
   build(results, missing) {

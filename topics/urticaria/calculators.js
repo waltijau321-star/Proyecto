@@ -37,7 +37,7 @@ export const calculators = [
     fields: [
       { type: 'note', text: 'Lo rellena el PACIENTE cada dia, no el medico en la consulta de memoria. Mide ACTIVIDAD (cuanta enfermedad hay ahora), no control.' },
       ...uasFields,
-      { type: 'note', text: 'Ojo con su punto ciego: el UAS7 punt&uacute;a habones y picor, de modo que un paciente cuyo problema principal sea el ANGIOEDEMA puede tener una puntuacion enga&#241;osamente baja.' }
+      { type: 'note', text: 'Ojo con su punto ciego: el UAS7 punt&uacute;a habones y picor, de modo que un paciente cuyo problema principal sea el ANGIOEDEMA puede tener una puntuacion engañosamente baja.' }
     ],
     compute(v) {
       let total = 0;
@@ -79,10 +79,10 @@ export const calculators = [
     incompleteMsg: 'Responde las cuatro preguntas.',
     fields: [
       { type: 'note', text: 'Es retrospectivo y no necesita diario, lo que lo hace comodo para la consulta. Mide CONTROL, es decir, si el tratamiento esta funcionando.' },
-      { name: 'q1', id: 'ur-c1', type: 'select', numeric: true, label: 'En las ultimas 4 semanas, &#191;cuantos sintomas fisicos ha tenido (picor, habones, hinchazon)?', options: UCT_OPC('Muchisimos', 'Muchos', 'Algunos', 'Pocos', 'Ninguno') },
-      { name: 'q2', id: 'ur-c2', type: 'select', numeric: true, label: '&#191;Cuanto ha afectado a su calidad de vida?', options: UCT_OPC('Muchisimo', 'Mucho', 'Algo', 'Poco', 'Nada') },
-      { name: 'q3', id: 'ur-c3', type: 'select', numeric: true, label: '&#191;Con que frecuencia el tratamiento no ha sido suficiente?', options: UCT_OPC('Muy a menudo', 'A menudo', 'A veces', 'Rara vez', 'Nunca') },
-      { name: 'q4', id: 'ur-c4', type: 'select', numeric: true, label: 'En conjunto, &#191;como de controlada ha estado su urticaria?', options: UCT_OPC('Nada controlada', 'Poco', 'Moderadamente', 'Bastante', 'Muy controlada') }
+      { name: 'q1', id: 'ur-c1', type: 'select', numeric: true, label: 'En las ultimas 4 semanas, ¿cuantos sintomas fisicos ha tenido (picor, habones, hinchazon)?', options: UCT_OPC('Muchisimos', 'Muchos', 'Algunos', 'Pocos', 'Ninguno') },
+      { name: 'q2', id: 'ur-c2', type: 'select', numeric: true, label: '¿Cuanto ha afectado a su calidad de vida?', options: UCT_OPC('Muchisimo', 'Mucho', 'Algo', 'Poco', 'Nada') },
+      { name: 'q3', id: 'ur-c3', type: 'select', numeric: true, label: '¿Con que frecuencia el tratamiento no ha sido suficiente?', options: UCT_OPC('Muy a menudo', 'A menudo', 'A veces', 'Rara vez', 'Nunca') },
+      { name: 'q4', id: 'ur-c4', type: 'select', numeric: true, label: 'En conjunto, ¿como de controlada ha estado su urticaria?', options: UCT_OPC('Nada controlada', 'Poco', 'Moderadamente', 'Bastante', 'Muy controlada') }
     ],
     compute(v) {
       const total = v.q1 + v.q2 + v.q3 + v.q4;
@@ -138,7 +138,7 @@ export const calculators = [
         aviso = 'primera';
       } else if (v.controlada) {
         paso = v.escalon === 'ninguno'
-          ? 'Sin tratamiento y controlada: no hay nada que a&#241;adir'
+          ? 'Sin tratamiento y controlada: no hay nada que añadir'
           : 'Mantener el escalon actual';
       } else if (pronto && v.escalon !== 'ninguno') {
         paso = 'Esperar a completar 2 semanas antes de decidir';
@@ -147,7 +147,7 @@ export const calculators = [
         paso = [
           'Antihistaminico de 2.a generacion a dosis estandar',
           'Subir la dosis del mismo antihistaminico hasta cuadruplicarla',
-          'A&#241;adir omalizumab (o dupilumab como opcion)',
+          'Añadir omalizumab (o dupilumab como opcion)',
           'Valorar ciclosporina, fuera de ficha tecnica y por su perfil de seguridad',
           'Revisar el DIAGNOSTICO antes de seguir'
         ][i];
@@ -163,7 +163,7 @@ export const calculators = [
       if (r.invalido) return 'Las semanas de tratamiento tienen que ser un numero razonable. Revisa el valor.';
       let s = `<strong>${r.paso}.</strong>`;
       if (r.aviso === 'primera') {
-        s += '<br><strong style="color:#8c3a34;">Los antihistaminicos de primera generacion se desaconsejan</strong> como primera linea: sedan, alteran el sue&#241;o REM y el rendimiento al dia siguiente, y se han descrito sobredosis mortales. Astemizol y terfenadina no deben usarse.';
+        s += '<br><strong style="color:#8c3a34;">Los antihistaminicos de primera generacion se desaconsejan</strong> como primera linea: sedan, alteran el sueño REM y el rendimiento al dia siguiente, y se han descrito sobredosis mortales. Astemizol y terfenadina no deben usarse.';
       }
       if (r.pronto && !r.controlada) {
         s += '<br><span style="opacity:.85;">Lleva menos de dos semanas. Con un antihistaminico la mejoria aparece pronto o no aparece, pero conviene dar ese margen antes de subir.</span>';
@@ -220,7 +220,7 @@ export const calculators = [
       }
       if (r.bradicinina) {
         s += r.soloIeca
-          ? '<br><strong>Toma un inhibidor de la enzima convertidora.</strong> Puede producir angioedema tras a&#241;os de tratamiento sin incidencias, y por eso se pasa por alto. Si ha tenido angioedema, se retira y NO se reintroduce.'
+          ? '<br><strong>Toma un inhibidor de la enzima convertidora.</strong> Puede producir angioedema tras años de tratamiento sin incidencias, y por eso se pasa por alto. Si ha tenido angioedema, se retira y NO se reintroduce.'
           : '<br><strong>Angioedema sin habones que no responde a antihistaminicos:</strong> sospechar mecanismo por BRADICININA. Pedir C4 y estudio del inhibidor de C1. No responde a antihistaminicos, corticoides ni adrenalina, y tiene tratamiento propio.';
       }
       s += '<br><span style="opacity:.75;">Lo que empeora el pronostico de todas estas entidades es el retraso: el paciente pasa meses etiquetado de urticaria resistente mientras se le sube el antihistaminico.</span>';

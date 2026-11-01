@@ -4,7 +4,7 @@
 // - criterios-graus: comprueba los criterios de encefalitis autoinmune POSIBLE, que son los que
 //   permiten tratar sin esperar a los anticuerpos, y los de encefalitis limbica definida.
 // - cribado-tumoral-autoinmune: que tumor buscar, con que prueba y cada cuanto repetirlo.
-// - neos: cinco variables que estiman la situacion funcional al a&#241;o en la encefalitis por
+// - neos: cinco variables que estiman la situacion funcional al año en la encefalitis por
 //   anticuerpos anti-receptor de NMDA.
 //
 // Sin em dash en el archivo (ver [[feedback-no-em-dash]]).
@@ -13,9 +13,9 @@ const TUMORES = {
   nmda: {
     nombre: 'Anticuerpos anti-receptor de NMDA', clase: 'superficie',
     tumor: 'TERATOMA DE OVARIO en la mujer joven, y de forma mucho mas rara teratoma testicular en el varon',
-    prueba: 'ecografia o resonancia PELVICA dirigida, porque el teratoma puede ser peque&#241;o y no verse en la tomografia; ecografia testicular en el varon joven',
+    prueba: 'ecografia o resonancia PELVICA dirigida, porque el teratoma puede ser pequeño y no verse en la tomografia; ecografia testicular en el varon joven',
     meses: 6, anos: 2,
-    nota: 'La asociacion con teratoma es alta en la mujer joven y disminuye en la ni&#241;a y en la mujer de mas edad. Su EXTIRPACION forma parte del tratamiento: mejora el pronostico y reduce las recaidas.'
+    nota: 'La asociacion con teratoma es alta en la mujer joven y disminuye en la niña y en la mujer de mas edad. Su EXTIRPACION forma parte del tratamiento: mejora el pronostico y reduce las recaidas.'
   },
   lgi1: {
     nombre: 'Anticuerpos anti-LGI1', clase: 'superficie',
@@ -50,7 +50,7 @@ const TUMORES = {
     tumor: 'CARCINOMA MICROCITICO DE PULMON',
     prueba: 'tomografia de TORAX y, si es negativa, TOMOGRAFIA CON EMISION DE POSITRONES',
     meses: 4, anos: 2,
-    nota: 'Suele acompa&#241;arse de afectacion de varios niveles: neuropatia sensitiva subaguda, cerebelo, tronco y disautonomia. El anticuerpo es solo un marcador y el da&#241;o lo hacen los linfocitos T.'
+    nota: 'Suele acompañarse de afectacion de varios niveles: neuropatia sensitiva subaguda, cerebelo, tronco y disautonomia. El anticuerpo es solo un marcador y el daño lo hacen los linfocitos T.'
   },
   ma2: {
     nombre: 'Anticuerpos anti-Ma2', clase: 'intracelular',
@@ -102,7 +102,7 @@ export const calculators = [
       { name: 'rm', id: 'ea-cg-r', type: 'checkbox', label: 'Resonancia sugestiva de encefalitis', row: 'r3' },
       { name: 'temporal', id: 'ea-cg-t', type: 'checkbox', label: 'Alteracion BILATERAL en T2 y FLAIR restringida a los lobulos temporales mediales', row: 'r4' },
       { name: 'eeg', id: 'ea-cg-g', type: 'checkbox', label: 'Electroencefalograma con actividad epileptiforme o lenta sobre los lobulos temporales', row: 'r4' },
-      { type: 'note', text: 'Estos criterios estan dise&#241;ados a proposito para ser CLINICOS: permiten iniciar la inmunoterapia sobre bases razonables sin esperar unos anticuerpos que tardan dias o semanas, y ese adelanto es uno de los pocos factores pronosticos que dependen del equipo. La exclusion razonable de otras causas, y sobre todo de la infeccion, no es un tramite administrativo sino uno de los tres criterios.' }
+      { type: 'note', text: 'Estos criterios estan diseñados a proposito para ser CLINICOS: permiten iniciar la inmunoterapia sobre bases razonables sin esperar unos anticuerpos que tardan dias o semanas, y ese adelanto es uno de los pocos factores pronosticos que dependen del equipo. La exclusion razonable de otras causas, y sobre todo de la infeccion, no es un tramite administrativo sino uno de los tres criterios.' }
     ],
     compute(v) {
       if (!v.subagudo || !v.exclusion) return null;
@@ -166,7 +166,7 @@ export const calculators = [
         { v: 'mujer', t: 'Mujer' },
         { v: 'varon', t: 'Varon' }
       ] },
-      { name: 'edad', id: 'ea-ct-e', type: 'number', step: '1', label: 'Edad (a&#241;os)', placeholder: 'ej. 27', row: 'r2' },
+      { name: 'edad', id: 'ea-ct-e', type: 'number', step: '1', label: 'Edad (años)', placeholder: 'ej. 27', row: 'r2' },
       { name: 'fumador', id: 'ea-ct-f', type: 'checkbox', label: 'Fumador o exfumador' },
       { type: 'note', text: 'La regla que mas casos rescata: el sindrome neurologico puede PRECEDER al diagnostico del tumor en meses, de modo que un cribado inicial negativo NO cierra el caso. Hay que dejar un plan escrito de repeticion, porque de memoria no se hace. Y con anticuerpos INTRACELULARES el objetivo terapeutico principal es el tumor, no la inmunoterapia.' }
     ],
@@ -183,16 +183,16 @@ export const calculators = [
       return { d, avisos, edad: v.edad, sexo: v.sexo, joven, fumador: !!v.fumador };
     },
     format: r => {
-      if (r.invalido) return 'Revisa la edad: se admite de 0 a 120 a&#241;os.';
+      if (r.invalido) return 'Revisa la edad: se admite de 0 a 120 años.';
       const d = r.d;
       let s = `<strong>${d.nombre}. Antigeno ${d.clase === 'desconocida' ? 'no identificado' : 'de localizacion ' + d.clase}.</strong>`;
       s += `<br><strong style="color:#8c3a34;">Buscar:</strong> ${d.tumor}.`;
       s += `<br><strong>Con que:</strong> ${d.prueba}.`;
-      s += `<br><strong style="color:#8a6a1f;">Repetir el cribado cada ${d.meses} meses durante al menos ${d.anos} a&#241;os</strong> si el inicial es negativo, dejandolo escrito en el plan de seguimiento.`;
+      s += `<br><strong style="color:#8a6a1f;">Repetir el cribado cada ${d.meses} meses durante al menos ${d.anos} años</strong> si el inicial es negativo, dejandolo escrito en el plan de seguimiento.`;
       s += `<br><span style="opacity:.75;">${d.nota}</span>`;
-      if (r.avisos.indexOf('teratomaOvario') >= 0) s += `<br><strong style="color:#6b4a8c;">Mujer de ${r.edad} a&#241;os con anticuerpos anti-receptor de NMDA:</strong> el teratoma de ovario puede ser MUY peque&#241;o y pasar desapercibido en la tomografia. Hace falta una prueba pelvica dirigida, y su extirpacion forma parte del tratamiento.`;
-      if (r.avisos.indexOf('testicular') >= 0) s += `<br><strong style="color:#6b4a8c;">Varon de ${r.edad} a&#241;os con anticuerpos anti-Ma2:</strong> ecografia testicular OBLIGADA aunque la exploracion sea normal. En casos muy sugestivos con imagen negativa puede llegar a plantearse la orquiectomia diagnostica.`;
-      if (r.avisos.indexOf('intracelular') >= 0) s += '<br><strong style="color:#8c3a34;">Anticuerpo INTRACELULAR:</strong> es un marcador y no el agente del da&#241;o, que lo hacen linfocitos T y es poco reversible. La respuesta a la inmunoterapia suele ser pobre y lo que mas cambia el curso es TRATAR EL TUMOR. Conviene implicar a oncologia desde el primer dia.';
+      if (r.avisos.indexOf('teratomaOvario') >= 0) s += `<br><strong style="color:#6b4a8c;">Mujer de ${r.edad} años con anticuerpos anti-receptor de NMDA:</strong> el teratoma de ovario puede ser MUY pequeño y pasar desapercibido en la tomografia. Hace falta una prueba pelvica dirigida, y su extirpacion forma parte del tratamiento.`;
+      if (r.avisos.indexOf('testicular') >= 0) s += `<br><strong style="color:#6b4a8c;">Varon de ${r.edad} años con anticuerpos anti-Ma2:</strong> ecografia testicular OBLIGADA aunque la exploracion sea normal. En casos muy sugestivos con imagen negativa puede llegar a plantearse la orquiectomia diagnostica.`;
+      if (r.avisos.indexOf('intracelular') >= 0) s += '<br><strong style="color:#8c3a34;">Anticuerpo INTRACELULAR:</strong> es un marcador y no el agente del daño, que lo hacen linfocitos T y es poco reversible. La respuesta a la inmunoterapia suele ser pobre y lo que mas cambia el curso es TRATAR EL TUMOR. Conviene implicar a oncologia desde el primer dia.';
       else if (d.clase === 'superficie') s += '<br><span style="color:#3f6b52;">Anticuerpo de SUPERFICIE:</span> es patogenico y su efecto es reversible, de modo que responde a la inmunoterapia y el pronostico es bueno si se trata pronto. Eso no exime del cribado tumoral ni de repetirlo.';
       if (r.avisos.indexOf('microcitico') >= 0) s += '<br><span style="opacity:.75;">Paciente fumador con un anticuerpo asociado a carcinoma MICROCITICO: si la tomografia de torax es negativa, hay que ampliar con tomografia con emision de positrones antes de dar el cribado por concluido.</span>';
       return s;
@@ -202,7 +202,7 @@ export const calculators = [
 
   {
     key: 'neos', title: 'Escala NEOS', accent: '#6b4a8c',
-    subtitle: 'Situacion funcional al a&#241;o en la encefalitis por anticuerpos anti-receptor de NMDA',
+    subtitle: 'Situacion funcional al año en la encefalitis por anticuerpos anti-receptor de NMDA',
     incompleteMsg: 'Marca las variables presentes. Es una escala de cinco items y todos son de si o no.',
     fields: [
       { name: 'uci', id: 'ea-ne-u', type: 'checkbox', label: 'Ingreso en unidad de cuidados intensivos', row: 'r1' },
@@ -210,7 +210,7 @@ export const calculators = [
       { name: 'sinMejoria', id: 'ea-ne-m', type: 'checkbox', label: 'Ausencia de mejoria clinica en las 4 primeras semanas', row: 'r2' },
       { name: 'rm', id: 'ea-ne-r', type: 'checkbox', label: 'Resonancia craneal alterada', row: 'r2' },
       { name: 'lcr', id: 'ea-ne-l', type: 'checkbox', label: 'Mas de 20 leucocitos por mm3 en el liquido cefalorraquideo' },
-      { type: 'note', text: 'La escala estima la probabilidad de MALA situacion funcional al a&#241;o, medida con la escala de Rankin modificada, y esta validada en la encefalitis por anticuerpos anti-receptor de NMDA. No es una regla de decision terapeutica y NO sustituye al juicio clinico: su utilidad practica es identificar pronto a quien va a necesitar mas y comunicar expectativas realistas a la familia.' }
+      { type: 'note', text: 'La escala estima la probabilidad de MALA situacion funcional al año, medida con la escala de Rankin modificada, y esta validada en la encefalitis por anticuerpos anti-receptor de NMDA. No es una regla de decision terapeutica y NO sustituye al juicio clinico: su utilidad practica es identificar pronto a quien va a necesitar mas y comunicar expectativas realistas a la familia.' }
     ],
     compute(v) {
       const items = [
@@ -233,7 +233,7 @@ export const calculators = [
       return { p, banda, presentes, modificables };
     },
     format: r => {
-      let s = `<strong>${r.p} de 5 puntos: riesgo ${r.banda}</strong> de mala situacion funcional al a&#241;o. `;
+      let s = `<strong>${r.p} de 5 puntos: riesgo ${r.banda}</strong> de mala situacion funcional al año. `;
       if (r.banda === 'MUY ALTO' || r.banda === 'ALTO') s += '<span style="color:#8c3a34;">Perfil de mal pronostico.</span> Corresponde tratamiento intensivo, escalada precoz a segunda linea, busqueda insistente del teratoma y una conversacion honesta con la familia sobre una recuperacion que sera larga.';
       else if (r.banda === 'INTERMEDIO') s += '<span style="color:#8a6a1f;">Perfil intermedio.</span> Reevaluacion estructurada y umbral bajo para escalar si la respuesta no llega.';
       else s += '<span style="color:#3f6b52;">Perfil de mejor pronostico</span> segun la escala. Eso no autoriza a relajar el tratamiento: la mayoria de los pacientes mejora, pero hacerlo pronto sigue siendo lo que mas influye.';

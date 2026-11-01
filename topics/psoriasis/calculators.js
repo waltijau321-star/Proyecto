@@ -86,7 +86,7 @@ export const calculators = [
         ? '<br><span style="color:#3f6b52;">Por debajo de 3, que es la meta de PASI absoluto de la SOLAPSO.</span>'
         : '<br><span style="color:#8c3a34;">Por encima de 3, que es la meta de PASI absoluto de la SOLAPSO.</span>';
       s += `<br><span style="opacity:.8;">La region que mas aporta es ${r.mayor.nombre} (${Math.round(r.mayor.valor * 10) / 10} puntos).</span>`;
-      s += '<br><span style="opacity:.75;">Dos avisos sobre esta escala. El primero: la meta tiene <strong>dos mitades</strong>, y el PASI es solo una; hace falta ademas un DLQI menor de 5, porque una piel casi limpia con una vida condicionada no es un exito. El segundo: el PASI <strong>infravalora</strong> lo que ocurre en palmas, plantas, u&#241;as y genitales, que son areas de alto impacto donde una superficie peque&#241;a incapacita y justifica tratamiento sistemico igual.</span>';
+      s += '<br><span style="opacity:.75;">Dos avisos sobre esta escala. El primero: la meta tiene <strong>dos mitades</strong>, y el PASI es solo una; hace falta ademas un DLQI menor de 5, porque una piel casi limpia con una vida condicionada no es un exito. El segundo: el PASI <strong>infravalora</strong> lo que ocurre en palmas, plantas, uñas y genitales, que son areas de alto impacto donde una superficie pequeña incapacita y justifica tratamiento sistemico igual.</span>';
       return s;
     },
     fragment: r => (r.invalido ? 'valores fuera de rango' : `PASI ${r.pasi}/72`)
@@ -106,9 +106,9 @@ export const calculators = [
         { value: '4', label: '4 &middot; Grave' }
       ] },
       { name: 'dlqi', id: 'ps-g-dlqi', type: 'number', step: '1', required: false, label: 'DLQI (0 a 30, opcional)', placeholder: 'ej. 14' },
-      { type: 'note', text: 'Areas de ALTO IMPACTO: una superficie peque&#241;a en cualquiera de ellas basta para justificar tratamiento sistemico, aunque el PASI sea bajo.' },
+      { type: 'note', text: 'Areas de ALTO IMPACTO: una superficie pequeña en cualquiera de ellas basta para justificar tratamiento sistemico, aunque el PASI sea bajo.' },
       { name: 'cuero', id: 'ps-g-cu', type: 'checkbox', label: 'Cuero cabelludo extenso o refractario' },
-      { name: 'unas', id: 'ps-g-un', type: 'checkbox', label: 'U&#241;as' },
+      { name: 'unas', id: 'ps-g-un', type: 'checkbox', label: 'Uñas' },
       { name: 'palmas', id: 'ps-g-pa', type: 'checkbox', label: 'Palmas o plantas' },
       { name: 'pliegues', id: 'ps-g-pl', type: 'checkbox', label: 'Pliegues (psoriasis invertida)' },
       { name: 'genital', id: 'ps-g-ge', type: 'checkbox', label: 'Genitales' }
@@ -117,7 +117,7 @@ export const calculators = [
       if (v.bsa === null) return null;
       if (v.bsa < 0 || v.bsa > 100) return { invalido: true };
       const areas = [
-        ['cuero cabelludo', v.cuero], ['u&#241;as', v.unas], ['palmas o plantas', v.palmas],
+        ['cuero cabelludo', v.cuero], ['uñas', v.unas], ['palmas o plantas', v.palmas],
         ['pliegues', v.pliegues], ['genitales', v.genital]
       ].filter(a => a[1]).map(a => a[0]);
       const dlqiDato = v.dlqi !== null && v.dlqi !== undefined;
@@ -139,7 +139,7 @@ export const calculators = [
         : '<strong style="color:#3f6b52;">Enfermedad leve.</strong> Tratamiento topico, salvo que algo mas lo cambie.';
       if (r.motivos.length) s += `<br><span style="opacity:.85;">Por: ${r.motivos.join('; ')}.</span>`;
       if (r.soloPorArea) {
-        s += '<br><strong style="color:#8a5a2e;">Cumple SOLO por la localizacion,</strong> no por la extension. Es justo el caso que se pasa por alto: una superficie peque&#241;a en u&#241;as, palmas, pliegues o genitales incapacita mas que una placa grande en el tronco, y la regla clasica de la superficie mayor del 10% lo dejaria fuera.';
+        s += '<br><strong style="color:#8a5a2e;">Cumple SOLO por la localizacion,</strong> no por la extension. Es justo el caso que se pasa por alto: una superficie pequeña en uñas, palmas, pliegues o genitales incapacita mas que una placa grande en el tronco, y la regla clasica de la superficie mayor del 10% lo dejaria fuera.';
       }
       if (r.dlqi === null) {
         s += '<br><span style="opacity:.75;">Sin DLQI la decision queda coja: la calidad de vida es la mitad de la meta que casi nunca se mide, y hay pacientes con poca piel y mucha vida condicionada.</span>';
@@ -176,7 +176,7 @@ export const calculators = [
       // Para hablar de respuesta PARCIAL hace falta que la piel haya respondido de verdad: o se
       // alcanza PASI75, o el PASI queda dentro de la banda de 3 a 10 que define la guia. Sin eso
       // es fracaso, aunque el DLQI siga alto. Un PASI que baja de 20 a 15 no es una respuesta
-      // parcial por mucho que la calidad de vida acompa&#241;e mal.
+      // parcial por mucho que la calidad de vida acompañe mal.
       const respuestaCutanea = red >= 75 || v.actual <= 10;
       let veredicto;
       if (metaCutanea && dlqiOk && !v.altoImpacto) veredicto = 'meta';
@@ -202,12 +202,12 @@ export const calculators = [
       if (r.veredicto === 'meta') {
         s += '<br><strong style="color:#3f6b52;">Meta alcanzada.</strong> Mantener el tratamiento y seguir midiendo.';
       } else if (r.veredicto === 'parcial') {
-        s += '<br><strong style="color:#8a6a1f;">Respuesta PARCIAL.</strong> La SOLAPSO sugiere, antes de cambiar de biologico, a&#241;adir tratamiento topico, a&#241;adir un sistemico como metotrexato o fototerapia, u optimizar el que ya lleva. Cambiar de golpe quema una opcion futura sin necesidad.';
+        s += '<br><strong style="color:#8a6a1f;">Respuesta PARCIAL.</strong> La SOLAPSO sugiere, antes de cambiar de biologico, añadir tratamiento topico, añadir un sistemico como metotrexato o fototerapia, u optimizar el que ya lleva. Cambiar de golpe quema una opcion futura sin necesidad.';
       } else {
         s += '<br><strong style="color:#8c3a34;">Fracaso.</strong> Toca cambiar. Si lo que ha fallado es un anti factor de necrosis tumoral, se cambia a un MECANISMO DISTINTO (anti interleucina 17, 23 o 12/23). Si ha fallado un anti interleucina 17, 23 o 12/23, se puede cambiar dentro de la misma clase o a otro mecanismo.';
       }
       if (r.altoImpacto) {
-        s += '<br><span style="opacity:.85;">Persiste un area de alto impacto, y eso por si solo impide dar la meta por alcanzada aunque el PASI acompa&#241;e.</span>';
+        s += '<br><span style="opacity:.85;">Persiste un area de alto impacto, y eso por si solo impide dar la meta por alcanzada aunque el PASI acompañe.</span>';
       }
       if (r.dlqi === null) {
         s += '<br><span style="opacity:.75;">Sin DLQI no se puede afirmar que la meta este alcanzada: la guia exige tambien un DLQI menor de 5.</span>';
@@ -227,7 +227,7 @@ export const calculators = [
     key: 'cribado-artritis', title: 'Cribado de artritis psoriasica', accent: '#3d5a73',
     subtitle: 'Cinco preguntas que conviene hacer en cada visita',
     fields: [
-      { type: 'note', text: 'Hasta un tercio de los pacientes con psoriasis desarrolla artritis, la piel suele preceder a la articulacion en a&#241;os y el da&#241;o estructural es IRREVERSIBLE. Quien mira la piel esta en la mejor posicion para detectarla a tiempo.' },
+      { type: 'note', text: 'Hasta un tercio de los pacientes con psoriasis desarrolla artritis, la piel suele preceder a la articulacion en años y el daño estructural es IRREVERSIBLE. Quien mira la piel esta en la mejor posicion para detectarla a tiempo.' },
       { name: 'dolor', id: 'ps-a-do', type: 'checkbox', label: 'Dolor articular que MEJORA con el movimiento y empeora con el reposo' },
       { name: 'rigidez', id: 'ps-a-ri', type: 'checkbox', label: 'Rigidez matutina de mas de 30 minutos' },
       { name: 'dactilitis', id: 'ps-a-da', type: 'checkbox', label: 'Un dedo entero hinchado alguna vez (dedo en salchicha)' },
@@ -252,10 +252,10 @@ export const calculators = [
       } else if (r.n > 0) {
         s += '<br><span style="color:#8a6a1f;">Cribado no concluyente.</span> Un solo dato positivo ya obliga a explorar las entesis y los dedos, y a repetir la pregunta en la siguiente visita. La artritis puede aparecer en cualquier momento de la evolucion.';
       } else {
-        s += '<br><span style="color:#3f6b52;">Cribado negativo hoy.</span> No cierra nada: hay que repetirlo en CADA visita, porque la artritis puede aparecer a&#241;os despues de la piel.';
+        s += '<br><span style="color:#3f6b52;">Cribado negativo hoy.</span> No cierra nada: hay que repetirlo en CADA visita, porque la artritis puede aparecer años despues de la piel.';
       }
       if (r.unas) {
-        s += '<br><strong style="color:#3d5a73;">Hay afectacion ungueal,</strong> que es el mejor predictor clinico de artritis psoriasica. Con u&#241;a afectada conviene bajar el umbral para derivar aunque el cuestionario no llegue a tres.';
+        s += '<br><strong style="color:#3d5a73;">Hay afectacion ungueal,</strong> que es el mejor predictor clinico de artritis psoriasica. Con uña afectada conviene bajar el umbral para derivar aunque el cuestionario no llegue a tres.';
       }
       s += '<br><span style="opacity:.75;">Si se confirma, la eleccion del farmaco para la piel deberia servir tambien para la articulacion. Ojo: la SOLAPSO advierte de forma expresa que NO formulo la artritis como pregunta clinica propia, de modo que orienta pero no sustituye a una guia reumatologica.</span>';
       return s;

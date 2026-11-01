@@ -66,14 +66,14 @@ export const calculators = [
         s += `<br><strong style="color:#8c3a34;">Ajuste RENAL necesario</strong> ${r.dialisis ? '(en hemodialisis)' : `(filtrado de ${r.fg} mL/min)`}: la isoniazida y la rifampicina NO se ajustan, pero la <strong>pirazinamida y el etambutol pasan a TRES VECES POR SEMANA</strong> a la dosis calculada, porque se acumulan. En hemodialisis, administrar despues de la sesion. El riesgo mas relevante de no ajustar el etambutol es la neuritis optica.`;
       }
       if (r.piridoxina) {
-        s += '<br><strong style="color:#3f6b52;">A&#241;adir PIRIDOXINA</strong> (25 a 50 mg al dia) para prevenir la neuropatia periferica por isoniazida, que en este paciente tiene riesgo aumentado.';
+        s += '<br><strong style="color:#3f6b52;">Añadir PIRIDOXINA</strong> (25 a 50 mg al dia) para prevenir la neuropatia periferica por isoniazida, que en este paciente tiene riesgo aumentado.';
       } else {
-        s += '<br><span style="opacity:.8;">Sin factores marcados para la neuropatia. Aun asi, muchos protocolos a&#241;aden piridoxina de forma sistematica: es barata, segura y evita una toxicidad que puede dejar secuelas.</span>';
+        s += '<br><span style="opacity:.8;">Sin factores marcados para la neuropatia. Aun asi, muchos protocolos añaden piridoxina de forma sistematica: es barata, segura y evita una toxicidad que puede dejar secuelas.</span>';
       }
       if (r.hepatopatia) {
         s += '<br><strong style="color:#8c3a34;">Hepatopatia cronica</strong>: controles hepaticos mas estrechos, sobre todo en las primeras semanas, y valoracion de pautas con menos hepatotoxicos si la reserva funcional es escasa. La pirazinamida es el mas hepatotoxico de los cuatro.';
       }
-      s += '<br><span style="opacity:.75;">Y en todos: revisar las INTERACCIONES de la rifampicina, que es un potente inductor enzimatico (antirretrovirales, anticoagulantes, anticonceptivos, inmunosupresores, antiepilepticos), y avisar de que ti&#241;e la orina de naranja.</span>';
+      s += '<br><span style="opacity:.75;">Y en todos: revisar las INTERACCIONES de la rifampicina, que es un potente inductor enzimatico (antirretrovirales, anticoagulantes, anticonceptivos, inmunosupresores, antiepilepticos), y avisar de que tiñe la orina de naranja.</span>';
       return s;
     },
     fragment: r => r.invalido ? 'valores no validos' : `H ${r.h} mg, R ${r.r} mg${r.bajoPeso ? '' : `, Z ${r.z} mg, E ${r.e} mg`}${r.renal ? ' (ajuste renal)' : ''}`
@@ -81,7 +81,7 @@ export const calculators = [
 
   {
     key: 'ppd-igra', title: 'Interpretacion de la tuberculina y del IGRA', accent: '#8a6a1f',
-    subtitle: 'El umbral depende del grupo de riesgo, no del tama&#241;o por si solo',
+    subtitle: 'El umbral depende del grupo de riesgo, no del tamaño por si solo',
     incompleteMsg: 'Introduce el diametro de la induracion, o elige el resultado del IGRA si es la prueba que se hizo.',
     fields: [
       { name: 'prueba', id: 'tb-pi-pr', type: 'select', label: 'Prueba realizada', options: [
@@ -206,7 +206,7 @@ export const calculators = [
       { name: 'mejoria', id: 'tb-ai-me', type: 'checkbox', label: 'Mejoria clinica clara: baja la fiebre, disminuye la tos, gana peso', row: 'r2' },
       { name: 'resistencia', id: 'tb-ai-re', type: 'checkbox', label: 'Resistencia demostrada o sospechada (multirresistencia, fracaso previo, contacto con caso resistente)', row: 'r2' },
       { name: 'cultivoNeg', id: 'tb-ai-cn', type: 'checkbox', label: 'Cultivo ya negativizado' },
-      { type: 'note', text: 'Estos criterios se aplican al paciente con tuberculosis pulmonar o laringea confirmada y en tratamiento. La tuberculosis EXTRAPULMONAR aislada no se transmite por via aerea y no requiere aislamiento, salvo maniobras que generen aerosoles sobre la lesion. La decision se toma junto con medicina preventiva y teniendo en cuenta a donde va el paciente al alta: no es lo mismo un domicilio con adultos sanos que una residencia o una casa con ni&#241;os o inmunodeprimidos.' }
+      { type: 'note', text: 'Estos criterios se aplican al paciente con tuberculosis pulmonar o laringea confirmada y en tratamiento. La tuberculosis EXTRAPULMONAR aislada no se transmite por via aerea y no requiere aislamiento, salvo maniobras que generen aerosoles sobre la lesion. La decision se toma junto con medicina preventiva y teniendo en cuenta a donde va el paciente al alta: no es lo mismo un domicilio con adultos sanos que una residencia o una casa con niños o inmunodeprimidos.' }
     ],
     compute(v) {
       if (v.dias == null || v.bk == null) return null;
@@ -228,7 +228,7 @@ export const calculators = [
       if (r.puede) {
         s += '<strong style="color:#3f6b52;">Se cumplen los criterios para retirar el aislamiento respiratorio</strong>: al menos 14 dias de tratamiento eficaz, 3 baciloscopias negativas consecutivas de dias distintos y mejoria clinica documentada';
         s += r.resistencia ? ', con el cultivo ya negativizado, que es lo que se exige cuando hay resistencia.' : '.';
-        s += ' La decision se toma junto con medicina preventiva y valorando el entorno al que va el paciente: la presencia de ni&#241;os peque&#241;os, de inmunodeprimidos o de convivencia institucional obliga a ser mas conservador.';
+        s += ' La decision se toma junto con medicina preventiva y valorando el entorno al que va el paciente: la presencia de niños pequeños, de inmunodeprimidos o de convivencia institucional obliga a ser mas conservador.';
       } else {
         s += `<strong style="color:#8c3a34;">NO se cumplen todavia los criterios.</strong> Falta: ${r.faltan.join('; ')}. Mantener el aislamiento respiratorio en habitacion con presion negativa si se dispone, con mascarilla de proteccion respiratoria para el personal y mascarilla quirurgica para el paciente cuando salga de la habitacion.`;
       }

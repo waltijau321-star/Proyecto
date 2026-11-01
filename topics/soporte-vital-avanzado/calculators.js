@@ -60,7 +60,7 @@ export const calculators = [
       s += r.pasos.map(p => `<li style="margin:3px 0;">${p}</li>`).join('');
       s += '</ol>';
       if (r.desfib && r.refractaria) {
-        s += '<br><span style="opacity:.85;">En la fibrilacion refractaria, la guia de 2025 se&#241;ala que la utilidad del <strong>cambio de vector</strong> y de la <strong>desfibrilacion secuencial doble</strong> NO esta establecida, aunque merecen mas investigacion. Lo que si esta claro es que no deben restar tiempo a compresiones de calidad.</span>';
+        s += '<br><span style="opacity:.85;">En la fibrilacion refractaria, la guia de 2025 señala que la utilidad del <strong>cambio de vector</strong> y de la <strong>desfibrilacion secuencial doble</strong> NO esta establecida, aunque merecen mas investigacion. Lo que si esta claro es que no deben restar tiempo a compresiones de calidad.</span>';
       }
       if (!r.desfib) {
         s += '<br><span style="opacity:.85;">Ojo con la <strong>seudoactividad electrica sin pulso</strong>: si en la ecografia hay contraccion aunque no se palpe pulso, el pronostico es mejor que en la ausencia real de actividad.</span>';
@@ -217,7 +217,7 @@ export const calculators = [
       { name: 'rosc', id: 'sva-t6', type: 'checkbox', label: 'Se ha recuperado la circulacion en algun momento' },
       { name: 'prolongar', id: 'sva-t7', type: 'checkbox', label: 'Hipotermia, intoxicacion, embarazo, causa reversible en tratamiento o candidato a soporte extracorporeo' },
       { name: 'etco2', id: 'sva-t8', type: 'checkbox', label: 'Se esta usando un carbonico espirado bajo como argumento para parar' },
-      { type: 'note', text: 'Las reglas estan dise&#241;adas para no terminar la reanimacion en alguien que todavia podria sobrevivir, de modo que se cumplen TODOS sus criterios o no se aplican.' }
+      { type: 'note', text: 'Las reglas estan diseñadas para no terminar la reanimacion en alguien que todavia podria sobrevivir, de modo que se cumplen TODOS sus criterios o no se aplican.' }
     ],
     compute(v) {
       if (!v.regla) return null;

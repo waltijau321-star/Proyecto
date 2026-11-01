@@ -15,7 +15,7 @@ const SCADDING = {
   'I': { titulo: 'Estadio I: adenopatias hiliares bilaterales', remision: 'del 60 al 90%', texto: 'Adenopatias hiliares bilaterales y simetricas con parenquima limpio. Es el hallazgo mas caracteristico y el que mas veces se descubre por casualidad. La remision espontanea es la regla, de modo que el paciente asintomatico se observa.' },
   'II': { titulo: 'Estadio II: adenopatias mas infiltrado', remision: 'del 40 al 70%', texto: 'Adenopatias hiliares junto con infiltrado parenquimatoso, tipicamente micronodulos de distribucion perilinfatica en campos medios y superiores. La remision espontanea sigue siendo frecuente, aunque menos que en el estadio I.' },
   'III': { titulo: 'Estadio III: infiltrado sin adenopatias', remision: 'del 10 al 20%', texto: 'El parenquima esta afectado y las adenopatias ya han regresado. La remision espontanea es poco frecuente y una proporcion importante de estos pacientes acaba necesitando tratamiento.' },
-  'IV': { titulo: 'Estadio IV: fibrosis', remision: 'excepcional', texto: 'Fibrosis establecida con retraccion hiliar, bullas y distorsion de predominio en campos superiores. El da&#241;o es IRREVERSIBLE, y el objetivo del tratamiento pasa a ser frenar la progresion de la parte todavia inflamatoria, no revertir lo ya fibrosado. Buscar hipertension pulmonar asociada.' }
+  'IV': { titulo: 'Estadio IV: fibrosis', remision: 'excepcional', texto: 'Fibrosis establecida con retraccion hiliar, bullas y distorsion de predominio en campos superiores. El daño es IRREVERSIBLE, y el objetivo del tratamiento pasa a ser frenar la progresion de la parte todavia inflamatoria, no revertir lo ya fibrosado. Buscar hipertension pulmonar asociada.' }
 };
 
 export const calculators = [
@@ -101,7 +101,7 @@ export const calculators = [
       const cola = '<br><span style="opacity:.75;">Con corticoides: profilaxis de osteoporosis y vigilancia de glucemia, presion arterial y peso desde el primer dia. Y antes de un antagonista del factor de necrosis tumoral, cribado obligatorio de tuberculosis latente.</span>';
       switch (r.veredicto) {
         case 'organo':
-          return `<strong style="color:#8c3a34;">TRATAR, sin esperar a ver la evolucion.</strong> Hay afectacion de organo de riesgo: ${r.organos.join(', ')}. En estas localizaciones el da&#241;o que se establece no se recupera, de modo que no se aplica la logica de observar por si remite sola. Corticoides como primera linea, con un ahorrador (metotrexato el mas usado) a&#241;adido pronto porque el tratamiento va a ser prolongado, y escalada a un antagonista del factor de necrosis tumoral en la enfermedad refractaria.` + cola;
+          return `<strong style="color:#8c3a34;">TRATAR, sin esperar a ver la evolucion.</strong> Hay afectacion de organo de riesgo: ${r.organos.join(', ')}. En estas localizaciones el daño que se establece no se recupera, de modo que no se aplica la logica de observar por si remite sola. Corticoides como primera linea, con un ahorrador (metotrexato el mas usado) añadido pronto porque el tratamiento va a ser prolongado, y escalada a un antagonista del factor de necrosis tumoral en la enfermedad refractaria.` + cola;
         case 'funcional':
           return '<strong style="color:#8a6a1f;">TRATAR.</strong> Hay deterioro funcional documentado frente al basal, que es el criterio objetivo de progresion pulmonar. Corticoides orales con pauta descendente, y ahorrador si no se puede bajar la dosis o su toxicidad resulta inaceptable. La respuesta se sigue con FUNCION PULMONAR seriada, no con la radiografia.' + cola;
         case 'sintomas':
@@ -109,7 +109,7 @@ export const calculators = [
         case 'sin-basal':
           return '<strong style="color:#3d5a73;">Falta el dato que mas ayuda: no hay funcion pulmonar basal con la que comparar.</strong> Sin organo de riesgo ni sintomas limitantes, lo que corresponde es obtener AHORA una funcion pulmonar completa con DLCO y repetirla en unos meses. Esa comparacion es la que permitira decidir, y es la razon por la que la funcion pulmonar forma parte del cribado inicial de todos los pacientes.';
         default:
-          return '<strong style="color:#3f6b52;">OBSERVAR.</strong> Paciente asintomatico o con molestias que no limitan su vida, con funcion pulmonar conservada y estable y sin afectacion de organo de riesgo. La remision espontanea es frecuente y los corticoides tienen una toxicidad que no compensa cuando no hay nada que ganar. Control clinico y funcional periodico durante al menos 3 a&#241;os, que es cuando ocurre la mayoria de las recaidas, y repetir el cribado de organos si aparece cualquier sintoma nuevo.';
+          return '<strong style="color:#3f6b52;">OBSERVAR.</strong> Paciente asintomatico o con molestias que no limitan su vida, con funcion pulmonar conservada y estable y sin afectacion de organo de riesgo. La remision espontanea es frecuente y los corticoides tienen una toxicidad que no compensa cuando no hay nada que ganar. Control clinico y funcional periodico durante al menos 3 años, que es cuando ocurre la mayoria de las recaidas, y repetir el cribado de organos si aparece cualquier sintoma nuevo.';
       }
     },
     fragment: r => {
@@ -121,7 +121,7 @@ export const calculators = [
   {
     key: 'hipercalcemia-sarcoidosis', title: 'Calcio y vitamina D en la sarcoidosis', accent: '#8a6a1f',
     subtitle: 'El patron que distingue esta hipercalcemia de las demas',
-    incompleteMsg: 'Introduce el calcio serico. A&#241;ade albumina, parathormona y calcio urinario para completar la valoracion.',
+    incompleteMsg: 'Introduce el calcio serico. Añade albumina, parathormona y calcio urinario para completar la valoracion.',
     fields: [
       { name: 'ca', id: 'sa-hc-ca', type: 'number', step: '0.1', label: 'Calcio serico total (mg/dL)', placeholder: 'ej. 11.4', row: 'r1' },
       { name: 'alb', id: 'sa-hc-alb', type: 'number', step: '0.1', required: false, label: 'Albumina (g/dL, para corregir)', placeholder: 'ej. 3.4', row: 'r1' },
@@ -215,7 +215,7 @@ export const calculators = [
       if (r.alarma) {
         s += '<br><strong style="color:#8c3a34;">Y ademas hay un dato de riesgo arritmico inmediato.</strong> Contactar con cardiologia y con la unidad de arritmias SIN demora: valorar monitorizacion, marcapasos si hay bloqueo avanzado y desfibrilador, cuya indicacion aqui es mas amplia que en otras miocardiopatias porque el riesgo de arritmia ventricular es alto incluso con funcion sistolica conservada. Un sincope en un paciente con sarcoidosis no se atribuye a causa vasovagal sin haber estudiado el corazon.';
       }
-      s += '<br>Si se confirma, la afectacion cardiaca es una indicacion CLARA de tratar: corticoides sin esperar, porque pueden mejorar la conduccion y la funcion ventricular si se inician antes de que la fibrosis se establezca, con un ahorrador a&#241;adido pronto.';
+      s += '<br>Si se confirma, la afectacion cardiaca es una indicacion CLARA de tratar: corticoides sin esperar, porque pueden mejorar la conduccion y la funcion ventricular si se inician antes de que la fibrosis se establezca, con un ahorrador añadido pronto.';
       s += '<br><span style="opacity:.75;">La biopsia endomiocardica solo se plantea si hace falta confirmacion histologica y no hay otro organo accesible: su rendimiento es bajo porque la infiltracion es parcheada y la aguja puede pasar entre las lesiones.</span>';
       return s;
     },
