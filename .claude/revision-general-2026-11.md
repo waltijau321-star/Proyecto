@@ -304,6 +304,10 @@ suman 36 ítems entre las dos y están las dos en cero.
 
 ## 6. Orden sugerido, con lo hecho tachado
 
+La lista completa de lo que sigue abierto, con el motivo de cada cosa, esta en la seccion 7. Esta
+de aqui es el orden en que conviene atacarlo, y guarda tachado lo que ya se hizo para que se vea
+de donde venia cada arreglo.
+
 **Ahora, son minutos**
 1. ~~El recuento de la calculadora de los cuatro pilares (1.1).~~ Hecho. De paso salio a la luz
    una concordancia: con un solo pilar decia "Le corresponden 1", corregido tambien.
@@ -311,48 +315,79 @@ suman 36 ítems entre las dos y están las dos en cero.
 3. ~~Borrar las diez carpetas vacias de la raiz (2.7).~~ Hecho.
 
 **Esta semana**
-4. ~~`_headers` con las cabeceras que no dependen de la CSP (1.3).~~ Hecho; la CSP queda aparte.
-5. ~~Resumen de falladas al terminar el examen (2.3).~~ Hecho, agrupado por tema y con boton al
+4. ~~Las cascadas del examen simulado (1.4).~~ Hecho, y era lo mas urgente de todo el informe
+   aunque aparecio al final: el examen se quedaba en blanco el 96% de las veces. `buildPool`
+   aplana la cascada a su primer paso conservando `type` y `steps`, y 106 pruebas nuevas vigilan
+   el contrato.
+5. ~~`_headers` con las cabeceras que no dependen de la CSP (1.3).~~ Hecho; la CSP queda aparte,
+   y sigue pendiente: es el punto 11 de esta lista.
+6. ~~Resumen de falladas al terminar el examen (2.3).~~ Hecho, agrupado por tema y con boton al
    tema. Verificado corriendo un examen de 4 preguntas y fallando 3 a proposito.
-6. Metadatos en el registro para que Inicio no espere a 106 temas (2.1). **Pendiente a proposito**,
+7. Metadatos en el registro para que Inicio no espere a 106 temas (2.1). **Pendiente a proposito**,
    ver la seccion 7.
 
 **Este mes**
-7. ~~Extender los intervalos del SRS y anadir factor de facilidad (2.2).~~ Hecho: 9 cajas,
+8. ~~Extender los intervalos del SRS y anadir factor de facilidad (2.2).~~ Hecho: 9 cajas,
    0/1/3/7/14/30/60/120/240 dias, y los intervalos dejaron de estar copiados en tres archivos.
-8. ~~Pasada de acentos (2.5).~~ Hecha la mitad: las 4026 entidades. La otra mitad, en la seccion 7.
-9. Cerrar los 21 temas con menos de 8 citas (2.6). **Pendiente**, ver la seccion 7.
+9. ~~Pasada de acentos (2.5).~~ Hecha la mitad: las 4026 entidades. La otra mitad, las tildes que
+   faltan en 50 temas, en la seccion 7.
 10. ~~Accesibilidad de la puerta de entrada (2.7).~~ Hecho: las 12 etiquetas asociadas con `for`,
     `role="dialog"` y `aria-modal` en el modal compartido, y una trampa de foco que acota el
     tabulador al modal mientras esta abierto.
+11. Las tildes que faltan en 50 temas, la otra mitad de 2.5. **Pendiente**, ver la seccion 7.
+12. La CSP, la parte de 1.3 que no se pudo cerrar. **Pendiente**, ver la seccion 7.
+13. Cerrar los 21 temas con menos de 8 citas (2.6). **Pendiente**, ver la seccion 7.
+14. El candado de las fichas (2.4). **Pendiente**, y es una decision del autor entre dos
+    alternativas, ver la seccion 7.
 
 **Este trimestre**
-11. Infectologia y Reumatologia, los dos bloques en cero de mayor rendimiento (36 items entre los
+15. Infectologia y Reumatologia, los dos bloques en cero de mayor rendimiento (36 items entre los
     dos).
-12. Decidir la norma de las fichas: 32 por tema, o cobertura del tema. **Es una decision del
-    autor**, no un defecto.
-13. Objetivos de aprendizaje por tema (2.5 de octubre, sin empezar).
+16. Decidir la norma de las fichas: 32 por tema, o cobertura del tema. **Es una decision del
+    autor**, no un defecto, y es distinta del candado del punto 14: esta es cuantas fichas lleva
+    un tema, aquella es cuando se desbloquean.
+17. Objetivos de aprendizaje por tema (2.5 de octubre, sin empezar).
 
 ---
 
 ## 7. Lo que queda abierto, y por que no se cerro hoy
+
+Esta seccion es la lista **completa** de lo abierto, y la seccion 6 ordena lo mismo en el tiempo:
+cada pendiente de alla aparece aqui con su motivo. Lo que esta a la espera de **comprobacion**, no
+de trabajo, vive aparte en la seccion 5 y no se repite aqui.
+
+**Mias, puedo hacerlas sin que nadie decida nada**
 
 - **Los metadatos del registro para Inicio (2.1).** Es un refactor de verdad, no un arreglo:
   cuatro campos nuevos en las 106 entradas del registro, `home.js` dejando de llamar a
   `loadTopic`, el indice global movido a `requestIdleCallback` y la seccion Calc cargando
   perezosa. Toca el arranque de la app, que es justo donde una regresion se nota en todos los
   usuarios a la vez. Va en su propio cambio, con su propia medicion antes y despues, y no
-  mezclado con los diez arreglos de hoy.
+  mezclado con los doce arreglos de hoy. Es el unico pendiente que **empeora solo**: cada tema
+  nuevo encarece la portada.
 - **Las tildes que faltan en 50 temas (la otra mitad de 2.5).** No es mecanizable: "diagnostico"
   puede ser sustantivo o verbo, y una tilde mal puesta en texto clinico es peor que la falta. Va
   tema por tema revisando el diff.
 - **Los 21 temas con menos de 8 citas (2.6).** Necesita buscar y leer la fuente de cada uno. No
   se inventan citas, asi que esto es trabajo de contenido, no de script.
-- **El candado de las fichas (2.4).** El informe propone dos alternativas (desbloquear por
-  subtema o tras las primeras 10 preguntas) y elegir una es una decision sobre el diseno
-  didactico de la app, no un defecto que arreglar por cuenta propia. Un cambio de una linea en
-  cuanto se decida.
+- **La cobertura (seccion 4).** Es escribir temas nuevos. Infectologia (0/20) y Reumatologia
+  (0/16) son los dos bloques de mayor rendimiento, 36 items entre los dos.
+- **Los objetivos de aprendizaje por tema.** Venia del informe de octubre (su 2.5) y sigue sin
+  empezar. No se habia vuelto a nombrar en ningun sitio salvo el orden sugerido, que es como paso
+  inadvertido hasta el 1 de noviembre.
+
+**Tuyas, son decisiones del autor y no defectos**
+
+- **El candado de las fichas (2.4).** `study-view.js` pinta la tarjeta con candado y el texto
+  "Responde N preguntas". El informe propone dos alternativas (desbloquear por subtema o tras las
+  primeras 10 preguntas) y elegir una es una decision sobre el diseno didactico de la app, no un
+  defecto que arreglar por cuenta propia. Un cambio de una linea en cuanto se decida.
+- **La norma de las fichas: 32 por tema, o cobertura del tema.** Distinta de la anterior: aquella
+  es *cuando* se desbloquean, esta es *cuantas* lleva cada tema. Hoy son 32 fijas y `tests.js` lo
+  exige, asi que cambiarlo toca tambien el umbral de las pruebas.
+
+**A medias: necesitan una sesion real**
+
 - **La CSP (parte de 1.3).** Necesita la lista exacta de destinos y una sesion real para
-  comprobar que nadie se queda sin iniciar sesion.
-- **La cobertura (seccion 4).** Es escribir temas nuevos.
-- **El ciclo del panel de notas.** Sigue necesitando dos sesiones reales.
+  comprobar que nadie se queda sin iniciar sesion. Las otras seis cabeceras ya estan puestas y
+  verificadas en produccion; esta es la unica que puede dejar a alguien fuera si se escribe mal.
