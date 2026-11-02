@@ -86,7 +86,7 @@ export const quiz = [
 export const flashcards = [
   { front: 'Orden de la exploración abdominal', back: 'IAPP: Inspección, Auscultación, Percusión, Palpación — se ausculta ANTES de tocar la pared (invierte el orden IPPA del tórax).' },
   { front: 'Por qué se ausculta antes de palpar en el abdomen', back: 'La percusión y la palpación estimulan mecánicamente el intestino y pueden alterar artificialmente los ruidos hidroaéreos.' },
-  { front: 'Las 9 regiones abdominales', back: '2 líneas medioclaviculares verticales + línea subcostal y transtubercular horizontales → hipocondrios, epigastrio, flancos, región umbilical, fosas iliacas, hipogastrio.' },
+  { front: 'Las 9 regiones abdominales', back: '2 líneas medioclaviculares verticales + línea subcostal y transtubercular horizontales → hipocondrios, epigastrio, flancos, región umbilical, fosas ilíacas, hipogastrio.' },
   { front: '"Cabeza de medusa"', back: 'Red venosa colateral centrífuga desde el ombligo → hipertensión portal con recanalización de la vena umbilical.' },
   { front: 'Signo de Cullen vs. Grey Turner', back: 'Cullen: equimosis periumbilical. Grey Turner: equimosis en los flancos. Ambos por hemorragia retroperitoneal (pancreatitis necrohemorrágica); tardíos (24-72 h) y poco sensibles.' },
   { front: 'Ruidos hidroaéreos normales', back: '5-34/min. Se requieren hasta 2 minutos de auscultación antes de declarar silencio abdominal.' },

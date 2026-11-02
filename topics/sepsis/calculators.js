@@ -23,7 +23,7 @@ export const calculators = [
       { name: 'paco2', id: 'cr-pco', type: 'number', step: '1', required: false, label: 'PaCO₂ (mmHg, opcional)', placeholder: 'ej. 30', row: 'c' },
       { name: 'bandas', id: 'cr-ban', type: 'checkbox', label: 'Más del 10% de bandas en el diferencial' },
       { name: 'mental', id: 'cr-men', type: 'checkbox', label: 'Alteración del estado mental (Glasgow <15)' },
-      { type: 'note', text: 'SIRS (≥2 de 4): temperatura >38 o <36 °C, FC >90, FR >20 o PaCO₂ <32, leucocitos >12.000 o <4.000/µL o >10% bandas. qSOFA (≥2 de 3): FR ≥22, alteración mental, sistólica ≤100 mmHg. Ninguna de las dos diagnostica sepsis: el diagnóstico sigue siendo un aumento agudo ≥2 puntos en el SOFA con infección.' }
+      { type: 'note', text: 'SIRS (≥2 de 4): temperatura >38 o <36 °C, FC >90, FR >20 o PaCO₂ <32, leucocitos >12.000 o <4.000/µL o >10% bandas. qSOFA (≥2 de 3): FR ≥22, alteración mental, sistólica ≤100 mmHg. Ninguna de las dos diagnóstica sepsis: el diagnóstico sigue siendo un aumento agudo ≥2 puntos en el SOFA con infección.' }
     ],
     compute(v) {
       if (v.temp === null || v.fc === null || v.fr === null || v.pas === null) return null;

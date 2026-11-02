@@ -60,7 +60,7 @@ export const quiz = [
 
   { q: '¿Cuál es la PaCO2 esperada en una acidosis metabólica con bicarbonato de 12?', options: ['26 mmHg, con margen de 2', '32 mmHg, con un margen de 2 en cada sentido', '20 mmHg, con margen de 2', '40 mmHg, con margen de 2'], correct: 0, explanation: 'La fórmula es 1.5 por el bicarbonato más 8: 1.5 x 12 + 8 = 26 mmHg, con un margen de 2 en cada sentido.', dificultad: 'intermedio' },
 
-  { q: '¿Cuánto hay que sumar al anion gap por cada g/dL de albúmina que falte?', options: ['0.5 mmol/L', '2.5 mmol/L', '1.0 mmol/L', '4.0 mmol/L'], correct: 1, explanation: 'Por cada g/dL de descenso de la albúmina, el anion gap calculado se incrementa en 2.5 mmol/L. Sin esa corrección, el paciente crítico aparenta un anion gap normal.', dificultad: 'dificil' },
+  { q: '¿Cuánto hay que sumar al anión gap por cada g/dL de albúmina que falte?', options: ['0.5 mmol/L', '2.5 mmol/L', '1.0 mmol/L', '4.0 mmol/L'], correct: 1, explanation: 'Por cada g/dL de descenso de la albúmina, el anión gap calculado se incrementa en 2.5 mmol/L. Sin esa corrección, el paciente crítico aparenta un anión gap normal.', dificultad: 'dificil' },
 
   { q: '¿Qué significa que la respuesta secundaria quede fuera del rango esperado?', options: ['Hay un segundo trastorno superpuesto', 'La compensación todavía no ha dado tiempo', 'La muestra es de sangre venosa', 'El trastorno primario está mal identificado'], correct: 0, explanation: 'Es la forma de diagnosticar un trastorno mixto: si la respuesta del otro sistema no es la prevista, hay más de un trastorno actuando.', dificultad: 'intermedio' },
 
@@ -94,7 +94,7 @@ export const quiz = [
     steps: [
       { q: '¿Cuál es el trastorno primario y la PaCO2 esperada?', options: ['Acidosis metabólica, PaCO2 de 23', 'Acidosis respiratoria, PaCO2 de 23', 'Acidosis metabólica, PaCO2 de 30', 'Alcalosis respiratoria, PaCO2 de 20'], correct: 0, explanation: 'pH bajo con bicarbonato bajo es acidosis metabólica. La esperada es 1.5 x 10 + 8 = 23 mmHg, con margen de 2.' },
       { q: 'Con PaCO2 observada de 20, ¿qué añade?', options: ['Nada: está en rango', 'Una alcalosis metabólica', 'Una alcalosis respiratoria', 'Una acidosis respiratoria añadida'], correct: 2, explanation: 'La esperada era de 21 a 25 y la observada es 20: por debajo del rango, de modo que hay una alcalosis respiratoria superpuesta.' },
-      { q: '¿Cuál es el anion gap corregido por albúmina?', options: ['30.00 mmol/L', '26.25 mmol/L', '36.25 mmol/L', '33.75 mmol/L'], correct: 3, explanation: 'El anion gap es 138 - 98 - 10 = 30. Con albúmina de 2.5 faltan 1.5 g/dL, que suman 3.75: el corregido es 33.75. La opción de 30.00 es el anion gap sin corregir, que es el error habitual.' }
+      { q: '¿Cuál es el anión gap corregido por albúmina?', options: ['30.00 mmol/L', '26.25 mmol/L', '36.25 mmol/L', '33.75 mmol/L'], correct: 3, explanation: 'El anión gap es 138 - 98 - 10 = 30. Con albúmina de 2.5 faltan 1.5 g/dL, que suman 3.75: el corregido es 33.75. La opción de 30.00 es el anión gap sin corregir, que es el error habitual.' }
     ],
     explanation: 'Tres pasos que se hacen siempre en el mismo orden, y en los que la albúmina baja es el detalle que más veces se omite.',
     dificultad: 'dificil'
@@ -169,7 +169,7 @@ export const flashcards = [
   { front: 'PaCO2 esperada en la acidosis metabólica', back: '1.5 x bicarbonato + 8, con margen de 2.' },
   { front: 'PaCO2 esperada en la alcalosis metabólica', back: '0.7 x (bicarbonato - 24) + 40, con margen de 2.' },
   { front: 'Respiratorio crónico: ¿cuánto cambia el bicarbonato?', back: '4 a 5 mmol/L por cada 10 mmHg de PaCO2 que se desvíe de 40.' },
-  { front: 'Corrección del anion gap por albúmina', back: 'Sumar 2.5 mmol/L por cada g/dL de albúmina por debajo de lo normal.' }
+  { front: 'Corrección del anión gap por albúmina', back: 'Sumar 2.5 mmol/L por cada g/dL de albúmina por debajo de lo normal.' }
 ];
 
 export default { quiz, flashcards };

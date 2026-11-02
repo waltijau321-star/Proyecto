@@ -210,7 +210,7 @@ ${videoBlock('Video 1', 'Exploración de la rodilla', 'LqRrsVCpuBU', 'Stanford M
       definicion: 'Incompetencia de las válvulas venosas de miembros inferiores (primaria/varicosa o secundaria a TVP previa, síndrome postrombótico) que permite el reflujo retrógrado de sangre.',
       clinica: 'Progresión típica: varices (venas superficiales dilatadas y tortuosas) → edema vespertino que mejora con la elevación → dermatitis por estasis (eccema, hiperpigmentación ocre) → lipodermatoesclerosis (induración fibrótica, deformidad "en botella de champán invertida" del tercio distal de la pierna) → úlcera venosa.',
       fisiopatologia: 'La incompetencia valvular eleva crónicamente la presión venosa ambulatoria; la hiperpigmentación ocre se debe al depósito de hemosiderina de eritrocitos extravasados por la hipertensión venosa capilar crónica.',
-      criterios_dx: 'La úlcera venosa característica se localiza en la región maleolar medial ("gaiter area"/zona de las polainas), con bordes irregulares y poco profundos, poco dolorosa, rodeada de cambios de estasis.',
+      criterios_dx: 'La úlcera venosa característica se localiza en la región maleolar medial ("gaiter área"/zona de las polainas), con bordes irregulares y poco profundos, poco dolorosa, rodeada de cambios de estasis.',
       dx_diferencial: 'Ver Tabla 3 (tarjeta "Úlceras venosas vs. arteriales", más abajo) para la comparación completa.'
     },
     {
@@ -243,7 +243,7 @@ ${videoBlock('Video 1', 'Exploración de la rodilla', 'LqRrsVCpuBU', 'Stanford M
         <th style="text-align:left;padding:5px 6px;">Úlcera arterial</th>
       </tr></thead>
       <tbody>
-        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Localización</strong></td><td style="padding:5px 6px;">Maleolar medial ("gaiter area")</td><td style="padding:5px 6px;">Distal: dedos, talón, cabezas metatarsianas</td></tr>
+        <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Localización</strong></td><td style="padding:5px 6px;">Maleolar medial ("gaiter área")</td><td style="padding:5px 6px;">Distal: dedos, talón, cabezas metatarsianas</td></tr>
         <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Dolor</strong></td><td style="padding:5px 6px;">Leve-moderado, mejora con elevación</td><td style="padding:5px 6px;">Intenso, EMPEORA con elevación, mejora al colgar la pierna</td></tr>
         <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Bordes</strong></td><td style="padding:5px 6px;">Irregulares, poco profundos</td><td style="padding:5px 6px;">"En sacabocados", bien delimitados, profundos</td></tr>
         <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 6px;"><strong>Pulsos</strong></td><td style="padding:5px 6px;">Presentes</td><td style="padding:5px 6px;">Disminuidos o ausentes</td></tr>

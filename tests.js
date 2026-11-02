@@ -2279,6 +2279,86 @@ async function run() {
     });
   }
 
+  /* ---------------- Tildes ----------------
+     Los temas se escribieron en dos estilos: unos con las vocales acentuadas y otros sin una sola
+     ("Neumonia", "segun", "sindrome", "mas"). En el DOM no rompía nada, porque todo se pinta con
+     `innerHTML`, pero el residente leía "infeccion" en un tema e "infección" en el siguiente. El
+     2/11/2026 se acentuaron 83 184 palabras de texto visible en 193 archivos de `topics/`.
+
+     Esta prueba fija lo conseguido con una lista de palabras que NO son palabra española sin su
+     tilde, así que encontrarlas solo puede significar que un tema nuevo (o una edición) volvió al
+     estilo viejo. Mira los VALORES de texto del tema ya cargado, no el archivo, de modo que no
+     puede confundir un nombre de propiedad (`definicion:`, `clinica:`) con prosa.
+
+     Tres cosas quedan fuera a propósito:
+       - `bibliografia` y `fuente`, que son datos de cita donde los apellidos y los títulos van tal
+         como se publicaron ("Guillain-Barre syndrome. Lancet", "Martin ML", "Alvarez RD"): ponerles
+         tilde falsifica la referencia;
+       - las cadenas de una sola palabra, que son identificadores que el motor compara
+         (`dificultad: 'facil'` contra el `<option value="facil">` del examen simulado);
+       - los plurales de las agudas en -on. El plural de `lesión` es `lesiones` SIN tilde, igual que
+         `infecciones` y `funciones`, porque la palabra pasa a llana acabada en -s. Darlos por malos
+         sería el error contrario, y más difícil de ver.
+
+     La lista solo admite dos clases de palabra, y la distinción importa porque de lo contrario la
+     prueba daría por malas frases correctas:
+       - las que sin tilde no son palabra española en ningún contexto (`sindrome`, `infeccion`,
+         `segun`, `asi`, `dificil`);
+       - las que sin tilde solo serían primera persona del singular (`diagnostico`, `pronostico`,
+         `numero`, `critico`, `medico`), voz que este corpus no usa: 4 "yo" y 1 "considero" en 8,6
+         millones de caracteres de texto visible.
+     Quedan FUERA las terceras personas, que sí aparecen en impersonal y van sin tilde con razón:
+     `se diagnostica`, `se practica`, `se formula`, `se calcula`. Y `mas` está dentro aun sabiendo
+     que el `mas` adversativo (= pero) iría sin tilde: es literario y no aparece, pero si algún día
+     alguien lo escribe, lo que hay que hacer es sacar `mas` de esta lista, no ponerle tilde.
+
+     El límite de palabra se escribe a mano porque `\b` de JavaScript es ASCII: con `\basi\b` la
+     prueba encontraba "asi" dentro de "asiático", ya que para `\b` la á no es letra. */
+  const TILDE_OBLIGATORIA = [
+    'sindrome', 'sindromes', 'infeccion', 'cronico', 'cronica', 'cronicos', 'cronicas', 'segun',
+    'despues', 'ademas', 'tambien', 'asi', 'dias', 'farmaco', 'farmacos', 'funcion', 'presion',
+    'lesion', 'sintoma', 'sintomas', 'diagnostico', 'diagnosticos', 'pronostico',
+    'clinico', 'clinica', 'clinicos', 'clinicas', 'critico', 'medico',
+    'indice', 'oxigeno', 'musculo', 'celula', 'celulas', 'estan', 'mas',
+    'definicion', 'clasificacion', 'valoracion', 'exploracion', 'evolucion', 'puncion', 'nodulo',
+    'ventriculo', 'glandula', 'dificil', 'facil', 'util', 'torax', 'pulmon', 'cancer', 'deficit',
+    'patron', 'varon', 'comun', 'ningun', 'algun', 'numero', 'estimulo', 'deposito', 'titulo'
+  ];
+  const LETRA = 'A-Za-zÁÉÍÓÚÜÑáéíóúüñ';
+  const RX_TILDE = new RegExp(
+    `(?<![${LETRA}])(?:${TILDE_OBLIGATORIA.join('|')})(?![${LETRA}])`, 'i');
+  const CAMPOS_DE_CITA = new Set(['bibliografia', 'fuente']);
+
+  function textosVisiblesDe(valor, clave, salida) {
+    if (typeof valor === 'string') {
+      if (CAMPOS_DE_CITA.has(clave)) return;
+      const limpio = valor.replace(/<[^>]*>/g, ' ');
+      if (/\s/.test(limpio.trim())) salida.push(limpio);
+      return;
+    }
+    if (Array.isArray(valor)) { valor.forEach(v => textosVisiblesDe(v, clave, salida)); return; }
+    if (valor && typeof valor === 'object') {
+      for (const k of Object.keys(valor)) textosVisiblesDe(valor[k], k, salida);
+    }
+  }
+
+  for (const entry of registry) {
+    const topic = await loadTopic(entry.id);
+    test(`tildes[${entry.id}]: ninguna palabra que exige tilde aparece sin ella`, () => {
+      const textos = [];
+      textosVisiblesDe(topic, null, textos);
+      const malos = [];
+      for (const t of textos) {
+        const m = RX_TILDE.exec(t);
+        if (!m) continue;
+        const i = m.index;
+        malos.push(`"${m[0]}" en …${t.slice(Math.max(0, i - 30), i + 35).trim()}…`);
+        if (malos.length >= 3) break;
+      }
+      assert(malos.length === 0, malos.join(' | '));
+    });
+  }
+
   /* ---------------- Calidad de las opciones del quiz ----------------
      Detecta las 3 "pistas" que permiten acertar sin saber medicina, y que se habían colado de
      forma sistemática en todo el banco (auditoría: un alumno que solo elegía la opción más larga

@@ -7,7 +7,7 @@
 
 export const calculators = [
   {
-    key: 'cam-delirium', title: 'CAM (Confusion Assessment Method)', accent: '#5c3a4a',
+    key: 'cam-delirium', title: 'CAM (Confusión Assessment Method)', accent: '#5c3a4a',
     subtitle: 'Diagnóstico de delirium',
     incompleteMsg: 'Marca los criterios presentes (todos parten de "no presente").',
     fields: [

@@ -31,10 +31,10 @@ const REGIONES = [
 export const calculators = [
   {
     key: 'pasi', title: 'PASI', accent: '#a1442e',
-    subtitle: 'Indice de area y gravedad de la psoriasis &middot; 0 a 72',
-    incompleteMsg: 'Introduce eritema, induracion y descamacion (0 a 4) en las cuatro regiones.',
+    subtitle: 'Índice de área y gravedad de la psoriasis &middot; 0 a 72',
+    incompleteMsg: 'Introduce eritema, induración y descamación (0 a 4) en las cuatro regiones.',
     fields: [
-      { type: 'note', text: 'En cada region se punt&uacute;an de 0 a 4 el ERITEMA (rojez), la INDURACION (grosor de la placa) y la DESCAMACION, y se elige el porcentaje de esa region que esta afectado. Las regiones NO pesan igual: los miembros inferiores pesan cuatro veces mas que la cabeza.' },
+      { type: 'note', text: 'En cada región se punt&uacute;an de 0 a 4 el ERITEMA (rojez), la INDURACIÓN (grosor de la placa) y la DESCAMACIÓN, y se elige el porcentaje de esa región que esta afectado. Las regiones NO pesan igual: los miembros inferiores pesan cuatro veces más que la cabeza.' },
 
       { type: 'note', text: '<strong>Cabeza y cuello</strong> (peso 0.1)' },
       num04('Eritema', 'ps-cab-e', 'cab_e', 'c1'),
@@ -78,27 +78,27 @@ export const calculators = [
       };
     },
     format(r) {
-      if (r.invalido) return 'El eritema, la induracion y la descamacion se punt&uacute;an de <strong>0 a 4</strong>. Revisa los valores.';
-      if (r.sinLesion) return '<strong>PASI 0.</strong> No hay superficie afectada en ninguna region: la piel esta aclarada.';
+      if (r.invalido) return 'El eritema, la induración y la descamación se punt&uacute;an de <strong>0 a 4</strong>. Revisa los valores.';
+      if (r.sinLesion) return '<strong>PASI 0.</strong> No hay superficie afectada en ninguna región: la piel esta aclarada.';
       let s = `<strong>PASI ${r.pasi} / 72.</strong>`;
       const meta = r.pasi < 3;
       s += meta
         ? '<br><span style="color:#3f6b52;">Por debajo de 3, que es la meta de PASI absoluto de la SOLAPSO.</span>'
         : '<br><span style="color:#8c3a34;">Por encima de 3, que es la meta de PASI absoluto de la SOLAPSO.</span>';
-      s += `<br><span style="opacity:.8;">La region que mas aporta es ${r.mayor.nombre} (${Math.round(r.mayor.valor * 10) / 10} puntos).</span>`;
-      s += '<br><span style="opacity:.75;">Dos avisos sobre esta escala. El primero: la meta tiene <strong>dos mitades</strong>, y el PASI es solo una; hace falta ademas un DLQI menor de 5, porque una piel casi limpia con una vida condicionada no es un exito. El segundo: el PASI <strong>infravalora</strong> lo que ocurre en palmas, plantas, uñas y genitales, que son areas de alto impacto donde una superficie pequeña incapacita y justifica tratamiento sistemico igual.</span>';
+      s += `<br><span style="opacity:.8;">La región que más aporta es ${r.mayor.nombre} (${Math.round(r.mayor.valor * 10) / 10} puntos).</span>`;
+      s += '<br><span style="opacity:.75;">Dos avisos sobre esta escala. El primero: la meta tiene <strong>dos mitades</strong>, y el PASI es solo una; hace falta además un DLQI menor de 5, porque una piel casi limpia con una vida condicionada no es un éxito. El segundo: el PASI <strong>infravalora</strong> lo que ocurre en palmas, plantas, uñas y genitales, que son áreas de alto impacto donde una superficie pequeña incapacita y justifica tratamiento sistémico igual.</span>';
       return s;
     },
     fragment: r => (r.invalido ? 'valores fuera de rango' : `PASI ${r.pasi}/72`)
   },
 
   {
-    key: 'gravedad-psoriasis', title: 'Gravedad y criterio de sistemico', accent: '#8a5a2e',
-    subtitle: 'Superficie, PGA, calidad de vida y areas de alto impacto',
+    key: 'gravedad-psoriasis', title: 'Gravedad y criterio de sistémico', accent: '#8a5a2e',
+    subtitle: 'Superficie, PGA, calidad de vida y áreas de alto impacto',
     incompleteMsg: 'Introduce la superficie corporal afectada.',
     fields: [
       { name: 'bsa', id: 'ps-g-bsa', type: 'number', step: '0.5', label: 'Superficie corporal afectada (%)', placeholder: 'ej. 8', row: 'g1' },
-      { name: 'pga', id: 'ps-g-pga', type: 'select', numeric: true, label: 'Evaluacion global del medico (PGA)', row: 'g1', options: [
+      { name: 'pga', id: 'ps-g-pga', type: 'select', numeric: true, label: 'Evaluación global del médico (PGA)', row: 'g1', options: [
         { value: '0', label: '0 &middot; Aclarado' },
         { value: '1', label: '1 &middot; Casi aclarado' },
         { value: '2', label: '2 &middot; Leve' },
@@ -106,7 +106,7 @@ export const calculators = [
         { value: '4', label: '4 &middot; Grave' }
       ] },
       { name: 'dlqi', id: 'ps-g-dlqi', type: 'number', step: '1', required: false, label: 'DLQI (0 a 30, opcional)', placeholder: 'ej. 14' },
-      { type: 'note', text: 'Areas de ALTO IMPACTO: una superficie pequeña en cualquiera de ellas basta para justificar tratamiento sistemico, aunque el PASI sea bajo.' },
+      { type: 'note', text: 'Áreas de ALTO IMPACTO: una superficie pequeña en cualquiera de ellas basta para justificar tratamiento sistémico, aunque el PASI sea bajo.' },
       { name: 'cuero', id: 'ps-g-cu', type: 'checkbox', label: 'Cuero cabelludo extenso o refractario' },
       { name: 'unas', id: 'ps-g-un', type: 'checkbox', label: 'Uñas' },
       { name: 'palmas', id: 'ps-g-pa', type: 'checkbox', label: 'Palmas o plantas' },
@@ -125,7 +125,7 @@ export const calculators = [
       if (v.bsa > 10) motivos.push('superficie mayor del 10%');
       if (v.pga >= 3) motivos.push('PGA de ' + v.pga + ', moderado o grave');
       if (dlqiDato && v.dlqi > 10) motivos.push('DLQI de ' + v.dlqi + ', mayor de 10');
-      if (areas.length) motivos.push('area de alto impacto: ' + areas.join(', '));
+      if (areas.length) motivos.push('área de alto impacto: ' + areas.join(', '));
       return {
         bsa: v.bsa, pga: v.pga, dlqi: dlqiDato ? v.dlqi : null,
         areas, motivos, candidato: motivos.length > 0,
@@ -135,21 +135,21 @@ export const calculators = [
     format(r) {
       if (r.invalido) return 'La superficie corporal va de <strong>0 a 100%</strong>. Revisa el valor.';
       let s = r.candidato
-        ? '<strong style="color:#8c3a34;">Cumple criterio de enfermedad moderada a grave.</strong> Es candidato a tratamiento sistemico.'
-        : '<strong style="color:#3f6b52;">Enfermedad leve.</strong> Tratamiento topico, salvo que algo mas lo cambie.';
+        ? '<strong style="color:#8c3a34;">Cumple criterio de enfermedad moderada a grave.</strong> Es candidato a tratamiento sistémico.'
+        : '<strong style="color:#3f6b52;">Enfermedad leve.</strong> Tratamiento tópico, salvo que algo más lo cambie.';
       if (r.motivos.length) s += `<br><span style="opacity:.85;">Por: ${r.motivos.join('; ')}.</span>`;
       if (r.soloPorArea) {
-        s += '<br><strong style="color:#8a5a2e;">Cumple SOLO por la localizacion,</strong> no por la extension. Es justo el caso que se pasa por alto: una superficie pequeña en uñas, palmas, pliegues o genitales incapacita mas que una placa grande en el tronco, y la regla clasica de la superficie mayor del 10% lo dejaria fuera.';
+        s += '<br><strong style="color:#8a5a2e;">Cumple SOLO por la localización,</strong> no por la extensión. Es justo el caso que se pasa por alto: una superficie pequeña en uñas, palmas, pliegues o genitales incapacita más que una placa grande en el tronco, y la regla clásica de la superficie mayor del 10% lo dejaria fuera.';
       }
       if (r.dlqi === null) {
-        s += '<br><span style="opacity:.75;">Sin DLQI la decision queda coja: la calidad de vida es la mitad de la meta que casi nunca se mide, y hay pacientes con poca piel y mucha vida condicionada.</span>';
+        s += '<br><span style="opacity:.75;">Sin DLQI la decisión queda coja: la calidad de vida es la mitad de la meta que casi nunca se mide, y hay pacientes con poca piel y mucha vida condicionada.</span>';
       } else if (r.dlqi > 10 && r.bsa <= 3) {
-        s += '<br><span style="opacity:.8;">Poca superficie con DLQI alto: merece la pena preguntar por la carga psicologica y por localizaciones que no se exploran de rutina, como los genitales.</span>';
+        s += '<br><span style="opacity:.8;">Poca superficie con DLQI alto: merece la pena preguntar por la carga psicológica y por localizaciones que no se exploran de rutina, como los genitales.</span>';
       }
-      s += '<br><span style="opacity:.75;">Recuerda que la gravedad no la fija un solo numero: la guia acepta una superficie menor o igual al 1% como alternativa cuando no hay PASI ni PGA disponibles.</span>';
+      s += '<br><span style="opacity:.75;">Recuerda que la gravedad no la fija un solo número: la guía acepta una superficie menor o igual al 1% como alternativa cuando no hay PASI ni PGA disponibles.</span>';
       return s;
     },
-    fragment: r => (r.invalido ? 'valores no validos' : `superficie ${r.bsa}%, PGA ${r.pga}${r.candidato ? ', criterio de sistemico' : ', leve'}`)
+    fragment: r => (r.invalido ? 'valores no validos' : `superficie ${r.bsa}%, PGA ${r.pga}${r.candidato ? ', criterio de sistémico' : ', leve'}`)
   },
 
   {
@@ -160,7 +160,7 @@ export const calculators = [
       { name: 'basal', id: 'ps-r-b', type: 'number', step: '0.1', label: 'PASI basal (antes de tratar)', placeholder: 'ej. 18.4', row: 'r1' },
       { name: 'actual', id: 'ps-r-a', type: 'number', step: '0.1', label: 'PASI actual', placeholder: 'ej. 4.2', row: 'r1' },
       { name: 'dlqi', id: 'ps-r-d', type: 'number', step: '1', required: false, label: 'DLQI actual (0 a 30, opcional)', placeholder: 'ej. 7' },
-      { name: 'altoImpacto', id: 'ps-r-ai', type: 'checkbox', label: 'Persiste afectacion de un area de alto impacto' },
+      { name: 'altoImpacto', id: 'ps-r-ai', type: 'checkbox', label: 'Persiste afectación de un área de alto impacto' },
       { type: 'note', text: 'La respuesta se juzga a las <strong>12 a 16 semanas</strong> de cada cambio, que es cuando el tratamiento ya ha tenido tiempo de actuar. Antes de ese plazo, un resultado pobre no significa fracaso.' }
     ],
     compute(v) {
@@ -191,8 +191,8 @@ export const calculators = [
     },
     format(r) {
       if (r.invalido) return 'El PASI va de <strong>0 a 72</strong> y el basal tiene que ser mayor que cero. Revisa los valores.';
-      if (r.empeora) return `<strong style="color:#8c3a34;">El PASI ha subido, de ${r.basal} a ${r.actual}.</strong> Antes de considerarlo un fracaso del farmaco, descarta un desencadenante: infeccion, un farmaco nuevo (litio, betabloqueante, antipaludico), retirada de corticoide sistemico o mala adherencia.`;
-      let s = `<strong>Reduccion del ${r.red}%</strong> (de ${r.basal} a ${r.actual}).`;
+      if (r.empeora) return `<strong style="color:#8c3a34;">El PASI ha subido, de ${r.basal} a ${r.actual}.</strong> Antes de considerarlo un fracaso del fármaco, descarta un desencadenante: infección, un fármaco nuevo (litio, betabloqueante, antipaludico), retirada de corticoide sistémico o mala adherencia.`;
+      let s = `<strong>Reducción del ${r.red}%</strong> (de ${r.basal} a ${r.actual}).`;
       const hitos = [];
       if (r.pasi100) hitos.push('PASI100');
       else if (r.pasi90) hitos.push('PASI90');
@@ -202,39 +202,39 @@ export const calculators = [
       if (r.veredicto === 'meta') {
         s += '<br><strong style="color:#3f6b52;">Meta alcanzada.</strong> Mantener el tratamiento y seguir midiendo.';
       } else if (r.veredicto === 'parcial') {
-        s += '<br><strong style="color:#8a6a1f;">Respuesta PARCIAL.</strong> La SOLAPSO sugiere, antes de cambiar de biologico, añadir tratamiento topico, añadir un sistemico como metotrexato o fototerapia, u optimizar el que ya lleva. Cambiar de golpe quema una opcion futura sin necesidad.';
+        s += '<br><strong style="color:#8a6a1f;">Respuesta PARCIAL.</strong> La SOLAPSO sugiere, antes de cambiar de biológico, añadir tratamiento tópico, añadir un sistémico como metotrexato o fototerapia, u optimizar el que ya lleva. Cambiar de golpe quema una opción futura sin necesidad.';
       } else {
         s += '<br><strong style="color:#8c3a34;">Fracaso.</strong> Toca cambiar. Si lo que ha fallado es un anti factor de necrosis tumoral, se cambia a un MECANISMO DISTINTO (anti interleucina 17, 23 o 12/23). Si ha fallado un anti interleucina 17, 23 o 12/23, se puede cambiar dentro de la misma clase o a otro mecanismo.';
       }
       if (r.altoImpacto) {
-        s += '<br><span style="opacity:.85;">Persiste un area de alto impacto, y eso por si solo impide dar la meta por alcanzada aunque el PASI acompañe.</span>';
+        s += '<br><span style="opacity:.85;">Persiste un área de alto impacto, y eso por si solo impide dar la meta por alcanzada aunque el PASI acompañe.</span>';
       }
       if (r.dlqi === null) {
-        s += '<br><span style="opacity:.75;">Sin DLQI no se puede afirmar que la meta este alcanzada: la guia exige tambien un DLQI menor de 5.</span>';
+        s += '<br><span style="opacity:.75;">Sin DLQI no se puede afirmar que la meta este alcanzada: la guía exige también un DLQI menor de 5.</span>';
       } else if (!r.dlqiOk) {
-        s += `<br><span style="opacity:.85;">El DLQI sigue en ${r.dlqi}: la piel ha mejorado pero la vida del paciente todavia no. Eso es respuesta parcial, no exito.</span>`;
+        s += `<br><span style="opacity:.85;">El DLQI sigue en ${r.dlqi}: la piel ha mejorado pero la vida del paciente todavía no. Eso es respuesta parcial, no éxito.</span>`;
       }
       return s;
     },
     fragment(r) {
       if (r.invalido) return 'valores no validos';
       if (r.empeora) return `PASI al alza (${r.basal} a ${r.actual})`;
-      return `reduccion del PASI ${r.red}% (${r.veredicto})`;
+      return `reducción del PASI ${r.red}% (${r.veredicto})`;
     }
   },
 
   {
-    key: 'cribado-artritis', title: 'Cribado de artritis psoriasica', accent: '#3d5a73',
+    key: 'cribado-artritis', title: 'Cribado de artritis psoriásica', accent: '#3d5a73',
     subtitle: 'Cinco preguntas que conviene hacer en cada visita',
     fields: [
-      { type: 'note', text: 'Hasta un tercio de los pacientes con psoriasis desarrolla artritis, la piel suele preceder a la articulacion en años y el daño estructural es IRREVERSIBLE. Quien mira la piel esta en la mejor posicion para detectarla a tiempo.' },
+      { type: 'note', text: 'Hasta un tercio de los pacientes con psoriasis desarrolla artritis, la piel suele preceder a la articulación en años y el daño estructural es IRREVERSIBLE. Quien mira la piel esta en la mejor posición para detectarla a tiempo.' },
       { name: 'dolor', id: 'ps-a-do', type: 'checkbox', label: 'Dolor articular que MEJORA con el movimiento y empeora con el reposo' },
-      { name: 'rigidez', id: 'ps-a-ri', type: 'checkbox', label: 'Rigidez matutina de mas de 30 minutos' },
+      { name: 'rigidez', id: 'ps-a-ri', type: 'checkbox', label: 'Rigidez matutina de más de 30 minutos' },
       { name: 'dactilitis', id: 'ps-a-da', type: 'checkbox', label: 'Un dedo entero hinchado alguna vez (dedo en salchicha)' },
-      { name: 'entesitis', id: 'ps-a-en', type: 'checkbox', label: 'Dolor en el talon o en la planta al apoyar (entesitis)' },
+      { name: 'entesitis', id: 'ps-a-en', type: 'checkbox', label: 'Dolor en el talón o en la planta al apoyar (entesitis)' },
       { name: 'lumbar', id: 'ps-a-lu', type: 'checkbox', label: 'Dolor lumbar nocturno que mejora al levantarse' },
-      { type: 'note', text: 'Y un dato de la exploracion que no es una pregunta pero pesa:' },
-      { name: 'unas', id: 'ps-a-un', type: 'checkbox', label: 'Afectacion ungueal (piqueteado, onicolisis, mancha de aceite)' }
+      { type: 'note', text: 'Y un dato de la exploración que no es una pregunta pero pesa:' },
+      { name: 'unas', id: 'ps-a-un', type: 'checkbox', label: 'Afectación ungueal (piqueteado, onicolisis, mancha de aceite)' }
     ],
     compute(v) {
       const items = [
@@ -248,19 +248,19 @@ export const calculators = [
       let s = `<strong>${r.n} de 5 respuestas positivas.</strong>`;
       if (r.positivos.length) s += `<br><span style="opacity:.85;">Positivas: ${r.positivos.join(', ')}.</span>`;
       if (r.derivar) {
-        s += '<br><strong style="color:#8c3a34;">Derivar a reumatologia.</strong> Y hacerlo SIN esperar a la radiografia: la radiografia normal no descarta enfermedad precoz, y el retraso diagnostico de mas de seis meses se asocia a peor funcion a largo plazo.';
+        s += '<br><strong style="color:#8c3a34;">Derivar a reumatología.</strong> Y hacerlo SIN esperar a la radiografía: la radiografía normal no descarta enfermedad precoz, y el retraso diagnóstico de más de seis meses se asocia a peor función a largo plazo.';
       } else if (r.n > 0) {
-        s += '<br><span style="color:#8a6a1f;">Cribado no concluyente.</span> Un solo dato positivo ya obliga a explorar las entesis y los dedos, y a repetir la pregunta en la siguiente visita. La artritis puede aparecer en cualquier momento de la evolucion.';
+        s += '<br><span style="color:#8a6a1f;">Cribado no concluyente.</span> Un solo dato positivo ya obliga a explorar las entesis y los dedos, y a repetir la pregunta en la siguiente visita. La artritis puede aparecer en cualquier momento de la evolución.';
       } else {
-        s += '<br><span style="color:#3f6b52;">Cribado negativo hoy.</span> No cierra nada: hay que repetirlo en CADA visita, porque la artritis puede aparecer años despues de la piel.';
+        s += '<br><span style="color:#3f6b52;">Cribado negativo hoy.</span> No cierra nada: hay que repetirlo en CADA visita, porque la artritis puede aparecer años después de la piel.';
       }
       if (r.unas) {
-        s += '<br><strong style="color:#3d5a73;">Hay afectacion ungueal,</strong> que es el mejor predictor clinico de artritis psoriasica. Con uña afectada conviene bajar el umbral para derivar aunque el cuestionario no llegue a tres.';
+        s += '<br><strong style="color:#3d5a73;">Hay afectación ungueal,</strong> que es el mejor predictor clínico de artritis psoriásica. Con uña afectada conviene bajar el umbral para derivar aunque el cuestionario no llegue a tres.';
       }
-      s += '<br><span style="opacity:.75;">Si se confirma, la eleccion del farmaco para la piel deberia servir tambien para la articulacion. Ojo: la SOLAPSO advierte de forma expresa que NO formulo la artritis como pregunta clinica propia, de modo que orienta pero no sustituye a una guia reumatologica.</span>';
+      s += '<br><span style="opacity:.75;">Si se confirma, la elección del fármaco para la piel debería servir también para la articulación. Ojo: la SOLAPSO advierte de forma expresa que NO formulo la artritis como pregunta clínica propia, de modo que orienta pero no sustituye a una guía reumatologica.</span>';
       return s;
     },
-    fragment: r => `cribado de artritis ${r.n}/5${r.derivar ? ', derivar' : ''}${r.unas ? ', con afectacion ungueal' : ''}`
+    fragment: r => `cribado de artritis ${r.n}/5${r.derivar ? ', derivar' : ''}${r.unas ? ', con afectación ungueal' : ''}`
   }
 ];
 
@@ -273,15 +273,15 @@ export const combinedNote = {
     if (results.pasi && !results.pasi.invalido) partes.push(`PASI ${results.pasi.pasi}/72`);
     if (results['gravedad-psoriasis'] && !results['gravedad-psoriasis'].invalido) {
       const g = results['gravedad-psoriasis'];
-      partes.push(`superficie ${g.bsa}% con PGA ${g.pga}${g.candidato ? ', que cumple criterio de tratamiento sistemico' : ', enfermedad leve'}`);
+      partes.push(`superficie ${g.bsa}% con PGA ${g.pga}${g.candidato ? ', que cumple criterio de tratamiento sistémico' : ', enfermedad leve'}`);
     }
     if (results['respuesta-psoriasis'] && !results['respuesta-psoriasis'].invalido && !results['respuesta-psoriasis'].empeora) {
       const r = results['respuesta-psoriasis'];
-      partes.push(`reduccion del PASI del ${r.red}%, con respuesta clasificada como ${r.veredicto}`);
+      partes.push(`reducción del PASI del ${r.red}%, con respuesta clasificada como ${r.veredicto}`);
     }
     if (results['cribado-artritis']) {
       const a = results['cribado-artritis'];
-      partes.push(`cribado de artritis ${a.n}/5${a.derivar ? ', que indica derivacion a reumatologia' : ''}`);
+      partes.push(`cribado de artritis ${a.n}/5${a.derivar ? ', que indica derivación a reumatología' : ''}`);
     }
     let html = partes.length ? 'Psoriasis: ' + partes.join('; ') + '.' : 'Completa las escalas seleccionadas.';
     if (missing.length) html += `<div style="margin-top:10px;color:#b0453d;font-size:12.5px;">Faltan datos en: ${missing.join(', ')}.</div>`;

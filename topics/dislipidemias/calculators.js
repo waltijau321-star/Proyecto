@@ -21,9 +21,9 @@ const OBJETIVOS = {
   extremo:  { esc: 'menor de 40', escRed: true,  ahaLdl: 'menor de 55', ahaNoHdl: 'menor de 85',
               ejemplo: 'Eventos cardiovasculares recurrentes pese a tratamiento, o enfermedad polivascular.' },
   muyalto:  { esc: 'menor de 55', escRed: true,  ahaLdl: 'menor de 55', ahaNoHdl: 'menor de 85',
-              ejemplo: 'ECV ateroesclerotica establecida, diabetes con dano de organo, o SCORE2 20% o mayor.' },
+              ejemplo: 'ECV ateroesclerótica establecida, diabetes con dano de órgano, o SCORE2 20% o mayor.' },
   alto:     { esc: 'menor de 70', escRed: true,  ahaLdl: 'menor de 70', ahaNoHdl: 'menor de 100',
-              ejemplo: 'SCORE2 de 10 a 20%, hipercolesterolemia familiar, diabetes sin dano de organo, ERC moderada.' },
+              ejemplo: 'SCORE2 de 10 a 20%, hipercolesterolemia familiar, diabetes sin dano de órgano, ERC moderada.' },
   moderado: { esc: 'menor de 100', escRed: false, ahaLdl: 'menor de 100', ahaNoHdl: 'menor de 130',
               ejemplo: 'SCORE2 de 5 a 10% (o PREVENT de 5 a menos de 10%).' },
   bajo:     { esc: 'menor de 116', escRed: false, ahaLdl: 'estilo de vida', ahaNoHdl: 'estilo de vida',
@@ -32,14 +32,14 @@ const OBJETIVOS = {
 
 export const calculators = [
   {
-    key: 'panel-lipidico', title: 'Panel lipidico derivado (cLDL, no-HDL y remanente)', accent: '#9a6a2e',
+    key: 'panel-lipidico', title: 'Panel lipídico derivado (cLDL, no-HDL y remanente)', accent: '#9a6a2e',
     subtitle: 'Colesterol LDL calculado, colesterol no-HDL y colesterol remanente',
-    incompleteMsg: 'Introduce el colesterol total, el HDL y los trigliceridos (mg/dL).',
+    incompleteMsg: 'Introduce el colesterol total, el HDL y los triglicéridos (mg/dL).',
     fields: [
       { name: 'ct', id: 'dl-pl-ct', type: 'number', label: 'Colesterol total (mg/dL)', placeholder: 'ej. 240', row: 'r1' },
       { name: 'hdl', id: 'dl-pl-hdl', type: 'number', label: 'Colesterol HDL (mg/dL)', placeholder: 'ej. 45', row: 'r1' },
-      { name: 'tg', id: 'dl-pl-tg', type: 'number', label: 'Trigliceridos (mg/dL)', placeholder: 'ej. 180' },
-      { type: 'note', text: 'Friedewald (colesterol total menos HDL menos trigliceridos entre 5) no es valido con trigliceridos mayores de 400 mg/dL. La formula de Sampson-NIH es valida hasta 800. Con trigliceridos altos, usar el colesterol no-HDL o la ApoB.' }
+      { name: 'tg', id: 'dl-pl-tg', type: 'number', label: 'Triglicéridos (mg/dL)', placeholder: 'ej. 180' },
+      { type: 'note', text: 'Friedewald (colesterol total menos HDL menos triglicéridos entre 5) no es valido con triglicéridos mayores de 400 mg/dL. La fórmula de Sampson-NIH es valida hasta 800. Con triglicéridos altos, usar el colesterol no-HDL o la ApoB.' }
     ],
     compute(v) {
       if ([v.ct, v.hdl, v.tg].some(x => x == null)) return null;
@@ -52,28 +52,28 @@ export const calculators = [
       return { noHDL, friedewald, sampson, remanente, tgAlto: v.tg > 400 };
     },
     format: r => {
-      const f = r.friedewald != null ? `${Math.round(r.friedewald)} mg/dL` : 'no valido (trigliceridos mayores de 400)';
-      const s = r.sampson != null ? `${Math.round(r.sampson)} mg/dL` : 'no valido (trigliceridos mayores de 800)';
+      const f = r.friedewald != null ? `${Math.round(r.friedewald)} mg/dL` : 'no valido (triglicéridos mayores de 400)';
+      const s = r.sampson != null ? `${Math.round(r.sampson)} mg/dL` : 'no valido (triglicéridos mayores de 800)';
       const rem = r.remanente != null ? `${Math.round(r.remanente)} mg/dL` : 'no estimable';
-      const aviso = r.tgAlto ? ' Con trigliceridos altos, guiarse por el colesterol no-HDL o la ApoB.' : '';
+      const aviso = r.tgAlto ? ' Con triglicéridos altos, guiarse por el colesterol no-HDL o la ApoB.' : '';
       return `<strong>Colesterol no-HDL ${Math.round(r.noHDL)} mg/dL</strong>. cLDL por Friedewald: ${f}. cLDL por Sampson-NIH: ${s}. Colesterol remanente: ${rem}.${aviso}`;
     },
     fragment: r => `no-HDL ${Math.round(r.noHDL)}, cLDL ${r.sampson != null ? Math.round(r.sampson) : (r.friedewald != null ? Math.round(r.friedewald) : 'NA')} mg/dL`
   },
   {
-    key: 'objetivo-cldl', title: 'Objetivo de colesterol LDL por categoria de riesgo', accent: '#8c3a34',
+    key: 'objetivo-cldl', title: 'Objetivo de colesterol LDL por categoría de riesgo', accent: '#8c3a34',
     subtitle: 'Objetivos de cLDL y no-HDL (ESC/EAS y ACC/AHA 2026)',
-    incompleteMsg: 'Selecciona la categoria de riesgo cardiovascular.',
+    incompleteMsg: 'Selecciona la categoría de riesgo cardiovascular.',
     fields: [
-      { name: 'cat', id: 'dl-oc-cat', type: 'select', label: 'Categoria de riesgo', options: [
+      { name: 'cat', id: 'dl-oc-cat', type: 'select', label: 'Categoría de riesgo', options: [
         { value: '', label: 'Selecciona' },
         { value: 'extremo', label: 'Riesgo extremo' },
         { value: 'muyalto', label: 'Riesgo muy alto' },
         { value: 'alto', label: 'Riesgo alto' },
         { value: 'moderado', label: 'Riesgo moderado' },
         { value: 'bajo', label: 'Riesgo bajo' } ] },
-      { name: 'ldl', id: 'dl-oc-ldl', type: 'number', required: false, label: 'Opcional: cLDL actual (mg/dL)', placeholder: 'para calcular la reduccion necesaria' },
-      { type: 'note', text: 'Los objetivos ESC/EAS de la actualizacion 2025 son los mismos de la guia de 2019. La ACC/AHA 2026 recupera objetivos explicitos de cLDL y de colesterol no-HDL.' }
+      { name: 'ldl', id: 'dl-oc-ldl', type: 'number', required: false, label: 'Opcional: cLDL actual (mg/dL)', placeholder: 'para calcular la reducción necesaria' },
+      { type: 'note', text: 'Los objetivos ESC/EAS de la actualización 2025 son los mismos de la guía de 2019. La ACC/AHA 2026 recupera objetivos explícitos de cLDL y de colesterol no-HDL.' }
     ],
     compute(v) {
       if (!v.cat) return null;
@@ -89,9 +89,9 @@ export const calculators = [
     },
     format: r => {
       const nombre = { extremo: 'extremo', muyalto: 'muy alto', alto: 'alto', moderado: 'moderado', bajo: 'bajo' }[r.cat];
-      let s = `<strong>Riesgo ${nombre}</strong>. ${r.o.ejemplo} Objetivo de cLDL (ESC/EAS): ${r.o.esc} mg/dL${r.o.escRed ? ' y reduccion de al menos el 50%' : ''}. ACC/AHA 2026: cLDL ${r.o.ahaLdl}${r.o.ahaLdl.startsWith('menor') ? ' mg/dL' : ''} y colesterol no-HDL ${r.o.ahaNoHdl}${r.o.ahaNoHdl.startsWith('menor') ? ' mg/dL' : ''}.`;
+      let s = `<strong>Riesgo ${nombre}</strong>. ${r.o.ejemplo} Objetivo de cLDL (ESC/EAS): ${r.o.esc} mg/dL${r.o.escRed ? ' y reducción de al menos el 50%' : ''}. ACC/AHA 2026: cLDL ${r.o.ahaLdl}${r.o.ahaLdl.startsWith('menor') ? ' mg/dL' : ''} y colesterol no-HDL ${r.o.ahaNoHdl}${r.o.ahaNoHdl.startsWith('menor') ? ' mg/dL' : ''}.`;
       if (r.brecha) {
-        s += ` Con un cLDL actual dado, para llegar a menos de ${r.brecha.objNum} mg/dL hace falta una reduccion aproximada del ${Math.round(r.brecha.redReq)}%.`;
+        s += ` Con un cLDL actual dado, para llegar a menos de ${r.brecha.objNum} mg/dL hace falta una reducción aproximada del ${Math.round(r.brecha.redReq)}%.`;
       }
       return s;
     },
@@ -100,26 +100,26 @@ export const calculators = [
   {
     key: 'dlcn-hf', title: 'Score de la Dutch Lipid Clinic Network (hipercolesterolemia familiar)', accent: '#7a1f3d',
     subtitle: 'Probabilidad de hipercolesterolemia familiar',
-    incompleteMsg: 'Completa el antecedente familiar, la exploracion, el estudio genetico y el cLDL sin tratamiento.',
+    incompleteMsg: 'Completa el antecedente familiar, la exploración, el estudio genético y el cLDL sin tratamiento.',
     fields: [
-      { name: 'fam', id: 'dl-hf-fam', type: 'select', label: 'Antecedente familiar (elige el de mayor puntuacion)', options: [
+      { name: 'fam', id: 'dl-hf-fam', type: 'select', label: 'Antecedente familiar (elige el de mayor puntuación)', options: [
         { value: '', label: 'Selecciona' },
         { value: '0', label: 'Ninguno' },
         { value: '1', label: 'Familiar de primer grado con enfermedad coronaria o vascular precoz, o con cLDL alto (1)' },
         { value: '2', label: 'Familiar de primer grado con xantomas tendinosos o arco corneal, o hijo menor de 18 con cLDL alto (2)' } ] },
       { name: 'coronaria', id: 'dl-hf-cor', type: 'checkbox', label: 'El paciente tiene enfermedad coronaria precoz (2 puntos)' },
-      { name: 'vascular', id: 'dl-hf-vasc', type: 'checkbox', label: 'El paciente tiene enfermedad cerebrovascular o arterial periferica precoz (1 punto)' },
-      { name: 'exam', id: 'dl-hf-exam', type: 'select', label: 'Exploracion fisica (elige la de mayor puntuacion)', options: [
+      { name: 'vascular', id: 'dl-hf-vasc', type: 'checkbox', label: 'El paciente tiene enfermedad cerebrovascular o arterial periférica precoz (1 punto)' },
+      { name: 'exam', id: 'dl-hf-exam', type: 'select', label: 'Exploración física (elige la de mayor puntuación)', options: [
         { value: '', label: 'Selecciona' },
         { value: '0', label: 'Sin xantomas ni arco corneal (0)' },
         { value: '4', label: 'Arco corneal antes de los 45 anos (4)' },
         { value: '6', label: 'Xantomas tendinosos (6)' } ] },
       { name: 'ldl', id: 'dl-hf-ldl', type: 'number', label: 'cLDL sin tratamiento (mg/dL)', placeholder: 'ej. 260' },
-      { name: 'dna', id: 'dl-hf-dna', type: 'select', label: 'Estudio genetico', options: [
+      { name: 'dna', id: 'dl-hf-dna', type: 'select', label: 'Estudio genético', options: [
         { value: '', label: 'Selecciona' },
         { value: '0', label: 'No realizado o sin variante patogena (0)' },
         { value: '8', label: 'Variante funcional en LDLR, APOB o PCSK9 (8)' } ] },
-      { type: 'note', text: 'Puntuacion del cLDL: 325 mg/dL o mayor suma 8; 251 a 324 suma 5; 191 a 250 suma 3; 155 a 190 suma 1. Interpretacion: mayor de 8 HF cierta; 6 a 8 HF probable; 3 a 5 HF posible; menor de 3 HF improbable.' }
+      { type: 'note', text: 'Puntuación del cLDL: 325 mg/dL o mayor suma 8; 251 a 324 suma 5; 191 a 250 suma 3; 155 a 190 suma 1. Interpretación: mayor de 8 HF cierta; 6 a 8 HF probable; 3 a 5 HF posible; menor de 3 HF improbable.' }
     ],
     compute(v) {
       if (!v.fam || !v.exam || !v.dna || v.ldl == null) return null;
@@ -137,24 +137,24 @@ export const calculators = [
       else cat = 'improbable';
       return { total, cat, ldlPts };
     },
-    format: r => `<strong>DLCN ${r.total} puntos</strong>: hipercolesterolemia familiar <strong>${r.cat}</strong>. ${r.cat === 'cierta' || r.cat === 'probable' ? 'Confirmar con estudio genetico si esta disponible, tratamiento hipolipemiante intensivo y cribado familiar en cascada.' : r.cat === 'posible' ? 'Repetir el perfil sin tratamiento, descartar causas secundarias y valorar estudio genetico.' : 'HF poco probable; estratificar el riesgo y tratar segun la categoria.'}`,
+    format: r => `<strong>DLCN ${r.total} puntos</strong>: hipercolesterolemia familiar <strong>${r.cat}</strong>. ${r.cat === 'cierta' || r.cat === 'probable' ? 'Confirmar con estudio genético si esta disponible, tratamiento hipolipemiante intensivo y cribado familiar en cascada.' : r.cat === 'posible' ? 'Repetir el perfil sin tratamiento, descartar causas secundarias y valorar estudio genético.' : 'HF poco probable; estratificar el riesgo y tratar según la categoría.'}`,
     fragment: r => `DLCN ${r.total} (HF ${r.cat})`
   },
   {
     key: 'descenso-cldl', title: 'cLDL estimado al combinar hipolipemiantes', accent: '#3d5a73',
-    subtitle: 'Estimacion aproximada del colesterol LDL alcanzado',
+    subtitle: 'Estimación aproximada del colesterol LDL alcanzado',
     incompleteMsg: 'Introduce el cLDL basal y elige la intensidad de la estatina.',
     fields: [
       { name: 'basal', id: 'dl-dc-basal', type: 'number', label: 'cLDL basal, sin tratamiento (mg/dL)', placeholder: 'ej. 160' },
       { name: 'estatina', id: 'dl-dc-est', type: 'select', label: 'Estatina', options: [
         { value: '', label: 'Selecciona' },
         { value: 'ninguna', label: 'Ninguna' },
-        { value: 'moderada', label: 'Moderada intensidad (reduccion del 35%)' },
-        { value: 'alta', label: 'Alta intensidad (reduccion del 50%)' } ] },
+        { value: 'moderada', label: 'Moderada intensidad (reducción del 35%)' },
+        { value: 'alta', label: 'Alta intensidad (reducción del 50%)' } ] },
       { name: 'ezetimiba', id: 'dl-dc-eze', type: 'checkbox', label: 'Anadir ezetimiba (20% adicional)' },
-      { name: 'bempedoico', id: 'dl-dc-bemp', type: 'checkbox', label: 'Anadir acido bempedoico (18% adicional)' },
+      { name: 'bempedoico', id: 'dl-dc-bemp', type: 'checkbox', label: 'Anadir ácido bempedoico (18% adicional)' },
       { name: 'pcsk9', id: 'dl-dc-pcsk9', type: 'checkbox', label: 'Anadir inhibidor de PCSK9 o inclisiran (55% adicional)' },
-      { type: 'note', text: 'Estimacion orientativa: cada farmaco reduce un porcentaje relativo del cLDL restante. La respuesta individual varia; el valor real se comprueba con un perfil de control a las 4 a 12 semanas.' }
+      { type: 'note', text: 'Estimación orientativa: cada fármaco reduce un porcentaje relativo del cLDL restante. La respuesta individual varia; el valor real se comprueba con un perfil de control a las 4 a 12 semanas.' }
     ],
     compute(v) {
       if (v.basal == null || !v.estatina) return null;
@@ -169,7 +169,7 @@ export const calculators = [
       const red = 100 * (1 - factor);
       return { final, red };
     },
-    format: r => `<strong>cLDL estimado ${Math.round(r.final)} mg/dL</strong> (reduccion aproximada del ${Math.round(r.red)}% respecto al basal). Comprueba con un perfil de control a las 4 a 12 semanas y escala si no se alcanza el objetivo.`,
+    format: r => `<strong>cLDL estimado ${Math.round(r.final)} mg/dL</strong> (reducción aproximada del ${Math.round(r.red)}% respecto al basal). Comprueba con un perfil de control a las 4 a 12 semanas y escala si no se alcanza el objetivo.`,
     fragment: r => `cLDL estimado ${Math.round(r.final)} mg/dL (-${Math.round(r.red)}%)`
   }
 ];

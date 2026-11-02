@@ -10,21 +10,21 @@
 
 export const calculators = [
   {
-    key: 'riesgo-realimentacion', title: 'Riesgo de sindrome de realimentacion', accent: '#8c3a5c',
+    key: 'riesgo-realimentacion', title: 'Riesgo de síndrome de realimentación', accent: '#8c3a5c',
     subtitle: 'Antes de pautar la primera bolsa: quien esta en riesgo y como empezar',
-    incompleteMsg: 'Introduce el indice de masa corporal y responde sobre la perdida de peso, los dias sin comer y las cifras de iones.',
+    incompleteMsg: 'Introduce el índice de masa corporal y responde sobre la pérdida de peso, los días sin comer y las cifras de iones.',
     fields: [
-      { name: 'imc', id: 'nu-rr-i', type: 'number', step: '0.1', label: 'Indice de masa corporal (kg/m2)', placeholder: 'ej. 16.8', row: 'r1' },
+      { name: 'imc', id: 'nu-rr-i', type: 'number', step: '0.1', label: 'Índice de masa corporal (kg/m2)', placeholder: 'ej. 16.8', row: 'r1' },
       { name: 'peso', id: 'nu-rr-p', type: 'number', step: '0.5', label: 'Peso actual (kg)', placeholder: 'ej. 45', row: 'r1' },
-      { name: 'perdida', id: 'nu-rr-pe', type: 'number', step: '1', required: false, label: 'Perdida de peso no intencionada en 3 a 6 meses (%)', placeholder: 'ej. 12', row: 'r2' },
-      { name: 'dias', id: 'nu-rr-d', type: 'number', step: '1', label: 'Dias con ingesta escasa o nula', placeholder: 'ej. 8', row: 'r2' },
-      { name: 'iones', id: 'nu-rr-io', type: 'select', label: 'Fosforo, potasio o magnesio ANTES de alimentar', row: 'r3', options: [
+      { name: 'perdida', id: 'nu-rr-pe', type: 'number', step: '1', required: false, label: 'Pérdida de peso no intencionada en 3 a 6 meses (%)', placeholder: 'ej. 12', row: 'r2' },
+      { name: 'dias', id: 'nu-rr-d', type: 'number', step: '1', label: 'Días con ingesta escasa o nula', placeholder: 'ej. 8', row: 'r2' },
+      { name: 'iones', id: 'nu-rr-io', type: 'select', label: 'Fósforo, potasio o magnesio ANTES de alimentar', row: 'r3', options: [
         { v: 'normales', t: 'Los tres normales' },
         { v: 'bajos', t: 'Alguno de los tres bajo' },
-        { v: 'nd', t: 'Todavia no se han medido' }
+        { v: 'nd', t: 'Todavía no se han medido' }
       ] },
-      { name: 'alcohol', id: 'nu-rr-a', type: 'checkbox', label: 'Consumo excesivo de alcohol, o tratamiento con insulina, quimioterapia, antiacidos o diureticos', row: 'r3' },
-      { type: 'note', text: 'El sindrome de realimentacion no lo causa el ayuno sino volver a comer: es IATROGENICO por definicion y por tanto enteramente prevenible. Su trampa es que las cifras de fosforo, potasio y magnesio pueden estar normales antes de empezar, porque lo que se ha vaciado es el interior de la celula. La TIAMINA se administra ANTES de cualquier aporte de glucosa. Y hay que empezar despacio: identificar el riesgo no significa retrasar la nutricion, significa iniciarla con menos calorias y subir a lo largo de varios dias.' }
+      { name: 'alcohol', id: 'nu-rr-a', type: 'checkbox', label: 'Consumo excesivo de alcohol, o tratamiento con insulina, quimioterapia, antiácidos o diuréticos', row: 'r3' },
+      { type: 'note', text: 'El síndrome de realimentación no lo causa el ayuno sino volver a comer: es IATROGÉNICO por definición y por tanto enteramente prevenible. Su trampa es que las cifras de fósforo, potasio y magnesio pueden estar normales antes de empezar, porque lo que se ha vaciado es el interior de la célula. La TIAMINA se administra ANTES de cualquier aporte de glucosa. Y hay que empezar despacio: identificar el riesgo no significa retrasar la nutrición, significa iniciarla con menos calorías y subir a lo largo de varios días.' }
     ],
     compute(v) {
       if (v.imc == null || v.peso == null || v.dias == null || !v.iones) return null;
@@ -34,16 +34,16 @@ export const calculators = [
       if (v.perdida != null && !(v.perdida >= 0 && v.perdida <= 80)) return { invalido: true };
 
       const mayores = [];
-      if (v.imc < 16) mayores.push('indice de masa corporal por debajo de 16');
-      if (v.perdida != null && v.perdida > 15) mayores.push(`perdida de peso del ${v.perdida}%`);
-      if (v.dias > 10) mayores.push(`${v.dias} dias con ingesta escasa o nula`);
-      if (v.iones === 'bajos') mayores.push('fosforo, potasio o magnesio bajos antes de alimentar');
+      if (v.imc < 16) mayores.push('índice de masa corporal por debajo de 16');
+      if (v.perdida != null && v.perdida > 15) mayores.push(`pérdida de peso del ${v.perdida}%`);
+      if (v.dias > 10) mayores.push(`${v.dias} días con ingesta escasa o nula`);
+      if (v.iones === 'bajos') mayores.push('fósforo, potasio o magnesio bajos antes de alimentar');
 
       const menores = [];
-      if (v.imc >= 16 && v.imc < 18.5) menores.push('indice de masa corporal entre 16 y 18.5');
-      if (v.perdida != null && v.perdida > 10 && v.perdida <= 15) menores.push(`perdida de peso del ${v.perdida}%`);
-      if (v.dias > 5 && v.dias <= 10) menores.push(`${v.dias} dias con ingesta escasa`);
-      if (v.alcohol) menores.push('consumo de alcohol o farmacos de riesgo');
+      if (v.imc >= 16 && v.imc < 18.5) menores.push('índice de masa corporal entre 16 y 18.5');
+      if (v.perdida != null && v.perdida > 10 && v.perdida <= 15) menores.push(`pérdida de peso del ${v.perdida}%`);
+      if (v.dias > 5 && v.dias <= 10) menores.push(`${v.dias} días con ingesta escasa`);
+      if (v.alcohol) menores.push('consumo de alcohol o fármacos de riesgo');
 
       const alto = mayores.length >= 1 || menores.length >= 2;
       const extremo = v.imc < 14 || v.dias > 15;
@@ -55,31 +55,31 @@ export const calculators = [
       };
     },
     format: r => {
-      if (r.invalido) return 'Revisa los valores: indice de masa corporal de 8 a 80, peso de 20 a 300 kg, dias de 0 a 200 y perdida de peso de 0 a 80%.';
+      if (r.invalido) return 'Revisa los valores: índice de masa corporal de 8 a 80, peso de 20 a 300 kg, días de 0 a 200 y pérdida de peso de 0 a 80%.';
       let s;
       if (r.alto) {
-        s = '<strong style="color:#8c3a34;">ALTO RIESGO de sindrome de realimentacion.</strong> ';
+        s = '<strong style="color:#8c3a34;">ALTO RIESGO de síndrome de realimentación.</strong> ';
         if (r.mayores.length) s += `Criterios mayores presentes: ${r.mayores.join('; ')}. Basta uno solo. `;
-        else s += `Dos o mas criterios menores: ${r.menores.join('; ')}. `;
+        else s += `Dos o más criterios menores: ${r.menores.join('; ')}. `;
       } else {
         s = '<strong style="color:#3f6b52;">No se cumplen los criterios de alto riesgo</strong> con los datos introducidos. ';
-        if (r.menores.length === 1) s += `Hay un criterio menor (${r.menores[0]}), que por si solo no clasifica como alto riesgo pero justifica prudencia y control analitico. `;
+        if (r.menores.length === 1) s += `Hay un criterio menor (${r.menores[0]}), que por si solo no clasifica como alto riesgo pero justifica prudencia y control analítico. `;
       }
-      s += `<br><strong>Pauta de inicio: en torno a ${r.kcalKg} kcal/kg al dia, es decir unas ${r.kcalIni} kcal para ${r.peso} kg</strong>, con progresion lenta a lo largo de 4 a 7 dias.`;
-      if (r.extremo) s += ' <span style="color:#8c3a34;">Se ha usado el aporte inicial mas conservador</span> por tratarse de un caso extremo, con indice de masa corporal muy bajo o ayuno muy prolongado.';
-      s += '<br><strong style="color:#8a6a1f;">TIAMINA a dosis alta ANTES de administrar cualquier glucosa</strong>, y mantenida varios dias, junto con el resto de vitaminas y oligoelementos. Darla despues de la glucosa puede precipitar una encefalopatia de Wernicke en un paciente ya deplecionado.';
-      if (r.ionesBajos) s += '<br><strong style="color:#8c3a34;">Ya hay iones bajos antes de empezar.</strong> Hay que reponer fosforo, potasio y magnesio ahora, pero eso NO justifica retrasar el inicio de la nutricion: se repone y se empieza despacio a la vez.';
-      else if (r.sinIones) s += '<br><strong style="color:#8c3a34;">No se han medido los iones.</strong> Es la determinacion mas importante del tema y hay que pedirla ANTES de pautar la primera bolsa: unos valores bajos bastan por si solos para clasificar como alto riesgo.';
-      if (r.alto) s += '<br><span style="opacity:.8;">Control de fosforo, potasio y magnesio a DIARIO durante los primeros dias, con monitorizacion electrocardiografica. Si aparece hipofosfatemia, la conducta con respaldo es REDUCIR temporalmente el aporte calorico y reponer, no mantener el ritmo.</span>';
-      if (r.sinPerdida) s += '<br><span style="opacity:.75;">No se ha introducido la perdida de peso reciente, que es uno de los criterios y que el paciente o la familia suelen poder estimar.</span>';
+      s += `<br><strong>Pauta de inicio: en torno a ${r.kcalKg} kcal/kg al dia, es decir unas ${r.kcalIni} kcal para ${r.peso} kg</strong>, con progresión lenta a lo largo de 4 a 7 días.`;
+      if (r.extremo) s += ' <span style="color:#8c3a34;">Se ha usado el aporte inicial más conservador</span> por tratarse de un caso extremo, con índice de masa corporal muy bajo o ayuno muy prolongado.';
+      s += '<br><strong style="color:#8a6a1f;">TIAMINA a dosis alta ANTES de administrar cualquier glucosa</strong>, y mantenida varios días, junto con el resto de vitaminas y oligoelementos. Darla después de la glucosa puede precipitar una encefalopatía de Wernicke en un paciente ya deplecionado.';
+      if (r.ionesBajos) s += '<br><strong style="color:#8c3a34;">Ya hay iones bajos antes de empezar.</strong> Hay que reponer fósforo, potasio y magnesio ahora, pero eso NO justifica retrasar el inicio de la nutrición: se repone y se empieza despacio a la vez.';
+      else if (r.sinIones) s += '<br><strong style="color:#8c3a34;">No se han medido los iones.</strong> Es la determinación más importante del tema y hay que pedirla ANTES de pautar la primera bolsa: unos valores bajos bastan por si solos para clasificar como alto riesgo.';
+      if (r.alto) s += '<br><span style="opacity:.8;">Control de fósforo, potasio y magnesio a DIARIO durante los primeros días, con monitorización electrocardiográfica. Si aparece hipofosfatemia, la conducta con respaldo es REDUCIR temporalmente el aporte calórico y reponer, no mantener el ritmo.</span>';
+      if (r.sinPerdida) s += '<br><span style="opacity:.75;">No se ha introducido la pérdida de peso reciente, que es uno de los criterios y que el paciente o la familia suelen poder estimar.</span>';
       return s;
     },
-    fragment: r => r.invalido ? 'valores no validos' : `${r.alto ? 'ALTO riesgo' : 'riesgo no alto'} de realimentacion, iniciar a ${r.kcalKg} kcal/kg`
+    fragment: r => r.invalido ? 'valores no validos' : `${r.alto ? 'ALTO riesgo' : 'riesgo no alto'} de realimentación, iniciar a ${r.kcalKg} kcal/kg`
   },
 
   {
-    key: 'requerimientos-nutricion', title: 'Energia y proteina: cuanto', accent: '#3d5a73',
-    subtitle: 'Con el peso correcto y descontando las calorias que nadie cuenta',
+    key: 'requerimientos-nutricion', title: 'Energía y proteína: cuanto', accent: '#3d5a73',
+    subtitle: 'Con el peso correcto y descontando las calorías que nadie cuenta',
     incompleteMsg: 'Introduce peso y talla, y elige la fase de la enfermedad.',
     fields: [
       { name: 'peso', id: 'nu-rq-p', type: 'number', step: '0.5', label: 'Peso real (kg)', placeholder: 'ej. 96', row: 'r1' },
@@ -89,13 +89,13 @@ export const calculators = [
         { v: 'm', t: 'Mujer' }
       ] },
       { name: 'fase', id: 'nu-rq-f', type: 'select', label: 'Fase de la enfermedad', row: 'r2', options: [
-        { v: 'aguda', t: 'Aguda: primeros dias, o con vasoactivos' },
-        { v: 'tardia', t: 'Tardia: estabilizado, a partir del 3.er o 4.o dia' }
+        { v: 'aguda', t: 'Aguda: primeros días, o con vasoactivos' },
+        { v: 'tardia', t: 'Tardía: estabilizado, a partir del 3.er o 4.o dia' }
       ] },
       { name: 'propofol', id: 'nu-rq-pr', type: 'number', step: '1', required: false, label: 'Propofol al 1% (mL al dia)', placeholder: 'ej. 480', row: 'r3' },
       { name: 'glucosado', id: 'nu-rq-g', type: 'number', step: '1', required: false, label: 'Suero glucosado al 5% (mL al dia)', placeholder: 'ej. 1000', row: 'r3' },
       { name: 'edemas', id: 'nu-rq-e', type: 'checkbox', label: 'Edemas, ascitis o sobrecarga que falsean el peso de la bascula' },
-      { type: 'note', text: 'Dos ajustes cambian mucho el resultado y casi nadie los hace. El primero, usar el PESO correcto: en la obesidad el peso real sobreestima las necesidades de forma grosera y se emplea el peso ideal o el ajustado. El segundo, DESCONTAR las calorias no nutricionales: el propofol al 1% aporta alrededor de 1.1 kcal por mL, y un litro de suero glucosado al 5% aporta unas 200 kcal. Y en la fase aguda no hay que alcanzar el objetivo: se progresa despacio, porque el organismo ya produce energia endogena.' }
+      { type: 'note', text: 'Dos ajustes cambian mucho el resultado y casi nadie los hace. El primero, usar el PESO correcto: en la obesidad el peso real sobreestima las necesidades de forma grosera y se emplea el peso ideal o el ajustado. El segundo, DESCONTAR las calorías no nutricionales: el propofol al 1% aporta alrededor de 1.1 kcal por mL, y un litro de suero glucosado al 5% aporta unas 200 kcal. Y en la fase aguda no hay que alcanzar el objetivo: se progresa despacio, porque el organismo ya produce energía endógena.' }
     ],
     compute(v) {
       if (v.peso == null || v.talla == null || !v.sexo || !v.fase) return null;
@@ -131,31 +131,31 @@ export const calculators = [
     },
     format: r => {
       if (r.invalido) return 'Revisa los valores: peso de 25 a 300 kg, talla de 120 a 230 cm, propofol de 0 a 3000 mL y glucosado de 0 a 5000 mL.';
-      let s = `<strong>Objetivo orientativo: ${r.kcalObjetivo} kcal y ${r.protObjetivo} g de proteina al dia.</strong>`;
-      s += `<br><span style="opacity:.85;">Calculado sobre el peso ${r.tipoPeso} de ${r.pesoCalc.toFixed(1)} kg (indice de masa corporal ${r.imc.toFixed(1)}).</span>`;
-      if (r.obesidad) s += `<br><strong style="color:#6b4a8c;">Hay obesidad, de modo que se ha usado el peso AJUSTADO</strong> (${r.ajustado.toFixed(1)} kg) y no el real. Calcular con el peso de la bascula habria dado un objetivo groseramente excesivo, y es un error aritmetico muy frecuente.`;
+      let s = `<strong>Objetivo orientativo: ${r.kcalObjetivo} kcal y ${r.protObjetivo} g de proteína al dia.</strong>`;
+      s += `<br><span style="opacity:.85;">Calculado sobre el peso ${r.tipoPeso} de ${r.pesoCalc.toFixed(1)} kg (índice de masa corporal ${r.imc.toFixed(1)}).</span>`;
+      if (r.obesidad) s += `<br><strong style="color:#6b4a8c;">Hay obesidad, de modo que se ha usado el peso AJUSTADO</strong> (${r.ajustado.toFixed(1)} kg) y no el real. Calcular con el peso de la bascula habría dado un objetivo groseramente excesivo, y es un error aritmetico muy frecuente.`;
       else if (r.edemas) s += `<br><span style="color:#6b4a8c;">Con edemas o ascitis, el peso de la bascula no sirve:</span> se ha usado el peso ideal de ${r.ideal.toFixed(1)} kg.`;
       if (r.kcalNoNutri > 0) {
         const partes = [];
         if (r.kcalPropofol > 0) partes.push(`propofol ${r.kcalPropofol} kcal`);
         if (r.kcalGlucosado > 0) partes.push(`suero glucosado ${r.kcalGlucosado} kcal`);
-        s += `<br><strong style="color:#8a6a1f;">Calorias NO nutricionales: ${r.kcalNoNutri} kcal al dia</strong> (${partes.join(' y ')}), que suponen un ${r.pctNoNutri.toFixed(0)}% del objetivo. Descontandolas, la nutricion deberia aportar en torno a <strong>${r.kcalNutricion} kcal</strong>. No contarlas es una causa frecuente de sobrealimentacion en pautas que parecian bien calculadas.`;
+        s += `<br><strong style="color:#8a6a1f;">Calorías NO nutricionales: ${r.kcalNoNutri} kcal al dia</strong> (${partes.join(' y ')}), que suponen un ${r.pctNoNutri.toFixed(0)}% del objetivo. Descontandolas, la nutrición debería aportar en torno a <strong>${r.kcalNutricion} kcal</strong>. No contarlas es una causa frecuente de sobrealimentacion en pautas que parecian bien calculadas.`;
       } else if (r.sinNoNutri) {
         s += '<br><span style="opacity:.75;">No se han introducido el propofol ni el suero glucosado. Conviene mirarlos: el propofol al 1% aporta alrededor de 1.1 kcal por mL y un litro de glucosado al 5% unas 200 kcal.</span>';
       }
-      if (r.aguda) s += '<br><strong style="color:#8c3a34;">Fase AGUDA: no hay que alcanzar ese objetivo todavia.</strong> El organismo esta produciendo energia endogena a partir de sus propias reservas, y sumarle el aporte completo produce SOBREALIMENTACION: hiperglucemia, esteatosis, mas produccion de carbonico y peor evolucion. Se empieza por debajo y se progresa a lo largo de los primeros dias.';
-      else s += '<br><span style="color:#3f6b52;">Fase TARDIA: ahora si se progresa hacia el objetivo</span>, ajustando por la tolerancia y por la evolucion clinica.';
-      s += `<br><span style="opacity:.75;">Sobre la proteina: la referencia de 1.3 g/kg es orientativa, y subir muy por encima NO ha demostrado beneficio en los ensayos; en algunos subgrupos, sobre todo con lesion renal aguda, se asocio a peores resultados. Mas proteina no es automaticamente mejor.</span>`;
-      s += '<br><span style="opacity:.75;">Lo ideal seria medir el gasto con calorimetria indirecta en lugar de estimarlo, pero esta disponible en muy pocos sitios. Y conviene comparar siempre lo prescrito con lo que el paciente RECIBE de verdad.</span>';
+      if (r.aguda) s += '<br><strong style="color:#8c3a34;">Fase AGUDA: no hay que alcanzar ese objetivo todavía.</strong> El organismo esta produciendo energía endógena a partir de sus propias reservas, y sumarle el aporte completo produce SOBREALIMENTACION: hiperglucemia, esteatosis, más producción de carbonico y peor evolución. Se empieza por debajo y se progresa a lo largo de los primeros días.';
+      else s += '<br><span style="color:#3f6b52;">Fase TARDÍA: ahora si se progresa hacia el objetivo</span>, ajustando por la tolerancia y por la evolución clínica.';
+      s += `<br><span style="opacity:.75;">Sobre la proteína: la referencia de 1.3 g/kg es orientativa, y subir muy por encima NO ha demostrado beneficio en los ensayos; en algunos subgrupos, sobre todo con lesión renal aguda, se asoció a peores resultados. Más proteína no es automáticamente mejor.</span>`;
+      s += '<br><span style="opacity:.75;">Lo ideal sería medir el gasto con calorimetria indirecta en lugar de estimarlo, pero esta disponible en muy pocos sitios. Y conviene comparar siempre lo prescrito con lo que el paciente RECIBE de verdad.</span>';
       return s;
     },
-    fragment: r => r.invalido ? 'valores no validos' : `${r.kcalObjetivo} kcal y ${r.protObjetivo} g de proteina, peso ${r.tipoPeso}`
+    fragment: r => r.invalido ? 'valores no validos' : `${r.kcalObjetivo} kcal y ${r.protObjetivo} g de proteína, peso ${r.tipoPeso}`
   },
 
   {
-    key: 'via-nutricion', title: 'Que via de nutricion', accent: '#3f6b52',
+    key: 'via-nutricion', title: 'Que via de nutrición', accent: '#3f6b52',
     subtitle: 'Oral, enteral o parenteral, y cuando empezar',
-    incompleteMsg: 'Responde sobre la deglucion, el estado del tubo digestivo y la situacion hemodinamica.',
+    incompleteMsg: 'Responde sobre la deglución, el estado del tubo digestivo y la situación hemodinámica.',
     fields: [
       { name: 'deglucion', id: 'nu-vi-d', type: 'select', label: 'Deglucion', row: 'r1', options: [
         { v: 'segura', t: 'Traga con seguridad' },
@@ -164,16 +164,16 @@ export const calculators = [
       { name: 'digestivo', id: 'nu-vi-t', type: 'select', label: 'Tubo digestivo', row: 'r1', options: [
         { v: 'funcionante', t: 'Funcionante' },
         { v: 'parcial', t: 'Funcionante a medias, tolera poco volumen' },
-        { v: 'noUtilizable', t: 'No utilizable: obstruccion, isquemia, perforacion o hemorragia activa' }
+        { v: 'noUtilizable', t: 'No utilizable: obstrucción, isquemia, perforación o hemorragia activa' }
       ] },
-      { name: 'hemodinamica', id: 'nu-vi-h', type: 'select', label: 'Situacion hemodinamica', row: 'r2', options: [
+      { name: 'hemodinamica', id: 'nu-vi-h', type: 'select', label: 'Situación hemodinámica', row: 'r2', options: [
         { v: 'estable', t: 'Estable, o con vasoactivos a dosis estables' },
         { v: 'inestable', t: 'Choque no controlado, con vasoactivos en aumento' }
       ] },
-      { name: 'dias', id: 'nu-vi-di', type: 'number', step: '1', label: 'Dias que lleva sin cubrir sus requerimientos', placeholder: 'ej. 4', row: 'r2' },
+      { name: 'dias', id: 'nu-vi-di', type: 'number', step: '1', label: 'Días que lleva sin cubrir sus requerimientos', placeholder: 'ej. 4', row: 'r2' },
       { name: 'ingesta', id: 'nu-vi-i', type: 'checkbox', label: 'Come por boca pero claramente por debajo de lo necesario', row: 'r3' },
       { name: 'ruidos', id: 'nu-vi-r', type: 'checkbox', label: 'No se auscultan ruidos intestinales', row: 'r3' },
-      { type: 'note', text: 'La regla es sencilla: si el intestino funciona, se usa; y si funciona a medias, se usa a medias y se complementa. Las contraindicaciones REALES de la via enteral son pocas: obstruccion, isquemia mesenterica, perforacion, hemorragia digestiva activa y choque no controlado con vasoactivos en aumento. La ausencia de ruidos intestinales NO es una de ellas, y esperar a que aparezcan retrasa la nutricion sin ningun fundamento.' }
+      { type: 'note', text: 'La regla es sencilla: si el intestino funciona, se usa; y si funciona a medias, se usa a medias y se complementa. Las contraindicaciones REALES de la via enteral son pocas: obstrucción, isquemia mesentérica, perforación, hemorragia digestiva activa y choque no controlado con vasoactivos en aumento. La ausencia de ruidos intestinales NO es una de ellas, y esperar a que aparezcan retrasa la nutrición sin ningún fundamento.' }
     ],
     compute(v) {
       if (!v.deglucion || !v.digestivo || !v.hemodinamica || v.dias == null) return null;
@@ -184,16 +184,16 @@ export const calculators = [
         cuando = 'ahora, porque la via digestiva no es utilizable';
       } else if (v.hemodinamica === 'inestable') {
         via = 'DIFERIR Y ESTABILIZAR';
-        cuando = 'primero la reanimacion; la nutricion enteral se inicia cuando el choque este controlado';
+        cuando = 'primero la reanimación; la nutrición enteral se inicia cuando el choque este controlado';
       } else if (v.deglucion === 'segura' && !v.ingesta) {
         via = 'ORAL';
         cuando = 'ahora, comprobando antes que la dieta le llega, le gusta y alguien le ayuda si lo necesita';
       } else if (v.deglucion === 'segura' && v.ingesta) {
         via = 'ORAL CON SUPLEMENTOS';
-        cuando = 'ahora, y reevaluar en pocos dias si con eso cubre sus necesidades';
+        cuando = 'ahora, y reevaluar en pocos días si con eso cubre sus necesidades';
       } else if (v.digestivo === 'parcial') {
         via = 'ENTERAL, COMPLEMENTANDO SI HACE FALTA';
-        cuando = 'enteral precoz a la tolerancia que admita, valorando complemento parenteral si tras varios dias no cubre lo necesario';
+        cuando = 'enteral precoz a la tolerancia que admita, valorando complemento parenteral si tras varios días no cubre lo necesario';
       } else {
         via = 'ENTERAL';
         cuando = 'precozmente, en las primeras 24 a 48 horas';
@@ -205,13 +205,13 @@ export const calculators = [
       };
     },
     format: r => {
-      if (r.invalido) return 'Revisa los dias: se admite de 0 a 200.';
+      if (r.invalido) return 'Revisa los días: se admite de 0 a 200.';
       let s = `<strong>Via recomendada: ${r.via}.</strong> Cuando: ${r.cuando}.`;
-      if (r.via === 'ENTERAL' || r.parcial) s += '<br><span style="opacity:.8;">Elevar el cabecero entre 30 y 45 grados, confirmar la posicion de la sonda antes de usarla si el nivel de conciencia esta bajo, y progresar segun tolerancia CLINICA. No hay que medir el residuo gastrico de rutina para decidir si se sigue: interrumpe la nutricion sin mejorar los resultados.</span>';
-      if (r.noUtilizable) s += '<br><span style="opacity:.8;">Aun con via parenteral, conviene mantener un aporte enteral MINIMO en cuanto sea posible, para preservar el trofismo de la mucosa. Y revisar cada dia si el cateter central sigue haciendo falta, porque es una puerta de entrada de infeccion.</span>';
-      if (r.inestable) s += '<br><strong style="color:#8c3a34;">Con el choque no controlado, la prioridad es la reanimacion.</strong> Iniciar nutricion enteral a pleno ritmo en un paciente con vasoactivos en aumento se asocia a complicaciones digestivas graves, incluida la isquemia intestinal. Estabilizar primero, y despues empezar.';
-      if (r.ruidos) s += '<br><strong style="color:#8a6a1f;">La ausencia de ruidos intestinales NO contraindica la nutricion enteral.</strong> Es uno de los mitos mas persistentes del tema y esperar a que aparezcan retrasa el inicio sin ningun fundamento.';
-      if (r.prolongado) s += `<br><strong style="color:#8c3a5c;">Lleva ${r.dias} dias sin cubrir sus requerimientos:</strong> antes de iniciar el aporte hay que valorar el riesgo de SINDROME DE REALIMENTACION, mirar fosforo, potasio y magnesio, y dar tiamina antes que glucosa.`;
+      if (r.via === 'ENTERAL' || r.parcial) s += '<br><span style="opacity:.8;">Elevar el cabecero entre 30 y 45 grados, confirmar la posición de la sonda antes de usarla si el nivel de conciencia esta bajo, y progresar según tolerancia CLÍNICA. No hay que medir el residuo gástrico de rutina para decidir si se sigue: interrumpe la nutrición sin mejorar los resultados.</span>';
+      if (r.noUtilizable) s += '<br><span style="opacity:.8;">Aun con via parenteral, conviene mantener un aporte enteral MÍNIMO en cuanto sea posible, para preservar el trofismo de la mucosa. Y revisar cada dia si el catéter central sigue haciendo falta, porque es una puerta de entrada de infección.</span>';
+      if (r.inestable) s += '<br><strong style="color:#8c3a34;">Con el choque no controlado, la prioridad es la reanimación.</strong> Iniciar nutrición enteral a pleno ritmo en un paciente con vasoactivos en aumento se asocia a complicaciones digestivas graves, incluida la isquemia intestinal. Estabilizar primero, y después empezar.';
+      if (r.ruidos) s += '<br><strong style="color:#8a6a1f;">La ausencia de ruidos intestinales NO contraindica la nutrición enteral.</strong> Es uno de los mitos más persistentes del tema y esperar a que aparezcan retrasa el inicio sin ningún fundamento.';
+      if (r.prolongado) s += `<br><strong style="color:#8c3a5c;">Lleva ${r.dias} días sin cubrir sus requerimientos:</strong> antes de iniciar el aporte hay que valorar el riesgo de SÍNDROME DE REALIMENTACIÓN, mirar fósforo, potasio y magnesio, y dar tiamina antes que glucosa.`;
       s += '<br><span style="opacity:.75;">Y antes de escalar de via, conviene comprobar lo obvio: si el paciente esta en ayunas por pruebas que se van cancelando, si la dieta le llega y le gusta, y si alguien le ayuda a comer.</span>';
       return s;
     },

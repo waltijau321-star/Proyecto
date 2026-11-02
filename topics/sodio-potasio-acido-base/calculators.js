@@ -174,7 +174,7 @@ export const calculators = [
 
   {
     key: 'acido-base', title: 'Gasometría: trastorno primario y respuesta esperada', accent: '#2d6b5c',
-    subtitle: 'Incluye anion gap corregido por albúmina y cociente delta',
+    subtitle: 'Incluye anión gap corregido por albúmina y cociente delta',
     incompleteMsg: 'Introduce pH, PaCO2 y bicarbonato; el ionograma es opcional.',
     fields: [
       { name: 'ph', id: 'sp-a-ph', type: 'number', step: '0.01', label: 'pH arterial', placeholder: 'ej. 7.22', row: 'r1' },
@@ -234,14 +234,14 @@ export const calculators = [
       }
 
       if (r.ag != null) {
-        html += `<div style="margin-top:10px;"><strong>Anion gap</strong> ${r.ag.toFixed(1)}`;
+        html += `<div style="margin-top:10px;"><strong>Anión gap</strong> ${r.ag.toFixed(1)}`;
         if (r.alb != null && r.alb !== 4) html += `, corregido por albúmina de ${r.alb} g/dL: <strong>${r.agCorr.toFixed(2)}</strong> (se suman 2.5 por cada g/dL que falte)`;
         html += r.agCorr > 12 ? '. <strong>Elevado</strong>: buscar lactato, cetonas, uremia y alcoholes tóxicos.' : '. Normal: orientar a pérdidas digestivas o tubulares de bicarbonato.';
         html += '</div>';
         if (r.delta != null && isFinite(r.delta)) {
           const d = r.delta;
-          const lectura = d < 0.4 ? 'por debajo de 0.4: hay además una <strong>acidosis metabólica de anion gap normal</strong>'
-            : d <= 2 ? 'entre 0.4 y 2: <strong>acidosis con anion gap elevado pura</strong>'
+          const lectura = d < 0.4 ? 'por debajo de 0.4: hay además una <strong>acidosis metabólica de anión gap normal</strong>'
+            : d <= 2 ? 'entre 0.4 y 2: <strong>acidosis con anión gap elevado pura</strong>'
               : 'por encima de 2: hay además una <strong>alcalosis metabólica</strong> o una acidosis respiratoria crónica previa';
           html += `<div style="margin-top:10px;"><strong>Cociente delta</strong> ${d.toFixed(2)}, ${lectura}.</div>`;
         }

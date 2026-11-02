@@ -190,7 +190,7 @@ export const content = {
       dx_diferencial: 'Otras porfirias hepáticas agudas con componente cutáneo (coproporfiria hereditaria, porfiria variegata, distinguibles por ALA/PBG elevados y el patrón de porfirinas en heces), penfigoide ampolloso u otras dermatosis ampollosas (sin la elevación característica de porfirinas urinarias).',
       tx_medico: 'Corrección de los factores contribuyentes identificables: flebotomías terapéuticas seriadas para reducir el hierro hepático (el tratamiento más eficaz y de primera línea), suspensión de alcohol y de estrógenos si son factores identificados, tratamiento de la hepatitis C si está presente.',
       tx_farmacologico: 'Cloroquina o hidroxicloroquina en dosis bajas como alternativa o complemento a la flebotomía (forman un complejo con las porfirinas hepáticas que facilita su excreción), particularmente útil si la flebotomía está contraindicada (por ejemplo, anemia significativa concomitante).',
-      tx_intervencionista: 'Flebotomía terapéutica seriada (ver tx_medico) como el procedimiento central del tratamiento.',
+      tx_intervencionista: 'Flebotomía terapéutica seriada (ver tx_médico) como el procedimiento central del tratamiento.',
       criterios_uci: 'No aplica de forma directa a esta entidad en sí.',
       criterios_tips: 'No aplica.',
       criterios_trasplante: 'No aplica de forma directa (salvo por la enfermedad hepática de base concomitante, si progresa independientemente).',

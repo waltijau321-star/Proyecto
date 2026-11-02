@@ -306,7 +306,7 @@ export const figuras = {
           </tbody>
         </table>
       </div>
-      <div class="figure-grade-box">El motivo del cambio es la sensibilidad. En una cohorte de 221.429 registros prehospitalarios el NEWS2 alcanzó una sensibilidad del 73.1% frente al 23.1% del qSOFA. La guía de 2021 ya recomendaba <em>en contra</em> del qSOFA como cribado único; la de 2026 da el paso siguiente y dice cuáles usar en su lugar. <strong>Ninguna de estas escalas diagnostica sepsis</strong>: detectan deterioro, y su valor depende del sistema que responde cuando la puntuación sube.</div>`
+      <div class="figure-grade-box">El motivo del cambio es la sensibilidad. En una cohorte de 221.429 registros prehospitalarios el NEWS2 alcanzó una sensibilidad del 73.1% frente al 23.1% del qSOFA. La guía de 2021 ya recomendaba <em>en contra</em> del qSOFA como cribado único; la de 2026 da el paso siguiente y dice cuáles usar en su lugar. <strong>Ninguna de estas escalas diagnóstica sepsis</strong>: detectan deterioro, y su valor depende del sistema que responde cuando la puntuación sube.</div>`
   },
   'sofa2-tabla': {
     titulo: 'Tabla 2 — Escala SOFA-2 completa',

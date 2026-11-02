@@ -55,8 +55,8 @@ export const content = {
       { prueba: 'Osmolalidad urinaria', utilidad: 'Primer paso del algoritmo diagnóstico (1D). Si es <strong>100 mOsm/kg o menos</strong>, la causa es un exceso relativo de ingesta de agua y no hace falta buscar más.' },
       { prueba: 'Sodio urinario', utilidad: 'Se interpreta cuando la osmolalidad urinaria supera 100. <strong>30 mmol/L o menos</strong> apunta a volumen arterial efectivo bajo (2D); por encima, hay que valorar el estado del líquido extracelular y el uso de diuréticos.' },
       { prueba: 'Potasio con magnesio', utilidad: 'La hipopotasemia refractaria suele responder solo después de reponer el magnesio. Pedir el potasio sin el magnesio es la causa más frecuente de reposición que no funciona.' },
-      { prueba: 'Gasometría con electrolitos y albúmina', utilidad: 'El anion gap se calcula como sodio menos cloro menos bicarbonato, y <strong>se corrige sumando 2.5 mmol/L por cada g/dL de albúmina por debajo de lo normal</strong>. Sin esa corrección, el paciente crítico hipoalbuminémico aparenta un anion gap normal que no lo es.' },
-      { prueba: 'Osmolalidad medida', utilidad: 'Cuando hay acidosis con anion gap elevado sin causa clara, la diferencia entre la osmolalidad medida y la calculada abre la puerta a los alcoholes tóxicos.' }
+      { prueba: 'Gasometría con electrolitos y albúmina', utilidad: 'El anión gap se calcula como sodio menos cloro menos bicarbonato, y <strong>se corrige sumando 2.5 mmol/L por cada g/dL de albúmina por debajo de lo normal</strong>. Sin esa corrección, el paciente crítico hipoalbuminémico aparenta un anión gap normal que no lo es.' },
+      { prueba: 'Osmolalidad medida', utilidad: 'Cuando hay acidosis con anión gap elevado sin causa clara, la diferencia entre la osmolalidad medida y la calculada abre la puerta a los alcoholes tóxicos.' }
     ],
     no_invasivos: [
       { metodo: 'Electrocardiograma en la hiperpotasemia', interpretacion: 'No es un dato más: es el que decide si hay que dar calcio. Los cambios sugestivos obligan a proteger la membrana de inmediato, con independencia de la cifra. Su ausencia tampoco tranquiliza del todo, porque no todos los pacientes con potasio muy alto los presentan.', cutoff: 'Cualquier cambio sugestivo indica calcio intravenoso' },
@@ -77,7 +77,7 @@ export const content = {
 
 <strong>El potasio</strong> se clasifica por la cifra, pero el tratamiento lo decide el electrocardiograma.
 
-<strong>El equilibrio ácido-base</strong> se lee siempre en el mismo orden: primero el pH, después el trastorno primario, después si la respuesta secundaria es la esperada, y por último el anion gap corregido con el cociente delta.`,
+<strong>El equilibrio ácido-base</strong> se lee siempre en el mismo orden: primero el pH, después el trastorno primario, después si la respuesta secundaria es la esperada, y por último el anión gap corregido con el cociente delta.`,
     escalas: [
       {
         nombre: 'Gravedad sintomática de la hiponatremia',
@@ -209,27 +209,27 @@ export const content = {
       definicion: 'Secuencia fija de interpretación que permite nombrar el trastorno primario, comprobar si la respuesta secundaria es la esperada y detectar los trastornos mixtos.',
       fisiopatologia: 'Cada trastorno primario provoca una respuesta compensadora previsible del otro sistema: los metabólicos se compensan por vía respiratoria y los respiratorios por vía metabólica. La compensación respiratoria es rápida; la metabólica tarda días, y de ahí la distinción entre agudo y crónico en los trastornos respiratorios.',
       epidemiologia: 'Los trastornos mixtos son frecuentes en el paciente hospitalizado y son justamente los que se escapan si solo se mira el pH.',
-      factores_riesgo: ['Paciente crítico con varias causas simultáneas', 'Enfermedad pulmonar crónica con descompensación aguda', 'Vómitos y diuréticos sobre una acidosis previa', 'Hipoalbuminemia, que enmascara el anion gap'],
+      factores_riesgo: ['Paciente crítico con varias causas simultáneas', 'Enfermedad pulmonar crónica con descompensación aguda', 'Vómitos y diuréticos sobre una acidosis previa', 'Hipoalbuminemia, que enmascara el anión gap'],
       clinica: 'La gasometría se interpreta junto a la clínica: la misma cifra significa cosas distintas en un paciente con enfermedad pulmonar crónica compensada y en uno agudo.',
-      criterios_dx: 'Orden de lectura: pH (acidemia por debajo de 7.38, alcalemia por encima de 7.42); trastorno primario (PaCO2 por encima de 42 orienta a respiratorio, exceso de base por debajo de -2 a metabólico); respuesta secundaria esperada; y anion gap con su corrección y su cociente delta.',
-      laboratorio: 'Gasometría con sodio, cloro, bicarbonato y albúmina. Sin albúmina no se puede corregir el anion gap, y sin corregirlo el resultado engaña en el paciente crítico.',
+      criterios_dx: 'Orden de lectura: pH (acidemia por debajo de 7.38, alcalemia por encima de 7.42); trastorno primario (PaCO2 por encima de 42 orienta a respiratorio, exceso de base por debajo de -2 a metabólico); respuesta secundaria esperada; y anión gap con su corrección y su cociente delta.',
+      laboratorio: 'Gasometría con sodio, cloro, bicarbonato y albúmina. Sin albúmina no se puede corregir el anión gap, y sin corregirlo el resultado engaña en el paciente crítico.',
       tx_medico: 'El tratamiento es el de la causa. La corrección del pH por sí misma rara vez es el objetivo.',
       dx_diferencial: 'Un trastorno mixto se diagnostica cuando la respuesta secundaria queda fuera del rango esperado: por ejemplo, en una acidosis respiratoria, una alcalosis metabólica añadida si el bicarbonato es mayor del previsto.',
-      algoritmo: ['Mirar el pH: acidemia o alcalemia', 'Identificar el trastorno primario', 'Calcular la respuesta esperada y compararla con la observada', 'Calcular el anion gap y corregirlo por albúmina', 'Si el anion gap está elevado, aplicar el cociente delta']
+      algoritmo: ['Mirar el pH: acidemia o alcalemia', 'Identificar el trastorno primario', 'Calcular la respuesta esperada y compararla con la observada', 'Calcular el anión gap y corregirlo por albúmina', 'Si el anión gap está elevado, aplicar el cociente delta']
     },
     {
-      nombre: 'Acidosis metabólica: anion gap, albúmina y cociente delta',
+      nombre: 'Acidosis metabólica: anión gap, albúmina y cociente delta',
       color: '#2d6b5c',
-      definicion: 'Acidosis de origen metabólico, que se separa en dos grandes grupos según el anion gap esté elevado o normal, porque el diagnóstico diferencial de cada uno es distinto.',
-      fisiopatologia: 'El anion gap mide los aniones no medidos. Sube cuando se añade un ácido cuyo anión no se mide en el ionograma habitual (lactato, cetoácidos, metabolitos de alcoholes tóxicos, aniones retenidos en la uremia). Se mantiene normal cuando lo que se pierde es bicarbonato y el cloro ocupa su lugar: por eso las de anion gap normal se llaman hiperclorémicas.',
-      epidemiologia: 'La acidosis láctica y la cetoacidosis son las causas más frecuentes de anion gap elevado en el hospital; la diarrea y la acidosis tubular renal, las de anion gap normal.',
-      factores_riesgo: ['Hipoperfusión y sepsis', 'Diabetes mal controlada', 'Enfermedad renal avanzada', 'Diarrea prolongada', 'Ingesta de alcoholes tóxicos', 'Hipoalbuminemia, que enmascara el anion gap elevado'],
-      criterios_dx: 'Anion gap = sodio menos cloro menos bicarbonato. <strong>Se corrige sumando 2.5 mmol/L por cada g/dL de albúmina por debajo de lo normal.</strong>',
+      definicion: 'Acidosis de origen metabólico, que se separa en dos grandes grupos según el anión gap esté elevado o normal, porque el diagnóstico diferencial de cada uno es distinto.',
+      fisiopatologia: 'El anión gap mide los aniones no medidos. Sube cuando se añade un ácido cuyo anión no se mide en el ionograma habitual (lactato, cetoácidos, metabolitos de alcoholes tóxicos, aniones retenidos en la uremia). Se mantiene normal cuando lo que se pierde es bicarbonato y el cloro ocupa su lugar: por eso las de anión gap normal se llaman hiperclorémicas.',
+      epidemiologia: 'La acidosis láctica y la cetoacidosis son las causas más frecuentes de anión gap elevado en el hospital; la diarrea y la acidosis tubular renal, las de anión gap normal.',
+      factores_riesgo: ['Hipoperfusión y sepsis', 'Diabetes mal controlada', 'Enfermedad renal avanzada', 'Diarrea prolongada', 'Ingesta de alcoholes tóxicos', 'Hipoalbuminemia, que enmascara el anión gap elevado'],
+      criterios_dx: 'Anión gap = sodio menos cloro menos bicarbonato. <strong>Se corrige sumando 2.5 mmol/L por cada g/dL de albúmina por debajo de lo normal.</strong>',
       laboratorio: 'Sodio, cloro, bicarbonato y albúmina siempre. Lactato, cetonas y osmolalidad medida según la sospecha.',
-      complementarios: 'El hueco osmolal (osmolalidad medida menos calculada) abre la puerta a los alcoholes tóxicos cuando hay anion gap elevado sin causa que lo explique.',
-      dx_diferencial: 'El <strong>cociente delta</strong> compara cuánto ha subido el anion gap con cuánto ha bajado el bicarbonato. Si el bicarbonato ha caído mucho más de lo que ha subido el anion gap, hay además una acidosis de anion gap normal; si ha caído mucho menos, hay una alcalosis metabólica superpuesta.',
+      complementarios: 'El hueco osmolal (osmolalidad medida menos calculada) abre la puerta a los alcoholes tóxicos cuando hay anión gap elevado sin causa que lo explique.',
+      dx_diferencial: 'El <strong>cociente delta</strong> compara cuánto ha subido el anión gap con cuánto ha bajado el bicarbonato. Si el bicarbonato ha caído mucho más de lo que ha subido el anión gap, hay además una acidosis de anión gap normal; si ha caído mucho menos, hay una alcalosis metabólica superpuesta.',
       tx_medico: 'Tratar la causa. El bicarbonato no es un tratamiento general de la acidosis metabólica y sus indicaciones son concretas.',
-      algoritmo: ['Calcular el anion gap', 'Corregirlo por albúmina: 2.5 por cada g/dL que falte', 'Si está elevado, buscar lactato, cetonas y alcoholes tóxicos', 'Si es normal, orientar a pérdidas digestivas o tubulares', 'Aplicar el cociente delta para descubrir el trastorno acompañante']
+      algoritmo: ['Calcular el anión gap', 'Corregirlo por albúmina: 2.5 por cada g/dL que falte', 'Si está elevado, buscar lactato, cetonas y alcoholes tóxicos', 'Si es normal, orientar a pérdidas digestivas o tubulares', 'Aplicar el cociente delta para descubrir el trastorno acompañante']
     }
   ],
 
@@ -258,7 +258,7 @@ export const compCites = {
   'Hiperpotasemia: gravedad, electrocardiograma y las tres acciones': { definicion: [3], criterios_dx: [3], laboratorio: [3], tx_farmacologico: [3] },
   'Hipopotasemia e hipomagnesemia, que van juntas': { definicion: [5], criterios_dx: [5], laboratorio: [5], tx_farmacologico: [5] },
   'Lectura sistemática de la gasometría': { definicion: [4], criterios_dx: [4], laboratorio: [4] },
-  'Acidosis metabólica: anion gap, albúmina y cociente delta': { definicion: [4], criterios_dx: [4], laboratorio: [4] }
+  'Acidosis metabólica: anión gap, albúmina y cociente delta': { definicion: [4], criterios_dx: [4], laboratorio: [4] }
 };
 
 export const estigmasTitulo = 'Datos que cambian la conducta';
@@ -271,7 +271,7 @@ export const estigmas = [
   { s: 'Resonium en la hiperpotasemia aguda', p: 'Ya no de rutina', photo: null, desc: 'La guía de 2023 lo retiró del protocolo de tratamiento agudo. Los quelantes actuales son el ciclosilicato de sodio y circonio y el patirómero.' },
   { s: 'Insulina para bajar el potasio', p: 'Vigilar 6 horas', photo: null, desc: 'La hipoglucemia es la complicación yatrogénica más frecuente de este tratamiento. La guía de 2023 fija 6 horas de vigilancia de la glucemia.' },
   { s: 'Hipopotasemia que no responde', p: 'Pedir magnesio', photo: null, desc: 'Sin magnesio, el potasio se pierde por la orina por más que se reponga: el bloqueo de los canales ROMK depende de él.' },
-  { s: 'Anion gap normal con albúmina baja', p: 'Corregirlo', photo: null, desc: 'Hay que sumar 2.5 mmol/L al anion gap por cada g/dL de albúmina que falte. Sin esa corrección, el paciente crítico aparenta un anion gap normal que no lo es.' }
+  { s: 'Anión gap normal con albúmina baja', p: 'Corregirlo', photo: null, desc: 'Hay que sumar 2.5 mmol/L al anión gap por cada g/dL de albúmina que falte. Sin esa corrección, el paciente crítico aparenta un anión gap normal que no lo es.' }
 ];
 
 export const biopsia = null;
@@ -295,7 +295,7 @@ export const escalaCalc = {
 export const compGroups = [
   { name: 'Sodio y agua', items: ['Hiponatremia: clasificar antes de tratar', 'Hiponatremia grave: el protocolo de las primeras horas', 'Corrección excesiva y desmielinización osmótica'] },
   { name: 'Potasio y magnesio', items: ['Hiperpotasemia: gravedad, electrocardiograma y las tres acciones', 'Hipopotasemia e hipomagnesemia, que van juntas'] },
-  { name: 'Equilibrio ácido-base', items: ['Lectura sistemática de la gasometría', 'Acidosis metabólica: anion gap, albúmina y cociente delta'] }
+  { name: 'Equilibrio ácido-base', items: ['Lectura sistemática de la gasometría', 'Acidosis metabólica: anión gap, albúmina y cociente delta'] }
 ];
 
 export const complicacionesIntro = 'Siete fichas en tres bloques. Las tres primeras siguen el recorrido completo de una hiponatremia, desde clasificarla hasta el riesgo de corregirla de más, que es el único error de esta área que deja secuelas irreversibles.';
@@ -330,7 +330,7 @@ export const arbol = {
     {
       title: 'ÁCIDO-BASE', sub: 'Siempre en el mismo orden', color: '#2d6b5c', target: 'clasificacion', leaves: [
         { title: 'Respuesta esperada', sub: 'Fuera de rango: mixto', color: '#2d6b5c', target: 'clasificacion' },
-        { title: 'Anion gap corregido', sub: '2.5 por g/dL de albúmina', color: '#2d6b5c', target: 'complicaciones' },
+        { title: 'Anión gap corregido', sub: '2.5 por g/dL de albúmina', color: '#2d6b5c', target: 'complicaciones' },
         { title: 'Cociente delta', sub: 'Descubre el acompañante', color: '#2d6b5c', target: 'complicaciones' }
       ]
     }

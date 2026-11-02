@@ -64,23 +64,23 @@ function categoriaRiesgo(edad, pct) {
 export const calculators = [
   {
     key: 'score2', title: 'SCORE2 y SCORE2-OP', accent: '#8a2f43',
-    subtitle: 'Riesgo cardiovascular a 10 anos (ESC), calibrado por region',
-    incompleteMsg: 'Completa edad (40 a 89), sexo, PA sistolica, colesterol total y HDL, y la region.',
+    subtitle: 'Riesgo cardiovascular a 10 anos (ESC), calibrado por región',
+    incompleteMsg: 'Completa edad (40 a 89), sexo, PA sistólica, colesterol total y HDL, y la región.',
     fields: [
       { name: 'edad', id: 'hta-s2-edad', type: 'number', label: 'Edad (anos)', placeholder: '40 a 89', row: 'r1' },
       { name: 'sexo', id: 'hta-s2-sexo', type: 'select', label: 'Sexo', options: [
         { value: '', label: 'Selecciona' }, { value: 'male', label: 'Masculino' }, { value: 'female', label: 'Femenino' }], row: 'r1' },
-      { name: 'sbp', id: 'hta-s2-sbp', type: 'number', label: 'PA sistolica (mmHg)', placeholder: 'ej. 150', row: 'r2' },
+      { name: 'sbp', id: 'hta-s2-sbp', type: 'number', label: 'PA sistólica (mmHg)', placeholder: 'ej. 150', row: 'r2' },
       { name: 'fumador', id: 'hta-s2-fuma', type: 'checkbox', label: 'Fumador actual', row: 'r2' },
       { name: 'coltotal', id: 'hta-s2-ct', type: 'number', label: 'Colesterol total (mg/dL)', placeholder: 'ej. 220', row: 'r3' },
       { name: 'colhdl', id: 'hta-s2-hdl', type: 'number', label: 'Colesterol HDL (mg/dL)', placeholder: 'ej. 45', row: 'r3' },
-      { name: 'region', id: 'hta-s2-region', type: 'select', label: 'Region de riesgo', options: [
+      { name: 'region', id: 'hta-s2-region', type: 'select', label: 'Región de riesgo', options: [
         { value: '', label: 'Selecciona' },
         { value: 'bajo', label: 'Bajo riesgo' },
         { value: 'moderado', label: 'Riesgo moderado' },
         { value: 'alto', label: 'Riesgo alto' },
         { value: 'muyalto', label: 'Riesgo muy alto' }] },
-      { type: 'note', text: 'Region: Mexico y Latinoamerica no tienen una calibracion oficial de la ESC; usar la region moderada o alta como aproximacion y el juicio clinico. No usar en diabetes (SCORE2-Diabetes), enfermedad cardiovascular establecida, enfermedad renal cronica moderada-grave o hipercolesterolemia familiar, que ya son de riesgo alto.' }
+      { type: 'note', text: 'Región: México y Latinoamerica no tienen una calibración oficial de la ESC; usar la región moderada o alta como aproximación y el juicio clínico. No usar en diabetes (SCORE2-Diabetes), enfermedad cardiovascular establecida, enfermedad renal crónica moderada-grave o hipercolesterolemia familiar, que ya son de riesgo alto.' }
     ],
     compute(v) {
       if ([v.edad, v.sbp, v.coltotal, v.colhdl].some(x => x == null)) return null;
@@ -94,28 +94,28 @@ export const calculators = [
       return { pct: r.pct, modelo: r.modelo, cat, edad: v.edad };
     },
     format: r => {
-      if (r.fueraRango) return 'SCORE2 y SCORE2-OP solo estan validados entre los 40 y los 89 anos.';
+      if (r.fueraRango) return 'SCORE2 y SCORE2-OP solo están validados entre los 40 y los 89 anos.';
       const impl = r.cat === 'muy alto'
-        ? 'Riesgo muy alto: tratamiento farmacologico y objetivo de PA estricto.'
+        ? 'Riesgo muy alto: tratamiento farmacológico y objetivo de PA estricto.'
         : r.cat === 'alto'
-          ? 'Riesgo alto: iniciar tratamiento farmacologico junto con el estilo de vida.'
-          : 'Riesgo bajo a moderado: estilo de vida y farmacos solo si hay hipertension establecida o dano de organo.';
-      return `<strong>${r.modelo} ${r.pct.toFixed(1)}% a 10 anos</strong>. Categoria para ${r.edad < 50 ? 'menores de 50 anos' : r.edad < 70 ? '50 a 69 anos' : '70 anos o mas'}: <strong>${r.cat}</strong>. ${impl}`;
+          ? 'Riesgo alto: iniciar tratamiento farmacológico junto con el estilo de vida.'
+          : 'Riesgo bajo a moderado: estilo de vida y fármacos solo si hay hipertensión establecida o dano de órgano.';
+      return `<strong>${r.modelo} ${r.pct.toFixed(1)}% a 10 anos</strong>. Categoría para ${r.edad < 50 ? 'menores de 50 anos' : r.edad < 70 ? '50 a 69 anos' : '70 anos o más'}: <strong>${r.cat}</strong>. ${impl}`;
     },
     fragment: r => r.fueraRango ? 'SCORE2 fuera de rango de edad' : `${r.modelo} ${r.pct.toFixed(1)}% (riesgo ${r.cat})`
   },
   {
     key: 'arr', title: 'Cociente aldosterona/renina (ARR)', accent: '#3d5a73',
     subtitle: 'Cribado del hiperaldosteronismo primario',
-    incompleteMsg: 'Introduce la aldosterona plasmatica, el tipo de renina y su valor.',
+    incompleteMsg: 'Introduce la aldosterona plasmática, el tipo de renina y su valor.',
     fields: [
-      { name: 'aldo', id: 'hta-arr-aldo', type: 'number', label: 'Aldosterona plasmatica (ng/dL)', placeholder: 'ej. 22' },
+      { name: 'aldo', id: 'hta-arr-aldo', type: 'number', label: 'Aldosterona plasmática (ng/dL)', placeholder: 'ej. 22' },
       { name: 'tipo', id: 'hta-arr-tipo', type: 'select', label: 'Medida de renina', options: [
         { value: '', label: 'Selecciona' },
-        { value: 'arp', label: 'Actividad de renina plasmatica (ng/mL/h)' },
-        { value: 'crd', label: 'Concentracion de renina directa (mUI/L)' }] },
+        { value: 'arp', label: 'Actividad de renina plasmática (ng/mL/h)' },
+        { value: 'crd', label: 'Concentración de renina directa (mUI/L)' }] },
       { name: 'renina', id: 'hta-arr-renina', type: 'number', step: '0.01', label: 'Valor de renina', placeholder: 'ej. 0.5' },
-      { type: 'note', text: 'Condiciones: corregir la hipopotasemia, dieta con sodio libre, muestra matutina tras 2 horas levantado y 5 a 15 minutos sentado. Suspender antes los antagonistas del receptor mineralocorticoide (4 semanas) y, si es posible, betabloqueadores, IECA, ARA-II, diureticos y dihidropiridinas (2 semanas); verapamilo, hidralazina o doxazosina interfieren poco.' }
+      { type: 'note', text: 'Condiciones: corregir la hipopotasemia, dieta con sodio libre, muestra matutina tras 2 horas levantado y 5 a 15 minutos sentado. Suspender antes los antagonistas del receptor mineralocorticoide (4 semanas) y, si es posible, betabloqueadores, IECA, ARA-II, diuréticos y dihidropiridinas (2 semanas); verapamilo, hidralazina o doxazosina interfieren poco.' }
     ],
     compute(v) {
       if (v.aldo == null || v.renina == null || !v.tipo) return null;
@@ -131,10 +131,10 @@ export const calculators = [
       return { arr, corte, unidad, aldoAlta, interpret, aldo: v.aldo };
     },
     format: r => {
-      if (r.reninaCero) return `Renina no medible o cercana a cero: si la aldosterona esta elevada (${r.aldo} ng/dL), el cociente es muy alto y apoya el cribado positivo; confirma con una prueba especifica.`;
+      if (r.reninaCero) return `Renina no medible o cercana a cero: si la aldosterona esta elevada (${r.aldo} ng/dL), el cociente es muy alto y apoya el cribado positivo; confirma con una prueba específica.`;
       const txt = {
-        positivo: `cribado <strong>positivo</strong> (cociente por encima de ${r.corte} con aldosterona 15 ng/dL o mayor). Continuar con una prueba de confirmacion (sobrecarga de sodio, captopril o fludrocortisona).`,
-        limitrofe: `cociente elevado pero con aldosterona menor de 15 ng/dL: resultado <strong>limitrofe</strong>. Repetir en condiciones optimas antes de decidir.`,
+        positivo: `cribado <strong>positivo</strong> (cociente por encima de ${r.corte} con aldosterona 15 ng/dL o mayor). Continuar con una prueba de confirmación (sobrecarga de sodio, captopril o fludrocortisona).`,
+        limitrofe: `cociente elevado pero con aldosterona menor de 15 ng/dL: resultado <strong>limítrofe</strong>. Repetir en condiciones óptimas antes de decidir.`,
         negativo: `cribado <strong>negativo</strong> para hiperaldosteronismo primario en estas condiciones.`
       }[r.interpret];
       return `<strong>ARR ${r.arr.toFixed(1)} ${r.unidad}</strong>: ${txt}`;
@@ -142,14 +142,14 @@ export const calculators = [
     fragment: r => r.reninaCero ? 'ARR: renina suprimida' : `ARR ${r.arr.toFixed(1)} (${r.interpret})`
   },
   {
-    key: 'clasificacion-pa', title: 'Clasificacion de la presion arterial', accent: '#6b3a5a',
-    subtitle: 'Categoria de consultorio y fenotipo con MAPA o AMPA',
-    incompleteMsg: 'Introduce al menos la PA sistolica y diastolica de consultorio.',
+    key: 'clasificacion-pa', title: 'Clasificación de la presión arterial', accent: '#6b3a5a',
+    subtitle: 'Categoría de consultorio y fenotipo con MAPA o AMPA',
+    incompleteMsg: 'Introduce al menos la PA sistólica y diastólica de consultorio.',
     fields: [
-      { name: 'pasC', id: 'hta-cp-pasc', type: 'number', label: 'PA sistolica de consultorio (mmHg)', placeholder: 'ej. 146', row: 'r1' },
-      { name: 'padC', id: 'hta-cp-padc', type: 'number', label: 'PA diastolica de consultorio (mmHg)', placeholder: 'ej. 92', row: 'r1' },
-      { name: 'pasF', id: 'hta-cp-pasf', type: 'number', required: false, label: 'Opcional: PA sistolica fuera de consultorio (MAPA diurna o AMPA)', placeholder: 'ej. 132', row: 'r2' },
-      { name: 'padF', id: 'hta-cp-padf', type: 'number', required: false, label: 'Opcional: PA diastolica fuera de consultorio', placeholder: 'ej. 84', row: 'r2' },
+      { name: 'pasC', id: 'hta-cp-pasc', type: 'number', label: 'PA sistólica de consultorio (mmHg)', placeholder: 'ej. 146', row: 'r1' },
+      { name: 'padC', id: 'hta-cp-padc', type: 'number', label: 'PA diastólica de consultorio (mmHg)', placeholder: 'ej. 92', row: 'r1' },
+      { name: 'pasF', id: 'hta-cp-pasf', type: 'number', required: false, label: 'Opcional: PA sistólica fuera de consultorio (MAPA diurna o AMPA)', placeholder: 'ej. 132', row: 'r2' },
+      { name: 'padF', id: 'hta-cp-padf', type: 'number', required: false, label: 'Opcional: PA diastólica fuera de consultorio', placeholder: 'ej. 84', row: 'r2' },
       { type: 'note', text: 'Umbral fuera de consultorio (MAPA diurna o AMPA): 135/85 mmHg o mayor. MAPA de 24 horas 130/80; MAPA nocturna 120/70.' }
     ],
     compute(v) {
@@ -179,7 +179,7 @@ export const calculators = [
     },
     format: r => {
       let s = `<strong>ESC 2024: ${r.esc}${r.grado}</strong>. ACC/AHA 2025: ${r.aha}.`;
-      if (r.fenotipo) s += ` Fenotipo con la medicion fuera de consultorio: <strong>${r.fenotipo}</strong>.`;
+      if (r.fenotipo) s += ` Fenotipo con la medición fuera de consultorio: <strong>${r.fenotipo}</strong>.`;
       else s += ' Confirma con MAPA o AMPA antes de diagnosticar y para descartar bata blanca o HTA enmascarada.';
       return s;
     },

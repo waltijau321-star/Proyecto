@@ -112,7 +112,7 @@ export const content = {
       { prueba: 'Tamizaje toxicológico y niveles de fármacos', utilidad: 'Identifica intoxicación o efecto acumulado de fármacos sedantes/anticolinérgicos.' }
     ],
     no_invasivos: [
-      { metodo: 'CAM (Confusion Assessment Method, calculadora)', interpretacion: 'Combina inicio agudo/curso fluctuante, inatención, y pensamiento desorganizado o alteración del nivel de conciencia, para el diagnóstico de delirium.', cutoff: 'Inicio agudo + inatención + (pensamiento desorganizado O alteración de conciencia)' }
+      { metodo: 'CAM (Confusión Assessment Method, calculadora)', interpretacion: 'Combina inicio agudo/curso fluctuante, inatención, y pensamiento desorganizado o alteración del nivel de conciencia, para el diagnóstico de delirium.', cutoff: 'Inicio agudo + inatención + (pensamiento desorganizado O alteración de conciencia)' }
     ],
     imagen: [
       { modalidad: 'Tomografía computarizada cerebral urgente', hallazgos: 'Indicada en todo paciente con alteración aguda e inexplicada de conciencia para descartar causa estructural (hemorragia, gran infarto, masa) antes de atribuir el cuadro a una causa metabólica.' },
@@ -123,7 +123,7 @@ export const content = {
   clasificacion: {
     compensada_descompensada: 'La distinción central de este tema es entre las 4 entidades (delirium, coma, encefalopatías metabólicas/tóxicas, encefalopatía de Wernicke), que comparten el principio de ser síndromes secundarios a una causa identificable y con frecuencia reversible si se trata a tiempo.',
     escalas: [
-      { nombre: 'CAM (Confusion Assessment Method)', componentes: 'Inicio agudo y curso fluctuante, inatención, pensamiento desorganizado, alteración del nivel de conciencia. Calculadora disponible más abajo.', formula: 'Inicio agudo/fluctuante + inatención + (pensamiento desorganizado O alteración de conciencia)', interpretacion: 'La herramienta diagnóstica estándar para delirium, validada tanto en planta como en UCI (versión CAM-ICU).' }
+      { nombre: 'CAM (Confusión Assessment Method)', componentes: 'Inicio agudo y curso fluctuante, inatención, pensamiento desorganizado, alteración del nivel de conciencia. Calculadora disponible más abajo.', formula: 'Inicio agudo/fluctuante + inatención + (pensamiento desorganizado O alteración de conciencia)', interpretacion: 'La herramienta diagnóstica estándar para delirium, validada tanto en planta como en UCI (versión CAM-ICU).' }
     ]
   },
   complicaciones: [
@@ -221,8 +221,8 @@ export const compCites = {
 };
 export const estigmas = [];
 export const biopsia = null;
-export const escalaRefs = { 'CAM (Confusion Assessment Method)': [1] };
-export const escalaCalc = { 'CAM (Confusion Assessment Method)': 'cam-delirium' };
+export const escalaRefs = { 'CAM (Confusión Assessment Method)': [1] };
+export const escalaCalc = { 'CAM (Confusión Assessment Method)': 'cam-delirium' };
 export const compGroups = [
   { name: 'Manejo agudo', items: ['Agitación y manejo farmacológico del delirium', 'Muerte cerebral y sus criterios diagnósticos'] },
   { name: 'Secuelas a largo plazo', items: ['Síndrome de Korsakoff', 'Delirium persistente y deterioro cognitivo a largo plazo'] }

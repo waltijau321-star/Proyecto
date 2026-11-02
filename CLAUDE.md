@@ -169,6 +169,22 @@ edition is in `Bibliografia/` before citing a guideline, and when hunting for an
 filter PubMed with `AND "pubmed pmc"[sb]` and search guidelines by author: the `"open access"[Filter]`
 filter does not exist and returns 0 without warning.
 
+**Accents.** Topic text is written with real accented characters, not `&#NNN;` entities and
+not bare vowels. Both older styles were cleaned up (4026 entities on 1 Nov 2026, 83 489 missing
+accents on 2 Nov), and a per-topic test (`tildes[<id>]` in `tests.js`) fails if a word that is not
+Spanish without its accent comes back. Three places must stay unaccented, and getting this wrong
+breaks things silently: **property names** (`definicion`, `clinica`, `pronostico`,
+`farmacologico` are schema keys, and accenting one leaves the engine looking for a key that no
+longer exists), **values the engine compares** (`dificultad: 'facil'` is matched against the
+`<option value="facil">` of the exam, and a topic's `id` is the key of its notes collection), and
+**`bibliografia` / `fuente`**, where author names and titles are written as published
+(`Martin ML`, `Berlin definition. JAMA`) so an accent there falsifies the reference. In prose,
+`definicion de Berlin` does take it. Leave alone what genuinely needs judgement: `estudio` /
+`estudio`, `inicio` / `inicio` and the other noun/preterite pairs (unaccented is the noun, which is
+right almost every time), `continua` / `continua`, the double-accentuation words (`cardiaca`,
+`triada`, `varices`, `alveolo`, all valid both ways), and `el` / `el`, `si` / `si`, `esta` /
+`esta`.
+
 **Quiz questions** (`topic.study.quiz`, from each topic's `study.js`): a flat array mixing
 plain questions (`{ q, options, correct, explanation, dificultad }`) and multi-step cascade cases
 (`{ type: 'cascade', vignette, steps: [{ q, options, correct }], explanation, dificultad }`). Any

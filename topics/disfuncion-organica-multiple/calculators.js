@@ -135,31 +135,31 @@ export const calculators = [
   {
     key: 'sofa', title: 'SOFA y SOFA-2', accent: '#8c3a34',
     subtitle: 'Las dos versiones con los mismos datos, para ver donde difieren',
-    incompleteMsg: 'Introduce Glasgow, cociente PaO2/FiO2, tension arterial media, bilirrubina, creatinina y plaquetas, y elige el soporte respiratorio y la diuresis.',
+    incompleteMsg: 'Introduce Glasgow, cociente PaO2/FiO2, tensión arterial media, bilirrubina, creatinina y plaquetas, y elige el soporte respiratorio y la diuresis.',
     fields: [
       { name: 'gcs', id: 'do-sf-g', type: 'number', step: '1', label: 'Escala de coma de Glasgow (3 a 15)', placeholder: 'ej. 14', row: 'r1' },
-      { name: 'delirium', id: 'do-sf-d', type: 'checkbox', label: 'Recibe tratamiento farmacologico para el delirium', row: 'r1' },
+      { name: 'delirium', id: 'do-sf-d', type: 'checkbox', label: 'Recibe tratamiento farmacológico para el delirium', row: 'r1' },
       { name: 'pafi', id: 'do-sf-p', type: 'number', step: '1', label: 'Cociente PaO2/FiO2 (mmHg)', placeholder: 'ej. 180', row: 'r2' },
       { name: 'soporte', id: 'do-sf-s', type: 'select', label: 'Soporte respiratorio', row: 'r2', options: [
-        { v: 'ninguno', t: 'Ninguno u oxigeno convencional' },
-        { v: 'avanzado', t: 'Avanzado: alto flujo, CPAP, VNI o ventilacion invasiva' },
-        { v: 'ecmo', t: 'Oxigenacion por membrana extracorporea' }
+        { v: 'ninguno', t: 'Ninguno u oxígeno convencional' },
+        { v: 'avanzado', t: 'Avanzado: alto flujo, CPAP, VNI o ventilación invasiva' },
+        { v: 'ecmo', t: 'Oxigenación por membrana extracorpórea' }
       ] },
-      { name: 'pam', id: 'do-sf-m', type: 'number', step: '1', label: 'Tension arterial media (mmHg)', placeholder: 'ej. 68', row: 'r3' },
+      { name: 'pam', id: 'do-sf-m', type: 'number', step: '1', label: 'Tensión arterial media (mmHg)', placeholder: 'ej. 68', row: 'r3' },
       { name: 'neAdr', id: 'do-sf-n', type: 'number', step: '0.01', required: false, label: 'Noradrenalina + adrenalina, suma (mcg/kg/min)', placeholder: 'ej. 0.25', row: 'r3' },
-      { name: 'otroVaso', id: 'do-sf-o', type: 'checkbox', label: 'Otro vasopresor o inotropico a cualquier dosis (dopamina, vasopresina, dobutamina)', row: 'r4' },
-      { name: 'mecanico', id: 'do-sf-me', type: 'checkbox', label: 'Soporte mecanico circulatorio (balon, asistencia ventricular, membrana venoarterial)', row: 'r4' },
+      { name: 'otroVaso', id: 'do-sf-o', type: 'checkbox', label: 'Otro vasopresor o inotrópico a cualquier dosis (dopamina, vasopresina, dobutamina)', row: 'r4' },
+      { name: 'mecanico', id: 'do-sf-me', type: 'checkbox', label: 'Soporte mecánico circulatorio (balón, asistencia ventricular, membrana venoarterial)', row: 'r4' },
       { name: 'bili', id: 'do-sf-b', type: 'number', step: '0.1', label: 'Bilirrubina total (mg/dL)', placeholder: 'ej. 2.4', row: 'r5' },
       { name: 'creat', id: 'do-sf-c', type: 'number', step: '0.1', label: 'Creatinina (mg/dL)', placeholder: 'ej. 2.2', row: 'r5' },
       { name: 'diuresis', id: 'do-sf-di', type: 'select', label: 'Diuresis', row: 'r6', options: [
         { v: 'normal', t: 'Conservada' },
         { v: 'leve', t: 'Menos de 0.5 mL/kg/h durante 6 a 12 horas' },
-        { v: 'moderada', t: 'Menos de 0.5 mL/kg/h durante 12 horas o mas' },
+        { v: 'moderada', t: 'Menos de 0.5 mL/kg/h durante 12 horas o más' },
         { v: 'grave', t: 'Menos de 0.3 mL/kg/h durante 24 horas, o anuria' }
       ] },
       { name: 'plq', id: 'do-sf-pl', type: 'number', step: '1', label: 'Plaquetas (x1000/microL)', placeholder: 'ej. 90', row: 'r6' },
-      { name: 'trs', id: 'do-sf-t', type: 'checkbox', label: 'Recibe depuracion extrarrenal, o cumple criterios para iniciarla' },
-      { type: 'note', text: 'Se usan los PEORES valores de las ultimas 24 horas. En el paciente sedado hay que introducir el ultimo Glasgow ANTERIOR a la sedacion, y si no se conoce se puntua 0. Los datos que faltan el primer dia se puntuan 0; a partir del segundo, se arrastra el ultimo valor conocido. La conversion de vasoactivos a la escala clasica es una APROXIMACION, porque aquella se construyo alrededor de la dopamina.' }
+      { name: 'trs', id: 'do-sf-t', type: 'checkbox', label: 'Recibe depuración extrarrenal, o cumple criterios para iniciarla' },
+      { type: 'note', text: 'Se usan los PEORES valores de las últimas 24 horas. En el paciente sedado hay que introducir el último Glasgow ANTERIOR a la sedación, y si no se conoce se puntúa 0. Los datos que faltan el primer dia se puntuan 0; a partir del segundo, se arrastra el último valor conocido. La conversión de vasoactivos a la escala clásica es una APROXIMACIÓN, porque aquella se construyo alrededor de la dopamina.' }
     ],
     compute(v) {
       if (v.gcs == null || v.pafi == null || v.pam == null || v.bili == null || v.creat == null || v.plq == null) return null;
@@ -201,40 +201,40 @@ export const calculators = [
       };
     },
     format: r => {
-      if (r.invalido) return 'Revisa los valores: Glasgow de 3 a 15, cociente de 1 a 700, tension media de 11 a 200 mmHg, vasoactivos de 0 a 10 mcg/kg/min, bilirrubina de 0 a 100, creatinina de 0 a 25 y plaquetas de 0 a 2000.';
-      let s = `<strong>SOFA-2: ${r.t2} de 24 puntos. SOFA clasico: ${r.t1} de 24.</strong>`;
+      if (r.invalido) return 'Revisa los valores: Glasgow de 3 a 15, cociente de 1 a 700, tensión media de 11 a 200 mmHg, vasoactivos de 0 a 10 mcg/kg/min, bilirrubina de 0 a 100, creatinina de 0 a 25 y plaquetas de 0 a 2000.';
+      let s = `<strong>SOFA-2: ${r.t2} de 24 puntos. SOFA clásico: ${r.t1} de 24.</strong>`;
       s += `<br><span style="opacity:.85;">Por sistemas en SOFA-2: ${NOMBRES.map((n, i) => n + ' ' + r.s2[i]).join(', ')}.</span>`;
-      if (r.difs.length) s += `<br><strong style="color:#8a6a1f;">Las dos versiones difieren en ${r.difs.length} dominio${r.difs.length > 1 ? 's' : ''}:</strong> ${r.difs.join('; ')}. Las puntuaciones de una y otra NO son comparables entre si: hay que elegir una version y mantenerla a lo largo del ingreso.`;
+      if (r.difs.length) s += `<br><strong style="color:#8a6a1f;">Las dos versiones difieren en ${r.difs.length} dominio${r.difs.length > 1 ? 's' : ''}:</strong> ${r.difs.join('; ')}. Las puntuaciones de una y otra NO son comparables entre si: hay que elegir una versión y mantenerla a lo largo del ingreso.`;
       else s += '<br><span style="opacity:.75;">Con estos datos ambas versiones coinciden dominio a dominio, que es lo habitual en los casos sin soporte avanzado ni vasoactivos.</span>';
-      if (r.organos >= 2) s += `<br><strong style="color:#8c3a34;">Hay ${r.organos} sistemas con disfuncion relevante (2 puntos o mas):</strong> el cuadro encaja con un sindrome de disfuncion organica multiple.`;
-      s += '<br><span style="opacity:.75;">Con infeccion sospechada o documentada, un incremento AGUDO de 2 o mas puntos sobre el basal define SEPSIS. Si no se conoce disfuncion previa, el basal se asume 0.</span>';
-      if (r.delirium) s += '<br><span style="color:#6b4a8c;">El punto del dominio cerebral viene de los farmacos para el delirium, con un Glasgow de 15.</span> Es una de las novedades de SOFA-2: reconoce el delirium como disfuncion organica, y en la version clasica ese paciente puntuaria 0.';
-      if (r.techoResp) s += '<br><strong style="color:#8a6a1f;">Atencion al dominio respiratorio:</strong> el cociente es bajo pero no hay soporte ventilatorio avanzado, y SOFA-2 limita a 2 puntos en ese caso. Si el paciente deberia estar recibiendo ese soporte y no lo recibe, la escala esta INFRAESTIMANDO su gravedad.';
-      if (r.trs) s += '<br><span style="opacity:.75;">La depuracion extrarrenal, recibida o indicada, puntua el maximo del dominio renal en SOFA-2 aunque la creatinina no lo haga.</span>';
-      if (r.mecanico) s += '<br><span style="opacity:.75;">El soporte mecanico circulatorio puntua el maximo del dominio cardiovascular en SOFA-2, un supuesto que la version de 1996 no contemplaba.</span>';
-      s += '<br><span style="opacity:.75;">Lo que mas informa NO es esta cifra sino su TENDENCIA: hay que repetirla cada 24 horas y comparar.</span>';
+      if (r.organos >= 2) s += `<br><strong style="color:#8c3a34;">Hay ${r.organos} sistemas con disfunción relevante (2 puntos o más):</strong> el cuadro encaja con un síndrome de disfunción orgánica múltiple.`;
+      s += '<br><span style="opacity:.75;">Con infección sospechada o documentada, un incremento AGUDO de 2 o más puntos sobre el basal define SEPSIS. Si no se conoce disfunción previa, el basal se asume 0.</span>';
+      if (r.delirium) s += '<br><span style="color:#6b4a8c;">El punto del dominio cerebral viene de los fármacos para el delirium, con un Glasgow de 15.</span> Es una de las novedades de SOFA-2: reconoce el delirium como disfunción orgánica, y en la versión clásica ese paciente puntuaria 0.';
+      if (r.techoResp) s += '<br><strong style="color:#8a6a1f;">Atención al dominio respiratorio:</strong> el cociente es bajo pero no hay soporte ventilatorio avanzado, y SOFA-2 limita a 2 puntos en ese caso. Si el paciente debería estar recibiendo ese soporte y no lo recibe, la escala esta INFRAESTIMANDO su gravedad.';
+      if (r.trs) s += '<br><span style="opacity:.75;">La depuración extrarrenal, recibida o indicada, puntúa el máximo del dominio renal en SOFA-2 aunque la creatinina no lo haga.</span>';
+      if (r.mecanico) s += '<br><span style="opacity:.75;">El soporte mecánico circulatorio puntúa el máximo del dominio cardiovascular en SOFA-2, un supuesto que la versión de 1996 no contemplaba.</span>';
+      s += '<br><span style="opacity:.75;">Lo que más informa NO es esta cifra sino su TENDENCIA: hay que repetirla cada 24 horas y comparar.</span>';
       return s;
     },
-    fragment: r => r.invalido ? 'valores no validos' : `SOFA-2 ${r.t2}/24 (clasico ${r.t1}/24)`
+    fragment: r => r.invalido ? 'valores no validos' : `SOFA-2 ${r.t2}/24 (clásico ${r.t1}/24)`
   },
 
   {
     key: 'cribado-deterioro', title: 'Cribado del deterioro: NEWS2 y qSOFA', accent: '#3f6b52',
-    subtitle: 'Las dos herramientas con las mismas constantes, y cual recomienda la guia',
+    subtitle: 'Las dos herramientas con las mismas constantes, y cual recomienda la guía',
     incompleteMsg: 'Introduce las constantes vitales y elige el nivel de conciencia.',
     fields: [
       { name: 'fr', id: 'do-cr-fr', type: 'number', step: '1', label: 'Frecuencia respiratoria (por minuto)', placeholder: 'ej. 24', row: 'r1' },
-      { name: 'sat', id: 'do-cr-s', type: 'number', step: '1', label: 'Saturacion de oxigeno (%)', placeholder: 'ej. 93', row: 'r1' },
-      { name: 'oxigeno', id: 'do-cr-o', type: 'checkbox', label: 'Recibe oxigeno suplementario', row: 'r2' },
-      { name: 'hipercapnico', id: 'do-cr-h', type: 'checkbox', label: 'Objetivo de saturacion bajo por riesgo de retencion de carbonico (escala 2)', row: 'r2' },
-      { name: 'tas', id: 'do-cr-t', type: 'number', step: '1', label: 'Tension arterial sistolica (mmHg)', placeholder: 'ej. 98', row: 'r3' },
+      { name: 'sat', id: 'do-cr-s', type: 'number', step: '1', label: 'Saturación de oxígeno (%)', placeholder: 'ej. 93', row: 'r1' },
+      { name: 'oxigeno', id: 'do-cr-o', type: 'checkbox', label: 'Recibe oxígeno suplementario', row: 'r2' },
+      { name: 'hipercapnico', id: 'do-cr-h', type: 'checkbox', label: 'Objetivo de saturación bajo por riesgo de retención de carbonico (escala 2)', row: 'r2' },
+      { name: 'tas', id: 'do-cr-t', type: 'number', step: '1', label: 'Tensión arterial sistólica (mmHg)', placeholder: 'ej. 98', row: 'r3' },
       { name: 'fc', id: 'do-cr-fc', type: 'number', step: '1', label: 'Frecuencia cardiaca (por minuto)', placeholder: 'ej. 112', row: 'r3' },
-      { name: 'temp', id: 'do-cr-te', type: 'number', step: '0.1', label: 'Temperatura (grados centigrados)', placeholder: 'ej. 38.4', row: 'r4' },
+      { name: 'temp', id: 'do-cr-te', type: 'number', step: '0.1', label: 'Temperatura (grados centígrados)', placeholder: 'ej. 38.4', row: 'r4' },
       { name: 'conciencia', id: 'do-cr-c', type: 'select', label: 'Nivel de conciencia', row: 'r4', options: [
         { v: 'alerta', t: 'Alerta y orientado' },
-        { v: 'alterado', t: 'Confusion nueva, o responde solo a la voz, al dolor o no responde' }
+        { v: 'alterado', t: 'Confusión nueva, o responde solo a la voz, al dolor o no responde' }
       ] },
-      { type: 'note', text: 'La Surviving Sepsis Campaign de 2026 recomienda de forma FUERTE, con certeza moderada, usar NEWS, NEWS2, MEWS o los criterios de respuesta inflamatoria sistemica POR ENCIMA de qSOFA como herramienta unica de cribado de sepsis en el paciente hospitalizado, porque la sensibilidad de qSOFA es baja. Un qSOFA positivo sigue siendo una alerta valiosa de deterioro, pero no sirve como cribado. Y ninguna escala reemplaza a un sistema que garantice que alguien acude cuando la puntuacion sube.' }
+      { type: 'note', text: 'La Surviving Sepsis Campaign de 2026 recomienda de forma FUERTE, con certeza moderada, usar NEWS, NEWS2, MEWS o los criterios de respuesta inflamatoria sistémica POR ENCIMA de qSOFA como herramienta única de cribado de sepsis en el paciente hospitalizado, porque la sensibilidad de qSOFA es baja. Un qSOFA positivo sigue siendo una alerta valiosa de deterioro, pero no sirve como cribado. Y ninguna escala reemplaza a un sistema que garantice que alguien acude cuando la puntuación sube.' }
     ],
     compute(v) {
       if (v.fr == null || v.sat == null || v.tas == null || v.fc == null || v.temp == null || !v.conciencia) return null;
@@ -247,8 +247,8 @@ export const calculators = [
       const partes = [
         ['frecuencia respiratoria', newsFr(v.fr)],
         ['saturacion', v.hipercapnico ? newsSat2(v.sat, !!v.oxigeno) : newsSat1(v.sat)],
-        ['oxigeno suplementario', v.oxigeno ? 2 : 0],
-        ['tension sistolica', newsTas(v.tas)],
+        ['oxígeno suplementario', v.oxigeno ? 2 : 0],
+        ['tensión sistólica', newsTas(v.tas)],
         ['frecuencia cardiaca', newsFc(v.fc)],
         ['nivel de conciencia', alterado ? 3 : 0],
         ['temperatura', newsTemp(v.temp)]
@@ -264,19 +264,19 @@ export const calculators = [
       return { news, banda, rojo, partes: partes.filter(p => p[1] > 0), q, qPositivo: q >= 2, discordante: (news >= 5) !== (q >= 2) };
     },
     format: r => {
-      if (r.invalido) return 'Revisa las constantes: frecuencia respiratoria de 1 a 80, saturacion de 40 a 100%, sistolica de 40 a 300 mmHg, frecuencia cardiaca de 10 a 300 y temperatura de 25 a 45 grados.';
+      if (r.invalido) return 'Revisa las constantes: frecuencia respiratoria de 1 a 80, saturación de 40 a 100%, sistólica de 40 a 300 mmHg, frecuencia cardiaca de 10 a 300 y temperatura de 25 a 45 grados.';
       let s = `<strong>NEWS2: ${r.news} puntos, riesgo ${r.banda}. qSOFA: ${r.q} de 3${r.qPositivo ? ', POSITIVO' : ''}.</strong>`;
       if (r.partes.length) s += `<br><span style="opacity:.8;">Suman: ${r.partes.map(p => p[0] + ' (' + p[1] + ')').join(', ')}.</span>`;
-      if (r.banda === 'ALTO') s += '<br><strong style="color:#8c3a34;">Respuesta de emergencia:</strong> valoracion inmediata por un equipo con competencias en cuidados criticos, monitorizacion continua y traslado a un area de mayor nivel de vigilancia.';
-      else if (r.banda === 'MEDIO') s += '<br><strong style="color:#8a6a1f;">Respuesta urgente:</strong> valoracion por un medico con capacidad de decision, aumento de la frecuencia de constantes a cada hora y umbral bajo para escalar.';
-      else if (r.banda === 'BAJO A MEDIO') s += `<br><strong style="color:#8a6a1f;">Hay un parametro aislado en rango rojo (${r.rojo.join(', ')}).</strong> Aunque el total sea bajo, un solo parametro extremo obliga a valoracion clinica urgente: ese es el motivo de que la escala tenga esta categoria propia.`;
-      else s += '<br><span style="color:#3f6b52;">Riesgo bajo por ahora.</span> Continuar la monitorizacion habitual y repetir. Una puntuacion baja en un paciente que impresiona mal NO cierra nada: la preocupacion del personal de enfermeria es por si sola un criterio de escalada.';
+      if (r.banda === 'ALTO') s += '<br><strong style="color:#8c3a34;">Respuesta de emergencia:</strong> valoración inmediata por un equipo con competencias en cuidados críticos, monitorización continua y traslado a un área de mayor nivel de vigilancia.';
+      else if (r.banda === 'MEDIO') s += '<br><strong style="color:#8a6a1f;">Respuesta urgente:</strong> valoración por un médico con capacidad de decisión, aumento de la frecuencia de constantes a cada hora y umbral bajo para escalar.';
+      else if (r.banda === 'BAJO A MEDIO') s += `<br><strong style="color:#8a6a1f;">Hay un parámetro aislado en rango rojo (${r.rojo.join(', ')}).</strong> Aunque el total sea bajo, un solo parámetro extremo obliga a valoración clínica urgente: ese es el motivo de que la escala tenga esta categoría propia.`;
+      else s += '<br><span style="color:#3f6b52;">Riesgo bajo por ahora.</span> Continuar la monitorización habitual y repetir. Una puntuación baja en un paciente que impresiona mal NO cierra nada: la preocupación del personal de enfermeria es por si sola un criterio de escalada.';
       if (r.discordante) {
-        s += '<br><strong style="color:#3d5a73;">Las dos herramientas discrepan,</strong> y eso es exactamente lo que la evidencia predice. La guia de sepsis de 2026 recomienda de forma FUERTE usar NEWS, NEWS2, MEWS o los criterios de respuesta inflamatoria sistemica por encima de qSOFA como cribado unico, porque qSOFA tiene sensibilidad baja y deja escapar pacientes.';
+        s += '<br><strong style="color:#3d5a73;">Las dos herramientas discrepan,</strong> y eso es exactamente lo que la evidencia predice. La guía de sepsis de 2026 recomienda de forma FUERTE usar NEWS, NEWS2, MEWS o los criterios de respuesta inflamatoria sistémica por encima de qSOFA como cribado único, porque qSOFA tiene sensibilidad baja y deja escapar pacientes.';
       } else if (r.qPositivo) {
-        s += '<br><strong style="color:#8c3a34;">qSOFA positivo</strong>, lo que se asocia a peor pronostico en el paciente con infeccion. No es un cribado, pero un qSOFA positivo si obliga a pensar en sepsis y a actuar.';
+        s += '<br><strong style="color:#8c3a34;">qSOFA positivo</strong>, lo que se asocia a peor pronóstico en el paciente con infección. No es un cribado, pero un qSOFA positivo si obliga a pensar en sepsis y a actuar.';
       }
-      s += '<br><span style="opacity:.75;">Ninguna de las dos diagnostica nada: detectan DETERIORO. La causa puede ser infeccion, hemorragia, tromboembolia, arritmia, dolor o deprivacion. Y su utilidad real depende del sistema de respuesta que las acompañe, no del numero.</span>';
+      s += '<br><span style="opacity:.75;">Ninguna de las dos diagnóstica nada: detectan DETERIORO. La causa puede ser infección, hemorragia, tromboembolia, arritmia, dolor o deprivación. Y su utilidad real depende del sistema de respuesta que las acompañe, no del número.</span>';
       return s;
     },
     fragment: r => r.invalido ? 'valores no validos' : `NEWS2 ${r.news}, riesgo ${r.banda.toLowerCase()}; qSOFA ${r.q}/3`
@@ -285,10 +285,10 @@ export const calculators = [
   {
     key: 'apache-ii', title: 'APACHE II', accent: '#8a6a1f',
     subtitle: 'Gravedad al ingreso con los peores valores de las primeras 24 horas',
-    incompleteMsg: 'Introduce las variables fisiologicas, la edad y elige la situacion de salud cronica previa.',
+    incompleteMsg: 'Introduce las variables fisiológicas, la edad y elige la situación de salud crónica previa.',
     fields: [
-      { name: 'temp', id: 'do-ap-t', type: 'number', step: '0.1', label: 'Temperatura central (grados centigrados)', placeholder: 'ej. 38.9', row: 'r1' },
-      { name: 'pam', id: 'do-ap-m', type: 'number', step: '1', label: 'Tension arterial media (mmHg)', placeholder: 'ej. 62', row: 'r1' },
+      { name: 'temp', id: 'do-ap-t', type: 'number', step: '0.1', label: 'Temperatura central (grados centígrados)', placeholder: 'ej. 38.9', row: 'r1' },
+      { name: 'pam', id: 'do-ap-m', type: 'number', step: '1', label: 'Tensión arterial media (mmHg)', placeholder: 'ej. 62', row: 'r1' },
       { name: 'fc', id: 'do-ap-fc', type: 'number', step: '1', label: 'Frecuencia cardiaca (por minuto)', placeholder: 'ej. 124', row: 'r2' },
       { name: 'fr', id: 'do-ap-fr', type: 'number', step: '1', label: 'Frecuencia respiratoria (por minuto)', placeholder: 'ej. 28', row: 'r2' },
       { name: 'oxi', id: 'do-ap-o', type: 'number', step: '1', label: 'PaO2 en mmHg si la FiO2 es menor de 0.5, o gradiente alveoloarterial si es 0.5 o mayor', placeholder: 'ej. 68', row: 'r3' },
@@ -302,12 +302,12 @@ export const calculators = [
       { name: 'leu', id: 'do-ap-l', type: 'number', step: '0.1', label: 'Leucocitos (x1000/microL)', placeholder: 'ej. 18.5', row: 'r7' },
       { name: 'gcs', id: 'do-ap-g', type: 'number', step: '1', label: 'Escala de coma de Glasgow (3 a 15)', placeholder: 'ej. 12', row: 'r7' },
       { name: 'edad', id: 'do-ap-e', type: 'number', step: '1', label: 'Edad (años)', placeholder: 'ej. 71', row: 'r8' },
-      { name: 'cronica', id: 'do-ap-cr', type: 'select', label: 'Insuficiencia organica cronica grave o inmunodepresion', row: 'r8', options: [
+      { name: 'cronica', id: 'do-ap-cr', type: 'select', label: 'Insuficiencia orgánica crónica grave o inmunodepresion', row: 'r8', options: [
         { v: 'no', t: 'No' },
-        { v: 'urgente', t: 'Si, ingreso medico o posoperatorio urgente' },
+        { v: 'urgente', t: 'Si, ingreso médico o posoperatorio urgente' },
         { v: 'electivo', t: 'Si, posoperatorio electivo' }
       ] },
-      { type: 'note', text: 'Se usan los PEORES valores de las primeras 24 horas de ingreso en la unidad y se calcula UNA sola vez: no es una escala de seguimiento, para eso esta SOFA. Predice la mortalidad esperada de POBLACIONES y sirve para ajustar por gravedad, comparar unidades y diseñar estudios. NO esta validada para decidir el techo terapeutico de un paciente concreto ni para comunicar un pronostico individual a la familia.' }
+      { type: 'note', text: 'Se usan los PEORES valores de las primeras 24 horas de ingreso en la unidad y se calcula UNA sola vez: no es una escala de seguimiento, para eso esta SOFA. Predice la mortalidad esperada de POBLACIONES y sirve para ajustar por gravedad, comparar unidades y diseñar estudios. NO esta validada para decidir el techo terapéutico de un paciente concreto ni para comunicar un pronóstico individual a la familia.' }
     ],
     compute(v) {
       const req = ['temp', 'pam', 'fc', 'fr', 'oxi', 'ph', 'na', 'k', 'creat', 'hto', 'leu', 'gcs', 'edad'];
@@ -352,11 +352,11 @@ export const calculators = [
     format: r => {
       if (r.invalido) return 'Revisa los valores: Glasgow de 3 a 15, edad de 0 a 120 años, pH de 6.5 a 8 y temperatura de 25 a 45 grados.';
       let s = `<strong>APACHE II: ${r.total} puntos de 71. Gravedad ${r.banda}.</strong>`;
-      s += `<br><span style="opacity:.85;">Variables fisiologicas ${r.sumaAps}, edad ${r.pEdad}, salud cronica ${r.pCronica}.</span>`;
-      if (r.top.length) s += `<br><span style="opacity:.8;">Lo que mas pesa: ${r.top.join(', ')}.</span>`;
+      s += `<br><span style="opacity:.85;">Variables fisiológicas ${r.sumaAps}, edad ${r.pEdad}, salud crónica ${r.pCronica}.</span>`;
+      if (r.top.length) s += `<br><span style="opacity:.8;">Lo que más pesa: ${r.top.join(', ')}.</span>`;
       if (r.fra) s += '<br><span style="opacity:.75;">Los puntos de la creatinina se han duplicado por tratarse de un fracaso renal agudo, tal como indica la escala original.</span>';
-      s += '<br><strong style="color:#8c3a34;">Como se interpreta y como NO.</strong> La puntuacion estima la mortalidad esperada de una POBLACION con esa gravedad y sirve para ajustar por gravedad, comparar unidades y diseñar estudios. No esta validada para predecir el desenlace de este paciente, ni para decidir su techo terapeutico, ni para comunicar un pronostico a la familia.';
-      s += '<br><span style="opacity:.75;">Es una escala de INGRESO: se calcula una sola vez con los peores valores de las primeras 24 horas y no se repite. Para el seguimiento diario, la escala que corresponde es SOFA, cuya TENDENCIA si aporta informacion pronostica.</span>';
+      s += '<br><strong style="color:#8c3a34;">Como se interpreta y como NO.</strong> La puntuación estima la mortalidad esperada de una POBLACIÓN con esa gravedad y sirve para ajustar por gravedad, comparar unidades y diseñar estudios. No esta validada para predecir el desenlace de este paciente, ni para decidir su techo terapéutico, ni para comunicar un pronóstico a la familia.';
+      s += '<br><span style="opacity:.75;">Es una escala de INGRESO: se calcula una sola vez con los peores valores de las primeras 24 horas y no se repite. Para el seguimiento diario, la escala que corresponde es SOFA, cuya TENDENCIA si aporta información pronostica.</span>';
       if (r.edad >= 65) s += `<br><span style="opacity:.75;">La edad aporta ${r.pEdad} puntos, que es una parte relevante del total. Conviene tenerlo presente al comparar pacientes de edades muy distintas.</span>`;
       return s;
     },

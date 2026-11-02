@@ -11,23 +11,23 @@ export const calculators = [
     fields: [
       { name: 'tension', id: 'am-t', type: 'select', label: 'La ampolla es...', options: [
         { value: '', label: 'Elegir...' },
-        { value: 'flacida', label: 'Flacida, se rompe con facilidad' },
+        { value: 'flacida', label: 'Flácida, se rompe con facilidad' },
         { value: 'tensa', label: 'Tensa, aguanta intacta' },
         { value: 'norama', label: 'No se ven ampollas intactas, solo erosiones o excoriaciones' }
       ] },
       { name: 'nikolsky', id: 'am-n', type: 'checkbox', label: 'Signo de Nikolsky positivo (la piel sana se despega al frotar)' },
-      { name: 'mucosas', id: 'am-m', type: 'checkbox', label: 'Hay afectacion de mucosas' },
+      { name: 'mucosas', id: 'am-m', type: 'checkbox', label: 'Hay afectación de mucosas' },
       { name: 'primeroBoca', id: 'am-b', type: 'checkbox', label: 'Empezo por la boca, antes que por la piel' },
       { name: 'anciano', id: 'am-a', type: 'checkbox', label: 'Paciente mayor de 70 años' },
       { name: 'prurito', id: 'am-p', type: 'checkbox', label: 'Prurito intenso, que domina el cuadro' },
-      { name: 'simetrico', id: 'am-s', type: 'checkbox', label: 'Excoriaciones simetricas en codos, rodillas y nalgas' },
+      { name: 'simetrico', id: 'am-s', type: 'checkbox', label: 'Excoriaciones simétricas en codos, rodillas y nalgas' },
       { name: 'mucositis', id: 'am-mr', type: 'checkbox', label: 'Mucositis grave que no responde a nada' }
     ],
     compute(v) {
       if (!v.tension) return null;
       const pistas = [];
       let intra = 0, sub = 0;
-      if (v.tension === 'flacida') { intra += 3; pistas.push('ampolla flacida'); }
+      if (v.tension === 'flacida') { intra += 3; pistas.push('ampolla flácida'); }
       if (v.tension === 'tensa') { sub += 3; pistas.push('ampolla tensa'); }
       if (v.nikolsky) { intra += 2; pistas.push('Nikolsky positivo'); }
       if (v.primeroBoca) { intra += 2; pistas.push('debut oral'); }
@@ -43,22 +43,22 @@ export const calculators = [
     },
     format(r) {
       let s;
-      if (r.nivel === 'intraepidermica') s = '<strong style="color:#8c3a34;">Los datos apuntan a una ampolla INTRAEPIDERMICA: penfigo.</strong>';
-      else if (r.nivel === 'subepidermica') s = '<strong style="color:#5a4a8c;">Los datos apuntan a una ampolla SUBEPIDERMICA: penfigoide y sus parientes.</strong>';
+      if (r.nivel === 'intraepidermica') s = '<strong style="color:#8c3a34;">Los datos apuntan a una ampolla INTRAEPIDÉRMICA: pénfigo.</strong>';
+      else if (r.nivel === 'subepidermica') s = '<strong style="color:#5a4a8c;">Los datos apuntan a una ampolla SUBEPIDÉRMICA: penfigoide y sus parientes.</strong>';
       else s = '<strong style="color:#8a6a1f;">Los datos no separan bien el nivel.</strong>';
       if (r.pistas.length) s += `<br><span style="opacity:.85;">Pesan: ${r.pistas.join(', ')}.</span>`;
       const texto = {
-        vulgar: 'Con afectacion de mucosas, la sospecha principal es <strong>penfigo vulgar</strong>: pide ELISA de desmogleina 1 y 3.',
-        foliaceo: 'Sin afectacion de mucosas, cabe el <strong>penfigo foliaceo</strong>, que respeta las mucosas porque su diana es la desmogleina 1, que predomina en la piel.',
+        vulgar: 'Con afectación de mucosas, la sospecha principal es <strong>pénfigo vulgar</strong>: pide ELISA de desmogleína 1 y 3.',
+        foliaceo: 'Sin afectación de mucosas, cabe el <strong>pénfigo foliaceo</strong>, que respeta las mucosas porque su diana es la desmogleína 1, que predomina en la piel.',
         penfigoide: 'La sospecha principal es <strong>penfigoide ampolloso</strong>: pide ELISA de BP180 y BP230.',
-        herpetiforme: 'El patron de excoriaciones simetricas con prurito desproporcionado sugiere <strong>dermatitis herpetiforme</strong>: busca deposito GRANULAR de IgA en las papilas y pide serologia de celiaquia.',
-        paraneoplasico: 'La mucositis grave y refractaria obliga a pensar en <strong>penfigo PARANEOPLASICO</strong>: pide inmunofluorescencia indirecta sobre epitelio de vejiga de rata y busca una neoplasia hematologica.'
+        herpetiforme: 'El patrón de excoriaciones simétricas con prurito desproporcionado sugiere <strong>dermatitis herpetiforme</strong>: busca depósito GRANULAR de IgA en las papilas y pide serología de celiaquía.',
+        paraneoplasico: 'La mucositis grave y refractaria obliga a pensar en <strong>pénfigo PARANEOPLÁSICO</strong>: pide inmunofluorescencia indirecta sobre epitelio de vejiga de rata y busca una neoplasia hematológica.'
       }[r.sospecha];
       if (texto) s += '<br>' + texto;
       if (r.preampolloso) {
-        s += '<br><strong style="color:#5a4a8c;">Ojo con la fase preampollosa del penfigoide:</strong> en la mayoria de los casos empieza SIN ampollas, con prurito y lesiones eccematosas, urticariformes o nodulares, y esa fase puede durar de semanas a años. Es la razon principal del retraso diagnostico. Antes, descarta escabiosis.';
+        s += '<br><strong style="color:#5a4a8c;">Ojo con la fase preampollosa del penfigoide:</strong> en la mayoría de los casos empieza SIN ampollas, con prurito y lesiones eccematosas, urticariformes o nodulares, y esa fase puede durar de semanas a años. Es la razón principal del retraso diagnóstico. Antes, descarta escabiosis.';
       }
-      s += '<br><span style="opacity:.75;">Decidas lo que decidas, la confirmacion es la misma: <strong>dos biopsias</strong>, una de lesion para histologia y otra de piel PERILESIONAL para inmunofluorescencia directa, y si es posible antes de empezar el corticoide.</span>';
+      s += '<br><span style="opacity:.75;">Decidas lo que decidas, la confirmación es la misma: <strong>dos biopsias</strong>, una de lesión para histología y otra de piel PERILESIONAL para inmunofluorescencia directa, y si es posible antes de empezar el corticoide.</span>';
       return s;
     },
     fragment: r => `ampolla de perfil ${r.nivel}${r.sospecha ? `, compatible con ${r.sospecha}` : ''}`
@@ -66,8 +66,8 @@ export const calculators = [
 
   {
     key: 'inmunofluorescencia', title: 'Lectura de la inmunofluorescencia', accent: '#8a5a2e',
-    subtitle: 'El patron del deposito es lo que diagnostica',
-    incompleteMsg: 'Elige el patron observado.',
+    subtitle: 'El patrón del depósito es lo que diagnóstica',
+    incompleteMsg: 'Elige el patrón observado.',
     fields: [
       { name: 'sitio', id: 'am-if-s', type: 'select', label: '¿De donde se tomo la muestra para la inmunofluorescencia directa?', options: [
         { value: '', label: 'Elegir...' },
@@ -75,12 +75,12 @@ export const calculators = [
         { value: 'ampolla', label: 'De dentro de la ampolla' },
         { value: 'nose', label: 'No consta' }
       ] },
-      { name: 'patron', id: 'am-if-p', type: 'select', label: 'Patron del deposito', options: [
+      { name: 'patron', id: 'am-if-p', type: 'select', label: 'Patrón del depósito', options: [
         { value: '', label: 'Elegir...' },
         { value: 'red', label: 'En red o panal, entre los queratinocitos' },
-        { value: 'lineal', label: 'Lineal, en la union dermoepidermica' },
-        { value: 'granular', label: 'Granular de IgA, en las papilas dermicas' },
-        { value: 'negativo', label: 'Sin deposito' }
+        { value: 'lineal', label: 'Lineal, en la unión dermoepidérmica' },
+        { value: 'granular', label: 'Granular de IgA, en las papilas dérmicas' },
+        { value: 'negativo', label: 'Sin depósito' }
       ] },
       { name: 'vejiga', id: 'am-if-v', type: 'checkbox', label: 'La indirecta se une a epitelio de vejiga de rata' },
       { name: 'corticoide', id: 'am-if-c', type: 'checkbox', label: 'El paciente llevaba corticoide cuando se tomo la muestra' }
@@ -98,33 +98,33 @@ export const calculators = [
     },
     format(r) {
       let s;
-      if (r.dx) s = `<strong>El patron corresponde a: ${r.dx}.</strong>`;
-      else s = '<strong style="color:#8a6a1f;">Sin deposito: no confirma ninguna ampollosa autoinmune.</strong>';
+      if (r.dx) s = `<strong>El patrón corresponde a: ${r.dx}.</strong>`;
+      else s = '<strong style="color:#8a6a1f;">Sin depósito: no confirma ninguna ampollosa autoinmune.</strong>';
       if (r.malSitio) {
         s += '<br><strong style="color:#8c3a34;">La muestra se tomo de DENTRO de la ampolla, y eso invalida el resultado.</strong> Ahi el tejido esta destruido y los inmunorreactantes degradados, de modo que un negativo no significa nada. Hay que repetir la biopsia de piel PERILESIONAL sana.';
       } else if (r.sinConstar) {
-        s += '<br><span style="color:#8a6a1f;">No consta de donde se tomo.</span> Antes de dar por buena una inmunofluorescencia negativa, conviene comprobarlo: tomarla de dentro de la ampolla es el error tecnico que mas resultados arruina.';
+        s += '<br><span style="color:#8a6a1f;">No consta de donde se tomo.</span> Antes de dar por buena una inmunofluorescencia negativa, conviene comprobarlo: tomarla de dentro de la ampolla es el error tecnico que más resultados arruina.';
       }
       if (r.corticoide) {
         s += '<br><span style="opacity:.85;">El corticoide previo atenua o negativiza los hallazgos. Un resultado negativo en un paciente ya tratado no descarta la enfermedad.</span>';
       }
       const extra = {
-        red: 'Confirma con <strong>ELISA de desmogleina 1 y 3</strong>. El perfil separa las formas: 3 en el vulgar mucoso, 1 y 3 en el mucocutaneo, y 1 sola en el foliaceo.',
-        lineal: 'Confirma con <strong>ELISA de BP180 y BP230</strong>. Si hace falta precisar, la piel separada con sal dice si el deposito esta en el techo o en el suelo de la ampolla.',
-        granular: 'Es el patron definitorio. Pide <strong>serologia de celiaquia</strong> con IgA total, y determina la glucosa-6-fosfato deshidrogenasa antes de la dapsona.'
+        red: 'Confirma con <strong>ELISA de desmogleína 1 y 3</strong>. El perfil separa las formas: 3 en el vulgar mucoso, 1 y 3 en el mucocutáneo, y 1 sola en el foliaceo.',
+        lineal: 'Confirma con <strong>ELISA de BP180 y BP230</strong>. Si hace falta precisar, la piel separada con sal dice si el depósito esta en el techo o en el suelo de la ampolla.',
+        granular: 'Es el patrón definitorio. Pide <strong>serología de celiaquía</strong> con IgA total, y determina la glucosa-6-fosfato deshidrogenasa antes de la dapsona.'
       }[r.patron];
       if (extra) s += '<br>' + extra;
       if (r.vejiga) {
-        s += '<br><strong style="color:#7a3a6b;">La union a epitelio de vejiga de rata es el hallazgo mas especifico de PENFIGO PARANEOPLASICO.</strong> Hay que buscar la neoplasia (sobre todo linfoproliferativa) y pedir pruebas de funcion respiratoria por el riesgo de bronquiolitis obliterante.';
+        s += '<br><strong style="color:#7a3a6b;">La unión a epitelio de vejiga de rata es el hallazgo más específico de PÉNFIGO PARANEOPLÁSICO.</strong> Hay que buscar la neoplasia (sobre todo linfoproliferativa) y pedir pruebas de función respiratoria por el riesgo de bronquiolitis obliterante.';
       }
       if (r.patron === 'negativo' && !r.malSitio && !r.corticoide) {
-        s += '<br><span style="opacity:.85;">Ante una ampolla subepidermica con inmunofluorescencia y ELISA negativos, quedan la piel separada con sal y el analisis del patron de serracion.</span>';
+        s += '<br><span style="opacity:.85;">Ante una ampolla subepidérmica con inmunofluorescencia y ELISA negativos, quedan la piel separada con sal y el análisis del patrón de serracion.</span>';
       }
       return s;
     },
     fragment(r) {
-      if (!r.dx) return 'inmunofluorescencia sin deposito' + (r.malSitio ? ', muestra mal tomada' : '');
-      return `inmunofluorescencia compatible con ${r.dx}` + (r.vejiga ? ', con union a vejiga de rata' : '');
+      if (!r.dx) return 'inmunofluorescencia sin depósito' + (r.malSitio ? ', muestra mal tomada' : '');
+      return `inmunofluorescencia compatible con ${r.dx}` + (r.vejiga ? ', con unión a vejiga de rata' : '');
     }
   },
 
@@ -133,9 +133,9 @@ export const calculators = [
     subtitle: 'Actividad del penfigoide ampolloso &middot; 0 a 360',
     incompleteMsg: 'Introduce los tres apartados de actividad.',
     fields: [
-      { type: 'note', text: 'Tres apartados de actividad, de 0 a 120 cada uno, con ponderacion segun las zonas afectadas. La puntuacion de daño y la de prurito van aparte.' },
-      { name: 'ampollas', id: 'am-bp-1', type: 'number', step: '1', label: 'Ampollas y erosiones cutaneas (0 a 120)', placeholder: 'ej. 24', row: 'b1' },
-      { name: 'eritema', id: 'am-bp-2', type: 'number', step: '1', label: 'Eritema y urticaria cutaneos (0 a 120)', placeholder: 'ej. 18', row: 'b1' },
+      { type: 'note', text: 'Tres apartados de actividad, de 0 a 120 cada uno, con ponderación según las zonas afectadas. La puntuación de daño y la de prurito van aparte.' },
+      { name: 'ampollas', id: 'am-bp-1', type: 'number', step: '1', label: 'Ampollas y erosiones cutáneas (0 a 120)', placeholder: 'ej. 24', row: 'b1' },
+      { name: 'eritema', id: 'am-bp-2', type: 'number', step: '1', label: 'Eritema y urticaria cutáneos (0 a 120)', placeholder: 'ej. 18', row: 'b1' },
       { name: 'mucosas', id: 'am-bp-3', type: 'number', step: '1', label: 'Lesiones mucosas (0 a 120)', placeholder: 'ej. 0', row: 'b2' },
       { name: 'dano', id: 'am-bp-4', type: 'number', step: '1', required: false, label: 'Daño (0 a 12, opcional)', placeholder: 'ej. 2', row: 'b2' },
       { name: 'prurito', id: 'am-bp-5', type: 'number', step: '1', required: false, label: 'BPDAI-prurito (0 a 30, opcional)', placeholder: 'ej. 22' },
@@ -169,17 +169,17 @@ export const calculators = [
     format(r) {
       if (r.invalido) return 'Cada apartado de actividad va de <strong>0 a 120</strong> y el daño de 0 a 12. Revisa los valores.';
       let s = `<strong>BPDAI de actividad ${r.total} / 360: enfermedad ${r.banda}.</strong>`;
-      if (r.curso === 'empeora') s += `<br><strong style="color:#8c3a34;">Ha subido ${r.delta} puntos:</strong> un aumento de 3 o mas se considera empeoramiento relevante.`;
-      else if (r.curso === 'mejora') s += `<br><span style="color:#3f6b52;">Ha bajado ${Math.abs(r.delta)} puntos:</span> un descenso de 4 o mas se considera mejoria relevante.`;
+      if (r.curso === 'empeora') s += `<br><strong style="color:#8c3a34;">Ha subido ${r.delta} puntos:</strong> un aumento de 3 o más se considera empeoramiento relevante.`;
+      else if (r.curso === 'mejora') s += `<br><span style="color:#3f6b52;">Ha bajado ${Math.abs(r.delta)} puntos:</span> un descenso de 4 o más se considera mejoría relevante.`;
       else if (r.curso === 'estable') s += '<br><span style="opacity:.85;">El cambio no alcanza el umbral de relevancia, ni al alza ni a la baja.</span>';
-      if (r.mucosas > 0) s += '<br><span style="opacity:.85;">Hay afectacion mucosa, que hace el control mas dificil y añade sufrimiento al paciente.</span>';
-      if (r.dano !== null) s += `<br><span style="opacity:.85;">Daño ${r.dano} / 12: recoge lo que ya es permanente (hiperpigmentacion posinflamatoria, cicatrices) y no mejora con el tratamiento.</span>`;
+      if (r.mucosas > 0) s += '<br><span style="opacity:.85;">Hay afectación mucosa, que hace el control más difícil y añade sufrimiento al paciente.</span>';
+      if (r.dano !== null) s += `<br><span style="opacity:.85;">Daño ${r.dano} / 12: recoge lo que ya es permanente (hiperpigmentación posinflamatoria, cicatrices) y no mejora con el tratamiento.</span>`;
       if (r.prurito !== null && r.prurito >= 15) {
-        s += `<br><strong style="color:#5a4a8c;">El prurito esta en ${r.prurito} de 30.</strong> Va aparte de la actividad justamente porque es lo que mas condiciona la vida del paciente, y puede seguir alto con la piel casi limpia.`;
+        s += `<br><strong style="color:#5a4a8c;">El prurito esta en ${r.prurito} de 30.</strong> Va aparte de la actividad justamente porque es lo que más condiciona la vida del paciente, y puede seguir alto con la piel casi limpia.`;
       } else if (r.prurito === null) {
-        s += '<br><span style="opacity:.75;">Sin el apartado de prurito la foto queda incompleta: en el penfigoide el picor es el sintoma que mas pesa en la calidad de vida.</span>';
+        s += '<br><span style="opacity:.75;">Sin el apartado de prurito la foto queda incompleta: en el penfigoide el picor es el síntoma que más pesa en la calidad de vida.</span>';
       }
-      s += '<br><span style="opacity:.75;">Y en un paciente anciano hay que medir tambien lo otro: la toxicidad acumulada del corticoide, que en esta enfermedad hace tanto daño como la propia enfermedad.</span>';
+      s += '<br><span style="opacity:.75;">Y en un paciente anciano hay que medir también lo otro: la toxicidad acumulada del corticoide, que en esta enfermedad hace tanto daño como la propia enfermedad.</span>';
       return s;
     },
     fragment: r => (r.invalido ? 'valores no validos' : `BPDAI ${r.total}/360 (${r.banda})`)
@@ -187,34 +187,34 @@ export const calculators = [
 
   {
     key: 'previo-rituximab', title: 'Antes de la primera dosis de rituximab', accent: '#3d5a73',
-    subtitle: 'El estudio que piden las guias',
+    subtitle: 'El estudio que piden las guías',
     fields: [
-      { type: 'note', text: 'Las guias indias de penfigo piden este estudio antes del rituximab, y el cribado de tuberculosis para los corticoides y los adyuvantes distintos del rituximab.' },
+      { type: 'note', text: 'Las guías indias de pénfigo piden este estudio antes del rituximab, y el cribado de tuberculosis para los corticoides y los adyuvantes distintos del rituximab.' },
       { name: 'ecg', id: 'am-r1', type: 'checkbox', label: 'Electrocardiograma hecho' },
       { name: 'hbc', id: 'am-r2', type: 'checkbox', label: 'Anticuerpo del core de la hepatitis B (total) solicitado' },
-      { name: 'tb', id: 'am-r3', type: 'checkbox', label: 'Cribado de tuberculosis (prueba cutanea o ensayo de interferon gamma)' },
-      { name: 'cardio', id: 'am-r4', type: 'checkbox', label: 'Hay cardiopatia conocida o alteracion en el electrocardiograma' },
+      { name: 'tb', id: 'am-r3', type: 'checkbox', label: 'Cribado de tuberculosis (prueba cutánea o ensayo de interferón gamma)' },
+      { name: 'cardio', id: 'am-r4', type: 'checkbox', label: 'Hay cardiopatía conocida o alteración en el electrocardiograma' },
       { name: 'eco', id: 'am-r5', type: 'checkbox', label: 'Ecocardiograma hecho' },
-      { name: 'vacunas', id: 'am-r6', type: 'checkbox', label: 'Vacunacion actualizada antes de empezar' },
-      { name: 'dmg', id: 'am-r7', type: 'checkbox', label: 'Titulo basal de desmogleinas registrado' }
+      { name: 'vacunas', id: 'am-r6', type: 'checkbox', label: 'Vacunación actualizada antes de empezar' },
+      { name: 'dmg', id: 'am-r7', type: 'checkbox', label: 'Título basal de desmogleínas registrado' }
     ],
     compute(v) {
       const faltan = [];
       if (!v.ecg) faltan.push('electrocardiograma');
       if (!v.hbc) faltan.push('anticuerpo del core de la hepatitis B');
       if (!v.tb) faltan.push('cribado de tuberculosis');
-      if (v.cardio && !v.eco) faltan.push('ecocardiograma (hay cardiopatia o alteracion del electrocardiograma)');
-      if (!v.vacunas) faltan.push('vacunacion actualizada');
-      if (!v.dmg) faltan.push('titulo basal de desmogleinas');
+      if (v.cardio && !v.eco) faltan.push('ecocardiograma (hay cardiopatía o alteración del electrocardiograma)');
+      if (!v.vacunas) faltan.push('vacunación actualizada');
+      if (!v.dmg) faltan.push('título basal de desmogleínas');
       return { faltan, listo: faltan.length === 0, ecoNecesario: !!v.cardio };
     },
     format(r) {
       if (r.listo) {
-        return '<strong style="color:#3f6b52;">El estudio previo esta completo.</strong> Recuerda registrar el titulo basal de desmogleinas: sirve para valorar la falta de respuesta, predecir la recaida y planificar las infusiones de mantenimiento.<br><span style="opacity:.75;">Y planifica ya la profilaxis de osteoporosis y el control de glucemia y tension, porque el corticoide va a acompañar durante meses.</span>';
+        return '<strong style="color:#3f6b52;">El estudio previo esta completo.</strong> Recuerda registrar el título basal de desmogleínas: sirve para valorar la falta de respuesta, predecir la recaída y planificar las infusiones de mantenimiento.<br><span style="opacity:.75;">Y planifica ya la profilaxis de osteoporosis y el control de glucemia y tensión, porque el corticoide va a acompañar durante meses.</span>';
       }
       let s = '<strong style="color:#8c3a34;">Falta por completar:</strong><br>' + r.faltan.map(f => '&middot; ' + f).join('<br>');
-      if (!r.ecoNecesario) s += '<br><span style="opacity:.75;">El ecocardiograma solo se pide si hay cardiopatia conocida o alteracion en el electrocardiograma.</span>';
-      s += '<br><span style="opacity:.75;">La vacunacion se actualiza ANTES de empezar: despues quedan contraindicadas las vacunas de virus vivos y la respuesta a las demas es peor.</span>';
+      if (!r.ecoNecesario) s += '<br><span style="opacity:.75;">El ecocardiograma solo se pide si hay cardiopatía conocida o alteración en el electrocardiograma.</span>';
+      s += '<br><span style="opacity:.75;">La vacunación se actualiza ANTES de empezar: después quedan contraindicadas las vacunas de virus vivos y la respuesta a las demás es peor.</span>';
       return s;
     },
     fragment: r => (r.listo ? 'estudio previo al rituximab completo' : `faltan ${r.faltan.length} puntos del estudio previo al rituximab`)
@@ -233,7 +233,7 @@ export const combinedNote = {
     }
     if (results.inmunofluorescencia) {
       const i = results.inmunofluorescencia;
-      partes.push(i.dx ? `inmunofluorescencia compatible con ${i.dx}` : 'inmunofluorescencia sin deposito');
+      partes.push(i.dx ? `inmunofluorescencia compatible con ${i.dx}` : 'inmunofluorescencia sin depósito');
     }
     if (results.bpdai && !results.bpdai.invalido) partes.push(`BPDAI ${results.bpdai.total}/360, ${results.bpdai.banda}`);
     if (results['previo-rituximab']) {

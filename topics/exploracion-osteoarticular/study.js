@@ -98,7 +98,7 @@ export const flashcards = [
   { front: 'Escala de Wells (TVP)', back: 'Estratifica probabilidad pretest → guía dímero D vs. ecografía Doppler, en vez de un signo aislado.' },
   { front: 'Insuficiencia venosa crónica: mecanismo', back: 'Incompetencia valvular → reflujo retrógrado → presión venosa ambulatoria crónicamente elevada.' },
   { front: 'Progresión de la insuficiencia venosa crónica', back: 'Varices → edema vespertino → dermatitis por estasis → lipodermatoesclerosis → úlcera venosa.' },
-  { front: 'Úlcera venosa: localización', back: 'Región maleolar medial ("gaiter area").' },
+  { front: 'Úlcera venosa: localización', back: 'Región maleolar medial ("gaiter área").' },
   { front: 'ITB normal y patológico', back: 'Normal: 1.0-1.4. Enfermedad arterial periférica: ≤0.9. >1.4: arterias no compresibles (calcificación).' },
   { front: 'Las 6 P de isquemia arterial aguda', back: 'Pain, Pallor, Pulselessness, Paresthesia (temprano), Paralysis (tardío), Poiquilotermia.' },
   { front: 'Parestesia vs. parálisis en isquemia aguda', back: 'Parestesia: temprana (nervio sensible). Parálisis: tardía (daño muscular establecido) → revascularización EMERGENTE.' },

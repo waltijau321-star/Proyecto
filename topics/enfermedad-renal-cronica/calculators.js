@@ -88,7 +88,7 @@ export const calculators = [
         else if (v.rac >= 30) si.push({ n: 'Bloqueo del SRA (IECA o ARA-II)', g: dm ? '1B' : '2C', por: dm ? 'albuminuria A2 con diabetes' : 'albuminuria A2 sin diabetes' });
         else no.push({ n: 'Bloqueo del SRA', por: 'sin albuminuria no hay indicación por este motivo (sí la puede haber por hipertensión)' });
       } else {
-        no.push({ n: 'Bloqueo del SRA', por: 'la recomendación se formula para G1 a G4' });
+        no.push({ n: 'Bloqueo del SRA', por: 'la recomendación se fórmula para G1 a G4' });
       }
 
       // Inhibidor del cotransportador sodio-glucosa tipo 2 (recomendaciones 3.7.1 a 3.7.3)
@@ -112,13 +112,13 @@ export const calculators = [
         if (!v.rasiMax) falta.push('dosis máxima tolerada de bloqueo del SRA');
         no.push({ n: 'Antagonista no esteroideo del receptor mineralocorticoide', por: 'falta ' + falta.join(', ') });
       } else {
-        no.push({ n: 'Antagonista no esteroideo del receptor mineralocorticoide', por: 'la recomendación se formula para diabetes tipo 2' });
+        no.push({ n: 'Antagonista no esteroideo del receptor mineralocorticoide', por: 'la recomendación se fórmula para diabetes tipo 2' });
       }
 
       // Agonista del receptor de GLP-1 (recomendación 3.9.1)
       if (v.dm === 'dm2' && !v.glucOk) si.push({ n: 'Agonista del receptor de GLP-1 de acción prolongada', g: '1B', por: 'diabetes tipo 2 con ERC sin objetivo glucémico alcanzado pese a metformina e iSGLT2, o sin poder usarlos' });
       else if (v.dm === 'dm2') no.push({ n: 'Agonista del receptor de GLP-1', por: 'objetivo glucémico ya alcanzado' });
-      else no.push({ n: 'Agonista del receptor de GLP-1', por: 'la recomendación se formula para diabetes tipo 2' });
+      else no.push({ n: 'Agonista del receptor de GLP-1', por: 'la recomendación se fórmula para diabetes tipo 2' });
 
       return { si, no, k: v.k };
     },

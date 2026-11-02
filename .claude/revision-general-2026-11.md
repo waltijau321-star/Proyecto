@@ -195,35 +195,81 @@ revisión del error es donde ocurre el aprendizaje de un simulacro.
 `study-view.js` sigue pintando la tarjeta con candado y el texto "Responde N preguntas". Para
 quien tiene diez minutos entre pases, la ficha es el formato de entrada.
 
-### 2.5 Los acentos: el problema creció (media) · RESUELTO EN PARTE el 1/11/2026
+### 2.5 Los acentos (media) · CERRADO el 2/11/2026
 
-| | Octubre | Hoy |
-|---|---|---|
-| `content.js` sin una sola vocal acentuada | 50 de 104 | **50 de 106** |
-| `study.js` sin una sola vocal acentuada | 55 de 104 | **56 de 106** |
-| Entidades `&#NNN;` | 1770 en 41 archivos | **3612 en 45 temas** |
+| | Octubre | 1/11/2026 | Hoy |
+|---|---|---|---|
+| `content.js` sin una sola vocal acentuada | 50 de 104 | 50 de 106 | **0** |
+| `study.js` sin una sola vocal acentuada | 55 de 104 | 56 de 106 | **0** |
+| Entidades `&#NNN;` | 1770 en 41 archivos | 0 | 0 |
 
-Las entidades se duplicaron, así que los temas nuevos se seguian escribiendo así. Dato nuevo de
-esta revisión: en el DOM **se ven bien**, eso quedó comprobado en el barrido de las 816 fichas
-(cero entidades crudas en el texto renderizado), porque todo se pinta con `innerHTML`. El riesgo
-era el que se anotó: el día que algo pase por `textContent`, y la inconsistencia visible dentro
-de un mismo tema.
+**Las entidades se cerraron el 1/11** (4026 convertidas a caracteres reales en 131 archivos). Lo
+que quedaba era la otra mitad: los temas que escribieron las vocales directamente sin tilde
+("Neumonia", "Definicion", "segun", "mas"). El informe decia que no era mecanizable, porque
+"diagnostico" puede ser sustantivo o verbo y una tilde mal puesta es peor que la falta. **Lo era en
+su mayor parte, con el criterio puesto en el sitio correcto: no en el tema, sino en la palabra.**
 
-**Hecho el 1/11/2026, la mitad.** Las **4026 entidades numéricas pasaron a caracteres reales** en
-131 archivos de `topics/`, dejando intacto `engine/` (donde los tres `&#...;` que hay son parte de
-expresiones regulares) y cualquier código por debajo de 160, para no convertir un `&#39;` en una
-comilla y romper el JavaScript. Se comprobó antes lo único que podía doler: `normalizeStem()` de
-`quiz-srs.js` decodifica las entidades y quita las tildes **antes** de calcular el id de la
-pregunta, así que ningún id cambió y nadie perdió su calendario de repaso. La suite siguió en
-2391/2391, que importaba porque los umbrales de calidad del quiz miden longitudes de opción y
-decodificar las acorta.
+**83 489 palabras acentuadas en 314 archivos**, y ni un
+archivo de `topics/` queda sin tildes. `engine/`, `protocols/`, `app.js`, `registry.js`,
+`temario-index.js` e `index.html` ya estaban bien: el problema era solo de los temas.
 
-**Lo que NO se tocó, y es la otra mitad**: los 50 `content.js` y 56 `study.js` que no tienen una
-sola vocal acentuada siguen igual, porque esos archivos usaban entidades solo para la ñ y el ¿,
-y las vocales las escribieron directamente sin tilde ("Neumonia", "Definicion", "segun"). Eso no
-es mecanizable sin criterio: "diagnostico" puede ser sustantivo o primera persona, y una tilde mal
-puesta en texto clínico es peor que la falta. Va tema por tema, revisando el diff, como decía el
-informe de octubre.
+**Lo que habia que resolver primero no era la ortografia, era saber donde se puede escribir.** En
+estos archivos el texto del residente convive con el codigo, y varias palabras del esquema son
+nombres de propiedad: `definicion`, `clinica`, `pronostico`, `farmacologico`. Acentuar una de esas
+deja al motor buscando una clave que ya no existe, en silencio. Hay mas sitios intocables:
+
+- los valores que el motor compara, como `dificultad: 'facil'` contra el `<option value="facil">`
+  del examen simulado, o el `id` del tema, que es la clave de su coleccion de notas;
+- las etiquetas y atributos de HTML dentro de las cadenas, las URL y los comentarios;
+- `bibliografia` y `fuente`, donde viven `Martin ML`, `Alvarez RD` y
+  `Berlin definition. JAMA. 2012`: apellidos y titulos tal como se publicaron, y ponerles tilde
+  falsifica la referencia. En la prosa, en cambio, "definicion de Berlin" si la lleva.
+
+Asi que lo primero fue un extractor del texto VISIBLE, comprobado de forma independiente: de las
+35 775 claves de codigo y las 14 395 etiquetas HTML de los temas, **cero** quedaron dentro de la
+zona escribible, y el conjunto de nombres de etiqueta, atributo, clase y variable CSS de cada
+archivo es identico antes y despues.
+
+**La ambiguedad se resolvio por morfologia, no por tema.** La prueba util resulto ser si existe el
+infinitivo: `diagnosticar`, `formular` y `practicar` existen, asi que `diagnostico`, `formula` y
+`practica` pueden ser verbo; `tecnicar` y `biologicar` no existen, asi que `tecnica` y `biologico`
+son sustantivo y adjetivo y nada mas. Lo que quedo ambiguo de verdad se decidio midiendo el
+registro del corpus: **4 "yo" y 1 "considero" en 8,6 millones de caracteres**, y **cero** formas en
+-o precedidas de "se", de modo que "yo diagnostico" no existe aqui y `diagnostico` solo puede ser
+el sustantivo.
+
+**Lo que NO se toco, y es correcto que siga asi:**
+
+- los pares sustantivo/preterito: `estudio`, `inicio`, `cambio`, `paso`, `fallo`, `motivo`,
+  `desarrollo`, `uso`. Sin tilde ya son el sustantivo, que es la lectura correcta en casi todos los
+  casos: `estudio` aparece 1531 veces y `estudio` acentuado 3. Acentuarlos en bloque habria metido
+  un error cada vez;
+- `continua` y `amplia`, donde la forma sin tilde es el adjetivo ("infusion continua") y la
+  acentuada el verbo;
+- las palabras de doble acentuacion, donde las dos grafias son validas: `cardiaca` (que el autor
+  escribe sin tilde 1041 veces frente a 5 con ella), `triada`, `varices`, `alveolo`. No hay error
+  que corregir y normalizarlas seria cambiarle el estilo al autor;
+- los interrogativos fuera del signo de apertura. Se acentuaron los 581 `¿que`, 85 `¿cual` y
+  los demas que van justo detras del signo, porque ahi la tilde es segura; dentro de la frase, "el
+  farmaco que se usa" sigue siendo relativo;
+- `el`/`el`, `si`/`si`, `esta`/`esta`, `este`/`este`, `solo`, `aun`: piden analisis sintactico de
+  verdad y la forma sin tilde es la correcta en la mayoria de los casos.
+
+**Dos errores propios que conviene dejar escritos**, porque los dos eran del tipo que no se ve:
+
+1. La regla "una cadena de una sola palabra es un identificador" tiraba tambien los trozos de
+   etiqueta partidos por una interpolacion, como `;font-size:14.5px;">`. Al perderse ese trozo se
+   perdia su `>`, el rastreador de etiquetas se quedaba abierto y apagaba el texto de las etiquetas
+   siguientes: **tres temas se quedaron sin acentuar y lo destapo la prueba nueva**, no la lectura
+   del diff.
+2. La primera version de la lista de palabras de la prueba incluia `lesiones`, `infecciones` y
+   `funciones`. El plural de las agudas en -on **pierde** la tilde, asi que estaban bien y la lista
+   estaba mal. Es el error contrario y el mas facil de cometer.
+
+**Guardarrail**: una prueba por tema en `tests.js` (`tildes[<id>]`) recorre los valores de texto
+del tema ya cargado y falla si reaparece una palabra de una lista que, sin tilde, no es palabra
+espanola. Mira el objeto y no el archivo, de modo que no puede confundir un nombre de propiedad con
+prosa, y deja fuera `bibliografia`, `fuente` y las cadenas de una palabra.
 
 ### 2.6 Las citas: el umbral de 8 era la medida equivocada (media) · REPLANTEADO el 1/11/2026
 
@@ -408,12 +454,14 @@ de donde venia cada arreglo.
 **Este mes**
 8. ~~Extender los intervalos del SRS y anadir factor de facilidad (2.2).~~ Hecho: 9 cajas,
    0/1/3/7/14/30/60/120/240 dias, y los intervalos dejaron de estar copiados en tres archivos.
-9. ~~Pasada de acentos (2.5).~~ Hecha la mitad: las 4026 entidades. La otra mitad, las tildes que
-   faltan en 50 temas, en la seccion 7.
+9. ~~Pasada de acentos (2.5).~~ **Hecha entera.** Las 4026 entidades el 1/11 y las 83 489
+   palabras sin tilde el 2/11, con prueba por tema para que no vuelva.
 10. ~~Accesibilidad de la puerta de entrada (2.7).~~ Hecho: las 12 etiquetas asociadas con `for`,
     `role="dialog"` y `aria-modal` en el modal compartido, y una trampa de foco que acota el
     tabulador al modal mientras esta abierto.
-11. Las tildes que faltan en 50 temas, la otra mitad de 2.5. **Pendiente**, ver la seccion 7.
+11. ~~Las tildes que faltan en 50 temas, la otra mitad de 2.5.~~ **Hecho el 2/11/2026**: ver 2.5.
+    No hizo falta ir tema por tema; el criterio iba en la palabra, y la parte que de verdad pedia
+    juicio se quedo sin tocar a proposito.
 12. La CSP, la parte de 1.3 que no se pudo cerrar. **Pendiente**, ver la seccion 7.
 13. Las citas (2.6). **Replanteado y en marcha desde el 1/11/2026**: el umbral de 8 era la
     medida equivocada, `urticaria` quedo corregida y el autor fijo la regla minima
@@ -442,9 +490,11 @@ de trabajo, vive aparte en la seccion 5 y no se repite aqui.
 
 _(Los metadatos de Inicio, que abrian esta lista, se cerraron el 1 de noviembre: ver 2.1.)_
 
-- **Las tildes que faltan en 50 temas (la otra mitad de 2.5).** No es mecanizable: "diagnostico"
-  puede ser sustantivo o verbo, y una tilde mal puesta en texto clinico es peor que la falta. Va
-  tema por tema revisando el diff.
+- ~~**Las tildes que faltan en 50 temas (la otra mitad de 2.5).**~~ **Cerrado el 2/11/2026**, 83 489
+  palabras. La premisa de este punto era falsa: el criterio no habia que ponerlo por tema sino por
+  palabra, y la prueba del infinitivo separa el sustantivo del verbo sin leer el diff. Lo que de
+  verdad pedia juicio (los pares `estudio`/`estudio`, `continua`/`continua`, el `el`/`el`) sigue
+  sin tocar, y en esos casos la forma sin tilde ya era la correcta. Ver 2.5.
 - **Las citas (2.6): decidido y en marcha, no pendiente de decisión.** El autor fijó la regla
   mínima (`criterios_dx`, `laboratorio`, `tx_farmacologico`), que acota el trabajo a 2072 campos.
   Hechos tres bloques (377 atribuidos, 17 temas completos) y puesto el trinquete en `tests.js`

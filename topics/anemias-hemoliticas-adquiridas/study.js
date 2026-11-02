@@ -109,7 +109,7 @@ export const flashcards = [
   { front: 'Tratamiento dirigido del SHU atípico', back: 'Eculizumab o ravulizumab.' },
   { front: 'Medida obligatoria antes de un inhibidor del complemento', back: 'Vacunación contra Neisseria meningitidis.' },
   { front: 'Defecto molecular de la HPN', back: 'Mutación somática de PIGA, con pérdida de proteínas ancladas a GPI.' },
-  { front: 'Proteínas GPI clave perdidas en la HPN', back: 'CD55 (inhibe convertasa C3) y CD59 (inhibe complejo de ataque de membrana).' },
+  { front: 'Proteínas GPI clave pérdidas en la HPN', back: 'CD55 (inhibe convertasa C3) y CD59 (inhibe complejo de ataque de membrana).' },
   { front: 'Estándar diagnóstico de la HPN', back: 'Citometría de flujo de alta sensibilidad con FLAER.' },
   { front: 'Principal causa de mortalidad en la HPN no tratada', back: 'Trombosis, con frecuencia en sitios atípicos (venas hepáticas/porta, senos venosos cerebrales).' },
   { front: 'Por qué la HPN causa espasmo esofágico/dolor abdominal', back: 'La hemoglobina libre consume óxido nítrico, produciendo disfunción del músculo liso.' },

@@ -275,7 +275,7 @@ export const quiz = [
     explanation: 'Los intervalos mínimos de ayuno antes de anestesia general son 2 horas para líquidos claros, 6 horas para una comida ligera y 8 horas o más para una comida con carne o alto contenido graso. El error frecuente no es ayunar poco, sino demasiado: mandar "nada por boca desde medianoche" a un paciente programado para la tarde significa 14 horas de ayuno que no añaden seguridad y sí deshidratación, hipoglucemia, malestar y peor recuperación. Invertir los intervalos, pidiendo más ayuno para los líquidos que para los sólidos, va en contra de la fisiología del vaciamiento gástrico: los líquidos claros se vacían en minutos. Prohibir también los líquidos claros durante 8 horas tiene el mismo problema. Los medicamentos que deben continuarse se toman con un sorbo de agua, que no rompe el ayuno.'
   },
   {
-    q: 'Un hombre de 61 años acude a valoración para una plastia inguinal electiva. Al preguntarle explícitamente por productos naturales menciona que toma ginkgo biloba y ajo en cápsulas a diario. ¿Cuál es la conducta más apropiada?',
+    q: 'Un hombre de 61 años acude a valoración para una plastía inguinal electiva. Al preguntarle explícitamente por productos naturales menciona que toma ginkgo biloba y ajo en cápsulas a diario. ¿Cuál es la conducta más apropiada?',
     options: [
       'Suspender ginkgo y ajo 7 días antes por su efecto antiplaquetario',
       'Continuarlos: los productos naturales no alteran la hemostasia',
@@ -566,7 +566,7 @@ export const quiz = [
       {
         q: '¿Qué aporta calcular el STOP-BANG en esta paciente?',
         options: [
-          'Diagnostica la apnea y evita tener que hacer polisomnografía',
+          'Diagnóstica la apnea y evita tener que hacer polisomnografía',
           'Mide la gravedad de la apnea para titular la presión positiva',
           'Estima el riesgo de complicación pulmonar posoperatoria',
           'Marca riesgo alto de apnea, que debe saber anestesiología'

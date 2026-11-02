@@ -236,7 +236,7 @@ export const content = {
       complementarios: 'Evaluación neurológica especializada urgente ante cualquier déficit focal.',
       dx_diferencial: 'Otras causas de alteración neurológica aguda en el paciente con la neoplasia hematológica de base (metástasis o infiltración del sistema nervioso central, infección del sistema nervioso central en el paciente inmunocomprometido).',
       tx_medico: 'Tratamiento urgente y específico dirigido a la causa de la hiperviscosidad (plasmaféresis, citorreducción, o flebotomía según el mecanismo, ver las tarjetas correspondientes) como la medida central para revertir el mecanismo subyacente; manejo de soporte neurológico estándar según el tipo de evento (isquémico vs. hemorrágico).',
-      tx_farmacologico: 'Específico según el evento neurológico confirmado y su mecanismo; anticoagulación o trombolisis contraindicadas o de uso muy cauteloso en el contexto de hiperviscosidad activa con riesgo hemorrágico concomitante, decisión que requiere individualización cuidadosa.',
+      tx_farmacologico: 'Específico según el evento neurológico confirmado y su mecanismo; anticoagulación o trombólisis contraindicadas o de uso muy cauteloso en el contexto de hiperviscosidad activa con riesgo hemorrágico concomitante, decisión que requiere individualización cuidadosa.',
       tx_intervencionista: 'Plasmaféresis, leucaféresis, o flebotomía urgentes según el mecanismo causal identificado (ver las tarjetas correspondientes); manejo neuroquirúrgico si hay hemorragia intracraneal con indicación de evacuación.',
       criterios_uci: 'Alteración significativa del estado de conciencia, déficit neurológico focal grave, cualquier evento cerebrovascular agudo confirmado.',
       criterios_tips: 'No aplica.',

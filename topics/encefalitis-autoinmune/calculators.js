@@ -12,104 +12,104 @@
 const TUMORES = {
   nmda: {
     nombre: 'Anticuerpos anti-receptor de NMDA', clase: 'superficie',
-    tumor: 'TERATOMA DE OVARIO en la mujer joven, y de forma mucho mas rara teratoma testicular en el varon',
-    prueba: 'ecografia o resonancia PELVICA dirigida, porque el teratoma puede ser pequeño y no verse en la tomografia; ecografia testicular en el varon joven',
+    tumor: 'TERATOMA DE OVARIO en la mujer joven, y de forma mucho más rara teratoma testicular en el varón',
+    prueba: 'ecografía o resonancia PÉLVICA dirigida, porque el teratoma puede ser pequeño y no verse en la tomografía; ecografía testicular en el varón joven',
     meses: 6, anos: 2,
-    nota: 'La asociacion con teratoma es alta en la mujer joven y disminuye en la niña y en la mujer de mas edad. Su EXTIRPACION forma parte del tratamiento: mejora el pronostico y reduce las recaidas.'
+    nota: 'La asociación con teratoma es alta en la mujer joven y disminuye en la niña y en la mujer de más edad. Su EXTIRPACION forma parte del tratamiento: mejora el pronóstico y reduce las recaídas.'
   },
   lgi1: {
     nombre: 'Anticuerpos anti-LGI1', clase: 'superficie',
     tumor: 'rara vez tumoral; cuando lo hay, timoma',
-    prueba: 'tomografia de torax buscando timoma, mas cribado general basico',
+    prueba: 'tomografía de tórax buscando timoma, más cribado general básico',
     meses: 12, anos: 2,
-    nota: 'Es de los anticuerpos con menor asociacion tumoral, de modo que el cribado es menos intensivo. Lo que si condiciona el pronostico es tratar pronto: el retraso deja amnesia residual y atrofia hipocampal.'
+    nota: 'Es de los anticuerpos con menor asociación tumoral, de modo que el cribado es menos intensivo. Lo que si condiciona el pronóstico es tratar pronto: el retraso deja amnesia residual y atrofia hipocampal.'
   },
   caspr2: {
     nombre: 'Anticuerpos anti-CASPR2', clase: 'superficie',
     tumor: 'TIMOMA',
-    prueba: 'tomografia de TORAX, con atencion al mediastino anterior',
+    prueba: 'tomografía de TÓRAX, con atención al mediastino anterior',
     meses: 6, anos: 2,
-    nota: 'El sindrome de Morvan (neuromiotonia, dolor neuropatico, insomnio grave y disautonomia) es el que mas se asocia a timoma. Conviene ademas descartar una miastenia gravis coexistente.'
+    nota: 'El síndrome de Morvan (neuromiotonia, dolor neuropático, insomnio grave y disautonomía) es el que más se asocia a timoma. Conviene además descartar una miastenia gravis coexistente.'
   },
   gabab: {
     nombre: 'Anticuerpos anti-GABA-B', clase: 'superficie',
-    tumor: 'CARCINOMA MICROCITICO DE PULMON',
-    prueba: 'tomografia de TORAX y, si es negativa, tomografia con emision de positrones',
+    tumor: 'CARCINOMA MICROCITICO DE PULMÓN',
+    prueba: 'tomografía de TÓRAX y, si es negativa, tomografía con emision de positrones',
     meses: 4, anos: 2,
-    nota: 'Encefalitis limbica en la que las CRISIS dominan desde el principio y pueden ser refractarias. La asociacion con microcitico es alta y hay que buscarlo pronto, porque el pronostico lo marca el tumor.'
+    nota: 'Encefalitis límbica en la que las CRISIS dominan desde el principio y pueden ser refractarias. La asociación con microcitico es alta y hay que buscarlo pronto, porque el pronóstico lo marca el tumor.'
   },
   ampa: {
     nombre: 'Anticuerpos anti-receptor de AMPA', clase: 'superficie',
-    tumor: 'timoma, carcinoma microcitico de pulmon o cancer de mama',
-    prueba: 'tomografia de torax y abdomen, mamografia en la mujer y, si son negativas, tomografia con emision de positrones',
+    tumor: 'timoma, carcinoma microcitico de pulmón o cáncer de mama',
+    prueba: 'tomografía de tórax y abdomen, mamografía en la mujer y, si son negativas, tomografía con emision de positrones',
     meses: 6, anos: 2,
-    nota: 'Encefalitis limbica con recaidas frecuentes. Aunque el anticuerpo es de superficie y responde a la inmunoterapia, la asociacion tumoral es elevada y obliga a un cribado cuidadoso.'
+    nota: 'Encefalitis límbica con recaídas frecuentes. Aunque el anticuerpo es de superficie y responde a la inmunoterapia, la asociación tumoral es elevada y obliga a un cribado cuidadoso.'
   },
   hu: {
     nombre: 'Anticuerpos anti-Hu', clase: 'intracelular',
-    tumor: 'CARCINOMA MICROCITICO DE PULMON',
-    prueba: 'tomografia de TORAX y, si es negativa, TOMOGRAFIA CON EMISION DE POSITRONES',
+    tumor: 'CARCINOMA MICROCITICO DE PULMÓN',
+    prueba: 'tomografía de TÓRAX y, si es negativa, TOMOGRAFÍA CON EMISION DE POSITRONES',
     meses: 4, anos: 2,
-    nota: 'Suele acompañarse de afectacion de varios niveles: neuropatia sensitiva subaguda, cerebelo, tronco y disautonomia. El anticuerpo es solo un marcador y el daño lo hacen los linfocitos T.'
+    nota: 'Suele acompañarse de afectación de varios niveles: neuropatía sensitiva subaguda, cerebelo, tronco y disautonomía. El anticuerpo es solo un marcador y el daño lo hacen los linfocitos T.'
   },
   ma2: {
     nombre: 'Anticuerpos anti-Ma2', clase: 'intracelular',
-    tumor: 'TUMOR DE CELULAS GERMINALES DEL TESTICULO en el varon joven; en otros perfiles, pulmon o mama',
-    prueba: 'ECOGRAFIA TESTICULAR en el varon joven aunque la exploracion sea normal, mas tomografia de torax, abdomen y pelvis; tomografia con emision de positrones si todo es negativo',
+    tumor: 'TUMOR DE CÉLULAS GERMINALES DEL TESTICULO en el varón joven; en otros perfiles, pulmón o mama',
+    prueba: 'ECOGRAFÍA TESTICULAR en el varón joven aunque la exploración sea normal, más tomografía de tórax, abdomen y pelvis; tomografía con emision de positrones si todo es negativo',
     meses: 4, anos: 2,
-    nota: 'Son caracteristicas la afectacion diencefalica con narcolepsia y la paresia de la mirada VERTICAL. En el varon joven con exploracion testicular normal, la ecografia es obligada y a veces hay que llegar a la orquiectomia diagnostica.'
+    nota: 'Son características la afectación diencefálica con narcolepsia y la paresia de la mirada VERTICAL. En el varón joven con exploración testicular normal, la ecografía es obligada y a veces hay que llegar a la orquiectomia diagnóstica.'
   },
   cv2: {
     nombre: 'Anticuerpos anti-CV2 o CRMP5', clase: 'intracelular',
-    tumor: 'carcinoma microcitico de pulmon o timoma',
-    prueba: 'tomografia de TORAX y, si es negativa, tomografia con emision de positrones',
+    tumor: 'carcinoma microcitico de pulmón o timoma',
+    prueba: 'tomografía de TÓRAX y, si es negativa, tomografía con emision de positrones',
     meses: 4, anos: 2,
-    nota: 'Puede dar corea, neuropatia, uveitis y neuritis optica ademas de la encefalitis, y esa combinacion de niveles es en si misma una pista de origen paraneoplasico.'
+    nota: 'Puede dar corea, neuropatía, uveitis y neuritis óptica además de la encefalitis, y esa combinación de niveles es en sí misma una pista de origen paraneoplásico.'
   },
   anfifisina: {
     nombre: 'Anticuerpos anti-anfifisina', clase: 'intracelular',
-    tumor: 'cancer de MAMA o carcinoma microcitico de pulmon',
-    prueba: 'mamografia y tomografia de torax; tomografia con emision de positrones si son negativas',
+    tumor: 'cáncer de MAMA o carcinoma microcitico de pulmón',
+    prueba: 'mamografía y tomografía de tórax; tomografía con emision de positrones si son negativas',
     meses: 4, anos: 2,
-    nota: 'Se asocia con frecuencia al sindrome de la persona rigida y a mielopatia. Como en todo el grupo intracelular, el objetivo terapeutico principal es el TUMOR.'
+    nota: 'Se asocia con frecuencia al síndrome de la persona rígida y a mielopatía. Como en todo el grupo intracelular, el objetivo terapéutico principal es el TUMOR.'
   },
   ninguno: {
     nombre: 'Sin anticuerpo identificado (seronegativa)', clase: 'desconocida',
     tumor: 'no dirigido: hay que hacer un cribado general',
-    prueba: 'tomografia de torax, abdomen y pelvis; prueba pelvica o testicular segun edad y sexo; y tomografia con emision de positrones si el cuadro es sugestivo y todo lo demas es negativo',
+    prueba: 'tomografía de tórax, abdomen y pelvis; prueba pélvica o testicular según edad y sexo; y tomografía con emision de positrones si el cuadro es sugestivo y todo lo demás es negativo',
     meses: 6, anos: 2,
-    nota: 'Una proporcion relevante de las encefalitis autoinmunes no tiene anticuerpo identificable, y eso NO excluye el diagnostico ni el tratamiento: los criterios clinicos son precisamente el marco que permite tratarlas.'
+    nota: 'Una proporción relevante de las encefalitis autoinmunes no tiene anticuerpo identificable, y eso NO excluye el diagnóstico ni el tratamiento: los criterios clínicos son precisamente el marco que permite tratarlas.'
   }
 };
 
 export const calculators = [
   {
-    key: 'criterios-graus', title: 'Encefalitis autoinmune: criterios clinicos', accent: '#2e5c7a',
+    key: 'criterios-graus', title: 'Encefalitis autoinmune: criterios clínicos', accent: '#2e5c7a',
     subtitle: 'Los tres criterios que permiten tratar sin esperar a los anticuerpos',
-    incompleteMsg: 'Responde sobre el tiempo de instauracion y sobre la exclusion de otras causas, y marca los datos de apoyo presentes.',
+    incompleteMsg: 'Responde sobre el tiempo de instauración y sobre la exclusión de otras causas, y marca los datos de apoyo presentes.',
     fields: [
-      { name: 'subagudo', id: 'ea-cg-s', type: 'select', label: 'Inicio de deficit de memoria, alteracion del estado mental o sintomas psiquiatricos', row: 'r1', options: [
+      { name: 'subagudo', id: 'ea-cg-s', type: 'select', label: 'Inicio de déficit de memoria, alteración del estado mental o síntomas psiquiátricos', row: 'r1', options: [
         { v: 'si', t: 'Subagudo: menos de 3 meses' },
-        { v: 'no', t: 'Mas lento o no presente' }
+        { v: 'no', t: 'Más lento o no presente' }
       ] },
       { name: 'exclusion', id: 'ea-cg-e', type: 'select', label: 'Se han descartado razonablemente otras causas?', row: 'r1', options: [
-        { v: 'no', t: 'Todavia no' },
+        { v: 'no', t: 'Todavía no' },
         { v: 'si', t: 'Si, con estudio adecuado' }
       ] },
       { name: 'focalidad', id: 'ea-cg-f', type: 'checkbox', label: 'Focalidad nueva del sistema nervioso central', row: 'r2' },
       { name: 'crisis', id: 'ea-cg-c', type: 'checkbox', label: 'Crisis no explicadas por una epilepsia previa conocida', row: 'r2' },
-      { name: 'pleocitosis', id: 'ea-cg-p', type: 'checkbox', label: 'Pleocitosis en el liquido: mas de 5 leucocitos por mm3', row: 'r3' },
+      { name: 'pleocitosis', id: 'ea-cg-p', type: 'checkbox', label: 'Pleocitosis en el líquido: más de 5 leucocitos por mm3', row: 'r3' },
       { name: 'rm', id: 'ea-cg-r', type: 'checkbox', label: 'Resonancia sugestiva de encefalitis', row: 'r3' },
-      { name: 'temporal', id: 'ea-cg-t', type: 'checkbox', label: 'Alteracion BILATERAL en T2 y FLAIR restringida a los lobulos temporales mediales', row: 'r4' },
-      { name: 'eeg', id: 'ea-cg-g', type: 'checkbox', label: 'Electroencefalograma con actividad epileptiforme o lenta sobre los lobulos temporales', row: 'r4' },
-      { type: 'note', text: 'Estos criterios estan diseñados a proposito para ser CLINICOS: permiten iniciar la inmunoterapia sobre bases razonables sin esperar unos anticuerpos que tardan dias o semanas, y ese adelanto es uno de los pocos factores pronosticos que dependen del equipo. La exclusion razonable de otras causas, y sobre todo de la infeccion, no es un tramite administrativo sino uno de los tres criterios.' }
+      { name: 'temporal', id: 'ea-cg-t', type: 'checkbox', label: 'Alteración BILATERAL en T2 y FLAIR restringida a los lóbulos temporales mediales', row: 'r4' },
+      { name: 'eeg', id: 'ea-cg-g', type: 'checkbox', label: 'Electroencefalograma con actividad epileptiforme o lenta sobre los lóbulos temporales', row: 'r4' },
+      { type: 'note', text: 'Estos criterios están diseñados a propósito para ser CLÍNICOS: permiten iniciar la inmunoterapia sobre bases razonables sin esperar unos anticuerpos que tardan días o semanas, y ese adelanto es uno de los pocos factores pronósticos que dependen del equipo. La exclusión razonable de otras causas, y sobre todo de la infección, no es un trámite administrativo sino uno de los tres criterios.' }
     ],
     compute(v) {
       if (!v.subagudo || !v.exclusion) return null;
       const apoyos = [];
       if (v.focalidad) apoyos.push('focalidad nueva');
       if (v.crisis) apoyos.push('crisis no explicadas');
-      if (v.pleocitosis) apoyos.push('pleocitosis en el liquido');
+      if (v.pleocitosis) apoyos.push('pleocitosis en el líquido');
       if (v.rm) apoyos.push('resonancia sugestiva');
       const sub = v.subagudo === 'si';
       const exc = v.exclusion === 'si';
@@ -119,34 +119,34 @@ export const calculators = [
       const faltan = [];
       if (!sub) faltan.push('el inicio subagudo de menos de 3 meses');
       if (apoyos.length === 0) faltan.push('al menos un criterio de apoyo');
-      if (!exc) faltan.push('la exclusion razonable de otras causas');
+      if (!exc) faltan.push('la exclusión razonable de otras causas');
       return { posible, limbica, apoyos, faltan, sub, exc, temporal: !!v.temporal, limbicaApoyo };
     },
     format: r => {
       let s = '';
       if (r.posible) {
-        s += `<strong style="color:#3f6b52;">Se cumplen los tres criterios de ENCEFALITIS AUTOINMUNE POSIBLE.</strong> Inicio subagudo, ${r.apoyos.length} criterio${r.apoyos.length > 1 ? 's' : ''} de apoyo (${r.apoyos.join(', ')}) y exclusion razonable de otras causas. `;
-        s += 'Eso basta para enviar anticuerpos en LIQUIDO y en suero y para iniciar la inmunoterapia de primera linea SIN esperar al resultado.';
+        s += `<strong style="color:#3f6b52;">Se cumplen los tres criterios de ENCEFALITIS AUTOINMUNE POSIBLE.</strong> Inicio subagudo, ${r.apoyos.length} criterio${r.apoyos.length > 1 ? 's' : ''} de apoyo (${r.apoyos.join(', ')}) y exclusión razonable de otras causas. `;
+        s += 'Eso basta para enviar anticuerpos en LÍQUIDO y en suero y para iniciar la inmunoterapia de primera línea SIN esperar al resultado.';
       } else {
-        s += `<strong style="color:#8a6a1f;">Todavia no se cumplen los criterios de encefalitis autoinmune posible.</strong> Falta ${r.faltan.join(' y ')}. `;
-        if (!r.exc && r.sub && r.apoyos.length > 0) s += 'Es decir: el cuadro encaja, pero el estudio de exclusion no esta completo. Antes de inmunosuprimir hay que descartar razonablemente la INFECCION, con prueba molecular para virus herpes y enterovirus, cultivo y lo que el contexto exija.';
-        else if (!r.sub) s += 'Sin un inicio subagudo, de menos de 3 meses, el cuadro se comporta como otra cosa: una demencia, un trastorno psiquiatrico primario o una encefalopatia de otra causa.';
-        else s += 'Conviene completar el estudio con puncion lumbar, resonancia y electroencefalograma, que son las tres pruebas de las que salen los criterios de apoyo.';
+        s += `<strong style="color:#8a6a1f;">Todavía no se cumplen los criterios de encefalitis autoinmune posible.</strong> Falta ${r.faltan.join(' y ')}. `;
+        if (!r.exc && r.sub && r.apoyos.length > 0) s += 'Es decir: el cuadro encaja, pero el estudio de exclusión no esta completo. Antes de inmunosuprimir hay que descartar razonablemente la INFECCIÓN, con prueba molecular para virus herpes y enterovirus, cultivo y lo que el contexto exija.';
+        else if (!r.sub) s += 'Sin un inicio subagudo, de menos de 3 meses, el cuadro se comporta como otra cosa: una demencia, un trastorno psiquiátrico primario o una encefalopatía de otra causa.';
+        else s += 'Conviene completar el estudio con punción lumbar, resonancia y electroencefalograma, que son las tres pruebas de las que salen los criterios de apoyo.';
       }
       if (r.limbica) {
-        s += '<br><strong style="color:#8a6a1f;">Se cumplen ademas los criterios de ENCEFALITIS LIMBICA DEFINIDA</strong>: inicio subagudo, alteracion bilateral en T2 y FLAIR restringida a los temporales mediales, criterio paraclinico de apoyo y exclusion de otras causas. Toca panel de anticuerpos de superficie e intracelulares, y cribado tumoral.';
+        s += '<br><strong style="color:#8a6a1f;">Se cumplen además los criterios de ENCEFALITIS LÍMBICA DEFINIDA</strong>: inicio subagudo, alteración bilateral en T2 y FLAIR restringida a los temporales mediales, criterio paraclinico de apoyo y exclusión de otras causas. Toca panel de anticuerpos de superficie e intracelulares, y cribado tumoral.';
       } else if (r.temporal && !r.limbicaApoyo) {
-        s += '<br><span style="opacity:.75;">Hay afectacion temporal medial bilateral, pero falta el criterio paraclinico (pleocitosis o electroencefalograma con actividad temporal) para hablar de encefalitis limbica DEFINIDA.</span>';
+        s += '<br><span style="opacity:.75;">Hay afectación temporal medial bilateral, pero falta el criterio paraclinico (pleocitosis o electroencefalograma con actividad temporal) para hablar de encefalitis límbica DEFINIDA.</span>';
       }
-      s += '<br><span style="opacity:.75;">Recordatorio de laboratorio: los anticuerpos anti-receptor de NMDA se determinan en LIQUIDO CEFALORRAQUIDEO. Un suero negativo no descarta y un suero positivo aislado no confirma.</span>';
-      s += '<br><span style="opacity:.75;">Y una resonancia NORMAL no descarta el diagnostico: una proporcion importante de las encefalitis por anticuerpos anti-receptor de NMDA la tiene normal.</span>';
+      s += '<br><span style="opacity:.75;">Recordatorio de laboratorio: los anticuerpos anti-receptor de NMDA se determinan en LÍQUIDO CEFALORRAQUÍDEO. Un suero negativo no descarta y un suero positivo aislado no confirma.</span>';
+      s += '<br><span style="opacity:.75;">Y una resonancia NORMAL no descarta el diagnóstico: una proporción importante de las encefalitis por anticuerpos anti-receptor de NMDA la tiene normal.</span>';
       return s;
     },
-    fragment: r => r.posible ? (r.limbica ? 'criterios de encefalitis limbica definida' : 'criterios de encefalitis autoinmune posible') : 'no se cumplen los criterios'
+    fragment: r => r.posible ? (r.limbica ? 'criterios de encefalitis límbica definida' : 'criterios de encefalitis autoinmune posible') : 'no se cumplen los criterios'
   },
 
   {
-    key: 'cribado-tumoral-autoinmune', title: 'Cribado tumoral segun el anticuerpo', accent: '#8c3a34',
+    key: 'cribado-tumoral-autoinmune', title: 'Cribado tumoral según el anticuerpo', accent: '#8c3a34',
     subtitle: 'Que buscar, con que prueba y cada cuanto repetirlo',
     incompleteMsg: 'Elige el anticuerpo identificado o sospechado, y el sexo y la edad del paciente.',
     fields: [
@@ -168,7 +168,7 @@ export const calculators = [
       ] },
       { name: 'edad', id: 'ea-ct-e', type: 'number', step: '1', label: 'Edad (años)', placeholder: 'ej. 27', row: 'r2' },
       { name: 'fumador', id: 'ea-ct-f', type: 'checkbox', label: 'Fumador o exfumador' },
-      { type: 'note', text: 'La regla que mas casos rescata: el sindrome neurologico puede PRECEDER al diagnostico del tumor en meses, de modo que un cribado inicial negativo NO cierra el caso. Hay que dejar un plan escrito de repeticion, porque de memoria no se hace. Y con anticuerpos INTRACELULARES el objetivo terapeutico principal es el tumor, no la inmunoterapia.' }
+      { type: 'note', text: 'La regla que más casos rescata: el síndrome neurológico puede PRECEDER al diagnóstico del tumor en meses, de modo que un cribado inicial negativo NO cierra el caso. Hay que dejar un plan escrito de repetición, porque de memoria no se hace. Y con anticuerpos INTRACELULARES el objetivo terapéutico principal es el tumor, no la inmunoterapia.' }
     ],
     compute(v) {
       if (!v.anticuerpo || !v.sexo || v.edad == null) return null;
@@ -185,16 +185,16 @@ export const calculators = [
     format: r => {
       if (r.invalido) return 'Revisa la edad: se admite de 0 a 120 años.';
       const d = r.d;
-      let s = `<strong>${d.nombre}. Antigeno ${d.clase === 'desconocida' ? 'no identificado' : 'de localizacion ' + d.clase}.</strong>`;
+      let s = `<strong>${d.nombre}. Antígeno ${d.clase === 'desconocida' ? 'no identificado' : 'de localización ' + d.clase}.</strong>`;
       s += `<br><strong style="color:#8c3a34;">Buscar:</strong> ${d.tumor}.`;
       s += `<br><strong>Con que:</strong> ${d.prueba}.`;
       s += `<br><strong style="color:#8a6a1f;">Repetir el cribado cada ${d.meses} meses durante al menos ${d.anos} años</strong> si el inicial es negativo, dejandolo escrito en el plan de seguimiento.`;
       s += `<br><span style="opacity:.75;">${d.nota}</span>`;
-      if (r.avisos.indexOf('teratomaOvario') >= 0) s += `<br><strong style="color:#6b4a8c;">Mujer de ${r.edad} años con anticuerpos anti-receptor de NMDA:</strong> el teratoma de ovario puede ser MUY pequeño y pasar desapercibido en la tomografia. Hace falta una prueba pelvica dirigida, y su extirpacion forma parte del tratamiento.`;
-      if (r.avisos.indexOf('testicular') >= 0) s += `<br><strong style="color:#6b4a8c;">Varon de ${r.edad} años con anticuerpos anti-Ma2:</strong> ecografia testicular OBLIGADA aunque la exploracion sea normal. En casos muy sugestivos con imagen negativa puede llegar a plantearse la orquiectomia diagnostica.`;
-      if (r.avisos.indexOf('intracelular') >= 0) s += '<br><strong style="color:#8c3a34;">Anticuerpo INTRACELULAR:</strong> es un marcador y no el agente del daño, que lo hacen linfocitos T y es poco reversible. La respuesta a la inmunoterapia suele ser pobre y lo que mas cambia el curso es TRATAR EL TUMOR. Conviene implicar a oncologia desde el primer dia.';
-      else if (d.clase === 'superficie') s += '<br><span style="color:#3f6b52;">Anticuerpo de SUPERFICIE:</span> es patogenico y su efecto es reversible, de modo que responde a la inmunoterapia y el pronostico es bueno si se trata pronto. Eso no exime del cribado tumoral ni de repetirlo.';
-      if (r.avisos.indexOf('microcitico') >= 0) s += '<br><span style="opacity:.75;">Paciente fumador con un anticuerpo asociado a carcinoma MICROCITICO: si la tomografia de torax es negativa, hay que ampliar con tomografia con emision de positrones antes de dar el cribado por concluido.</span>';
+      if (r.avisos.indexOf('teratomaOvario') >= 0) s += `<br><strong style="color:#6b4a8c;">Mujer de ${r.edad} años con anticuerpos anti-receptor de NMDA:</strong> el teratoma de ovario puede ser MUY pequeño y pasar desapercibido en la tomografía. Hace falta una prueba pélvica dirigida, y su extirpacion forma parte del tratamiento.`;
+      if (r.avisos.indexOf('testicular') >= 0) s += `<br><strong style="color:#6b4a8c;">Varón de ${r.edad} años con anticuerpos anti-Ma2:</strong> ecografía testicular OBLIGADA aunque la exploración sea normal. En casos muy sugestivos con imagen negativa puede llegar a plantearse la orquiectomia diagnóstica.`;
+      if (r.avisos.indexOf('intracelular') >= 0) s += '<br><strong style="color:#8c3a34;">Anticuerpo INTRACELULAR:</strong> es un marcador y no el agente del daño, que lo hacen linfocitos T y es poco reversible. La respuesta a la inmunoterapia suele ser pobre y lo que más cambia el curso es TRATAR EL TUMOR. Conviene implicar a oncología desde el primer dia.';
+      else if (d.clase === 'superficie') s += '<br><span style="color:#3f6b52;">Anticuerpo de SUPERFICIE:</span> es patogénico y su efecto es reversible, de modo que responde a la inmunoterapia y el pronóstico es bueno si se trata pronto. Eso no exime del cribado tumoral ni de repetirlo.';
+      if (r.avisos.indexOf('microcitico') >= 0) s += '<br><span style="opacity:.75;">Paciente fumador con un anticuerpo asociado a carcinoma MICROCITICO: si la tomografía de tórax es negativa, hay que ampliar con tomografía con emision de positrones antes de dar el cribado por concluido.</span>';
       return s;
     },
     fragment: r => r.invalido ? 'valores no validos' : `cribado tumoral cada ${r.d.meses} meses durante ${r.d.anos * 12} meses`
@@ -202,23 +202,23 @@ export const calculators = [
 
   {
     key: 'neos', title: 'Escala NEOS', accent: '#6b4a8c',
-    subtitle: 'Situacion funcional al año en la encefalitis por anticuerpos anti-receptor de NMDA',
-    incompleteMsg: 'Marca las variables presentes. Es una escala de cinco items y todos son de si o no.',
+    subtitle: 'Situación funcional al año en la encefalitis por anticuerpos anti-receptor de NMDA',
+    incompleteMsg: 'Marca las variables presentes. Es una escala de cinco ítems y todos son de si o no.',
     fields: [
       { name: 'uci', id: 'ea-ne-u', type: 'checkbox', label: 'Ingreso en unidad de cuidados intensivos', row: 'r1' },
       { name: 'sinTx', id: 'ea-ne-t', type: 'checkbox', label: 'No se inicio inmunoterapia en las 4 primeras semanas', row: 'r1' },
-      { name: 'sinMejoria', id: 'ea-ne-m', type: 'checkbox', label: 'Ausencia de mejoria clinica en las 4 primeras semanas', row: 'r2' },
+      { name: 'sinMejoria', id: 'ea-ne-m', type: 'checkbox', label: 'Ausencia de mejoría clínica en las 4 primeras semanas', row: 'r2' },
       { name: 'rm', id: 'ea-ne-r', type: 'checkbox', label: 'Resonancia craneal alterada', row: 'r2' },
-      { name: 'lcr', id: 'ea-ne-l', type: 'checkbox', label: 'Mas de 20 leucocitos por mm3 en el liquido cefalorraquideo' },
-      { type: 'note', text: 'La escala estima la probabilidad de MALA situacion funcional al año, medida con la escala de Rankin modificada, y esta validada en la encefalitis por anticuerpos anti-receptor de NMDA. No es una regla de decision terapeutica y NO sustituye al juicio clinico: su utilidad practica es identificar pronto a quien va a necesitar mas y comunicar expectativas realistas a la familia.' }
+      { name: 'lcr', id: 'ea-ne-l', type: 'checkbox', label: 'Más de 20 leucocitos por mm3 en el líquido cefalorraquídeo' },
+      { type: 'note', text: 'La escala estima la probabilidad de MALA situación funcional al año, medida con la escala de Rankin modificada, y esta validada en la encefalitis por anticuerpos anti-receptor de NMDA. No es una regla de decisión terapéutica y NO sustituye al juicio clínico: su utilidad práctica es identificar pronto a quien va a necesitar más y comunicar expectativas realistas a la familia.' }
     ],
     compute(v) {
       const items = [
         [v.uci, 'ingreso en cuidados intensivos'],
         [v.sinTx, 'inmunoterapia no iniciada en 4 semanas'],
-        [v.sinMejoria, 'sin mejoria en 4 semanas'],
+        [v.sinMejoria, 'sin mejoría en 4 semanas'],
         [v.rm, 'resonancia alterada'],
-        [v.lcr, 'mas de 20 leucocitos en el liquido']
+        [v.lcr, 'más de 20 leucocitos en el líquido']
       ];
       const presentes = items.filter(x => x[0]).map(x => x[1]);
       const p = presentes.length;
@@ -229,19 +229,19 @@ export const calculators = [
       else banda = 'MUY ALTO';
       const modificables = [];
       if (v.sinTx) modificables.push('la inmunoterapia no se inicio en las 4 primeras semanas');
-      if (v.sinMejoria) modificables.push('no hubo mejoria en las 4 primeras semanas, lo que es indicacion de ESCALAR a segunda linea');
+      if (v.sinMejoria) modificables.push('no hubo mejoría en las 4 primeras semanas, lo que es indicación de ESCALAR a segunda línea');
       return { p, banda, presentes, modificables };
     },
     format: r => {
-      let s = `<strong>${r.p} de 5 puntos: riesgo ${r.banda}</strong> de mala situacion funcional al año. `;
-      if (r.banda === 'MUY ALTO' || r.banda === 'ALTO') s += '<span style="color:#8c3a34;">Perfil de mal pronostico.</span> Corresponde tratamiento intensivo, escalada precoz a segunda linea, busqueda insistente del teratoma y una conversacion honesta con la familia sobre una recuperacion que sera larga.';
-      else if (r.banda === 'INTERMEDIO') s += '<span style="color:#8a6a1f;">Perfil intermedio.</span> Reevaluacion estructurada y umbral bajo para escalar si la respuesta no llega.';
-      else s += '<span style="color:#3f6b52;">Perfil de mejor pronostico</span> segun la escala. Eso no autoriza a relajar el tratamiento: la mayoria de los pacientes mejora, pero hacerlo pronto sigue siendo lo que mas influye.';
+      let s = `<strong>${r.p} de 5 puntos: riesgo ${r.banda}</strong> de mala situación funcional al año. `;
+      if (r.banda === 'MUY ALTO' || r.banda === 'ALTO') s += '<span style="color:#8c3a34;">Perfil de mal pronóstico.</span> Corresponde tratamiento intensivo, escalada precoz a segunda línea, búsqueda insistente del teratoma y una conversación honesta con la familia sobre una recuperación que será larga.';
+      else if (r.banda === 'INTERMEDIO') s += '<span style="color:#8a6a1f;">Perfil intermedio.</span> Reevaluación estructurada y umbral bajo para escalar si la respuesta no llega.';
+      else s += '<span style="color:#3f6b52;">Perfil de mejor pronóstico</span> según la escala. Eso no autoriza a relajar el tratamiento: la mayoría de los pacientes mejora, pero hacerlo pronto sigue siendo lo que más influye.';
       if (r.presentes.length) s += `<br><span style="opacity:.75;">Aportan: ${r.presentes.join(', ')}.</span>`;
       if (r.modificables.length) {
-        s += `<br><strong style="color:#8c3a34;">Atencion: ${r.modificables.length === 1 ? 'una de las variables presentes depende del equipo' : 'dos de las variables presentes dependen del equipo'}</strong>: ${r.modificables.join('; y ')}. A diferencia del resto de la escala, esto todavia se puede cambiar.`;
+        s += `<br><strong style="color:#8c3a34;">Atención: ${r.modificables.length === 1 ? 'una de las variables presentes depende del equipo' : 'dos de las variables presentes dependen del equipo'}</strong>: ${r.modificables.join('; y ')}. A diferencia del resto de la escala, esto todavía se puede cambiar.`;
       }
-      s += '<br><span style="opacity:.75;">La recuperacion en esta enfermedad es LENTA y puede llevar muchos meses, en orden aproximadamente inverso al de la instauracion. Confundir esa lentitud con un fracaso lleva a escalar sin motivo o a abandonar el tratamiento.</span>';
+      s += '<br><span style="opacity:.75;">La recuperación en esta enfermedad es LENTA y puede llevar muchos meses, en orden aproximadamente inverso al de la instauración. Confundir esa lentitud con un fracaso lleva a escalar sin motivo o a abandonar el tratamiento.</span>';
       return s;
     },
     fragment: r => `NEOS ${r.p}/5, riesgo ${r.banda.toLowerCase()}`
