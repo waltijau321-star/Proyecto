@@ -41,7 +41,8 @@ reves, que es mas fuerte: en vez de enumerar los temas completos, enumera los PE
 
 1. Ningun indice apunta fuera de la bibliografia de su tema.
 2. Ninguna cita cuelga de un campo que la ficha no tiene.
-3. El total de campos atribuidos no baja de la marca (1964).
+3. El total de campos atribuidos no baja de la marca (1961), salvo que se retire una cita
+   por equivocada, y entonces se escribe el motivo en `tests.js` con la frase de la fuente.
 4. Ningun tema de la lista de pendientes empeora, y todo tema fuera de ella esta a cero.
 
 Asi el trabajo se hace por bloques sin que nada se desande y sin dejar la suite en rojo mientras
@@ -75,12 +76,12 @@ aceptando el limite y dejandolo escrito, como ya se hizo en la cabecera de esos 
 | | |
 |---|---|
 | Campos de la regla | 2072 |
-| Atribuidos | **1964** (94.8%) |
-| Huecos | 108 |
+| Atribuidos | **1961** (94.6%) |
+| Huecos | 111 |
 | Temas completos | **91** de 106 |
 
-(El dia anterior eran 1941 y 131 huecos. Los 23 cerrados y por que, mas abajo en
-"La premisa de este pendiente estaba equivocada".)
+(El dia anterior eran 1941 y 131 huecos. Se cerraron 23 y despues se **retiraron 3 por
+equivocadas**, al releer los pasajes; de ahi 111 y no 108. Las dos cosas, mas abajo.)
 
 **De 17 temas completos a 91, y de 377 campos atribuidos a 1941, el 2 de noviembre.** No fue
 fuerza bruta: al intentar atribuir `delirium-coma-encefalopatias` aparecio la causa real de la
@@ -228,6 +229,57 @@ frascos de hemocultivo a pie de cama, y en el PDF de la AASLD hay paracentesis 4
 la encefalopatia subraya que un amonio normal obliga a reconsiderar el diagnostico, y la guia EASL
 trae "normal ammonia" en su pagina 4.
 
+### Contar apariciones no basta: 3 de 11 citas estaban mal (segunda pasada del 2/11/2026)
+
+Las 23 citas de la primera pasada se verificaron buscando en el PDF los terminos del campo y
+anotando cuantas veces aparecian y en que paginas. De esas 23, en **11** la cita se habia inferido
+de que los terminos coincidieran, sin leer el pasaje. Al releerlas una por una, **3 no se
+sostenian**, y por eso el total baja de 1964 a 1961.
+
+**Las tres, y como enganaba el recuento:**
+
+1. **La midodrina de la ascitis refractaria** (`cirrosis-hepatica`). "midodrine" aparecia 5 veces en
+   la guia AASLD. Leidas: en la pagina 7 es el ensayo MACTH, donde midodrina mas albumina frente a
+   placebo dio "no difference ... in the complication rates or death"; en las 23-24 es en el
+   SINDROME HEPATORRENAL, como tercera opcion cuando no hay terlipresina ni noradrenalina, "yet the
+   efficacy is low". Un recuento da 5 igual si la guia lo recomienda que si lo descarta.
+2. y 3. **El `laboratorio` de la dopamina y de la dobutamina** (`vasopresores-sedantes`). La
+   arritmia aparecia 8 veces en Surviving Sepsis, una de ellas en la misma pagina que la dopamina.
+   Leidas: es un **desenlace de ensayo** ("The incidence of life-threatening arrhythmia was similar
+   in both groups") y un factor de eleccion de farmaco, nunca una recomendacion de monitorizar el
+   ECG. Ademas "urine output" tiene cero apariciones en toda la guia, asi que la diuresis horaria
+   no esta, y del gasto cardiaco la guia dice que hay "insufficient evidence to make a
+   recommendation".
+
+**Las 8 que si se sostienen quedaron con la frase de la guia escrita en el comentario**, en vez del
+recuento. Ejemplos: la ascitis refractaria se apoya en la declaracion de la pagina 6, "In patients
+receiving diuretics, body weight and serum creatinine and sodium should be regularly monitored"; el
+fentanilo en la declaracion no graduada de la pagina 5 de PADIS, "the ... Critical-Care Pain
+Observation Tool (CPOT) demonstrate the greatest validity and reliability for monitoring pain"; la
+fibrilacion auricular en la recomendacion de clase I B de la pagina 41 de la guia ESC, "recommended
+in all patients with HCM or cardiac amyloidosis and AF or atrial flutter".
+
+**Y en 4 de las 8 el pasaje dejo ver que una clausula del campo no esta sostenida**, cosa que el
+recuento no podia mostrar, y queda anotada junto a la cita: la resonancia para el trombo (la guia
+solo nombra el transesofagico), el "tethering" de la dilatada (cero apariciones en las dos guias),
+la miocardiopatia periparto (esa guia no la cubre) y el umbral de sodio urinario <10 mEq/L del
+hepatorrenal (la guia nombra el sodio urinario, no ese numero).
+
+**Dos preguntas de CONTENIDO, no de cita, que esto saco a la luz** y que decide el autor:
+
+- el `tx_farmacologico` de la ascitis refractaria recomienda midodrina, y la mejor fuente del tema
+  trae un ensayo sin diferencia en complicaciones ni muerte;
+- las fichas de vecuronio y rocuronio piden monitorizar con tren de cuatro, y esa guia recomienda
+  **en contra de usarlo solo**: "We suggest against the use of peripheral nerve stimulation with
+  train of four alone ... in patients receiving continuous infusion", pidiendo combinarlo con la
+  valoracion clinica.
+
+**La regla de decision que quedo**, para que las proximas sean consistentes: se cita cuando la
+fuente sostiene **lo que el campo manda hacer principalmente**; se deja el hueco cuando solo
+sostiene una clausula incidental. Por eso el `laboratorio` del propofol (1 de 3 clausulas) y el de
+la dopamina (1 de 3) se quedan sin cita, y el del hepatorrenal si la lleva: ahi la fuente sostiene
+que medir, y lo que falta es un numero concreto.
+
 ### Lo que NO se cerro, y por que (medido, no supuesto)
 
 **Las guias no dosifican.** Es el motivo de 10 de los 12 huecos que quedan en
@@ -287,11 +339,11 @@ a medias.
 | `anemias-hemoliticas-hereditarias` | 6 | 15 | falta la de sobrecarga de hierro; ojo, la de parvovirus (12) es para la crisis APLASICA, no la megaloblastica |
 | `sindromes-mielodisplasicos` | 9 | 15 | `Freifeld-et-al-2011-IDSA-neutropenic-fever-guideline.pdf` y `NCCN-2026-AML-guideline.pdf`, los dos en el repo |
 | `sindromes-mieloproliferativos` | 9 | 16 | la clasificacion OMS (1) y la ICC (2), ya en el tema y las dos completas en PMC; ojo, los criterios IWG-MRT de mielofibrosis post-PV **no** son el DIPSS (8) |
-| `vasopresores-sedantes` | 12 | 8 | **10 son dosis y presentaciones: ninguna guia las da.** Hace falta una referencia de dosificacion y el formulario institucional |
+| `vasopresores-sedantes` | 14 | 8 | **10 son dosis y presentaciones: ninguna guia las da.** Hace falta una referencia de dosificacion y el formulario institucional |
 | `anemias-hemoliticas-adquiridas` | 12 | 16 | Brodsky (13) para la trombosis de la HPN, ya en el tema y completa en PMC; falta la de sobrecarga de hierro |
-| `cirrosis-hepatica` | 34 | 22 | cada complicacion tiene SU fuente ya declarada (Baveno VII, EASL, Fallon, O'Leary, Tandon...); es verificarlas una a una |
+| `cirrosis-hepatica` | 35 | 22 | cada complicacion tiene SU fuente ya declarada (Baveno VII, EASL, Fallon, O'Leary, Tandon...); es verificarlas una a una |
 
-Total: **108 huecos en 15 temas**. La columna de la derecha es el trabajo real que queda: en 9 de
+Total: **111 huecos en 15 temas**. La columna de la derecha es el trabajo real que queda: en 9 de
 los 15 temas la fuente ya esta, o en la `bibliografia` del tema o en `Bibliografia/` sin usar.
 
 ## Como ver los huecos de un tema

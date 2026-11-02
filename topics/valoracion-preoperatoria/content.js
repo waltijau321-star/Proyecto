@@ -340,11 +340,12 @@ export const compCites = {
   'El paciente con valvulopatía grave': { criterios_dx: [1], tx_medico: [1], tx_farmacologico: [1], seguimiento_hospitalario: [1] },
   'La paciente embarazada': { definicion: [11], criterios_dx: [11], tx_medico: [11], tx_farmacologico: [11], seguimiento_hospitalario: [11] },
   'El portador de marcapasos o desfibrilador': { tx_farmacologico: [2], criterios_dx: [1] },
-  // Verificado contra el PDF de la guia ACCP (fuente 2): el dabigatran aparece 35 veces y el
-  // aclaramiento de creatinina 16, juntos en las paginas 18 a 20, que son las del intervalo de
-  // suspension por funcion renal. El paciente cirrotico de este mismo tema sigue SIN cita a
-  // proposito: ninguna de las 11 fuentes es de hepatologia y en la guia perioperatoria de la
-  // fuente 1 no aparece ni una vez "cirrhosis", ni "Child-Pugh", ni "MELD".
+  // Verificado en el PDF de la guia ACCP (fuente 2): el dabigatran y el aclaramiento de creatinina
+  // coinciden en sus paginas 18 a 20, que son las tablas del intervalo de suspension segun la
+  // funcion renal; es el unico anticoagulante directo de eliminacion renal predominante y la guia
+  // lo trata aparte por eso. El paciente cirrotico de este mismo tema sigue SIN cita a proposito:
+  // ninguna de las 11 fuentes es de hepatologia y en la guia perioperatoria de la fuente 1 no
+  // aparece ni una vez "cirrhosis", ni "Child-Pugh", ni "MELD".
   'El paciente con enfermedad renal crónica o en diálisis': { criterios_dx: [2] }
 };
 

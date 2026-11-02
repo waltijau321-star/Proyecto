@@ -168,6 +168,19 @@ by the subject of the gap (`find Bibliografia -iname "*neutropen*"`), not by the
 **a source added to `bibliografia[]` goes at the end**: inserting one shifts every later index and
 the engine paints the wrong reference without a word.
 
+**Checking means reading the passage, not counting the term.** On 2 Nov 2026, 23 citations were
+verified by searching each field's own terms in the PDF and recording the hit counts and pages.
+Re-reading the 11 passages where the citation rested on that co-occurrence, **3 did not hold**: the
+AASLD guidance mentions midodrine five times, but once in a trial that found "no difference ... in
+the complication rates or death" and twice for hepatorenal syndrome "yet the efficacy is low"; and
+Surviving Sepsis mentions arrhythmia eight times, as a trial outcome and a drug-choice factor,
+never as a monitoring recommendation. A hit count reads the same whether the source recommends
+something or rules it out. So: open the page, read the passage, and leave the guideline's own
+sentence in a comment next to the citation. Reading also exposes what counting cannot, namely the
+clause of the field that no source supports. **The decision rule, so the calls stay consistent:
+cite when the source supports what the field primarily tells the reader to do; leave the gap when
+it only supports an incidental clause.**
+
 **Never attribute a field to a source you have not checked covers it.** A wrong citation is worse
 than a gap, and this is not hypothetical: `urticaria` listed the SOLAPSO psoriasis guideline and
 the Latin-American Stevens-Johnson guideline, and the only mentions of "psoriasis" and "Stevens"

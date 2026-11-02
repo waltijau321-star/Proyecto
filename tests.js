@@ -2271,20 +2271,30 @@ async function run() {
   // Los temas que TODAVIA tienen huecos, con su maximo tolerado. Todo tema que no este aqui debe
   // estar a cero. Al cerrar huecos hay que BAJAR el numero; si una prueba falla por lo contrario,
   // es que una cita se perdio. La lista se vacia sola a medida que avanza el trabajo.
-  // Bajado el 2/11/2026 de 131 huecos a 108. Los 23 que se cerraron se verificaron uno por uno
-  // contra los PDF de Bibliografia/, buscando en el PDF las afirmaciones concretas del campo, no
-  // fiandose del titulo de la fuente. El detalle de cada uno esta en los comentarios de cada
-  // content.js y el recuento en .claude/atribucion-citas.md.
+  // El 2/11/2026, de 131 huecos a 111, en dos pasadas el mismo dia.
+  //
+  // La primera cerro 23 verificando cada cita contra los PDF de Bibliografia/ por RECUENTO de
+  // apariciones de los terminos del campo. La segunda releyo los 11 pasajes en los que la cita se
+  // habia inferido de que los terminos coincidieran, y **quito 3 que el pasaje no sostenia**: la
+  // midodrina de la ascitis refractaria (el ensayo que cita la guia no mostro diferencia, y la
+  // recomienda solo en el sindrome hepatorrenal con eficacia baja) y el `laboratorio` de la
+  // dopamina y de la dobutamina (en Surviving Sepsis la arritmia es un desenlace de ensayo, no una
+  // recomendacion de monitorizar). El detalle de cada una esta en los comentarios de su content.js.
+  //
+  // DE AHI QUE ESTA MARCA BAJE DE 1964 A 1961, y es la unica razon por la que puede bajar: tres
+  // citas retiradas por equivocadas, no tres huecos nuevos. El trinquete no sabe distinguirlas, asi
+  // que si alguien vuelve a bajarla tiene que escribir aqui por que, con la frase de la fuente que
+  // lo justifica. Sin ese motivo escrito, una bajada es una regresion.
   const ATRIB_PENDIENTES = {
     'sepsis': 1, 'valoracion-preoperatoria': 1, 'miocardiopatias': 3,
     'anemia-ferropenica': 3, 'anemia-megaloblastica': 3,
     'anemia-enfermedad-cronica': 3, 'debilidad-adquirida-uci': 3, 'eccemas': 3,
     'anemia-aplasica': 6, 'anemias-hemoliticas-hereditarias': 6,
     'sindromes-mielodisplasicos': 9, 'sindromes-mieloproliferativos': 9,
-    'vasopresores-sedantes': 12, 'anemias-hemoliticas-adquiridas': 12,
-    'cirrosis-hepatica': 34
+    'anemias-hemoliticas-adquiridas': 12, 'vasopresores-sedantes': 14,
+    'cirrosis-hepatica': 35
   };
-  const ATRIB_TOTAL_MINIMO = 1964;
+  const ATRIB_TOTAL_MINIMO = 1961;
 
   const atribPorTema = {};
   let atribTotal = 0, atribCampos = 0;

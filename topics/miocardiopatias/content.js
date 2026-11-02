@@ -466,16 +466,33 @@ export const compCites = {
   'Miocardiopatía periparto': { definicion: [12], tx_farmacologico: [12, 13], criterios_dx: [12], laboratorio: [12, 13] },
   'Insuficiencia cardiaca avanzada refractaria': { tx_farmacologico: [6, 7], criterios_dx: [6, 7], laboratorio: [6, 7] },
   'Arritmias ventriculares malignas y muerte súbita cardiaca': { tx_intervencionista: [14, 15], criterios_dx: [14, 15], laboratorio: [14, 15], tx_farmacologico: [14, 15] },
-  // Verificado contra el PDF de la guia ESC 2023 (fuente 1): la fibrilacion auricular y su
-  // anticoagulacion estan en sus paginas 39-42, con CHA2DS2-VASc y el anticoagulante oral en las
-  // mismas, y el trombo por ecocardiograma transesofagico en las 22 y 60. El campo `laboratorio`
-  // de esta ficha dice que no hay hallazgo especifico, asi que no se le cuelga ninguna cita.
+  // Verificado LEYENDO EL PASAJE de la guia ESC 2023 (fuente 1), no contando apariciones:
+  //   - `tx_farmacologico`, pagina 41, recomendacion de clase I B: la anticoagulacion oral "is
+  //     recommended in all patients with HCM or cardiac amyloidosis and AF or atrial flutter
+  //     (unless contraindicated)", SIN umbral de score, y en la misma pagina "in patients with
+  //     DCM, NDLVC, or ARVC ... with a CHA2DS2-VASc score >=2 in men or >=3 in women". La pagina
+  //     39 explica por que: el score "has not been specifically tested in patients with
+  //     cardiomyopathies" y rinde peor en hipertrofica y amiloidosis. Los anticoagulantes directos
+  //     preferidos, tambien en la 39. OJO: esta guia no cubre la miocardiopatia PERIPARTO, que el
+  //     campo tambien nombra; esa clausula se apoyaria en las fuentes 12 y 13, que no estan en
+  //     Bibliografia/ y no se han podido comprobar.
+  //   - `criterios_dx`, paginas 22 y 60: "Transoesophageal echocardiography is rarely necessary
+  //     except for when atrial thrombi are present in patients with AF". OJO: la guia nunca liga
+  //     la RESONANCIA al trombo (sus tres menciones de "thrombus" son estas dos y una de la
+  //     bibliografia), asi que esa clausula del campo no esta sostenida.
+  // El campo `laboratorio` de esta ficha dice que no hay hallazgo especifico, asi que no se le
+  // cuelga ninguna cita.
   'Fibrilación auricular y tromboembolismo': { criterios_dx: [1], tx_farmacologico: [1] },
-  // Dos clausulas y dos fuentes, cada una verificada donde la sostiene: el MECANISMO (movimiento
-  // anterior sistolico, insuficiencia mitral en la hipertrofica y la dilatada) esta en la guia ESC
-  // de miocardiopatias, paginas 48 a 55; la CUANTIFICACION por area del orificio regurgitante
-  // efectivo y volumen regurgitante NO aparece ahi (cero apariciones) y si en la guia ESC de
-  // insuficiencia cardiaca, paginas 66-67, que es su sitio.
+  // Dos clausulas y dos fuentes, cada una leida donde la sostiene:
+  //   - el MECANISMO, en la guia de miocardiopatias, paginas 53-54: "moderate-to-severe systolic
+  //     anterior motion-related mitral regurgitation", y la figura 15 lista "SAM related MV
+  //     prolapse". Es casi la frase del campo.
+  //   - la CUANTIFICACION, en la guia ESC de insuficiencia cardiaca (fuente 6), paginas 66-67:
+  //     define EROA y da los umbrales de los ensayos ("EROA >=20 mm2 in MITRA-FR and EROA >=30
+  //     mm2 in COAPT"), en su seccion de insuficiencia mitral secundaria, que es este cuadro. En
+  //     la guia de miocardiopatias "regurgitant volume" tiene cero apariciones.
+  //   - OJO: "tethering" tiene CERO apariciones en las dos guias, asi que la clausula del
+  //     mecanismo en la dilatada no esta sostenida por ninguna de ellas.
   'Insuficiencia mitral funcional': { criterios_dx: [1, 6] }
 };
 export const estigmas = [];

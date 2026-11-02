@@ -263,13 +263,41 @@ export const content = {
   }
 };
 
-// Las citas de `laboratorio` de esta tabla se verificaron una por una contra los PDF del repo:
-// PADIS 2018 (fuente 1) trae RASS 15 veces, "sedation scale" 13 y "pain scale" 19, mas la
-// bradicardia y la hipotension de la dexmedetomidina en sus paginas 13 y 16; la guia de bloqueo
-// neuromuscular (fuente 4) trae el tren de cuatro 24 veces y el estimulador de nervio periferico
-// 5; y Surviving Sepsis 2026 (fuente 2) trae el cateter arterial 13, el relleno capilar 14, la
-// arritmia 8 (en la pagina 37, la misma que la dopamina) y la isquemia digital en la 38, que es
-// la de la vasopresina.
+// Las citas de `laboratorio` de esta tabla se verificaron LEYENDO EL PASAJE, no contando
+// apariciones. La primera version de este comentario anotaba recuentos, y asi se colaron dos
+// citas equivocadas que se quitaron el 2/11/2026 (ver abajo). Lo que sostiene cada una:
+//
+//   - MIDAZOLAM, pagina 14 de PADIS: la guia recomienda sedacion ligera y usa el RASS como la
+//     escala que la define, "a RASS score of -2 to +1 range ... was considered as light sedation".
+//   - FENTANILO, pagina 5 de PADIS, declaracion no graduada: "the Behavioral Pain Scale ... and
+//     the Critical-Care Pain Observation Tool (CPOT) demonstrate the greatest validity and
+//     reliability for monitoring pain" en adultos criticos que no pueden autorreportar, que es
+//     literalmente lo que dice el campo.
+//   - DEXMEDETOMIDINA, pagina 16 de PADIS: "The SEDCOM and MENDS studies both demonstrated a
+//     greater incidence of bradycardia in the dexmedetomidine group", de donde sale vigilar la
+//     frecuencia cardiaca y la presion.
+//   - VASOPRESINA, pagina 38 de Surviving Sepsis: "adjunctive vasopressin probably results in
+//     less atrial fibrillation ... but possibly more digital ischemia (RR 2.87)", atribuido al
+//     farmaco; y la presion invasiva en su pagina 32 (abajo).
+//   - VECURONIO y ROCURONIO, pagina 2 de la guia de bloqueo neuromuscular: el tren de cuatro
+//     "may be a useful tool for monitoring the depth of neuromuscular blockade". **Pero esa misma
+//     pagina recomienda EN CONTRA de usarlo solo**: "We suggest against the use of peripheral
+//     nerve stimulation with train of four alone ... in patients receiving continuous infusion",
+//     y pide combinarlo con la valoracion clinica. Las dos fichas presentan el tren de cuatro sin
+//     ese matiz: es una pregunta de CONTENIDO para el autor, no de cita.
+//
+// LAS DOS CITAS QUE SE QUITARON. El `laboratorio` de la DOPAMINA y de la DOBUTAMINA citaban
+// Surviving Sepsis, y al leer los pasajes no se sostiene: en las paginas 37 y 40 la arritmia
+// aparece como DESENLACE de ensayo ("The incidence of life-threatening arrhythmia was similar in
+// both groups") y como factor de eleccion de farmaco, nunca como una recomendacion de monitorizar
+// el ECG; "urine output" tiene cero apariciones en toda la guia, asi que la diuresis horaria de la
+// dopamina no esta; y del gasto cardiaco de la dobutamina la guia dice que hay "insufficient
+// evidence to make a recommendation". De tres clausulas quedaba sostenida una, la presion
+// invasiva, y con ese reparto se dejan sin cita, igual que el propofol.
+//
+// La presion arterial invasiva SI esta, en la pagina 32: "Invasive blood pressure monitoring is
+// advised in patients with shock who: require intermediate-to-high-dose vasopressors, escalating
+// doses of vasopressor, or multiple vasopressors". Es la clausula que la vasopresina comparte.
 //
 // LAS DOSIS SIGUEN SIN CITA A PROPOSITO, y no por descuido: ninguna de estas guias es una
 // referencia de dosificacion. PADIS no contiene ni una sola vez "mg/kg/h" ni "mcg/kg", y la de
@@ -287,8 +315,8 @@ export const content = {
 export const compCites = {
   'Norepinefrina (Noradrenalina)': { tx_medico: [2], criterios_tips: [2], laboratorio: [2], tx_farmacologico: [2] },
   'Adrenalina (Epinefrina)': { tx_medico: [2], criterios_tips: [2], laboratorio: [2], tx_farmacologico: [2] },
-  'Dopamina': { tx_medico: [2, 3], laboratorio: [2] },
-  'Dobutamina': { criterios_tips: [2], laboratorio: [2] },
+  'Dopamina': { tx_medico: [2, 3] },
+  'Dobutamina': { criterios_tips: [2] },
   'Vasopresina': { tx_medico: [2], laboratorio: [2] },
   'Midazolam': { tx_medico: [1], criterios_tips: [1], laboratorio: [1] },
   'Propofol': { tx_medico: [1] },
