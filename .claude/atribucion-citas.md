@@ -41,7 +41,7 @@ reves, que es mas fuerte: en vez de enumerar los temas completos, enumera los PE
 
 1. Ningun indice apunta fuera de la bibliografia de su tema.
 2. Ninguna cita cuelga de un campo que la ficha no tiene.
-3. El total de campos atribuidos no baja de la marca (1961), salvo que se retire una cita
+3. El total de campos atribuidos no baja de la marca (1962), salvo que se retire una cita
    por equivocada, y entonces se escribe el motivo en `tests.js` con la frase de la fuente.
 4. Ningun tema de la lista de pendientes empeora, y todo tema fuera de ella esta a cero.
 
@@ -76,12 +76,13 @@ aceptando el limite y dejandolo escrito, como ya se hizo en la cabecera de esos 
 | | |
 |---|---|
 | Campos de la regla | 2072 |
-| Atribuidos | **1961** (94.6%) |
-| Huecos | 111 |
+| Atribuidos | **1962** (94.7%) |
+| Huecos | 110 |
 | Temas completos | **91** de 106 |
 
-(El dia anterior eran 1941 y 131 huecos. Se cerraron 23 y despues se **retiraron 3 por
-equivocadas**, al releer los pasajes; de ahi 111 y no 108. Las dos cosas, mas abajo.)
+(El dia anterior eran 1941 y 131 huecos. Tres pasadas el mismo dia: se cerraron 23, se
+**retiraron 3 por equivocadas** al releer los pasajes, y **una volvio al arreglar el texto del
+campo**. Las tres, mas abajo.)
 
 **De 17 temas completos a 91, y de 377 campos atribuidos a 1941, el 2 de noviembre.** No fue
 fuerza bruta: al intentar atribuir `delirium-coma-encefalopatias` aparecio la causa real de la
@@ -280,6 +281,44 @@ sostiene una clausula incidental. Por eso el `laboratorio` del propofol (1 de 3 
 la dopamina (1 de 3) se quedan sin cita, y el del hepatorrenal si la lleva: ahi la fuente sostiene
 que medir, y lo que falta es un numero concreto.
 
+### Cuando la cita no se sostiene, a veces lo que hay que arreglar es el TEXTO
+
+De las 3 citas retiradas, una volvio el mismo dia, y el camino merece quedar escrito porque es
+reutilizable.
+
+El `tx_farmacologico` de la ascitis refractaria decia "considerar midodrina... para mejorar volumen
+arterial efectivo **y permitir reintroduccion de diureticos**". La guia AASLD no sostenia eso. Pero
+al leer el pasaje con cuidado aparecio el matiz: el ensayo MACTH encontro "**some improvement in
+parameters reflecting improved effective plasma volume**, no difference was observed in the
+complication rates or death during 12 months". Es decir que **la primera mitad del campo era
+exactamente lo que el ensayo encontro**; lo que no habia era el salto al beneficio clinico.
+
+Asi que no era un campo equivocado, era un campo que decia mas de lo que su fuente aguanta. El
+autor decidio arreglar el texto en vez de borrar la conducta: la midodrina se queda, con lo que
+mejora y con lo que el ensayo no mostro, y pierde la clausula de los diureticos. **Con el campo
+ajustado a la fuente, la cita volvio a ser defendible**, y el total subio de 1961 a 1962.
+
+La pregunta que conviene hacerse cuando una cita no se sostiene es, entonces, doble: puede que la
+cita este mal, o puede que el campo afirme mas de lo que su fuente dice. La segunda se arregla
+escribiendo, y es la que deja el contenido mejor.
+
+### El matiz hay que ponerlo donde aparece, no donde se noto
+
+La otra decision de contenido del 2/11/2026 era el tren de cuatro. La guia de bloqueo neuromuscular
+recomienda **en contra** de guiarse por el solo: "We suggest against the use of peripheral nerve
+stimulation with train of four alone ... in patients receiving continuous infusion", y pide
+integrarlo en la valoracion clinica. Lo note en los dos campos `laboratorio` que la citaban, que
+eran los que estaba verificando.
+
+**Pero el tema menciona el tren de cuatro en SEIS sitios**: esos dos `laboratorio`, la `clinica` y
+los `criterios_tips` del vecuronio, su `algoritmo`, y la lista de monitorizacion del tema. Cuatro de
+ellos no llevan cita, asi que no aparecian en ninguna medida de atribucion. Poner el matiz solo en
+los dos citados habria dejado el tema diciendose lo contrario a si mismo, y ademas habria dejado el
+aviso justo en los dos sitios que menos se leen. Se puso en los seis.
+
+La leccion: cuando una fuente obliga a matizar una conducta, **buscar todas las menciones de esa
+conducta en el tema** (`grep` por el nombre del metodo), no solo las que tienen cita.
+
 ### Lo que NO se cerro, y por que (medido, no supuesto)
 
 **Las guias no dosifican.** Es el motivo de 10 de los 12 huecos que quedan en
@@ -341,9 +380,9 @@ a medias.
 | `sindromes-mieloproliferativos` | 9 | 16 | la clasificacion OMS (1) y la ICC (2), ya en el tema y las dos completas en PMC; ojo, los criterios IWG-MRT de mielofibrosis post-PV **no** son el DIPSS (8) |
 | `vasopresores-sedantes` | 14 | 8 | **10 son dosis y presentaciones: ninguna guia las da.** Hace falta una referencia de dosificacion y el formulario institucional |
 | `anemias-hemoliticas-adquiridas` | 12 | 16 | Brodsky (13) para la trombosis de la HPN, ya en el tema y completa en PMC; falta la de sobrecarga de hierro |
-| `cirrosis-hepatica` | 35 | 22 | cada complicacion tiene SU fuente ya declarada (Baveno VII, EASL, Fallon, O'Leary, Tandon...); es verificarlas una a una |
+| `cirrosis-hepatica` | 34 | 22 | cada complicacion tiene SU fuente ya declarada (Baveno VII, EASL, Fallon, O'Leary, Tandon...); es verificarlas una a una |
 
-Total: **111 huecos en 15 temas**. La columna de la derecha es el trabajo real que queda: en 9 de
+Total: **110 huecos en 15 temas**. La columna de la derecha es el trabajo real que queda: en 9 de
 los 15 temas la fuente ya esta, o en la `bibliografia` del tema o en `Bibliografia/` sin usar.
 
 ## Como ver los huecos de un tema

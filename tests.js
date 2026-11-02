@@ -2281,10 +2281,17 @@ async function run() {
   // dopamina y de la dobutamina (en Surviving Sepsis la arritmia es un desenlace de ensayo, no una
   // recomendacion de monitorizar). El detalle de cada una esta en los comentarios de su content.js.
   //
-  // DE AHI QUE ESTA MARCA BAJE DE 1964 A 1961, y es la unica razon por la que puede bajar: tres
-  // citas retiradas por equivocadas, no tres huecos nuevos. El trinquete no sabe distinguirlas, asi
-  // que si alguien vuelve a bajarla tiene que escribir aqui por que, con la frase de la fuente que
-  // lo justifica. Sin ese motivo escrito, una bajada es una regresion.
+  // De ahi que esta marca bajara de 1964 a 1961, y es la unica razon por la que puede bajar: citas
+  // retiradas por equivocadas, no huecos nuevos. El trinquete no sabe distinguirlas, asi que si
+  // alguien vuelve a bajarla tiene que escribir aqui por que, con la frase de la fuente que lo
+  // justifica. Sin ese motivo escrito, una bajada es una regresion.
+  //
+  // Una TERCERA pasada el mismo dia subio a 1962: el autor decidio arreglar el TEXTO de la ascitis
+  // refractaria en vez de borrar la conducta (la midodrina se queda, con lo que el ensayo encontro
+  // y lo que no), y con el campo ajustado a la fuente su cita volvio a ser defendible. De paso, el
+  // matiz del tren de cuatro de la guia de bloqueo neuromuscular ("en contra de usarlo solo en
+  // infusion continua") se puso en los SEIS sitios del tema que lo mencionan, no solo en los dos
+  // que lo citaban: arreglar dos habria dejado el tema contradiciendose.
   const ATRIB_PENDIENTES = {
     'sepsis': 1, 'valoracion-preoperatoria': 1, 'miocardiopatias': 3,
     'anemia-ferropenica': 3, 'anemia-megaloblastica': 3,
@@ -2292,9 +2299,9 @@ async function run() {
     'anemia-aplasica': 6, 'anemias-hemoliticas-hereditarias': 6,
     'sindromes-mielodisplasicos': 9, 'sindromes-mieloproliferativos': 9,
     'anemias-hemoliticas-adquiridas': 12, 'vasopresores-sedantes': 14,
-    'cirrosis-hepatica': 35
+    'cirrosis-hepatica': 34
   };
-  const ATRIB_TOTAL_MINIMO = 1961;
+  const ATRIB_TOTAL_MINIMO = 1962;
 
   const atribPorTema = {};
   let atribTotal = 0, atribCampos = 0;

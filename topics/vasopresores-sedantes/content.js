@@ -221,14 +221,14 @@ export const content = {
       fisiopatologia: 'Antagonista competitivo del receptor nicotínico de acetilcolina en la placa motora, impidiendo la despolarización de la membrana muscular y produciendo parálisis flácida; no tiene efecto analgésico ni sedante — debe usarse siempre junto con sedoanalgesia adecuada.',
       epidemiologia: 'Inicio de acción 2-3 min IV; duración de acción 25-40 min con dosis única; metabolismo hepático con eliminación biliar y renal parcial — la duración se prolonga en insuficiencia hepática o renal.',
       factores_riesgo: ['Ausencia de sedoanalgesia adecuada concomitante (nunca paralizar a un paciente despierto)', 'Miastenia gravis y otras enfermedades neuromusculares (sensibilidad aumentada)', 'Uso prolongado en UCI: riesgo de miopatía/neuropatía del paciente crítico, mayor con uso concomitante de corticoides'],
-      clinica: 'Parálisis flácida generalizada sin efecto sobre el nivel de conciencia ni el dolor — requiere sedación y analgesia adecuadas y monitorización objetiva de la profundidad del bloqueo (tren de cuatro).',
-      laboratorio: 'Monitorización del bloqueo neuromuscular con estimulador de nervio periférico (tren de cuatro, TOF) para evitar sobredosificación; vigilar función hepática y renal.',
+      clinica: 'Parálisis flácida generalizada sin efecto sobre el nivel de conciencia ni el dolor — requiere sedación y analgesia adecuadas y monitorización de la profundidad del bloqueo con tren de cuatro, interpretado junto a la valoración clínica y no como único método.',
+      laboratorio: 'Monitorización del bloqueo neuromuscular con estimulador de nervio periférico (tren de cuatro, TOF) para evitar sobredosificación, siempre integrada en la valoración clínica del paciente: en infusión continua se recomienda en contra de guiarse por el tren de cuatro aislado. Vigilar función hepática y renal.',
       tx_medico: 'Facilita la ventilación mecánica en SDRA grave con asincronía persistente pese a sedoanalgesia óptima; adjunto en intubación de secuencia rápida cuando la succinilcolina está contraindicada.',
       tx_farmacologico: 'Intubación: 0.08-0.1 mg/kg IV. Infusión de mantenimiento en UCI: 1-2 mcg/kg/min IV, titulada según tren de cuatro (objetivo habitual 1-2 respuestas de 4). Presentación: vial liofilizado, reconstituido típicamente a 4 mg/mL; dilución habitual 40 mg en 100 mL.',
       tx_intervencionista: 'Reversión con inhibidores de la acetilcolinesterasa (neostigmina + anticolinérgico) según profundidad del bloqueo; verificar disponibilidad y protocolo institucional para sugammadex en este fármaco.',
       criterios_uci: 'Debilidad muscular prolongada tras suspender el fármaco (sobre todo con uso >24-48h, disfunción renal/hepática, o corticoides concomitantes — miopatía/polineuropatía del paciente crítico), bloqueo residual si no se monitoriza adecuadamente.',
-      criterios_tips: 'Requiere sedoanalgesia profunda y monitorización objetiva continua (profundidad de sedación y tren de cuatro); reevaluar diariamente la necesidad de continuar el bloqueo neuromuscular.',
-      algoritmo: ['Nunca administrar sin sedoanalgesia adecuada y ya establecida', 'Monitorizar el bloqueo con tren de cuatro para evitar sobredosificación', 'Reevaluar diariamente la indicación — el uso prolongado aumenta el riesgo de miopatía/neuropatía del paciente crítico', 'Ajustar en falla hepática/renal por prolongación del efecto']
+      criterios_tips: 'Requiere sedoanalgesia profunda y monitorización continua de la profundidad de sedación y del bloqueo (tren de cuatro, junto a la valoración clínica y no en solitario); reevaluar diariamente la necesidad de continuar el bloqueo neuromuscular.',
+      algoritmo: ['Nunca administrar sin sedoanalgesia adecuada y ya establecida', 'Monitorizar el bloqueo con tren de cuatro para evitar sobredosificación, junto a la valoración clínica y no como único método', 'Reevaluar diariamente la indicación — el uso prolongado aumenta el riesgo de miopatía/neuropatía del paciente crítico', 'Ajustar en falla hepática/renal por prolongación del efecto']
     },
     {
       nombre: 'Rocuronio',
@@ -238,7 +238,7 @@ export const content = {
       epidemiologia: 'Inicio de acción 45-60 s a dosis de intubación (1.2 mg/kg); duración de acción prolongada a esa dosis (45-70 min, más larga que succinilcolina); metabolismo hepático principalmente, con eliminación biliar.',
       factores_riesgo: ['Ausencia de sedoanalgesia/inducción adecuada previa', 'Miastenia gravis y enfermedades neuromusculares', 'Vía aérea difícil anticipada sin plan de rescate (la parálisis prolongada limita recuperar la respiración espontánea rápidamente, a diferencia de succinilcolina)'],
       clinica: 'Parálisis flácida generalizada; sin efecto sedante ni analgésico — requiere inducción adecuada previa.',
-      laboratorio: 'Monitorización del bloqueo neuromuscular con tren de cuatro si se usa en infusión prolongada.',
+      laboratorio: 'Monitorización del bloqueo neuromuscular con tren de cuatro si se usa en infusión prolongada, integrada en la valoración clínica: en infusión continua se recomienda en contra de guiarse por el tren de cuatro aislado.',
       tx_medico: 'Alternativa a la succinilcolina en intubación de secuencia rápida cuando esta está contraindicada (hiperkalemia, quemados >24-72h, lesión medular, enfermedad neuromuscular); mantenimiento de parálisis en UCI.',
       tx_farmacologico: 'Intubación de secuencia rápida: 1.2 mg/kg IV (inicio ultrarrápido, ~45-60 s). Dosis de intubación estándar (no urgente): 0.6-1.0 mg/kg. Infusión de mantenimiento en UCI: dosis similar a vecuronio, titulada según tren de cuatro. Presentación: vial líquido 50 mg/5 mL (10 mg/mL).',
       tx_intervencionista: 'Sugammadex (agente reversor específico que encapsula la molécula de rocuronio) permite reversión rápida y completa incluso de bloqueo profundo — ventaja importante sobre otros bloqueadores no despolarizantes, útil en el escenario de "no se puede intubar, no se puede ventilar".',
@@ -253,7 +253,7 @@ export const content = {
       'Vasopresores/inotrópicos: presión arterial (idealmente invasiva), frecuencia cardiaca, perfusión periférica, lactato seriado, diuresis horaria.',
       'Sedación: escala RASS objetivo explícito y reevaluado por turno; interrupción diaria de sedación cuando sea seguro (PADIS 2018).',
       'Analgesia: escala de dolor validada (CPOT/EVA) evaluada antes de escalar sedación — "analgesia primero".',
-      'Bloqueo neuromuscular: tren de cuatro (TOF) para evitar sobre/subdosificación; nunca sin sedoanalgesia profunda concomitante.',
+      'Bloqueo neuromuscular: tren de cuatro (TOF) para evitar sobre/subdosificación, interpretado junto a la valoración clínica y no como único método; nunca sin sedoanalgesia profunda concomitante.',
       'Delirium: tamizaje sistemático con CAM-ICU; benzodiacepinas son un factor de riesgo independiente a minimizar cuando sea posible.'
     ],
     criterios_uci_general: 'Todo paciente con infusión de vasopresores, bloqueo neuromuscular continuo, o sedación profunda requiere monitorización de nivel UCI.',

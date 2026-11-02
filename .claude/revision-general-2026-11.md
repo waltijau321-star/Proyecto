@@ -330,7 +330,7 @@ atribuyeron los dos campos del protocolo de traslado, que son claramente del ATL
 siete reparten entre la revisión de Jeschke y el manual sin que el texto permita decidir.
 Adivinar habría sido repetir el defecto de `urticaria`.
 
-**CERRADO EN SU MAYOR PARTE EL 2/11/2026: 1961 de 2072 campos (94.6%) y 91 de 106 temas
+**CERRADO EN SU MAYOR PARTE EL 2/11/2026: 1962 de 2072 campos (94.7%) y 91 de 106 temas
 completos**, frente a los 377 y los 17 del parrafo anterior. Y no fue fuerza bruta: la causa de la
 mayor parte del problema **no era que faltaran citas**. `compCites` admite dos formas, por campo
 (`{ criterios_dx: [3] }`) y plana (`[3, 4]`, las fuentes de la ficha entera), y `openModal`
@@ -343,13 +343,13 @@ Se arreglo en tres pasadas mecanicas (conversion de las 427 fichas, herencia del
 mas cercano en 41 temas, y poda de 392 entradas inertes colgadas de campos que la ficha no tiene)
 mas 51 atribuciones a mano que cerraron Semiologia 9 de 9.
 
-**Lo que queda, con honestidad: de los 1961, unos 1250 estan atribuidos a nivel de FICHA y no de
+**Lo que queda, con honestidad: de los 1962, unos 1250 estan atribuidos a nivel de FICHA y no de
 campo.** La cita dice que la ficha se apoya en esas fuentes, no que ese campo salga de esa fuente.
 Es fiel a lo que el autor declaro y es un salto frente a no pintar nada, pero no es lo mismo que
 las 111 hechas a mano leyendo cada campo. Afinarlas es trabajo de leer fuentes y sigue abierto.
 
-**Quedan 111 huecos en 15 temas** (eran 131 el mismo dia; se cerraron 23 y se retiraron 3 por
-equivocadas), en `ATRIB_PENDIENTES` de `tests.js` y
+**Quedan 110 huecos en 15 temas** (eran 131 el mismo dia; se cerraron 23, se retiraron 3 por
+equivocadas y una volvio al arreglar el texto del campo), en `ATRIB_PENDIENTES` de `tests.js` y
 en `.claude/atribucion-citas.md`.
 
 **La premisa con la que se habian dejado era equivocada, y se vio al ponerse a cerrarlos.** Este
@@ -372,6 +372,15 @@ Surviving Sepsis la arritmia es un desenlace de ensayo, no una recomendacion de 
 **Un recuento da el mismo numero si la fuente recomienda algo que si lo descarta.** El estandar que
 queda es leer el pasaje y dejar la frase de la guia escrita junto a la cita; asi quedaron las 8
 restantes, y en 4 de ellas el pasaje dejo ver una clausula del campo que ninguna fuente sostiene.
+
+**Y leer dejo ademas dos arreglos de CONTENIDO, que el autor aprobo el mismo dia.** El primero
+devolvio una de las tres citas retiradas: el campo de la midodrina afirmaba mas de lo que su fuente
+aguanta, no estaba equivocado, asi que se arreglo el texto (se queda la conducta, con lo que el
+ensayo encontro y lo que no) y con el campo ajustado la cita volvio a ser defendible. El segundo es
+el tren de cuatro: la guia de bloqueo neuromuscular recomienda en contra de guiarse por el solo en
+infusion continua, y el matiz se puso en los **seis** sitios del tema que lo mencionan, no solo en
+los dos que lo citaban; cuatro de los seis no llevan cita, asi que no salian en ninguna medida de
+atribucion.
 
 Tres cosas que esa pasada dejo medidas y conviene no volver a suponer:
 
@@ -559,13 +568,13 @@ de donde venia cada arreglo.
     No hizo falta ir tema por tema; el criterio iba en la palabra, y la parte que de verdad pedia
     juicio se quedo sin tocar a proposito.
 12. La CSP, la parte de 1.3 que no se pudo cerrar. **Pendiente**, ver la seccion 7.
-13. ~~Las citas (2.6).~~ **Cerrado en su mayor parte el 2/11/2026: 1961 de 2072 campos (94.6%)
+13. ~~Las citas (2.6).~~ **Cerrado en su mayor parte el 2/11/2026: 1962 de 2072 campos (94.7%)
     y 91 de 106 temas completos.** La mayor parte no eran citas que faltaran sino la forma plana de
     `compCites`, que el motor ancla solo a `definicion`: 62 temas y 427 fichas con las fuentes
     declaradas y sin pintar. Siguen abiertas dos cosas: **afinar a nivel de campo los ~1250
-    atribuidos a nivel de ficha** y los **111 huecos de 15 temas** (eran 131; se cerraron 23 y se
-    retiraron 3 por equivocadas al releer los pasajes, y la premisa con que se habian dejado era
-    falsa: ver 2.6).
+    atribuidos a nivel de ficha** y los **110 huecos de 15 temas** (eran 131; se cerraron 23, se
+    retiraron 3 por equivocadas al releer los pasajes y una volvio al arreglar el texto, y la
+    premisa con que se habian dejado era falsa: ver 2.6).
 14. El candado de las fichas (2.4). **Pendiente**, y es una decision del autor entre dos
     alternativas, ver la seccion 7.
 
@@ -594,13 +603,13 @@ _(Los metadatos de Inicio, que abrian esta lista, se cerraron el 1 de noviembre:
   palabra, y la prueba del infinitivo separa el sustantivo del verbo sin leer el diff. Lo que de
   verdad pedia juicio (los pares `estudio`/`estudio`, `continua`/`continua`, el `el`/`el`) sigue
   sin tocar, y en esos casos la forma sin tilde ya era la correcta. Ver 2.5.
-- **Las citas (2.6): cerradas al 94.6%, y lo que queda es de precision, no de cobertura.** 1961
+- **Las citas (2.6): cerradas al 94.7%, y lo que queda es de precision, no de cobertura.** 1962
   de 2072 campos y 91 de 106 temas completos (2/11/2026, ver 2.6). Quedan dos cosas, y conviene no
   confundirlas:
   - **afinar a nivel de campo los ~1250 que estan atribuidos a nivel de ficha.** La cita dice que
     la ficha se apoya en esas fuentes, no que ese campo salga de esa fuente. Esto si es leer
     fuentes tema por tema, y en los temas con 15 o 16 es trabajo de verdad;
-  - los **111 huecos de 15 temas** listados en `ATRIB_PENDIENTES` (eran 131). Lo de "exige
+  - los **110 huecos de 15 temas** listados en `ATRIB_PENDIENTES` (eran 131). Lo de "exige
     fuentes nuevas, no reparto" era falso: en 9 de los 15 temas la fuente ya esta, o declarada en
     el propio tema o en `Bibliografia/` sin usar, y la tabla de `.claude/atribucion-citas.md`
     nombra ahora la fuente candidata de cada uno. Lo que sigue en pie es no adivinar: cada cita se
