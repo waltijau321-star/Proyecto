@@ -231,12 +231,12 @@ export const content = {
 };
 
 export const compCites = {
-  'Reconocer la abstinencia y estimar el riesgo': { criterios_dx: [1], factores_riesgo: [1], tx_medico: [1], complementarios: [1, 2] },
-  'Benzodiacepinas: primera linea': { tx_medico: [1], tx_farmacologico: [1], pronostico: [1] },
-  'Convulsiones por abstinencia': { criterios_dx: [1], imagen: [1], tx_farmacologico: [1] },
-  'Delirium por supresion': { tx_farmacologico: [1], complementarios: [1, 3], tx_intervencionista: [1], dx_diferencial: [1] },
-  'Tiamina, electrolitos y nutricion': { tx_farmacologico: [1], fisiopatologia: [1] },
-  'Ambito de tratamiento y despues de la abstinencia': { tx_medico: [1], tx_farmacologico: [1], seguimiento_ambulatorio: [1] }
+  'Reconocer la abstinencia y estimar el riesgo': { criterios_dx: [1], factores_riesgo: [1], tx_medico: [1], complementarios: [1, 2], laboratorio: [1], tx_farmacologico: [1] },
+  'Benzodiacepinas: primera linea': { tx_medico: [1], tx_farmacologico: [1], pronostico: [1], laboratorio: [1] },
+  'Convulsiones por abstinencia': { criterios_dx: [1], imagen: [1], tx_farmacologico: [1], laboratorio: [1] },
+  'Delirium por supresion': { tx_farmacologico: [1], complementarios: [1, 3], tx_intervencionista: [1], dx_diferencial: [1], criterios_dx: [1], laboratorio: [1] },
+  'Tiamina, electrolitos y nutricion': { tx_farmacologico: [1], fisiopatologia: [1], laboratorio: [1] },
+  'Ambito de tratamiento y despues de la abstinencia': { tx_medico: [1], tx_farmacologico: [1], seguimiento_ambulatorio: [1], laboratorio: [1] }
 };
 
 export const estigmasTitulo = 'Lo que hay que buscar en la cabecera';

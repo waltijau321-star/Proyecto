@@ -55,23 +55,39 @@ ejemplos de este primer bloque:
 - `quemaduras`: siete campos reparten entre la revision de Jeschke y el manual del ATLS sin que
   el texto permita decidir cual. Solo se atribuyeron los dos del protocolo de traslado, que son
   claramente del ATLS.
+- `ampollosas`, las tres de **dermatitis herpetiforme**: su unica fuente posible es un
+  metaanalisis de PREVALENCIA en celiaquia, que no sostiene ni el patron granular de la
+  inmunofluorescencia ni la dapsona. Ya estaba anotado en la nota de fuentes que falta una
+  revision clinica de la entidad.
+- `eccemas`, las tres de "Otros eccemas y lo que se disfraza de eccema": la ficha mezcla eccema
+  de estasis, tinea y escabiosis, y ninguna de las cuatro fuentes del tema cubre las dos ultimas.
+
+**El patron de los que se dejan** es siempre el mismo: la ficha habla de algo que ninguna fuente
+del tema cubre de verdad. Eso no se arregla atribuyendo, se arregla consiguiendo la fuente (o
+aceptando el limite y dejandolo escrito, como ya se hizo en la cabecera de esos `content.js`).
 
 ## Estado a 1 de noviembre de 2026
 
 | | |
 |---|---|
 | Campos de la regla | 2072 |
-| Atribuidos | **287** (14%) |
-| Huecos | 1785 |
-| Temas completos | **7** |
+| Atribuidos | **338** (16%) |
+| Huecos | 1734 |
+| Temas completos | **12** |
 
-Los siete completos: `historia-clinica`, `melanoma`, `cancer-cutaneo-no-melanoma`,
-`manifestaciones-cutaneas-sistemicas`, `ahogamiento`, `glomerulopatias-sindromes-glomerulares` y
-`nefropatia-diabetica-hipertensiva`. Cuatro se cerraron en este primer bloque, aprovechando que
-sus fuentes tienen **un asunto propio cada una** y la atribucion queda forzada por el texto del
-campo: la Parte I y la Parte II de la revision de An Bras Dermatol, las dos guias AIOM
-(basocelular y epidermoide) frente al Kaposi, la ESMO del melanoma, y la guia de ahogamiento
-frente a la de ARDS.
+Los doce completos: `historia-clinica`, `melanoma`, `cancer-cutaneo-no-melanoma`,
+`manifestaciones-cutaneas-sistemicas`, `ahogamiento`, `glomerulopatias-sindromes-glomerulares`,
+`nefropatia-diabetica-hipertensiva`, `urticaria`, `anafilaxia`, `abdomen-agudo`,
+`supresion-alcoholica` y `broncoaspiracion`. Nueve se cerraron el 1 y el 2 de noviembre.
+
+**El criterio para elegirlos no fue el tamano sino la seguridad de la atribucion**: temas donde
+cada fuente tiene **un asunto propio**, de modo que el texto del campo dice a cual pertenece y no
+hay que adivinar. La Parte I y la Parte II de la revision de An Bras Dermatol; las dos guias AIOM
+(basocelular y epidermoide) frente al Kaposi; la ESMO del melanoma; la guia de ahogamiento frente
+a la de ARDS; Marik (neumonitis frente a neumonia) frente a la guia de neumonia frente a la
+revision de absceso; la revision del abdomen agudo frente a las dos de Tokyo y la de pancreatitis;
+la guia ASAM de abstinencia; el parametro de practica de anafilaxia; la guia internacional de
+urticaria.
 
 ## El trabajo que queda, por tema
 
@@ -84,28 +100,23 @@ a medias.
 | Tema | Huecos | Campos de la regla | Fuentes |
 |---|---|---|---|
 | `eritemas-reactivos` | 1 | 21 | 4 |
+| `eccemas` | 3 | 18 | 4 |
+| `ampollosas` | 3 | 17 | 5 |
 | `exploracion-cardiovascular` | 6 | 12 | 8 |
 | `exploracion-abdominal` | 6 | 12 | 9 |
 | `delirium-coma-encefalopatias` | 6 | 6 | 15 |
 | `valoracion-preoperatoria` | 6 | 21 | 11 |
-| `anafilaxia` | 6 | 12 | 3 |
-| `abdomen-agudo` | 6 | 10 | 4 |
-| `broncoaspiracion` | 6 | 12 | 3 |
 | `esclerosis-multiple` | 7 | 7 | 15 |
 | `quemaduras` | 7 | 17 | 2 |
 | `exploracion-cabeza-cuello` | 8 | 10 | 8 |
-| `supresion-alcoholica` | 8 | 15 | 3 |
 | `exploracion-piel-faneras` | 9 | 10 | 9 |
 | `exploracion-osteoarticular` | 9 | 11 | 9 |
-| `urticaria` | 9 | 17 | 3 |
-| `ampollosas` | 9 | 17 | 5 |
 | `exploracion-respiratoria` | 10 | 12 | 8 |
 | `sepsis` | 11 | 15 | 7 |
 | `exploracion-neurologica` | 11 | 13 | 9 |
 | `psoriasis` | 11 | 18 | 6 |
 | `soporte-vital-avanzado` | 11 | 15 | 3 |
 | `signos-clasicos` | 13 | 13 | 9 |
-| `eccemas` | 13 | 18 | 4 |
 | `farmacodermias` | 14 | 18 | 4 |
 | `embolia-grasa` | 15 | 15 | 15 |
 | `urgencias-tiroideas` | 15 | 15 | 17 |
@@ -183,7 +194,7 @@ a medias.
 | `ventilacion-mecanica` | 30 | 30 | 20 |
 | `cirrosis-hepatica` | 40 | 57 | 22 |
 
-Total: **1785 huecos en 99 temas**.
+Total: **1734 huecos en 94 temas**.
 
 ## Como ver los huecos de un tema
 

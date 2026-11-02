@@ -232,12 +232,12 @@ export const content = {
 };
 
 export const compCites = {
-  'Neumonitis quimica: no es una infeccion': { fisiopatologia: [1], tx_farmacologico: [1], epidemiologia: [1], pronostico: [1] },
-  'Neumonia por aspiracion: una infeccion': { tx_farmacologico: [1, 2], epidemiologia: [1], criterios_dx: [1] },
-  'Germenes: lo que muestran los estudios modernos': { epidemiologia: [1], tx_farmacologico: [1] },
+  'Neumonitis quimica: no es una infeccion': { fisiopatologia: [1], tx_farmacologico: [1], epidemiologia: [1], pronostico: [1], criterios_dx: [1], laboratorio: [1] },
+  'Neumonia por aspiracion: una infeccion': { tx_farmacologico: [1, 2], epidemiologia: [1], criterios_dx: [1], laboratorio: [2] },
+  'Germenes: lo que muestran los estudios modernos': { epidemiologia: [1], tx_farmacologico: [1], laboratorio: [2] },
   'Aspiracion en el paciente critico y tras la extubacion': { tx_medico: [1], epidemiologia: [1], fisiopatologia: [1] },
   'Disfagia, sondas y prevencion': { tx_intervencionista: [1], criterios_dx: [1], tx_medico: [1] },
-  'Absceso pulmonar y complicaciones': { epidemiologia: [3], tx_intervencionista: [3], tx_farmacologico: [1, 2], pronostico: [3] }
+  'Absceso pulmonar y complicaciones': { epidemiologia: [3], tx_intervencionista: [3], tx_farmacologico: [1, 2], pronostico: [3], criterios_dx: [3], laboratorio: [3] }
 };
 
 export const estigmasTitulo = 'Lo que hay que buscar a pie de cama';

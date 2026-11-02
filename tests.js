@@ -2185,7 +2185,7 @@ async function run() {
      tx_farmacologico llevan cita en compCites siempre que tengan contenido. Son los tres campos
      donde una afirmacion sin fuente pesa mas junto a la cama del paciente.
 
-     Esto es un TRINQUETE, no una exigencia del 100%: quedan 1785 huecos repartidos en 99 temas y
+     Esto es un TRINQUETE, no una exigencia del 100%: quedan 1734 huecos repartidos en 94 temas y
      cerrarlos es trabajo de leer fuentes, no de script. Lo que la prueba garantiza es que el
      trabajo hecho no se desande. Al cerrar un bloque hay que SUBIR estos dos valores; si la
      prueba falla por lo contrario, es que una cita se perdio.
@@ -2195,11 +2195,12 @@ async function run() {
      guia de psoriasis y la de Stevens-Johnson sin que el tema hablara de ninguna de las dos. Una
      cita equivocada es peor que un hueco, asi que la prueba premia atribuir, no acumular. */
   const ATRIB_REGLA = ['criterios_dx', 'laboratorio', 'tx_farmacologico'];
-  const ATRIB_TOTAL_MINIMO = 287;
+  const ATRIB_TOTAL_MINIMO = 338;
   const ATRIB_COMPLETOS = [
     'historia-clinica', 'melanoma', 'cancer-cutaneo-no-melanoma',
     'manifestaciones-cutaneas-sistemicas', 'ahogamiento',
-    'glomerulopatias-sindromes-glomerulares', 'nefropatia-diabetica-hipertensiva'
+    'glomerulopatias-sindromes-glomerulares', 'nefropatia-diabetica-hipertensiva',
+    'urticaria', 'anafilaxia', 'abdomen-agudo', 'supresion-alcoholica', 'broncoaspiracion'
   ];
 
   const atribPorTema = {};

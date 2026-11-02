@@ -232,11 +232,11 @@ export const content = {
 };
 
 export const compCites = {
-  'Reconocer la anafilaxia: el diagnostico es clinico': { clinica: [1], criterios_dx: [1], epidemiologia: [1], laboratorio: [1], dx_diferencial: [1, 3] },
+  'Reconocer la anafilaxia: el diagnostico es clinico': { clinica: [1], criterios_dx: [1], epidemiologia: [1], laboratorio: [1], dx_diferencial: [1, 3], tx_farmacologico: [1] },
   'Adrenalina intramuscular: la primera linea': { tx_medico: [1], tx_farmacologico: [1], pronostico: [1] },
-  'Anafilaxia refractaria y choque': { tx_farmacologico: [1], epidemiologia: [1], tx_medico: [1, 2] },
+  'Anafilaxia refractaria y choque': { tx_farmacologico: [1], epidemiologia: [1], tx_medico: [1, 2], criterios_dx: [1], laboratorio: [1] },
   'Antihistaminicos y corticoides: segunda linea': { fisiopatologia: [1], tx_farmacologico: [1] },
-  'Reaccion bifasica y tiempo de observacion': { factores_riesgo: [1], tx_medico: [1], seguimiento_hospitalario: [1], pronostico: [1] },
+  'Reaccion bifasica y tiempo de observacion': { factores_riesgo: [1], tx_medico: [1], seguimiento_hospitalario: [1], pronostico: [1], criterios_dx: [1], laboratorio: [1], tx_farmacologico: [1] },
   'Premedicacion, alta y prevencion': { tx_farmacologico: [1], tx_medico: [1], epidemiologia: [1] }
 };
 

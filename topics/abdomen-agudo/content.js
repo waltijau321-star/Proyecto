@@ -235,11 +235,11 @@ export const content = {
 
 export const compCites = {
   'Analgesia precoz: no enmascara el diagnostico': { tx_medico: [1], tx_farmacologico: [1], epidemiologia: [1], pronostico: [1] },
-  'Imagen: tomografia con contraste y sin esperas': { imagen: [1], tx_medico: [1], epidemiologia: [1], fisiopatologia: [1] },
-  'El paciente mayor y el inmunodeprimido': { clinica: [1, 3], imagen: [1], epidemiologia: [1] },
-  'Consulta quirurgica precoz y control del foco': { epidemiologia: [1], tx_medico: [1], pronostico: [1] },
+  'Imagen: tomografia con contraste y sin esperas': { imagen: [1], tx_medico: [1], epidemiologia: [1], fisiopatologia: [1], laboratorio: [1] },
+  'El paciente mayor y el inmunodeprimido': { clinica: [1, 3], imagen: [1], epidemiologia: [1], laboratorio: [1], tx_farmacologico: [1] },
+  'Consulta quirurgica precoz y control del foco': { epidemiologia: [1], tx_medico: [1], pronostico: [1], laboratorio: [1], tx_farmacologico: [1] },
   'Sesgos cognitivos: frenar a tiempo': { clinica: [1], laboratorio: [1], tx_medico: [1] },
-  'Via biliar y pancreas: los cuadros con criterios': { criterios_dx: [2, 3], epidemiologia: [2, 3], tx_medico: [4], tx_farmacologico: [3, 4], tx_intervencionista: [3, 4] }
+  'Via biliar y pancreas: los cuadros con criterios': { criterios_dx: [2, 3], epidemiologia: [2, 3], tx_medico: [4], tx_farmacologico: [3, 4], tx_intervencionista: [3, 4], laboratorio: [2, 3, 4] }
 };
 
 export const estigmasTitulo = 'Lo que hay que buscar en la exploracion';

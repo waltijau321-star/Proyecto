@@ -230,11 +230,11 @@ export const content = {
 };
 
 export const compCites = {
-  'Dermatitis atopica: reconocerla y medirla': { tx_farmacologico: [3] },
-  'Dermatitis atopica: sistemico y metas por decision compartida': { tx_medico: [1], tx_farmacologico: [1], laboratorio: [1], seguimiento_ambulatorio: [1], tx_intervencionista: [4] },
-  'Dermatitis de contacto alergica': { fisiopatologia: [2], criterios_dx: [2], tx_medico: [2] },
-  'Dermatitis de contacto irritativa': { fisiopatologia: [2] },
-  'Pruebas epicutaneas: como se leen y el paso que se olvida': { criterios_dx: [2] },
+  'Dermatitis atopica: reconocerla y medirla': { tx_farmacologico: [3], criterios_dx: [1], laboratorio: [1] },
+  'Dermatitis atopica: sistemico y metas por decision compartida': { tx_medico: [1], tx_farmacologico: [1], laboratorio: [1], seguimiento_ambulatorio: [1], tx_intervencionista: [4], criterios_dx: [1] },
+  'Dermatitis de contacto alergica': { fisiopatologia: [2], criterios_dx: [2], tx_medico: [2], laboratorio: [2], tx_farmacologico: [2] },
+  'Dermatitis de contacto irritativa': { fisiopatologia: [2], criterios_dx: [2], laboratorio: [2], tx_farmacologico: [2] },
+  'Pruebas epicutaneas: como se leen y el paso que se olvida': { criterios_dx: [2], laboratorio: [2], tx_farmacologico: [2] },
   'Otros eccemas y lo que se disfraza de eccema': {}
 };
 

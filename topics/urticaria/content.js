@@ -228,9 +228,9 @@ export const content = {
 };
 
 export const compCites = {
-  'Urticaria aguda: reconocerla y no sobreestudiarla': { epidemiologia: [1], tx_farmacologico: [1] },
-  'Urticaria cronica espontanea': { laboratorio: [1], tx_farmacologico: [1] },
-  'Urticarias cronicas inducibles': { criterios_dx: [1] },
+  'Urticaria aguda: reconocerla y no sobreestudiarla': { epidemiologia: [1], tx_farmacologico: [1], criterios_dx: [1], laboratorio: [1] },
+  'Urticaria cronica espontanea': { laboratorio: [1], tx_farmacologico: [1], criterios_dx: [1] },
+  'Urticarias cronicas inducibles': { criterios_dx: [1], laboratorio: [1], tx_farmacologico: [1] },
   // La cita 1 (guia de urticaria) cubre el angioedema HISTAMINERGICO, el que acompana a los
   // habones. El por BRADICININA es otra enfermedad y necesita sus propias fuentes: la 2 y la 3.
   // Esta complicacion tenia 20 campos de contenido clinico y el compCites VACIO, asi que nada de
@@ -242,8 +242,8 @@ export const compCites = {
     criterios_uci: [2], seguimiento_hospitalario: [2], seguimiento_ambulatorio: [2, 3],
     pronostico: [2], algoritmo: [1, 2]
   },
-  'Lo que parece urticaria y no lo es': {},
-  'Tratamiento escalonado y control': { tx_farmacologico: [1], epidemiologia: [1] }
+  'Lo que parece urticaria y no lo es': { criterios_dx: [1], laboratorio: [1], tx_farmacologico: [1] },
+  'Tratamiento escalonado y control': { tx_farmacologico: [1], epidemiologia: [1], laboratorio: [1] }
 };
 
 export const estigmasTitulo = 'Los tres rasgos del habon, y lo que los rompe';
