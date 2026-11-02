@@ -234,7 +234,7 @@ export const compCites = {
   'Reanimacion con liquidos y choque por quemadura': { tx_medico: [1, 2], tx_farmacologico: [1], fisiopatologia: [1] },
   'Quemaduras circunferenciales, electricas y quimicas': { tx_medico: [1, 2], tx_farmacologico: [2], tx_intervencionista: [2] },
   'Respuesta hipermetabolica, herida e infeccion': { fisiopatologia: [1], tx_intervencionista: [1], tx_farmacologico: [1], criterios_dx: [1] },
-  'Triaje, traslado y pronostico': { criterios_dx: [2], tx_medico: [1, 2], pronostico: [1], epidemiologia: [1] }
+  'Triaje, traslado y pronostico': { criterios_dx: [2], tx_medico: [1, 2], pronostico: [1], epidemiologia: [1], laboratorio: [2], tx_farmacologico: [2] }
 };
 
 export const estigmasTitulo = 'Lo que hay que buscar al recibir al paciente';

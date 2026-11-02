@@ -255,11 +255,11 @@ export const compCites = {
   'Eritema nodoso: la paniculitis que apunta a otra cosa': { definicion: [1], fisiopatologia: [1], epidemiologia: [1], clinica: [1], criterios_dx: [1], laboratorio: [1], complementarios: [1], dx_diferencial: [1], tx_medico: [1], tx_farmacologico: [1] },
   'Paniculitis: el nodulo profundo y su diferencial': { definicion: [1], criterios_dx: [1], dx_diferencial: [1], complementarios: [1] },
   'Eritema multiforme: la diana del herpes': { definicion: [2], fisiopatologia: [2], epidemiologia: [2], clinica: [2], criterios_dx: [2], laboratorio: [2], dx_diferencial: [2], tx_medico: [2], tx_farmacologico: [2] },
-  'Eritema multiforme recurrente: el que se previene': { definicion: [2], epidemiologia: [2], fisiopatologia: [2], clinica: [2], tx_farmacologico: [2], tx_medico: [2], complementarios: [2], pronostico: [2] },
-  'Eritema multiforme frente a Stevens-Johnson: dos enfermedades': { definicion: [2], fisiopatologia: [2], clinica: [2], dx_diferencial: [2] },
+  'Eritema multiforme recurrente: el que se previene': { definicion: [2], epidemiologia: [2], fisiopatologia: [2], clinica: [2], tx_farmacologico: [2], tx_medico: [2], complementarios: [2], pronostico: [2], criterios_dx: [2] },
+  'Eritema multiforme frente a Stevens-Johnson: dos enfermedades': { definicion: [2], fisiopatologia: [2], clinica: [2], dx_diferencial: [2], criterios_dx: [2] },
   'Sindrome de Sweet: reconocerlo': { definicion: [3], fisiopatologia: [3], epidemiologia: [3], clinica: [3], criterios_dx: [3], laboratorio: [3], dx_diferencial: [3], tx_medico: [3], tx_farmacologico: [3], complementarios: [3] },
-  'Sweet: buscar el farmaco y la neoplasia': { epidemiologia: [3], fisiopatologia: [3], clinica: [3], criterios_dx: [3], complementarios: [3], dx_diferencial: [3], seguimiento_ambulatorio: [3] },
-  'Pioderma gangrenoso: la ulcera que no hay que desbridar': { definicion: [4], epidemiologia: [4], fisiopatologia: [4], clinica: [4], criterios_dx: [4], tx_medico: [4], tx_farmacologico: [4], pronostico: [4] },
+  'Sweet: buscar el farmaco y la neoplasia': { epidemiologia: [3], fisiopatologia: [3], clinica: [3], criterios_dx: [3], complementarios: [3], dx_diferencial: [3], seguimiento_ambulatorio: [3], laboratorio: [3] },
+  'Pioderma gangrenoso: la ulcera que no hay que desbridar': { definicion: [4], epidemiologia: [4], fisiopatologia: [4], clinica: [4], criterios_dx: [4], tx_medico: [4], tx_farmacologico: [4], pronostico: [4], laboratorio: [4] },
   'Pioderma gangrenoso: la enfermedad sistemica de detras': { definicion: [4], epidemiologia: [4], clinica: [4], criterios_dx: [4], laboratorio: [4], complementarios: [4], dx_diferencial: [4], tx_medico: [4], pronostico: [4] }
 };
 

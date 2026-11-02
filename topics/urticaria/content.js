@@ -17,8 +17,8 @@ export const definicionText = `<p style="margin:0 0 14px;">La urticaria es una e
 
 export const bibliografia = [
   'Zuberbier T, Abdul Latiff AH, Bernstein JA, et al. The International Guideline for the Definition, Classification, Diagnosis and Management of Urticaria. Allergy. 2026;81(8):2582-2632. doi:10.1111/all.70210.',
-  'Valenzuela F, Castro Ayarza JR, Kaplan D, et al. Clinical practice guideline for psoriasis management in Latin America. An Bras Dermatol. 2026;101(5):501449. doi:10.1016/j.abd.2026.501449.',
-  'Murillo-Casas AD, Zwiener R, Giavina-Bianchi P, et al. Latin American guidelines for the diagnosis and treatment of Stevens-Johnson syndrome and toxic epidermal necrolysis. World Allergy Organ J. 2025;18(4):101046. doi:10.1016/j.waojou.2025.101046.'
+  'Maurer M, Magerl M, Betschel S, et al. The international WAO/EAACI guideline for the management of hereditary angioedema - The 2021 revision and update. World Allergy Organ J. 2022;15(3):100627. doi:10.1016/j.waojou.2022.100627.',
+  'Betschel S, Binkley K, Borici-Mazi R, et al. The International/Canadian hereditary angioedema guideline. Allergy Asthma Clin Immunol. 2026;22(1). doi:10.1186/s13223-025-00999-8.'
 ];
 
 export const content = {
@@ -231,7 +231,17 @@ export const compCites = {
   'Urticaria aguda: reconocerla y no sobreestudiarla': { epidemiologia: [1], tx_farmacologico: [1] },
   'Urticaria cronica espontanea': { laboratorio: [1], tx_farmacologico: [1] },
   'Urticarias cronicas inducibles': { criterios_dx: [1] },
-  'Angioedema: con habones y sin habones': {},
+  // La cita 1 (guia de urticaria) cubre el angioedema HISTAMINERGICO, el que acompana a los
+  // habones. El por BRADICININA es otra enfermedad y necesita sus propias fuentes: la 2 y la 3.
+  // Esta complicacion tenia 20 campos de contenido clinico y el compCites VACIO, asi que nada de
+  // lo que afirma estaba atribuido, y las dos guias que lo sostienen no estaban ni en la lista.
+  'Angioedema: con habones y sin habones': {
+    definicion: [1, 2], fisiopatologia: [1, 2], epidemiologia: [1, 2], factores_riesgo: [2],
+    clinica: [2], criterios_dx: [2], laboratorio: [2], imagen: [2], complementarios: [1, 2],
+    dx_diferencial: [2], tx_medico: [2, 3], tx_farmacologico: [2, 3], tx_intervencionista: [2],
+    criterios_uci: [2], seguimiento_hospitalario: [2], seguimiento_ambulatorio: [2, 3],
+    pronostico: [2], algoritmo: [1, 2]
+  },
   'Lo que parece urticaria y no lo es': {},
   'Tratamiento escalonado y control': { tx_farmacologico: [1], epidemiologia: [1] }
 };

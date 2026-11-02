@@ -2180,6 +2180,79 @@ async function run() {
     });
   }
 
+  /* ---------------- Trinquete de atribucion de citas ----------------
+     La regla minima (ver .claude/atribucion-citas.md): criterios_dx, laboratorio y
+     tx_farmacologico llevan cita en compCites siempre que tengan contenido. Son los tres campos
+     donde una afirmacion sin fuente pesa mas junto a la cama del paciente.
+
+     Esto es un TRINQUETE, no una exigencia del 100%: quedan 1785 huecos repartidos en 99 temas y
+     cerrarlos es trabajo de leer fuentes, no de script. Lo que la prueba garantiza es que el
+     trabajo hecho no se desande. Al cerrar un bloque hay que SUBIR estos dos valores; si la
+     prueba falla por lo contrario, es que una cita se perdio.
+
+     Por que un trinquete y no un umbral fijo: el apartado 2.6 del informe pedia "21 temas con
+     menos de 8 citas", y perseguir ese numero solo producia relleno. `urticaria` llego a citar la
+     guia de psoriasis y la de Stevens-Johnson sin que el tema hablara de ninguna de las dos. Una
+     cita equivocada es peor que un hueco, asi que la prueba premia atribuir, no acumular. */
+  const ATRIB_REGLA = ['criterios_dx', 'laboratorio', 'tx_farmacologico'];
+  const ATRIB_TOTAL_MINIMO = 287;
+  const ATRIB_COMPLETOS = [
+    'historia-clinica', 'melanoma', 'cancer-cutaneo-no-melanoma',
+    'manifestaciones-cutaneas-sistemicas', 'ahogamiento',
+    'glomerulopatias-sindromes-glomerulares', 'nefropatia-diabetica-hipertensiva'
+  ];
+
+  const atribPorTema = {};
+  let atribTotal = 0, atribCampos = 0;
+  const atribFueraDeRango = [];
+  for (const entry of registry) {
+    const topic = await loadTopic(entry.id);
+    if (!topic) continue;
+    const nFuentes = (topic.bibliografia || []).length;
+    const cc = topic.compCites || {};
+    let campos = 0, citados = 0;
+    const huecos = [];
+    ((topic.content && topic.content.complicaciones) || []).forEach(c => {
+      const citas = cc[c.nombre] || {};
+      ATRIB_REGLA.forEach(k => {
+        const v = c[k];
+        const tiene = v && (!Array.isArray(v) || v.length) && !/^no aplica\.?$/i.test(String(v).trim());
+        if (!tiene) return;
+        campos++;
+        const cit = citas[k];
+        if (Array.isArray(cit) && cit.length) {
+          citados++;
+          cit.forEach(i => {
+            if (!(i >= 1 && i <= nFuentes)) atribFueraDeRango.push(entry.id + ' / ' + c.nombre + ' / ' + k + ' -> ' + i);
+          });
+        } else {
+          huecos.push(c.nombre + ' / ' + k);
+        }
+      });
+    });
+    atribPorTema[entry.id] = { campos, citados, huecos };
+    atribTotal += citados;
+    atribCampos += campos;
+  }
+
+  test('citas: ningun indice de compCites apunta fuera de la bibliografia de su tema', () => {
+    assert(atribFueraDeRango.length === 0, atribFueraDeRango.slice(0, 10).join(' | '));
+  });
+
+  test('citas: el total de campos atribuidos de la regla minima no ha bajado', () => {
+    assert(atribTotal >= ATRIB_TOTAL_MINIMO,
+      'atribuidos ' + atribTotal + ' de ' + atribCampos + ', por debajo de la marca ' +
+      ATRIB_TOTAL_MINIMO + '. Si el descenso es deliberado hay que bajar la marca a mano y decir por que.');
+  });
+
+  for (const id of ATRIB_COMPLETOS) {
+    test('citas[' + id + ']: declarado completo, sigue sin huecos en la regla minima', () => {
+      const r = atribPorTema[id];
+      assert(r, 'el tema ' + id + ' esta en ATRIB_COMPLETOS pero no en el registro');
+      assert(r.huecos.length === 0, 'huecos nuevos: ' + r.huecos.slice(0, 5).join(' | '));
+    });
+  }
+
   /* ---------------- Calidad de las opciones del quiz ----------------
      Detecta las 3 "pistas" que permiten acertar sin saber medicina, y que se habían colado de
      forma sistemática en todo el banco (auditoría: un alumno que solo elegía la opción más larga

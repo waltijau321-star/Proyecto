@@ -225,12 +225,68 @@ es mecanizable sin criterio: "diagnostico" puede ser sustantivo o primera person
 puesta en texto clínico es peor que la falta. Va tema por tema, revisando el diff, como decía el
 informe de octubre.
 
-### 2.6 Veintiún temas con menos de 8 citas (media)
+### 2.6 Las citas: el umbral de 8 era la medida equivocada (media) · REPLANTEADO el 1/11/2026
 
-Mediana de 15 citas por tema y 1441 en total, pero 21 temas por debajo de 8. Los seis que
-señalaba octubre siguen ahí y se sumaron los de dermatología y nefrología. Los más bajos, con 2:
-`manifestaciones-cutaneas-sistemicas`, `quemaduras`, `ahogamiento` y
-`glomerulopatias-sindromes-glomerulares`. La portada promete que cada tema cita su fuente.
+Lo que decía este apartado: mediana de 15 citas por tema, 1441 en total, y **21 temas** por
+debajo de 8, con cuatro en 2. Al medirlo sobre los módulos reales para cerrarlo, **son 20, no
+21**, y lo más importante: **contar citas no mide lo que importa.**
+
+Tres cosas aparecieron al mirarlo de cerca.
+
+**Varios de los 20 están completa y correctamente citados.** `melanoma` tiene 4 citas y son
+exactamente las 4 fuentes con las que se escribió (ESMO, AJCC 8, SEOM-GEM y el consenso de
+lentigo maligno); `cancer-cutaneo-no-melanoma` tiene 3 y son sus 3; `eritemas-reactivos` tiene 4
+y son sus 4. Perseguir el 8 en esos temas solo podía producir **relleno**, que es peor que una
+lista corta.
+
+**La maquinaria de citas está sana.** Ni un solo índice fuera de rango en los 106 temas, así que
+no hay ninguna cita que apunte al vacío.
+
+**El defecto real estaba en otro sitio, y era de atribución.** `urticaria` tenía 3 citas, pero
+dos eran **de otros módulos**: la guía de psoriasis de SOLAPSO y la de Stevens-Johnson. Las
+únicas menciones de "psoriasis" y de "Stevens" en todo el tema eran las propias cadenas de esas
+citas, es decir que no sostenían nada. Y al revés: la ficha "Angioedema: con habones y sin
+habones", con **20 campos de contenido clínico** sobre el hereditario (C4 bajo, cuantificación y
+función del inhibidor de C1, riesgo laríngeo, retirada del inhibidor de la enzima convertidora,
+profilaxis antes de procedimientos), tenía el `compCites` **vacío** y ninguna de sus dos fuentes
+en la lista. Corregido: fuera las dos ajenas, dentro la WAO/EAACI de angioedema hereditario
+(Maurer 2022, PMC9023902) y la International/Canadian de 2026 (Betschel, PMC13123228), las dos
+abiertas y comprobadas en PubMed, y los 18 campos atribuidos uno por uno. Verificado abriendo la
+ficha: las marcas 1, 1-2, 2, 2-3 y 3 se pintan y las tres referencias salen en la bibliografía.
+
+**Y la medida que sí dice algo**, tomada sobre los 106 temas: **453 fichas en 76 temas no tienen
+ni una cita**, y **12516 de 13536 campos clínicos (el 92%) no están atribuidos**. El típico tema
+cita 2 campos de los 20 de una ficha. Visto en 104 temas seguidos, eso no parece un descuido sino
+**la convención con la que se escribió la app**: bibliografía por tema, con atribución puntual en
+lo que el autor quiso marcar. Cerrarlo entero son 13 mil campos a mano, así que era una
+decisión de alcance y no un arreglo.
+
+**El autor la tomó el 1 de noviembre: regla mínima.** `criterios_dx`, `laboratorio` y
+`tx_farmacologico` llevan cita siempre que tengan contenido. Eso acota el trabajo de 13 536
+campos a **2072**, que es el 15% y cubre justo donde una afirmación sin fuente pesa más junto a
+la cama del paciente. La regla, el estado y la lista de trabajo por tema están en
+`.claude/atribucion-citas.md`; la regla también quedó en `CLAUDE.md` para que un tema nuevo nazca
+cumpliéndola.
+
+**Primer bloque hecho el mismo día: de 266 a 287 campos atribuidos y de 3 a 7 temas completos.**
+Se eligieron los temas donde la atribución está **forzada** porque cada fuente tiene un asunto
+propio, de modo que el texto del campo dice a cuál pertenece: la Parte I y la Parte II de la
+revisión de An Bras Dermatol (vascular y reumatológico frente a endocrino, renal y
+paraneoplásico), las dos guías AIOM frente al Kaposi, la ESMO del melanoma, y la guía de
+ahogamiento frente a la de ARDS. 21 atribuciones, cada una justificada por el asunto de su
+fuente.
+
+**Y lo que NO se atribuyó, que importa igual.** La paniculitis de `eritemas-reactivos` se queda
+sin cita porque ninguna de sus cuatro fuentes la cubre de verdad, y de `quemaduras` solo se
+atribuyeron los dos campos del protocolo de traslado, que son claramente del ATLS: los otros
+siete reparten entre la revisión de Jeschke y el manual sin que el texto permita decidir.
+Adivinar habría sido repetir el defecto de `urticaria`.
+
+**El resto queda con trinquete, no con umbral.** `tests.js` fija que el total atribuido solo
+puede subir y que los 7 temas completos siguen completos (9 pruebas nuevas, suite 2615).
+Comprobado que salta: al quitar una cita de `melanoma` el candado nombra el hueco, y un índice
+fuera de rango lo detecta la otra prueba. Quedan **1785 huecos en 99 temas**, con la lista
+ordenada de menos a más trabajo.
 
 ### 2.7 Menores
 
@@ -358,7 +414,10 @@ de donde venia cada arreglo.
     tabulador al modal mientras esta abierto.
 11. Las tildes que faltan en 50 temas, la otra mitad de 2.5. **Pendiente**, ver la seccion 7.
 12. La CSP, la parte de 1.3 que no se pudo cerrar. **Pendiente**, ver la seccion 7.
-13. Cerrar los 21 temas con menos de 8 citas (2.6). **Pendiente**, ver la seccion 7.
+13. Las citas (2.6). **Replanteado y en marcha desde el 1/11/2026**: el umbral de 8 era la
+    medida equivocada, `urticaria` quedo corregida y el autor fijo la regla minima
+    (`criterios_dx`, `laboratorio`, `tx_farmacologico`). Primer bloque hecho, 7 temas completos,
+    y el resto con trinquete en `tests.js`. Lista de trabajo en `.claude/atribucion-citas.md`.
 14. El candado de las fichas (2.4). **Pendiente**, y es una decision del autor entre dos
     alternativas, ver la seccion 7.
 
@@ -385,8 +444,13 @@ _(Los metadatos de Inicio, que abrian esta lista, se cerraron el 1 de noviembre:
 - **Las tildes que faltan en 50 temas (la otra mitad de 2.5).** No es mecanizable: "diagnostico"
   puede ser sustantivo o verbo, y una tilde mal puesta en texto clinico es peor que la falta. Va
   tema por tema revisando el diff.
-- **Los 21 temas con menos de 8 citas (2.6).** Necesita buscar y leer la fuente de cada uno. No
-  se inventan citas, asi que esto es trabajo de contenido, no de script.
+- **Las citas (2.6): decidido y en marcha, no pendiente de decisión.** El autor fijó la regla
+  mínima (`criterios_dx`, `laboratorio`, `tx_farmacologico`), que acota el trabajo a 2072 campos.
+  Hecho el primer bloque (287 atribuidos, 7 temas completos) y puesto el trinquete en `tests.js`
+  para que no se desande. **Quedan 1785 huecos en 99 temas**, que es leer fuentes tema por tema,
+  con la lista ordenada por esfuerzo en `.claude/atribucion-citas.md`. Lo único que no se hace
+  solo: cuando varias fuentes del tema podrían sostener el campo hay que leerlas, porque una cita
+  equivocada es peor que un hueco.
 - **La cobertura (seccion 4).** Es escribir temas nuevos. Infectologia (0/20) y Reumatologia
   (0/16) son los dos bloques de mayor rendimiento, 36 items entre los dos.
 - **Los objetivos de aprendizaje por tema.** Venia del informe de octubre (su 2.5) y sigue sin

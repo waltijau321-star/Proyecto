@@ -228,15 +228,15 @@ export const content = {
 };
 
 export const compCites = {
-  'Purpura: la morfologia dice el mecanismo': { definicion: [1], fisiopatologia: [1], clinica: [1], criterios_dx: [1], dx_diferencial: [1], complementarios: [1] },
+  'Purpura: la morfologia dice el mecanismo': { definicion: [1], fisiopatologia: [1], clinica: [1], criterios_dx: [1], dx_diferencial: [1], complementarios: [1], laboratorio: [1] },
   'Prurito sin lesion primaria: el estudio escalonado': { definicion: [2], fisiopatologia: [2], epidemiologia: [2], clinica: [2], criterios_dx: [2], laboratorio: [2], complementarios: [2], dx_diferencial: [2], tx_medico: [2] },
   'La piel del diabetico': { clinica: [2], epidemiologia: [2], criterios_dx: [2], complementarios: [2], dx_diferencial: [2] },
   'La piel del enfermo renal': { epidemiologia: [2], clinica: [2], fisiopatologia: [2], factores_riesgo: [2], criterios_dx: [2], laboratorio: [2], dx_diferencial: [2], pronostico: [2] },
   'La piel del enfermo digestivo': { epidemiologia: [2], clinica: [2], fisiopatologia: [2], complementarios: [2], dx_diferencial: [2] },
-  'Signos endocrinos: tiroides, suprarrenal e hipofisis': { clinica: [2], epidemiologia: [2], laboratorio: [2] },
-  'Xantomas y depositos: lo que delatan': { clinica: [2], dx_diferencial: [2], complementarios: [2] },
-  'Signos paraneoplasicos: cuando la piel anuncia un tumor': { definicion: [2], clinica: [2], criterios_dx: [2], complementarios: [2], dx_diferencial: [2] },
-  'Signos de enfermedad reumatologica': { definicion: [1], clinica: [1], complementarios: [1], dx_diferencial: [1] }
+  'Signos endocrinos: tiroides, suprarrenal e hipofisis': { clinica: [2], epidemiologia: [2], laboratorio: [2], criterios_dx: [2] },
+  'Xantomas y depositos: lo que delatan': { clinica: [2], dx_diferencial: [2], complementarios: [2], criterios_dx: [2], laboratorio: [2] },
+  'Signos paraneoplasicos: cuando la piel anuncia un tumor': { definicion: [2], clinica: [2], criterios_dx: [2], complementarios: [2], dx_diferencial: [2], laboratorio: [2] },
+  'Signos de enfermedad reumatologica': { definicion: [1], clinica: [1], complementarios: [1], dx_diferencial: [1], criterios_dx: [1] }
 };
 
 export const estigmasTitulo = 'Signos que se reconocen en diez segundos y cambian el plan';

@@ -232,13 +232,13 @@ export const content = {
 };
 
 export const compCites = {
-  'La biopsia inicial: aqui se gana o se pierde el estadio': { definicion: [1], criterios_dx: [1, 4], epidemiologia: [4], complementarios: [1], seguimiento_hospitalario: [4], dx_diferencial: [4] },
+  'La biopsia inicial: aqui se gana o se pierde el estadio': { definicion: [1], criterios_dx: [1, 4], epidemiologia: [4], complementarios: [1], seguimiento_hospitalario: [4], dx_diferencial: [4], laboratorio: [1] },
   'Breslow y ulceracion: el informe que decide todo': { definicion: [2], epidemiologia: [2], criterios_dx: [2], laboratorio: [2], pronostico: [2], dx_diferencial: [1] },
   'Cirugia: margenes y ganglio centinela': { criterios_dx: [1], epidemiologia: [2], clinica: [1], tx_intervencionista: [1, 3], tx_medico: [1], seguimiento_ambulatorio: [1] },
   'Estadio I y II: el melanoma localizado': { epidemiologia: [2, 3], criterios_dx: [2], imagen: [1, 3], tx_farmacologico: [1], tx_intervencionista: [1], seguimiento_ambulatorio: [1] },
   'Estadio III: ganglios, en transito y neoadyuvancia': { epidemiologia: [2], criterios_dx: [2], tx_medico: [1, 2], tx_farmacologico: [1], tx_intervencionista: [1], complementarios: [1], seguimiento_ambulatorio: [3] },
   'Estadio IV: enfermedad avanzada': { epidemiologia: [1], criterios_dx: [1], tx_farmacologico: [1, 3], tx_medico: [1, 3], tx_intervencionista: [1], complementarios: [1, 3], pronostico: [1] },
-  'Metastasis cerebrales': { definicion: [2], fisiopatologia: [3], tx_medico: [1], tx_intervencionista: [1, 3], complementarios: [1], pronostico: [1, 3] },
+  'Metastasis cerebrales': { definicion: [2], fisiopatologia: [3], tx_medico: [1], tx_intervencionista: [1, 3], complementarios: [1], pronostico: [1, 3], criterios_dx: [1] },
   'La toxicidad que llega a medicina interna': { epidemiologia: [1], clinica: [1], criterios_dx: [1], tx_medico: [1], seguimiento_ambulatorio: [1] },
   'Lentigo maligna y otras localizaciones especiales': { definicion: [4], fisiopatologia: [4], epidemiologia: [4], criterios_dx: [4], tx_medico: [4], tx_farmacologico: [4], tx_intervencionista: [1, 4], complementarios: [3, 4], seguimiento_ambulatorio: [4], pronostico: [4] }
 };

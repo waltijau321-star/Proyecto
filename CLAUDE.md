@@ -135,6 +135,31 @@ established semantic clinical colors) or an `<img>` pointing at `topics/<topic>/
 never for anything asserting a clinical fact, and never disclosed as AI-generated anywhere in the
 app's visible text (explicit product decision).
 
+**Citations.** Each topic exports `bibliografia` (a flat array of Vancouver-style strings) and
+attribution maps that point into it **1-based**, not 0-based: `compCites` keyed by complicación
+name and then by field, plus `diagCites`, `escalaRefs`, `clasificacionCite` and
+`seguimientoCite`. An index that points past the end of `bibliografia` paints nothing, silently.
+
+**The minimum attribution rule (decided 1 Nov 2026):** in every `complicaciones[]` entry,
+**`criterios_dx`, `laboratorio` and `tx_farmacologico` carry a citation in `compCites`** whenever
+they have content (an explicit "No aplica" does not count). Those are the three fields where an
+unsourced claim weighs most at the bedside. The other fields keep the older convention: attribute
+what the author wants to mark. A new topic is written compliant from the start, which is far
+cheaper than coming back months later with the sources closed. `tests.js` holds a **ratchet**
+(`ATRIB_TOTAL_MINIMO`, `ATRIB_COMPLETOS`): the number of attributed fields can only go up, and
+topics declared complete must stay complete, so the backlog can be cleared in blocks without
+leaving the suite red. The full state, the per-topic worklist and the method are in
+`.claude/atribucion-citas.md`.
+
+**Never attribute a field to a source you have not checked covers it.** A wrong citation is worse
+than a gap, and this is not hypothetical: `urticaria` listed the SOLAPSO psoriasis guideline and
+the Latin-American Stevens-Johnson guideline, and the only mentions of "psoriasis" and "Stevens"
+anywhere in that topic were those two citation strings. When the topic has several sources and
+the field text does not say which one supports it, leave the gap and note it. Also check which
+edition is in `Bibliografia/` before citing a guideline, and when hunting for an open source,
+filter PubMed with `AND "pubmed pmc"[sb]` and search guidelines by author: the `"open access"[Filter]`
+filter does not exist and returns 0 without warning.
+
 **Quiz questions** (`topic.study.quiz`, from each topic's `study.js`): a flat array mixing
 plain questions (`{ q, options, correct, explanation, dificultad }`) and multi-step cascade cases
 (`{ type: 'cascade', vignette, steps: [{ q, options, correct }], explanation, dificultad }`). Any

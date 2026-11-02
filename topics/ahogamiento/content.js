@@ -231,8 +231,8 @@ export const content = {
 
 export const compCites = {
   'Rescate seguro y reanimacion en el agua': { tx_medico: [1], tx_intervencionista: [1], epidemiologia: [1] },
-  'Reanimacion inicial: la via aerea primero': { tx_medico: [1], tx_intervencionista: [1], epidemiologia: [1], complementarios: [1] },
-  'Soporte respiratorio en el hospital': { tx_medico: [1, 2], tx_farmacologico: [1] },
+  'Reanimacion inicial: la via aerea primero': { tx_medico: [1], tx_intervencionista: [1], epidemiologia: [1], complementarios: [1], tx_farmacologico: [1] },
+  'Soporte respiratorio en el hospital': { tx_medico: [1, 2], tx_farmacologico: [1], laboratorio: [1] },
   'Lo que no hace falta: pruebas y tratamientos de rutina': { laboratorio: [1], imagen: [1], tx_farmacologico: [1] },
   'Gravedad, pronostico y cuando parar': { tx_medico: [1], pronostico: [1], epidemiologia: [1] },
   'Alta, observacion y prevencion': { tx_medico: [1], pronostico: [1], seguimiento_ambulatorio: [1] }

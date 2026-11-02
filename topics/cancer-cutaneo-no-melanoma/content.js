@@ -241,13 +241,13 @@ export const content = {
 
 export const compCites = {
   'Queratosis actinica y campo de cancerizacion': { definicion: [2], fisiopatologia: [2], epidemiologia: [1, 2], criterios_dx: [2], tx_medico: [2], tx_farmacologico: [2], complementarios: [2] },
-  'Carcinoma basocelular: reconocerlo y operarlo': { definicion: [1], fisiopatologia: [1], epidemiologia: [1], criterios_dx: [1], tx_intervencionista: [1], tx_medico: [1], seguimiento_ambulatorio: [1], pronostico: [1] },
-  'Basocelular avanzado: los inhibidores de Hedgehog': { definicion: [1], epidemiologia: [1], imagen: [1], tx_farmacologico: [1], tx_medico: [1] },
-  'Carcinoma epidermoide: el riesgo esta en el informe': { definicion: [2], fisiopatologia: [2], epidemiologia: [1, 2], criterios_dx: [2], clinica: [2], tx_intervencionista: [2], tx_medico: [2], pronostico: [2] },
+  'Carcinoma basocelular: reconocerlo y operarlo': { definicion: [1], fisiopatologia: [1], epidemiologia: [1], criterios_dx: [1], tx_intervencionista: [1], tx_medico: [1], seguimiento_ambulatorio: [1], pronostico: [1], tx_farmacologico: [1] },
+  'Basocelular avanzado: los inhibidores de Hedgehog': { definicion: [1], epidemiologia: [1], imagen: [1], tx_farmacologico: [1], tx_medico: [1], criterios_dx: [1] },
+  'Carcinoma epidermoide: el riesgo esta en el informe': { definicion: [2], fisiopatologia: [2], epidemiologia: [1, 2], criterios_dx: [2], clinica: [2], tx_intervencionista: [2], tx_medico: [2], pronostico: [2], laboratorio: [2] },
   'Epidermoide de alto riesgo: lo que si y lo que no': { criterios_dx: [2], tx_intervencionista: [2], tx_medico: [2], imagen: [2], complementarios: [2], seguimiento_ambulatorio: [2] },
   'Epidermoide avanzado: cemiplimab': { definicion: [2], epidemiologia: [2], tx_farmacologico: [2], tx_medico: [2], tx_intervencionista: [2] },
-  'El inmunodeprimido y el trasplantado': { epidemiologia: [2, 3], fisiopatologia: [2, 3], tx_medico: [2], tx_farmacologico: [2, 3], complementarios: [3] },
-  'Sarcoma de Kaposi: las cinco formas': { definicion: [3], fisiopatologia: [3], epidemiologia: [3], clinica: [3], criterios_dx: [3], imagen: [3], complementarios: [3], pronostico: [3] },
+  'El inmunodeprimido y el trasplantado': { epidemiologia: [2, 3], fisiopatologia: [2, 3], tx_medico: [2], tx_farmacologico: [2, 3], complementarios: [3], criterios_dx: [2] },
+  'Sarcoma de Kaposi: las cinco formas': { definicion: [3], fisiopatologia: [3], epidemiologia: [3], clinica: [3], criterios_dx: [3], imagen: [3], complementarios: [3], pronostico: [3], laboratorio: [3] },
   'Kaposi: el tratamiento empieza por la inmunidad': { tx_medico: [3], tx_farmacologico: [3], complementarios: [3], criterios_dx: [3], factores_riesgo: [3] }
 };
 
