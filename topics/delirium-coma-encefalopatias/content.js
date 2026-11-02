@@ -214,7 +214,7 @@ export const content = {
 // lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
 // sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Agitación y manejo farmacológico del delirium': { definicion: [13, 1], criterios_dx: [13, 1], tx_farmacologico: [13, 1] },
+  'Agitación y manejo farmacológico del delirium': { definicion: [13, 1], criterios_dx: [13, 1], tx_farmacologico: [13] },
   'Muerte cerebral y sus criterios diagnósticos': { definicion: [6, 7], criterios_dx: [6, 7] },
   'Síndrome de Korsakoff': { definicion: [9, 8], criterios_dx: [9, 8], tx_farmacologico: [9, 8] },
   'Delirium persistente y deterioro cognitivo a largo plazo': { definicion: [3, 4], criterios_dx: [3, 4] }

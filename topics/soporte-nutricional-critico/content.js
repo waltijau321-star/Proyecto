@@ -358,11 +358,11 @@ export const content = {
 // sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
   'Desnutrición hospitalaria: detectarla': { definicion: [1, 5], criterios_dx: [1, 5], laboratorio: [1, 5], tx_farmacologico: [1, 5] },
-  'Nutrición enteral': { definicion: [2, 3, 16, 15], criterios_dx: [2, 3, 16, 15], laboratorio: [2, 3, 16, 15], tx_farmacologico: [2, 3, 16, 15] },
-  'Nutrición parenteral': { definicion: [4, 9, 10, 11], criterios_dx: [4, 9, 10, 11], laboratorio: [4, 9, 10, 11], tx_farmacologico: [4, 9, 10, 11] },
-  'Cuanta energía y cuanta proteína': { definicion: [12, 13, 14, 2], criterios_dx: [12, 13, 14, 2], laboratorio: [12, 13, 14, 2], tx_farmacologico: [12, 13, 14, 2] },
-  'Síndrome de realimentación': { definicion: [5, 6, 7, 8], criterios_dx: [5, 6, 7, 8], laboratorio: [5, 6, 7, 8], tx_farmacologico: [5, 6, 7, 8] },
-  'Complicaciones y problemas practicos': { definicion: [3, 15], criterios_dx: [3, 15], laboratorio: [3, 15], tx_farmacologico: [3, 15] }
+  'Nutrición enteral': { definicion: [2, 3, 16, 15], criterios_dx: [2, 3, 16], laboratorio: [2, 3, 16], tx_farmacologico: [2, 3, 16, 15] },
+  'Nutrición parenteral': { definicion: [4, 9, 10, 11], criterios_dx: [4], laboratorio: [4], tx_farmacologico: [4, 9, 10, 11] },
+  'Cuanta energía y cuanta proteína': { definicion: [12, 13, 14, 2], criterios_dx: [2], laboratorio: [2], tx_farmacologico: [12, 13, 14, 2] },
+  'Síndrome de realimentación': { definicion: [5, 6, 7, 8], criterios_dx: [5, 6, 7], laboratorio: [5, 6, 7], tx_farmacologico: [5, 6, 7, 8] },
+  'Complicaciones y problemas practicos': { definicion: [3, 15], criterios_dx: [3], laboratorio: [3], tx_farmacologico: [3, 15] }
 };
 export const estigmasTitulo = 'Datos y gestos que cambian el resultado';
 export const estigmas = [

@@ -522,10 +522,10 @@ export const compCites = {
   'Transformación hemorrágica del infarto': { tx_farmacologico: [1], criterios_dx: [1], laboratorio: [1] },
   'Edema cerebral maligno / infarto maligno de la ACM': { fisiopatologia: [4], tx_intervencionista: [4], criterios_dx: [4], laboratorio: [4], tx_farmacologico: [4] },
   'Trombosis de senos venosos cerebrales': { epidemiologia: [28], tx_farmacologico: [28], criterios_dx: [28], laboratorio: [28] },
-  'Hemorragia intracerebral (HIC) espontánea': { fisiopatologia: [2], tx_farmacologico: [2, 15, 16, 20, 21], tx_intervencionista: [2, 17, 18], pronostico: [2, 25], criterios_dx: [2], laboratorio: [2, 15, 16, 20, 21, 17, 18, 25] },
+  'Hemorragia intracerebral (HIC) espontánea': { fisiopatologia: [2], tx_farmacologico: [2, 15, 16, 20, 21], tx_intervencionista: [2, 17, 18], pronostico: [2, 25], criterios_dx: [2], laboratorio: [2, 15, 16, 20, 21, 25] },
   'Hemorragia subaracnoidea (HSA) aneurismática': { epidemiologia: [3], criterios_dx: [3], tx_farmacologico: [3, 22], tx_intervencionista: [3, 19], pronostico: [3, 26, 27], laboratorio: [3] },
   'Resangrado aneurismático': { epidemiologia: [3], criterios_dx: [3], laboratorio: [3], tx_farmacologico: [3] },
-  'Vasoespasmo cerebral / isquemia cerebral tardía (DCI)': { fisiopatologia: [23], tx_medico: [23], tx_farmacologico: [22, 23], criterios_dx: [23], laboratorio: [23, 22] },
+  'Vasoespasmo cerebral / isquemia cerebral tardía (DCI)': { fisiopatologia: [23], tx_medico: [23], tx_farmacologico: [22, 23], criterios_dx: [23], laboratorio: [23] },
   'Hidrocefalia aguda': { tx_intervencionista: [3], criterios_dx: [3], laboratorio: [3], tx_farmacologico: [3] },
   'Crisis convulsivas asociadas a ECV': { tx_farmacologico: [1, 2], criterios_dx: [1, 2], laboratorio: [1, 2] }
 };

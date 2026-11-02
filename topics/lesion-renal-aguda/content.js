@@ -372,9 +372,9 @@ export const content = {
 export const compCites = {
   'Criterios, estadio y reconocimiento precoz': { definicion: [1, 2, 9], criterios_dx: [1, 2, 9], laboratorio: [1, 2, 9], tx_farmacologico: [1, 2, 9] },
   'Prerrenal, renal y posrenal': { definicion: [9, 10], criterios_dx: [9, 10], laboratorio: [9, 10], tx_farmacologico: [9, 10] },
-  'Necrosis tubular aguda en el paciente crítico': { definicion: [1, 14, 16], criterios_dx: [1, 14, 16], laboratorio: [1, 14, 16], tx_farmacologico: [1, 14, 16] },
+  'Necrosis tubular aguda en el paciente crítico': { definicion: [1, 14, 16], criterios_dx: [1, 16], laboratorio: [1, 16], tx_farmacologico: [1, 14, 16] },
   'Nefrotoxicidad por fármacos y contraste': { definicion: [4, 11, 12], criterios_dx: [4, 11, 12], laboratorio: [4, 11, 12], tx_farmacologico: [4, 11, 12] },
-  'Complicaciones agudas y depuración extrarrenal': { definicion: [5, 6, 7, 8, 15], criterios_dx: [5, 6, 7, 8, 15], laboratorio: [5, 6, 7, 8, 15], tx_farmacologico: [5, 6, 7, 8, 15] },
+  'Complicaciones agudas y depuración extrarrenal': { definicion: [5, 6, 7, 8, 15], criterios_dx: [5, 6, 8, 15], laboratorio: [5, 6, 8, 15], tx_farmacologico: [5, 6, 7, 8, 15] },
   'Después del episodio: enfermedad renal aguda y seguimiento': { definicion: [2, 3, 13], criterios_dx: [2, 3, 13], laboratorio: [2, 3, 13], tx_farmacologico: [2, 3, 13] }
 };
 export const estigmasTitulo = 'Datos que cambian la conducta';

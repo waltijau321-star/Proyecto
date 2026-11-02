@@ -388,7 +388,7 @@ export const content = {
 // sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
   'Bronquiectasias: diagnóstico y búsqueda de la causa': { definicion: [1, 2, 15, 16], criterios_dx: [1, 2, 15, 16], laboratorio: [1, 2, 15, 16], tx_farmacologico: [1, 2, 15, 16] },
-  'Manejo crónico: aclaramiento y tratamiento de mantenimiento': { definicion: [1, 6, 7, 8], criterios_dx: [1, 6, 7, 8], laboratorio: [1, 6, 7, 8], tx_farmacologico: [1, 6, 7, 8] },
+  'Manejo crónico: aclaramiento y tratamiento de mantenimiento': { definicion: [1, 6, 7, 8], criterios_dx: [1], laboratorio: [1], tx_farmacologico: [1, 6, 7, 8] },
   'Exacerbación de bronquiectasias': { definicion: [4, 2], criterios_dx: [4, 2], laboratorio: [4, 2], tx_farmacologico: [4, 2] },
   'Pseudomonas aeruginosa: erradicación y supresión': { definicion: [9, 10], criterios_dx: [9, 10], laboratorio: [9, 10], tx_farmacologico: [9, 10] },
   'Fibrosis quística del adulto y discinesia ciliar primaria': { definicion: [11, 12, 13], criterios_dx: [11, 12, 13], laboratorio: [11, 12, 13], tx_farmacologico: [11, 12, 13] },

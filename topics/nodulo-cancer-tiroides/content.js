@@ -447,7 +447,7 @@ export const compCites = {
   'Carcinoma anaplasico y linfoma tiroideo': { definicion: [7, 15], criterios_dx: [7, 15], laboratorio: [7, 15], tx_farmacologico: [7, 15] },
   'Complicaciones compresivas del bocio y bocio subesternal': { definicion: [16, 18], criterios_dx: [16, 18], laboratorio: [16, 18], tx_farmacologico: [16, 18] },
   'Complicaciones de la tiroidectomía': { definicion: [1, 18], criterios_dx: [1, 18], laboratorio: [1, 18], tx_farmacologico: [1, 18] },
-  'Recurrencia y seguimiento del carcinoma diferenciado': { definicion: [1, 9, 13], criterios_dx: [1, 9, 13], laboratorio: [1, 9, 13], tx_farmacologico: [1, 9, 13] }
+  'Recurrencia y seguimiento del carcinoma diferenciado': { definicion: [1, 9, 13], criterios_dx: [1, 9], laboratorio: [1, 9], tx_farmacologico: [1, 9, 13] }
 };
 export const estigmas = [];
 export const biopsia = null;

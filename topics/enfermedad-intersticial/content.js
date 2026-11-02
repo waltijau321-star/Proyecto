@@ -397,7 +397,7 @@ export const content = {
 // lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
 // sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Fibrosis pulmonar idiopática': { definicion: [1, 3, 4, 5, 8], criterios_dx: [1, 3, 4, 5, 8], laboratorio: [1, 3, 4, 5, 8], tx_farmacologico: [1, 3, 4, 5, 8] },
+  'Fibrosis pulmonar idiopática': { definicion: [1, 3, 4, 5, 8], criterios_dx: [1, 3, 8], laboratorio: [1, 3, 8], tx_farmacologico: [1, 3, 4, 5, 8] },
   'Fibrosis pulmonar progresiva': { definicion: [1, 6, 7, 16], criterios_dx: [1, 6, 7, 16], laboratorio: [1, 6, 7, 16], tx_farmacologico: [1, 6, 7, 16] },
   'Neumonitis por hipersensibilidad': { definicion: [2, 1], criterios_dx: [2, 1], laboratorio: [2, 1], tx_farmacologico: [2, 1] },
   'EPID autoinmunitaria y por fármacos': { definicion: [7, 11, 17], criterios_dx: [7, 11, 17], laboratorio: [7, 11, 17], tx_farmacologico: [7, 11, 17] },

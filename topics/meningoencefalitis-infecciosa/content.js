@@ -369,7 +369,7 @@ export const content = {
 export const compCites = {
   'Meningitis bacteriana aguda: reconocer y no perder tiempo': { definicion: [1, 4, 8, 16], criterios_dx: [1, 4, 8, 16], laboratorio: [1, 4, 8, 16], tx_farmacologico: [1, 4, 8, 16] },
   'Tratamiento empírico y dexametasona': { definicion: [1, 3, 6, 7, 15], criterios_dx: [1, 3, 6, 7, 15], laboratorio: [1, 3, 6, 7, 15], tx_farmacologico: [1, 3, 6, 7, 15] },
-  'Encefalitis por virus herpes simple': { definicion: [2, 9, 10], criterios_dx: [2, 9, 10], laboratorio: [2, 9, 10], tx_farmacologico: [2, 9, 10] },
+  'Encefalitis por virus herpes simple': { definicion: [2, 9, 10], criterios_dx: [2, 9], laboratorio: [2, 9], tx_farmacologico: [2, 9, 10] },
   'Meningitis virica y síndrome meníngeo aseptico': { definicion: [8, 16], criterios_dx: [8, 16], laboratorio: [8, 16], tx_farmacologico: [8, 16] },
   'Meningitis subaguda y crónica: tuberculosa y criptococica': { definicion: [11, 12, 13], criterios_dx: [11, 12, 13], laboratorio: [11, 12, 13], tx_farmacologico: [11, 12, 13] },
   'Absceso cerebral y complicaciones neurológicas': { definicion: [14], criterios_dx: [14], laboratorio: [14], tx_farmacologico: [14] }

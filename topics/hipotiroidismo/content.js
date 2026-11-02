@@ -382,7 +382,7 @@ export const content = {
 // lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
 // sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Hipotiroidismo primario (tiroiditis de Hashimoto y otras causas)': { definicion: [1, 3, 4, 14], criterios_dx: [1, 3, 4, 14], laboratorio: [1, 3, 4, 14], tx_farmacologico: [1, 3, 4, 14] },
+  'Hipotiroidismo primario (tiroiditis de Hashimoto y otras causas)': { definicion: [1, 3, 4, 14], criterios_dx: [1, 3, 4, 14], laboratorio: [1, 3, 4, 14], tx_farmacologico: [1, 3, 4] },
   'Hipotiroidismo central': { definicion: [6, 4], criterios_dx: [6, 4], laboratorio: [6, 4], tx_farmacologico: [6, 4] },
   'Hipotiroidismo subclínico': { definicion: [7, 8, 10, 11], criterios_dx: [7, 8, 10, 11], laboratorio: [7, 8, 10, 11], tx_farmacologico: [7, 8, 10, 11] },
   'Hipotiroidismo y embarazo': { definicion: [5, 4], criterios_dx: [5, 4], laboratorio: [5, 4], tx_farmacologico: [5, 4] },

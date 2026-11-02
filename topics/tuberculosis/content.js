@@ -388,7 +388,7 @@ export const compCites = {
   'Tratamiento de la tuberculosis sensible y su toxicidad': { definicion: [1, 3], criterios_dx: [1, 3], laboratorio: [1, 3], tx_farmacologico: [1, 3] },
   'Infección tuberculosa latente': { definicion: [4, 5, 14], criterios_dx: [4, 5, 14], laboratorio: [4, 5, 14], tx_farmacologico: [4, 5, 14] },
   'Tuberculosis extrapulmonar': { definicion: [8, 9], criterios_dx: [8, 9], laboratorio: [8, 9], tx_farmacologico: [8, 9] },
-  'Tuberculosis resistente a fármacos': { definicion: [2, 6, 7], criterios_dx: [2, 6, 7], laboratorio: [2, 6, 7], tx_farmacologico: [2, 6, 7] },
+  'Tuberculosis resistente a fármacos': { definicion: [2, 6, 7], criterios_dx: [2, 6], laboratorio: [2, 6], tx_farmacologico: [2, 6, 7] },
   'Poblaciones especiales y control de la transmisión': { definicion: [10, 12, 13], criterios_dx: [10, 12, 13], laboratorio: [10, 12, 13], tx_farmacologico: [10, 12, 13] }
 };
 export const estigmasTitulo = 'Signos y pistas que orientan hacia una tuberculosis';

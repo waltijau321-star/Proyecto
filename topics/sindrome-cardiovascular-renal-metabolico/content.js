@@ -357,10 +357,10 @@ export const content = {
 export const compCites = {
   'Estadio 0: sin factores de riesgo': { definicion: [1, 19], criterios_dx: [1, 19], laboratorio: [1, 19], tx_farmacologico: [1, 19] },
   'Estadio 1: exceso o disfunción de la adiposidad': { definicion: [1, 2], criterios_dx: [1, 2], laboratorio: [1, 2], tx_farmacologico: [1, 2] },
-  'Estadio 2: factores metabólicos y enfermedad renal': { definicion: [1, 4, 5, 17], criterios_dx: [1, 4, 5, 17], laboratorio: [1, 4, 5, 17], tx_farmacologico: [1, 4, 5, 17] },
+  'Estadio 2: factores metabólicos y enfermedad renal': { definicion: [1, 4, 5, 17], criterios_dx: [1, 4, 5], laboratorio: [1, 4, 5], tx_farmacologico: [1, 4, 5, 17] },
   'Estadio 3: enfermedad cardiovascular subclínica': { definicion: [1, 3], criterios_dx: [1, 3], laboratorio: [1, 3], tx_farmacologico: [1, 3] },
   'Estadio 4: enfermedad cardiovascular clínica': { definicion: [1, 14], criterios_dx: [1, 14], laboratorio: [1, 14], tx_farmacologico: [1, 14] },
-  'Fármacos que actuan en los tres ejes': { definicion: [6, 7, 8, 9, 10, 11, 12, 13], criterios_dx: [6, 7, 8, 9, 10, 11, 12, 13], laboratorio: [6, 7, 8, 9, 10, 11, 12, 13], tx_farmacologico: [6, 7, 8, 9, 10, 11, 12, 13] }
+  'Fármacos que actuan en los tres ejes': { definicion: [6, 7, 8, 9, 10, 11, 12, 13], criterios_dx: [8, 9, 10, 12, 13], laboratorio: [8, 9, 10, 12, 13], tx_farmacologico: [6, 7, 8, 9, 10, 11, 12, 13] }
 };
 export const estigmas = [];
 export const biopsia = null;

@@ -408,9 +408,9 @@ export const content = {
 // sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
   'Derrame pleural': { definicion: [1, 2, 3, 16, 17], criterios_dx: [1, 2, 3, 16, 17], laboratorio: [1, 2, 3, 16, 17], tx_farmacologico: [1, 2, 3, 16, 17] },
-  'Derrame paraneumonico y empiema': { definicion: [1, 4, 5, 6, 7], criterios_dx: [1, 4, 5, 6, 7], laboratorio: [1, 4, 5, 6, 7], tx_farmacologico: [1, 4, 5, 6, 7] },
-  'Derrame pleural maligno': { definicion: [11, 12, 13], criterios_dx: [11, 12, 13], laboratorio: [11, 12, 13], tx_farmacologico: [11, 12, 13] },
-  'Neumotórax espontáneo': { definicion: [1, 8, 9, 10], criterios_dx: [1, 8, 9, 10], laboratorio: [1, 8, 9, 10], tx_farmacologico: [1, 8, 9, 10] },
+  'Derrame paraneumonico y empiema': { definicion: [1, 4, 5, 6, 7], criterios_dx: [1, 4, 6, 7], laboratorio: [1, 4, 6, 7], tx_farmacologico: [1, 4, 5, 6, 7] },
+  'Derrame pleural maligno': { definicion: [11, 12, 13], criterios_dx: [13], laboratorio: [13], tx_farmacologico: [11, 12, 13] },
+  'Neumotórax espontáneo': { definicion: [1, 8, 9, 10], criterios_dx: [1, 10], laboratorio: [1, 10], tx_farmacologico: [1, 8, 9, 10] },
   'Neumotórax a tensión, traumático y hemotorax': { definicion: [1, 10], criterios_dx: [1, 10], laboratorio: [1, 10], tx_farmacologico: [1, 10] },
   'Hemoptisis amenazante': { definicion: [14, 15], criterios_dx: [14, 15], laboratorio: [14, 15], tx_farmacologico: [14, 15] }
 };

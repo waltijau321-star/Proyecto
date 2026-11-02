@@ -440,9 +440,9 @@ export const compCites = {
   'Cetoacidosis diabética': { definicion: [1, 2, 4, 5], criterios_dx: [1, 2, 4, 5], laboratorio: [1, 2, 4, 5], tx_farmacologico: [1, 2, 4, 5] },
   'Estado hiperosmolar hiperglucemico': { definicion: [18, 1, 19], criterios_dx: [18, 1, 19], laboratorio: [18, 1, 19], tx_farmacologico: [18, 1, 19] },
   'Cetoacidosis euglucémica': { definicion: [16, 17, 1], criterios_dx: [16, 17, 1], laboratorio: [16, 17, 1], tx_farmacologico: [16, 17, 1] },
-  'Edema cerebral': { definicion: [11, 12, 1], criterios_dx: [11, 12, 1], laboratorio: [11, 12, 1], tx_farmacologico: [11, 12, 1] },
+  'Edema cerebral': { definicion: [11, 12, 1], criterios_dx: [11, 1], laboratorio: [11, 1], tx_farmacologico: [11, 12, 1] },
   'Hipopotasemia y trastornos electrolíticos del tratamiento': { definicion: [2, 1], criterios_dx: [2, 1], laboratorio: [2, 1], tx_farmacologico: [2, 1] },
-  'Hipoglucemia, sobrecarga de volumen y acidosis hiperclorémica': { definicion: [6, 7, 1], criterios_dx: [6, 7, 1], laboratorio: [6, 7, 1], tx_farmacologico: [6, 7, 1] },
+  'Hipoglucemia, sobrecarga de volumen y acidosis hiperclorémica': { definicion: [6, 7, 1], criterios_dx: [6, 7, 1], laboratorio: [1], tx_farmacologico: [6, 7, 1] },
   'Complicaciones trombóticas e infecciosas': { definicion: [22, 18], criterios_dx: [22, 18], laboratorio: [22, 18], tx_farmacologico: [22, 18] }
 };
 export const estigmas = [

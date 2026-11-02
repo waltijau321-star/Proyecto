@@ -261,7 +261,7 @@ Al alta: reconciliar qué fármacos protectores se suspendieron durante el ingre
 export const compCites = {
   'Definición, cronicidad y las dos categorías': { definicion: [1], criterios_dx: [1], laboratorio: [1] },
   'Cómo se mide: creatinina, cistatina C y albuminuria': { definicion: [1, 7], criterios_dx: [1, 7], laboratorio: [1, 7] },
-  'Los cuatro pilares que frenan la progresión': { definicion: [1, 3, 8, 9, 10], criterios_dx: [1, 3, 8, 9, 10], laboratorio: [1, 3, 8, 9, 10], tx_farmacologico: [1, 3, 8, 9, 10] },
+  'Los cuatro pilares que frenan la progresión': { definicion: [1, 3, 8, 9, 10], criterios_dx: [1, 3, 8, 9, 10], laboratorio: [1, 3, 8, 9], tx_farmacologico: [1, 3, 8, 9, 10] },
   'Presión arterial, dieta y estilo de vida': { definicion: [1, 2], criterios_dx: [1, 2], tx_farmacologico: [1, 2] },
   'Riesgo cardiovascular: estatina, aspirina y anticoagulación': { definicion: [1], criterios_dx: [1], tx_farmacologico: [1] },
   'Anemia, acidosis metabólica e hiperpotasemia': { definicion: [1, 11], criterios_dx: [1, 11], laboratorio: [1, 11], tx_farmacologico: [1, 11] },

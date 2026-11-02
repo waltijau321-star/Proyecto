@@ -353,7 +353,7 @@ export const content = {
 // sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
   'Hemofilia A y B': { definicion: [1, 11, 12], criterios_dx: [1, 11, 12], laboratorio: [1, 11, 12], tx_farmacologico: [1, 11, 12] },
-  'Enfermedad de von Willebrand': { definicion: [2, 3], criterios_dx: [2, 3], laboratorio: [2, 3], tx_farmacologico: [2, 3] },
+  'Enfermedad de von Willebrand': { definicion: [2, 3], criterios_dx: [2, 3], laboratorio: [2, 3], tx_farmacologico: [2] },
   'Coagulopatía adquirida': { definicion: [4, 5], criterios_dx: [4, 5], laboratorio: [4, 5], tx_farmacologico: [4, 5] },
   'Trombofilias hereditarias y adquiridas': { definicion: [6, 7, 8, 9, 10], criterios_dx: [6, 7, 8, 9, 10], laboratorio: [6, 7, 8, 9, 10], tx_farmacologico: [6, 7, 8, 9, 10] },
   'Hemartrosis y artropatía hemofílica': { definicion: [1, 11], criterios_dx: [1, 11], laboratorio: [1, 11], tx_farmacologico: [1, 11] },

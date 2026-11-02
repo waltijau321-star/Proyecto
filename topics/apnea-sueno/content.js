@@ -381,7 +381,7 @@ export const compCites = {
   'Tratamiento de la apnea obstructiva: CPAP y alternativas': { definicion: [2, 9, 10, 11], criterios_dx: [2, 9, 10, 11], laboratorio: [2, 9, 10, 11], tx_farmacologico: [2, 9, 10, 11] },
   'Apnea central del sueño y respiración de Cheyne-Stokes': { definicion: [4, 15], criterios_dx: [4, 15], laboratorio: [4, 15], tx_farmacologico: [4, 15] },
   'Síndrome de hipoventilación-obesidad': { definicion: [3], criterios_dx: [3], laboratorio: [3], tx_farmacologico: [3] },
-  'Consecuencias cardiovasculares, metabólicas y neurocognitivas': { definicion: [5, 6, 15], criterios_dx: [5, 6, 15], laboratorio: [5, 6, 15], tx_farmacologico: [5, 6, 15] },
+  'Consecuencias cardiovasculares, metabólicas y neurocognitivas': { definicion: [5, 6, 15], criterios_dx: [5, 15], laboratorio: [5, 15], tx_farmacologico: [5, 6, 15] },
   'Situaciones especiales: perioperatorio, conducción y poblaciones': { definicion: [12, 16], criterios_dx: [12, 16], laboratorio: [12, 16], tx_farmacologico: [12, 16] }
 };
 export const estigmasTitulo = 'Signos y pistas que orientan hacia un trastorno respiratorio del sueño';

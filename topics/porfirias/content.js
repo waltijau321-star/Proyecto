@@ -342,7 +342,7 @@ export const compCites = {
   'Otras porfirias hepáticas agudas': { definicion: [1, 2, 12], criterios_dx: [1, 2, 12], laboratorio: [1, 2, 12], tx_farmacologico: [1, 2, 12] },
   'Porfiria Cutánea Tarda': { definicion: [7, 8], criterios_dx: [7, 8], laboratorio: [7, 8], tx_farmacologico: [7, 8] },
   'Protoporfiria Eritropoyética': { definicion: [9, 10], criterios_dx: [9, 10], laboratorio: [9, 10], tx_farmacologico: [9, 10] },
-  'Crisis porfírica aguda': { definicion: [1, 2, 5, 13], criterios_dx: [1, 2, 5, 13], laboratorio: [1, 2, 5, 13], tx_farmacologico: [1, 2, 5, 13] },
+  'Crisis porfírica aguda': { definicion: [1, 2, 5, 13], criterios_dx: [1, 2, 5], laboratorio: [1, 2, 5], tx_farmacologico: [1, 2, 5, 13] },
   'Neuropatía y complicaciones neurológicas': { definicion: [3, 12], criterios_dx: [3, 12], laboratorio: [3, 12], tx_farmacologico: [3, 12] },
   'Complicaciones hepáticas a largo plazo': { definicion: [14, 15, 10], criterios_dx: [14, 15, 10], laboratorio: [14, 15, 10], tx_farmacologico: [14, 15, 10] },
   'Fotosensibilidad y complicaciones cutáneas': { definicion: [7, 9], criterios_dx: [7, 9], laboratorio: [7, 9], tx_farmacologico: [7, 9] }

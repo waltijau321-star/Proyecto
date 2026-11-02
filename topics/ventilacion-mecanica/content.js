@@ -584,13 +584,13 @@ export const compCites = {
   'Via aérea artificial e inicio de la ventilación invasiva': { definicion: [6, 17, 12], criterios_dx: [6, 17, 12], laboratorio: [6, 17, 12], tx_farmacologico: [6, 17, 12] },
   'Ventilación no invasiva (CPAP y binivel)': { definicion: [1, 17], criterios_dx: [1, 17], laboratorio: [1, 17], tx_farmacologico: [1, 17] },
   'Cánula nasal de alto flujo': { definicion: [10, 9, 1], criterios_dx: [10, 9, 1], laboratorio: [10, 9, 1], tx_farmacologico: [10, 9, 1] },
-  'Modos controlados y ventilación protectora (SDRA y obstructivo)': { definicion: [5, 6, 7, 8], criterios_dx: [5, 6, 7, 8], laboratorio: [5, 6, 7, 8], tx_farmacologico: [5, 6, 7, 8] },
-  'Modos asistidos y espontáneos; sedoanalgesia y bloqueo neuromuscular': { definicion: [12, 15, 13, 14], criterios_dx: [12, 15, 13, 14], laboratorio: [12, 15, 13, 14], tx_farmacologico: [12, 15, 13, 14] },
-  'Destete y liberación de la ventilación mecánica': { definicion: [2, 17, 8, 15], criterios_dx: [2, 17, 8, 15], laboratorio: [2, 17, 8, 15], tx_farmacologico: [2, 17, 8, 15] },
+  'Modos controlados y ventilación protectora (SDRA y obstructivo)': { definicion: [5, 6, 7, 8], criterios_dx: [5, 6, 7, 8], laboratorio: [5, 6, 7], tx_farmacologico: [5, 6, 7, 8] },
+  'Modos asistidos y espontáneos; sedoanalgesia y bloqueo neuromuscular': { definicion: [12, 15, 13, 14], criterios_dx: [12, 13], laboratorio: [12, 13], tx_farmacologico: [12, 15, 13, 14] },
+  'Destete y liberación de la ventilación mecánica': { definicion: [2, 17, 8, 15], criterios_dx: [2, 17, 8, 15], laboratorio: [2, 17], tx_farmacologico: [2, 17, 8, 15] },
   'Lesión pulmonar inducida por el ventilador': { definicion: [11, 6, 5], criterios_dx: [11, 6, 5], laboratorio: [11, 6, 5], tx_farmacologico: [11, 6, 5] },
   'Neumonía asociada a la ventilación': { definicion: [16], criterios_dx: [16], laboratorio: [16], tx_farmacologico: [16] },
   'Asincronías paciente-ventilador': { definicion: [12, 11], criterios_dx: [12, 11], laboratorio: [12, 11], tx_farmacologico: [12, 11] },
-  'Debilidad, disfunción diafragmática y repercusión hemodinámica': { definicion: [19, 13, 14], criterios_dx: [19, 13, 14], laboratorio: [19, 13, 14], tx_farmacologico: [19, 13, 14] }
+  'Debilidad, disfunción diafragmática y repercusión hemodinámica': { definicion: [19, 13, 14], criterios_dx: [19, 13], laboratorio: [19, 13], tx_farmacologico: [19, 13, 14] }
 };
 export const estigmas = [];
 export const biopsia = null;

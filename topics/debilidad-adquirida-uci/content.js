@@ -348,7 +348,7 @@ export const compCites = {
   'Debilidad adquirida: reconocerla': { definicion: [1, 2, 4, 5], criterios_dx: [1, 2, 4, 5], laboratorio: [1, 2, 4, 5], tx_farmacologico: [1, 2, 4, 5] },
   'Polineuropatía y miopatía del paciente crítico': { definicion: [3, 6], criterios_dx: [3, 6], laboratorio: [3, 6], tx_farmacologico: [3, 6] },
   'Lo que imita la debilidad adquirida': { definicion: [2, 5], criterios_dx: [2, 5], laboratorio: [2, 5], tx_farmacologico: [2, 5] },
-  'Prevención: lo único que funciona': { definicion: [7, 8, 9, 12], criterios_dx: [7, 8, 9, 12], laboratorio: [7, 8, 9, 12], tx_farmacologico: [7, 8, 9, 12] },
+  'Prevención: lo único que funciona': { definicion: [7, 8, 9, 12], criterios_dx: [8, 9], laboratorio: [8, 9], tx_farmacologico: [7, 8, 9, 12] },
   'Debilidad diafragmática y fracaso del destete': { definicion: [13, 14], criterios_dx: [13, 14], laboratorio: [13, 14], tx_farmacologico: [13, 14] },
   'Síndrome post-cuidados intensivos': { definicion: [15, 16] }
 };

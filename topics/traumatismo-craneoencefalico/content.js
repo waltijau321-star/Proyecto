@@ -339,8 +339,8 @@ export const compCites = {
   'TCE leve y conmoción cerebral': { definicion: [10, 11, 2], criterios_dx: [10, 11, 2], laboratorio: [10, 11, 2], tx_farmacologico: [10, 11, 2] },
   'Hematoma epidural': { definicion: [5], criterios_dx: [5], laboratorio: [5], tx_farmacologico: [5] },
   'Hematoma subdural (agudo y crónico)': { definicion: [6, 7], criterios_dx: [6, 7], laboratorio: [6, 7], tx_farmacologico: [6, 7] },
-  'Hemorragia subaracnoidea traumática y lesión axonal difusa': { definicion: [4, 9], criterios_dx: [4, 9], laboratorio: [4, 9], tx_farmacologico: [4, 9] },
-  'Hipertensión intracraneal y síndromes de herniación': { definicion: [1, 9], criterios_dx: [1, 9], laboratorio: [1, 9], tx_farmacologico: [1, 9] },
+  'Hemorragia subaracnoidea traumática y lesión axonal difusa': { definicion: [4, 9], criterios_dx: [4], laboratorio: [4], tx_farmacologico: [4, 9] },
+  'Hipertensión intracraneal y síndromes de herniación': { definicion: [1, 9], criterios_dx: [1], laboratorio: [1], tx_farmacologico: [1, 9] },
   'Crisis convulsivas postraumáticas': { definicion: [8], criterios_dx: [8], laboratorio: [8], tx_farmacologico: [8] },
   'Fractura de la base del cráneo, fuga de LCR y meningitis postraumática': { definicion: [13], criterios_dx: [13], laboratorio: [13], tx_farmacologico: [13] },
   'Síndrome poscontusional': { definicion: [10, 11], criterios_dx: [10, 11], laboratorio: [10, 11], tx_farmacologico: [10, 11] }

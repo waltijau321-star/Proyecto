@@ -368,11 +368,11 @@ export const content = {
 // sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
   'Hipoglucemia': { definicion: [24, 1], criterios_dx: [24, 1], laboratorio: [24, 1], tx_farmacologico: [24, 1] },
-  'Retinopatía diabética': { definicion: [20, 1, 4], criterios_dx: [20, 1, 4], laboratorio: [20, 1, 4], tx_farmacologico: [20, 1, 4] },
-  'Enfermedad renal diabética': { definicion: [3, 9, 10, 12], criterios_dx: [3, 9, 10, 12], laboratorio: [3, 9, 10, 12], tx_farmacologico: [3, 9, 10, 12] },
+  'Retinopatía diabética': { definicion: [20, 1, 4], criterios_dx: [20, 1], laboratorio: [20, 1], tx_farmacologico: [20, 1, 4] },
+  'Enfermedad renal diabética': { definicion: [3, 9, 10, 12], criterios_dx: [3, 10], laboratorio: [3, 10], tx_farmacologico: [3, 9, 10, 12] },
   'Neuropatía diabética': { definicion: [18, 1], criterios_dx: [18, 1], laboratorio: [18, 1], tx_farmacologico: [18, 1] },
   'Pie diabético': { definicion: [19, 1], criterios_dx: [19, 1], laboratorio: [19, 1], tx_farmacologico: [19, 1] },
-  'Enfermedad cardiovascular ateroesclerótica y síndrome cardio-renal-metabólico': { definicion: [7, 8, 23, 2], criterios_dx: [7, 8, 23, 2], laboratorio: [7, 8, 23, 2], tx_farmacologico: [7, 8, 23, 2] },
+  'Enfermedad cardiovascular ateroesclerótica y síndrome cardio-renal-metabólico': { definicion: [7, 8, 23, 2], criterios_dx: [23, 2], laboratorio: [23, 2], tx_farmacologico: [7, 8, 23, 2] },
   'Diabetes gestacional e hiperglucemia en el embarazo': { definicion: [21, 22], criterios_dx: [21, 22], laboratorio: [21, 22], tx_farmacologico: [21, 22] }
 };
 export const estigmas = [];

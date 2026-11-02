@@ -335,12 +335,12 @@ export const content = {
 // lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
 // sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Enfermedad de Parkinson': { definicion: [1, 2, 3], criterios_dx: [1, 2, 3], laboratorio: [1, 2, 3], tx_farmacologico: [1, 2, 3] },
+  'Enfermedad de Parkinson': { definicion: [1, 2, 3], criterios_dx: [1, 2, 3], laboratorio: [1, 2, 3], tx_farmacologico: [2, 3] },
   'Temblor esencial': { definicion: [5], criterios_dx: [5], laboratorio: [5], tx_farmacologico: [5] },
   'Distonía': { definicion: [6], criterios_dx: [6], laboratorio: [6], tx_farmacologico: [6] },
   'Corea y enfermedad de Huntington': { definicion: [7], criterios_dx: [7], laboratorio: [7], tx_farmacologico: [7] },
   'Complicaciones motoras del tratamiento dopaminérgico': { definicion: [13, 14], criterios_dx: [13, 14], laboratorio: [13, 14], tx_farmacologico: [13, 14] },
-  'Demencia y deterioro cognitivo asociado a Parkinson': { definicion: [9, 10], criterios_dx: [9, 10], laboratorio: [9, 10], tx_farmacologico: [9, 10] },
+  'Demencia y deterioro cognitivo asociado a Parkinson': { definicion: [9, 10], criterios_dx: [9, 10], laboratorio: [9, 10], tx_farmacologico: [10] },
   'Disfunción autonómica': { definicion: [11], criterios_dx: [11], laboratorio: [11], tx_farmacologico: [11] },
   'Psicosis inducida por fármacos dopaminérgicos': { definicion: [12], criterios_dx: [12], laboratorio: [12], tx_farmacologico: [12] }
 };

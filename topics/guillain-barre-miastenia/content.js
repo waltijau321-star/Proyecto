@@ -398,7 +398,7 @@ export const compCites = {
   'Síndrome de Guillain-Barré: diagnóstico': { definicion: [1, 4, 16], criterios_dx: [1, 4, 16], laboratorio: [1, 4, 16], tx_farmacologico: [1, 4, 16] },
   'Guillain-Barré: tratamiento y vigilancia respiratoria': { definicion: [1, 3, 5, 6, 7], criterios_dx: [1, 3, 5, 6, 7], laboratorio: [1, 3, 5, 6, 7], tx_farmacologico: [1, 3, 5, 6, 7] },
   'Miastenia gravis: diagnóstico': { definicion: [2, 9], criterios_dx: [2, 9], laboratorio: [2, 9], tx_farmacologico: [2, 9] },
-  'Miastenia gravis: tratamiento': { definicion: [2, 8, 10, 11], criterios_dx: [2, 8, 10, 11], laboratorio: [2, 8, 10, 11], tx_farmacologico: [2, 8, 10, 11] },
+  'Miastenia gravis: tratamiento': { definicion: [2, 8, 10, 11], criterios_dx: [2, 10, 11], laboratorio: [2, 8, 10, 11], tx_farmacologico: [2, 8, 10, 11] },
   'Crisis miastenica y crisis colinérgica': { definicion: [2, 12, 14], criterios_dx: [2, 12, 14], laboratorio: [2, 12, 14], tx_farmacologico: [2, 12, 14] },
   'Lambert-Eaton, botulismo y el diferencial de la debilidad aguda': { definicion: [13, 15], criterios_dx: [13, 15], laboratorio: [13, 15], tx_farmacologico: [13, 15] }
 };

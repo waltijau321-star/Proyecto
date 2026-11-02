@@ -377,7 +377,7 @@ export const compCites = {
   'Cuando sospecharla: el marco diagnóstico': { definicion: [1, 3, 10, 15], criterios_dx: [1, 3, 10, 15], laboratorio: [1, 3, 10, 15], tx_farmacologico: [1, 3, 10, 15] },
   'Encefalitis por anticuerpos anti-receptor de NMDA': { definicion: [2, 4, 5, 12], criterios_dx: [2, 4, 5, 12], laboratorio: [2, 4, 5, 12], tx_farmacologico: [2, 4, 5, 12] },
   'Encefalitis límbica y anticuerpos de superficie': { definicion: [6, 7, 14], criterios_dx: [6, 7, 14], laboratorio: [6, 7, 14], tx_farmacologico: [6, 7, 14] },
-  'Síndromes paraneoplásicos y anticuerpos intracelulares': { definicion: [8, 9, 13], criterios_dx: [8, 9, 13], laboratorio: [8, 9, 13], tx_farmacologico: [8, 9, 13] },
+  'Síndromes paraneoplásicos y anticuerpos intracelulares': { definicion: [8, 9, 13], criterios_dx: [8, 9, 13], laboratorio: [8, 9, 13], tx_farmacologico: [8, 13] },
   'Inmunoterapia: primera línea y escalada': { definicion: [2, 10, 16], criterios_dx: [2, 10, 16], laboratorio: [2, 10, 16], tx_farmacologico: [2, 10, 16] },
   'Complicaciones y los errores que más cuestan': { definicion: [11, 16], criterios_dx: [11, 16], laboratorio: [11, 16], tx_farmacologico: [11, 16] }
 };

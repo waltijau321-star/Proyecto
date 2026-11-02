@@ -344,7 +344,7 @@ export const compCites = {
   'Meningioma': { definicion: [1, 3, 10, 11], criterios_dx: [1, 3, 10, 11], laboratorio: [1, 3, 10, 11], tx_farmacologico: [1, 3, 10, 11] },
   'Glioma (astrocitoma difuso y glioblastoma)': { definicion: [2, 11], criterios_dx: [2, 11], laboratorio: [2, 11], tx_farmacologico: [2, 11] },
   'Metástasis cerebrales': { definicion: [4, 1], criterios_dx: [4, 1], laboratorio: [4, 1], tx_farmacologico: [4, 1] },
-  'Hipertensión intracraneal idiopática (pseudotumor cerebri)': { definicion: [6, 7, 15], criterios_dx: [6, 7, 15], laboratorio: [6, 7, 15], tx_farmacologico: [6, 7, 15] },
+  'Hipertensión intracraneal idiopática (pseudotumor cerebri)': { definicion: [6, 7, 15], criterios_dx: [6, 7, 15], laboratorio: [6, 7, 15], tx_farmacologico: [7, 15] },
   'Edema peritumoral y manejo con corticoides': { definicion: [8], criterios_dx: [8], laboratorio: [8], tx_farmacologico: [8] },
   'Crisis convulsivas asociadas a tumor cerebral': { definicion: [9], criterios_dx: [9], laboratorio: [9], tx_farmacologico: [9] },
   'Hidrocefalia obstructiva': { definicion: [5], criterios_dx: [5], laboratorio: [5], tx_farmacologico: [5] },

@@ -349,11 +349,11 @@ export const content = {
 export const compCites = {
   'Leucocitosis reactiva y neutrofilia': { definicion: [1, 10], criterios_dx: [1, 10], laboratorio: [1, 10], tx_farmacologico: [1, 10] },
   'Neutropenia': { definicion: [2, 3, 13, 14], criterios_dx: [2, 3, 13, 14], laboratorio: [2, 3, 13, 14], tx_farmacologico: [2, 3, 13, 14] },
-  'Eosinofilia': { definicion: [6, 7, 9], criterios_dx: [6, 7, 9], laboratorio: [6, 7, 9], tx_farmacologico: [6, 7, 9] },
+  'Eosinofilia': { definicion: [6, 7, 9], criterios_dx: [6, 7, 9], laboratorio: [6, 7, 9], tx_farmacologico: [7, 9] },
   'Linfocitosis y monocitosis reactivas': { definicion: [1], criterios_dx: [1], laboratorio: [1], tx_farmacologico: [1] },
   'Diferencial reacción leucemoide vs. leucemia mieloide crónica': { definicion: [11, 12], criterios_dx: [11, 12], laboratorio: [11, 12], tx_farmacologico: [11, 12] },
   'Neutropenia febril': { definicion: [4, 5], criterios_dx: [4, 5], laboratorio: [4, 5], tx_farmacologico: [4, 5] },
-  'Síndrome hipereosinofílico': { definicion: [6, 7, 8], criterios_dx: [6, 7, 8], laboratorio: [6, 7, 8], tx_farmacologico: [6, 7, 8] },
+  'Síndrome hipereosinofílico': { definicion: [6, 7, 8], criterios_dx: [6, 7, 8], laboratorio: [6, 7, 8], tx_farmacologico: [7, 8] },
   'Enfoque diagnóstico del hemograma anormal': { definicion: [1, 12], criterios_dx: [1, 12], laboratorio: [1, 12] }
 };
 export const estigmas = [];

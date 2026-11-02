@@ -234,8 +234,8 @@ export const content = {
 // lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
 // sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Brote agudo y su manejo': { definicion: [1, 8], criterios_dx: [1, 8], tx_farmacologico: [1, 8] },
-  'Neuritis óptica': { definicion: [14, 1], criterios_dx: [14, 1], tx_farmacologico: [14, 1] },
+  'Brote agudo y su manejo': { definicion: [1, 8], criterios_dx: [1], tx_farmacologico: [1, 8] },
+  'Neuritis óptica': { definicion: [14, 1], criterios_dx: [1], tx_farmacologico: [14, 1] },
   'Espasticidad y disfunción vesical/intestinal': { definicion: [3], criterios_dx: [3], tx_farmacologico: [3] },
   'Progresión de discapacidad y deterioro cognitivo asociado a EM': { definicion: [4, 3], criterios_dx: [4, 3] }
 };

@@ -404,7 +404,7 @@ export const content = {
 // lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
 // sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Hipertensión arterial pulmonar (grupo 1)': { definicion: [1, 3, 4, 5, 8, 11], criterios_dx: [1, 3, 4, 5, 8, 11], laboratorio: [1, 3, 4, 5, 8, 11], tx_farmacologico: [1, 3, 4, 5, 8, 11] },
+  'Hipertensión arterial pulmonar (grupo 1)': { definicion: [1, 3, 4, 5, 8, 11], criterios_dx: [1, 3, 4, 8, 11], laboratorio: [1, 3, 4, 8, 11], tx_farmacologico: [1, 3, 4, 5, 8, 11] },
   'HP por cardiopatía izquierda (grupo 2)': { definicion: [1, 16], criterios_dx: [1, 16], laboratorio: [1, 16], tx_farmacologico: [1, 16] },
   'HP por enfermedad pulmonar e hipoxia (grupo 3)': { definicion: [1, 7, 17], criterios_dx: [1, 7, 17], laboratorio: [1, 7, 17], tx_farmacologico: [1, 7, 17] },
   'HP tromboembólica crónica (grupo 4)': { definicion: [6, 9, 10, 15], criterios_dx: [6, 9, 10, 15], laboratorio: [6, 9, 10, 15], tx_farmacologico: [6, 9, 10, 15] },

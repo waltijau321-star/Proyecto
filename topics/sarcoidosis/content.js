@@ -388,8 +388,8 @@ export const content = {
 // lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
 // sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Sarcoidosis: sospecha, diagnóstico y estadios': { definicion: [1, 5, 13, 16], criterios_dx: [1, 5, 13, 16], laboratorio: [1, 5, 13, 16], tx_farmacologico: [1, 5, 13, 16] },
-  'Afectación pulmonar y decisión de tratar': { definicion: [2, 7, 8, 15], criterios_dx: [2, 7, 8, 15], laboratorio: [2, 7, 8, 15], tx_farmacologico: [2, 7, 8, 15] },
+  'Sarcoidosis: sospecha, diagnóstico y estadios': { definicion: [1, 5, 13, 16], criterios_dx: [1, 5, 16], laboratorio: [1, 5, 16], tx_farmacologico: [1, 5, 13, 16] },
+  'Afectación pulmonar y decisión de tratar': { definicion: [2, 7, 8, 15], criterios_dx: [2, 7, 15], laboratorio: [2, 7, 8, 15], tx_farmacologico: [2, 7, 8, 15] },
   'Sarcoidosis cardiaca': { definicion: [3, 12], criterios_dx: [3, 12], laboratorio: [3, 12], tx_farmacologico: [3, 12] },
   'Neurosarcoidosis y afectación ocular': { definicion: [11, 4], criterios_dx: [11, 4], laboratorio: [11, 4], tx_farmacologico: [11, 4] },
   'Hipercalcemia, hipercalciuria y afectación renal': { definicion: [9], criterios_dx: [9], laboratorio: [9], tx_farmacologico: [9] },

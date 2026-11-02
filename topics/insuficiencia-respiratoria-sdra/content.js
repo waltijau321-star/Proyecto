@@ -419,8 +419,8 @@ export const content = {
 export const compCites = {
   'Insuficiencia respiratoria aguda hipoxémica': { definicion: [9, 11, 12], criterios_dx: [9, 11, 12], laboratorio: [9, 11, 12], tx_farmacologico: [9, 11, 12] },
   'Insuficiencia respiratoria aguda hipercápnica': { definicion: [11], criterios_dx: [11], laboratorio: [11], tx_farmacologico: [11] },
-  'Síndrome de dificultad respiratoria aguda': { definicion: [1, 2, 3, 4, 5, 7, 13], criterios_dx: [1, 2, 3, 4, 5, 7, 13], laboratorio: [1, 2, 3, 4, 5, 7, 13], tx_farmacologico: [1, 2, 3, 4, 5, 7, 13] },
-  'SDRA grave y terapias de rescate': { definicion: [6, 8, 14, 15, 16], criterios_dx: [6, 8, 14, 15, 16], laboratorio: [6, 8, 14, 15, 16], tx_farmacologico: [6, 8, 14, 15, 16] },
+  'Síndrome de dificultad respiratoria aguda': { definicion: [1, 2, 3, 4, 5, 7, 13], criterios_dx: [1, 2, 3, 4, 5, 7], laboratorio: [1, 2, 3, 4, 5, 7], tx_farmacologico: [1, 2, 3, 4, 5, 7, 13] },
+  'SDRA grave y terapias de rescate': { definicion: [6, 8, 14, 15, 16], criterios_dx: [6, 8, 14], laboratorio: [6, 8, 14], tx_farmacologico: [6, 8, 14, 15, 16] },
   'Fracaso del soporte no invasivo y lesión autoinfligida': { definicion: [10, 12, 9], criterios_dx: [10, 12, 9], laboratorio: [10, 12, 9], tx_farmacologico: [10, 12, 9] },
   'Secuelas y síndrome post-cuidados intensivos': { definicion: [17, 18], criterios_dx: [17, 18], laboratorio: [17, 18], tx_farmacologico: [17, 18] }
 };

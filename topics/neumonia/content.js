@@ -380,7 +380,7 @@ export const content = {
 // lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
 // sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Neumonía adquirida en la comunidad': { definicion: [1, 2, 12, 15], criterios_dx: [1, 2, 12, 15], laboratorio: [1, 2, 12, 15], tx_farmacologico: [1, 2, 12, 15] },
+  'Neumonía adquirida en la comunidad': { definicion: [1, 2, 12, 15], criterios_dx: [1, 2, 15], laboratorio: [1, 2, 15], tx_farmacologico: [1, 2, 12, 15] },
   'Neumonía grave y complicaciones sistémicas': { definicion: [1, 2, 7, 11], criterios_dx: [1, 2, 7, 11], laboratorio: [1, 2, 7, 11], tx_farmacologico: [1, 2, 7, 11] },
   'Neumonía nosocomial y asociada a la ventilación': { definicion: [3, 4, 13], criterios_dx: [3, 4, 13], laboratorio: [3, 4, 13], tx_farmacologico: [3, 4, 13] },
   'Neumonía por aspiración y absceso pulmonar': { definicion: [8, 9, 17], criterios_dx: [8, 9, 17], laboratorio: [8, 9, 17], tx_farmacologico: [8, 9, 17] },

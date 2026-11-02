@@ -422,10 +422,10 @@ export const content = {
 // sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
   'Asma': { definicion: [1, 2, 3, 6], criterios_dx: [1, 2, 3, 6], laboratorio: [1, 2, 3, 6], tx_farmacologico: [1, 2, 3, 6] },
-  'Crisis asmática': { definicion: [13, 14, 1], criterios_dx: [13, 14, 1], laboratorio: [13, 14, 1], tx_farmacologico: [13, 14, 1] },
-  'Asma grave y biológicos': { definicion: [8, 9, 10, 11, 12, 18], criterios_dx: [8, 9, 10, 11, 12, 18], laboratorio: [8, 9, 10, 11, 12, 18], tx_farmacologico: [8, 9, 10, 11, 12, 18] },
+  'Crisis asmática': { definicion: [13, 14, 1], criterios_dx: [14, 1], laboratorio: [14, 1], tx_farmacologico: [13, 14, 1] },
+  'Asma grave y biológicos': { definicion: [8, 9, 10, 11, 12, 18], criterios_dx: [8, 9, 10, 12, 18], laboratorio: [8, 9, 10, 11, 12, 18], tx_farmacologico: [8, 9, 10, 11, 12, 18] },
   'Asma ocupacional': { definicion: [15], criterios_dx: [15], laboratorio: [15], tx_farmacologico: [15] },
-  'Enfermedad respiratoria exacerbada por antiinflamatorios': { definicion: [16, 11], criterios_dx: [16, 11], laboratorio: [16, 11], tx_farmacologico: [16, 11] },
+  'Enfermedad respiratoria exacerbada por antiinflamatorios': { definicion: [16, 11], criterios_dx: [16], laboratorio: [16], tx_farmacologico: [16, 11] },
   'Situaciones especiales: embarazo, ejercicio y solapamiento con EPOC': { definicion: [17, 1], criterios_dx: [17, 1], laboratorio: [17, 1], tx_farmacologico: [17, 1] }
 };
 export const estigmasTitulo = 'Signos y datos de la exploración en el asma, del más frecuente al de mayor gravedad';

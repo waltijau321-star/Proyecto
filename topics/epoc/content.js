@@ -401,11 +401,11 @@ export const content = {
 // sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
   'EPOC estable': { definicion: [1, 5, 17, 18], criterios_dx: [1, 5, 17, 18], laboratorio: [1, 5, 17, 18], tx_farmacologico: [1, 5, 17, 18] },
-  'Exacerbación de la EPOC': { definicion: [2, 3, 6, 7, 8], criterios_dx: [2, 3, 6, 7, 8], laboratorio: [2, 3, 6, 7, 8], tx_farmacologico: [2, 3, 6, 7, 8] },
+  'Exacerbación de la EPOC': { definicion: [2, 3, 6, 7, 8], criterios_dx: [2, 3, 7, 8], laboratorio: [2, 3, 6, 7, 8], tx_farmacologico: [2, 3, 6, 7, 8] },
   'Insuficiencia respiratoria crónica y oxigenoterapia domiciliaria': { definicion: [9, 10, 11], criterios_dx: [9, 10, 11], laboratorio: [9, 10, 11], tx_farmacologico: [9, 10, 11] },
   'Hipertensión pulmonar y cor pulmonale': { definicion: [1, 17], criterios_dx: [1, 17], laboratorio: [1, 17], tx_farmacologico: [1, 17] },
   'Deficiencia de alfa-1-antitripsina': { definicion: [16], criterios_dx: [16], laboratorio: [16], tx_farmacologico: [16] },
-  'Comorbilidades y complicaciones del tratamiento': { definicion: [1, 12, 13, 15], criterios_dx: [1, 12, 13, 15], laboratorio: [1, 12, 13, 15], tx_farmacologico: [1, 12, 13, 15] }
+  'Comorbilidades y complicaciones del tratamiento': { definicion: [1, 12, 13, 15], criterios_dx: [1, 13], laboratorio: [1, 12, 13, 15], tx_farmacologico: [1, 12, 13, 15] }
 };
 export const estigmasTitulo = 'Signos de exploración en la EPOC, del más frecuente al de peor pronóstico';
 export const estigmas = [

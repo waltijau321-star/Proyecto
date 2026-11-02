@@ -400,7 +400,7 @@ export const compCites = {
   'Cáncer de pulmón no microcitico: tratamiento por estadio': { definicion: [2, 9, 10, 11, 12, 13], criterios_dx: [2, 9, 10, 11, 12, 13], laboratorio: [2, 9, 10, 11, 12, 13], tx_farmacologico: [2, 9, 10, 11, 12, 13] },
   'Cáncer de pulmón microcitico': { definicion: [16, 17], criterios_dx: [16, 17], laboratorio: [16, 17], tx_farmacologico: [16, 17] },
   'Síndromes paraneoplásicos y complicaciones locorregionales': { definicion: [18], criterios_dx: [18], laboratorio: [18], tx_farmacologico: [18] },
-  'Cribado y valoración funcional preoperatoria': { definicion: [3, 4, 5, 14], criterios_dx: [3, 4, 5, 14], laboratorio: [3, 4, 5, 14], tx_farmacologico: [3, 4, 5, 14] }
+  'Cribado y valoración funcional preoperatoria': { definicion: [3, 4, 5, 14], criterios_dx: [3, 14], laboratorio: [3, 14], tx_farmacologico: [3, 4, 5, 14] }
 };
 export const estigmasTitulo = 'Signos que orientan en el nódulo y en el cáncer de pulmón';
 export const estigmas = [

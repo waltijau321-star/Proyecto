@@ -404,7 +404,7 @@ export const compCites = {
   'Anemia hemolítica autoinmune fría': { fisiopatologia: [4], tx_farmacologico: [4, 5], criterios_dx: [4], laboratorio: [4, 5] },
   'Púrpura trombocitopénica trombótica (PTT)': { criterios_dx: [7], tx_intervencionista: [8, 9], laboratorio: [7], tx_farmacologico: [8, 9] },
   'Síndrome hemolítico urémico (típico y atípico)': { fisiopatologia: [11], tx_farmacologico: [10, 12], criterios_dx: [11], laboratorio: [11, 10, 12] },
-  'Hemoglobinuria paroxística nocturna (HPN)': { fisiopatologia: [13], tx_farmacologico: [14, 15], criterios_dx: [13], laboratorio: [13, 14, 15] }
+  'Hemoglobinuria paroxística nocturna (HPN)': { fisiopatologia: [13], tx_farmacologico: [14, 15], criterios_dx: [13], laboratorio: [13, 14] }
 };
 export const estigmas = [];
 export const biopsia = null;

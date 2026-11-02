@@ -419,14 +419,14 @@ export const content = {
 // lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
 // sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'HTA esencial (primaria)': { definicion: [1, 2, 6, 21], criterios_dx: [1, 2, 6, 21], laboratorio: [1, 2, 6, 21], tx_farmacologico: [1, 2, 6, 21] },
+  'HTA esencial (primaria)': { definicion: [1, 2, 6, 21], criterios_dx: [1, 2, 21], laboratorio: [1, 2, 21], tx_farmacologico: [1, 2, 6, 21] },
   'HTA secundaria (sospecha y cribado)': { definicion: [10, 20, 1], criterios_dx: [10, 20, 1], laboratorio: [10, 20, 1], tx_farmacologico: [10, 20, 1] },
-  'HTA resistente': { definicion: [9, 1, 3], criterios_dx: [9, 1, 3], laboratorio: [9, 1, 3], tx_farmacologico: [9, 1, 3] },
+  'HTA resistente': { definicion: [9, 1, 3], criterios_dx: [1, 3], laboratorio: [1, 3], tx_farmacologico: [9, 1, 3] },
   'Urgencia hipertensiva': { definicion: [13, 1], criterios_dx: [13, 1], laboratorio: [13, 1], tx_farmacologico: [13, 1] },
   'Emergencia hipertensiva': { definicion: [14, 13, 1], criterios_dx: [14, 13, 1], laboratorio: [14, 13, 1], tx_farmacologico: [14, 13, 1] },
-  'Cardiopatía hipertensiva': { definicion: [1, 16, 6], criterios_dx: [1, 16, 6], laboratorio: [1, 16, 6], tx_farmacologico: [1, 16, 6] },
+  'Cardiopatía hipertensiva': { definicion: [1, 16, 6], criterios_dx: [1, 16], laboratorio: [1, 16], tx_farmacologico: [1, 16, 6] },
   'Enfermedad renal crónica hipertensiva y nefroangioesclerosis': { definicion: [12, 1], criterios_dx: [12, 1], laboratorio: [12, 1], tx_farmacologico: [12, 1] },
-  'Enfermedad cerebrovascular, retinopatía y deterioro cognitivo': { definicion: [17, 5, 19], criterios_dx: [17, 5, 19], laboratorio: [17, 5, 19], tx_farmacologico: [17, 5, 19] }
+  'Enfermedad cerebrovascular, retinopatía y deterioro cognitivo': { definicion: [17, 5, 19], criterios_dx: [19], laboratorio: [19], tx_farmacologico: [17, 5, 19] }
 };
 export const estigmas = [];
 export const biopsia = null;

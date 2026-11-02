@@ -410,12 +410,12 @@ export const content = {
 // sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
   'EAP asintomática (marcador de aterosclerosis sistémica)': { definicion: [1, 2, 8, 9], criterios_dx: [1, 2, 8, 9], laboratorio: [1, 2, 8, 9], tx_farmacologico: [1, 2, 8, 9] },
-  'Claudicación intermitente': { definicion: [1, 2, 4, 13], criterios_dx: [1, 2, 4, 13], laboratorio: [1, 2, 4, 13], tx_farmacologico: [1, 2, 4, 13] },
+  'Claudicación intermitente': { definicion: [1, 2, 4, 13], criterios_dx: [1, 2, 4], laboratorio: [1, 2, 4], tx_farmacologico: [1, 2, 4, 13] },
   'Isquemia crónica que amenaza la extremidad': { definicion: [5, 2, 14, 6], criterios_dx: [5, 2, 14, 6], laboratorio: [5, 2, 14, 6], tx_farmacologico: [5, 2, 14, 6] },
   'Isquemia arterial aguda de la extremidad': { definicion: [16, 7, 1], criterios_dx: [16, 7, 1], laboratorio: [16, 7, 1], tx_farmacologico: [16, 7, 1] },
   'Pérdida de extremidad y amputación mayor': { definicion: [5, 1, 2], criterios_dx: [5, 1, 2], laboratorio: [5, 1, 2], tx_farmacologico: [5, 1, 2] },
   'Lesión por reperfusión y síndrome compartimental': { definicion: [16, 7], criterios_dx: [16, 7], laboratorio: [16, 7], tx_farmacologico: [16, 7] },
-  'Eventos cardiovasculares mayores y muerte': { definicion: [10, 9, 12, 2], criterios_dx: [10, 9, 12, 2], laboratorio: [10, 9, 12, 2], tx_farmacologico: [10, 9, 12, 2] },
+  'Eventos cardiovasculares mayores y muerte': { definicion: [10, 9, 12, 2], criterios_dx: [9, 2], laboratorio: [9, 2], tx_farmacologico: [10, 9, 12, 2] },
   'Úlcera isquémica infectada e infección del pie': { definicion: [18, 5, 6], criterios_dx: [18, 5, 6], laboratorio: [18, 5, 6], tx_farmacologico: [18, 5, 6] }
 };
 export const estigmas = [];

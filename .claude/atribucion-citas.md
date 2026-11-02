@@ -121,12 +121,68 @@ la consola del navegador. Se restauro desde git y se rehizo la cadena corregida.
 
 ### Precision: que significa cada cifra
 
-De los 1941 campos atribuidos, **unos 1250 lo estan a nivel de ficha y no de campo**: la cita dice
-"esta ficha se apoya en estas fuentes", no "este campo concreto sale de esta fuente". Es un salto
-grande frente a no tener nada, y es fiel a lo que el autor declaro, pero **no es lo mismo que las
-111 atribuciones hechas a mano** el 1 y el 2 de noviembre, donde cada campo se leyo y se asigno a
-la fuente cuyo asunto lo cubre. Afinar las heredadas campo por campo es una pasada posterior, y en
-los temas con 15 o 16 fuentes es trabajo de leerlas.
+Medido el 2/11/2026 sobre los 1924 campos que el parser ve en el texto (en el navegador salen
+1941; la diferencia son fichas cuyo nombre el regex no casa igual, y la medida autoritativa sigue
+siendo `tests.html`):
+
+| | |
+|---|---|
+| **Ya exactas**: la ficha declara UNA sola fuente, asi que ficha y campo son lo mismo | **446** (23%) |
+| **Precisas**: la ficha tiene varias y el campo cita una | **225** (12%) |
+| Citan dos o mas fuentes | **1253** (65%) |
+
+De esas 1253, **720 citan solo dos** y el 81% tres o menos, asi que "afinar" nunca fue leer quince
+fuentes por campo.
+
+### Y lo mas importante: afinar casi todas seria EMPEORARLAS
+
+Se intento mecanizar el afinado con el mismo criterio que funciono a mano ("quedarse con la fuente
+cuyo asunto aparece en el texto del campo") y el metodo se cayo al revisar sus propias propuestas
+una por una: **de las 16 primeras hubo que rechazar 13**. La razon es que un campo tiene varias
+clausulas y cada una se apoya en una fuente distinta. En `anemia-ferropenica`, "perfil de hierro de
+control tras el ensayo terapeutico" es del estudio de Stoffel y "en la sospecha de IRIDA, hepcidina
+serica" es del paper de TMPRSS6: las dos sostienen el campo, y quedarse con una perderia una cita
+correcta. Lo mismo en la hemoglobinuria paroxistica, donde el campo dice "eculizumab o
+ravulizumab" y hay una fuente para cada uno.
+
+**Conclusion, y cierra el pendiente**: para la gran mayoria de esos 1253 campos la cita a nivel de
+ficha NO es un defecto, es el nivel honesto. El texto no da evidencia para preferir una fuente, y
+"precisar" seria inventar. De los 1288 que habia, en **1221 no hay ninguna evidencia textual** que
+distinga.
+
+### Lo que si era un defecto: 140 citas del genero equivocado
+
+Al leer las propuestas rechazadas aparecio otro patron, y ese si lo era: una fuente **del genero
+equivocado** para el campo que sostiene. No es imprecision, es una cita que no sostiene lo que se
+le atribuye, que es el defecto de `urticaria`.
+
+- `diabetes-mellitus`, `criterios_dx` de la enfermedad renal diabetica, citaba **CREDENCE,
+  DAPA-CKD y FIDELIO**: tres ensayos de tratamiento para una tabla de criterios;
+- `delirium-coma-encefalopatias`, `tx_farmacologico`, citaba el **metodo CAM de Inouye**, que es un
+  instrumento diagnostico y no dice que farmaco dar;
+- `coagulacion-trombofilias`, `tx_farmacologico` de von Willebrand, citaba el **ISTH-BAT**, que es
+  una escala de sangrado, en un campo sobre desmopresina y concentrado de factor;
+- `anemia-aplasica`, `laboratorio`, citaba tres ensayos (Camitta, globulina de caballo frente a
+  conejo, medula frente a sangre periferica) en un campo sobre panel viral y citometria.
+
+Se clasifico cada referencia por su genero (criterios o escala / ensayo de farmacos / guia o
+revision, que vale para cualquier campo) y se marcaron los cruces: 165 campos en 53 temas. **Se
+corrigieron 140 en 44 temas**, con cuatro condiciones a la vez, que es lo que hace el arreglo
+defendible:
+
+1. el campo es `criterios_dx` o `laboratorio` y la fuente es un ensayo de farmacos, **y el texto
+   del campo no nombra ningun farmaco** (si lo nombra, el ensayo si puede sostenerlo); o el campo
+   es `tx_farmacologico` y la fuente es solo un instrumento diagnostico;
+2. al campo le queda al menos otra cita, de modo que no se abre un hueco nuevo;
+3. **la cita la puso la pasada mecanica, no el autor**. Comprobado contra el commit anterior
+   (`7959f03`): en `asma` la ficha tenia la forma plana `'Crisis asmatica': [13, 14, 1]`, asi que
+   esos indices en `criterios_dx` son de mi reparto y afinarlos no contradice a nadie. Donde el
+   campo ya tenia su cita escrita a mano, **36 casos**, no se toco nada;
+4. el total de campos atribuidos no baja: sigue en 1924, y las precisas suben de 190 a 225.
+
+Quedan **25 cruces de genero** sin tocar, los que no cumplen las cuatro condiciones. Y las 111
+atribuciones hechas a mano el 1 y el 2 de noviembre siguen siendo las unicas con precision de campo
+verificada leyendo la fuente.
 
 ### Lo que sigue sin atribuir, a proposito
 

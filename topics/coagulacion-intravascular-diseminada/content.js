@@ -317,7 +317,7 @@ export const content = {
 // lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
 // sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'CID asociada a sepsis': { definicion: [1, 2, 8], criterios_dx: [1, 2, 8], laboratorio: [1, 2, 8], tx_farmacologico: [1, 2, 8] },
+  'CID asociada a sepsis': { definicion: [1, 2, 8], criterios_dx: [1, 2, 8], laboratorio: [1, 2, 8], tx_farmacologico: [1, 8] },
   'CID obstétrica': { definicion: [5, 8], criterios_dx: [5, 8], laboratorio: [5, 8], tx_farmacologico: [5, 8] },
   'CID asociada a neoplasia': { definicion: [6, 3], criterios_dx: [6, 3], laboratorio: [6, 3], tx_farmacologico: [6, 3] },
   'CID traumática': { definicion: [7, 8], criterios_dx: [7, 8], laboratorio: [7, 8], tx_farmacologico: [7, 8] },

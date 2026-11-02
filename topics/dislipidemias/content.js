@@ -397,12 +397,12 @@ export const content = {
 // lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
 // sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Hipercolesterolemia (colesterol LDL elevado)': { definicion: [7, 3, 1, 8], criterios_dx: [7, 3, 1, 8], laboratorio: [7, 3, 1, 8], tx_farmacologico: [7, 3, 1, 8] },
+  'Hipercolesterolemia (colesterol LDL elevado)': { definicion: [7, 3, 1, 8], criterios_dx: [7, 3, 1], laboratorio: [7, 3, 1], tx_farmacologico: [7, 3, 1, 8] },
   'Hipercolesterolemia familiar': { definicion: [16, 3, 1], criterios_dx: [16, 3, 1], laboratorio: [16, 3, 1], tx_farmacologico: [16, 3, 1] },
-  'Hipertrigliceridemia': { definicion: [19, 14, 2], criterios_dx: [19, 14, 2], laboratorio: [19, 14, 2], tx_farmacologico: [19, 14, 2] },
-  'Lipoproteina(a) elevada': { definicion: [9, 21, 1], criterios_dx: [9, 21, 1], laboratorio: [9, 21, 1], tx_farmacologico: [9, 21, 1] },
+  'Hipertrigliceridemia': { definicion: [19, 14, 2], criterios_dx: [19, 2], laboratorio: [19, 2], tx_farmacologico: [19, 14, 2] },
+  'Lipoproteina(a) elevada': { definicion: [9, 21, 1], criterios_dx: [9, 1], laboratorio: [9, 1], tx_farmacologico: [9, 21, 1] },
   'Dislipidemia secundaria': { definicion: [3, 1], criterios_dx: [3, 1], laboratorio: [3, 1], tx_farmacologico: [3, 1] },
-  'Enfermedad cardiovascular ateroesclerótica': { definicion: [8, 7, 10, 11], criterios_dx: [8, 7, 10, 11], laboratorio: [8, 7, 10, 11], tx_farmacologico: [8, 7, 10, 11] },
+  'Enfermedad cardiovascular ateroesclerótica': { definicion: [8, 7, 10, 11], criterios_dx: [7, 10], laboratorio: [7, 10], tx_farmacologico: [8, 7, 10, 11] },
   'Pancreatitis por hipertrigliceridemia grave': { definicion: [19, 20], criterios_dx: [19, 20], laboratorio: [19, 20], tx_farmacologico: [19, 20] },
   'Intolerancia a las estatinas (síntomas musculares asociados a estatinas)': { definicion: [18, 12], criterios_dx: [18, 12], laboratorio: [18, 12], tx_farmacologico: [18, 12] }
 };
