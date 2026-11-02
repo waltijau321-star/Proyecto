@@ -166,6 +166,22 @@ export function isQuizCompleted(topicId, quiz) {
   return list.every(q => !!store[questionId(q)]);
 }
 
+// Cuántas preguntas de un tema se han respondido al menos una vez, SIN necesitar el banco.
+// Inicio lo usa para pintar el progreso sin descargar los 106 temas: el almacén de cada tema
+// (`rm:quiz-srs:<id>`) lleva una clave por pregunta respondida, así que contar las claves basta.
+// Dos diferencias deliberadas con remainingToComplete(), que sí tiene el banco delante y por eso
+// sigue siendo el que manda en el candado de las fichas:
+//  - no migra el formato viejo (claves = índice), porque migrar necesita el banco. No importa
+//    para contar: una clave numérica también es una pregunta respondida.
+//  - una pregunta respondida y luego reescrita deja su id en el almacén a propósito (ver
+//    migrate(): si la pregunta vuelve, su progreso sigue ahí), así que el recuento puede sobrar
+//    por ese lado. Se acota con `total` para que el porcentaje de Inicio no pase del 100%.
+export function answeredCount(topicId, total) {
+  const max = Math.max(0, Number(total) || 0);
+  if (!max) return 0;
+  return Math.min(Object.keys(loadQuizSRS(topicId)).length, max);
+}
+
 // Cuántas preguntas del banco faltan por responder al menos una vez (para el mensaje del candado).
 export function remainingToComplete(topicId, quiz) {
   const list = Array.isArray(quiz) ? quiz : [];

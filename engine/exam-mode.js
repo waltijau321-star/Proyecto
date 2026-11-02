@@ -328,8 +328,17 @@ function openHistoryModal() {
 }
 
 export async function mountExamSummary(root) {
-  const pool = await loadTopicPool();
-  if (!pool.length) {
+  // NO carga ningún tema. Lo único que necesitaba del banco completo era saber si existe al
+  // menos un tema con preguntas, y eso lo dice el registro: antes hacía `await loadTopicPool()`,
+  // o sea 205 peticiones y 7.1 MB en la portada, para evaluar un booleano. Todo lo demás que
+  // pinta sale del historial guardado. El banco de verdad se carga cuando el usuario arranca un
+  // examen, que es cuando hace falta.
+  // Diferencia con el recuento anterior, por si alguna vez importa: `pool` contaba los temas que
+  // además habían cargado bien, así que si TODOS los módulos fallaran se veía el aviso de "sin
+  // temas construidos"; ahora se vería la interfaz normal. Para que eso ocurriera tendría que
+  // estar roto el contenido entero de la app, y una prueba ya garantiza que `preguntas` en el
+  // registro coincide con el banco real de cada tema.
+  if (!registry.some(t => (t.preguntas || 0) > 0)) {
     root.innerHTML = `<p class="home-subhead-note">El generador de exámenes estará disponible cuando haya al menos un tema con preguntas construido.</p>`;
     return;
   }

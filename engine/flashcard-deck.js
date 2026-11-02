@@ -7,21 +7,31 @@ import { syncGet, syncSet } from './cloud-sync.js';
 import { trackEvent } from './usage-tracking.js';
 import { SRS_INTERVALS, SRS_MAX_BOX } from './quiz-srs.js';
 
-let CARD_POOL = null; // [{topicId, topicTitulo, cardIndex, front, back}]
 let reviewState = { deck: [], index: 0, showBack: false };
 
 function fcKey(topicId) { return 'flashcard-progress:' + topicId; }
 
+// Carga SOLO los temas en los que ya se calificó alguna ficha, y es exacto, no una
+// aproximación: deckSummary() descarta toda ficha sin progreso guardado, así que un tema sin
+// progreso no puede aportar nada al mazo. Antes recorría los 106 temas (205 peticiones y 7.1 MB
+// en la portada) para acabar quedándose con las fichas de dos o tres. Para quien no ha
+// calificado ninguna ficha todavía, ahora no carga ni un tema.
+//
+// Ya no se memoriza el resultado, y la memoria tenía que irse justo por este cambio: el conjunto
+// de temas con progreso CAMBIA mientras la app está abierta (basta calificar una ficha en un
+// tema nuevo y volver a Inicio). Un mazo memorizado se habría quedado sin ese tema hasta
+// recargar la página. Reconstruirlo es barato porque loadTopic() sí memoriza los módulos: lo
+// que se repite es armar un array sobre lo que ya está en memoria.
 async function loadCardPool() {
-  if (CARD_POOL) return CARD_POOL;
   const cards = [];
   for (const t of registry) {
+    const prog = syncGet(fcKey(t.id), {});
+    if (!prog || !Object.keys(prog).length) continue;
     const topic = await loadTopic(t.id);
     if (!topic) continue;
     const flashcards = (topic.study && topic.study.flashcards) || [];
     flashcards.forEach((c, i) => cards.push({ topicId: t.id, topicTitulo: topic.meta.titulo, cardIndex: i, front: c.front, back: c.back }));
   }
-  CARD_POOL = cards;
   return cards;
 }
 

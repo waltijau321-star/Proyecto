@@ -137,7 +137,7 @@ o una cascada cuyo primer paso las tiene.
 
 ## 2. Lo que sigue abierto de octubre, re-medido
 
-### 2.1 Inicio carga los 106 temas antes de pintar, y empeoró (media)
+### 2.1 Inicio carga los 106 temas antes de pintar, y empeoró (media) · RESUELTO el 1/11/2026
 
 | | Octubre (102 temas) | Hoy (106 temas) |
 |---|---|---|
@@ -151,6 +151,27 @@ a `loadTopic`. Medido en localhost, que es el mejor caso posible: en red móvil 
 con la pantalla vacía. El arreglo propuesto en octubre sigue siendo el correcto: meter `titulo`,
 `subtitulo`, `accent` y el número de preguntas en la entrada del registro, y construir el índice
 global en `requestIdleCallback`.
+
+**Cerrado el 1 de noviembre de 2026, y resultó ser tres cosas, no una.** Al medirlo de verdad
+apareció que `mountHomeSection` era solo el primer tercio: `mountExamSummary` también cargaba el
+banco completo (205 peticiones) para evaluar un `if (!pool.length)`, es decir para saber si existe
+algún tema con preguntas, y el mazo de fichas de la portada recorría los 106 temas para quedarse
+con las fichas de dos o tres, porque `deckSummary()` descarta toda ficha sin progreso guardado.
+Las tres cerradas, y las tres de forma exacta, sin aproximar ninguna cifra que el usuario ve:
+
+| | Antes | Ahora |
+|---|---|---|
+| Clic en Inicio a portada pintada | 2667 ms | **15 ms** |
+| Peticiones | 208 | **0** |
+| Transferido | 7.28 MB | **0 MB** |
+
+De paso quedó claro que hacían falta dos campos en el registro, no cuatro: `home.js` nunca usó
+`titulo` ni `subtitulo` del tema (toma las etiquetas del temario), solo `accent` y el tamaño del
+banco. El progreso sale de `answeredCount()`, que cuenta las claves del almacén del repaso
+espaciado sin necesitar el banco, con tope para que la portada no pueda pasar del 100%. Y el
+índice del buscador, que sí necesita los módulos, se construye en `requestIdleCallback` con
+repliegue a `setTimeout`, fuera del camino crítico: hasta que termina, el buscador devuelve menos
+resultados en lugar de retrasar la portada.
 
 ### 2.2 El SRS sigue topando en 14 días (alta) · RESUELTO el 1/11/2026
 
@@ -323,8 +344,9 @@ de donde venia cada arreglo.
    y sigue pendiente: es el punto 11 de esta lista.
 6. ~~Resumen de falladas al terminar el examen (2.3).~~ Hecho, agrupado por tema y con boton al
    tema. Verificado corriendo un examen de 4 preguntas y fallando 3 a proposito.
-7. Metadatos en el registro para que Inicio no espere a 106 temas (2.1). **Pendiente a proposito**,
-   ver la seccion 7.
+7. ~~Metadatos en el registro para que Inicio no espere a 106 temas (2.1).~~ Hecho el 1/11/2026.
+   Eran tres sitios y no uno (ver 2.1): la portada pasa de 2667 ms, 208 peticiones y 7.28 MB a
+   15 ms, cero peticiones y cero bytes. Una prueba por tema vigila los dos campos duplicados.
 
 **Este mes**
 8. ~~Extender los intervalos del SRS y anadir factor de facilidad (2.2).~~ Hecho: 9 cajas,
@@ -358,13 +380,8 @@ de trabajo, vive aparte en la seccion 5 y no se repite aqui.
 
 **Mias, puedo hacerlas sin que nadie decida nada**
 
-- **Los metadatos del registro para Inicio (2.1).** Es un refactor de verdad, no un arreglo:
-  cuatro campos nuevos en las 106 entradas del registro, `home.js` dejando de llamar a
-  `loadTopic`, el indice global movido a `requestIdleCallback` y la seccion Calc cargando
-  perezosa. Toca el arranque de la app, que es justo donde una regresion se nota en todos los
-  usuarios a la vez. Va en su propio cambio, con su propia medicion antes y despues, y no
-  mezclado con los doce arreglos de hoy. Es el unico pendiente que **empeora solo**: cada tema
-  nuevo encarece la portada.
+_(Los metadatos de Inicio, que abrian esta lista, se cerraron el 1 de noviembre: ver 2.1.)_
+
 - **Las tildes que faltan en 50 temas (la otra mitad de 2.5).** No es mecanizable: "diagnostico"
   puede ser sustantivo o verbo, y una tilde mal puesta en texto clinico es peor que la falta. Va
   tema por tema revisando el diff.

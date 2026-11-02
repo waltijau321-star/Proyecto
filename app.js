@@ -8,7 +8,7 @@ import { setGeneralCalcs, mountAllCalculators } from './engine/calculators.js';
 import { generalCalculators } from './engine/general-calc.js';
 import { mountProtocols } from './engine/protocols.js';
 import { mountHome } from './engine/home.js';
-import { remainingToComplete } from './engine/quiz-srs.js';
+import { answeredCount } from './engine/quiz-srs.js';
 import { maybeShowSplash } from './engine/logo-splash.js';
 import { initAuth } from './engine/auth.js';
 import { initCloudSync } from './engine/cloud-sync.js';
@@ -135,21 +135,21 @@ async function selectTopic(id, { reflectUrl = true } = {}) {
 }
 
 /* ---------- Inicio (portada: temario + progreso acumulado del quiz) ---------- */
-async function mountHomeSection() {
-  const topics = [];
-  let totalQuestions = 0;
-  let answeredQuestions = 0;
-  for (const t of registry) {
-    const topic = await loadTopic(t.id);
-    if (!topic) continue;
-    const quiz = (topic.study && topic.study.quiz) || [];
-    const quizCount = quiz.length;
-    totalQuestions += quizCount;
-    // "Contestada" = ya se respondió al menos una vez (mismo criterio que desbloquea las fichas
-    // de repaso del tema, ver engine/quiz-srs.js), no el total de intentos.
-    if (quizCount) answeredQuestions += quizCount - remainingToComplete(t.id, quiz);
-    topics.push({ id: t.id, titulo: topic.meta.titulo, subtitulo: topic.meta.subtitulo, accent: topic.meta.accent, quizCount });
-  }
+// NO carga ningún tema, y es deliberado. Antes llamaba a loadTopic() por cada entrada del
+// registro para leer dos campos (`accent` y el tamaño del banco), lo que costaba 208 peticiones
+// y 7.3 MB antes de pintar: la portada tardaba 2.7 s en localhost y más de 10 s en red móvil,
+// con la pantalla vacía, y empeoraba con cada tema añadido. Esos dos campos viven ahora en la
+// entrada del registro, con una prueba que los compara con los módulos reales, y el progreso
+// sale del almacén del repaso espaciado (answeredCount), que tampoco necesita el banco.
+// Ya no es `async`: la portada se pinta en el mismo cuadro.
+function mountHomeSection() {
+  const topics = registry.map(t => ({
+    id: t.id, titulo: t.titulo, accent: t.accent, quizCount: t.preguntas || 0
+  }));
+  const totalQuestions = topics.reduce((n, t) => n + t.quizCount, 0);
+  // "Contestada" = ya se respondió al menos una vez, el mismo criterio que desbloquea las fichas
+  // de repaso del tema (ver engine/quiz-srs.js), no el total de intentos.
+  const answeredQuestions = topics.reduce((n, t) => n + answeredCount(t.id, t.quizCount), 0);
   mountHome(document.getElementById('home-root'), {
     topics, totalQuestions, answeredQuestions, temarioBlocks,
     navigateToTopic: async (id) => {
@@ -260,12 +260,37 @@ async function init() {
       maybeShowSplash()
     ]);
     showSection('inicio');
-    buildAndSetGlobalIndex();
 
     // Service worker (PWA): solo bajo http/https, no en file://
+    // Va ANTES de programar el índice del buscador a propósito: es lo que hace que la app
+    // funcione sin conexión, y no puede quedar a merced de que la línea siguiente falle.
     if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
       navigator.serviceWorker.register('./sw.js').catch(() => {});
     }
+
+    // El índice del buscador sí recorre los 106 temas (necesita las complicaciones, los estigmas
+    // y las escalas de cada uno, que solo están en los módulos), así que construirlo aquí mismo
+    // volvía a meter la descarga completa en el camino crítico del arranque: se construye cuando
+    // el navegador queda libre. Hasta entonces el buscador devuelve menos resultados, que es
+    // mejor que una portada en blanco durante segundos.
+    // Tres precauciones, y ninguna es de adorno:
+    //  - se llama como `window.requestIdleCallback(...)`, con su receptor, porque desprendido del
+    //    objeto (`const f = window.requestIdleCallback; f(...)`) hay motores que lanzan
+    //    "Illegal invocation";
+    //  - va envuelto en try/catch y con repliegue a setTimeout, para que ni eso ni la falta de
+    //    la API en un navegador viejo (Safari no la trajo hasta 2024) deje el buscador sin
+    //    índice para siempre;
+    //  - con `timeout`, porque sin él requestIdleCallback puede no dispararse nunca si la
+    //    pestaña queda de fondo, que es justo lo que pasa cuando alguien abre la app y se va.
+    const alRatito = (fn) => {
+      try {
+        if (typeof window.requestIdleCallback === 'function') window.requestIdleCallback(fn, { timeout: 3000 });
+        else setTimeout(fn, 200);
+      } catch (e) {
+        setTimeout(fn, 200);
+      }
+    };
+    alRatito(() => buildAndSetGlobalIndex());
   }
 
   // El arranque real de la app espera a que Firebase Auth confirme si hay sesión iniciada

@@ -2,10 +2,18 @@
 // Catálogo de temas de estudio. Cada entrada carga de forma perezosa (import dinámico)
 // sus tres archivos de contenido y los compone en un único objeto `topic` que consume el motor.
 // Agregar un tema nuevo = crear su carpeta con content.js, calculators.js y study.js, y añadir una entrada aquí.
+//
+// `accent` y `preguntas` están DUPLICADOS aquí a propósito: son los dos únicos datos de un tema
+// que la portada necesita, y leerlos del módulo obligaba a Inicio a cargar los 106 temas antes
+// de pintar nada (208 peticiones y 7.3 MB, y cada tema nuevo lo encarecía un poco más). La
+// fuente de verdad sigue siendo el módulo del tema: `meta.accent` y la longitud de
+// `study.quiz`. Una prueba de tests.js compara las dos copias tema por tema y falla si se
+// desvían, que es lo único que hace sostenible la duplicación: al añadir o quitar preguntas
+// hay que actualizar `preguntas` aquí, y la prueba lo recuerda.
 
 export const registry = [
   {
-    id: 'cirrosis-hepatica', titulo: 'Cirrosis',
+    id: 'cirrosis-hepatica', titulo: 'Cirrosis', accent: '#7c2d2d', preguntas: 60,
     load: () => Promise.all([
       import('./cirrosis-hepatica/content.js'),
       import('./cirrosis-hepatica/calculators.js'),
@@ -13,7 +21,7 @@ export const registry = [
     ])
   },
   {
-    id: 'sepsis', titulo: 'Sepsis / Choque séptico',
+    id: 'sepsis', titulo: 'Sepsis / Choque séptico', accent: '#8c3a34', preguntas: 36,
     load: () => Promise.all([
       import('./sepsis/content.js'),
       import('./sepsis/calculators.js'),
@@ -21,7 +29,7 @@ export const registry = [
     ])
   },
   {
-    id: 'vasopresores-sedantes', titulo: 'Vasopresores y Sedantes',
+    id: 'vasopresores-sedantes', titulo: 'Vasopresores y Sedantes', accent: '#3d5a73', preguntas: 41,
     load: () => Promise.all([
       import('./vasopresores-sedantes/content.js'),
       import('./vasopresores-sedantes/calculators.js'),
@@ -29,7 +37,7 @@ export const registry = [
     ])
   },
   {
-    id: 'historia-clinica', titulo: 'Historia Clínica y Anamnesis Dirigida',
+    id: 'historia-clinica', titulo: 'Historia Clínica y Anamnesis Dirigida', accent: '#3d5a73', preguntas: 24,
     load: () => Promise.all([
       import('./historia-clinica/content.js'),
       import('./historia-clinica/calculators.js'),
@@ -37,7 +45,7 @@ export const registry = [
     ])
   },
   {
-    id: 'exploracion-cardiovascular', titulo: 'Exploración Cardiovascular',
+    id: 'exploracion-cardiovascular', titulo: 'Exploración Cardiovascular', accent: '#9c2b3e', preguntas: 35,
     load: () => Promise.all([
       import('./exploracion-cardiovascular/content.js'),
       import('./exploracion-cardiovascular/calculators.js'),
@@ -45,7 +53,7 @@ export const registry = [
     ])
   },
   {
-    id: 'exploracion-respiratoria', titulo: 'Exploración Respiratoria',
+    id: 'exploracion-respiratoria', titulo: 'Exploración Respiratoria', accent: '#2f6b5e', preguntas: 33,
     load: () => Promise.all([
       import('./exploracion-respiratoria/content.js'),
       import('./exploracion-respiratoria/calculators.js'),
@@ -53,7 +61,7 @@ export const registry = [
     ])
   },
   {
-    id: 'exploracion-abdominal', titulo: 'Exploración Abdominal',
+    id: 'exploracion-abdominal', titulo: 'Exploración Abdominal', accent: '#7a4a23', preguntas: 38,
     load: () => Promise.all([
       import('./exploracion-abdominal/content.js'),
       import('./exploracion-abdominal/calculators.js'),
@@ -61,7 +69,7 @@ export const registry = [
     ])
   },
   {
-    id: 'exploracion-neurologica', titulo: 'Exploración Neurológica',
+    id: 'exploracion-neurologica', titulo: 'Exploración Neurológica', accent: '#4a3d73', preguntas: 45,
     load: () => Promise.all([
       import('./exploracion-neurologica/content.js'),
       import('./exploracion-neurologica/calculators.js'),
@@ -69,7 +77,7 @@ export const registry = [
     ])
   },
   {
-    id: 'exploracion-piel-faneras', titulo: 'Exploración de Piel y Faneras',
+    id: 'exploracion-piel-faneras', titulo: 'Exploración de Piel y Faneras', accent: '#8a6a1f', preguntas: 36,
     load: () => Promise.all([
       import('./exploracion-piel-faneras/content.js'),
       import('./exploracion-piel-faneras/calculators.js'),
@@ -77,7 +85,7 @@ export const registry = [
     ])
   },
   {
-    id: 'exploracion-osteoarticular', titulo: 'Exploración Osteoarticular y de Extremidades',
+    id: 'exploracion-osteoarticular', titulo: 'Exploración Osteoarticular y de Extremidades', accent: '#2e5f6b', preguntas: 36,
     load: () => Promise.all([
       import('./exploracion-osteoarticular/content.js'),
       import('./exploracion-osteoarticular/calculators.js'),
@@ -85,7 +93,7 @@ export const registry = [
     ])
   },
   {
-    id: 'exploracion-cabeza-cuello', titulo: 'Exploración de Cabeza, Cuello y Ganglios',
+    id: 'exploracion-cabeza-cuello', titulo: 'Exploración de Cabeza, Cuello y Ganglios', accent: '#6b4a2e', preguntas: 32,
     load: () => Promise.all([
       import('./exploracion-cabeza-cuello/content.js'),
       import('./exploracion-cabeza-cuello/calculators.js'),
@@ -93,7 +101,7 @@ export const registry = [
     ])
   },
   {
-    id: 'signos-clasicos', titulo: 'Signos y Maniobras Clásicas',
+    id: 'signos-clasicos', titulo: 'Signos y Maniobras Clásicas', accent: '#5c3d5c', preguntas: 33,
     load: () => Promise.all([
       import('./signos-clasicos/content.js'),
       import('./signos-clasicos/calculators.js'),
@@ -101,7 +109,7 @@ export const registry = [
     ])
   },
   {
-    id: 'enfermedad-cerebrovascular', titulo: 'Enfermedad Cerebrovascular',
+    id: 'enfermedad-cerebrovascular', titulo: 'Enfermedad Cerebrovascular', accent: '#4a2d5e', preguntas: 40,
     load: () => Promise.all([
       import('./enfermedad-cerebrovascular/content.js'),
       import('./enfermedad-cerebrovascular/calculators.js'),
@@ -109,7 +117,7 @@ export const registry = [
     ])
   },
   {
-    id: 'estado-epileptico', titulo: 'Estado Epiléptico y Epilepsia',
+    id: 'estado-epileptico', titulo: 'Estado Epiléptico y Epilepsia', accent: '#5c2d4a', preguntas: 40,
     load: () => Promise.all([
       import('./estado-epileptico/content.js'),
       import('./estado-epileptico/calculators.js'),
@@ -117,7 +125,7 @@ export const registry = [
     ])
   },
   {
-    id: 'cefaleas', titulo: 'Cefaleas',
+    id: 'cefaleas', titulo: 'Cefaleas', accent: '#7a4a2e', preguntas: 40,
     load: () => Promise.all([
       import('./cefaleas/content.js'),
       import('./cefaleas/calculators.js'),
@@ -125,7 +133,7 @@ export const registry = [
     ])
   },
   {
-    id: 'miocardiopatias', titulo: 'Miocardiopatías',
+    id: 'miocardiopatias', titulo: 'Miocardiopatías', accent: '#7a1f3d', preguntas: 37,
     load: () => Promise.all([
       import('./miocardiopatias/content.js'),
       import('./miocardiopatias/calculators.js'),
@@ -133,7 +141,7 @@ export const registry = [
     ])
   },
   {
-    id: 'sindromes-mielodisplasicos', titulo: 'Síndromes Mielodisplásicos',
+    id: 'sindromes-mielodisplasicos', titulo: 'Síndromes Mielodisplásicos', accent: '#2d5c47', preguntas: 35,
     load: () => Promise.all([
       import('./sindromes-mielodisplasicos/content.js'),
       import('./sindromes-mielodisplasicos/calculators.js'),
@@ -141,7 +149,7 @@ export const registry = [
     ])
   },
   {
-    id: 'sindromes-mieloproliferativos', titulo: 'Síndromes Mieloproliferativos',
+    id: 'sindromes-mieloproliferativos', titulo: 'Síndromes Mieloproliferativos', accent: '#4a6b8c', preguntas: 35,
     load: () => Promise.all([
       import('./sindromes-mieloproliferativos/content.js'),
       import('./sindromes-mieloproliferativos/calculators.js'),
@@ -149,7 +157,7 @@ export const registry = [
     ])
   },
   {
-    id: 'anemia-aplasica', titulo: 'Anemia Aplásica',
+    id: 'anemia-aplasica', titulo: 'Anemia Aplásica', accent: '#8c4a3d', preguntas: 35,
     load: () => Promise.all([
       import('./anemia-aplasica/content.js'),
       import('./anemia-aplasica/calculators.js'),
@@ -157,7 +165,7 @@ export const registry = [
     ])
   },
   {
-    id: 'anemias-hemoliticas-hereditarias', titulo: 'Anemias Hemolíticas Hereditarias',
+    id: 'anemias-hemoliticas-hereditarias', titulo: 'Anemias Hemolíticas Hereditarias', accent: '#5c4a7a', preguntas: 35,
     load: () => Promise.all([
       import('./anemias-hemoliticas-hereditarias/content.js'),
       import('./anemias-hemoliticas-hereditarias/calculators.js'),
@@ -165,7 +173,7 @@ export const registry = [
     ])
   },
   {
-    id: 'anemias-hemoliticas-adquiridas', titulo: 'Anemias Hemolíticas Adquiridas',
+    id: 'anemias-hemoliticas-adquiridas', titulo: 'Anemias Hemolíticas Adquiridas', accent: '#6b2d4a', preguntas: 35,
     load: () => Promise.all([
       import('./anemias-hemoliticas-adquiridas/content.js'),
       import('./anemias-hemoliticas-adquiridas/calculators.js'),
@@ -173,7 +181,7 @@ export const registry = [
     ])
   },
   {
-    id: 'anemia-ferropenica', titulo: 'Anemia Ferropénica',
+    id: 'anemia-ferropenica', titulo: 'Anemia Ferropénica', accent: '#8c6b2d', preguntas: 35,
     load: () => Promise.all([
       import('./anemia-ferropenica/content.js'),
       import('./anemia-ferropenica/calculators.js'),
@@ -181,7 +189,7 @@ export const registry = [
     ])
   },
   {
-    id: 'anemia-megaloblastica', titulo: 'Anemia Megaloblástica',
+    id: 'anemia-megaloblastica', titulo: 'Anemia Megaloblástica', accent: '#5c3d8c', preguntas: 35,
     load: () => Promise.all([
       import('./anemia-megaloblastica/content.js'),
       import('./anemia-megaloblastica/calculators.js'),
@@ -189,7 +197,7 @@ export const registry = [
     ])
   },
   {
-    id: 'anemia-enfermedad-cronica', titulo: 'Anemia de la Enfermedad Crónica',
+    id: 'anemia-enfermedad-cronica', titulo: 'Anemia de la Enfermedad Crónica', accent: '#4a5c73', preguntas: 35,
     load: () => Promise.all([
       import('./anemia-enfermedad-cronica/content.js'),
       import('./anemia-enfermedad-cronica/calculators.js'),
@@ -197,7 +205,7 @@ export const registry = [
     ])
   },
   {
-    id: 'policitemia-secundaria', titulo: 'Policitemia Secundaria',
+    id: 'policitemia-secundaria', titulo: 'Policitemia Secundaria', accent: '#2e6b6b', preguntas: 35,
     load: () => Promise.all([
       import('./policitemia-secundaria/content.js'),
       import('./policitemia-secundaria/calculators.js'),
@@ -205,7 +213,7 @@ export const registry = [
     ])
   },
   {
-    id: 'alteraciones-serie-blanca', titulo: 'Alteraciones de la Serie Blanca',
+    id: 'alteraciones-serie-blanca', titulo: 'Alteraciones de la Serie Blanca', accent: '#3d6b8c', preguntas: 35,
     load: () => Promise.all([
       import('./alteraciones-serie-blanca/content.js'),
       import('./alteraciones-serie-blanca/calculators.js'),
@@ -213,7 +221,7 @@ export const registry = [
     ])
   },
   {
-    id: 'porfirias', titulo: 'Porfirias',
+    id: 'porfirias', titulo: 'Porfirias', accent: '#6b3d5c', preguntas: 35,
     load: () => Promise.all([
       import('./porfirias/content.js'),
       import('./porfirias/calculators.js'),
@@ -221,7 +229,7 @@ export const registry = [
     ])
   },
   {
-    id: 'hemoglobinopatias', titulo: 'Hemoglobinopatías',
+    id: 'hemoglobinopatias', titulo: 'Hemoglobinopatías', accent: '#7a1f3d', preguntas: 35,
     load: () => Promise.all([
       import('./hemoglobinopatias/content.js'),
       import('./hemoglobinopatias/calculators.js'),
@@ -229,7 +237,7 @@ export const registry = [
     ])
   },
   {
-    id: 'leucemia-aguda', titulo: 'Leucemia Aguda',
+    id: 'leucemia-aguda', titulo: 'Leucemia Aguda', accent: '#8c3a34', preguntas: 35,
     load: () => Promise.all([
       import('./leucemia-aguda/content.js'),
       import('./leucemia-aguda/calculators.js'),
@@ -237,7 +245,7 @@ export const registry = [
     ])
   },
   {
-    id: 'leucemia-linfocitica-cronica', titulo: 'Leucemia Linfocítica Crónica',
+    id: 'leucemia-linfocitica-cronica', titulo: 'Leucemia Linfocítica Crónica', accent: '#5c3d8c', preguntas: 35,
     load: () => Promise.all([
       import('./leucemia-linfocitica-cronica/content.js'),
       import('./leucemia-linfocitica-cronica/calculators.js'),
@@ -245,7 +253,7 @@ export const registry = [
     ])
   },
   {
-    id: 'linfomas', titulo: 'Linfomas',
+    id: 'linfomas', titulo: 'Linfomas', accent: '#6b3d5c', preguntas: 35,
     load: () => Promise.all([
       import('./linfomas/content.js'),
       import('./linfomas/calculators.js'),
@@ -253,7 +261,7 @@ export const registry = [
     ])
   },
   {
-    id: 'mieloma-multiple', titulo: 'Mieloma Múltiple',
+    id: 'mieloma-multiple', titulo: 'Mieloma Múltiple', accent: '#7a1f3d', preguntas: 35,
     load: () => Promise.all([
       import('./mieloma-multiple/content.js'),
       import('./mieloma-multiple/calculators.js'),
@@ -261,7 +269,7 @@ export const registry = [
     ])
   },
   {
-    id: 'linfadenopatias', titulo: 'Linfadenopatías',
+    id: 'linfadenopatias', titulo: 'Linfadenopatías', accent: '#2d6b5c', preguntas: 35,
     load: () => Promise.all([
       import('./linfadenopatias/content.js'),
       import('./linfadenopatias/calculators.js'),
@@ -269,7 +277,7 @@ export const registry = [
     ])
   },
   {
-    id: 'hiperesplenismo', titulo: 'Hiperesplenismo',
+    id: 'hiperesplenismo', titulo: 'Hiperesplenismo', accent: '#5c6b2d', preguntas: 35,
     load: () => Promise.all([
       import('./hiperesplenismo/content.js'),
       import('./hiperesplenismo/calculators.js'),
@@ -277,7 +285,7 @@ export const registry = [
     ])
   },
   {
-    id: 'sindrome-hiperviscosidad', titulo: 'Síndrome de Hiperviscosidad',
+    id: 'sindrome-hiperviscosidad', titulo: 'Síndrome de Hiperviscosidad', accent: '#6b3d5c', preguntas: 35,
     load: () => Promise.all([
       import('./sindrome-hiperviscosidad/content.js'),
       import('./sindrome-hiperviscosidad/calculators.js'),
@@ -285,7 +293,7 @@ export const registry = [
     ])
   },
   {
-    id: 'coagulacion-trombofilias', titulo: 'Trastornos de la Coagulación y Trombofilias',
+    id: 'coagulacion-trombofilias', titulo: 'Trastornos de la Coagulación y Trombofilias', accent: '#5c3d73', preguntas: 35,
     load: () => Promise.all([
       import('./coagulacion-trombofilias/content.js'),
       import('./coagulacion-trombofilias/calculators.js'),
@@ -293,7 +301,7 @@ export const registry = [
     ])
   },
   {
-    id: 'alteraciones-plaquetarias-cuantitativas', titulo: 'Alteraciones Plaquetarias Cuantitativas',
+    id: 'alteraciones-plaquetarias-cuantitativas', titulo: 'Alteraciones Plaquetarias Cuantitativas', accent: '#8a6a1f', preguntas: 35,
     load: () => Promise.all([
       import('./alteraciones-plaquetarias-cuantitativas/content.js'),
       import('./alteraciones-plaquetarias-cuantitativas/calculators.js'),
@@ -301,7 +309,7 @@ export const registry = [
     ])
   },
   {
-    id: 'transfusion-hemoderivados', titulo: 'Transfusión de Hemoderivados',
+    id: 'transfusion-hemoderivados', titulo: 'Transfusión de Hemoderivados', accent: '#1f5c73', preguntas: 35,
     load: () => Promise.all([
       import('./transfusion-hemoderivados/content.js'),
       import('./transfusion-hemoderivados/calculators.js'),
@@ -309,7 +317,7 @@ export const registry = [
     ])
   },
   {
-    id: 'coagulacion-intravascular-diseminada', titulo: 'Coagulación Intravascular Diseminada',
+    id: 'coagulacion-intravascular-diseminada', titulo: 'Coagulación Intravascular Diseminada', accent: '#8c1f3d', preguntas: 35,
     load: () => Promise.all([
       import('./coagulacion-intravascular-diseminada/content.js'),
       import('./coagulacion-intravascular-diseminada/calculators.js'),
@@ -317,7 +325,7 @@ export const registry = [
     ])
   },
   {
-    id: 'traumatismo-craneoencefalico', titulo: 'Traumatismo Craneoencefálico',
+    id: 'traumatismo-craneoencefalico', titulo: 'Traumatismo Craneoencefálico', accent: '#4a3d73', preguntas: 35,
     load: () => Promise.all([
       import('./traumatismo-craneoencefalico/content.js'),
       import('./traumatismo-craneoencefalico/calculators.js'),
@@ -325,7 +333,7 @@ export const registry = [
     ])
   },
   {
-    id: 'neoplasias-snc-hipertension-intracraneal', titulo: 'Neoplasias del SNC e Hipertensión Intracraneal',
+    id: 'neoplasias-snc-hipertension-intracraneal', titulo: 'Neoplasias del SNC e Hipertensión Intracraneal', accent: '#5c4a2e', preguntas: 35,
     load: () => Promise.all([
       import('./neoplasias-snc-hipertension-intracraneal/content.js'),
       import('./neoplasias-snc-hipertension-intracraneal/calculators.js'),
@@ -333,7 +341,7 @@ export const registry = [
     ])
   },
   {
-    id: 'sindrome-aortico-agudo', titulo: 'Síndrome Aórtico Agudo',
+    id: 'sindrome-aortico-agudo', titulo: 'Síndrome Aórtico Agudo', accent: '#7a1f3d', preguntas: 35,
     load: () => Promise.all([
       import('./sindrome-aortico-agudo/content.js'),
       import('./sindrome-aortico-agudo/calculators.js'),
@@ -341,7 +349,7 @@ export const registry = [
     ])
   },
   {
-    id: 'trastornos-del-movimiento', titulo: 'Trastornos del Movimiento',
+    id: 'trastornos-del-movimiento', titulo: 'Trastornos del Movimiento', accent: '#3f6b52', preguntas: 35,
     load: () => Promise.all([
       import('./trastornos-del-movimiento/content.js'),
       import('./trastornos-del-movimiento/calculators.js'),
@@ -349,7 +357,7 @@ export const registry = [
     ])
   },
   {
-    id: 'esclerosis-multiple', titulo: 'Esclerosis Múltiple',
+    id: 'esclerosis-multiple', titulo: 'Esclerosis Múltiple', accent: '#2e5c7a', preguntas: 35,
     load: () => Promise.all([
       import('./esclerosis-multiple/content.js'),
       import('./esclerosis-multiple/calculators.js'),
@@ -357,7 +365,7 @@ export const registry = [
     ])
   },
   {
-    id: 'delirium-coma-encefalopatias', titulo: 'Delirium, Coma y Encefalopatías Metabólicas',
+    id: 'delirium-coma-encefalopatias', titulo: 'Delirium, Coma y Encefalopatías Metabólicas', accent: '#5c3a4a', preguntas: 35,
     load: () => Promise.all([
       import('./delirium-coma-encefalopatias/content.js'),
       import('./delirium-coma-encefalopatias/calculators.js'),
@@ -365,7 +373,7 @@ export const registry = [
     ])
   },
   {
-    id: 'embolia-grasa', titulo: 'Embolia Grasa',
+    id: 'embolia-grasa', titulo: 'Embolia Grasa', accent: '#6b4a2e', preguntas: 35,
     load: () => Promise.all([
       import('./embolia-grasa/content.js'),
       import('./embolia-grasa/calculators.js'),
@@ -373,7 +381,7 @@ export const registry = [
     ])
   },
   {
-    id: 'valoracion-preoperatoria', titulo: 'Valoración Preoperatoria',
+    id: 'valoracion-preoperatoria', titulo: 'Valoración Preoperatoria', accent: '#3d5a73', preguntas: 35,
     load: () => Promise.all([
       import('./valoracion-preoperatoria/content.js'),
       import('./valoracion-preoperatoria/calculators.js'),
@@ -381,7 +389,7 @@ export const registry = [
     ])
   },
   {
-    id: 'enfermedad-arterial-periferica', titulo: 'Enfermedad Arterial Periférica',
+    id: 'enfermedad-arterial-periferica', titulo: 'Enfermedad Arterial Periférica', accent: '#6e3b2e', preguntas: 36,
     load: () => Promise.all([
       import('./enfermedad-arterial-periferica/content.js'),
       import('./enfermedad-arterial-periferica/calculators.js'),
@@ -389,7 +397,7 @@ export const registry = [
     ])
   },
   {
-    id: 'hipertension-arterial', titulo: 'Hipertensión Arterial',
+    id: 'hipertension-arterial', titulo: 'Hipertensión Arterial', accent: '#8a2f43', preguntas: 36,
     load: () => Promise.all([
       import('./hipertension-arterial/content.js'),
       import('./hipertension-arterial/calculators.js'),
@@ -397,7 +405,7 @@ export const registry = [
     ])
   },
   {
-    id: 'dislipidemias', titulo: 'Dislipidemias',
+    id: 'dislipidemias', titulo: 'Dislipidemias', accent: '#9a6a2e', preguntas: 36,
     load: () => Promise.all([
       import('./dislipidemias/content.js'),
       import('./dislipidemias/calculators.js'),
@@ -405,7 +413,7 @@ export const registry = [
     ])
   },
   {
-    id: 'ventilacion-mecanica', titulo: 'Ventilación Mecánica',
+    id: 'ventilacion-mecanica', titulo: 'Ventilación Mecánica', accent: '#2e6b7a', preguntas: 36,
     load: () => Promise.all([
       import('./ventilacion-mecanica/content.js'),
       import('./ventilacion-mecanica/calculators.js'),
@@ -413,7 +421,7 @@ export const registry = [
     ])
   },
   {
-    id: 'diabetes-mellitus', titulo: 'Diabetes Mellitus',
+    id: 'diabetes-mellitus', titulo: 'Diabetes Mellitus', accent: '#1f6f6b', preguntas: 36,
     load: () => Promise.all([
       import('./diabetes-mellitus/content.js'),
       import('./diabetes-mellitus/calculators.js'),
@@ -421,7 +429,7 @@ export const registry = [
     ])
   },
   {
-    id: 'cetoacidosis-estado-hiperosmolar', titulo: 'Cetoacidosis Diabética y Estado Hiperosmolar',
+    id: 'cetoacidosis-estado-hiperosmolar', titulo: 'Cetoacidosis Diabética y Estado Hiperosmolar', accent: '#9c3d2e', preguntas: 36,
     load: () => Promise.all([
       import('./cetoacidosis-estado-hiperosmolar/content.js'),
       import('./cetoacidosis-estado-hiperosmolar/calculators.js'),
@@ -429,7 +437,7 @@ export const registry = [
     ])
   },
   {
-    id: 'obesidad', titulo: 'Obesidad',
+    id: 'obesidad', titulo: 'Obesidad', accent: '#5f7a4a', preguntas: 36,
     load: () => Promise.all([
       import('./obesidad/content.js'),
       import('./obesidad/calculators.js'),
@@ -437,7 +445,7 @@ export const registry = [
     ])
   },
   {
-    id: 'sindrome-cardiovascular-renal-metabolico', titulo: 'Síndrome Cardiovascular-Renal-Metabólico',
+    id: 'sindrome-cardiovascular-renal-metabolico', titulo: 'Síndrome Cardiovascular-Renal-Metabólico', accent: '#3d6b8a', preguntas: 36,
     load: () => Promise.all([
       import('./sindrome-cardiovascular-renal-metabolico/content.js'),
       import('./sindrome-cardiovascular-renal-metabolico/calculators.js'),
@@ -445,7 +453,7 @@ export const registry = [
     ])
   },
   {
-    id: 'osteoporosis', titulo: 'Osteoporosis',
+    id: 'osteoporosis', titulo: 'Osteoporosis', accent: '#7a6a55', preguntas: 36,
     load: () => Promise.all([
       import('./osteoporosis/content.js'),
       import('./osteoporosis/calculators.js'),
@@ -453,7 +461,7 @@ export const registry = [
     ])
   },
   {
-    id: 'hipotiroidismo', titulo: 'Hipotiroidismo',
+    id: 'hipotiroidismo', titulo: 'Hipotiroidismo', accent: '#4a6fa5', preguntas: 36,
     load: () => Promise.all([
       import('./hipotiroidismo/content.js'),
       import('./hipotiroidismo/calculators.js'),
@@ -461,7 +469,7 @@ export const registry = [
     ])
   },
   {
-    id: 'hipertiroidismo-tiroiditis', titulo: 'Hipertiroidismo y Tiroiditis',
+    id: 'hipertiroidismo-tiroiditis', titulo: 'Hipertiroidismo y Tiroiditis', accent: '#b4552f', preguntas: 36,
     load: () => Promise.all([
       import('./hipertiroidismo-tiroiditis/content.js'),
       import('./hipertiroidismo-tiroiditis/calculators.js'),
@@ -469,7 +477,7 @@ export const registry = [
     ])
   },
   {
-    id: 'urgencias-tiroideas', titulo: 'Urgencias Tiroideas',
+    id: 'urgencias-tiroideas', titulo: 'Urgencias Tiroideas', accent: '#8c2f39', preguntas: 36,
     load: () => Promise.all([
       import('./urgencias-tiroideas/content.js'),
       import('./urgencias-tiroideas/calculators.js'),
@@ -477,7 +485,7 @@ export const registry = [
     ])
   },
   {
-    id: 'nodulo-cancer-tiroides', titulo: 'Nódulo y Cáncer de Tiroides',
+    id: 'nodulo-cancer-tiroides', titulo: 'Nódulo y Cáncer de Tiroides', accent: '#5b4a86', preguntas: 36,
     load: () => Promise.all([
       import('./nodulo-cancer-tiroides/content.js'),
       import('./nodulo-cancer-tiroides/calculators.js'),
@@ -485,7 +493,7 @@ export const registry = [
     ])
   },
   {
-    id: 'metabolismo-oseo-mineral', titulo: 'Metabolismo Óseo y Mineral',
+    id: 'metabolismo-oseo-mineral', titulo: 'Metabolismo Óseo y Mineral', accent: '#2f7a6b', preguntas: 36,
     load: () => Promise.all([
       import('./metabolismo-oseo-mineral/content.js'),
       import('./metabolismo-oseo-mineral/calculators.js'),
@@ -493,7 +501,7 @@ export const registry = [
     ])
   },
   {
-    id: 'epoc', titulo: 'EPOC',
+    id: 'epoc', titulo: 'EPOC', accent: '#2f5d6e', preguntas: 36,
     load: () => Promise.all([
       import('./epoc/content.js'),
       import('./epoc/calculators.js'),
@@ -501,7 +509,7 @@ export const registry = [
     ])
   },
   {
-    id: 'asma', titulo: 'Asma',
+    id: 'asma', titulo: 'Asma', accent: '#3f7a4a', preguntas: 36,
     load: () => Promise.all([
       import('./asma/content.js'),
       import('./asma/calculators.js'),
@@ -509,7 +517,7 @@ export const registry = [
     ])
   },
   {
-    id: 'neumonia', titulo: 'Neumonía',
+    id: 'neumonia', titulo: 'Neumonía', accent: '#a8562e', preguntas: 36,
     load: () => Promise.all([
       import('./neumonia/content.js'),
       import('./neumonia/calculators.js'),
@@ -517,7 +525,7 @@ export const registry = [
     ])
   },
   {
-    id: 'insuficiencia-respiratoria-sdra', titulo: 'Insuficiencia Respiratoria y SDRA',
+    id: 'insuficiencia-respiratoria-sdra', titulo: 'Insuficiencia Respiratoria y SDRA', accent: '#8a3f5c', preguntas: 36,
     load: () => Promise.all([
       import('./insuficiencia-respiratoria-sdra/content.js'),
       import('./insuficiencia-respiratoria-sdra/calculators.js'),
@@ -525,7 +533,7 @@ export const registry = [
     ])
   },
   {
-    id: 'patologia-pleural', titulo: 'Patología Pleural',
+    id: 'patologia-pleural', titulo: 'Patología Pleural', accent: '#4a5f8c', preguntas: 36,
     load: () => Promise.all([
       import('./patologia-pleural/content.js'),
       import('./patologia-pleural/calculators.js'),
@@ -533,7 +541,7 @@ export const registry = [
     ])
   },
   {
-    id: 'enfermedad-intersticial', titulo: 'Enfermedad Pulmonar Intersticial',
+    id: 'enfermedad-intersticial', titulo: 'Enfermedad Pulmonar Intersticial', accent: '#6b4a7a', preguntas: 36,
     load: () => Promise.all([
       import('./enfermedad-intersticial/content.js'),
       import('./enfermedad-intersticial/calculators.js'),
@@ -541,7 +549,7 @@ export const registry = [
     ])
   },
   {
-    id: 'hipertension-pulmonar', titulo: 'Hipertensión Pulmonar',
+    id: 'hipertension-pulmonar', titulo: 'Hipertensión Pulmonar', accent: '#7a2f5c', preguntas: 36,
     load: () => Promise.all([
       import('./hipertension-pulmonar/content.js'),
       import('./hipertension-pulmonar/calculators.js'),
@@ -549,7 +557,7 @@ export const registry = [
     ])
   },
   {
-    id: 'nodulo-cancer-pulmon', titulo: 'Nodulo Pulmonar y Cancer de Pulmon',
+    id: 'nodulo-cancer-pulmon', titulo: 'Nodulo Pulmonar y Cancer de Pulmon', accent: '#8c5a2e', preguntas: 36,
     load: () => Promise.all([
       import('./nodulo-cancer-pulmon/content.js'),
       import('./nodulo-cancer-pulmon/calculators.js'),
@@ -557,7 +565,7 @@ export const registry = [
     ])
   },
   {
-    id: 'apnea-sueno', titulo: 'Apnea del Sueño',
+    id: 'apnea-sueno', titulo: 'Apnea del Sueño', accent: '#2f6b5f', preguntas: 36,
     load: () => Promise.all([
       import('./apnea-sueno/content.js'),
       import('./apnea-sueno/calculators.js'),
@@ -565,7 +573,7 @@ export const registry = [
     ])
   },
   {
-    id: 'tuberculosis', titulo: 'Tuberculosis',
+    id: 'tuberculosis', titulo: 'Tuberculosis', accent: '#5a6b2e', preguntas: 36,
     load: () => Promise.all([
       import('./tuberculosis/content.js'),
       import('./tuberculosis/calculators.js'),
@@ -573,7 +581,7 @@ export const registry = [
     ])
   },
   {
-    id: 'sarcoidosis', titulo: 'Sarcoidosis',
+    id: 'sarcoidosis', titulo: 'Sarcoidosis', accent: '#8a4a7a', preguntas: 36,
     load: () => Promise.all([
       import('./sarcoidosis/content.js'),
       import('./sarcoidosis/calculators.js'),
@@ -581,7 +589,7 @@ export const registry = [
     ])
   },
   {
-    id: 'bronquiectasias', titulo: 'Bronquiectasias',
+    id: 'bronquiectasias', titulo: 'Bronquiectasias', accent: '#2e6b8a', preguntas: 36,
     load: () => Promise.all([
       import('./bronquiectasias/content.js'),
       import('./bronquiectasias/calculators.js'),
@@ -589,7 +597,7 @@ export const registry = [
     ])
   },
   {
-    id: 'bronquitis-aguda', titulo: 'Bronquitis Aguda y Tos',
+    id: 'bronquitis-aguda', titulo: 'Bronquitis Aguda y Tos', accent: '#7a5a3a', preguntas: 36,
     load: () => Promise.all([
       import('./bronquitis-aguda/content.js'),
       import('./bronquitis-aguda/calculators.js'),
@@ -597,7 +605,7 @@ export const registry = [
     ])
   },
   {
-    id: 'deterioro-cognitivo-demencias', titulo: 'Deterioro Cognitivo y Demencias',
+    id: 'deterioro-cognitivo-demencias', titulo: 'Deterioro Cognitivo y Demencias', accent: '#4a3f7a', preguntas: 36,
     load: () => Promise.all([
       import('./deterioro-cognitivo-demencias/content.js'),
       import('./deterioro-cognitivo-demencias/calculators.js'),
@@ -605,7 +613,7 @@ export const registry = [
     ])
   },
   {
-    id: 'neuropatias-perifericas', titulo: 'Neuropatias Perifericas y Disautonomia',
+    id: 'neuropatias-perifericas', titulo: 'Neuropatias Perifericas y Disautonomia', accent: '#2e6b6b', preguntas: 36,
     load: () => Promise.all([
       import('./neuropatias-perifericas/content.js'),
       import('./neuropatias-perifericas/calculators.js'),
@@ -613,7 +621,7 @@ export const registry = [
     ])
   },
   {
-    id: 'guillain-barre-miastenia', titulo: 'Guillain-Barre y Miastenia Gravis',
+    id: 'guillain-barre-miastenia', titulo: 'Guillain-Barre y Miastenia Gravis', accent: '#8c3a5c', preguntas: 36,
     load: () => Promise.all([
       import('./guillain-barre-miastenia/content.js'),
       import('./guillain-barre-miastenia/calculators.js'),
@@ -621,7 +629,7 @@ export const registry = [
     ])
   },
   {
-    id: 'ela-miopatias', titulo: 'ELA y Enfermedades del Musculo',
+    id: 'ela-miopatias', titulo: 'ELA y Enfermedades del Musculo', accent: '#5c5a2e', preguntas: 36,
     load: () => Promise.all([
       import('./ela-miopatias/content.js'),
       import('./ela-miopatias/calculators.js'),
@@ -629,7 +637,7 @@ export const registry = [
     ])
   },
   {
-    id: 'meningoencefalitis-infecciosa', titulo: 'Meningoencefalitis Infecciosa',
+    id: 'meningoencefalitis-infecciosa', titulo: 'Meningoencefalitis Infecciosa', accent: '#7a3f2e', preguntas: 36,
     load: () => Promise.all([
       import('./meningoencefalitis-infecciosa/content.js'),
       import('./meningoencefalitis-infecciosa/calculators.js'),
@@ -637,7 +645,7 @@ export const registry = [
     ])
   },
   {
-    id: 'encefalitis-autoinmune', titulo: 'Encefalitis Autoinmune',
+    id: 'encefalitis-autoinmune', titulo: 'Encefalitis Autoinmune', accent: '#2e5c7a', preguntas: 36,
     load: () => Promise.all([
       import('./encefalitis-autoinmune/content.js'),
       import('./encefalitis-autoinmune/calculators.js'),
@@ -645,7 +653,7 @@ export const registry = [
     ])
   },
   {
-    id: 'vertigo-sindrome-vestibular', titulo: 'Vertigo y Sindrome Vestibular',
+    id: 'vertigo-sindrome-vestibular', titulo: 'Vertigo y Sindrome Vestibular', accent: '#4a7a5c', preguntas: 36,
     load: () => Promise.all([
       import('./vertigo-sindrome-vestibular/content.js'),
       import('./vertigo-sindrome-vestibular/calculators.js'),
@@ -653,7 +661,7 @@ export const registry = [
     ])
   },
   {
-    id: 'disfuncion-organica-multiple', titulo: 'Disfuncion Organica Multiple',
+    id: 'disfuncion-organica-multiple', titulo: 'Disfuncion Organica Multiple', accent: '#5a4a8c', preguntas: 36,
     load: () => Promise.all([
       import('./disfuncion-organica-multiple/content.js'),
       import('./disfuncion-organica-multiple/calculators.js'),
@@ -661,7 +669,7 @@ export const registry = [
     ])
   },
   {
-    id: 'estado-de-choque', titulo: 'Estado de Choque',
+    id: 'estado-de-choque', titulo: 'Estado de Choque', accent: '#8c2e3a', preguntas: 36,
     load: () => Promise.all([
       import('./estado-de-choque/content.js'),
       import('./estado-de-choque/calculators.js'),
@@ -669,7 +677,7 @@ export const registry = [
     ])
   },
   {
-    id: 'lesion-renal-aguda', titulo: 'Lesion Renal Aguda',
+    id: 'lesion-renal-aguda', titulo: 'Lesion Renal Aguda', accent: '#3a6b7a', preguntas: 36,
     load: () => Promise.all([
       import('./lesion-renal-aguda/content.js'),
       import('./lesion-renal-aguda/calculators.js'),
@@ -677,7 +685,7 @@ export const registry = [
     ])
   },
   {
-    id: 'soporte-nutricional-critico', titulo: 'Soporte Nutricional del Critico',
+    id: 'soporte-nutricional-critico', titulo: 'Soporte Nutricional del Critico', accent: '#7a6b2e', preguntas: 36,
     load: () => Promise.all([
       import('./soporte-nutricional-critico/content.js'),
       import('./soporte-nutricional-critico/calculators.js'),
@@ -685,7 +693,7 @@ export const registry = [
     ])
   },
   {
-    id: 'debilidad-adquirida-uci', titulo: 'Debilidad Adquirida en la UCI',
+    id: 'debilidad-adquirida-uci', titulo: 'Debilidad Adquirida en la UCI', accent: '#6b2e6b', preguntas: 36,
     load: () => Promise.all([
       import('./debilidad-adquirida-uci/content.js'),
       import('./debilidad-adquirida-uci/calculators.js'),
@@ -693,7 +701,7 @@ export const registry = [
     ])
   },
   {
-    id: 'psoriasis', titulo: 'Psoriasis',
+    id: 'psoriasis', titulo: 'Psoriasis', accent: '#a1442e', preguntas: 36,
     load: () => Promise.all([
       import('./psoriasis/content.js'),
       import('./psoriasis/calculators.js'),
@@ -701,7 +709,7 @@ export const registry = [
     ])
   },
   {
-    id: 'urticaria', titulo: 'Urticaria y angioedema',
+    id: 'urticaria', titulo: 'Urticaria y angioedema', accent: '#b05a2e', preguntas: 36,
     load: () => Promise.all([
       import('./urticaria/content.js'),
       import('./urticaria/calculators.js'),
@@ -709,7 +717,7 @@ export const registry = [
     ])
   },
   {
-    id: 'eccemas', titulo: 'Eccemas: dermatitis atopica y de contacto',
+    id: 'eccemas', titulo: 'Eccemas: dermatitis atopica y de contacto', accent: '#5c7a3a', preguntas: 36,
     load: () => Promise.all([
       import('./eccemas/content.js'),
       import('./eccemas/calculators.js'),
@@ -717,7 +725,7 @@ export const registry = [
     ])
   },
   {
-    id: 'farmacodermias', titulo: 'Farmacodermias y eritrodermia',
+    id: 'farmacodermias', titulo: 'Farmacodermias y eritrodermia', accent: '#7a3a6b', preguntas: 38,
     load: () => Promise.all([
       import('./farmacodermias/content.js'),
       import('./farmacodermias/calculators.js'),
@@ -725,7 +733,7 @@ export const registry = [
     ])
   },
   {
-    id: 'ampollosas', titulo: 'Ampollosas autoinmunes',
+    id: 'ampollosas', titulo: 'Ampollosas autoinmunes', accent: '#4a5a8c', preguntas: 36,
     load: () => Promise.all([
       import('./ampollosas/content.js'),
       import('./ampollosas/calculators.js'),
@@ -733,7 +741,7 @@ export const registry = [
     ])
   },
   {
-    id: 'melanoma', titulo: 'Melanoma',
+    id: 'melanoma', titulo: 'Melanoma', accent: '#4a3a2e', preguntas: 34,
     load: () => Promise.all([
       import('./melanoma/content.js'),
       import('./melanoma/calculators.js'),
@@ -741,7 +749,7 @@ export const registry = [
     ])
   },
   {
-    id: 'eritemas-reactivos', titulo: 'Eritemas reactivos, paniculitis y dermatosis neutrofilicas',
+    id: 'eritemas-reactivos', titulo: 'Eritemas reactivos, paniculitis y dermatosis neutrofilicas', accent: '#9c3a52', preguntas: 34,
     load: () => Promise.all([
       import('./eritemas-reactivos/content.js'),
       import('./eritemas-reactivos/calculators.js'),
@@ -749,7 +757,7 @@ export const registry = [
     ])
   },
   {
-    id: 'cancer-cutaneo-no-melanoma', titulo: 'Cancer cutaneo no melanoma y sarcoma de Kaposi',
+    id: 'cancer-cutaneo-no-melanoma', titulo: 'Cancer cutaneo no melanoma y sarcoma de Kaposi', accent: '#4a6b7a', preguntas: 34,
     load: () => Promise.all([
       import('./cancer-cutaneo-no-melanoma/content.js'),
       import('./cancer-cutaneo-no-melanoma/calculators.js'),
@@ -757,7 +765,7 @@ export const registry = [
     ])
   },
   {
-    id: 'manifestaciones-cutaneas-sistemicas', titulo: 'Manifestaciones cutaneas de enfermedad sistemica',
+    id: 'manifestaciones-cutaneas-sistemicas', titulo: 'Manifestaciones cutaneas de enfermedad sistemica', accent: '#6b5a8c', preguntas: 40,
     load: () => Promise.all([
       import('./manifestaciones-cutaneas-sistemicas/content.js'),
       import('./manifestaciones-cutaneas-sistemicas/calculators.js'),
@@ -765,7 +773,7 @@ export const registry = [
     ])
   },
   {
-    id: 'soporte-vital-avanzado', titulo: 'Soporte vital avanzado y RCP',
+    id: 'soporte-vital-avanzado', titulo: 'Soporte vital avanzado y RCP', accent: '#8c2e2e', preguntas: 36,
     load: () => Promise.all([
       import('./soporte-vital-avanzado/content.js'),
       import('./soporte-vital-avanzado/calculators.js'),
@@ -773,7 +781,7 @@ export const registry = [
     ])
   },
   {
-    id: 'anafilaxia', titulo: 'Anafilaxia',
+    id: 'anafilaxia', titulo: 'Anafilaxia', accent: '#8a3a52', preguntas: 36,
     load: () => Promise.all([
       import('./anafilaxia/content.js'),
       import('./anafilaxia/calculators.js'),
@@ -781,7 +789,7 @@ export const registry = [
     ])
   },
   {
-    id: 'abdomen-agudo', titulo: 'Abdomen agudo',
+    id: 'abdomen-agudo', titulo: 'Abdomen agudo', accent: '#8a5a2e', preguntas: 36,
     load: () => Promise.all([
       import('./abdomen-agudo/content.js'),
       import('./abdomen-agudo/calculators.js'),
@@ -789,7 +797,7 @@ export const registry = [
     ])
   },
   {
-    id: 'supresion-alcoholica', titulo: 'Sindrome de supresion alcoholica',
+    id: 'supresion-alcoholica', titulo: 'Sindrome de supresion alcoholica', accent: '#6b4a8c', preguntas: 36,
     load: () => Promise.all([
       import('./supresion-alcoholica/content.js'),
       import('./supresion-alcoholica/calculators.js'),
@@ -797,7 +805,7 @@ export const registry = [
     ])
   },
   {
-    id: 'quemaduras', titulo: 'Quemaduras',
+    id: 'quemaduras', titulo: 'Quemaduras', accent: '#a0522d', preguntas: 36,
     load: () => Promise.all([
       import('./quemaduras/content.js'),
       import('./quemaduras/calculators.js'),
@@ -805,7 +813,7 @@ export const registry = [
     ])
   },
   {
-    id: 'ahogamiento', titulo: 'Ahogamiento',
+    id: 'ahogamiento', titulo: 'Ahogamiento', accent: '#2f5f7a', preguntas: 36,
     load: () => Promise.all([
       import('./ahogamiento/content.js'),
       import('./ahogamiento/calculators.js'),
@@ -813,7 +821,7 @@ export const registry = [
     ])
   },
   {
-    id: 'broncoaspiracion', titulo: 'Broncoaspiracion',
+    id: 'broncoaspiracion', titulo: 'Broncoaspiracion', accent: '#6b5a2e', preguntas: 36,
     load: () => Promise.all([
       import('./broncoaspiracion/content.js'),
       import('./broncoaspiracion/calculators.js'),
@@ -821,7 +829,7 @@ export const registry = [
     ])
   },
   {
-    id: 'enfermedad-renal-cronica', titulo: 'Enfermedad Renal Crónica',
+    id: 'enfermedad-renal-cronica', titulo: 'Enfermedad Renal Crónica', accent: '#35707a', preguntas: 36,
     load: () => Promise.all([
       import('./enfermedad-renal-cronica/content.js'),
       import('./enfermedad-renal-cronica/calculators.js'),
@@ -829,7 +837,7 @@ export const registry = [
     ])
   },
   {
-    id: 'sodio-potasio-acido-base', titulo: 'Sodio, Potasio y Equilibrio Ácido-Base',
+    id: 'sodio-potasio-acido-base', titulo: 'Sodio, Potasio y Equilibrio Ácido-Base', accent: '#3a5f8c', preguntas: 36,
     load: () => Promise.all([
       import('./sodio-potasio-acido-base/content.js'),
       import('./sodio-potasio-acido-base/calculators.js'),
@@ -837,7 +845,7 @@ export const registry = [
     ])
   },
   {
-    id: 'glomerulopatias-sindromes-glomerulares', titulo: 'Glomerulopatías y Síndromes Glomerulares',
+    id: 'glomerulopatias-sindromes-glomerulares', titulo: 'Glomerulopatías y Síndromes Glomerulares', accent: '#2f6a62', preguntas: 40,
     load: () => Promise.all([
       import('./glomerulopatias-sindromes-glomerulares/content.js'),
       import('./glomerulopatias-sindromes-glomerulares/calculators.js'),
@@ -845,7 +853,7 @@ export const registry = [
     ])
   },
   {
-    id: 'nefropatia-diabetica-hipertensiva', titulo: 'Nefropatía Diabética e Hipertensiva',
+    id: 'nefropatia-diabetica-hipertensiva', titulo: 'Nefropatía Diabética e Hipertensiva', accent: '#7a6a2e', preguntas: 40,
     load: () => Promise.all([
       import('./nefropatia-diabetica-hipertensiva/content.js'),
       import('./nefropatia-diabetica-hipertensiva/calculators.js'),

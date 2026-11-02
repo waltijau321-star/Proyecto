@@ -82,7 +82,15 @@ only ever consume that shape. **Adding a new topic never touches the engine** ‚Ä
 `topics/_template/` (or `topics/_template-semiologia/` for a Semiolog√≠a-style topic, see
 `topics/historia-clinica/`), fill in the contract described in the template's comments, add an
 entry to `registry.js`, and add the new files to `CONTENT` in `sw.js` for offline support (a test
-checks that every registry topic has its three files precached). `sw.js` splits the precache in
+checks that every registry topic has its three files precached). **A registry entry carries
+`accent` and `preguntas` (the quiz length) alongside `id` and `load`**, duplicated from the
+topic's own module on purpose: Inicio reads those two fields straight from the registry so the
+front page no longer loads all 106 topics just to paint (that cost 205 requests and 7.1 MB before
+anything appeared, and grew with every topic added). A per-topic test compares both copies, so a
+new topic with a wrong `preguntas`, or a topic whose bank later grows, fails `tests.html` until
+the number is updated. The same rule is why `engine/flashcard-deck.js` loads only the topics the
+user already graded a card in, and why `mountExamSummary` asks the registry instead of the banks:
+**nothing mounted by Inicio may call `loadTopic`.** `sw.js` splits the precache in
 two: `SHELL` is the app shell and installs atomically, `CONTENT` is the topics and tolerates
 individual failures, so one bad request can no longer leave a user with no offline app at all.
 `topics/temario-index.js` is the separate, larger "full syllabus" tree (318 items) shown on

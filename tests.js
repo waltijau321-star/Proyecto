@@ -130,7 +130,7 @@ async function run() {
   localStorage.removeItem('rm:test-obj');
 
   /* ---------------- Repetición espaciada de preguntas (engine/quiz-srs.js) ---------------- */
-  const { updateQuizSRS, dueQuestionIndices, loadQuizSRS, isQuizCompleted, remainingToComplete, questionId } = await import('./engine/quiz-srs.js');
+  const { updateQuizSRS, dueQuestionIndices, loadQuizSRS, isQuizCompleted, remainingToComplete, questionId, answeredCount } = await import('./engine/quiz-srs.js');
   const T = 'rm-test-topic';
   // Banco de prueba. La segunda pregunta está escrita sin acentos y con entidad HTML a
   // propósito: la mitad de la biblioteca está así, y la corrección ortográfica pendiente no
@@ -240,6 +240,32 @@ async function run() {
     assertEqual(store[questionId(QZ[1])].box, 4);
     assertEqual(Object.keys(store).filter(k => /^\d+$/.test(k)).length, 0);
     assertEqual(remainingToComplete(T, QZ), QZ.length - 1);
+  });
+
+  /* ---- answeredCount: el recuento que usa Inicio, que NO tiene el banco delante ----
+     Inicio dejo de cargar los 106 temas, asi que no puede llamar a remainingToComplete (que
+     necesita el array de preguntas). Cuenta las claves del almacen del tema, y el tope es la
+     parte delicada: un id de una pregunta que luego se reescribio se conserva a proposito, asi
+     que sin acotar el recuento la portada podria pasar del 100%. */
+  test('answeredCount: cuenta las preguntas respondidas sin recibir el banco', () => {
+    const store = {};
+    for (let i = 0; i < 25; i++) store['id' + i] = { box: 2 };
+    syncSet('rm:quiz-srs:' + T, store);
+    assertEqual(answeredCount(T, 60), 25);
+  });
+
+  test('answeredCount: nunca pasa del tamano del banco, aunque sobren ids viejos', () => {
+    const store = {};
+    for (let i = 0; i < 99; i++) store['v' + i] = { box: 1 };
+    syncSet('rm:quiz-srs:' + T, store);
+    assertEqual(answeredCount(T, 36), 36);
+  });
+
+  test('answeredCount: cuenta tambien las claves del formato viejo, y vale 0 sin datos', () => {
+    syncSet('rm:quiz-srs:' + T, { '7': { box: 3 }, abc: { box: 1 } });
+    assertEqual(answeredCount(T, 36), 2);
+    assertEqual(answeredCount(T, 0), 0);
+    assertEqual(answeredCount('tema-que-no-existe-' + Date.now(), 36), 0);
   });
 
   localStorage.removeItem('rm:quiz-srs:' + T);
@@ -1962,6 +1988,18 @@ async function run() {
     test(`esquema[${entry.id}]: carga sin errores y meta.id coincide con el registro`, () => {
       assert(topic, `loadTopic('${entry.id}') devolvió null`);
       assertEqual(topic.meta && topic.meta.id, entry.id);
+    });
+
+    // Inicio NO carga los temas: lee `accent` y `preguntas` de la entrada del registro, porque
+    // cargar los 106 para leer dos campos costaba 208 peticiones y 7.3 MB antes de pintar. Esa
+    // duplicacion solo es sostenible si algo la vigila: aqui se compara con la fuente de verdad,
+    // que es el modulo del tema. Si falla al anadir preguntas, lo que hay que corregir es el
+    // numero en topics/registry.js, no esta prueba.
+    test(`esquema[${entry.id}]: accent y preguntas del registro coinciden con el modulo`, () => {
+      assertEqual(entry.accent, topic.meta && topic.meta.accent);
+      assert(typeof entry.preguntas === 'number', `preguntas debe ser un numero en el registro, es ${typeof entry.preguntas}`);
+      const real = ((topic.study && topic.study.quiz) || []).length;
+      assertEqual(entry.preguntas, real);
     });
 
     // El progreso de repaso se guarda bajo un id derivado del enunciado (ver engine/quiz-srs.js).
