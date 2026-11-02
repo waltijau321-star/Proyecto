@@ -39,6 +39,12 @@ const ACEPTO_KEY = 'rm:notas-aceptadas';
 const ULTIMO_ENVIO_KEY = 'miosler:ultima-nota';
 const MOTIVOS = ['Datos de un paciente', 'Error clínico', 'Contenido inapropiado'];
 
+// Secciones donde se ve el panel. INICIO queda fuera a propósito: la portada se lee centrada y
+// ahí todavía no hay un tema del que hablar, así que reservar la columna no aporta nada. También
+// quedan fuera el examen simulado, donde el panel sería una distracción en una prueba cronometrada
+// y un cambio de ancho a media pregunta, y Admin, que no es contenido de estudio.
+const SECCIONES_CON_CHAT = ['estudio', 'calc', 'protocolos', 'vpo'];
+
 /* ---------------- Estado ---------------- */
 let usuario = null;
 let temaId = null;
@@ -68,6 +74,17 @@ let elPanel, elLista, elFijados, elCompose, elEstado, elFab, elFabCount, elScrim
 /* ---------------- Utilidades ---------------- */
 function firmaActual() {
   return nombreCorto(syncGet('rm:profile-firstname', ''), syncGet('rm:profile-lastname', ''));
+}
+// Hay cuentas sin nombre guardado: las creadas fuera del formulario de registro (la primera cuenta
+// de administración suele hacerse desde la consola de Firebase) y las que nunca pasaron por Mi
+// cuenta. Para ellas `nombreCorto` devuelve "Residente", que es un repliegue razonable al PINTAR
+// una nota antigua pero no al ESCRIBIR una nueva: la nota queda firmada así para siempre, porque
+// el autor se guarda en el propio mensaje y no se resuelve contra el perfil. Así que antes de
+// escribir se pide el nombre en vez de firmar en silencio.
+function tieneNombreGuardado() {
+  const n = String(syncGet('rm:profile-firstname', '') || '').trim();
+  const a = String(syncGet('rm:profile-lastname', '') || '').trim();
+  return !!(n || a);
 }
 function aceptoNormas() { return !!syncGet(ACEPTO_KEY, false); }
 function ultimoEnvio() {
@@ -114,7 +131,7 @@ function esTactil() {
    el móvil sin abrir el cajón no gasta ni una lectura. */
 function reconciliar() {
   const visible = abierto || acoplado;
-  const quiere = (usuario && firebaseReady && temaId && seccion === 'estudio' && visible) ? temaId : null;
+  const quiere = (usuario && firebaseReady && temaId && enSeccionConChat() && visible) ? temaId : null;
 
   if (quiere !== suscritoA) {
     unsubs.forEach(u => { try { u(); } catch (e) {} });
@@ -197,7 +214,7 @@ function onErrorSnapshot(err) {
 // consulta de agregación cuesta una lectura por cada mil documentos, así que es casi gratis y
 // evita que el panel haya que abrirlo para saber si tiene algo dentro.
 async function refrescarConteo() {
-  if (!usuario || !firebaseReady || !temaId || seccion !== 'estudio') {
+  if (!usuario || !firebaseReady || !temaId || !enSeccionConChat()) {
     conteo = null;
     actualizarChrome();
     return;
@@ -228,8 +245,12 @@ export function setChatTopic(id, titulo) {
 export function setChatSection(sec) {
   seccion = sec || null;
   if (document.body) document.body.dataset.sec = sec || '';
-  if (sec !== 'estudio') abierto = false;
+  if (!enSeccionConChat()) abierto = false;
   reconciliar();
+}
+
+function enSeccionConChat() {
+  return SECCIONES_CON_CHAT.indexOf(seccion) !== -1;
 }
 
 /* ---------------- Render ---------------- */
@@ -239,9 +260,15 @@ function estaAbajo() {
 }
 
 function actualizarChrome() {
-  const activo = !!(usuario && firebaseReady);
-  // El hueco del panel acoplado se reserva SIEMPRE mientras haya sesión, no solo en Estudio:
-  // condicionarlo a la sección haría saltar 340px de ancho en cada toque del nav inferior.
+  // La sección entra en `activo`, así que de aquí cuelga todo lo demás: el hueco del panel
+  // acoplado, el cajón, el scrim y el botón flotante.
+  //
+  // Antes el hueco se reservaba en TODAS las secciones mientras hubiera sesión, para que el ancho
+  // no saltara al tocar el nav inferior. El acuerdo ahora es el contrario y gana la portada: en
+  // Inicio no hay tema del que hablar, así que se lee centrada y la columna se reserva solo donde
+  // el panel se usa. El salto de ancho al entrar y salir de Inicio es el precio, y es instantáneo
+  // porque `body.chat-docked .topic-chat` ya anula la transición.
+  const activo = !!(usuario && firebaseReady) && enSeccionConChat();
   document.body.classList.toggle('chat-docked', activo && acoplado);
   document.body.classList.toggle('chat-open', activo && abierto && !acoplado);
 
@@ -264,15 +291,18 @@ function actualizarChrome() {
   if (elFab) {
     // La visibilidad del botón flotante se decide aquí y no en CSS: con reglas condicionadas a
     // body[data-sec] y a body.chat-docked a la vez, quién gana depende de la especificidad y se
-    // rompe en cuanto alguien reordena la hoja.
-    elFab.hidden = !activo || acoplado || seccion !== 'estudio';
+    // rompe en cuanto alguien reordena la hoja. La sección ya viene dentro de `activo`.
+    elFab.hidden = !activo || acoplado;
     elFab.setAttribute('aria-expanded', abierto ? 'true' : 'false');
   }
   if (elFabCount) {
     elFabCount.textContent = conteo ? String(conteo) : '';
     elFabCount.hidden = !conteo;
   }
-  if (elSub) elSub.textContent = (seccion === 'estudio' && temaTitulo) ? temaTitulo : '';
+  // El título del tema se muestra en todas las secciones donde se ve el panel, no solo en Estudio.
+  // En Calc y en VPO se está mirando algo que no es el tema activo, así que si no se dijera de qué
+  // tema son estas notas se podría escribir en el hilo equivocado creyendo que es otro.
+  if (elSub) elSub.textContent = temaTitulo || '';
 }
 
 function burbujaHTML(m, opciones) {
@@ -333,7 +363,7 @@ function burbujaHTML(m, opciones) {
 
 function listaHTML() {
   if (!usuario) return '';
-  if (seccion !== 'estudio' || !temaId) {
+  if (!enSeccionConChat() || !temaId) {
     return `<p class="chat-vacio">Las notas son de cada tema.<br>Abre un tema desde Inicio para ver las suyas.</p>`;
   }
   if (errorCarga) {
@@ -352,7 +382,7 @@ function listaHTML() {
 }
 
 function fijadosHTML() {
-  if (!fijados.length || seccion !== 'estudio') return '';
+  if (!fijados.length || !enSeccionConChat()) return '';
   return `<details class="chat-fijados-box" open>
     <summary>Destacadas (${fijados.length})</summary>
     ${fijados.map(m => burbujaHTML(m, { destacada: true })).join('')}
@@ -361,13 +391,20 @@ function fijadosHTML() {
 
 function composeHTML() {
   if (!usuario) return '';
-  if (seccion !== 'estudio' || !temaId) {
+  if (!temaId) {
     return `<p class="chat-vacio-compose">Abre un tema para escribir en sus notas.</p>`;
+  }
+  if (!tieneNombreGuardado()) {
+    return `<div class="chat-normas">
+      <p><strong>Pon tu nombre antes de escribir</strong></p>
+      <p>Tus notas se firman con el nombre y el apellido que tengas guardados, y ahora están vacíos. La firma se queda grabada en la nota, así que conviene ponerla antes.</p>
+      <button type="button" class="home-quick" data-accion="abrir-cuenta">Abrir Mi cuenta</button>
+    </div>`;
   }
   if (!aceptoNormas()) {
     return `<div class="chat-normas">
       <p><strong>Antes de tu primera nota</strong></p>
-      <p>Lo que escribas aquí lo lee cualquier residente con cuenta, y se publica con tu nombre y la inicial de tu apellido. Sirve para mnemotecnias, enlaces, correcciones y dudas. <strong>No publiques datos que identifiquen a un paciente.</strong> El autor puede borrar o destacar cualquier nota.</p>
+      <p>Lo que escribas aquí lo lee cualquier residente con cuenta. Sirve para mnemotecnias, enlaces, correcciones y dudas. <strong>No publiques datos que identifiquen a un paciente.</strong> El autor puede borrar o destacar cualquier nota.</p>
       <button type="button" class="home-quick" data-accion="aceptar-normas">Entendido</button>
     </div>`;
   }
@@ -385,7 +422,7 @@ function pintar(opciones) {
   if (!elPanel) return;
   if (elFijados) {
     elFijados.innerHTML = fijadosHTML();
-    elFijados.hidden = !fijados.length || seccion !== 'estudio';
+    elFijados.hidden = !fijados.length || !enSeccionConChat();
   }
   if (elLista) elLista.innerHTML = listaHTML();
   if (elCompose) elCompose.innerHTML = composeHTML();
@@ -575,6 +612,20 @@ export function mountTopicChat() {
     switch (btn.dataset.accion) {
       case 'publicar': publicar(); break;
       case 'aceptar-normas': syncSet(ACEPTO_KEY, 1); pintar(); break;
+      // El panel no conoce el menú de cuenta, así que pulsa su entrada "Mi cuenta", que ya se
+      // encarga de cerrar el desplegable y abrir el formulario. Se apunta ahí y no al engranaje
+      // por dos razones: ahorra un clic, y el engranaje solo DESPLIEGA el menú, que `account-menu`
+      // vuelve a cerrar en cuanto este mismo clic llega al documento (su cierre por clic fuera).
+      // Y se aplaza un tick por lo mismo: dentro del clic actual, cualquier cosa que se abra aquí
+      // la cierra el escuchador del documento al terminar de burbujear.
+      case 'abrir-cuenta': {
+        if (!acoplado) { abierto = false; reconciliar(); }
+        setTimeout(() => {
+          const miCuenta = document.getElementById('menu-my-account');
+          if (miCuenta) miCuenta.click();
+        }, 0);
+        break;
+      }
       case 'pedir-borrar': borrando = id; reportando = null; pintar(); break;
       case 'borrar': borrar(id); break;
       case 'pedir-reporte': reportando = id; borrando = null; pintar(); break;
@@ -631,6 +682,8 @@ export function mountTopicChat() {
   });
 
   window.addEventListener('online', () => { if (temaId) reconciliar(); });
+  // Mi cuenta avisa al guardar: si el aviso de "pon tu nombre" estaba puesto, hay que quitarlo ya.
+  window.addEventListener('rm:perfil-guardado', () => pintar());
 
   actualizarChrome();
 }

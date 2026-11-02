@@ -54,6 +54,11 @@ function renderMyAccount() {
     syncSet('rm:profile-country', document.getElementById('acc-country').value.trim());
     syncSet('rm:profile-state', document.getElementById('acc-state').value.trim());
     document.getElementById('acc-saved-note').style.display = 'block';
+    // El panel de notas firma con este nombre y tiene que enterarse sin recargar: si el nombre
+    // estaba vacío, está mostrando el aviso que manda aquí, y quedarse mostrándolo después de
+    // guardarlo haría pensar que no se guardó. Se avisa con un evento para no importar el panel
+    // desde aquí, que crearía una dependencia entre dos módulos que hoy no se conocen.
+    window.dispatchEvent(new CustomEvent('rm:perfil-guardado'));
   });
 }
 
