@@ -465,7 +465,18 @@ export const compCites = {
   'Miocardiopatía arritmogénica del ventrículo derecho': { criterios_dx: [8, 9], tx_intervencionista: [10], laboratorio: [8, 9], tx_farmacologico: [10] },
   'Miocardiopatía periparto': { definicion: [12], tx_farmacologico: [12, 13], criterios_dx: [12], laboratorio: [12, 13] },
   'Insuficiencia cardiaca avanzada refractaria': { tx_farmacologico: [6, 7], criterios_dx: [6, 7], laboratorio: [6, 7] },
-  'Arritmias ventriculares malignas y muerte súbita cardiaca': { tx_intervencionista: [14, 15], criterios_dx: [14, 15], laboratorio: [14, 15], tx_farmacologico: [14, 15] }
+  'Arritmias ventriculares malignas y muerte súbita cardiaca': { tx_intervencionista: [14, 15], criterios_dx: [14, 15], laboratorio: [14, 15], tx_farmacologico: [14, 15] },
+  // Verificado contra el PDF de la guia ESC 2023 (fuente 1): la fibrilacion auricular y su
+  // anticoagulacion estan en sus paginas 39-42, con CHA2DS2-VASc y el anticoagulante oral en las
+  // mismas, y el trombo por ecocardiograma transesofagico en las 22 y 60. El campo `laboratorio`
+  // de esta ficha dice que no hay hallazgo especifico, asi que no se le cuelga ninguna cita.
+  'Fibrilación auricular y tromboembolismo': { criterios_dx: [1], tx_farmacologico: [1] },
+  // Dos clausulas y dos fuentes, cada una verificada donde la sostiene: el MECANISMO (movimiento
+  // anterior sistolico, insuficiencia mitral en la hipertrofica y la dilatada) esta en la guia ESC
+  // de miocardiopatias, paginas 48 a 55; la CUANTIFICACION por area del orificio regurgitante
+  // efectivo y volumen regurgitante NO aparece ahi (cero apariciones) y si en la guia ESC de
+  // insuficiencia cardiaca, paginas 66-67, que es su sitio.
+  'Insuficiencia mitral funcional': { criterios_dx: [1, 6] }
 };
 export const estigmas = [];
 export const biopsia = null;

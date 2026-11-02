@@ -330,7 +330,7 @@ atribuyeron los dos campos del protocolo de traslado, que son claramente del ATL
 siete reparten entre la revisión de Jeschke y el manual sin que el texto permita decidir.
 Adivinar habría sido repetir el defecto de `urticaria`.
 
-**CERRADO EN SU MAYOR PARTE EL 2/11/2026: 1941 de 2072 campos (94%) y 91 de 106 temas
+**CERRADO EN SU MAYOR PARTE EL 2/11/2026: 1964 de 2072 campos (94.8%) y 91 de 106 temas
 completos**, frente a los 377 y los 17 del parrafo anterior. Y no fue fuerza bruta: la causa de la
 mayor parte del problema **no era que faltaran citas**. `compCites` admite dos formas, por campo
 (`{ criterios_dx: [3] }`) y plana (`[3, 4]`, las fuentes de la ficha entera), y `openModal`
@@ -343,15 +343,38 @@ Se arreglo en tres pasadas mecanicas (conversion de las 427 fichas, herencia del
 mas cercano en 41 temas, y poda de 392 entradas inertes colgadas de campos que la ficha no tiene)
 mas 51 atribuciones a mano que cerraron Semiologia 9 de 9.
 
-**Lo que queda, con honestidad: de los 1941, unos 1250 estan atribuidos a nivel de FICHA y no de
+**Lo que queda, con honestidad: de los 1964, unos 1250 estan atribuidos a nivel de FICHA y no de
 campo.** La cita dice que la ficha se apoya en esas fuentes, no que ese campo salga de esa fuente.
 Es fiel a lo que el autor declaro y es un salto frente a no pintar nada, pero no es lo mismo que
 las 111 hechas a mano leyendo cada campo. Afinarlas es trabajo de leer fuentes y sigue abierto.
 
-**Y 131 huecos en 15 temas siguen declarados a proposito**, en `ATRIB_PENDIENTES` de `tests.js` y
-en `.claude/atribucion-citas.md`: fichas que no declaran ninguna fuente, o cuyo contenido ninguna
-fuente del tema cubre. `sepsis` es el caso claro, sus siete fuentes no cubren el score ISTH de la
-coagulacion intravascular ni la encefalopatia septica.
+**Quedan 108 huecos en 15 temas** (eran 131 el mismo dia), en `ATRIB_PENDIENTES` de `tests.js` y
+en `.claude/atribucion-citas.md`.
+
+**La premisa con la que se habian dejado era equivocada, y se vio al ponerse a cerrarlos.** Este
+apartado decia que estaban "en fichas que no declaran ninguna fuente" y que cerrarlos "exige
+fuentes nuevas, no reparto". Las dos cosas resultaron falsas: **63 de los 131 estaban en fichas que
+SI declaran fuentes** (en `cirrosis-hepatica`, Ascitis, PBE y la encefalopatia ya citaban la fuente
+correcta en los otros campos y solo `laboratorio` estaba vacio), y donde de verdad hacia falta una
+fuente nueva, **la fuente ya estaba en `Bibliografia/`**. El ejemplo que este informe ponia como
+caso claro, el score ISTH de la CID de `sepsis`, esta en el repositorio desde hace tiempo:
+`Iba-et-al-2025-ISTH-DIC-updated-definition.pdf`, en su carpeta de hemostasia, nunca anadido a la
+`bibliografia` de ese tema. Se cerraron **23 huecos sin necesitar una sola fuente de fuera**, cada
+uno verificado buscando en el PDF las afirmaciones del campo y anotando paginas y apariciones.
+
+Tres cosas que esa pasada dejo medidas y conviene no volver a suponer:
+
+- **las guias no dosifican.** 10 de los 12 huecos que le quedan a `vasopresores-sedantes` son
+  rangos de dosis y presentaciones, y en PADIS "mg/kg/h" y "mcg/kg" tienen **cero apariciones**,
+  con un unico "mg/kg" en las 25 paginas de la guia de bloqueo neuromuscular;
+- **nueve de los huecos no afirman nada citable**, y cinco son remisiones a otra tarjeta ("no hay
+  tratamiento farmacologico especifico... mas alla del de la miocardiopatia de base"). El
+  trinquete los cuenta porque su filtro solo reconoce la cadena exacta "No aplica". Los tres que
+  le quedan a `miocardiopatias` son todos de este tipo: ese tema esta cerrado de hecho, y esto es
+  un artefacto de la medida que conviene decidir antes de que alguien lo "cierre" citando algo;
+- **el paciente cirrotico de `valoracion-preoperatoria`** no se cierra con lo que hay, y ahora con
+  evidencia: en la guia perioperatoria de la AHA y el ACC, "cirrhosis", "Child-Pugh" y "MELD"
+  tienen cero apariciones cada una.
 
 **El trinquete va ahora al reves y es mas fuerte**: en vez de enumerar los temas completos, enumera
 los 15 pendientes con su maximo tolerado y **exige cero a los otros 91**, mas dos pruebas globales
@@ -525,11 +548,12 @@ de donde venia cada arreglo.
     No hizo falta ir tema por tema; el criterio iba en la palabra, y la parte que de verdad pedia
     juicio se quedo sin tocar a proposito.
 12. La CSP, la parte de 1.3 que no se pudo cerrar. **Pendiente**, ver la seccion 7.
-13. ~~Las citas (2.6).~~ **Cerrado en su mayor parte el 2/11/2026: 1941 de 2072 campos (94%)
+13. ~~Las citas (2.6).~~ **Cerrado en su mayor parte el 2/11/2026: 1964 de 2072 campos (94.8%)
     y 91 de 106 temas completos.** La mayor parte no eran citas que faltaran sino la forma plana de
     `compCites`, que el motor ancla solo a `definicion`: 62 temas y 427 fichas con las fuentes
     declaradas y sin pintar. Siguen abiertas dos cosas: **afinar a nivel de campo los ~1250
-    atribuidos a nivel de ficha** y los **131 huecos de 15 temas** que se dejaron a proposito.
+    atribuidos a nivel de ficha** y los **108 huecos de 15 temas** (eran 131; se cerraron 23 el
+    mismo dia, y la premisa con que se habian dejado era equivocada: ver 2.6).
 14. El candado de las fichas (2.4). **Pendiente**, y es una decision del autor entre dos
     alternativas, ver la seccion 7.
 
@@ -558,16 +582,18 @@ _(Los metadatos de Inicio, que abrian esta lista, se cerraron el 1 de noviembre:
   palabra, y la prueba del infinitivo separa el sustantivo del verbo sin leer el diff. Lo que de
   verdad pedia juicio (los pares `estudio`/`estudio`, `continua`/`continua`, el `el`/`el`) sigue
   sin tocar, y en esos casos la forma sin tilde ya era la correcta. Ver 2.5.
-- **Las citas (2.6): cerradas al 94%, y lo que queda es de precision, no de cobertura.** 1941
+- **Las citas (2.6): cerradas al 94.8%, y lo que queda es de precision, no de cobertura.** 1964
   de 2072 campos y 91 de 106 temas completos (2/11/2026, ver 2.6). Quedan dos cosas, y conviene no
   confundirlas:
   - **afinar a nivel de campo los ~1250 que estan atribuidos a nivel de ficha.** La cita dice que
     la ficha se apoya en esas fuentes, no que ese campo salga de esa fuente. Esto si es leer
     fuentes tema por tema, y en los temas con 15 o 16 es trabajo de verdad;
-  - los **131 huecos de 15 temas** listados en `ATRIB_PENDIENTES`, que estan sin atribuir
-    **a proposito**: la ficha no declara ninguna fuente, o ninguna fuente del tema cubre su
-    contenido. Cerrarlos exige fuentes nuevas, no reparto. Adivinar seria repetir el defecto de
-    `urticaria`: una cita equivocada es peor que un hueco.
+  - los **108 huecos de 15 temas** listados en `ATRIB_PENDIENTES` (eran 131). Lo de "exige
+    fuentes nuevas, no reparto" era falso: en 9 de los 15 temas la fuente ya esta, o declarada en
+    el propio tema o en `Bibliografia/` sin usar, y la tabla de `.claude/atribucion-citas.md`
+    nombra ahora la fuente candidata de cada uno. Lo que sigue en pie es no adivinar: cada cita se
+    verifica buscando en el PDF lo que el campo afirma, o se deja el hueco. Una cita equivocada
+    sigue siendo peor que un hueco.
 - **La cobertura (seccion 4).** Es escribir temas nuevos. Infectologia (0/20) y Reumatologia
   (0/16) son los dos bloques de mayor rendimiento, 36 items entre los dos.
 - **Los objetivos de aprendizaje por tema.** Venia del informe de octubre (su 2.5) y sigue sin

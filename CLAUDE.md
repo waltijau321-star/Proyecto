@@ -160,6 +160,14 @@ topics declared complete must stay complete, so the backlog can be cleared in bl
 leaving the suite red. The full state, the per-topic worklist and the method are in
 `.claude/atribucion-citas.md`.
 
+**Before concluding a source is missing, look in `Bibliografia/`.** It holds 330 PDFs organized by
+area, and a topic's `bibliografia[]` is not the author's whole library: on 2 Nov 2026 the ISTH DIC
+score that `.claude/atribucion-citas.md` named as its clearest example of "no source exists" was
+sitting in `VI. Hematología y Oncología/Hemostasia y trombosis/`, never added to that topic. Search
+by the subject of the gap (`find Bibliografia -iname "*neutropen*"`), not by the topic's name. And
+**a source added to `bibliografia[]` goes at the end**: inserting one shifts every later index and
+the engine paints the wrong reference without a word.
+
 **Never attribute a field to a source you have not checked covers it.** A wrong citation is worse
 than a gap, and this is not hypothetical: `urticaria` listed the SOLAPSO psoriasis guideline and
 the Latin-American Stevens-Johnson guideline, and the only mentions of "psoriasis" and "Stevens"

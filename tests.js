@@ -2271,15 +2271,20 @@ async function run() {
   // Los temas que TODAVIA tienen huecos, con su maximo tolerado. Todo tema que no este aqui debe
   // estar a cero. Al cerrar huecos hay que BAJAR el numero; si una prueba falla por lo contrario,
   // es que una cita se perdio. La lista se vacia sola a medida que avanza el trabajo.
+  // Bajado el 2/11/2026 de 131 huecos a 108. Los 23 que se cerraron se verificaron uno por uno
+  // contra los PDF de Bibliografia/, buscando en el PDF las afirmaciones concretas del campo, no
+  // fiandose del titulo de la fuente. El detalle de cada uno esta en los comentarios de cada
+  // content.js y el recuento en .claude/atribucion-citas.md.
   const ATRIB_PENDIENTES = {
-    'valoracion-preoperatoria': 2, 'anemia-ferropenica': 3, 'anemia-megaloblastica': 3,
+    'sepsis': 1, 'valoracion-preoperatoria': 1, 'miocardiopatias': 3,
+    'anemia-ferropenica': 3, 'anemia-megaloblastica': 3,
     'anemia-enfermedad-cronica': 3, 'debilidad-adquirida-uci': 3, 'eccemas': 3,
-    'sepsis': 6, 'miocardiopatias': 6, 'anemia-aplasica': 6,
-    'anemias-hemoliticas-hereditarias': 6, 'sindromes-mielodisplasicos': 9,
-    'sindromes-mieloproliferativos': 9, 'anemias-hemoliticas-adquiridas': 12,
-    'vasopresores-sedantes': 20, 'cirrosis-hepatica': 40
+    'anemia-aplasica': 6, 'anemias-hemoliticas-hereditarias': 6,
+    'sindromes-mielodisplasicos': 9, 'sindromes-mieloproliferativos': 9,
+    'vasopresores-sedantes': 12, 'anemias-hemoliticas-adquiridas': 12,
+    'cirrosis-hepatica': 34
   };
-  const ATRIB_TOTAL_MINIMO = 1941;
+  const ATRIB_TOTAL_MINIMO = 1964;
 
   const atribPorTema = {};
   let atribTotal = 0, atribCampos = 0;

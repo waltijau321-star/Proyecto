@@ -263,19 +263,40 @@ export const content = {
   }
 };
 
+// Las citas de `laboratorio` de esta tabla se verificaron una por una contra los PDF del repo:
+// PADIS 2018 (fuente 1) trae RASS 15 veces, "sedation scale" 13 y "pain scale" 19, mas la
+// bradicardia y la hipotension de la dexmedetomidina en sus paginas 13 y 16; la guia de bloqueo
+// neuromuscular (fuente 4) trae el tren de cuatro 24 veces y el estimulador de nervio periferico
+// 5; y Surviving Sepsis 2026 (fuente 2) trae el cateter arterial 13, el relleno capilar 14, la
+// arritmia 8 (en la pagina 37, la misma que la dopamina) y la isquemia digital en la 38, que es
+// la de la vasopresina.
+//
+// LAS DOSIS SIGUEN SIN CITA A PROPOSITO, y no por descuido: ninguna de estas guias es una
+// referencia de dosificacion. PADIS no contiene ni una sola vez "mg/kg/h" ni "mcg/kg", y la de
+// bloqueo neuromuscular tiene un unico "mg/kg" en 25 paginas. Dicen que farmaco preferir, no a
+// cuanto. Y las presentaciones y diluciones ("ampolla 200 mg/5 mL", "400 mg en 250 mL") no las da
+// ninguna guia: son de formulario. El tema declara a Katzung (fuente 8) y no la usa en ningun
+// sitio, que es probablemente para lo que se anadio, pero ese libro no esta en Bibliografia/ y no
+// se puede comprobar que cubra estos numeros. Igual pasa con las fuentes 5 y 7, declaradas y sin
+// usar; la 7 trata justo de como se reportan las formulaciones de noradrenalina.
+//
+// El campo `laboratorio` del PROPOFOL tampoco lleva cita: de sus tres clausulas, PADIS solo
+// sostiene el RASS. "Triglycerides" y "creatine kinase" tienen CERO apariciones, y el sindrome
+// por infusion aparece una sola vez. Citar PADIS ahi mandaria al lector a buscar un consejo que
+// la guia no da.
 export const compCites = {
   'Norepinefrina (Noradrenalina)': { tx_medico: [2], criterios_tips: [2], laboratorio: [2], tx_farmacologico: [2] },
   'Adrenalina (Epinefrina)': { tx_medico: [2], criterios_tips: [2], laboratorio: [2], tx_farmacologico: [2] },
-  'Dopamina': { tx_medico: [2, 3] },
-  'Dobutamina': { criterios_tips: [2] },
-  'Vasopresina': { tx_medico: [2] },
-  'Midazolam': { tx_medico: [1], criterios_tips: [1] },
+  'Dopamina': { tx_medico: [2, 3], laboratorio: [2] },
+  'Dobutamina': { criterios_tips: [2], laboratorio: [2] },
+  'Vasopresina': { tx_medico: [2], laboratorio: [2] },
+  'Midazolam': { tx_medico: [1], criterios_tips: [1], laboratorio: [1] },
   'Propofol': { tx_medico: [1] },
-  'Dexmedetomidina': { tx_medico: [1] },
+  'Dexmedetomidina': { tx_medico: [1], laboratorio: [1] },
   'Ketamina': { fisiopatologia: [6] },
-  'Fentanilo': { tx_medico: [1], criterios_tips: [1] },
-  'Vecuronio': { tx_medico: [4] },
-  'Rocuronio': { tx_medico: [4] }
+  'Fentanilo': { tx_medico: [1], criterios_tips: [1], laboratorio: [1] },
+  'Vecuronio': { tx_medico: [4], laboratorio: [4] },
+  'Rocuronio': { tx_medico: [4], laboratorio: [4] }
 };
 export const estigmas = [];
 export const biopsia = null;

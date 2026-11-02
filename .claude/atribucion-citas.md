@@ -41,7 +41,7 @@ reves, que es mas fuerte: en vez de enumerar los temas completos, enumera los PE
 
 1. Ningun indice apunta fuera de la bibliografia de su tema.
 2. Ninguna cita cuelga de un campo que la ficha no tiene.
-3. El total de campos atribuidos no baja de la marca (1941).
+3. El total de campos atribuidos no baja de la marca (1964).
 4. Ningun tema de la lista de pendientes empeora, y todo tema fuera de ella esta a cero.
 
 Asi el trabajo se hace por bloques sin que nada se desande y sin dejar la suite en rojo mientras
@@ -70,14 +70,17 @@ ejemplos de este primer bloque:
 del tema cubre de verdad. Eso no se arregla atribuyendo, se arregla consiguiendo la fuente (o
 aceptando el limite y dejandolo escrito, como ya se hizo en la cabecera de esos `content.js`).
 
-## Estado a 1 de noviembre de 2026
+## Estado a 2 de noviembre de 2026
 
 | | |
 |---|---|
 | Campos de la regla | 2072 |
-| Atribuidos | **1941** (94%) |
-| Huecos | 131 |
+| Atribuidos | **1964** (94.8%) |
+| Huecos | 108 |
 | Temas completos | **91** de 106 |
+
+(El dia anterior eran 1941 y 131 huecos. Los 23 cerrados y por que, mas abajo en
+"La premisa de este pendiente estaba equivocada".)
 
 **De 17 temas completos a 91, y de 377 campos atribuidos a 1941, el 2 de noviembre.** No fue
 fuerza bruta: al intentar atribuir `delirium-coma-encefalopatias` aparecio la causa real de la
@@ -184,14 +187,82 @@ Quedan **25 cruces de genero** sin tocar, los que no cumplen las cuatro condicio
 atribuciones hechas a mano el 1 y el 2 de noviembre siguen siendo las unicas con precision de campo
 verificada leyendo la fuente.
 
-### Lo que sigue sin atribuir, a proposito
+### La premisa de este pendiente estaba equivocada (2 de noviembre de 2026)
 
-Los 131 huecos que quedan estan en fichas que **no declaran ninguna fuente**, de modo que no hay
-nada que heredar, o en fichas cuyo contenido ninguna fuente del tema cubre. Los dos casos ya
-documentados siguen igual: la paniculitis de `eritemas-reactivos`, las tres de dermatitis
-herpetiforme y las de "otros eccemas". A estos se suman, entre otros, la coagulacion intravascular
-diseminada y la encefalopatia de `sepsis`, cuyas siete fuentes son definiciones, Surviving Sepsis,
-SDRA y lesion renal: ninguna cubre el score ISTH ni la encefalopatia septica.
+Este apartado decia que los 131 huecos estaban "en fichas que **no declaran ninguna fuente**, de
+modo que no hay nada que heredar", y que cerrarlos "exige fuentes nuevas, no reparto". Al ponerme
+a ello, las dos afirmaciones resultaron falsas, cada una por su lado. Se cerraron **23 huecos**,
+131 a 108, y ninguno necesito una fuente que no estuviera ya en el repositorio.
+
+**Primero: 63 de los 131 estaban en fichas que SI declaran fuentes.** Basta separarlos al medirlos
+(`Object.keys(compCites[ficha]).length > 0`) para verlo: 63 con citas en otros campos, 68 sin
+ninguna. En `cirrosis-hepatica` el patron es inequivoco: Ascitis, PBE, ascitis refractaria,
+sindrome hepatorrenal y encefalopatia **ya citaban la fuente correcta** en `criterios_dx` y en
+`tx_farmacologico`, y solo `laboratorio` se habia quedado vacio. No era una ficha sin fuente, era
+un campo sin rellenar.
+
+**Segundo, y es lo que mas vale la pena recordar: la fuente que "faltaba" estaba en
+`Bibliografia/`.** El caso que este documento ponia como ejemplo claro era la CID de `sepsis`,
+"cuyas siete fuentes no cubren el score ISTH". Es cierto que las siete no lo cubren. Pero el
+repositorio tiene 330 PDF, y entre ellos
+`VI. Hematologia y Oncologia/Hemostasia y trombosis/Iba-et-al-2025-ISTH-DIC-updated-definition.pdf`,
+que es exactamente esa fuente, en su carpeta correcta, nunca anadida a la `bibliografia` de ese
+tema. Igual la encefalopatia septica, con
+`IX. Neurologia/.../Wijdicks-2022-metabolic-encephalopathies.pdf`. **Antes de concluir que una
+fuente falta, hay que buscarla en `Bibliografia/`**, no solo en la `bibliografia[]` del tema.
+
+Mirando la carpeta con los huecos en la mano aparecen ademas, sin usar en el tema que las
+necesita: `Freifeld-et-al-2011-IDSA-neutropenic-fever-guideline.pdf` (los 3 huecos de neutropenia
+febril de `sindromes-mielodisplasicos`), `NCCN-2026-AML-guideline.pdf` (las dos transformaciones a
+leucemia), `Kulasekararaj-et-al-2024-BSH-aplastic-anaemia-guideline.pdf` (`anemia-aplasica`),
+`Obeid-et-al-2024-B12-deficiency-Delphi-consensus.pdf` (`anemia-megaloblastica`),
+`Kaplan-et-al-2024-AASLD-portal-hypertension-varices-guidance.pdf` y
+`Cederholm-Jensen-et-al-2019-GLIM-malnutrition-criteria.pdf` (varios de `cirrosis-hepatica`).
+Ese es el camino para los 108 que quedan.
+
+**Como se verifico cada uno de los 23.** No por el titulo de la fuente: buscando en el PDF las
+afirmaciones concretas del campo y anotando las apariciones y las paginas en un comentario junto a
+la cita. Por ejemplo, el `laboratorio` de Ascitis dice paracentesis, SAAG, recuento celular y
+frascos de hemocultivo a pie de cama, y en el PDF de la AASLD hay paracentesis 45 veces, SAAG 9
+(paginas 3-5), recuento celular 3 y "blood culture bottles" en la pagina 16. El `laboratorio` de
+la encefalopatia subraya que un amonio normal obliga a reconsiderar el diagnostico, y la guia EASL
+trae "normal ammonia" en su pagina 4.
+
+### Lo que NO se cerro, y por que (medido, no supuesto)
+
+**Las guias no dosifican.** Es el motivo de 10 de los 12 huecos que quedan en
+`vasopresores-sedantes`, todos ellos `tx_farmacologico` con rangos de dosis, presentaciones y
+diluciones. En el PDF de PADIS **"mg/kg/h" y "mcg/kg" tienen cero apariciones**, y la guia de
+bloqueo neuromuscular tiene **un unico "mg/kg" en 25 paginas**. Dicen que farmaco preferir, no a
+cuanto. Y las presentaciones ("ampolla 200 mg/5 mL") no las da ninguna guia: son de formulario. El
+tema declara a Katzung y no lo usa en ningun sitio, que es probablemente para lo que se anadio,
+pero ese libro no esta en `Bibliografia/` y no se puede comprobar. Es la misma forma del hallazgo
+de Reumatologia: las guias de manejo no traen los criterios de clasificacion. Antes de dar por
+cubierto un campo, comprobar que la fuente es del **genero** del campo.
+
+**Campos cubiertos solo a medias, que se dejaron sin cita a proposito.** El `laboratorio` del
+propofol tiene tres clausulas y PADIS solo sostiene una: "triglycerides" y "creatine kinase"
+tienen cero apariciones. El `tx_farmacologico` de la CID tiene dos y el ISTH solo sostiene la
+anticoagulacion: "transfus" y "cryoprecipitate" tienen cero en ese PDF, y "platelet transfusion",
+"plasma transfusion" y "disseminated intravascular" tienen cero en Surviving Sepsis 2026. Citar
+ahi mandaria al lector a buscar un consejo que la fuente no da, que es el defecto de `urticaria`
+en pequeno.
+
+**El paciente cirrotico de `valoracion-preoperatoria`** sigue sin cita porque ninguna de sus 11
+fuentes es de hepatologia, y ahora con evidencia: en el PDF de la guia perioperatoria de la AHA y
+el ACC, "cirrhosis", "Child-Pugh" y "MELD" tienen **cero apariciones** cada una.
+
+**Nueve de los huecos no afirman nada que se pueda citar**, y cinco de esos nueve son remisiones a
+otra tarjeta: "Sin hallazgo especifico salvo los propios de un evento embolico agudo", "No hay
+tratamiento farmacologico especifico de la insuficiencia mitral en si, mas alla del tratamiento de
+la miocardiopatia de base ya descrito en cada tarjeta". El trinquete los cuenta como huecos porque
+su filtro solo reconoce la cadena exacta "No aplica". Los tres que le quedan a `miocardiopatias`
+son de este tipo, asi que ese tema esta de hecho cerrado. **Es un artefacto de la medida, no un
+pendiente**, y conviene decidir si el filtro debe reconocerlos antes de que alguien intente
+"cerrarlos" citando algo.
+
+Los casos ya documentados de antes siguen igual: la paniculitis de `eritemas-reactivos`, las tres
+de dermatitis herpetiforme y las de "otros eccemas".
 
 
 ## El trabajo que queda, por tema
@@ -202,25 +273,26 @@ leer. Ojo con el patron que se ve en la tabla: muchos temas tienen TODOS sus cam
 (18 de 18, 24 de 24), lo que significa que su `compCites` nunca se relleno, mientras otros estan
 a medias.
 
-| Tema | Huecos | Campos de la regla | Fuentes |
+| Tema | Huecos | Fuentes del tema | Fuente que lo cerraria, si se sabe |
 |---|---|---|---|
-| `valoracion-preoperatoria` | 2 | 21 | 11 |
-| `anemia-ferropenica` | 3 | 24 | 16 |
-| `anemia-megaloblastica` | 3 | 24 | 16 |
-| `anemia-enfermedad-cronica` | 3 | 24 | 16 |
-| `debilidad-adquirida-uci` | 3 | 18 | 16 |
-| `eccemas` | 3 | 18 | 4 |
-| `sepsis` | 6 | 15 | 7 |
-| `miocardiopatias` | 6 | 27 | 15 |
-| `anemia-aplasica` | 6 | 24 | 15 |
-| `anemias-hemoliticas-hereditarias` | 6 | 24 | 15 |
-| `sindromes-mielodisplasicos` | 9 | 24 | 15 |
-| `sindromes-mieloproliferativos` | 9 | 24 | 16 |
-| `anemias-hemoliticas-adquiridas` | 12 | 27 | 16 |
-| `vasopresores-sedantes` | 20 | 24 | 8 |
-| `cirrosis-hepatica` | 40 | 57 | 22 |
+| `sepsis` | 1 | 10 | guia de transfusion de plaquetas y plasma; el repo solo tiene la de hematies (Carson AABB 2023) |
+| `valoracion-preoperatoria` | 1 | 11 | riesgo quirurgico en cirrosis (Mayo / VOCAL-Penn, o una guia AASLD); ninguna de sus 11 es de hepatologia |
+| `miocardiopatias` | 3 | 15 | **ninguna: los tres son enunciados de ausencia**, el tema esta cerrado de hecho |
+| `anemia-ferropenica` | 3 | 16 | Stoffel (10), Rimon (13) y la guia BSG (3), ya en el tema: hablan de tolerancia al hierro oral |
+| `anemia-megaloblastica` | 3 | 16 | `Obeid-et-al-2024-B12-deficiency-Delphi-consensus.pdf`, en el repo y sin usar |
+| `anemia-enfermedad-cronica` | 3 | 16 | Cullis (5), ya en el tema, para el diagnostico; falta la de quelacion |
+| `debilidad-adquirida-uci` | 3 | 16 | Needham (15) y Herridge (16), ya en el tema y ya citadas en la `definicion` de esa misma ficha |
+| `eccemas` | 3 | 4 | pendiente de verdad: 4 fuentes y ninguna cubre "otros eccemas" |
+| `anemia-aplasica` | 6 | 15 | `Kulasekararaj-et-al-2024-BSH-aplastic-anaemia-guideline.pdf`, en el repo y sin usar |
+| `anemias-hemoliticas-hereditarias` | 6 | 15 | falta la de sobrecarga de hierro; ojo, la de parvovirus (12) es para la crisis APLASICA, no la megaloblastica |
+| `sindromes-mielodisplasicos` | 9 | 15 | `Freifeld-et-al-2011-IDSA-neutropenic-fever-guideline.pdf` y `NCCN-2026-AML-guideline.pdf`, los dos en el repo |
+| `sindromes-mieloproliferativos` | 9 | 16 | la clasificacion OMS (1) y la ICC (2), ya en el tema y las dos completas en PMC; ojo, los criterios IWG-MRT de mielofibrosis post-PV **no** son el DIPSS (8) |
+| `vasopresores-sedantes` | 12 | 8 | **10 son dosis y presentaciones: ninguna guia las da.** Hace falta una referencia de dosificacion y el formulario institucional |
+| `anemias-hemoliticas-adquiridas` | 12 | 16 | Brodsky (13) para la trombosis de la HPN, ya en el tema y completa en PMC; falta la de sobrecarga de hierro |
+| `cirrosis-hepatica` | 34 | 22 | cada complicacion tiene SU fuente ya declarada (Baveno VII, EASL, Fallon, O'Leary, Tandon...); es verificarlas una a una |
 
-Total: **131 huecos en 15 temas**.
+Total: **108 huecos en 15 temas**. La columna de la derecha es el trabajo real que queda: en 9 de
+los 15 temas la fuente ya esta, o en la `bibliografia` del tema o en `Bibliografia/` sin usar.
 
 ## Como ver los huecos de un tema
 

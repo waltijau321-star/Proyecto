@@ -20,7 +20,13 @@ export const bibliografia = [
   'Vincent JL, Moreno R, Takala J, et al. The SOFA (Sepsis-related Organ Failure Assessment) score. Intensive Care Med. 1996;22(7):707-710.',
   'Ranzani OT, Singer M, Salluh JIF, et al. Development and Validation of the Sequential Organ Failure Assessment (SOFA)-2 Score. JAMA. 2025;334(23):2090-2103.',
   'ARDS Definition Task Force. Acute respiratory distress syndrome: the Berlin Definition. JAMA. 2012;307(23):2526-2533.',
-  'KDIGO Clinical Practice Guideline for Acute Kidney Injury. Kidney Int Suppl. 2012;2(1):1-138.'
+  'KDIGO Clinical Practice Guideline for Acute Kidney Injury. Kidney Int Suppl. 2012;2(1):1-138.',
+  // Las tres siguientes se anaden el 2/11/2026 para cerrar la CID y la encefalopatia, que no
+  // tenian ninguna fuente que las cubriera. Van AL FINAL a proposito: intercalarlas correria
+  // todos los indices de arriba y el motor pintaria la referencia equivocada sin avisar.
+  'Iba T, Levy JH, Maier CL, et al. Updated definition and scoring of disseminated intravascular coagulation in 2025: communication from the ISTH SSC Subcommittee on Disseminated Intravascular Coagulation. J Thromb Haemost. 2025. doi:10.1016/j.jtha.2025.03.038.',
+  'Wijdicks EFM. Identifying encephalopathies from acute metabolic derangements. J Intern Med. 2022;292:846-857. doi:10.1111/joim.13538.',
+  'Devlin JW, Skrobik Y, Gelinas C, et al. Clinical practice guidelines for the prevention and management of pain, agitation and sedation, delirium, immobility, and sleep disruption in adult patients in the ICU. Crit Care Med. 2018;46(9):e825-e873.'
 ];
 
 // Reproduce el marcado visual de .modal-figure que arma oneFiguraHTML() en engine/study-view.js,
@@ -233,8 +239,23 @@ export const compCites = {
   'Choque séptico': { definicion: [1], criterios_dx: [1], tx_farmacologico: [2], laboratorio: [1, 2] },
   'Síndrome de dificultad respiratoria aguda (SDRA)': { criterios_dx: [6], laboratorio: [6], tx_farmacologico: [2] },
   'Lesión renal aguda asociada a sepsis': { criterios_dx: [7], laboratorio: [7], tx_farmacologico: [7] },
-  'Coagulación intravascular diseminada (CID)': {},
-  'Encefalopatía asociada a sepsis': {}
+  // Verificado contra el PDF de la comunicacion del ISTH (fuente 8): los cuatro componentes
+  // del score estan en su pagina 3 (plaquetas, dimero D 12 apariciones, tiempo de protrombina,
+  // fibrinogeno), y 'ISTH' aparece 17 veces en 7 paginas.
+  //
+  // `tx_farmacologico` SIGUE SIN CITA, y no por descuido: de sus dos clausulas, el ISTH
+  // sostiene la de anticoagulacion (paginas 4 y 6) pero la de transfundir plaquetas, plasma o
+  // crioprecipitado no la sostiene nadie aqui. En ese PDF 'transfus' tiene CERO apariciones y
+  // 'cryoprecipitate' tambien; y en Surviving Sepsis 2026 'platelet transfusion', 'plasma
+  // transfusion' y 'disseminated intravascular' tienen las tres cero. Hace falta una guia de
+  // transfusion de plaquetas y plasma, que el repo no tiene (la de Carson es de hematies).
+  'Coagulación intravascular diseminada (CID)': { criterios_dx: [8], laboratorio: [8] },
+  // Verificado contra la revision de Wijdicks (fuente 9): 'sepsis' 11 apariciones, y los cuatro
+  // estudios que el campo nombra para excluir causas metabolicas estan todos (glucosa 4, sodio
+  // 6, amonio 6, fallo renal 4). El tratamiento se apoya en dos fuentes porque son dos
+  // clausulas: las crisis en Wijdicks ('seizure' 8 apariciones) y evitar las benzodiacepinas en
+  // PADIS, que es quien lo recomienda ('over benzodiazepines', su pagina 16).
+  'Encefalopatía asociada a sepsis': { criterios_dx: [9], laboratorio: [9], tx_farmacologico: [9, 10] }
 };
 export const estigmas = [];
 export const biopsia = null;
