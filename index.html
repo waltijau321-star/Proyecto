@@ -118,8 +118,13 @@
   <div class="modal" id="modal" role="dialog" aria-modal="true" tabindex="-1"></div>
 </div>
 
+<!-- Los terminos viven en su propio overlay, por encima de #overlay: se abren DESDE el modal de
+     registro, que sigue activo debajo. De ahi que lleven sus propias semanticas de dialogo, y que
+     la trampa de foco de study-view.js tenga que elegir la capa de arriba en vez de mirar solo
+     #overlay. tabindex="-1" es lo que permite meter el foco aqui al abrir. -->
 <div class="overlay" id="terms-overlay">
-  <div class="modal terms-modal" id="terms-modal"></div>
+  <div class="modal terms-modal" id="terms-modal" role="dialog" aria-modal="true"
+       aria-label="Términos y condiciones" tabindex="-1"></div>
 </div>
 
 <!-- Lightbox para ampliar a pantalla completa cualquier imagen dentro de una figura didáctica o

@@ -283,6 +283,51 @@ async function run() {
     assert(r.len && r.upper && r.lower && r.number, 'Abcdef12 debería cumplir los 4 requisitos');
   });
 
+  /* ---------------- Trampa de foco de las capas modales (engine/study-view.js) ---------------- */
+  const { capaModalSuperior, focoDelTabulador } = await import('./engine/study-view.js');
+
+  test('capas modales: manda la de arriba, no la primera activa', () => {
+    // El caso real: los términos abiertos sobre el login, que sigue activo debajo. Si gana
+    // #overlay, el tabulador recorre el formulario de registro que queda tapado.
+    assertEqual(capaModalSuperior([
+      { id: 'overlay', activa: true },
+      { id: 'terms-overlay', activa: true },
+      { id: 'img-lightbox', activa: false }
+    ]), 'terms-overlay');
+    assertEqual(capaModalSuperior([
+      { id: 'overlay', activa: true },
+      { id: 'terms-overlay', activa: false },
+      { id: 'img-lightbox', activa: true }
+    ]), 'img-lightbox');
+  });
+
+  test('capas modales: sin ninguna activa no hay trampa', () => {
+    assertEqual(capaModalSuperior([
+      { id: 'overlay', activa: false },
+      { id: 'terms-overlay', activa: false }
+    ]), null);
+    assertEqual(capaModalSuperior([]), null);
+  });
+
+  test('foco: con el foco FUERA de la capa, el tabulador vuelve dentro', () => {
+    // Este es el defecto que tenía: al cargar la página el foco está en <body>, que no es ni el
+    // primero ni el último del recorrido, así que la versión anterior dejaba pasar la tecla y
+    // dos pulsaciones bastaban para llegar a la nav de la app, detrás de la puerta de acceso.
+    assertEqual(focoDelTabulador(false, false, false, false), 'primero');
+    assertEqual(focoDelTabulador(false, false, false, true), 'ultimo');
+  });
+
+  test('foco: dentro de la capa solo se envuelve en los dos extremos', () => {
+    assertEqual(focoDelTabulador(true, false, true, false), 'primero');
+    assertEqual(focoDelTabulador(true, true, false, true), 'ultimo');
+    // En medio del recorrido no se toca: el tabulado normal tiene que seguir funcionando.
+    assertEqual(focoDelTabulador(true, false, false, false), null);
+    assertEqual(focoDelTabulador(true, false, false, true), null);
+    // Y en el extremo contrario al sentido de la marcha tampoco.
+    assertEqual(focoDelTabulador(true, true, false, false), null);
+    assertEqual(focoDelTabulador(true, false, true, true), null);
+  });
+
   /* ---------------- Calculadoras clínicas: Sepsis ---------------- */
   const sepsisCalc = (await import('./topics/sepsis/calculators.js')).calculators;
   const cribado = sepsisCalc.find(c => c.key === 'cribado');
@@ -970,6 +1015,7 @@ async function run() {
   const htmlIndex = await (await fetch('./index.html?v=' + Date.now())).text();
   const docIndex = new DOMParser().parseFromString(htmlIndex, 'text/html');
   const cssFuente = await (await fetch('./engine/styles.css?v=' + Date.now())).text();
+  const fuenteStudyView = await (await fetch('./engine/study-view.js?v=' + Date.now())).text();
   // En produccion firestore.rules devuelve 404 a proposito (lo excluye .assetsignore), y tests.html
   // tampoco se publica, asi que la prueba de las reglas se salta sola alli y vigila en local, que es
   // donde se corren los tests.
@@ -1062,6 +1108,32 @@ async function run() {
 
   test('notas: idReporte coincide con el formato que exige firestore.rules', () => {
     assertEqual(TS.idReporte('abc123', 'uid456'), 'abc123_uid456');
+  });
+
+  test('acceso: los tres modales declaran que son dialogos', () => {
+    // Sin role/aria-modal un lector de pantalla los lee como contenido mas de la pagina. El de
+    // terminos importa especialmente: es la unica pieza de la puerta de acceso que la gente
+    // TIENE que abrir para registrarse, y se abre DESDE otro modal que sigue activo debajo.
+    for (const id of ['modal', 'terms-modal']) {
+      const el = docIndex.querySelector('#' + id);
+      assert(el, 'no existe #' + id + ' en index.html');
+      assertEqual(el.getAttribute('role'), 'dialog');
+      assertEqual(el.getAttribute('aria-modal'), 'true');
+      // tabindex="-1" es lo que permite meter el foco dentro al abrir.
+      assertEqual(el.getAttribute('tabindex'), '-1');
+    }
+  });
+
+  test('acceso: las capas de la trampa de foco existen y van en orden de apilamiento', () => {
+    // La trampa elige la ULTIMA activa de esta lista, asi que el orden es parte del contrato: si
+    // alguien renombra un overlay o cambia el orden, el tabulador vuelve a recorrer la capa
+    // tapada de detras.
+    const esperado = ['overlay', 'terms-overlay', 'img-lightbox'];
+    const lista = fuenteStudyView.match(/const CAPAS_MODALES = \[([^\]]*)\]/);
+    assert(lista, 'no se encontro CAPAS_MODALES en engine/study-view.js');
+    const ids = lista[1].split(',').map(x => x.trim().replace(/^'|'$/g, ''));
+    assertEqual(ids.join(','), esperado.join(','));
+    for (const id of ids) assert(docIndex.querySelector('#' + id), 'CAPAS_MODALES nombra #' + id + ', que no existe en index.html');
   });
 
   test('notas: el panel cuelga de <body> y no de .app-shell', () => {

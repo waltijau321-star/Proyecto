@@ -38,6 +38,12 @@ function showOverlay() {
   const overlay = document.getElementById('overlay');
   overlay.classList.add('active', 'auth-page');
   document.body.style.overflow = 'hidden';
+  // El foco entra al dialogo. Si no se mueve se queda en <body>, y desde ahi un lector de
+  // pantalla no anuncia que hay un dialogo ni empieza a leer por su titulo. La trampa de foco
+  // de study-view.js devuelve el tabulador aunque esto falte, pero devolverlo es el remedio;
+  // entrar al dialogo es lo correcto.
+  const modal = document.getElementById('modal');
+  if (modal && !modal.contains(document.activeElement)) modal.focus();
 }
 function hideOverlay() {
   const overlay = document.getElementById('overlay');
@@ -48,7 +54,18 @@ function hideOverlay() {
 // Bloquea el cierre del modal (Escape / click en el fondo) mientras el gate esté activo,
 // interceptando en fase de captura antes que los handlers globales de study-view.js.
 document.addEventListener('keydown', (e) => {
-  if (authGateActive && e.key === 'Escape') e.stopImmediatePropagation();
+  if (e.key !== 'Escape') return;
+  // Los términos viven en #terms-overlay, por encima del login, así que se cierran ellos
+  // primero y el gate se queda donde estaba. Sin esta rama el modal de términos no tenía
+  // salida por teclado: este guardia se tragaba la tecla, y el handler global de
+  // study-view.js llama a closeModal(), que actúa sobre #overlay, el del login, no sobre este.
+  const terms = document.getElementById('terms-overlay');
+  if (terms && terms.classList.contains('active')) {
+    e.stopImmediatePropagation();
+    closeTermsModal();
+    return;
+  }
+  if (authGateActive) e.stopImmediatePropagation();
 }, true);
 document.addEventListener('click', (e) => {
   if (authGateActive && e.target && e.target.id === 'overlay') e.stopImmediatePropagation();
@@ -308,6 +325,11 @@ function termsAndConditionsHTML() {
     </div>`;
 }
 
+// Quién tenía el foco antes de abrir los términos, para devolvérselo al cerrar: si no, el foco
+// se queda en un elemento del diálogo que acaba de volverse invisible y el tabulador reaparece
+// en un sitio cualquiera del formulario de registro.
+let focoAntesDeTerminos = null;
+
 function openTermsModal() {
   const termsModal = document.getElementById('terms-modal');
   termsModal.innerHTML = `<button class="modal-close" id="terms-close" type="button">✕</button><h2>Términos y condiciones</h2>${termsAndConditionsHTML()}`;
@@ -315,9 +337,15 @@ function openTermsModal() {
   const termsOverlay = document.getElementById('terms-overlay');
   termsOverlay.classList.add('active');
   termsOverlay.onclick = (e) => { if (e.target.id === 'terms-overlay') closeTermsModal(); };
+  // Quien abre con el teclado tiene que acabar DENTRO del diálogo, o no hay forma de llegar al
+  // botón de cerrar: el foco se quedaba en <body>, fuera de las dos capas.
+  focoAntesDeTerminos = document.activeElement;
+  termsModal.focus();
 }
 function closeTermsModal() {
   document.getElementById('terms-overlay').classList.remove('active');
+  if (focoAntesDeTerminos && document.contains(focoAntesDeTerminos)) focoAntesDeTerminos.focus();
+  focoAntesDeTerminos = null;
 }
 
 export function getCurrentUser() { return auth.currentUser; }

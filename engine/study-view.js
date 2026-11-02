@@ -845,23 +845,57 @@ document.addEventListener('keydown', e => {
   if (lb && lb.classList.contains('active')) closeImgLightbox();
   else closeModal();
 });
-// Trampa de foco del modal compartido: mientras el overlay esta activo, el tabulador no se
-// escapa a la pagina de detras. Importa sobre todo en la puerta de acceso, que es un modal del
-// que no se puede salir, y de paso en cualquier otro modal. Solo actua en los dos extremos del
-// recorrido, asi que no interfiere con el tabulado normal de dentro. Se salta si el cajon de
-// notas esta abierto, porque entonces el foco le pertenece a el.
+// Trampa de foco de las capas modales: mientras una esta activa, el tabulador no se escapa a la
+// pagina de detras. Importa sobre todo en la puerta de acceso, que es un modal del que no se
+// puede salir. Se salta si el cajon de notas esta abierto, porque entonces el foco le pertenece
+// a el.
+//
+// CAPAS_MODALES va en orden de apilamiento, de abajo arriba, y manda la ULTIMA activa. Son tres
+// overlays distintos, no uno: los terminos y condiciones viven en #terms-overlay por encima del
+// login (que sigue activo debajo), y la lupa de imagenes en #img-lightbox por encima de
+// cualquier modal de contenido. Mirando solo #overlay, con los terminos abiertos el tabulador
+// recorria el formulario de registro que queda tapado detras.
+const CAPAS_MODALES = ['overlay', 'terms-overlay', 'img-lightbox'];
+const SELECTOR_FOCO = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+// Las dos decisiones de la trampa, aparte y exportadas para poder probarlas: el fallo que tenian
+// no se veia en ninguna metrica, solo tabulando dos veces sobre la pantalla de acceso.
+export function capaModalSuperior(capas) {
+  for (let i = capas.length - 1; i >= 0; i--) if (capas[i] && capas[i].activa) return capas[i].id;
+  return null;
+}
+// `dentro` dice si el foco esta en la capa de arriba. Que NO lo este es el caso que faltaba: al
+// cargar la pagina el foco esta en <body>, que no es ni el primero ni el ultimo del recorrido,
+// de modo que el tabulador seguia el orden natural del documento y se iba a la nav de la app,
+// detras de la puerta de acceso. Dos pulsaciones bastaban.
+export function focoDelTabulador(dentro, esPrimero, esUltimo, esShift) {
+  if (!dentro) return esShift ? 'ultimo' : 'primero';
+  if (esShift && esPrimero) return 'ultimo';
+  if (!esShift && esUltimo) return 'primero';
+  return null;
+}
+
 document.addEventListener('keydown', e => {
   if (e.key !== 'Tab') return;
-  const ov = document.getElementById('overlay');
-  if (!ov || !ov.classList.contains('active')) return;
   if (document.body.classList.contains('chat-open')) return;
-  const foco = [...ov.querySelectorAll(
-    'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-  )].filter(el => el.offsetParent !== null);
+  const idCapa = capaModalSuperior(CAPAS_MODALES.map(id => {
+    const el = document.getElementById(id);
+    return { id, activa: !!el && el.classList.contains('active') };
+  }));
+  if (!idCapa) return;
+  const capa = document.getElementById(idCapa);
+  const foco = [...capa.querySelectorAll(SELECTOR_FOCO)].filter(el => el.offsetParent !== null);
   if (!foco.length) return;
   const primero = foco[0], ultimo = foco[foco.length - 1];
-  if (e.shiftKey && document.activeElement === primero) { e.preventDefault(); ultimo.focus(); }
-  else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primero.focus(); }
+  const destino = focoDelTabulador(
+    capa.contains(document.activeElement),
+    document.activeElement === primero,
+    document.activeElement === ultimo,
+    e.shiftKey
+  );
+  if (!destino) return;
+  e.preventDefault();
+  (destino === 'primero' ? primero : ultimo).focus();
 });
 document.addEventListener('click', e => {
   if (!e.target.closest('.searchbar')) {

@@ -30,8 +30,9 @@ Lo que se ejecutó para este informe:
 > el README (1.2), las cabeceras de seguridad salvo la CSP (1.3), los intervalos del SRS y el
 > factor de facilidad (2.2), el resumen de falladas del examen (2.3), las 4026 entidades HTML
 > (mitad de 2.5), y los cinco menores de 2.7: `Function(entry.action)`, la accesibilidad del
-> formulario de acceso con trampa de foco incluida, las diez carpetas vacías, el comentario de
-> `usage-tracking` y el `width:100%` de la nav. Suite en **2391/2391** después de todo, con el
+> formulario de acceso, las diez carpetas vacías, el comentario de `usage-tracking` y el
+> `width:100%` de la nav. (De esa accesibilidad, la trampa de foco se dio por buena sin
+> comprobarla y **no sujetaba**: ver 2.8, arreglado el 2 de noviembre.) Suite en **2391/2391** después de todo, con el
 > barrido de 816 fichas y 494 estigmas otra vez en cero anomalías. Lo que sigue abierto, y por
 > qué, está en la sección 7.
 
@@ -362,23 +363,60 @@ inexistente).
 - **Las fichas por tema van de 20 a 32** y **51 de 106** temas no están en 32, que es la norma
   escrita del proyecto. Sigue pendiente la decisión de octubre: si la norma es el número o la
   cobertura. Hoy la prueba solo exige que existan.
-- `Function(entry.action)()` sigue en `app.js:234`. Funciona porque el contenido es propio; una
-  comilla en el nombre de una escala lo rompe.
-- **Accesibilidad de la puerta de entrada** (1.8 de octubre): sin cambios. Las etiquetas de
-  `engine/auth.js` siguen siendo `<label>Correo</label>` sueltas, sin `for`, y en todo
-  `index.html` y `auth.js` hay **cero** `role="dialog"` y cero `aria-modal`. La vista de estudio
-  sigue estando mejor que el formulario de acceso.
-- **Nueve carpetas vacías `topicsXXX`** sin el separador de ruta, más una "New folder". Octubre
-  ya las señaló. No se publican (git no versiona carpetas vacías) pero ensucian la raíz.
-- El encabezado de `engine/usage-tracking.js` sigue diciendo "nada de contenido de las respuestas
-  ni identificación del usuario" mientras las estadísticas se guardan con `syncSet`, es decir en
-  `users/{uid}`, junto al correo y el nombre, y Admin las muestra por usuario. Que se haga está
-  bien y está en los términos; el comentario es el que induce a error.
-- **La nav inferior y el desborde horizontal a 375 px**: no se reproduce. Con una barra vertical
-  forzada, el documento mide 375 y la nav va de 0 a 375, desborde 0. El CSS que lo causaba sigue
-  igual (`position:fixed` con `width:100%`), así que lo más probable es que el motor de este
-  navegador use barras superpuestas y el defecto aparezca solo donde la barra ocupa espacio.
-  Cambiar a `inset-inline:0; margin-inline:auto` sigue siendo gratis y quita la dependencia.
+- ~~`Function(entry.action)()` en `app.js`.~~ **RESUELTO.** `entry.action` es una funcion y se
+  invoca como tal; ya no hay evaluacion de codigo armado por interpolacion.
+- ~~**Nueve carpetas vacias `topicsXXX`** mas una "New folder".~~ **RESUELTO**, la raiz esta limpia.
+- ~~El encabezado de `engine/usage-tracking.js` decia "ni identificacion del usuario".~~
+  **RESUELTO.** Ahora dice explicitamente que los contadores se guardan con `syncSet`, o sea en
+  `users/{uid}`, junto al correo y el nombre, y que Admin los muestra por usuario.
+- ~~**La nav inferior y el desborde horizontal a 375 px.**~~ **RESUELTO** con
+  `inset-inline:0; margin-inline:auto`, que era gratis y quita la dependencia del tipo de barra
+  de desplazamiento del navegador.
+
+### 2.8 La trampa de foco no sujetaba la puerta de acceso (alta) · RESUELTO el 2/11/2026
+
+Este apartado era, hasta hoy, el bullet de **accesibilidad de la puerta de entrada**, y estaba
+mal por los dos lados. Primero por viejo: las 12 etiquetas ya estaban asociadas con `for` y el
+modal compartido ya tenia `role="dialog"` y `aria-modal` desde el 1 de noviembre. Y despues
+porque lo que el informe daba por hecho ese dia, "una trampa de foco que acota el tabulador al
+modal mientras esta abierto", **no era verdad en el estado en que arranca cualquier usuario**.
+
+Medido en el navegador, no deducido: **dos pulsaciones de tabulador desde la pantalla de acceso
+recien cargada y el foco estaba en `#nav-inicio`**, la nav de la app, detras de una puerta de la
+que por diseno no se puede salir.
+
+La causa es que la trampa solo actuaba en los dos extremos del recorrido
+(`activeElement === primero` o `=== ultimo`). Al cargar la pagina el foco esta en `<body>`, que no
+es ninguno de los dos, asi que la tecla pasaba y el navegador seguia el orden natural del
+documento, donde `.app-shell` va **antes** que `#overlay`.
+
+El modal de terminos y condiciones estaba peor, y es la unica pieza de la puerta que alguien
+**tiene** que abrir para registrarse. Vive en `#terms-overlay`, un overlay propio por encima del
+login, que sigue activo debajo. De ahi tres fallos a la vez:
+
+- la trampa miraba solo `#overlay`, asi que con los terminos abiertos el tabulador recorria el
+  formulario de registro tapado detras, y en cuatro pulsaciones llegaba a la nav;
+- **no habia salida por teclado**. El guardia de Escape de `auth.js` se traga la tecla mientras el
+  gate esta activo, y el manejador global de `study-view.js` llama a `closeModal()`, que actua
+  sobre `#overlay`, el del login, no sobre este;
+- sin `role="dialog"` ni `aria-modal`, un lector de pantalla lo lee como contenido mas de la
+  pagina, y el foco se quedaba en `<body>`: no habia forma de llegar al boton de cerrar.
+
+**Arreglado.** La trampa pasa a elegir la capa de arriba de una lista en orden de apilamiento
+(`#overlay`, `#terms-overlay`, `#img-lightbox`) y **devuelve el foco desde fuera**, no solo en los
+extremos. Las dos decisiones salieron a funciones puras exportadas (`capaModalSuperior`,
+`focoDelTabulador`) porque el fallo no se veia en ninguna metrica: seis pruebas nuevas las
+vigilan, mas el orden de la lista y que cada id exista en `index.html`. `auth.js` cierra los
+terminos con Escape antes de que el guardia se trague la tecla, mete el foco al abrir y lo
+devuelve al enlace al cerrar.
+
+Verificado en el navegador: 27 tabulaciones en la pantalla de acceso sin salirse; con los
+terminos abiertos el foco se queda en su capa; Escape los cierra y **deja la puerta en pie**; y el
+foco vuelve a `#auth-terms-link`.
+
+**Lo que esto deja como leccion**, y es la misma de siempre en este proyecto: el informe del 1 de
+noviembre dio por cerrada la trampa de foco porque el codigo existia, no porque alguien hubiera
+tabulado. Dos pulsaciones habrian bastado.
 
 ---
 
@@ -478,9 +516,11 @@ de donde venia cada arreglo.
    0/1/3/7/14/30/60/120/240 dias, y los intervalos dejaron de estar copiados en tres archivos.
 9. ~~Pasada de acentos (2.5).~~ **Hecha entera.** Las 4026 entidades el 1/11 y las 83 489
    palabras sin tilde el 2/11, con prueba por tema para que no vuelva.
-10. ~~Accesibilidad de la puerta de entrada (2.7).~~ Hecho: las 12 etiquetas asociadas con `for`,
-    `role="dialog"` y `aria-modal` en el modal compartido, y una trampa de foco que acota el
-    tabulador al modal mientras esta abierto.
+10. ~~Accesibilidad de la puerta de entrada (2.7).~~ Hecho el 1/11: las 12 etiquetas asociadas
+    con `for`, y `role="dialog"` mas `aria-modal` en el modal compartido. **La trampa de foco de
+    ese mismo dia no sujetaba, y se dio por buena sin tabular ni una vez**: dos pulsaciones
+    llevaban el foco a la nav de la app, detras de la puerta. Corregido el 2/11 junto con el
+    modal de terminos, que ademas no tenia salida por teclado. Ver 2.8.
 11. ~~Las tildes que faltan en 50 temas, la otra mitad de 2.5.~~ **Hecho el 2/11/2026**: ver 2.5.
     No hizo falta ir tema por tema; el criterio iba en la palabra, y la parte que de verdad pedia
     juicio se quedo sin tocar a proposito.
