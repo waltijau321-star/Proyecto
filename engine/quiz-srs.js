@@ -1,6 +1,7 @@
 // engine/quiz-srs.js
-// Repetición espaciada para preguntas de quiz (mismo sistema Leitner que ya usan las fichas:
-// 5 cajas, intervalos 0/1/3/7/14 días), pero aplicado al banco de preguntas de cada tema.
+// Repetición espaciada para preguntas de quiz (el mismo sistema Leitner que usan las fichas,
+// cuyos intervalos se definen aquí abajo y son los únicos del proyecto: 9 cajas, de 0 a 240
+// días), pero aplicado al banco de preguntas de cada tema.
 // Compartido entre el quiz por tema (study-view.js) y el generador de exámenes (exam-mode.js),
 // así toda práctica (dentro de un tema o en un examen simulado) alimenta el mismo calendario.
 //

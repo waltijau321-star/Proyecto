@@ -240,7 +240,7 @@ const HELP_CONTENT = {
     color: '#5c4a73',
     tag: 'Cómo funciona',
     title: 'Fichas de repaso',
-    body: `<p class="fbody" style="color:var(--ink-dim);">Cada tema tiene su propio mazo de fichas, pero permanece bloqueado hasta que respondas, al menos una vez, todas las preguntas del banco de ese tema. Una vez desbloqueado, las fichas usan repetición espaciada (sistema Leitner de 5 cajas): al calificar "Bien" una ficha sube de caja y tarda más en volver a aparecer (0, 1, 3, 7 y 14 días); calificarla "Otra vez" o "Difícil" la regresa a la caja 1 y vuelve a aparecer pronto. Cada sesión prioriza las fichas vencidas.</p>`
+    body: `<p class="fbody" style="color:var(--ink-dim);">Cada tema tiene su propio mazo de fichas, pero permanece bloqueado hasta que respondas, al menos una vez, todas las preguntas del banco de ese tema. Una vez desbloqueado, las fichas usan repetición espaciada (sistema Leitner de 9 cajas, con intervalos de 0, 1, 3, 7, 14, 30, 60, 120 y 240 días): "Bien" sube la ficha una caja y "Fácil" la sube dos, así que tarda más en volver a aparecer; "Difícil" la deja en la caja en la que está y "Otra vez" la devuelve a la primera. Cada sesión prioriza las fichas vencidas.</p>`
   },
   examen: {
     color: '#8c3a34',
@@ -290,6 +290,10 @@ export function mountHome(root, opts = {}) {
   const { correct, incorrect, answered } = getAnsweredSummary();
   const pct = answered ? Math.round((correct / answered) * 100) : null;
   const bankPct = totalQuestions ? Math.round((answeredQuestions / totalQuestions) * 100) : 0;
+  // El numero de bloques se CALCULA, igual que `itemCount` en auth.js: escrito a mano se
+  // quedo en 14 cuando el temario se renumero a 21, y nadie lo noto. El bloque "R1" no se
+  // cuenta, porque es un acceso rapido a items que ya viven en su bloque tematico.
+  const bloquesNumerados = temarioBlocks.filter(b => !b.quickAccess).length;
 
   root.innerHTML = `
     <div class="home-hero">
@@ -333,7 +337,7 @@ export function mountHome(root, opts = {}) {
       </div>
 
       <h2 class="home-subhead" style="margin-top:26px;">Temario</h2>
-      <p class="home-subhead-note">Programa completo de Medicina Interna en 14 bloques. Los subtemas marcados "Abrir" ya tienen contenido construido; el resto se irá agregando en próximas actualizaciones.</p>
+      <p class="home-subhead-note">Programa completo de Medicina Interna en ${bloquesNumerados} bloques. Los subtemas marcados "Abrir" ya tienen contenido construido; el resto se irá agregando en próximas actualizaciones.</p>
       ${temarioTreeHTML(temarioBlocks, topicsById)}
     </div>`;
 
