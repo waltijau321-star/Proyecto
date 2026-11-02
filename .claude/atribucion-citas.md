@@ -71,14 +71,17 @@ aceptando el limite y dejandolo escrito, como ya se hizo en la cabecera de esos 
 | | |
 |---|---|
 | Campos de la regla | 2072 |
-| Atribuidos | **338** (16%) |
-| Huecos | 1734 |
-| Temas completos | **12** |
+| Atribuidos | **377** (18%) |
+| Huecos | 1695 |
+| Temas completos | **17** |
 
-Los doce completos: `historia-clinica`, `melanoma`, `cancer-cutaneo-no-melanoma`,
-`manifestaciones-cutaneas-sistemicas`, `ahogamiento`, `glomerulopatias-sindromes-glomerulares`,
-`nefropatia-diabetica-hipertensiva`, `urticaria`, `anafilaxia`, `abdomen-agudo`,
-`supresion-alcoholica` y `broncoaspiracion`. Nueve se cerraron el 1 y el 2 de noviembre.
+Los diecisiete completos: `historia-clinica`, `exploracion-cardiovascular`,
+`exploracion-respiratoria`, `exploracion-abdominal`, `exploracion-osteoarticular`,
+`exploracion-cabeza-cuello`, `melanoma`, `cancer-cutaneo-no-melanoma`,
+`manifestaciones-cutaneas-sistemicas`, `urticaria`, `anafilaxia`, `abdomen-agudo`,
+`supresion-alcoholica`, `ahogamiento`, `broncoaspiracion`,
+`glomerulopatias-sindromes-glomerulares` y `nefropatia-diabetica-hipertensiva`. Catorce se
+cerraron entre el 1 y el 2 de noviembre. **Semiologia va 6 de 9.**
 
 **El criterio para elegirlos no fue el tamano sino la seguridad de la atribucion**: temas donde
 cada fuente tiene **un asunto propio**, de modo que el texto del campo dice a cual pertenece y no
@@ -88,6 +91,23 @@ a la de ARDS; Marik (neumonitis frente a neumonia) frente a la guia de neumonia 
 revision de absceso; la revision del abdomen agudo frente a las dos de Tokyo y la de pancreatitis;
 la guia ASAM de abstinencia; el parametro de practica de anafilaxia; la guia internacional de
 urticaria.
+
+### Semiologia tenia reparto, contra lo que parecia
+
+Los nueve temas de Semiologia comparten cinco libros de texto generales, y a primera vista eso
+hacia imposible decidir cual sostiene un hallazgo concreto. Pero **las citas que el propio autor
+ya habia puesto revelaban su criterio**, y es un criterio solido:
+
+| Tipo de afirmacion | Fuente |
+|---|---|
+| Valor diagnostico (sensibilidad, especificidad, "virtualmente diagnostico", rendimiento) | **McGee**, que es el libro de las caracteristicas operativas de los hallazgos |
+| Un hallazgo con su propio paper de evidencia | **ese paper**: Naylor para el higado, Cattau para la ascitis, Barkun para el bazo, Wagner para la apendicitis, Cook para la presion venosa, Etchells para los soplos, Piirila para los estertores, Eberhardt para la insuficiencia venosa, Haynes para las masas cervicales |
+| Exploracion cardiaca (tecnica, focos, ruidos, extratonos) | **Perloff y Constant**, monografias dedicadas al examen del corazon |
+| Tecnica general y topografia | Bates y Argente, los dos textos de ensenanza |
+
+Con eso, cinco temas de Semiologia se cerraron sin adivinar nada. Lo que NO se pudo repartir asi
+se dejo: las 6 P de la isquemia arterial AGUDA no las cubre McGee-Boyko, que es de isquemia
+cronica, de modo que fueron a los textos generales.
 
 ## El trabajo que queda, por tema
 
@@ -102,16 +122,11 @@ a medias.
 | `eritemas-reactivos` | 1 | 21 | 4 |
 | `eccemas` | 3 | 18 | 4 |
 | `ampollosas` | 3 | 17 | 5 |
-| `exploracion-cardiovascular` | 6 | 12 | 8 |
-| `exploracion-abdominal` | 6 | 12 | 9 |
 | `delirium-coma-encefalopatias` | 6 | 6 | 15 |
 | `valoracion-preoperatoria` | 6 | 21 | 11 |
 | `esclerosis-multiple` | 7 | 7 | 15 |
 | `quemaduras` | 7 | 17 | 2 |
-| `exploracion-cabeza-cuello` | 8 | 10 | 8 |
 | `exploracion-piel-faneras` | 9 | 10 | 9 |
-| `exploracion-osteoarticular` | 9 | 11 | 9 |
-| `exploracion-respiratoria` | 10 | 12 | 8 |
 | `sepsis` | 11 | 15 | 7 |
 | `exploracion-neurologica` | 11 | 13 | 9 |
 | `psoriasis` | 11 | 18 | 6 |
@@ -194,7 +209,7 @@ a medias.
 | `ventilacion-mecanica` | 30 | 30 | 20 |
 | `cirrosis-hepatica` | 40 | 57 | 22 |
 
-Total: **1734 huecos en 94 temas**.
+Total: **1695 huecos en 89 temas**.
 
 ## Como ver los huecos de un tema
 

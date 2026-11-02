@@ -322,17 +322,17 @@ ${videoBlock('Video 7', 'Estertores (crepitantes) — grabación real con forma 
 
 export const compCites = {
   'Secuencia y técnica general de la exploración respiratoria': { definicion: [1, 2], clinica: [1, 3], criterios_dx: [1] },
-  'Topografía torácica y puntos de comparación': { definicion: [1, 5], clinica: [1] },
+  'Topografía torácica y puntos de comparación': { definicion: [1, 5], clinica: [1], criterios_dx: [1, 2] },
   'Patrón respiratorio, frecuencia y signos de dificultad respiratoria': { definicion: [1, 4], fisiopatologia: [1, 3, 4], criterios_dx: [4] },
-  'Morfología del tórax': { definicion: [1, 5], fisiopatologia: [1, 3] },
-  'Expansión torácica': { definicion: [1, 5], clinica: [1] },
-  'Frémito táctil (vocal)': { definicion: [1, 5], fisiopatologia: [1, 3] },
-  'Técnica y sonidos de percusión': { definicion: [1, 5], clinica: [1], fisiopatologia: [1, 3] },
-  'Excursión diafragmática y signos percutorios especiales': { clinica: [1], fisiopatologia: [3, 5] },
-  'Ruidos respiratorios normales': { definicion: [1, 6, 7], fisiopatologia: [6, 7] },
-  'Ruidos agregados continuos: sibilancias y roncus': { definicion: [1, 6], fisiopatologia: [6, 7] },
-  'Ruidos agregados discontinuos: estertores y roce pleural': { definicion: [1, 8], fisiopatologia: [6, 8] },
-  'Transmisión de la voz: broncofonía, pectoriloquia áfona y egofonía': { definicion: [1, 5], fisiopatologia: [1, 3] }
+  'Morfología del tórax': { definicion: [1, 5], fisiopatologia: [1, 3], criterios_dx: [1, 2] },
+  'Expansión torácica': { definicion: [1, 5], clinica: [1], criterios_dx: [1, 2] },
+  'Frémito táctil (vocal)': { definicion: [1, 5], fisiopatologia: [1, 3], criterios_dx: [4] },
+  'Técnica y sonidos de percusión': { definicion: [1, 5], clinica: [1], fisiopatologia: [1, 3], criterios_dx: [2, 4] },
+  'Excursión diafragmática y signos percutorios especiales': { clinica: [1], fisiopatologia: [3, 5], criterios_dx: [2, 5] },
+  'Ruidos respiratorios normales': { definicion: [1, 6, 7], fisiopatologia: [6, 7], criterios_dx: [6, 7] },
+  'Ruidos agregados continuos: sibilancias y roncus': { definicion: [1, 6], fisiopatologia: [6, 7], criterios_dx: [6, 7] },
+  'Ruidos agregados discontinuos: estertores y roce pleural': { definicion: [1, 8], fisiopatologia: [6, 8], criterios_dx: [8] },
+  'Transmisión de la voz: broncofonía, pectoriloquia áfona y egofonía': { definicion: [1, 5], fisiopatologia: [1, 3], criterios_dx: [4] }
 };
 export const estigmas = [];
 export const biopsia = null;

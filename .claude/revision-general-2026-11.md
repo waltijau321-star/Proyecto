@@ -268,12 +268,12 @@ la cama del paciente. La regla, el estado y la lista de trabajo por tema están 
 `.claude/atribucion-citas.md`; la regla también quedó en `CLAUDE.md` para que un tema nuevo nazca
 cumpliéndola.
 
-**Dos bloques hechos, el 1 y el 2 de noviembre: de 266 a 338 campos atribuidos y de 3 a 12 temas completos.**
+**Tres bloques hechos, el 1 y el 2 de noviembre: de 266 a 377 campos atribuidos y de 3 a 17 temas completos**, Semiologia 6 de 9.
 Se eligieron los temas donde la atribución está **forzada** porque cada fuente tiene un asunto
 propio, de modo que el texto del campo dice a cuál pertenece: la Parte I y la Parte II de la
 revisión de An Bras Dermatol (vascular y reumatológico frente a endocrino, renal y
 paraneoplásico), las dos guías AIOM frente al Kaposi, la ESMO del melanoma, y la guía de
-ahogamiento frente a la de ARDS. 72 atribuciones en total, cada una justificada por el asunto de su fuente. Al segundo bloque
+ahogamiento frente a la de ARDS. 111 atribuciones en total, cada una justificada por el asunto de su fuente. Semiologia, que parecia imposible de repartir porque sus nueve temas comparten cinco libros generales, si tenia criterio: el valor diagnostico va a McGee, el hallazgo con paper propio a su paper, la exploracion cardiaca a Perloff y Constant, y la tecnica a Bates y Argente. Al segundo bloque
 entraron anafilaxia, broncoaspiracion, abdomen agudo, supresion alcoholica, urticaria, ampollosas
 y eccemas, elegidos por el mismo criterio: pocas fuentes y cada una con su asunto.
 
@@ -284,9 +284,9 @@ siete reparten entre la revisión de Jeschke y el manual sin que el texto permit
 Adivinar habría sido repetir el defecto de `urticaria`.
 
 **El resto queda con trinquete, no con umbral.** `tests.js` fija que el total atribuido solo
-puede subir y que los 7 temas completos siguen completos (14 pruebas, suite 2620).
+puede subir y que los 7 temas completos siguen completos (19 pruebas, suite 2625).
 Comprobado que salta: al quitar una cita de `melanoma` el candado nombra el hueco, y un índice
-fuera de rango lo detecta la otra prueba. Quedan **1734 huecos en 94 temas**, con la lista
+fuera de rango lo detecta la otra prueba. Quedan **1695 huecos en 89 temas**, con la lista
 ordenada de menos a más trabajo.
 
 ### 2.7 Menores
@@ -417,7 +417,7 @@ de donde venia cada arreglo.
 12. La CSP, la parte de 1.3 que no se pudo cerrar. **Pendiente**, ver la seccion 7.
 13. Las citas (2.6). **Replanteado y en marcha desde el 1/11/2026**: el umbral de 8 era la
     medida equivocada, `urticaria` quedo corregida y el autor fijo la regla minima
-    (`criterios_dx`, `laboratorio`, `tx_farmacologico`). Dos bloques hechos, 12 temas completos,
+    (`criterios_dx`, `laboratorio`, `tx_farmacologico`). Tres bloques hechos, 17 temas completos,
     y el resto con trinquete en `tests.js`. Lista de trabajo en `.claude/atribucion-citas.md`.
 14. El candado de las fichas (2.4). **Pendiente**, y es una decision del autor entre dos
     alternativas, ver la seccion 7.
@@ -447,7 +447,7 @@ _(Los metadatos de Inicio, que abrian esta lista, se cerraron el 1 de noviembre:
   tema por tema revisando el diff.
 - **Las citas (2.6): decidido y en marcha, no pendiente de decisión.** El autor fijó la regla
   mínima (`criterios_dx`, `laboratorio`, `tx_farmacologico`), que acota el trabajo a 2072 campos.
-  Hechos dos bloques (338 atribuidos, 12 temas completos) y puesto el trinquete en `tests.js`
+  Hechos tres bloques (377 atribuidos, 17 temas completos) y puesto el trinquete en `tests.js`
   para que no se desande. **Quedan 1734 huecos en 94 temas**, que es leer fuentes tema por tema,
   con la lista ordenada por esfuerzo en `.claude/atribucion-citas.md`. Lo único que no se hace
   solo: cuando varias fuentes del tema podrían sostener el campo hay que leerlas, porque una cita

@@ -224,16 +224,16 @@ El conducto torácico —que drena la linfa de la mayor parte del cuerpo, inclui
 };
 
 export const compCites = {
-  'Secuencia y técnica de la exploración cervical': { definicion: [1, 2], clinica: [1, 2] },
-  'Inspección tiroidea': { definicion: [1, 3], fisiopatologia: [1, 3] },
-  'Palpación tiroidea': { definicion: [1, 3], fisiopatologia: [1, 3] },
+  'Secuencia y técnica de la exploración cervical': { definicion: [1, 2], clinica: [1, 2], criterios_dx: [1, 8] },
+  'Inspección tiroidea': { definicion: [1, 3], fisiopatologia: [1, 3], criterios_dx: [1, 2] },
+  'Palpación tiroidea': { definicion: [1, 3], fisiopatologia: [1, 3], criterios_dx: [2, 4] },
   'Bocio y signo de Pemberton': { definicion: [1, 3], fisiopatologia: [6], criterios_dx: [6] },
-  'Cadenas ganglionares cervicales: anatomía y técnica': { definicion: [1, 8], fisiopatologia: [1, 8] },
+  'Cadenas ganglionares cervicales: anatomía y técnica': { definicion: [1, 8], fisiopatologia: [1, 8], criterios_dx: [7, 8] },
   'Características semiológicas de una adenopatía: benigna vs. maligna': { definicion: [1, 7], fisiopatologia: [1, 7], criterios_dx: [7] },
-  'Ganglio de Virchow y signo de Troisier': { definicion: [1, 3], fisiopatologia: [3, 4] },
-  'Masas cervicales de la línea media y laterales: quiste tirogloso vs. quiste branquial': { definicion: [1, 7], fisiopatologia: [7] },
-  'Auscultación carotídea: soplo carotídeo': { definicion: [1, 4], fisiopatologia: [1, 4] },
-  'Ingurgitación yugular: su lugar en la exploración cervical': { definicion: [1, 2] }
+  'Ganglio de Virchow y signo de Troisier': { definicion: [1, 3], fisiopatologia: [3, 4], criterios_dx: [7] },
+  'Masas cervicales de la línea media y laterales: quiste tirogloso vs. quiste branquial': { definicion: [1, 7], fisiopatologia: [7], criterios_dx: [7] },
+  'Auscultación carotídea: soplo carotídeo': { definicion: [1, 4], fisiopatologia: [1, 4], criterios_dx: [4] },
+  'Ingurgitación yugular: su lugar en la exploración cervical': { definicion: [1, 2], criterios_dx: [1] }
 };
 export const estigmas = [];
 export const biopsia = null;

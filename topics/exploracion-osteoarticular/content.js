@@ -259,16 +259,16 @@ El dolor arterial EMPEORA con la elevación de la pierna (reduce aún más la pe
 
 export const compCites = {
   'Secuencia y técnica de la exploración osteoarticular': { definicion: [1, 2], criterios_dx: [1] },
-  'Inspección y palpación articular: articular vs. periarticular': { definicion: [1, 3], fisiopatologia: [1, 3] },
-  'Derrame articular: choque rotuliano y signo de la oleada': { definicion: [1, 3], fisiopatologia: [1, 3] },
-  'Patrones de afectación articular': { definicion: [1, 3], fisiopatologia: [1, 3] },
-  'Maniobras articulares específicas frecuentes': { definicion: [1, 3], fisiopatologia: [1, 3] },
-  'Edema de miembros inferiores: mecanismo y clasificación': { definicion: [1, 4], fisiopatologia: [4] },
+  'Inspección y palpación articular: articular vs. periarticular': { definicion: [1, 3], fisiopatologia: [1, 3], criterios_dx: [1, 2] },
+  'Derrame articular: choque rotuliano y signo de la oleada': { definicion: [1, 3], fisiopatologia: [1, 3], criterios_dx: [1, 4] },
+  'Patrones de afectación articular': { definicion: [1, 3], fisiopatologia: [1, 3], criterios_dx: [2, 3] },
+  'Maniobras articulares específicas frecuentes': { definicion: [1, 3], fisiopatologia: [1, 3], criterios_dx: [1, 4] },
+  'Edema de miembros inferiores: mecanismo y clasificación': { definicion: [1, 4], fisiopatologia: [4], criterios_dx: [1, 4] },
   'Trombosis venosa profunda: signos clínicos y sus limitaciones': { definicion: [1, 4], fisiopatologia: [4, 8], criterios_dx: [6] },
-  'Insuficiencia venosa crónica': { definicion: [1, 9], fisiopatologia: [9] },
-  'Exploración arterial periférica: pulsos e índice tobillo-brazo': { definicion: [1, 4], fisiopatologia: [4, 7] },
-  'Isquemia arterial aguda: las 6 P': { definicion: [1, 4], fisiopatologia: [4, 7] },
-  'Úlceras venosas vs. arteriales: diferenciación clínica': { definicion: [1, 9], fisiopatologia: [9] }
+  'Insuficiencia venosa crónica': { definicion: [1, 9], fisiopatologia: [9], criterios_dx: [9] },
+  'Exploración arterial periférica: pulsos e índice tobillo-brazo': { definicion: [1, 4], fisiopatologia: [4, 7], criterios_dx: [7] },
+  'Isquemia arterial aguda: las 6 P': { definicion: [1, 4], fisiopatologia: [4, 7], criterios_dx: [1, 2] },
+  'Úlceras venosas vs. arteriales: diferenciación clínica': { definicion: [1, 9], fisiopatologia: [9], criterios_dx: [7, 9] }
 };
 export const estigmas = [];
 export const biopsia = null;

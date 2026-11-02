@@ -383,16 +383,16 @@ ${figBlock('Tabla 2', 'Efecto de las maniobras dinámicas sobre los soplos', `<d
 };
 
 export const compCites = {
-  'Secuencia y técnica de la exploración cardiovascular': { definicion: [1, 2], clinica: [1, 3], fisiopatologia: [5] },
-  'Focos de auscultación cardiaca': { definicion: [1, 5], clinica: [1], fisiopatologia: [5, 6] },
+  'Secuencia y técnica de la exploración cardiovascular': { definicion: [1, 2], clinica: [1, 3], fisiopatologia: [5], criterios_dx: [5, 6] },
+  'Focos de auscultación cardiaca': { definicion: [1, 5], clinica: [1], fisiopatologia: [5, 6], criterios_dx: [5, 6] },
   'Choque de la punta (impulso apical)': { definicion: [1, 5], clinica: [1], fisiopatologia: [5, 6], criterios_dx: [4] },
-  'Levantamientos, frémitos y otras pulsaciones precordiales': { definicion: [1, 5], fisiopatologia: [5, 6] },
-  'Técnica y características del pulso arterial normal': { definicion: [1, 4], clinica: [1] },
+  'Levantamientos, frémitos y otras pulsaciones precordiales': { definicion: [1, 5], fisiopatologia: [5, 6], criterios_dx: [5] },
+  'Técnica y características del pulso arterial normal': { definicion: [1, 4], clinica: [1], criterios_dx: [4, 5] },
   'Alteraciones del pulso arterial': { definicion: [4, 5], fisiopatologia: [5, 6], criterios_dx: [4] },
   'Técnica y ondas normales del pulso venoso yugular': { definicion: [1, 6], clinica: [1, 7], fisiopatologia: [5, 6], criterios_dx: [7] },
   'Anomalías de la PVY y reflujo hepatoyugular': { fisiopatologia: [5, 6], criterios_dx: [7] },
-  'Ruidos cardiacos normales: R1, R2 y sus desdoblamientos': { definicion: [1, 5], fisiopatologia: [5, 6] },
-  'Extratonos: R3, R4, clics y chasquido de apertura': { definicion: [1, 5], fisiopatologia: [5, 6] },
+  'Ruidos cardiacos normales: R1, R2 y sus desdoblamientos': { definicion: [1, 5], fisiopatologia: [5, 6], criterios_dx: [5, 6] },
+  'Extratonos: R3, R4, clics y chasquido de apertura': { definicion: [1, 5], fisiopatologia: [5, 6], criterios_dx: [4, 5] },
   'Soplos: mecanismo y clasificación semiológica': { definicion: [1, 4], fisiopatologia: [4, 5, 6], criterios_dx: [8] },
   'Maniobras dinámicas que modifican los soplos': { fisiopatologia: [4, 5, 6], criterios_dx: [8] }
 };

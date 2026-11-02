@@ -292,18 +292,18 @@ ${videoBlock('Video 2', 'Signos de Rovsing, psoas y obturador', '6LrL4ysi_AE', '
 };
 
 export const compCites = {
-  'Secuencia y técnica de la exploración abdominal': { definicion: [1, 2], clinica: [1, 3] },
-  'Regiones y cuadrantes abdominales': { definicion: [1, 2], clinica: [1, 2] },
-  'Inspección abdominal': { definicion: [1, 5], fisiopatologia: [1, 8] },
-  'Auscultación abdominal: ruidos hidroaéreos y soplos vasculares': { definicion: [1, 3], fisiopatologia: [1, 3] },
+  'Secuencia y técnica de la exploración abdominal': { definicion: [1, 2], clinica: [1, 3], criterios_dx: [1, 2] },
+  'Regiones y cuadrantes abdominales': { definicion: [1, 2], clinica: [1, 2], criterios_dx: [1, 2] },
+  'Inspección abdominal': { definicion: [1, 5], fisiopatologia: [1, 8], criterios_dx: [4] },
+  'Auscultación abdominal: ruidos hidroaéreos y soplos vasculares': { definicion: [1, 3], fisiopatologia: [1, 3], criterios_dx: [1, 4] },
   'Percusión abdominal: timpanismo y matidez hepática/esplénica': { definicion: [1, 6], fisiopatologia: [6, 9], criterios_dx: [9] },
   'Ascitis: matidez cambiante y oleada ascítica': { definicion: [1, 8], fisiopatologia: [8], criterios_dx: [8] },
-  'Palpación superficial y profunda': { definicion: [1, 2], fisiopatologia: [1, 4] },
+  'Palpación superficial y profunda': { definicion: [1, 2], fisiopatologia: [1, 4], criterios_dx: [1, 2] },
   'Palpación hepática y hepatomegalia': { definicion: [1, 6], fisiopatologia: [6], criterios_dx: [6] },
   'Palpación esplénica y esplenomegalia': { definicion: [1, 9], fisiopatologia: [9], criterios_dx: [9] },
   'Signo de Murphy': { definicion: [1, 3], fisiopatologia: [1, 4], criterios_dx: [4] },
   'Signos de apendicitis: McBurney, Rovsing, psoas y obturador': { definicion: [1, 7], fisiopatologia: [1, 7], criterios_dx: [7] },
-  'Signos de irritación peritoneal: Blumberg y defensa involuntaria': { definicion: [1, 4], fisiopatologia: [1, 4] }
+  'Signos de irritación peritoneal: Blumberg y defensa involuntaria': { definicion: [1, 4], fisiopatologia: [1, 4], criterios_dx: [4] }
 };
 export const estigmas = [];
 export const biopsia = null;
