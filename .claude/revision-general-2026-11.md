@@ -329,11 +329,33 @@ atribuyeron los dos campos del protocolo de traslado, que son claramente del ATL
 siete reparten entre la revisión de Jeschke y el manual sin que el texto permita decidir.
 Adivinar habría sido repetir el defecto de `urticaria`.
 
-**El resto queda con trinquete, no con umbral.** `tests.js` fija que el total atribuido solo
-puede subir y que los 7 temas completos siguen completos (19 pruebas, suite 2625).
-Comprobado que salta: al quitar una cita de `melanoma` el candado nombra el hueco, y un índice
-fuera de rango lo detecta la otra prueba. Quedan **1695 huecos en 89 temas**, con la lista
-ordenada de menos a más trabajo.
+**CERRADO EN SU MAYOR PARTE EL 2/11/2026: 1941 de 2072 campos (94%) y 91 de 106 temas
+completos**, frente a los 377 y los 17 del parrafo anterior. Y no fue fuerza bruta: la causa de la
+mayor parte del problema **no era que faltaran citas**. `compCites` admite dos formas, por campo
+(`{ criterios_dx: [3] }`) y plana (`[3, 4]`, las fuentes de la ficha entera), y `openModal`
+normaliza la plana **anclandola solo a `definicion`**. Eran **62 de los 106 temas y 427 fichas** con
+las fuentes declaradas por el autor y sin pintar nada en `criterios_dx`, `laboratorio` ni
+`tx_farmacologico`. Eso explica el patron de "24 huecos de 24 campos" que este informe venia
+leyendo como "el compCites nunca se relleno": estaba relleno y no se veia.
+
+Se arreglo en tres pasadas mecanicas (conversion de las 427 fichas, herencia del campo declarado
+mas cercano en 41 temas, y poda de 392 entradas inertes colgadas de campos que la ficha no tiene)
+mas 51 atribuciones a mano que cerraron Semiologia 9 de 9.
+
+**Lo que queda, con honestidad: de los 1941, unos 1250 estan atribuidos a nivel de FICHA y no de
+campo.** La cita dice que la ficha se apoya en esas fuentes, no que ese campo salga de esa fuente.
+Es fiel a lo que el autor declaro y es un salto frente a no pintar nada, pero no es lo mismo que
+las 111 hechas a mano leyendo cada campo. Afinarlas es trabajo de leer fuentes y sigue abierto.
+
+**Y 131 huecos en 15 temas siguen declarados a proposito**, en `ATRIB_PENDIENTES` de `tests.js` y
+en `.claude/atribucion-citas.md`: fichas que no declaran ninguna fuente, o cuyo contenido ninguna
+fuente del tema cubre. `sepsis` es el caso claro, sus siete fuentes no cubren el score ISTH de la
+coagulacion intravascular ni la encefalopatia septica.
+
+**El trinquete va ahora al reves y es mas fuerte**: en vez de enumerar los temas completos, enumera
+los 15 pendientes con su maximo tolerado y **exige cero a los otros 91**, mas dos pruebas globales
+nuevas (ningun indice fuera de la bibliografia de su tema, ninguna cita colgada de un campo
+inexistente).
 
 ### 2.7 Menores
 
@@ -463,10 +485,11 @@ de donde venia cada arreglo.
     No hizo falta ir tema por tema; el criterio iba en la palabra, y la parte que de verdad pedia
     juicio se quedo sin tocar a proposito.
 12. La CSP, la parte de 1.3 que no se pudo cerrar. **Pendiente**, ver la seccion 7.
-13. Las citas (2.6). **Replanteado y en marcha desde el 1/11/2026**: el umbral de 8 era la
-    medida equivocada, `urticaria` quedo corregida y el autor fijo la regla minima
-    (`criterios_dx`, `laboratorio`, `tx_farmacologico`). Tres bloques hechos, 17 temas completos,
-    y el resto con trinquete en `tests.js`. Lista de trabajo en `.claude/atribucion-citas.md`.
+13. ~~Las citas (2.6).~~ **Cerrado en su mayor parte el 2/11/2026: 1941 de 2072 campos (94%)
+    y 91 de 106 temas completos.** La mayor parte no eran citas que faltaran sino la forma plana de
+    `compCites`, que el motor ancla solo a `definicion`: 62 temas y 427 fichas con las fuentes
+    declaradas y sin pintar. Siguen abiertas dos cosas: **afinar a nivel de campo los ~1250
+    atribuidos a nivel de ficha** y los **131 huecos de 15 temas** que se dejaron a proposito.
 14. El candado de las fichas (2.4). **Pendiente**, y es una decision del autor entre dos
     alternativas, ver la seccion 7.
 
@@ -495,13 +518,16 @@ _(Los metadatos de Inicio, que abrian esta lista, se cerraron el 1 de noviembre:
   palabra, y la prueba del infinitivo separa el sustantivo del verbo sin leer el diff. Lo que de
   verdad pedia juicio (los pares `estudio`/`estudio`, `continua`/`continua`, el `el`/`el`) sigue
   sin tocar, y en esos casos la forma sin tilde ya era la correcta. Ver 2.5.
-- **Las citas (2.6): decidido y en marcha, no pendiente de decisión.** El autor fijó la regla
-  mínima (`criterios_dx`, `laboratorio`, `tx_farmacologico`), que acota el trabajo a 2072 campos.
-  Hechos tres bloques (377 atribuidos, 17 temas completos) y puesto el trinquete en `tests.js`
-  para que no se desande. **Quedan 1734 huecos en 94 temas**, que es leer fuentes tema por tema,
-  con la lista ordenada por esfuerzo en `.claude/atribucion-citas.md`. Lo único que no se hace
-  solo: cuando varias fuentes del tema podrían sostener el campo hay que leerlas, porque una cita
-  equivocada es peor que un hueco.
+- **Las citas (2.6): cerradas al 94%, y lo que queda es de precision, no de cobertura.** 1941
+  de 2072 campos y 91 de 106 temas completos (2/11/2026, ver 2.6). Quedan dos cosas, y conviene no
+  confundirlas:
+  - **afinar a nivel de campo los ~1250 que estan atribuidos a nivel de ficha.** La cita dice que
+    la ficha se apoya en esas fuentes, no que ese campo salga de esa fuente. Esto si es leer
+    fuentes tema por tema, y en los temas con 15 o 16 es trabajo de verdad;
+  - los **131 huecos de 15 temas** listados en `ATRIB_PENDIENTES`, que estan sin atribuir
+    **a proposito**: la ficha no declara ninguna fuente, o ninguna fuente del tema cubre su
+    contenido. Cerrarlos exige fuentes nuevas, no reparto. Adivinar seria repetir el defecto de
+    `urticaria`: una cita equivocada es peor que un hueco.
 - **La cobertura (seccion 4).** Es escribir temas nuevos. Infectologia (0/20) y Reumatologia
   (0/16) son los dos bloques de mayor rendimiento, 36 items entre los dos.
 - **Los objetivos de aprendizaje por tema.** Venia del informe de octubre (su 2.5) y sigue sin
