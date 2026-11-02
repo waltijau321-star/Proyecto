@@ -350,13 +350,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Enfoque del mareo: tiempo y desencadenante': [3, 4, 14],
-  'Sindrome vestibular agudo: neuritis o ictus': [2, 9, 13],
-  'Vertigo posicional paroxistico benigno': [5, 6],
-  'Vertigo episodico espontaneo': [7, 8, 1],
-  'Ictus de fosa posterior con vertigo aislado': [10, 11, 12, 16],
-  'Mareo cronico y trampas del seguimiento': [1, 15]
+  'Enfoque del mareo: tiempo y desencadenante': { definicion: [3, 4, 14], criterios_dx: [3, 4, 14], laboratorio: [3, 4, 14], tx_farmacologico: [3, 4, 14] },
+  'Sindrome vestibular agudo: neuritis o ictus': { definicion: [2, 9, 13], criterios_dx: [2, 9, 13], laboratorio: [2, 9, 13], tx_farmacologico: [2, 9, 13] },
+  'Vertigo posicional paroxistico benigno': { definicion: [5, 6], criterios_dx: [5, 6], laboratorio: [5, 6], tx_farmacologico: [5, 6] },
+  'Vertigo episodico espontaneo': { definicion: [7, 8, 1], criterios_dx: [7, 8, 1], laboratorio: [7, 8, 1], tx_farmacologico: [7, 8, 1] },
+  'Ictus de fosa posterior con vertigo aislado': { definicion: [10, 11, 12, 16], criterios_dx: [10, 11, 12, 16], laboratorio: [10, 11, 12, 16], tx_farmacologico: [10, 11, 12, 16] },
+  'Mareo cronico y trampas del seguimiento': { definicion: [1, 15], criterios_dx: [1, 15], laboratorio: [1, 15], tx_farmacologico: [1, 15] }
 };
 export const estigmasTitulo = 'Signos y datos que cambian la conducta';
 export const estigmas = [

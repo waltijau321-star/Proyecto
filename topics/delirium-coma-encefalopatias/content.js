@@ -206,11 +206,18 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Agitación y manejo farmacológico del delirium': [13, 1],
-  'Muerte cerebral y sus criterios diagnósticos': [6, 7],
-  'Síndrome de Korsakoff': [9, 8],
-  'Delirium persistente y deterioro cognitivo a largo plazo': [3, 4]
+  'Agitación y manejo farmacológico del delirium': { definicion: [13, 1], criterios_dx: [13, 1], tx_farmacologico: [13, 1] },
+  'Muerte cerebral y sus criterios diagnósticos': { definicion: [6, 7], criterios_dx: [6, 7] },
+  'Síndrome de Korsakoff': { definicion: [9, 8], criterios_dx: [9, 8], tx_farmacologico: [9, 8] },
+  'Delirium persistente y deterioro cognitivo a largo plazo': { definicion: [3, 4], criterios_dx: [3, 4] }
 };
 export const estigmas = [];
 export const biopsia = null;

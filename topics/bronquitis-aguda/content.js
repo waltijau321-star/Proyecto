@@ -375,13 +375,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Bronquitis aguda': [1, 2, 6],
-  'Tos ferina y tos subaguda': [8, 9, 11],
-  'Tos aguda: lo que no puede fallarse': [4, 7],
-  'Tos cronica: el enfoque por causas': [5, 12, 13, 15],
-  'Uso prudente de antibioticos en la infeccion respiratoria aguda': [3, 10, 16],
-  'Situaciones especiales: EPOC, asma, ancianos e inmunodeprimidos': [3, 7, 14]
+  'Bronquitis aguda': { definicion: [1, 2, 6], criterios_dx: [1, 2, 6], laboratorio: [1, 2, 6], tx_farmacologico: [1, 2, 6] },
+  'Tos ferina y tos subaguda': { definicion: [8, 9, 11], criterios_dx: [8, 9, 11], laboratorio: [8, 9, 11], tx_farmacologico: [8, 9, 11] },
+  'Tos aguda: lo que no puede fallarse': { definicion: [4, 7], criterios_dx: [4, 7], laboratorio: [4, 7], tx_farmacologico: [4, 7] },
+  'Tos cronica: el enfoque por causas': { definicion: [5, 12, 13, 15], criterios_dx: [5, 12, 13, 15], laboratorio: [5, 12, 13, 15], tx_farmacologico: [5, 12, 13, 15] },
+  'Uso prudente de antibioticos en la infeccion respiratoria aguda': { definicion: [3, 10, 16], criterios_dx: [3, 10, 16], laboratorio: [3, 10, 16], tx_farmacologico: [3, 10, 16] },
+  'Situaciones especiales: EPOC, asma, ancianos e inmunodeprimidos': { definicion: [3, 7, 14], criterios_dx: [3, 7, 14], laboratorio: [3, 7, 14], tx_farmacologico: [3, 7, 14] }
 };
 export const estigmasTitulo = 'Pistas que orientan ante un paciente que consulta por tos';
 export const estigmas = [

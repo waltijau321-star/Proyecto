@@ -229,11 +229,11 @@ export const content = {
 };
 
 export const compCites = {
-  'Valoracion inicial: extension y profundidad': { fisiopatologia: [1], epidemiologia: [1], criterios_dx: [1, 2], tx_medico: [1] },
-  'Inhalacion de humo y monoxido de carbono': { clinica: [2], tx_medico: [1, 2], tx_intervencionista: [2], criterios_dx: [2], tx_farmacologico: [1] },
-  'Reanimacion con liquidos y choque por quemadura': { tx_medico: [1, 2], tx_farmacologico: [1], fisiopatologia: [1] },
-  'Quemaduras circunferenciales, electricas y quimicas': { tx_medico: [1, 2], tx_farmacologico: [2], tx_intervencionista: [2] },
-  'Respuesta hipermetabolica, herida e infeccion': { fisiopatologia: [1], tx_intervencionista: [1], tx_farmacologico: [1], criterios_dx: [1] },
+  'Valoracion inicial: extension y profundidad': { fisiopatologia: [1], epidemiologia: [1], criterios_dx: [1, 2], tx_medico: [1], laboratorio: [1, 2], tx_farmacologico: [1] },
+  'Inhalacion de humo y monoxido de carbono': { clinica: [2], tx_medico: [1, 2], tx_intervencionista: [2], criterios_dx: [2], tx_farmacologico: [1], laboratorio: [2] },
+  'Reanimacion con liquidos y choque por quemadura': { tx_medico: [1, 2], tx_farmacologico: [1], fisiopatologia: [1], laboratorio: [1, 2] },
+  'Quemaduras circunferenciales, electricas y quimicas': { tx_medico: [1, 2], tx_farmacologico: [2], tx_intervencionista: [2], criterios_dx: [1, 2], laboratorio: [1, 2] },
+  'Respuesta hipermetabolica, herida e infeccion': { fisiopatologia: [1], tx_intervencionista: [1], tx_farmacologico: [1], criterios_dx: [1], laboratorio: [1] },
   'Triaje, traslado y pronostico': { criterios_dx: [2], tx_medico: [1, 2], pronostico: [1], epidemiologia: [1], laboratorio: [2], tx_farmacologico: [2] }
 };
 

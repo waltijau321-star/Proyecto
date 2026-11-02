@@ -408,15 +408,15 @@ export const content = {
 };
 
 export const compCites = {
-  'Estado epiléptico convulsivo': { criterios_dx: [3], tx_farmacologico: [1, 8, 14] },
-  'Estado epiléptico no convulsivo': { criterios_dx: [10] },
-  'Estado epiléptico refractario y superrefractario': { definicion: [2] },
-  'Primera crisis epiléptica no provocada': { epidemiologia: [7], tx_farmacologico: [7] },
-  'Crisis focales': { definicion: [4] },
-  'Crisis generalizadas': { definicion: [4] },
-  'Crisis psicógenas no epilépticas (pseudocrisis)': { criterios_dx: [12] },
-  'Epilepsia: diagnóstico y clasificación': { definicion: [6], fisiopatologia: [5] },
-  'Epilepsia farmacorresistente': { definicion: [11], pronostico: [13] }
+  'Estado epiléptico convulsivo': { criterios_dx: [3], tx_farmacologico: [1, 8, 14], laboratorio: [3] },
+  'Estado epiléptico no convulsivo': { criterios_dx: [10], laboratorio: [10], tx_farmacologico: [10] },
+  'Estado epiléptico refractario y superrefractario': { definicion: [2], criterios_dx: [2], laboratorio: [2], tx_farmacologico: [2] },
+  'Primera crisis epiléptica no provocada': { epidemiologia: [7], tx_farmacologico: [7], criterios_dx: [7], laboratorio: [7] },
+  'Crisis focales': { definicion: [4], criterios_dx: [4], laboratorio: [4], tx_farmacologico: [4] },
+  'Crisis generalizadas': { definicion: [4], criterios_dx: [4], laboratorio: [4], tx_farmacologico: [4] },
+  'Crisis psicógenas no epilépticas (pseudocrisis)': { criterios_dx: [12], laboratorio: [12], tx_farmacologico: [12] },
+  'Epilepsia: diagnóstico y clasificación': { definicion: [6], fisiopatologia: [5], criterios_dx: [6], laboratorio: [6, 5], tx_farmacologico: [6, 5] },
+  'Epilepsia farmacorresistente': { definicion: [11], pronostico: [13], criterios_dx: [11], laboratorio: [11, 13], tx_farmacologico: [11, 13] }
 };
 export const estigmas = [];
 export const biopsia = null;

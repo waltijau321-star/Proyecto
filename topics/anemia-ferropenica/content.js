@@ -366,13 +366,13 @@ export const content = {
 };
 
 export const compCites = {
-  'Ferropenia por pérdida crónica de sangre': { epidemiologia: [3, 4] },
-  'Ferropenia por disminución del aporte o la absorción': { fisiopatologia: [7] },
-  'Ferropenia del embarazo': { epidemiologia: [7, 8] },
-  'Ferropenia refractaria al hierro oral': { fisiopatologia: [9], tx_medico: [10] },
-  'Síndrome de Plummer-Vinson': { definicion: [12] },
-  'Insuficiencia cardiaca de alto gasto': { tx_farmacologico: [15] },
-  'Reacciones al hierro intravenoso': { fisiopatologia: [11], laboratorio: [11] }
+  'Ferropenia por pérdida crónica de sangre': { epidemiologia: [3, 4], criterios_dx: [3, 4], laboratorio: [3, 4], tx_farmacologico: [3, 4] },
+  'Ferropenia por disminución del aporte o la absorción': { fisiopatologia: [7], criterios_dx: [7], laboratorio: [7], tx_farmacologico: [7] },
+  'Ferropenia del embarazo': { epidemiologia: [7, 8], criterios_dx: [7, 8], laboratorio: [7, 8], tx_farmacologico: [7, 8] },
+  'Ferropenia refractaria al hierro oral': { fisiopatologia: [9], tx_medico: [10], criterios_dx: [9], laboratorio: [9, 10], tx_farmacologico: [10] },
+  'Síndrome de Plummer-Vinson': { definicion: [12], criterios_dx: [12], laboratorio: [12], tx_farmacologico: [12] },
+  'Insuficiencia cardiaca de alto gasto': { tx_farmacologico: [15], criterios_dx: [15], laboratorio: [15] },
+  'Reacciones al hierro intravenoso': { fisiopatologia: [11], laboratorio: [11], criterios_dx: [11], tx_farmacologico: [11] }
 };
 export const estigmas = [];
 export const biopsia = null;

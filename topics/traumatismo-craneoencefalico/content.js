@@ -328,15 +328,22 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'TCE leve y conmoción cerebral': [10, 11, 2],
-  'Hematoma epidural': [5],
-  'Hematoma subdural (agudo y crónico)': [6, 7],
-  'Hemorragia subaracnoidea traumática y lesión axonal difusa': [4, 9],
-  'Hipertensión intracraneal y síndromes de herniación': [1, 9],
-  'Crisis convulsivas postraumáticas': [8],
-  'Fractura de la base del cráneo, fuga de LCR y meningitis postraumática': [13],
-  'Síndrome poscontusional': [10, 11]
+  'TCE leve y conmoción cerebral': { definicion: [10, 11, 2], criterios_dx: [10, 11, 2], laboratorio: [10, 11, 2], tx_farmacologico: [10, 11, 2] },
+  'Hematoma epidural': { definicion: [5], criterios_dx: [5], laboratorio: [5], tx_farmacologico: [5] },
+  'Hematoma subdural (agudo y crónico)': { definicion: [6, 7], criterios_dx: [6, 7], laboratorio: [6, 7], tx_farmacologico: [6, 7] },
+  'Hemorragia subaracnoidea traumática y lesión axonal difusa': { definicion: [4, 9], criterios_dx: [4, 9], laboratorio: [4, 9], tx_farmacologico: [4, 9] },
+  'Hipertensión intracraneal y síndromes de herniación': { definicion: [1, 9], criterios_dx: [1, 9], laboratorio: [1, 9], tx_farmacologico: [1, 9] },
+  'Crisis convulsivas postraumáticas': { definicion: [8], criterios_dx: [8], laboratorio: [8], tx_farmacologico: [8] },
+  'Fractura de la base del cráneo, fuga de LCR y meningitis postraumática': { definicion: [13], criterios_dx: [13], laboratorio: [13], tx_farmacologico: [13] },
+  'Síndrome poscontusional': { definicion: [10, 11], criterios_dx: [10, 11], laboratorio: [10, 11], tx_farmacologico: [10, 11] }
 };
 export const estigmas = [];
 export const biopsia = null;

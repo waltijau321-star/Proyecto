@@ -363,15 +363,22 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Hiperparatiroidismo primario': [1, 2, 3, 19],
-  'Hipercalcemia de la malignidad': [7, 8],
-  'Hipoparatiroidismo e hipocalcemia': [5, 6, 9],
-  'Hiperparatiroidismo secundario y terciario': [11, 4],
-  'Osteomalacia y raquitismo del adulto': [12, 13, 17],
-  'Enfermedad de Paget osea': [14, 15],
-  'Crisis hipercalcemica': [7, 8, 1],
-  'Sindrome de hueso hambriento': [16, 1]
+  'Hiperparatiroidismo primario': { definicion: [1, 2, 3, 19], criterios_dx: [1, 2, 3, 19], laboratorio: [1, 2, 3, 19], tx_farmacologico: [1, 2, 3, 19] },
+  'Hipercalcemia de la malignidad': { definicion: [7, 8], criterios_dx: [7, 8], laboratorio: [7, 8], tx_farmacologico: [7, 8] },
+  'Hipoparatiroidismo e hipocalcemia': { definicion: [5, 6, 9], criterios_dx: [5, 6, 9], laboratorio: [5, 6, 9], tx_farmacologico: [5, 6, 9] },
+  'Hiperparatiroidismo secundario y terciario': { definicion: [11, 4], criterios_dx: [11, 4], laboratorio: [11, 4], tx_farmacologico: [11, 4] },
+  'Osteomalacia y raquitismo del adulto': { definicion: [12, 13, 17], criterios_dx: [12, 13, 17], laboratorio: [12, 13, 17], tx_farmacologico: [12, 13, 17] },
+  'Enfermedad de Paget osea': { definicion: [14, 15], criterios_dx: [14, 15], laboratorio: [14, 15], tx_farmacologico: [14, 15] },
+  'Crisis hipercalcemica': { definicion: [7, 8, 1], criterios_dx: [7, 8, 1], laboratorio: [7, 8, 1], tx_farmacologico: [7, 8, 1] },
+  'Sindrome de hueso hambriento': { definicion: [16, 1], criterios_dx: [16, 1], laboratorio: [16, 1], tx_farmacologico: [16, 1] }
 };
 export const estigmasTitulo = 'Signos clinicos del calcio alterado, en orden de utilidad';
 export const estigmas = [

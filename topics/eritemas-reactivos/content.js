@@ -253,7 +253,7 @@ export const content = {
 
 export const compCites = {
   'Eritema nodoso: la paniculitis que apunta a otra cosa': { definicion: [1], fisiopatologia: [1], epidemiologia: [1], clinica: [1], criterios_dx: [1], laboratorio: [1], complementarios: [1], dx_diferencial: [1], tx_medico: [1], tx_farmacologico: [1] },
-  'Paniculitis: el nodulo profundo y su diferencial': { definicion: [1], criterios_dx: [1], dx_diferencial: [1], complementarios: [1] },
+  'Paniculitis: el nodulo profundo y su diferencial': { definicion: [1], criterios_dx: [1], dx_diferencial: [1], complementarios: [1], laboratorio: [1] },
   'Eritema multiforme: la diana del herpes': { definicion: [2], fisiopatologia: [2], epidemiologia: [2], clinica: [2], criterios_dx: [2], laboratorio: [2], dx_diferencial: [2], tx_medico: [2], tx_farmacologico: [2] },
   'Eritema multiforme recurrente: el que se previene': { definicion: [2], epidemiologia: [2], fisiopatologia: [2], clinica: [2], tx_farmacologico: [2], tx_medico: [2], complementarios: [2], pronostico: [2], criterios_dx: [2] },
   'Eritema multiforme frente a Stevens-Johnson: dos enfermedades': { definicion: [2], fisiopatologia: [2], clinica: [2], dx_diferencial: [2], criterios_dx: [2] },

@@ -374,13 +374,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Hipotiroidismo primario (tiroiditis de Hashimoto y otras causas)': [1, 3, 4, 14],
-  'Hipotiroidismo central': [6, 4],
-  'Hipotiroidismo subclinico': [7, 8, 10, 11],
-  'Hipotiroidismo y embarazo': [5, 4],
-  'Hipotiroidismo de dificil control (malabsorcion e interacciones)': [12, 1],
-  'Sobretratamiento y tirotoxicosis yatrogena': [7, 9, 1]
+  'Hipotiroidismo primario (tiroiditis de Hashimoto y otras causas)': { definicion: [1, 3, 4, 14], criterios_dx: [1, 3, 4, 14], laboratorio: [1, 3, 4, 14], tx_farmacologico: [1, 3, 4, 14] },
+  'Hipotiroidismo central': { definicion: [6, 4], criterios_dx: [6, 4], laboratorio: [6, 4], tx_farmacologico: [6, 4] },
+  'Hipotiroidismo subclinico': { definicion: [7, 8, 10, 11], criterios_dx: [7, 8, 10, 11], laboratorio: [7, 8, 10, 11], tx_farmacologico: [7, 8, 10, 11] },
+  'Hipotiroidismo y embarazo': { definicion: [5, 4], criterios_dx: [5, 4], laboratorio: [5, 4], tx_farmacologico: [5, 4] },
+  'Hipotiroidismo de dificil control (malabsorcion e interacciones)': { definicion: [12, 1], criterios_dx: [12, 1], laboratorio: [12, 1], tx_farmacologico: [12, 1] },
+  'Sobretratamiento y tirotoxicosis yatrogena': { definicion: [7, 9, 1], criterios_dx: [7, 9, 1], laboratorio: [7, 9, 1], tx_farmacologico: [7, 9, 1] }
 };
 export const estigmas = [];
 export const biopsia = null;

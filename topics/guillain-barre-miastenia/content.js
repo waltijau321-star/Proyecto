@@ -387,13 +387,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Sindrome de Guillain-Barre: diagnostico': [1, 4, 16],
-  'Guillain-Barre: tratamiento y vigilancia respiratoria': [1, 3, 5, 6, 7],
-  'Miastenia gravis: diagnostico': [2, 9],
-  'Miastenia gravis: tratamiento': [2, 8, 10, 11],
-  'Crisis miastenica y crisis colinergica': [2, 12, 14],
-  'Lambert-Eaton, botulismo y el diferencial de la debilidad aguda': [13, 15]
+  'Sindrome de Guillain-Barre: diagnostico': { definicion: [1, 4, 16], criterios_dx: [1, 4, 16], laboratorio: [1, 4, 16], tx_farmacologico: [1, 4, 16] },
+  'Guillain-Barre: tratamiento y vigilancia respiratoria': { definicion: [1, 3, 5, 6, 7], criterios_dx: [1, 3, 5, 6, 7], laboratorio: [1, 3, 5, 6, 7], tx_farmacologico: [1, 3, 5, 6, 7] },
+  'Miastenia gravis: diagnostico': { definicion: [2, 9], criterios_dx: [2, 9], laboratorio: [2, 9], tx_farmacologico: [2, 9] },
+  'Miastenia gravis: tratamiento': { definicion: [2, 8, 10, 11], criterios_dx: [2, 8, 10, 11], laboratorio: [2, 8, 10, 11], tx_farmacologico: [2, 8, 10, 11] },
+  'Crisis miastenica y crisis colinergica': { definicion: [2, 12, 14], criterios_dx: [2, 12, 14], laboratorio: [2, 12, 14], tx_farmacologico: [2, 12, 14] },
+  'Lambert-Eaton, botulismo y el diferencial de la debilidad aguda': { definicion: [13, 15], criterios_dx: [13, 15], laboratorio: [13, 15], tx_farmacologico: [13, 15] }
 };
 export const estigmasTitulo = 'Signos y pistas en la debilidad neuromuscular aguda';
 export const estigmas = [

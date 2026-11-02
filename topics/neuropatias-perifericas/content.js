@@ -377,13 +377,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Enfoque de la neuropatia: el patron antes que la causa': [1, 2, 14],
-  'Polineuropatia distal simetrica': [1, 9, 10],
-  'Mononeuropatias y mononeuritis multiple': [11, 15],
-  'Paralisis facial periferica': [3, 4],
-  'Polineuropatia desmielinizante cronica y neuropatia de fibra fina': [5, 12],
-  'Disautonomia': [6, 7, 8, 13]
+  'Enfoque de la neuropatia: el patron antes que la causa': { definicion: [1, 2, 14], criterios_dx: [1, 2, 14], laboratorio: [1, 2, 14], tx_farmacologico: [1, 2, 14] },
+  'Polineuropatia distal simetrica': { definicion: [1, 9, 10], criterios_dx: [1, 9, 10], laboratorio: [1, 9, 10], tx_farmacologico: [1, 9, 10] },
+  'Mononeuropatias y mononeuritis multiple': { definicion: [11, 15], criterios_dx: [11, 15], laboratorio: [11, 15], tx_farmacologico: [11, 15] },
+  'Paralisis facial periferica': { definicion: [3, 4], criterios_dx: [3, 4], laboratorio: [3, 4], tx_farmacologico: [3, 4] },
+  'Polineuropatia desmielinizante cronica y neuropatia de fibra fina': { definicion: [5, 12], criterios_dx: [5, 12], laboratorio: [5, 12], tx_farmacologico: [5, 12] },
+  'Disautonomia': { definicion: [6, 7, 8, 13], criterios_dx: [6, 7, 8, 13], laboratorio: [6, 7, 8, 13], tx_farmacologico: [6, 7, 8, 13] }
 };
 export const estigmasTitulo = 'Signos y pistas que orientan ante una neuropatia';
 export const estigmas = [

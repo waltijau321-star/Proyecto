@@ -231,12 +231,12 @@ export const content = {
 };
 
 export const compCites = {
-  'Psoriasis en placas: reconocerla y medirla': { criterios_dx: [1], seguimiento_ambulatorio: [1] },
-  'Formas clinicas que cambian el manejo': { tx_farmacologico: [1] },
-  'Eritrodermia y pustulosa generalizada: las dos urgencias': { tx_farmacologico: [1, 3] },
-  'Artritis psoriasica: el cribado que le toca al internista': { tx_farmacologico: [1, 5], criterios_dx: [5] },
-  'Comorbilidad cardiometabolica y carga psicologica': { tx_medico: [1] },
-  'Tratamiento sistemico: metas, escalones y situaciones especiales': { criterios_dx: [1], tx_medico: [1, 2, 4], tx_farmacologico: [1, 2], seguimiento_ambulatorio: [1] }
+  'Psoriasis en placas: reconocerla y medirla': { criterios_dx: [1], seguimiento_ambulatorio: [1], laboratorio: [1], tx_farmacologico: [1] },
+  'Formas clinicas que cambian el manejo': { tx_farmacologico: [1], criterios_dx: [1], laboratorio: [1] },
+  'Eritrodermia y pustulosa generalizada: las dos urgencias': { tx_farmacologico: [1, 3], criterios_dx: [1, 3], laboratorio: [1, 3] },
+  'Artritis psoriasica: el cribado que le toca al internista': { tx_farmacologico: [1, 5], criterios_dx: [5], laboratorio: [5] },
+  'Comorbilidad cardiometabolica y carga psicologica': { tx_medico: [1], criterios_dx: [1], laboratorio: [1], tx_farmacologico: [1] },
+  'Tratamiento sistemico: metas, escalones y situaciones especiales': { criterios_dx: [1], tx_medico: [1, 2, 4], tx_farmacologico: [1, 2], seguimiento_ambulatorio: [1], laboratorio: [1] }
 };
 
 export const estigmasTitulo = 'Signos de exploracion que vale la pena buscar';

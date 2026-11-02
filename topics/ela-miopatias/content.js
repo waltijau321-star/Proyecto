@@ -380,13 +380,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Esclerosis lateral amiotrofica: diagnostico': [1, 2, 7, 8],
-  'ELA: manejo multidisciplinar y decisiones anticipadas': [1, 3, 4, 5],
-  'Enfoque de la debilidad muscular': [16, 15],
-  'Distrofias musculares del adulto': [9, 10],
-  'Miopatias inflamatorias y toxicas': [11, 12, 13],
-  'Rabdomiolisis y creatina cinasa elevada': [14, 15]
+  'Esclerosis lateral amiotrofica: diagnostico': { definicion: [1, 2, 7, 8], criterios_dx: [1, 2, 7, 8], laboratorio: [1, 2, 7, 8], tx_farmacologico: [1, 2, 7, 8] },
+  'ELA: manejo multidisciplinar y decisiones anticipadas': { definicion: [1, 3, 4, 5], criterios_dx: [1, 3, 4, 5], laboratorio: [1, 3, 4, 5], tx_farmacologico: [1, 3, 4, 5] },
+  'Enfoque de la debilidad muscular': { definicion: [16, 15], criterios_dx: [16, 15], laboratorio: [16, 15], tx_farmacologico: [16, 15] },
+  'Distrofias musculares del adulto': { definicion: [9, 10], criterios_dx: [9, 10], laboratorio: [9, 10], tx_farmacologico: [9, 10] },
+  'Miopatias inflamatorias y toxicas': { definicion: [11, 12, 13], criterios_dx: [11, 12, 13], laboratorio: [11, 12, 13], tx_farmacologico: [11, 12, 13] },
+  'Rabdomiolisis y creatina cinasa elevada': { definicion: [14, 15], criterios_dx: [14, 15], laboratorio: [14, 15], tx_farmacologico: [14, 15] }
 };
 export const estigmasTitulo = 'Signos y pistas ante un paciente con debilidad';
 export const estigmas = [

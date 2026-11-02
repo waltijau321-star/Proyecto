@@ -342,15 +342,22 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'LLC de bajo riesgo': [1, 2],
-  'LLC que requiere tratamiento': [1, 2, 3],
-  'Linfoma Linfocítico Pequeño': [1, 15],
-  'Linfocitosis B Monoclonal': [6],
-  'Citopenias autoinmunes': [7],
-  'Hipogammaglobulinemia e infecciones recurrentes': [8, 9],
-  'Transformación de Richter': [7, 13],
-  'Segundas neoplasias y complicaciones del tratamiento': [11, 12, 14]
+  'LLC de bajo riesgo': { definicion: [1, 2], criterios_dx: [1, 2], laboratorio: [1, 2], tx_farmacologico: [1, 2] },
+  'LLC que requiere tratamiento': { definicion: [1, 2, 3], criterios_dx: [1, 2, 3], laboratorio: [1, 2, 3], tx_farmacologico: [1, 2, 3] },
+  'Linfoma Linfocítico Pequeño': { definicion: [1, 15], criterios_dx: [1, 15], laboratorio: [1, 15], tx_farmacologico: [1, 15] },
+  'Linfocitosis B Monoclonal': { definicion: [6], criterios_dx: [6], laboratorio: [6] },
+  'Citopenias autoinmunes': { definicion: [7], criterios_dx: [7], laboratorio: [7], tx_farmacologico: [7] },
+  'Hipogammaglobulinemia e infecciones recurrentes': { definicion: [8, 9], criterios_dx: [8, 9], laboratorio: [8, 9], tx_farmacologico: [8, 9] },
+  'Transformación de Richter': { definicion: [7, 13], criterios_dx: [7, 13], laboratorio: [7, 13], tx_farmacologico: [7, 13] },
+  'Segundas neoplasias y complicaciones del tratamiento': { definicion: [11, 12, 14], criterios_dx: [11, 12, 14], laboratorio: [11, 12, 14], tx_farmacologico: [11, 12, 14] }
 };
 export const estigmas = [];
 export const biopsia = null;

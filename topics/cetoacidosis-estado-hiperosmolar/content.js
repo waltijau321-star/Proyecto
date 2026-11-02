@@ -429,14 +429,21 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Cetoacidosis diabetica': [1, 2, 4, 5],
-  'Estado hiperosmolar hiperglucemico': [18, 1, 19],
-  'Cetoacidosis euglucemica': [16, 17, 1],
-  'Edema cerebral': [11, 12, 1],
-  'Hipopotasemia y trastornos electroliticos del tratamiento': [2, 1],
-  'Hipoglucemia, sobrecarga de volumen y acidosis hipercloremica': [6, 7, 1],
-  'Complicaciones tromboticas e infecciosas': [22, 18]
+  'Cetoacidosis diabetica': { definicion: [1, 2, 4, 5], criterios_dx: [1, 2, 4, 5], laboratorio: [1, 2, 4, 5], tx_farmacologico: [1, 2, 4, 5] },
+  'Estado hiperosmolar hiperglucemico': { definicion: [18, 1, 19], criterios_dx: [18, 1, 19], laboratorio: [18, 1, 19], tx_farmacologico: [18, 1, 19] },
+  'Cetoacidosis euglucemica': { definicion: [16, 17, 1], criterios_dx: [16, 17, 1], laboratorio: [16, 17, 1], tx_farmacologico: [16, 17, 1] },
+  'Edema cerebral': { definicion: [11, 12, 1], criterios_dx: [11, 12, 1], laboratorio: [11, 12, 1], tx_farmacologico: [11, 12, 1] },
+  'Hipopotasemia y trastornos electroliticos del tratamiento': { definicion: [2, 1], criterios_dx: [2, 1], laboratorio: [2, 1], tx_farmacologico: [2, 1] },
+  'Hipoglucemia, sobrecarga de volumen y acidosis hipercloremica': { definicion: [6, 7, 1], criterios_dx: [6, 7, 1], laboratorio: [6, 7, 1], tx_farmacologico: [6, 7, 1] },
+  'Complicaciones tromboticas e infecciosas': { definicion: [22, 18], criterios_dx: [22, 18], laboratorio: [22, 18], tx_farmacologico: [22, 18] }
 };
 export const estigmas = [
   { s: 'Poliuria, polidipsia y perdida de peso previas', p: 'Casi todos', photo: null, desc: 'Consecuencia directa de la diuresis osmotica. Es el prodromo comun a las dos entidades: de horas en la cetoacidosis y de dias o semanas en el estado hiperosmolar. Su ausencia debe hacer dudar del diagnostico.' },

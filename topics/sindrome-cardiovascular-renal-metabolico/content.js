@@ -347,13 +347,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Estadio 0: sin factores de riesgo': [1, 19],
-  'Estadio 1: exceso o disfuncion de la adiposidad': [1, 2],
-  'Estadio 2: factores metabolicos y enfermedad renal': [1, 4, 5, 17],
-  'Estadio 3: enfermedad cardiovascular subclinica': [1, 3],
-  'Estadio 4: enfermedad cardiovascular clinica': [1, 14],
-  'Farmacos que actuan en los tres ejes': [6, 7, 8, 9, 10, 11, 12, 13]
+  'Estadio 0: sin factores de riesgo': { definicion: [1, 19], criterios_dx: [1, 19], laboratorio: [1, 19], tx_farmacologico: [1, 19] },
+  'Estadio 1: exceso o disfuncion de la adiposidad': { definicion: [1, 2], criterios_dx: [1, 2], laboratorio: [1, 2], tx_farmacologico: [1, 2] },
+  'Estadio 2: factores metabolicos y enfermedad renal': { definicion: [1, 4, 5, 17], criterios_dx: [1, 4, 5, 17], laboratorio: [1, 4, 5, 17], tx_farmacologico: [1, 4, 5, 17] },
+  'Estadio 3: enfermedad cardiovascular subclinica': { definicion: [1, 3], criterios_dx: [1, 3], laboratorio: [1, 3], tx_farmacologico: [1, 3] },
+  'Estadio 4: enfermedad cardiovascular clinica': { definicion: [1, 14], criterios_dx: [1, 14], laboratorio: [1, 14], tx_farmacologico: [1, 14] },
+  'Farmacos que actuan en los tres ejes': { definicion: [6, 7, 8, 9, 10, 11, 12, 13], criterios_dx: [6, 7, 8, 9, 10, 11, 12, 13], laboratorio: [6, 7, 8, 9, 10, 11, 12, 13], tx_farmacologico: [6, 7, 8, 9, 10, 11, 12, 13] }
 };
 export const estigmas = [];
 export const biopsia = null;

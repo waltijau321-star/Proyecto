@@ -348,13 +348,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Osteoporosis posmenopausica': [1, 2, 3, 6],
-  'Osteoporosis del varon': [4, 1],
-  'Osteoporosis secundaria e inducida por glucocorticoides': [5, 1],
-  'Fractura por fragilidad': [1, 19],
-  'Osteonecrosis mandibular y fractura femoral atipica': [17, 18],
-  'Rebote tras suspender el denosumab': [13, 14, 8]
+  'Osteoporosis posmenopausica': { definicion: [1, 2, 3, 6], criterios_dx: [1, 2, 3, 6], laboratorio: [1, 2, 3, 6], tx_farmacologico: [1, 2, 3, 6] },
+  'Osteoporosis del varon': { definicion: [4, 1], criterios_dx: [4, 1], laboratorio: [4, 1], tx_farmacologico: [4, 1] },
+  'Osteoporosis secundaria e inducida por glucocorticoides': { definicion: [5, 1], criterios_dx: [5, 1], laboratorio: [5, 1], tx_farmacologico: [5, 1] },
+  'Fractura por fragilidad': { definicion: [1, 19], criterios_dx: [1, 19], laboratorio: [1, 19], tx_farmacologico: [1, 19] },
+  'Osteonecrosis mandibular y fractura femoral atipica': { definicion: [17, 18], criterios_dx: [17, 18], laboratorio: [17, 18], tx_farmacologico: [17, 18] },
+  'Rebote tras suspender el denosumab': { definicion: [13, 14, 8], criterios_dx: [13, 14, 8], laboratorio: [13, 14, 8], tx_farmacologico: [13, 14, 8] }
 };
 export const estigmas = [];
 export const biopsia = null;

@@ -279,16 +279,16 @@ El carcinoma basocelular rara vez metastatiza (crecimiento predominantemente loc
 };
 
 export const compCites = {
-  'Secuencia y técnica de la exploración dermatológica': { definicion: [1, 2], fisiopatologia: [1, 4] },
-  'Lesiones primarias planas: mácula y mancha': { definicion: [1, 8], clinica: [8, 9] },
-  'Lesiones primarias sólidas: pápula, placa, nódulo y roncha': { definicion: [1, 8], fisiopatologia: [8, 9] },
-  'Lesiones primarias de contenido líquido: vesícula, ampolla y pústula': { definicion: [1, 8], fisiopatologia: [8, 9] },
-  'Lesiones secundarias por pérdida de sustancia: erosión y úlcera': { definicion: [1, 8], fisiopatologia: [8, 9] },
-  'Patrones de distribución y configuración': { definicion: [1, 8], fisiopatologia: [8, 9] },
+  'Secuencia y técnica de la exploración dermatológica': { definicion: [1, 2], fisiopatologia: [1, 4], criterios_dx: [8, 9] },
+  'Lesiones primarias planas: mácula y mancha': { definicion: [1, 8], clinica: [8, 9], criterios_dx: [8, 9] },
+  'Lesiones primarias sólidas: pápula, placa, nódulo y roncha': { definicion: [1, 8], fisiopatologia: [8, 9], criterios_dx: [8, 9] },
+  'Lesiones primarias de contenido líquido: vesícula, ampolla y pústula': { definicion: [1, 8], fisiopatologia: [8, 9], criterios_dx: [8, 9] },
+  'Lesiones secundarias por pérdida de sustancia: erosión y úlcera': { definicion: [1, 8], fisiopatologia: [8, 9], criterios_dx: [8, 9] },
+  'Patrones de distribución y configuración': { definicion: [1, 8], fisiopatologia: [8, 9], criterios_dx: [8, 9] },
   'Regla ABCDE del melanoma': { definicion: [6, 7], fisiopatologia: [7], criterios_dx: [7] },
-  'Diferenciación clínica: carcinoma basocelular, espinocelular y melanoma': { definicion: [8, 9], fisiopatologia: [8, 9] },
-  'Exploración de uñas: hallazgos normales y patológicos': { definicion: [1, 3], fisiopatologia: [1, 3, 4] },
-  'Exploración de cabello y cuero cabelludo: patrones de alopecia': { definicion: [1, 8], fisiopatologia: [8, 9] }
+  'Diferenciación clínica: carcinoma basocelular, espinocelular y melanoma': { definicion: [8, 9], fisiopatologia: [8, 9], criterios_dx: [8] },
+  'Exploración de uñas: hallazgos normales y patológicos': { definicion: [1, 3], fisiopatologia: [1, 3, 4], criterios_dx: [8, 9] },
+  'Exploración de cabello y cuero cabelludo: patrones de alopecia': { definicion: [1, 8], fisiopatologia: [8, 9], criterios_dx: [8, 9] }
 };
 export const estigmas = [];
 export const biopsia = null;

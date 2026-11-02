@@ -374,13 +374,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Reconocer el choque': [1, 2, 12],
-  'Choque hipovolemico y hemorragico': [3, 15, 16],
-  'Choque distributivo': [4, 7, 11],
-  'Choque cardiogenico': [5, 13, 14],
-  'Choque obstructivo': [6, 2],
-  'Reanimacion: fluidos, vasoactivos y objetivos': [8, 9, 10, 12]
+  'Reconocer el choque': { definicion: [1, 2, 12], criterios_dx: [1, 2, 12], laboratorio: [1, 2, 12], tx_farmacologico: [1, 2, 12] },
+  'Choque hipovolemico y hemorragico': { definicion: [3, 15, 16], criterios_dx: [3, 15, 16], laboratorio: [3, 15, 16], tx_farmacologico: [3, 15, 16] },
+  'Choque distributivo': { definicion: [4, 7, 11], criterios_dx: [4, 7, 11], laboratorio: [4, 7, 11], tx_farmacologico: [4, 7, 11] },
+  'Choque cardiogenico': { definicion: [5, 13, 14], criterios_dx: [5, 13, 14], laboratorio: [5, 13, 14], tx_farmacologico: [5, 13, 14] },
+  'Choque obstructivo': { definicion: [6, 2], criterios_dx: [6, 2], laboratorio: [6, 2], tx_farmacologico: [6, 2] },
+  'Reanimacion: fluidos, vasoactivos y objetivos': { definicion: [8, 9, 10, 12], criterios_dx: [8, 9, 10, 12], laboratorio: [8, 9, 10, 12], tx_farmacologico: [8, 9, 10, 12] }
 };
 export const estigmasTitulo = 'Signos que orientan el perfil';
 export const estigmas = [

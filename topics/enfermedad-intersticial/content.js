@@ -389,13 +389,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Fibrosis pulmonar idiopatica': [1, 3, 4, 5, 8],
-  'Fibrosis pulmonar progresiva': [1, 6, 7, 16],
-  'Neumonitis por hipersensibilidad': [2, 1],
-  'EPID autoinmunitaria y por farmacos': [7, 11, 17],
-  'Neumoconiosis y EPID ocupacional': [14, 15],
-  'Restriccion extrapulmonar: pared toracica y enfermedad neuromuscular': [13, 18]
+  'Fibrosis pulmonar idiopatica': { definicion: [1, 3, 4, 5, 8], criterios_dx: [1, 3, 4, 5, 8], laboratorio: [1, 3, 4, 5, 8], tx_farmacologico: [1, 3, 4, 5, 8] },
+  'Fibrosis pulmonar progresiva': { definicion: [1, 6, 7, 16], criterios_dx: [1, 6, 7, 16], laboratorio: [1, 6, 7, 16], tx_farmacologico: [1, 6, 7, 16] },
+  'Neumonitis por hipersensibilidad': { definicion: [2, 1], criterios_dx: [2, 1], laboratorio: [2, 1], tx_farmacologico: [2, 1] },
+  'EPID autoinmunitaria y por farmacos': { definicion: [7, 11, 17], criterios_dx: [7, 11, 17], laboratorio: [7, 11, 17], tx_farmacologico: [7, 11, 17] },
+  'Neumoconiosis y EPID ocupacional': { definicion: [14, 15], criterios_dx: [14, 15], laboratorio: [14, 15], tx_farmacologico: [14, 15] },
+  'Restriccion extrapulmonar: pared toracica y enfermedad neuromuscular': { definicion: [13, 18], criterios_dx: [13, 18], laboratorio: [13, 18], tx_farmacologico: [13, 18] }
 };
 export const estigmasTitulo = 'Signos de la enfermedad intersticial y de la restriccion, y lo que significa cada uno';
 export const estigmas = [

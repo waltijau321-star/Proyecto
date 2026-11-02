@@ -344,15 +344,22 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Hemofilia A y B': [1, 11, 12],
-  'Enfermedad de von Willebrand': [2, 3],
-  'Coagulopatía adquirida': [4, 5],
-  'Trombofilias hereditarias y adquiridas': [6, 7, 8, 9, 10],
-  'Hemartrosis y artropatía hemofílica': [1, 11],
-  'Inhibidores del factor': [1, 4],
-  'Trombosis venosa/arterial por trombofilia': [6, 7],
-  'Complicaciones obstétricas de trombofilia': [8, 9, 13]
+  'Hemofilia A y B': { definicion: [1, 11, 12], criterios_dx: [1, 11, 12], laboratorio: [1, 11, 12], tx_farmacologico: [1, 11, 12] },
+  'Enfermedad de von Willebrand': { definicion: [2, 3], criterios_dx: [2, 3], laboratorio: [2, 3], tx_farmacologico: [2, 3] },
+  'Coagulopatía adquirida': { definicion: [4, 5], criterios_dx: [4, 5], laboratorio: [4, 5], tx_farmacologico: [4, 5] },
+  'Trombofilias hereditarias y adquiridas': { definicion: [6, 7, 8, 9, 10], criterios_dx: [6, 7, 8, 9, 10], laboratorio: [6, 7, 8, 9, 10], tx_farmacologico: [6, 7, 8, 9, 10] },
+  'Hemartrosis y artropatía hemofílica': { definicion: [1, 11], criterios_dx: [1, 11], laboratorio: [1, 11], tx_farmacologico: [1, 11] },
+  'Inhibidores del factor': { definicion: [1, 4], criterios_dx: [1, 4], laboratorio: [1, 4], tx_farmacologico: [1, 4] },
+  'Trombosis venosa/arterial por trombofilia': { definicion: [6, 7], criterios_dx: [6, 7], laboratorio: [6, 7], tx_farmacologico: [6, 7] },
+  'Complicaciones obstétricas de trombofilia': { definicion: [8, 9, 13], criterios_dx: [8, 9, 13], laboratorio: [8, 9, 13], tx_farmacologico: [8, 9, 13] }
 };
 export const estigmas = [];
 export const biopsia = null;

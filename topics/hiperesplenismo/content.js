@@ -326,15 +326,22 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Hiperesplenismo por Hipertensión Portal': [3, 6],
-  'Hiperesplenismo por Enfermedad Hematológica Primaria': [4, 5],
-  'Hiperesplenismo por Enfermedad Infecciosa': [4],
-  'Hiperesplenismo por Enfermedad de Depósito/Inflamatoria': [4, 5],
-  'Rotura esplénica': [7, 14],
-  'Sepsis fulminante post-esplenectomía (OPSI) y profilaxis vacunal': [9, 10, 15],
-  'Trombosis venosa portal/esplénica post-esplenectomía': [11, 12],
-  'Infarto esplénico': [13]
+  'Hiperesplenismo por Hipertensión Portal': { definicion: [3, 6], criterios_dx: [3, 6], laboratorio: [3, 6], tx_farmacologico: [3, 6] },
+  'Hiperesplenismo por Enfermedad Hematológica Primaria': { definicion: [4, 5], criterios_dx: [4, 5], laboratorio: [4, 5], tx_farmacologico: [4, 5] },
+  'Hiperesplenismo por Enfermedad Infecciosa': { definicion: [4], criterios_dx: [4], laboratorio: [4], tx_farmacologico: [4] },
+  'Hiperesplenismo por Enfermedad de Depósito/Inflamatoria': { definicion: [4, 5], criterios_dx: [4, 5], laboratorio: [4, 5], tx_farmacologico: [4, 5] },
+  'Rotura esplénica': { definicion: [7, 14], criterios_dx: [7, 14], laboratorio: [7, 14], tx_farmacologico: [7, 14] },
+  'Sepsis fulminante post-esplenectomía (OPSI) y profilaxis vacunal': { definicion: [9, 10, 15], criterios_dx: [9, 10, 15], laboratorio: [9, 10, 15], tx_farmacologico: [9, 10, 15] },
+  'Trombosis venosa portal/esplénica post-esplenectomía': { definicion: [11, 12], criterios_dx: [11, 12], laboratorio: [11, 12], tx_farmacologico: [11, 12] },
+  'Infarto esplénico': { definicion: [13], criterios_dx: [13], laboratorio: [13], tx_farmacologico: [13] }
 };
 export const estigmas = [];
 export const biopsia = null;

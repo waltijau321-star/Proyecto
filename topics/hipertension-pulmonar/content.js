@@ -396,13 +396,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Hipertension arterial pulmonar (grupo 1)': [1, 3, 4, 5, 8, 11],
-  'HP por cardiopatia izquierda (grupo 2)': [1, 16],
-  'HP por enfermedad pulmonar e hipoxia (grupo 3)': [1, 7, 17],
-  'HP tromboembolica cronica (grupo 4)': [6, 9, 10, 15],
-  'Fallo agudo del ventriculo derecho': [13, 14],
-  'Grupo 5 y situaciones especiales': [1, 2, 12]
+  'Hipertension arterial pulmonar (grupo 1)': { definicion: [1, 3, 4, 5, 8, 11], criterios_dx: [1, 3, 4, 5, 8, 11], laboratorio: [1, 3, 4, 5, 8, 11], tx_farmacologico: [1, 3, 4, 5, 8, 11] },
+  'HP por cardiopatia izquierda (grupo 2)': { definicion: [1, 16], criterios_dx: [1, 16], laboratorio: [1, 16], tx_farmacologico: [1, 16] },
+  'HP por enfermedad pulmonar e hipoxia (grupo 3)': { definicion: [1, 7, 17], criterios_dx: [1, 7, 17], laboratorio: [1, 7, 17], tx_farmacologico: [1, 7, 17] },
+  'HP tromboembolica cronica (grupo 4)': { definicion: [6, 9, 10, 15], criterios_dx: [6, 9, 10, 15], laboratorio: [6, 9, 10, 15], tx_farmacologico: [6, 9, 10, 15] },
+  'Fallo agudo del ventriculo derecho': { definicion: [13, 14], criterios_dx: [13, 14], laboratorio: [13, 14], tx_farmacologico: [13, 14] },
+  'Grupo 5 y situaciones especiales': { definicion: [1, 2, 12], criterios_dx: [1, 2, 12], laboratorio: [1, 2, 12], tx_farmacologico: [1, 2, 12] }
 };
 export const estigmasTitulo = 'Signos de la hipertension pulmonar y del fallo derecho, del mas precoz al de peor pronostico';
 export const estigmas = [

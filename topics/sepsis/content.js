@@ -230,9 +230,9 @@ export const content = {
 
 // Presentación específica del tema
 export const compCites = {
-  'Choque séptico': { definicion: [1], criterios_dx: [1], tx_farmacologico: [2] },
-  'Síndrome de dificultad respiratoria aguda (SDRA)': { criterios_dx: [6] },
-  'Lesión renal aguda asociada a sepsis': { criterios_dx: [7] },
+  'Choque séptico': { definicion: [1], criterios_dx: [1], tx_farmacologico: [2], laboratorio: [1, 2] },
+  'Síndrome de dificultad respiratoria aguda (SDRA)': { criterios_dx: [6], laboratorio: [6], tx_farmacologico: [2] },
+  'Lesión renal aguda asociada a sepsis': { criterios_dx: [7], laboratorio: [7], tx_farmacologico: [7] },
   'Coagulación intravascular diseminada (CID)': {},
   'Encefalopatía asociada a sepsis': {}
 };

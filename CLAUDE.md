@@ -140,6 +140,15 @@ attribution maps that point into it **1-based**, not 0-based: `compCites` keyed 
 name and then by field, plus `diagCites`, `escalaRefs`, `clasificacionCite` and
 `seguimientoCite`. An index that points past the end of `bibliografia` paints nothing, silently.
 
+**`compCites` must use the per-field object form**, `{ criterios_dx: [3], laboratorio: [4] }`. A
+flat array (`[3, 4]`, meaning the sources of the whole ficha) also parses, and `openModal`
+normalizes it, but it anchors that array to `definicion` alone, so every other field of the ficha
+paints no citation at all. That is not hypothetical: 62 of the 106 topics were written that way,
+427 fichas in all, and their `criterios_dx`, `laboratorio` and `tx_farmacologico` showed nothing to
+the reader even though the sources were declared. They were converted on 2 Nov 2026 and a new topic
+must not reintroduce the flat form. A citation hanging off a field the ficha does not have is dead
+data too, and a test now forbids it.
+
 **The minimum attribution rule (decided 1 Nov 2026):** in every `complicaciones[]` entry,
 **`criterios_dx`, `laboratorio` and `tx_farmacologico` carry a citation in `compCites`** whenever
 they have content (an explicit "No aplica" does not count). Those are the three fields where an

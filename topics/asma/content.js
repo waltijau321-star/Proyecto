@@ -413,13 +413,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Asma': [1, 2, 3, 6],
-  'Crisis asmatica': [13, 14, 1],
-  'Asma grave y biologicos': [8, 9, 10, 11, 12, 18],
-  'Asma ocupacional': [15],
-  'Enfermedad respiratoria exacerbada por antiinflamatorios': [16, 11],
-  'Situaciones especiales: embarazo, ejercicio y solapamiento con EPOC': [17, 1]
+  'Asma': { definicion: [1, 2, 3, 6], criterios_dx: [1, 2, 3, 6], laboratorio: [1, 2, 3, 6], tx_farmacologico: [1, 2, 3, 6] },
+  'Crisis asmatica': { definicion: [13, 14, 1], criterios_dx: [13, 14, 1], laboratorio: [13, 14, 1], tx_farmacologico: [13, 14, 1] },
+  'Asma grave y biologicos': { definicion: [8, 9, 10, 11, 12, 18], criterios_dx: [8, 9, 10, 11, 12, 18], laboratorio: [8, 9, 10, 11, 12, 18], tx_farmacologico: [8, 9, 10, 11, 12, 18] },
+  'Asma ocupacional': { definicion: [15], criterios_dx: [15], laboratorio: [15], tx_farmacologico: [15] },
+  'Enfermedad respiratoria exacerbada por antiinflamatorios': { definicion: [16, 11], criterios_dx: [16, 11], laboratorio: [16, 11], tx_farmacologico: [16, 11] },
+  'Situaciones especiales: embarazo, ejercicio y solapamiento con EPOC': { definicion: [17, 1], criterios_dx: [17, 1], laboratorio: [17, 1], tx_farmacologico: [17, 1] }
 };
 export const estigmasTitulo = 'Signos y datos de la exploracion en el asma, del mas frecuente al de mayor gravedad';
 export const estigmas = [

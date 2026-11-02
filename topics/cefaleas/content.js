@@ -374,15 +374,15 @@ export const content = {
 };
 
 export const compCites = {
-  'Migraña episódica': { fisiopatologia: [1], tx_farmacologico: [1, 4, 5] },
-  'Migraña crónica y cefalea por abuso de medicación': { definicion: [2], tx_farmacologico: [6] },
-  'Cefalea tensional': { criterios_dx: [2, 9] },
-  'Cefalea en racimos y cefalalgias autonómico-trigeminales': { fisiopatologia: [7], tx_farmacologico: [7, 8] },
-  'Cefalea secundaria: enfoque general y señales de alarma': { clinica: [3] },
-  'Cefalea en trueno: diagnóstico diferencial urgente': { fisiopatologia: [10], tx_farmacologico: [10] },
-  'Arteritis de células gigantes': { criterios_dx: [11], tx_farmacologico: [12] },
-  'Cefalea posterior a punción lumbar': { fisiopatologia: [13], tx_intervencionista: [13, 14] },
-  'Neuralgia del trigémino': { tx_farmacologico: [15], tx_intervencionista: [15, 16] }
+  'Migraña episódica': { fisiopatologia: [1], tx_farmacologico: [1, 4, 5], criterios_dx: [1], laboratorio: [1, 4, 5] },
+  'Migraña crónica y cefalea por abuso de medicación': { definicion: [2], tx_farmacologico: [6], criterios_dx: [2], laboratorio: [2, 6] },
+  'Cefalea tensional': { criterios_dx: [2, 9], laboratorio: [2, 9], tx_farmacologico: [2, 9] },
+  'Cefalea en racimos y cefalalgias autonómico-trigeminales': { fisiopatologia: [7], tx_farmacologico: [7, 8], criterios_dx: [7], laboratorio: [7, 8] },
+  'Cefalea secundaria: enfoque general y señales de alarma': { clinica: [3], criterios_dx: [3], laboratorio: [3], tx_farmacologico: [3] },
+  'Cefalea en trueno: diagnóstico diferencial urgente': { fisiopatologia: [10], tx_farmacologico: [10], criterios_dx: [10], laboratorio: [10] },
+  'Arteritis de células gigantes': { criterios_dx: [11], tx_farmacologico: [12], laboratorio: [11] },
+  'Cefalea posterior a punción lumbar': { fisiopatologia: [13], tx_intervencionista: [13, 14], criterios_dx: [13], laboratorio: [13, 14], tx_farmacologico: [13, 14] },
+  'Neuralgia del trigémino': { tx_farmacologico: [15], tx_intervencionista: [15, 16], criterios_dx: [15, 16], laboratorio: [15, 16] }
 };
 export const estigmas = [];
 export const biopsia = null;

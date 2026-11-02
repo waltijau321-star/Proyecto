@@ -358,13 +358,13 @@ export const content = {
 };
 
 export const compCites = {
-  'Anemia de la enfermedad crónica clásica': { fisiopatologia: [1, 3] },
-  'Anemia de la enfermedad renal crónica': { fisiopatologia: [8, 9], tx_farmacologico: [10] },
-  'Anemia combinada con ferropenia verdadera': { fisiopatologia: [6, 7] },
-  'Anemia del paciente crítico/hospitalizado': { fisiopatologia: [13], tx_intervencionista: [14] },
-  'Riesgos de los agentes estimulantes de la eritropoyesis': { fisiopatologia: [11, 12] },
-  'Ferropenia funcional / sobretratamiento con hierro en AEC pura': { fisiopatologia: [1] },
-  'Enmascaramiento de una causa tratable oculta': { epidemiologia: [15] }
+  'Anemia de la enfermedad crónica clásica': { fisiopatologia: [1, 3], criterios_dx: [1, 3], laboratorio: [1, 3], tx_farmacologico: [1, 3] },
+  'Anemia de la enfermedad renal crónica': { fisiopatologia: [8, 9], tx_farmacologico: [10], criterios_dx: [8, 9], laboratorio: [8, 9, 10] },
+  'Anemia combinada con ferropenia verdadera': { fisiopatologia: [6, 7], criterios_dx: [6, 7], laboratorio: [6, 7], tx_farmacologico: [6, 7] },
+  'Anemia del paciente crítico/hospitalizado': { fisiopatologia: [13], tx_intervencionista: [14], criterios_dx: [13], laboratorio: [13, 14], tx_farmacologico: [14] },
+  'Riesgos de los agentes estimulantes de la eritropoyesis': { fisiopatologia: [11, 12], criterios_dx: [11, 12], laboratorio: [11, 12], tx_farmacologico: [11, 12] },
+  'Ferropenia funcional / sobretratamiento con hierro en AEC pura': { fisiopatologia: [1], criterios_dx: [1], laboratorio: [1], tx_farmacologico: [1] },
+  'Enmascaramiento de una causa tratable oculta': { epidemiologia: [15], criterios_dx: [15], laboratorio: [15], tx_farmacologico: [15] }
 };
 export const estigmas = [];
 export const biopsia = null;

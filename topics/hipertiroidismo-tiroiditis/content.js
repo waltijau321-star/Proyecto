@@ -443,15 +443,22 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Enfermedad de Graves': [1, 2, 3, 19],
-  'Bocio multinodular toxico y adenoma toxico': [1, 4],
-  'Tiroiditis subaguda, silente y posparto': [8, 9],
-  'Tirotoxicosis inducida por amiodarona': [7, 1],
-  'Hipertiroidismo subclinico': [10, 11, 12],
-  'Orbitopatia de Graves': [5, 6, 18],
-  'Complicaciones del tratamiento antitiroideo': [15, 16, 14],
-  'Repercusion cardiovascular y osea de la tirotoxicosis': [11, 12, 4]
+  'Enfermedad de Graves': { definicion: [1, 2, 3, 19], criterios_dx: [1, 2, 3, 19], laboratorio: [1, 2, 3, 19], tx_farmacologico: [1, 2, 3, 19] },
+  'Bocio multinodular toxico y adenoma toxico': { definicion: [1, 4], criterios_dx: [1, 4], laboratorio: [1, 4], tx_farmacologico: [1, 4] },
+  'Tiroiditis subaguda, silente y posparto': { definicion: [8, 9], criterios_dx: [8, 9], laboratorio: [8, 9], tx_farmacologico: [8, 9] },
+  'Tirotoxicosis inducida por amiodarona': { definicion: [7, 1], criterios_dx: [7, 1], laboratorio: [7, 1], tx_farmacologico: [7, 1] },
+  'Hipertiroidismo subclinico': { definicion: [10, 11, 12], criterios_dx: [10, 11, 12], laboratorio: [10, 11, 12], tx_farmacologico: [10, 11, 12] },
+  'Orbitopatia de Graves': { definicion: [5, 6, 18], criterios_dx: [5, 6, 18], laboratorio: [5, 6, 18], tx_farmacologico: [5, 6, 18] },
+  'Complicaciones del tratamiento antitiroideo': { definicion: [15, 16, 14], criterios_dx: [15, 16, 14], laboratorio: [15, 16, 14], tx_farmacologico: [15, 16, 14] },
+  'Repercusion cardiovascular y osea de la tirotoxicosis': { definicion: [11, 12, 4], criterios_dx: [11, 12, 4], laboratorio: [11, 12, 4], tx_farmacologico: [11, 12, 4] }
 };
 export const estigmasTitulo = 'Signos y sintomas de la tirotoxicosis, y los especificos de la enfermedad de Graves';
 export const estigmas = [

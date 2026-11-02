@@ -235,13 +235,7 @@ export const compCites = {
   // habones. El por BRADICININA es otra enfermedad y necesita sus propias fuentes: la 2 y la 3.
   // Esta complicacion tenia 20 campos de contenido clinico y el compCites VACIO, asi que nada de
   // lo que afirma estaba atribuido, y las dos guias que lo sostienen no estaban ni en la lista.
-  'Angioedema: con habones y sin habones': {
-    definicion: [1, 2], fisiopatologia: [1, 2], epidemiologia: [1, 2], factores_riesgo: [2],
-    clinica: [2], criterios_dx: [2], laboratorio: [2], imagen: [2], complementarios: [1, 2],
-    dx_diferencial: [2], tx_medico: [2, 3], tx_farmacologico: [2, 3], tx_intervencionista: [2],
-    criterios_uci: [2], seguimiento_hospitalario: [2], seguimiento_ambulatorio: [2, 3],
-    pronostico: [2], algoritmo: [1, 2]
-  },
+  'Angioedema: con habones y sin habones': { definicion: [1, 2], fisiopatologia: [1, 2], epidemiologia: [1, 2], factores_riesgo: [2], clinica: [2], criterios_dx: [2], laboratorio: [2], imagen: [2], complementarios: [1, 2], dx_diferencial: [2], tx_medico: [2, 3], tx_farmacologico: [2, 3], tx_intervencionista: [2], criterios_uci: [2], seguimiento_hospitalario: [2], seguimiento_ambulatorio: [2, 3], pronostico: [2], algoritmo: [1, 2] },
   'Lo que parece urticaria y no lo es': { criterios_dx: [1], laboratorio: [1], tx_farmacologico: [1] },
   'Tratamiento escalonado y control': { tx_farmacologico: [1], epidemiologia: [1], laboratorio: [1] }
 };

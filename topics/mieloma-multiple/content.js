@@ -340,15 +340,22 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Gammapatía Monoclonal de Significado Incierto': [3, 4],
-  'Mieloma Múltiple Smoldering': [3, 4],
-  'Mieloma Múltiple Activo': [2, 3, 5],
-  'Amiloidosis de Cadenas Ligeras y Plasmocitoma Solitario': [10, 11],
-  'Enfermedad ósea mielomatosa': [6, 7],
-  'Nefropatía por cilindros (riñón de mieloma)': [8],
-  'Infecciones recurrentes': [9],
-  'Hiperviscosidad y complicaciones neurológicas': [12, 14]
+  'Gammapatía Monoclonal de Significado Incierto': { definicion: [3, 4], criterios_dx: [3, 4], laboratorio: [3, 4] },
+  'Mieloma Múltiple Smoldering': { definicion: [3, 4], criterios_dx: [3, 4], laboratorio: [3, 4], tx_farmacologico: [3, 4] },
+  'Mieloma Múltiple Activo': { definicion: [2, 3, 5], criterios_dx: [2, 3, 5], laboratorio: [2, 3, 5], tx_farmacologico: [2, 3, 5] },
+  'Amiloidosis de Cadenas Ligeras y Plasmocitoma Solitario': { definicion: [10, 11], criterios_dx: [10, 11], laboratorio: [10, 11], tx_farmacologico: [10, 11] },
+  'Enfermedad ósea mielomatosa': { definicion: [6, 7], criterios_dx: [6, 7], laboratorio: [6, 7], tx_farmacologico: [6, 7] },
+  'Nefropatía por cilindros (riñón de mieloma)': { definicion: [8], criterios_dx: [8], laboratorio: [8], tx_farmacologico: [8] },
+  'Infecciones recurrentes': { definicion: [9], criterios_dx: [9], laboratorio: [9], tx_farmacologico: [9] },
+  'Hiperviscosidad y complicaciones neurológicas': { definicion: [12, 14], criterios_dx: [12, 14], laboratorio: [12, 14], tx_farmacologico: [12, 14] }
 };
 export const estigmas = [];
 export const biopsia = null;

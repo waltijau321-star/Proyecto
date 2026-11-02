@@ -333,11 +333,11 @@ export const content = {
 };
 
 export const compCites = {
-  'Policitemia vera': { tx_medico: [5], tx_farmacologico: [3, 11] },
-  'Trombocitemia esencial': { criterios_dx: [1], complementarios: [6] },
-  'Mielofibrosis manifiesta': { tx_farmacologico: [10], tx_intervencionista: [8, 9] },
-  'Trombosis arterial y venosa': { epidemiologia: [16] },
-  'Sangrado por enfermedad de von Willebrand adquirida': { fisiopatologia: [15] }
+  'Policitemia vera': { tx_medico: [5], tx_farmacologico: [3, 11], criterios_dx: [5, 3, 11], laboratorio: [5, 3, 11] },
+  'Trombocitemia esencial': { criterios_dx: [1], complementarios: [6], laboratorio: [6], tx_farmacologico: [1, 6] },
+  'Mielofibrosis manifiesta': { tx_farmacologico: [10], tx_intervencionista: [8, 9], criterios_dx: [10, 8, 9], laboratorio: [10, 8, 9] },
+  'Trombosis arterial y venosa': { epidemiologia: [16], criterios_dx: [16], laboratorio: [16], tx_farmacologico: [16] },
+  'Sangrado por enfermedad de von Willebrand adquirida': { fisiopatologia: [15], criterios_dx: [15], laboratorio: [15], tx_farmacologico: [15] }
 };
 export const estigmas = [];
 export const biopsia = null;

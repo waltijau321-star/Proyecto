@@ -2185,7 +2185,7 @@ async function run() {
      tx_farmacologico llevan cita en compCites siempre que tengan contenido. Son los tres campos
      donde una afirmacion sin fuente pesa mas junto a la cama del paciente.
 
-     Esto es un TRINQUETE, no una exigencia del 100%: quedan 1695 huecos repartidos en 89 temas y
+     Esto es un TRINQUETE, no una exigencia del 100%: quedan 131 huecos repartidos en 15 temas y
      cerrarlos es trabajo de leer fuentes, no de script. Lo que la prueba garantiza es que el
      trabajo hecho no se desande. Al cerrar un bloque hay que SUBIR estos dos valores; si la
      prueba falla por lo contrario, es que una cita se perdio.
@@ -2195,19 +2195,23 @@ async function run() {
      guia de psoriasis y la de Stevens-Johnson sin que el tema hablara de ninguna de las dos. Una
      cita equivocada es peor que un hueco, asi que la prueba premia atribuir, no acumular. */
   const ATRIB_REGLA = ['criterios_dx', 'laboratorio', 'tx_farmacologico'];
-  const ATRIB_TOTAL_MINIMO = 377;
-  const ATRIB_COMPLETOS = [
-    'historia-clinica', 'melanoma', 'cancer-cutaneo-no-melanoma',
-    'manifestaciones-cutaneas-sistemicas', 'ahogamiento',
-    'glomerulopatias-sindromes-glomerulares', 'nefropatia-diabetica-hipertensiva',
-    'urticaria', 'anafilaxia', 'abdomen-agudo', 'supresion-alcoholica', 'broncoaspiracion',
-    'exploracion-cardiovascular', 'exploracion-respiratoria', 'exploracion-abdominal',
-    'exploracion-osteoarticular', 'exploracion-cabeza-cuello'
-  ];
+
+  // Los temas que TODAVIA tienen huecos, con su maximo tolerado. Todo tema que no este aqui debe
+  // estar a cero. Al cerrar huecos hay que BAJAR el numero; si una prueba falla por lo contrario,
+  // es que una cita se perdio. La lista se vacia sola a medida que avanza el trabajo.
+  const ATRIB_PENDIENTES = {
+    'valoracion-preoperatoria': 2, 'anemia-ferropenica': 3, 'anemia-megaloblastica': 3,
+    'anemia-enfermedad-cronica': 3, 'debilidad-adquirida-uci': 3, 'eccemas': 3,
+    'sepsis': 6, 'miocardiopatias': 6, 'anemia-aplasica': 6,
+    'anemias-hemoliticas-hereditarias': 6, 'sindromes-mielodisplasicos': 9,
+    'sindromes-mieloproliferativos': 9, 'anemias-hemoliticas-adquiridas': 12,
+    'vasopresores-sedantes': 20, 'cirrosis-hepatica': 40
+  };
+  const ATRIB_TOTAL_MINIMO = 1941;
 
   const atribPorTema = {};
   let atribTotal = 0, atribCampos = 0;
-  const atribFueraDeRango = [];
+  const atribFueraDeRango = [], atribInertes = [];
   for (const entry of registry) {
     const topic = await loadTopic(entry.id);
     if (!topic) continue;
@@ -2220,10 +2224,16 @@ async function run() {
       ATRIB_REGLA.forEach(k => {
         const v = c[k];
         const tiene = v && (!Array.isArray(v) || v.length) && !/^no aplica\.?$/i.test(String(v).trim());
-        if (!tiene) return;
-        campos++;
         const cit = citas[k];
-        if (Array.isArray(cit) && cit.length) {
+        const citada = Array.isArray(cit) && cit.length;
+        if (!tiene) {
+          // Una cita para un campo que la ficha no tiene es dato muerto: el motor la ignora y
+          // confunde a quien edite la ficha despues.
+          if (citada) atribInertes.push(entry.id + ' / ' + c.nombre + ' / ' + k);
+          return;
+        }
+        campos++;
+        if (citada) {
           citados++;
           cit.forEach(i => {
             if (!(i >= 1 && i <= nFuentes)) atribFueraDeRango.push(entry.id + ' / ' + c.nombre + ' / ' + k + ' -> ' + i);
@@ -2242,17 +2252,30 @@ async function run() {
     assert(atribFueraDeRango.length === 0, atribFueraDeRango.slice(0, 10).join(' | '));
   });
 
+  test('citas: ninguna cita cuelga de un campo que la ficha no tiene', () => {
+    assert(atribInertes.length === 0, atribInertes.slice(0, 10).join(' | '));
+  });
+
   test('citas: el total de campos atribuidos de la regla minima no ha bajado', () => {
     assert(atribTotal >= ATRIB_TOTAL_MINIMO,
       'atribuidos ' + atribTotal + ' de ' + atribCampos + ', por debajo de la marca ' +
       ATRIB_TOTAL_MINIMO + '. Si el descenso es deliberado hay que bajar la marca a mano y decir por que.');
   });
 
-  for (const id of ATRIB_COMPLETOS) {
-    test('citas[' + id + ']: declarado completo, sigue sin huecos en la regla minima', () => {
-      const r = atribPorTema[id];
-      assert(r, 'el tema ' + id + ' esta en ATRIB_COMPLETOS pero no en el registro');
-      assert(r.huecos.length === 0, 'huecos nuevos: ' + r.huecos.slice(0, 5).join(' | '));
+  test('citas: ningun tema de ATRIB_PENDIENTES ha empeorado', () => {
+    const peor = Object.keys(ATRIB_PENDIENTES)
+      .map(id => ({ id, h: (atribPorTema[id] || { huecos: [] }).huecos.length, max: ATRIB_PENDIENTES[id] }))
+      .filter(x => x.h > x.max)
+      .map(x => x.id + ': ' + x.h + ' huecos, tolerados ' + x.max);
+    assert(peor.length === 0, peor.join(' | '));
+  });
+
+  for (const entry of registry) {
+    if (entry.id in ATRIB_PENDIENTES) continue;
+    test('citas[' + entry.id + ']: sin huecos en la regla minima', () => {
+      const r = atribPorTema[entry.id];
+      assert(r, 'el tema no se pudo cargar');
+      assert(r.huecos.length === 0, 'huecos: ' + r.huecos.slice(0, 5).join(' | '));
     });
   }
 

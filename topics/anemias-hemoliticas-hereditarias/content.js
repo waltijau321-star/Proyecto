@@ -362,12 +362,12 @@ export const content = {
 };
 
 export const compCites = {
-  'Esferocitosis hereditaria': { definicion: [1], criterios_dx: [2, 3], tx_intervencionista: [2, 13] },
-  'Eliptocitosis hereditaria': { fisiopatologia: [4], criterios_dx: [3] },
-  'Deficiencia de glucosa-6-fosfato deshidrogenasa (G6PD)': { epidemiologia: [5, 6], criterios_dx: [10] },
-  'Deficiencia de piruvato cinasa': { epidemiologia: [7], tx_farmacologico: [8] },
-  'Crisis aplásica': { fisiopatologia: [12] },
-  'Colelitiasis pigmentaria': { tx_intervencionista: [13] }
+  'Esferocitosis hereditaria': { definicion: [1], criterios_dx: [2, 3], tx_intervencionista: [2, 13], laboratorio: [2, 3], tx_farmacologico: [2, 13] },
+  'Eliptocitosis hereditaria': { fisiopatologia: [4], criterios_dx: [3], laboratorio: [3], tx_farmacologico: [4, 3] },
+  'Deficiencia de glucosa-6-fosfato deshidrogenasa (G6PD)': { epidemiologia: [5, 6], criterios_dx: [10], laboratorio: [10], tx_farmacologico: [5, 6, 10] },
+  'Deficiencia de piruvato cinasa': { epidemiologia: [7], tx_farmacologico: [8], criterios_dx: [7, 8], laboratorio: [7, 8] },
+  'Crisis aplásica': { fisiopatologia: [12], criterios_dx: [12], laboratorio: [12], tx_farmacologico: [12] },
+  'Colelitiasis pigmentaria': { tx_intervencionista: [13], criterios_dx: [13], laboratorio: [13], tx_farmacologico: [13] }
 };
 export const estigmas = [];
 export const biopsia = null;

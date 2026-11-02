@@ -232,12 +232,12 @@ export const content = {
 };
 
 export const compCites = {
-  'Exantema maculopapular: lo frecuente y benigno': { epidemiologia: [2], fisiopatologia: [2] },
-  'Stevens-Johnson y necrolisis epidermica toxica': { definicion: [1], criterios_dx: [1], fisiopatologia: [1], epidemiologia: [1], tx_farmacologico: [1], complementarios: [1] },
-  'DRESS: la que llega tarde y afecta a organos': { fisiopatologia: [2], criterios_dx: [2] },
-  'Pustulosis exantematica generalizada aguda': { fisiopatologia: [2], dx_diferencial: [2] },
-  'Eritrodermia: cuando la piel deja de ser un organo': { fisiopatologia: [3], epidemiologia: [3], complementarios: [3] },
-  'Identificar al culpable y evitar la reexposicion': { criterios_dx: [1] }
+  'Exantema maculopapular: lo frecuente y benigno': { epidemiologia: [2], fisiopatologia: [2], criterios_dx: [2], laboratorio: [2], tx_farmacologico: [2] },
+  'Stevens-Johnson y necrolisis epidermica toxica': { definicion: [1], criterios_dx: [1], fisiopatologia: [1], epidemiologia: [1], tx_farmacologico: [1], complementarios: [1], laboratorio: [1] },
+  'DRESS: la que llega tarde y afecta a organos': { fisiopatologia: [2], criterios_dx: [2], laboratorio: [2], tx_farmacologico: [2] },
+  'Pustulosis exantematica generalizada aguda': { fisiopatologia: [2], dx_diferencial: [2], criterios_dx: [2], laboratorio: [2], tx_farmacologico: [2] },
+  'Eritrodermia: cuando la piel deja de ser un organo': { fisiopatologia: [3], epidemiologia: [3], complementarios: [3], criterios_dx: [3], laboratorio: [3], tx_farmacologico: [3] },
+  'Identificar al culpable y evitar la reexposicion': { criterios_dx: [1], laboratorio: [1], tx_farmacologico: [1] }
 };
 
 export const estigmasTitulo = 'Signos que hay que buscar de forma activa';

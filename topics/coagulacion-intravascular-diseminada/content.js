@@ -309,15 +309,22 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'CID asociada a sepsis': [1, 2, 8],
-  'CID obstétrica': [5, 8],
-  'CID asociada a neoplasia': [6, 3],
-  'CID traumática': [7, 8],
-  'Hemorragia grave multiorgánica': [1, 3, 8],
-  'Púrpura fulminans y disfunción multiorgánica por microtrombosis': [10, 9],
-  'Síndrome de Waterhouse-Friderichsen': [12, 10],
-  'Isquemia digital y de extremidades por microtrombosis': [11, 3]
+  'CID asociada a sepsis': { definicion: [1, 2, 8], criterios_dx: [1, 2, 8], laboratorio: [1, 2, 8], tx_farmacologico: [1, 2, 8] },
+  'CID obstétrica': { definicion: [5, 8], criterios_dx: [5, 8], laboratorio: [5, 8], tx_farmacologico: [5, 8] },
+  'CID asociada a neoplasia': { definicion: [6, 3], criterios_dx: [6, 3], laboratorio: [6, 3], tx_farmacologico: [6, 3] },
+  'CID traumática': { definicion: [7, 8], criterios_dx: [7, 8], laboratorio: [7, 8], tx_farmacologico: [7, 8] },
+  'Hemorragia grave multiorgánica': { definicion: [1, 3, 8], criterios_dx: [1, 3, 8], laboratorio: [1, 3, 8], tx_farmacologico: [1, 3, 8] },
+  'Púrpura fulminans y disfunción multiorgánica por microtrombosis': { definicion: [10, 9], criterios_dx: [10, 9], laboratorio: [10, 9], tx_farmacologico: [10, 9] },
+  'Síndrome de Waterhouse-Friderichsen': { definicion: [12, 10], criterios_dx: [12, 10], laboratorio: [12, 10], tx_farmacologico: [12, 10] },
+  'Isquemia digital y de extremidades por microtrombosis': { definicion: [11, 3], criterios_dx: [11, 3], laboratorio: [11, 3], tx_farmacologico: [11, 3] }
 };
 export const estigmas = [];
 export const biopsia = null;

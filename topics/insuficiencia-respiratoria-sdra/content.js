@@ -409,13 +409,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Insuficiencia respiratoria aguda hipoxemica': [9, 11, 12],
-  'Insuficiencia respiratoria aguda hipercapnica': [11],
-  'Sindrome de dificultad respiratoria aguda': [1, 2, 3, 4, 5, 7, 13],
-  'SDRA grave y terapias de rescate': [6, 8, 14, 15, 16],
-  'Fracaso del soporte no invasivo y lesion autoinfligida': [10, 12, 9],
-  'Secuelas y sindrome post-cuidados intensivos': [17, 18]
+  'Insuficiencia respiratoria aguda hipoxemica': { definicion: [9, 11, 12], criterios_dx: [9, 11, 12], laboratorio: [9, 11, 12], tx_farmacologico: [9, 11, 12] },
+  'Insuficiencia respiratoria aguda hipercapnica': { definicion: [11], criterios_dx: [11], laboratorio: [11], tx_farmacologico: [11] },
+  'Sindrome de dificultad respiratoria aguda': { definicion: [1, 2, 3, 4, 5, 7, 13], criterios_dx: [1, 2, 3, 4, 5, 7, 13], laboratorio: [1, 2, 3, 4, 5, 7, 13], tx_farmacologico: [1, 2, 3, 4, 5, 7, 13] },
+  'SDRA grave y terapias de rescate': { definicion: [6, 8, 14, 15, 16], criterios_dx: [6, 8, 14, 15, 16], laboratorio: [6, 8, 14, 15, 16], tx_farmacologico: [6, 8, 14, 15, 16] },
+  'Fracaso del soporte no invasivo y lesion autoinfligida': { definicion: [10, 12, 9], criterios_dx: [10, 12, 9], laboratorio: [10, 12, 9], tx_farmacologico: [10, 12, 9] },
+  'Secuelas y sindrome post-cuidados intensivos': { definicion: [17, 18], criterios_dx: [17, 18], laboratorio: [17, 18], tx_farmacologico: [17, 18] }
 };
 export const estigmasTitulo = 'Signos de la insuficiencia respiratoria aguda, en orden creciente de gravedad';
 export const estigmas = [

@@ -339,15 +339,22 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Leucocitosis reactiva y neutrofilia': [1, 10],
-  'Neutropenia': [2, 3, 13, 14],
-  'Eosinofilia': [6, 7, 9],
-  'Linfocitosis y monocitosis reactivas': [1],
-  'Diferencial reacción leucemoide vs. leucemia mieloide crónica': [11, 12],
-  'Neutropenia febril': [4, 5],
-  'Síndrome hipereosinofílico': [6, 7, 8],
-  'Enfoque diagnóstico del hemograma anormal': [1, 12]
+  'Leucocitosis reactiva y neutrofilia': { definicion: [1, 10], criterios_dx: [1, 10], laboratorio: [1, 10], tx_farmacologico: [1, 10] },
+  'Neutropenia': { definicion: [2, 3, 13, 14], criterios_dx: [2, 3, 13, 14], laboratorio: [2, 3, 13, 14], tx_farmacologico: [2, 3, 13, 14] },
+  'Eosinofilia': { definicion: [6, 7, 9], criterios_dx: [6, 7, 9], laboratorio: [6, 7, 9], tx_farmacologico: [6, 7, 9] },
+  'Linfocitosis y monocitosis reactivas': { definicion: [1], criterios_dx: [1], laboratorio: [1], tx_farmacologico: [1] },
+  'Diferencial reacción leucemoide vs. leucemia mieloide crónica': { definicion: [11, 12], criterios_dx: [11, 12], laboratorio: [11, 12], tx_farmacologico: [11, 12] },
+  'Neutropenia febril': { definicion: [4, 5], criterios_dx: [4, 5], laboratorio: [4, 5], tx_farmacologico: [4, 5] },
+  'Síndrome hipereosinofílico': { definicion: [6, 7, 8], criterios_dx: [6, 7, 8], laboratorio: [6, 7, 8], tx_farmacologico: [6, 7, 8] },
+  'Enfoque diagnóstico del hemograma anormal': { definicion: [1, 12], criterios_dx: [1, 12], laboratorio: [1, 12] }
 };
 export const estigmas = [];
 export const biopsia = null;

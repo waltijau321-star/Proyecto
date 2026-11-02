@@ -359,14 +359,21 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Hipoglucemia': [24, 1],
-  'Retinopatia diabetica': [20, 1, 4],
-  'Enfermedad renal diabetica': [3, 9, 10, 12],
-  'Neuropatia diabetica': [18, 1],
-  'Pie diabetico': [19, 1],
-  'Enfermedad cardiovascular ateroesclerotica y sindrome cardio-renal-metabolico': [7, 8, 23, 2],
-  'Diabetes gestacional e hiperglucemia en el embarazo': [21, 22]
+  'Hipoglucemia': { definicion: [24, 1], criterios_dx: [24, 1], laboratorio: [24, 1], tx_farmacologico: [24, 1] },
+  'Retinopatia diabetica': { definicion: [20, 1, 4], criterios_dx: [20, 1, 4], laboratorio: [20, 1, 4], tx_farmacologico: [20, 1, 4] },
+  'Enfermedad renal diabetica': { definicion: [3, 9, 10, 12], criterios_dx: [3, 9, 10, 12], laboratorio: [3, 9, 10, 12], tx_farmacologico: [3, 9, 10, 12] },
+  'Neuropatia diabetica': { definicion: [18, 1], criterios_dx: [18, 1], laboratorio: [18, 1], tx_farmacologico: [18, 1] },
+  'Pie diabetico': { definicion: [19, 1], criterios_dx: [19, 1], laboratorio: [19, 1], tx_farmacologico: [19, 1] },
+  'Enfermedad cardiovascular ateroesclerotica y sindrome cardio-renal-metabolico': { definicion: [7, 8, 23, 2], criterios_dx: [7, 8, 23, 2], laboratorio: [7, 8, 23, 2], tx_farmacologico: [7, 8, 23, 2] },
+  'Diabetes gestacional e hiperglucemia en el embarazo': { definicion: [21, 22], criterios_dx: [21, 22], laboratorio: [21, 22], tx_farmacologico: [21, 22] }
 };
 export const estigmas = [];
 export const biopsia = null;

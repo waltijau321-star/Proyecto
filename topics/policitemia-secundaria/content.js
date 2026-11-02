@@ -336,14 +336,14 @@ export const content = {
 };
 
 export const compCites = {
-  'Eritrocitosis por hipoxia': { epidemiologia: [1, 15] },
-  'Producción inapropiada de eritropoyetina': { fisiopatologia: [11, 13] },
-  'Eritrocitosis congénita/hereditaria': { fisiopatologia: [7, 8, 9] },
-  'Eritrocitosis relativa/espuria': { fisiopatologia: [16] },
-  'Diferencial con policitemia vera': { fisiopatologia: [5, 6] },
-  'Trombosis venosa y arterial': { fisiopatologia: [1] },
-  'Riesgos de la flebotomía terapéutica indiscriminada': { epidemiologia: [1] },
-  'Retraso diagnóstico de una causa tratable': { epidemiologia: [3] }
+  'Eritrocitosis por hipoxia': { epidemiologia: [1, 15], criterios_dx: [1, 15], laboratorio: [1, 15], tx_farmacologico: [1, 15] },
+  'Producción inapropiada de eritropoyetina': { fisiopatologia: [11, 13], criterios_dx: [11, 13], laboratorio: [11, 13], tx_farmacologico: [11, 13] },
+  'Eritrocitosis congénita/hereditaria': { fisiopatologia: [7, 8, 9], criterios_dx: [7, 8, 9], laboratorio: [7, 8, 9], tx_farmacologico: [7, 8, 9] },
+  'Eritrocitosis relativa/espuria': { fisiopatologia: [16], criterios_dx: [16], laboratorio: [16], tx_farmacologico: [16] },
+  'Diferencial con policitemia vera': { fisiopatologia: [5, 6], criterios_dx: [5, 6], laboratorio: [5, 6], tx_farmacologico: [5, 6] },
+  'Trombosis venosa y arterial': { fisiopatologia: [1], criterios_dx: [1], laboratorio: [1], tx_farmacologico: [1] },
+  'Riesgos de la flebotomía terapéutica indiscriminada': { epidemiologia: [1], criterios_dx: [1], laboratorio: [1], tx_farmacologico: [1] },
+  'Retraso diagnóstico de una causa tratable': { epidemiologia: [3], criterios_dx: [3], laboratorio: [3], tx_farmacologico: [3] }
 };
 export const estigmas = [];
 export const biopsia = null;

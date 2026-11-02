@@ -366,13 +366,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Cuando sospecharla: el marco diagnostico': [1, 3, 10, 15],
-  'Encefalitis por anticuerpos anti-receptor de NMDA': [2, 4, 5, 12],
-  'Encefalitis limbica y anticuerpos de superficie': [6, 7, 14],
-  'Sindromes paraneoplasicos y anticuerpos intracelulares': [8, 9, 13],
-  'Inmunoterapia: primera linea y escalada': [2, 10, 16],
-  'Complicaciones y los errores que mas cuestan': [11, 16]
+  'Cuando sospecharla: el marco diagnostico': { definicion: [1, 3, 10, 15], criterios_dx: [1, 3, 10, 15], laboratorio: [1, 3, 10, 15], tx_farmacologico: [1, 3, 10, 15] },
+  'Encefalitis por anticuerpos anti-receptor de NMDA': { definicion: [2, 4, 5, 12], criterios_dx: [2, 4, 5, 12], laboratorio: [2, 4, 5, 12], tx_farmacologico: [2, 4, 5, 12] },
+  'Encefalitis limbica y anticuerpos de superficie': { definicion: [6, 7, 14], criterios_dx: [6, 7, 14], laboratorio: [6, 7, 14], tx_farmacologico: [6, 7, 14] },
+  'Sindromes paraneoplasicos y anticuerpos intracelulares': { definicion: [8, 9, 13], criterios_dx: [8, 9, 13], laboratorio: [8, 9, 13], tx_farmacologico: [8, 9, 13] },
+  'Inmunoterapia: primera linea y escalada': { definicion: [2, 10, 16], criterios_dx: [2, 10, 16], laboratorio: [2, 10, 16], tx_farmacologico: [2, 10, 16] },
+  'Complicaciones y los errores que mas cuestan': { definicion: [11, 16], criterios_dx: [11, 16], laboratorio: [11, 16], tx_farmacologico: [11, 16] }
 };
 export const estigmasTitulo = 'Pistas que cambian el diagnostico';
 export const estigmas = [

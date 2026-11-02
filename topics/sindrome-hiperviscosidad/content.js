@@ -329,15 +329,22 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Hiperviscosidad por Macroglobulinemia de Waldenström': [1, 3, 11],
-  'Hiperviscosidad por Mieloma Múltiple': [1, 13],
-  'Hiperviscosidad Celular por Leucostasis': [5, 6, 7],
-  'Hiperviscosidad Celular por Eritrocitosis/Policitemia': [8],
-  'Complicaciones neurológicas': [2, 14],
-  'Complicaciones oftalmológicas': [10],
-  'Complicaciones cardiovasculares': [11, 12],
-  'Complicaciones hemorrágicas mucocutáneas': [4, 11]
+  'Hiperviscosidad por Macroglobulinemia de Waldenström': { definicion: [1, 3, 11], criterios_dx: [1, 3, 11], laboratorio: [1, 3, 11], tx_farmacologico: [1, 3, 11] },
+  'Hiperviscosidad por Mieloma Múltiple': { definicion: [1, 13], criterios_dx: [1, 13], laboratorio: [1, 13], tx_farmacologico: [1, 13] },
+  'Hiperviscosidad Celular por Leucostasis': { definicion: [5, 6, 7], criterios_dx: [5, 6, 7], laboratorio: [5, 6, 7], tx_farmacologico: [5, 6, 7] },
+  'Hiperviscosidad Celular por Eritrocitosis/Policitemia': { definicion: [8], criterios_dx: [8], laboratorio: [8], tx_farmacologico: [8] },
+  'Complicaciones neurológicas': { definicion: [2, 14], criterios_dx: [2, 14], laboratorio: [2, 14], tx_farmacologico: [2, 14] },
+  'Complicaciones oftalmológicas': { definicion: [10], criterios_dx: [10], laboratorio: [10], tx_farmacologico: [10] },
+  'Complicaciones cardiovasculares': { definicion: [11, 12], criterios_dx: [11, 12], laboratorio: [11, 12], tx_farmacologico: [11, 12] },
+  'Complicaciones hemorrágicas mucocutáneas': { definicion: [4, 11], criterios_dx: [4, 11], laboratorio: [4, 11], tx_farmacologico: [4, 11] }
 };
 export const estigmas = [];
 export const biopsia = null;

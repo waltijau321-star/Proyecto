@@ -238,7 +238,7 @@ export const compCites = {
   'Penfigo vulgar y foliaceo: reconocerlo': { laboratorio: [1], criterios_dx: [1], tx_farmacologico: [1] },
   'Penfigo: tratamiento y seguimiento': { laboratorio: [1], complementarios: [1], tx_farmacologico: [1] },
   'Penfigoide ampolloso': { epidemiologia: [3], fisiopatologia: [3], clinica: [3], criterios_dx: [3], tx_farmacologico: [2], complementarios: [3], tx_medico: [3], laboratorio: [2, 3] },
-  'Dermatitis herpetiforme': { epidemiologia: [5] },
+  'Dermatitis herpetiforme': { epidemiologia: [5], criterios_dx: [5], laboratorio: [5], tx_farmacologico: [5] },
   'Penfigo paraneoplasico': { criterios_dx: [4], tx_farmacologico: [4], complementarios: [4], seguimiento_ambulatorio: [4], laboratorio: [4] },
   'El diagnostico inmunologico: como se confirma': { laboratorio: [3], criterios_dx: [1, 2], tx_farmacologico: [1, 2] }
 };

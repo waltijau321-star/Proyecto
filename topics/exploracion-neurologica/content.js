@@ -337,18 +337,18 @@ export const figuras = {
 
 export const compCites = {
   'Secuencia y estructura de la exploración neurológica': { definicion: [1, 2], criterios_dx: [6] },
-  'Estado mental: orientación, atención y lenguaje': { definicion: [1, 2], fisiopatologia: [8, 9] },
-  'Pares craneales I-IV y VI: olfatorio, óptico y oculomotores': { definicion: [1, 3], fisiopatologia: [3, 8, 9] },
-  'Par craneal V (trigémino) y VII (facial): parálisis facial central vs. periférica': { definicion: [1, 3], fisiopatologia: [8, 9] },
-  'Pares craneales VIII-XII: vestibulococlear, bulbares y espinal': { definicion: [1, 3], fisiopatologia: [3, 4] },
-  'Fuerza muscular': { definicion: [1, 4], fisiopatologia: [8, 9] },
-  'Tono muscular': { definicion: [1, 4], fisiopatologia: [8, 9] },
-  'Reflejos osteotendinosos': { definicion: [1, 4], fisiopatologia: [8, 9] },
-  'Sensibilidad: dermatomas y vías sensitivas': { definicion: [1, 9], fisiopatologia: [8, 9] },
-  'Coordinación: pruebas cerebelosas y Romberg': { definicion: [1, 4], fisiopatologia: [4, 8] },
-  'Marcha y equilibrio': { definicion: [1, 9] },
+  'Estado mental: orientación, atención y lenguaje': { definicion: [1, 2], fisiopatologia: [8, 9], criterios_dx: [8, 9] },
+  'Pares craneales I-IV y VI: olfatorio, óptico y oculomotores': { definicion: [1, 3], fisiopatologia: [3, 8, 9], criterios_dx: [9] },
+  'Par craneal V (trigémino) y VII (facial): parálisis facial central vs. periférica': { definicion: [1, 3], fisiopatologia: [8, 9], criterios_dx: [9] },
+  'Pares craneales VIII-XII: vestibulococlear, bulbares y espinal': { definicion: [1, 3], fisiopatologia: [3, 4], criterios_dx: [9] },
+  'Fuerza muscular': { definicion: [1, 4], fisiopatologia: [8, 9], criterios_dx: [8, 9] },
+  'Tono muscular': { definicion: [1, 4], fisiopatologia: [8, 9], criterios_dx: [9] },
+  'Reflejos osteotendinosos': { definicion: [1, 4], fisiopatologia: [8, 9], criterios_dx: [9] },
+  'Sensibilidad: dermatomas y vías sensitivas': { definicion: [1, 9], fisiopatologia: [8, 9], criterios_dx: [8, 9] },
+  'Coordinación: pruebas cerebelosas y Romberg': { definicion: [1, 4], fisiopatologia: [4, 8], criterios_dx: [9] },
+  'Marcha y equilibrio': { definicion: [1, 9], criterios_dx: [9] },
   'Signos meníngeos': { definicion: [1, 2], criterios_dx: [7] },
-  'Reflejo de Babinski y otros signos de liberación piramidal': { definicion: [1, 4], fisiopatologia: [8, 9] }
+  'Reflejo de Babinski y otros signos de liberación piramidal': { definicion: [1, 4], fisiopatologia: [8, 9], criterios_dx: [9] }
 };
 export const estigmas = [];
 export const biopsia = null;

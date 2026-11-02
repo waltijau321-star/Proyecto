@@ -375,13 +375,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Deterioro cognitivo leve y enfoque inicial': [1, 7, 6],
-  'Enfermedad de Alzheimer': [2, 11, 12, 16],
-  'Deterioro cognitivo vascular y demencia vascular': [5, 8],
-  'Demencia con cuerpos de Lewy y de la enfermedad de Parkinson': [3, 15],
-  'Degeneracion frontotemporal': [4],
-  'Demencia rapidamente progresiva y enfermedad por priones': [13, 14]
+  'Deterioro cognitivo leve y enfoque inicial': { definicion: [1, 7, 6], criterios_dx: [1, 7, 6], laboratorio: [1, 7, 6], tx_farmacologico: [1, 7, 6] },
+  'Enfermedad de Alzheimer': { definicion: [2, 11, 12, 16], criterios_dx: [2, 11, 12, 16], laboratorio: [2, 11, 12, 16], tx_farmacologico: [2, 11, 12, 16] },
+  'Deterioro cognitivo vascular y demencia vascular': { definicion: [5, 8], criterios_dx: [5, 8], laboratorio: [5, 8], tx_farmacologico: [5, 8] },
+  'Demencia con cuerpos de Lewy y de la enfermedad de Parkinson': { definicion: [3, 15], criterios_dx: [3, 15], laboratorio: [3, 15], tx_farmacologico: [3, 15] },
+  'Degeneracion frontotemporal': { definicion: [4], criterios_dx: [4], laboratorio: [4], tx_farmacologico: [4] },
+  'Demencia rapidamente progresiva y enfermedad por priones': { definicion: [13, 14], criterios_dx: [13, 14], laboratorio: [13, 14], tx_farmacologico: [13, 14] }
 };
 export const estigmasTitulo = 'Signos y pistas que orientan ante un deterioro cognitivo';
 export const estigmas = [

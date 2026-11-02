@@ -401,15 +401,22 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'EAP asintomatica (marcador de aterosclerosis sistemica)': [1, 2, 8, 9],
-  'Claudicacion intermitente': [1, 2, 4, 13],
-  'Isquemia cronica que amenaza la extremidad': [5, 2, 14, 6],
-  'Isquemia arterial aguda de la extremidad': [16, 7, 1],
-  'Perdida de extremidad y amputacion mayor': [5, 1, 2],
-  'Lesion por reperfusion y sindrome compartimental': [16, 7],
-  'Eventos cardiovasculares mayores y muerte': [10, 9, 12, 2],
-  'Ulcera isquemica infectada e infeccion del pie': [18, 5, 6]
+  'EAP asintomatica (marcador de aterosclerosis sistemica)': { definicion: [1, 2, 8, 9], criterios_dx: [1, 2, 8, 9], laboratorio: [1, 2, 8, 9], tx_farmacologico: [1, 2, 8, 9] },
+  'Claudicacion intermitente': { definicion: [1, 2, 4, 13], criterios_dx: [1, 2, 4, 13], laboratorio: [1, 2, 4, 13], tx_farmacologico: [1, 2, 4, 13] },
+  'Isquemia cronica que amenaza la extremidad': { definicion: [5, 2, 14, 6], criterios_dx: [5, 2, 14, 6], laboratorio: [5, 2, 14, 6], tx_farmacologico: [5, 2, 14, 6] },
+  'Isquemia arterial aguda de la extremidad': { definicion: [16, 7, 1], criterios_dx: [16, 7, 1], laboratorio: [16, 7, 1], tx_farmacologico: [16, 7, 1] },
+  'Perdida de extremidad y amputacion mayor': { definicion: [5, 1, 2], criterios_dx: [5, 1, 2], laboratorio: [5, 1, 2], tx_farmacologico: [5, 1, 2] },
+  'Lesion por reperfusion y sindrome compartimental': { definicion: [16, 7], criterios_dx: [16, 7], laboratorio: [16, 7], tx_farmacologico: [16, 7] },
+  'Eventos cardiovasculares mayores y muerte': { definicion: [10, 9, 12, 2], criterios_dx: [10, 9, 12, 2], laboratorio: [10, 9, 12, 2], tx_farmacologico: [10, 9, 12, 2] },
+  'Ulcera isquemica infectada e infeccion del pie': { definicion: [18, 5, 6], criterios_dx: [18, 5, 6], laboratorio: [18, 5, 6], tx_farmacologico: [18, 5, 6] }
 };
 export const estigmas = [];
 export const biopsia = null;

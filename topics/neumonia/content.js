@@ -372,13 +372,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Neumonia adquirida en la comunidad': [1, 2, 12, 15],
-  'Neumonia grave y complicaciones sistemicas': [1, 2, 7, 11],
-  'Neumonia nosocomial y asociada a la ventilacion': [3, 4, 13],
-  'Neumonia por aspiracion y absceso pulmonar': [8, 9, 17],
-  'Neumonia viral: gripe y COVID-19': [1, 10, 18],
-  'Neumonia en el paciente inmunodeprimido': [16]
+  'Neumonia adquirida en la comunidad': { definicion: [1, 2, 12, 15], criterios_dx: [1, 2, 12, 15], laboratorio: [1, 2, 12, 15], tx_farmacologico: [1, 2, 12, 15] },
+  'Neumonia grave y complicaciones sistemicas': { definicion: [1, 2, 7, 11], criterios_dx: [1, 2, 7, 11], laboratorio: [1, 2, 7, 11], tx_farmacologico: [1, 2, 7, 11] },
+  'Neumonia nosocomial y asociada a la ventilacion': { definicion: [3, 4, 13], criterios_dx: [3, 4, 13], laboratorio: [3, 4, 13], tx_farmacologico: [3, 4, 13] },
+  'Neumonia por aspiracion y absceso pulmonar': { definicion: [8, 9, 17], criterios_dx: [8, 9, 17], laboratorio: [8, 9, 17], tx_farmacologico: [8, 9, 17] },
+  'Neumonia viral: gripe y COVID-19': { definicion: [1, 10, 18], criterios_dx: [1, 10, 18], laboratorio: [1, 10, 18], tx_farmacologico: [1, 10, 18] },
+  'Neumonia en el paciente inmunodeprimido': { definicion: [16], criterios_dx: [16], laboratorio: [16], tx_farmacologico: [16] }
 };
 export const estigmasTitulo = 'Signos de la exploracion en la neumonia, y lo que cada uno significa de verdad';
 export const estigmas = [

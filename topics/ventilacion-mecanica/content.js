@@ -573,17 +573,24 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Via aerea artificial e inicio de la ventilacion invasiva': [6, 17, 12],
-  'Ventilacion no invasiva (CPAP y binivel)': [1, 17],
-  'Canula nasal de alto flujo': [10, 9, 1],
-  'Modos controlados y ventilacion protectora (SDRA y obstructivo)': [5, 6, 7, 8],
-  'Modos asistidos y espontaneos; sedoanalgesia y bloqueo neuromuscular': [12, 15, 13, 14],
-  'Destete y liberacion de la ventilacion mecanica': [2, 17, 8, 15],
-  'Lesion pulmonar inducida por el ventilador': [11, 6, 5],
-  'Neumonia asociada a la ventilacion': [16],
-  'Asincronias paciente-ventilador': [12, 11],
-  'Debilidad, disfuncion diafragmatica y repercusion hemodinamica': [19, 13, 14]
+  'Via aerea artificial e inicio de la ventilacion invasiva': { definicion: [6, 17, 12], criterios_dx: [6, 17, 12], laboratorio: [6, 17, 12], tx_farmacologico: [6, 17, 12] },
+  'Ventilacion no invasiva (CPAP y binivel)': { definicion: [1, 17], criterios_dx: [1, 17], laboratorio: [1, 17], tx_farmacologico: [1, 17] },
+  'Canula nasal de alto flujo': { definicion: [10, 9, 1], criterios_dx: [10, 9, 1], laboratorio: [10, 9, 1], tx_farmacologico: [10, 9, 1] },
+  'Modos controlados y ventilacion protectora (SDRA y obstructivo)': { definicion: [5, 6, 7, 8], criterios_dx: [5, 6, 7, 8], laboratorio: [5, 6, 7, 8], tx_farmacologico: [5, 6, 7, 8] },
+  'Modos asistidos y espontaneos; sedoanalgesia y bloqueo neuromuscular': { definicion: [12, 15, 13, 14], criterios_dx: [12, 15, 13, 14], laboratorio: [12, 15, 13, 14], tx_farmacologico: [12, 15, 13, 14] },
+  'Destete y liberacion de la ventilacion mecanica': { definicion: [2, 17, 8, 15], criterios_dx: [2, 17, 8, 15], laboratorio: [2, 17, 8, 15], tx_farmacologico: [2, 17, 8, 15] },
+  'Lesion pulmonar inducida por el ventilador': { definicion: [11, 6, 5], criterios_dx: [11, 6, 5], laboratorio: [11, 6, 5], tx_farmacologico: [11, 6, 5] },
+  'Neumonia asociada a la ventilacion': { definicion: [16], criterios_dx: [16], laboratorio: [16], tx_farmacologico: [16] },
+  'Asincronias paciente-ventilador': { definicion: [12, 11], criterios_dx: [12, 11], laboratorio: [12, 11], tx_farmacologico: [12, 11] },
+  'Debilidad, disfuncion diafragmatica y repercusion hemodinamica': { definicion: [19, 13, 14], criterios_dx: [19, 13, 14], laboratorio: [19, 13, 14], tx_farmacologico: [19, 13, 14] }
 };
 export const estigmas = [];
 export const biopsia = null;

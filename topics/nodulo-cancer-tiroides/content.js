@@ -432,15 +432,22 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Nodulo tiroideo y bocio multinodular no toxico': [1, 2, 5, 16],
-  'Carcinoma papilar de tiroides': [1, 8, 11, 17],
-  'Carcinoma folicular y oncocitico (de celulas de Hurthle)': [1, 19],
-  'Carcinoma medular de tiroides y MEN2': [6, 14],
-  'Carcinoma anaplasico y linfoma tiroideo': [7, 15],
-  'Complicaciones compresivas del bocio y bocio subesternal': [16, 18],
-  'Complicaciones de la tiroidectomia': [1, 18],
-  'Recurrencia y seguimiento del carcinoma diferenciado': [1, 9, 13]
+  'Nodulo tiroideo y bocio multinodular no toxico': { definicion: [1, 2, 5, 16], criterios_dx: [1, 2, 5, 16], laboratorio: [1, 2, 5, 16], tx_farmacologico: [1, 2, 5, 16] },
+  'Carcinoma papilar de tiroides': { definicion: [1, 8, 11, 17], criterios_dx: [1, 8, 11, 17], laboratorio: [1, 8, 11, 17], tx_farmacologico: [1, 8, 11, 17] },
+  'Carcinoma folicular y oncocitico (de celulas de Hurthle)': { definicion: [1, 19], criterios_dx: [1, 19], laboratorio: [1, 19], tx_farmacologico: [1, 19] },
+  'Carcinoma medular de tiroides y MEN2': { definicion: [6, 14], criterios_dx: [6, 14], laboratorio: [6, 14], tx_farmacologico: [6, 14] },
+  'Carcinoma anaplasico y linfoma tiroideo': { definicion: [7, 15], criterios_dx: [7, 15], laboratorio: [7, 15], tx_farmacologico: [7, 15] },
+  'Complicaciones compresivas del bocio y bocio subesternal': { definicion: [16, 18], criterios_dx: [16, 18], laboratorio: [16, 18], tx_farmacologico: [16, 18] },
+  'Complicaciones de la tiroidectomia': { definicion: [1, 18], criterios_dx: [1, 18], laboratorio: [1, 18], tx_farmacologico: [1, 18] },
+  'Recurrencia y seguimiento del carcinoma diferenciado': { definicion: [1, 9, 13], criterios_dx: [1, 9, 13], laboratorio: [1, 9, 13], tx_farmacologico: [1, 9, 13] }
 };
 export const estigmas = [];
 export const biopsia = null;

@@ -339,15 +339,22 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Talasemia Alfa': [1, 3],
-  'Talasemia Beta': [1, 2, 12],
-  'Enfermedad de Células Falciformes': [4, 7, 13, 15],
-  'Otros Síndromes Falciformes y Rasgo Falciforme': [4, 14],
-  'Crisis vaso-oclusiva dolorosa': [4, 7, 11],
-  'Síndrome torácico agudo': [9, 7],
-  'ACV y complicaciones neurológicas': [5, 6, 8],
-  'Asplenia funcional, riesgo infeccioso y complicaciones crónicas': [10, 11]
+  'Talasemia Alfa': { definicion: [1, 3], criterios_dx: [1, 3], laboratorio: [1, 3], tx_farmacologico: [1, 3] },
+  'Talasemia Beta': { definicion: [1, 2, 12], criterios_dx: [1, 2, 12], laboratorio: [1, 2, 12], tx_farmacologico: [1, 2, 12] },
+  'Enfermedad de Células Falciformes': { definicion: [4, 7, 13, 15], criterios_dx: [4, 7, 13, 15], laboratorio: [4, 7, 13, 15], tx_farmacologico: [4, 7, 13, 15] },
+  'Otros Síndromes Falciformes y Rasgo Falciforme': { definicion: [4, 14], criterios_dx: [4, 14], laboratorio: [4, 14], tx_farmacologico: [4, 14] },
+  'Crisis vaso-oclusiva dolorosa': { definicion: [4, 7, 11], criterios_dx: [4, 7, 11], laboratorio: [4, 7, 11], tx_farmacologico: [4, 7, 11] },
+  'Síndrome torácico agudo': { definicion: [9, 7], criterios_dx: [9, 7], laboratorio: [9, 7], tx_farmacologico: [9, 7] },
+  'ACV y complicaciones neurológicas': { definicion: [5, 6, 8], criterios_dx: [5, 6, 8], laboratorio: [5, 6, 8], tx_farmacologico: [5, 6, 8] },
+  'Asplenia funcional, riesgo infeccioso y complicaciones crónicas': { definicion: [10, 11], criterios_dx: [10, 11], laboratorio: [10, 11], tx_farmacologico: [10, 11] }
 };
 export const estigmas = [];
 export const biopsia = null;

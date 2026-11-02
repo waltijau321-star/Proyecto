@@ -392,13 +392,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'EPOC estable': [1, 5, 17, 18],
-  'Exacerbacion de la EPOC': [2, 3, 6, 7, 8],
-  'Insuficiencia respiratoria cronica y oxigenoterapia domiciliaria': [9, 10, 11],
-  'Hipertension pulmonar y cor pulmonale': [1, 17],
-  'Deficiencia de alfa-1-antitripsina': [16],
-  'Comorbilidades y complicaciones del tratamiento': [1, 12, 13, 15]
+  'EPOC estable': { definicion: [1, 5, 17, 18], criterios_dx: [1, 5, 17, 18], laboratorio: [1, 5, 17, 18], tx_farmacologico: [1, 5, 17, 18] },
+  'Exacerbacion de la EPOC': { definicion: [2, 3, 6, 7, 8], criterios_dx: [2, 3, 6, 7, 8], laboratorio: [2, 3, 6, 7, 8], tx_farmacologico: [2, 3, 6, 7, 8] },
+  'Insuficiencia respiratoria cronica y oxigenoterapia domiciliaria': { definicion: [9, 10, 11], criterios_dx: [9, 10, 11], laboratorio: [9, 10, 11], tx_farmacologico: [9, 10, 11] },
+  'Hipertension pulmonar y cor pulmonale': { definicion: [1, 17], criterios_dx: [1, 17], laboratorio: [1, 17], tx_farmacologico: [1, 17] },
+  'Deficiencia de alfa-1-antitripsina': { definicion: [16], criterios_dx: [16], laboratorio: [16], tx_farmacologico: [16] },
+  'Comorbilidades y complicaciones del tratamiento': { definicion: [1, 12, 13, 15], criterios_dx: [1, 12, 13, 15], laboratorio: [1, 12, 13, 15], tx_farmacologico: [1, 12, 13, 15] }
 };
 export const estigmasTitulo = 'Signos de exploracion en la EPOC, del mas frecuente al de peor pronostico';
 export const estigmas = [

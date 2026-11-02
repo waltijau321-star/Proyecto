@@ -338,15 +338,22 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Linfadenopatía Localizada Reactiva/Benigna': [1, 3],
-  'Linfadenopatía Localizada de Alto Riesgo': [1, 2, 14],
-  'Linfadenopatía Generalizada Infecciosa/Autoinmune': [3, 5],
-  'Linfadenopatía Generalizada por Neoplasia Diseminada': [2, 13],
-  'Complicaciones de la biopsia ganglionar': [7, 12],
-  'Síndrome de vena cava superior por adenopatía mediastínica masiva': [8, 9],
-  'Linfadenitis supurativa': [10, 15],
-  'Retraso diagnóstico de malignidad': [2, 14]
+  'Linfadenopatía Localizada Reactiva/Benigna': { definicion: [1, 3], criterios_dx: [1, 3], laboratorio: [1, 3], tx_farmacologico: [1, 3] },
+  'Linfadenopatía Localizada de Alto Riesgo': { definicion: [1, 2, 14], criterios_dx: [1, 2, 14], laboratorio: [1, 2, 14], tx_farmacologico: [1, 2, 14] },
+  'Linfadenopatía Generalizada Infecciosa/Autoinmune': { definicion: [3, 5], criterios_dx: [3, 5], laboratorio: [3, 5], tx_farmacologico: [3, 5] },
+  'Linfadenopatía Generalizada por Neoplasia Diseminada': { definicion: [2, 13], criterios_dx: [2, 13], laboratorio: [2, 13], tx_farmacologico: [2, 13] },
+  'Complicaciones de la biopsia ganglionar': { definicion: [7, 12], criterios_dx: [7, 12], laboratorio: [7, 12], tx_farmacologico: [7, 12] },
+  'Síndrome de vena cava superior por adenopatía mediastínica masiva': { definicion: [8, 9], criterios_dx: [8, 9], laboratorio: [8, 9], tx_farmacologico: [8, 9] },
+  'Linfadenitis supurativa': { definicion: [10, 15], criterios_dx: [10, 15], laboratorio: [10, 15], tx_farmacologico: [10, 15] },
+  'Retraso diagnóstico de malignidad': { definicion: [2, 14], criterios_dx: [2, 14], laboratorio: [2, 14], tx_farmacologico: [2, 14] }
 };
 export const estigmas = [];
 export const biopsia = null;

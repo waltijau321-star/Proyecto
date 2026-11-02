@@ -308,12 +308,19 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Tormenta tiroidea': [1, 3, 4, 6],
-  'Coma mixedematoso': [9, 10, 12, 15],
-  'Complicaciones cardiovasculares de la tormenta tiroidea': [7, 8],
-  'Complicaciones del coma mixedematoso': [12, 13, 10],
-  'Errores de tratamiento en las urgencias tiroideas': [2, 10, 17]
+  'Tormenta tiroidea': { definicion: [1, 3, 4, 6], criterios_dx: [1, 3, 4, 6], laboratorio: [1, 3, 4, 6], tx_farmacologico: [1, 3, 4, 6] },
+  'Coma mixedematoso': { definicion: [9, 10, 12, 15], criterios_dx: [9, 10, 12, 15], laboratorio: [9, 10, 12, 15], tx_farmacologico: [9, 10, 12, 15] },
+  'Complicaciones cardiovasculares de la tormenta tiroidea': { definicion: [7, 8], criterios_dx: [7, 8], laboratorio: [7, 8], tx_farmacologico: [7, 8] },
+  'Complicaciones del coma mixedematoso': { definicion: [12, 13, 10], criterios_dx: [12, 13, 10], laboratorio: [12, 13, 10], tx_farmacologico: [12, 13, 10] },
+  'Errores de tratamiento en las urgencias tiroideas': { definicion: [2, 10, 17], criterios_dx: [2, 10, 17], laboratorio: [2, 10, 17], tx_farmacologico: [2, 10, 17] }
 };
 export const estigmasTitulo = 'Signos de alarma que separan la crisis del hipertiroidismo o del hipotiroidismo estables';
 export const estigmas = [

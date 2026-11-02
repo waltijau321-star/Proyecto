@@ -333,16 +333,23 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Meningioma': [1, 3, 10, 11],
-  'Glioma (astrocitoma difuso y glioblastoma)': [2, 11],
-  'Metástasis cerebrales': [4, 1],
-  'Hipertensión intracraneal idiopática (pseudotumor cerebri)': [6, 7, 15],
-  'Edema peritumoral y manejo con corticoides': [8],
-  'Crisis convulsivas asociadas a tumor cerebral': [9],
-  'Hidrocefalia obstructiva': [5],
-  'Papiledema y pérdida visual por hipertensión intracraneal crónica': [7, 15],
-  'Herniación por tumor': [5]
+  'Meningioma': { definicion: [1, 3, 10, 11], criterios_dx: [1, 3, 10, 11], laboratorio: [1, 3, 10, 11], tx_farmacologico: [1, 3, 10, 11] },
+  'Glioma (astrocitoma difuso y glioblastoma)': { definicion: [2, 11], criterios_dx: [2, 11], laboratorio: [2, 11], tx_farmacologico: [2, 11] },
+  'Metástasis cerebrales': { definicion: [4, 1], criterios_dx: [4, 1], laboratorio: [4, 1], tx_farmacologico: [4, 1] },
+  'Hipertensión intracraneal idiopática (pseudotumor cerebri)': { definicion: [6, 7, 15], criterios_dx: [6, 7, 15], laboratorio: [6, 7, 15], tx_farmacologico: [6, 7, 15] },
+  'Edema peritumoral y manejo con corticoides': { definicion: [8], criterios_dx: [8], laboratorio: [8], tx_farmacologico: [8] },
+  'Crisis convulsivas asociadas a tumor cerebral': { definicion: [9], criterios_dx: [9], laboratorio: [9], tx_farmacologico: [9] },
+  'Hidrocefalia obstructiva': { definicion: [5], criterios_dx: [5], laboratorio: [5], tx_farmacologico: [5] },
+  'Papiledema y pérdida visual por hipertensión intracraneal crónica': { definicion: [7, 15], criterios_dx: [7, 15], laboratorio: [7, 15], tx_farmacologico: [7, 15] },
+  'Herniación por tumor': { definicion: [5], criterios_dx: [5], laboratorio: [5], tx_farmacologico: [5] }
 };
 export const estigmas = [];
 export const biopsia = null;

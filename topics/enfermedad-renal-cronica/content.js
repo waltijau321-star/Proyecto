@@ -251,14 +251,21 @@ La guía de 2024 añade además la <strong>causa</strong> como tercer eje (la no
 Al alta: reconciliar qué fármacos protectores se suspendieron durante el ingreso y cuáles deben reintroducirse, porque la suspensión transitoria de un inhibidor del cotransportador o de un bloqueo del sistema renina-angiotensina se convierte en permanente con mucha facilidad si nadie lo revisa.`
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Definición, cronicidad y las dos categorías': [1],
-  'Cómo se mide: creatinina, cistatina C y albuminuria': [1, 7],
-  'Los cuatro pilares que frenan la progresión': [1, 3, 8, 9, 10],
-  'Presión arterial, dieta y estilo de vida': [1, 2],
-  'Riesgo cardiovascular: estatina, aspirina y anticoagulación': [1],
-  'Anemia, acidosis metabólica e hiperpotasemia': [1, 11],
-  'Trastorno mineral y óseo, y preparación para el reemplazo renal': [1, 4, 12]
+  'Definición, cronicidad y las dos categorías': { definicion: [1], criterios_dx: [1], laboratorio: [1] },
+  'Cómo se mide: creatinina, cistatina C y albuminuria': { definicion: [1, 7], criterios_dx: [1, 7], laboratorio: [1, 7] },
+  'Los cuatro pilares que frenan la progresión': { definicion: [1, 3, 8, 9, 10], criterios_dx: [1, 3, 8, 9, 10], laboratorio: [1, 3, 8, 9, 10], tx_farmacologico: [1, 3, 8, 9, 10] },
+  'Presión arterial, dieta y estilo de vida': { definicion: [1, 2], criterios_dx: [1, 2], tx_farmacologico: [1, 2] },
+  'Riesgo cardiovascular: estatina, aspirina y anticoagulación': { definicion: [1], criterios_dx: [1], tx_farmacologico: [1] },
+  'Anemia, acidosis metabólica e hiperpotasemia': { definicion: [1, 11], criterios_dx: [1, 11], laboratorio: [1, 11], tx_farmacologico: [1, 11] },
+  'Trastorno mineral y óseo, y preparación para el reemplazo renal': { definicion: [1, 4, 12], criterios_dx: [1, 4, 12], laboratorio: [1, 4, 12], tx_farmacologico: [1, 4, 12] }
 };
 
 export const estigmasTitulo = 'Datos que cambian la conducta';

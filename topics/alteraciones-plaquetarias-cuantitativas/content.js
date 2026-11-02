@@ -324,15 +324,22 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Púrpura Trombocitopénica Inmune (PTI)': [1, 2, 10],
-  'Trombocitopenia inducida por fármacos y HIT': [3, 4, 5],
-  'Pseudotrombocitopenia y trombocitopenia gestacional': [6, 7],
-  'Trombocitosis reactiva/secundaria': [8, 9],
-  'Hemorragia grave por trombocitopenia': [1, 13],
-  'Trombosis paradójica en HIT': [5, 11, 12],
-  'Esplenectomía en PTI refractaria': [2, 10],
-  'Complicaciones tromboembólicas de trombocitosis extrema': [8, 9]
+  'Púrpura Trombocitopénica Inmune (PTI)': { definicion: [1, 2, 10], criterios_dx: [1, 2, 10], laboratorio: [1, 2, 10], tx_farmacologico: [1, 2, 10] },
+  'Trombocitopenia inducida por fármacos y HIT': { definicion: [3, 4, 5], criterios_dx: [3, 4, 5], laboratorio: [3, 4, 5], tx_farmacologico: [3, 4, 5] },
+  'Pseudotrombocitopenia y trombocitopenia gestacional': { definicion: [6, 7], criterios_dx: [6, 7], laboratorio: [6, 7], tx_farmacologico: [6, 7] },
+  'Trombocitosis reactiva/secundaria': { definicion: [8, 9], criterios_dx: [8, 9], laboratorio: [8, 9], tx_farmacologico: [8, 9] },
+  'Hemorragia grave por trombocitopenia': { definicion: [1, 13], criterios_dx: [1, 13], laboratorio: [1, 13], tx_farmacologico: [1, 13] },
+  'Trombosis paradójica en HIT': { definicion: [5, 11, 12], criterios_dx: [5, 11, 12], laboratorio: [5, 11, 12], tx_farmacologico: [5, 11, 12] },
+  'Esplenectomía en PTI refractaria': { definicion: [2, 10], criterios_dx: [2, 10], laboratorio: [2, 10], tx_farmacologico: [2, 10] },
+  'Complicaciones tromboembólicas de trombocitosis extrema': { definicion: [8, 9], criterios_dx: [8, 9], laboratorio: [8, 9], tx_farmacologico: [8, 9] }
 };
 export const estigmas = [];
 export const biopsia = null;

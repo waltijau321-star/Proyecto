@@ -326,15 +326,22 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Disección aórtica': [1, 3, 4, 14],
-  'Hematoma intramural aórtico': [9, 10],
-  'Úlcera aórtica penetrante': [11, 12],
-  'Aneurisma aórtico (torácico y abdominal, no roto)': [12, 13, 15],
-  'Rotura aórtica': [5, 12],
-  'Taponamiento cardiaco': [4, 7],
-  'Malperfusión de órganos': [4, 7, 15],
-  'Insuficiencia aórtica aguda': [4, 7]
+  'Disección aórtica': { definicion: [1, 3, 4, 14], criterios_dx: [1, 3, 4, 14], laboratorio: [1, 3, 4, 14], tx_farmacologico: [1, 3, 4, 14] },
+  'Hematoma intramural aórtico': { definicion: [9, 10], criterios_dx: [9, 10], laboratorio: [9, 10], tx_farmacologico: [9, 10] },
+  'Úlcera aórtica penetrante': { definicion: [11, 12], criterios_dx: [11, 12], laboratorio: [11, 12], tx_farmacologico: [11, 12] },
+  'Aneurisma aórtico (torácico y abdominal, no roto)': { definicion: [12, 13, 15], criterios_dx: [12, 13, 15], laboratorio: [12, 13, 15], tx_farmacologico: [12, 13, 15] },
+  'Rotura aórtica': { definicion: [5, 12], criterios_dx: [5, 12], laboratorio: [5, 12], tx_farmacologico: [5, 12] },
+  'Taponamiento cardiaco': { definicion: [4, 7], criterios_dx: [4, 7], laboratorio: [4, 7], tx_farmacologico: [4, 7] },
+  'Malperfusión de órganos': { definicion: [4, 7, 15], criterios_dx: [4, 7, 15], laboratorio: [4, 7, 15], tx_farmacologico: [4, 7, 15] },
+  'Insuficiencia aórtica aguda': { definicion: [4, 7], criterios_dx: [4, 7], laboratorio: [4, 7], tx_farmacologico: [4, 7] }
 };
 export const estigmas = [];
 export const biopsia = null;

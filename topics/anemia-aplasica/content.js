@@ -307,12 +307,12 @@ export const content = {
 };
 
 export const compCites = {
-  'Anemia aplásica adquirida idiopática grave/muy grave': { definicion: [2], tx_farmacologico: [6, 7, 8], criterios_trasplante: [10] },
-  'Anemia aplásica no grave': { tx_farmacologico: [7] },
-  'Anemia aplásica secundaria': { fisiopatologia: [14] },
-  'Anemia aplásica congénita': { fisiopatologia: [13], epidemiologia: [12], tx_intervencionista: [11] },
-  'Evolución clonal': { tx_farmacologico: [15] },
-  'Complicaciones del trasplante y de la inmunosupresión': { epidemiologia: [10] }
+  'Anemia aplásica adquirida idiopática grave/muy grave': { definicion: [2], tx_farmacologico: [6, 7, 8], criterios_trasplante: [10], criterios_dx: [2], laboratorio: [2, 6, 7, 8, 10] },
+  'Anemia aplásica no grave': { tx_farmacologico: [7], criterios_dx: [7], laboratorio: [7] },
+  'Anemia aplásica secundaria': { fisiopatologia: [14], criterios_dx: [14], laboratorio: [14], tx_farmacologico: [14] },
+  'Anemia aplásica congénita': { fisiopatologia: [13], epidemiologia: [12], tx_intervencionista: [11], criterios_dx: [13], laboratorio: [13, 12, 11], tx_farmacologico: [11] },
+  'Evolución clonal': { tx_farmacologico: [15], criterios_dx: [15], laboratorio: [15] },
+  'Complicaciones del trasplante y de la inmunosupresión': { epidemiologia: [10], criterios_dx: [10], laboratorio: [10], tx_farmacologico: [10] }
 };
 export const estigmas = [];
 export const biopsia = null;

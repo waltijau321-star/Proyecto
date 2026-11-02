@@ -299,19 +299,19 @@ ${videoBlock('Video 5', 'Signo de Darier explicado por un dermatólogo, con ejem
 };
 
 export const compCites = {
-  'Tétrada periférica de la insuficiencia aórtica severa: Musset, Duroziez, Traube y Quincke': { definicion: [1, 6], fisiopatologia: [6] },
-  'Signo de Levine': { definicion: [1, 4], fisiopatologia: [1, 4] },
-  'Signo de Courvoisier': { definicion: [1, 3], fisiopatologia: [1, 3] },
-  'Signo de Kehr': { definicion: [1, 3], fisiopatologia: [1, 3] },
-  'Signo de Chvostek': { definicion: [1, 4], fisiopatologia: [1, 4] },
-  'Signo de Trousseau de la tetania': { definicion: [1, 4], fisiopatologia: [1, 4] },
-  'Signo de Trousseau de tromboflebitis migratoria (¡mismo nombre, significado distinto!)': { definicion: [1, 8], fisiopatologia: [8] },
-  'Signo de Lhermitte': { definicion: [1, 9], fisiopatologia: [9] },
-  'Signos de fractura de base de cráneo: Battle y ojos de mapache': { definicion: [1, 3], fisiopatologia: [1, 3] },
-  'Signo de Hoover': { definicion: [1, 4], fisiopatologia: [1, 4] },
-  'Signo de Gowers': { definicion: [1, 9], fisiopatologia: [9] },
-  'Signo de Auspitz': { definicion: [1, 7], fisiopatologia: [7] },
-  'Signo de Darier': { definicion: [1, 7], fisiopatologia: [7] }
+  'Tétrada periférica de la insuficiencia aórtica severa: Musset, Duroziez, Traube y Quincke': { definicion: [1, 6], fisiopatologia: [6], criterios_dx: [4, 6] },
+  'Signo de Levine': { definicion: [1, 4], fisiopatologia: [1, 4], criterios_dx: [4] },
+  'Signo de Courvoisier': { definicion: [1, 3], fisiopatologia: [1, 3], criterios_dx: [4] },
+  'Signo de Kehr': { definicion: [1, 3], fisiopatologia: [1, 3], criterios_dx: [3] },
+  'Signo de Chvostek': { definicion: [1, 4], fisiopatologia: [1, 4], criterios_dx: [4] },
+  'Signo de Trousseau de la tetania': { definicion: [1, 4], fisiopatologia: [1, 4], criterios_dx: [4] },
+  'Signo de Trousseau de tromboflebitis migratoria (¡mismo nombre, significado distinto!)': { definicion: [1, 8], fisiopatologia: [8], criterios_dx: [8] },
+  'Signo de Lhermitte': { definicion: [1, 9], fisiopatologia: [9], criterios_dx: [9] },
+  'Signos de fractura de base de cráneo: Battle y ojos de mapache': { definicion: [1, 3], fisiopatologia: [1, 3], criterios_dx: [3] },
+  'Signo de Hoover': { definicion: [1, 4], fisiopatologia: [1, 4], criterios_dx: [4] },
+  'Signo de Gowers': { definicion: [1, 9], fisiopatologia: [9], criterios_dx: [9] },
+  'Signo de Auspitz': { definicion: [1, 7], fisiopatologia: [7], criterios_dx: [7] },
+  'Signo de Darier': { definicion: [1, 7], fisiopatologia: [7], criterios_dx: [7] }
 };
 export const estigmas = [];
 export const biopsia = null;

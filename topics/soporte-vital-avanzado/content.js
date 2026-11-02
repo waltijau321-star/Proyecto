@@ -231,12 +231,12 @@ export const content = {
 };
 
 export const compCites = {
-  'Reconocer la inestabilidad antes de la parada': { clinica: [1], epidemiologia: [1], dx_diferencial: [1] },
-  'Ritmos desfibrilables: lo que salva es la descarga': { clinica: [1], criterios_dx: [1], tx_farmacologico: [1], tx_intervencionista: [1] },
-  'Ritmos no desfibrilables: la causa es el tratamiento': { tx_farmacologico: [1] },
-  'Farmacos y accesos: lo que cambio en 2025': { tx_medico: [1], tx_farmacologico: [1], tx_intervencionista: [1] },
-  'Via aerea, monitorizacion y causas reversibles': { clinica: [1], complementarios: [1], tx_intervencionista: [1] },
-  'Cuando parar: terminar la reanimacion': { clinica: [1], epidemiologia: [1], complementarios: [1] }
+  'Reconocer la inestabilidad antes de la parada': { clinica: [1], epidemiologia: [1], dx_diferencial: [1], criterios_dx: [1], laboratorio: [1], tx_farmacologico: [1] },
+  'Ritmos desfibrilables: lo que salva es la descarga': { clinica: [1], criterios_dx: [1], tx_farmacologico: [1], tx_intervencionista: [1], laboratorio: [1] },
+  'Ritmos no desfibrilables: la causa es el tratamiento': { tx_farmacologico: [1], criterios_dx: [1], laboratorio: [1] },
+  'Farmacos y accesos: lo que cambio en 2025': { tx_medico: [1], tx_farmacologico: [1], tx_intervencionista: [1], laboratorio: [1] },
+  'Via aerea, monitorizacion y causas reversibles': { clinica: [1], complementarios: [1], tx_intervencionista: [1], laboratorio: [1], tx_farmacologico: [1] },
+  'Cuando parar: terminar la reanimacion': { clinica: [1], epidemiologia: [1], complementarios: [1], criterios_dx: [1], laboratorio: [1] }
 };
 
 export const estigmasTitulo = 'Lo que hay que comprobar en los primeros segundos';

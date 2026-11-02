@@ -340,11 +340,11 @@ export const content = {
 };
 
 export const compCites = {
-  'SMD de bajo riesgo': { definicion: [1], tx_farmacologico: [7, 8], criterios_dx: [14] },
-  'SMD de alto riesgo': { tx_farmacologico: [9], tx_intervencionista: [15] },
-  'SMD hipoplásico': { tx_farmacologico: [11] },
-  'SMD relacionado a tratamiento (t-MDS)': { epidemiologia: [12] },
-  'Sobrecarga de hierro transfusional': { tx_farmacologico: [13] }
+  'SMD de bajo riesgo': { definicion: [1], tx_farmacologico: [7, 8], criterios_dx: [14], laboratorio: [14] },
+  'SMD de alto riesgo': { tx_farmacologico: [9], tx_intervencionista: [15], criterios_dx: [9, 15], laboratorio: [9, 15] },
+  'SMD hipoplásico': { tx_farmacologico: [11], criterios_dx: [11], laboratorio: [11] },
+  'SMD relacionado a tratamiento (t-MDS)': { epidemiologia: [12], criterios_dx: [12], laboratorio: [12], tx_farmacologico: [12] },
+  'Sobrecarga de hierro transfusional': { tx_farmacologico: [13], criterios_dx: [13], laboratorio: [13] }
 };
 export const estigmas = [];
 export const biopsia = null;

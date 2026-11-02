@@ -334,12 +334,12 @@ export const compCites = {
   'El paciente anticoagulado': { criterios_dx: [2], tx_medico: [2], tx_farmacologico: [2] },
   'El paciente diabético': { tx_farmacologico: [1, 3], criterios_dx: [1] },
   'El paciente con EPOC o apnea del sueño': { criterios_dx: [6, 7], factores_riesgo: [6] },
-  'El anciano frágil': { criterios_dx: [1] },
-  'El paciente con obesidad': { tx_farmacologico: [3] },
-  'El paciente inmunosuprimido': { criterios_dx: [1] },
+  'El anciano frágil': { criterios_dx: [1], tx_farmacologico: [1] },
+  'El paciente con obesidad': { tx_farmacologico: [3], criterios_dx: [7, 9] },
+  'El paciente inmunosuprimido': { criterios_dx: [1], tx_farmacologico: [1] },
   'El paciente con valvulopatía grave': { criterios_dx: [1], tx_medico: [1], tx_farmacologico: [1], seguimiento_hospitalario: [1] },
   'La paciente embarazada': { definicion: [11], criterios_dx: [11], tx_medico: [11], tx_farmacologico: [11], seguimiento_hospitalario: [11] },
-  'El portador de marcapasos o desfibrilador': { tx_farmacologico: [2] }
+  'El portador de marcapasos o desfibrilador': { tx_farmacologico: [2], criterios_dx: [1] }
 };
 
 export const estigmas = [];

@@ -337,13 +337,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Debilidad adquirida: reconocerla': [1, 2, 4, 5],
-  'Polineuropatia y miopatia del paciente critico': [3, 6],
-  'Lo que imita la debilidad adquirida': [2, 5],
-  'Prevencion: lo unico que funciona': [7, 8, 9, 12],
-  'Debilidad diafragmatica y fracaso del destete': [13, 14],
-  'Sindrome post-cuidados intensivos': [15, 16]
+  'Debilidad adquirida: reconocerla': { definicion: [1, 2, 4, 5], criterios_dx: [1, 2, 4, 5], laboratorio: [1, 2, 4, 5], tx_farmacologico: [1, 2, 4, 5] },
+  'Polineuropatia y miopatia del paciente critico': { definicion: [3, 6], criterios_dx: [3, 6], laboratorio: [3, 6], tx_farmacologico: [3, 6] },
+  'Lo que imita la debilidad adquirida': { definicion: [2, 5], criterios_dx: [2, 5], laboratorio: [2, 5], tx_farmacologico: [2, 5] },
+  'Prevencion: lo unico que funciona': { definicion: [7, 8, 9, 12], criterios_dx: [7, 8, 9, 12], laboratorio: [7, 8, 9, 12], tx_farmacologico: [7, 8, 9, 12] },
+  'Debilidad diafragmatica y fracaso del destete': { definicion: [13, 14], criterios_dx: [13, 14], laboratorio: [13, 14], tx_farmacologico: [13, 14] },
+  'Sindrome post-cuidados intensivos': { definicion: [15, 16] }
 };
 export const estigmasTitulo = 'Signos que orientan y banderas que no encajan';
 export const estigmas = [

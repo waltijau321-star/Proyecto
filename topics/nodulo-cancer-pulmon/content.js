@@ -387,13 +387,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Nodulo pulmonar solitario': [1, 6, 7],
-  'Cancer de pulmon no microcitico: diagnostico y estadificacion': [2, 8, 15],
-  'Cancer de pulmon no microcitico: tratamiento por estadio': [2, 9, 10, 11, 12, 13],
-  'Cancer de pulmon microcitico': [16, 17],
-  'Sindromes paraneoplasicos y complicaciones locorregionales': [18],
-  'Cribado y valoracion funcional preoperatoria': [3, 4, 5, 14]
+  'Nodulo pulmonar solitario': { definicion: [1, 6, 7], criterios_dx: [1, 6, 7], laboratorio: [1, 6, 7], tx_farmacologico: [1, 6, 7] },
+  'Cancer de pulmon no microcitico: diagnostico y estadificacion': { definicion: [2, 8, 15], criterios_dx: [2, 8, 15], laboratorio: [2, 8, 15], tx_farmacologico: [2, 8, 15] },
+  'Cancer de pulmon no microcitico: tratamiento por estadio': { definicion: [2, 9, 10, 11, 12, 13], criterios_dx: [2, 9, 10, 11, 12, 13], laboratorio: [2, 9, 10, 11, 12, 13], tx_farmacologico: [2, 9, 10, 11, 12, 13] },
+  'Cancer de pulmon microcitico': { definicion: [16, 17], criterios_dx: [16, 17], laboratorio: [16, 17], tx_farmacologico: [16, 17] },
+  'Sindromes paraneoplasicos y complicaciones locorregionales': { definicion: [18], criterios_dx: [18], laboratorio: [18], tx_farmacologico: [18] },
+  'Cribado y valoracion funcional preoperatoria': { definicion: [3, 4, 5, 14], criterios_dx: [3, 4, 5, 14], laboratorio: [3, 4, 5, 14], tx_farmacologico: [3, 4, 5, 14] }
 };
 export const estigmasTitulo = 'Signos que orientan en el nodulo y en el cancer de pulmon';
 export const estigmas = [

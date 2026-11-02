@@ -359,13 +359,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Meningitis bacteriana aguda: reconocer y no perder tiempo': [1, 4, 8, 16],
-  'Tratamiento empirico y dexametasona': [1, 3, 6, 7, 15],
-  'Encefalitis por virus herpes simple': [2, 9, 10],
-  'Meningitis virica y sindrome meningeo aseptico': [8, 16],
-  'Meningitis subaguda y cronica: tuberculosa y criptococica': [11, 12, 13],
-  'Absceso cerebral y complicaciones neurologicas': [14]
+  'Meningitis bacteriana aguda: reconocer y no perder tiempo': { definicion: [1, 4, 8, 16], criterios_dx: [1, 4, 8, 16], laboratorio: [1, 4, 8, 16], tx_farmacologico: [1, 4, 8, 16] },
+  'Tratamiento empirico y dexametasona': { definicion: [1, 3, 6, 7, 15], criterios_dx: [1, 3, 6, 7, 15], laboratorio: [1, 3, 6, 7, 15], tx_farmacologico: [1, 3, 6, 7, 15] },
+  'Encefalitis por virus herpes simple': { definicion: [2, 9, 10], criterios_dx: [2, 9, 10], laboratorio: [2, 9, 10], tx_farmacologico: [2, 9, 10] },
+  'Meningitis virica y sindrome meningeo aseptico': { definicion: [8, 16], criterios_dx: [8, 16], laboratorio: [8, 16], tx_farmacologico: [8, 16] },
+  'Meningitis subaguda y cronica: tuberculosa y criptococica': { definicion: [11, 12, 13], criterios_dx: [11, 12, 13], laboratorio: [11, 12, 13], tx_farmacologico: [11, 12, 13] },
+  'Absceso cerebral y complicaciones neurologicas': { definicion: [14], criterios_dx: [14], laboratorio: [14], tx_farmacologico: [14] }
 };
 export const estigmasTitulo = 'Signos y datos que cambian la conducta';
 export const estigmas = [

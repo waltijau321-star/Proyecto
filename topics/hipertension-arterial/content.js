@@ -411,15 +411,22 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'HTA esencial (primaria)': [1, 2, 6, 21],
-  'HTA secundaria (sospecha y cribado)': [10, 20, 1],
-  'HTA resistente': [9, 1, 3],
-  'Urgencia hipertensiva': [13, 1],
-  'Emergencia hipertensiva': [14, 13, 1],
-  'Cardiopatia hipertensiva': [1, 16, 6],
-  'Enfermedad renal cronica hipertensiva y nefroangioesclerosis': [12, 1],
-  'Enfermedad cerebrovascular, retinopatia y deterioro cognitivo': [17, 5, 19]
+  'HTA esencial (primaria)': { definicion: [1, 2, 6, 21], criterios_dx: [1, 2, 6, 21], laboratorio: [1, 2, 6, 21], tx_farmacologico: [1, 2, 6, 21] },
+  'HTA secundaria (sospecha y cribado)': { definicion: [10, 20, 1], criterios_dx: [10, 20, 1], laboratorio: [10, 20, 1], tx_farmacologico: [10, 20, 1] },
+  'HTA resistente': { definicion: [9, 1, 3], criterios_dx: [9, 1, 3], laboratorio: [9, 1, 3], tx_farmacologico: [9, 1, 3] },
+  'Urgencia hipertensiva': { definicion: [13, 1], criterios_dx: [13, 1], laboratorio: [13, 1], tx_farmacologico: [13, 1] },
+  'Emergencia hipertensiva': { definicion: [14, 13, 1], criterios_dx: [14, 13, 1], laboratorio: [14, 13, 1], tx_farmacologico: [14, 13, 1] },
+  'Cardiopatia hipertensiva': { definicion: [1, 16, 6], criterios_dx: [1, 16, 6], laboratorio: [1, 16, 6], tx_farmacologico: [1, 16, 6] },
+  'Enfermedad renal cronica hipertensiva y nefroangioesclerosis': { definicion: [12, 1], criterios_dx: [12, 1], laboratorio: [12, 1], tx_farmacologico: [12, 1] },
+  'Enfermedad cerebrovascular, retinopatia y deterioro cognitivo': { definicion: [17, 5, 19], criterios_dx: [17, 5, 19], laboratorio: [17, 5, 19], tx_farmacologico: [17, 5, 19] }
 };
 export const estigmas = [];
 export const biopsia = null;

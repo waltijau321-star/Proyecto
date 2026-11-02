@@ -369,18 +369,25 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Concentrado eritrocitario (paquete globular)': [1, 2, 3],
-  'Plasma fresco congelado': [9],
-  'Concentrado plaquetario': [8, 15],
-  'Crioprecipitado': [10],
-  'Reacción hemolítica aguda': [4, 14],
-  'Reacción febril no hemolítica': [13],
-  'Reacción alérgica y anafiláctica': [4],
-  'TRALI (lesión pulmonar aguda relacionada a transfusión)': [6, 12, 13],
-  'TACO (sobrecarga circulatoria asociada a transfusión)': [7, 13],
-  'Contaminación bacteriana': [4],
-  'Reacciones tardías (hemolítica tardía, aloinmunización, EICH-AT, sobrecarga de hierro)': [11, 14]
+  'Concentrado eritrocitario (paquete globular)': { definicion: [1, 2, 3], laboratorio: [1, 2, 3], tx_farmacologico: [1, 2, 3] },
+  'Plasma fresco congelado': { definicion: [9], laboratorio: [9], tx_farmacologico: [9] },
+  'Concentrado plaquetario': { definicion: [8, 15], laboratorio: [8, 15], tx_farmacologico: [8, 15] },
+  'Crioprecipitado': { definicion: [10], laboratorio: [10], tx_farmacologico: [10] },
+  'Reacción hemolítica aguda': { definicion: [4, 14], criterios_dx: [4, 14], laboratorio: [4, 14], tx_farmacologico: [4, 14] },
+  'Reacción febril no hemolítica': { definicion: [13], criterios_dx: [13], laboratorio: [13], tx_farmacologico: [13] },
+  'Reacción alérgica y anafiláctica': { definicion: [4], criterios_dx: [4], laboratorio: [4], tx_farmacologico: [4] },
+  'TRALI (lesión pulmonar aguda relacionada a transfusión)': { definicion: [6, 12, 13], criterios_dx: [6, 12, 13], laboratorio: [6, 12, 13], tx_farmacologico: [6, 12, 13] },
+  'TACO (sobrecarga circulatoria asociada a transfusión)': { definicion: [7, 13], criterios_dx: [7, 13], laboratorio: [7, 13], tx_farmacologico: [7, 13] },
+  'Contaminación bacteriana': { definicion: [4], criterios_dx: [4], laboratorio: [4], tx_farmacologico: [4] },
+  'Reacciones tardías (hemolítica tardía, aloinmunización, EICH-AT, sobrecarga de hierro)': { definicion: [11, 14], criterios_dx: [11, 14], laboratorio: [11, 14], tx_farmacologico: [11, 14] }
 };
 export const estigmas = [];
 export const biopsia = null;

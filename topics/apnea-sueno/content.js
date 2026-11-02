@@ -369,13 +369,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Apnea obstructiva del sueño: sospecha y diagnostico': [1, 13, 14],
-  'Tratamiento de la apnea obstructiva: CPAP y alternativas': [2, 9, 10, 11],
-  'Apnea central del sueño y respiracion de Cheyne-Stokes': [4, 15],
-  'Sindrome de hipoventilacion-obesidad': [3],
-  'Consecuencias cardiovasculares, metabolicas y neurocognitivas': [5, 6, 15],
-  'Situaciones especiales: perioperatorio, conduccion y poblaciones': [12, 16]
+  'Apnea obstructiva del sueño: sospecha y diagnostico': { definicion: [1, 13, 14], criterios_dx: [1, 13, 14], laboratorio: [1, 13, 14], tx_farmacologico: [1, 13, 14] },
+  'Tratamiento de la apnea obstructiva: CPAP y alternativas': { definicion: [2, 9, 10, 11], criterios_dx: [2, 9, 10, 11], laboratorio: [2, 9, 10, 11], tx_farmacologico: [2, 9, 10, 11] },
+  'Apnea central del sueño y respiracion de Cheyne-Stokes': { definicion: [4, 15], criterios_dx: [4, 15], laboratorio: [4, 15], tx_farmacologico: [4, 15] },
+  'Sindrome de hipoventilacion-obesidad': { definicion: [3], criterios_dx: [3], laboratorio: [3], tx_farmacologico: [3] },
+  'Consecuencias cardiovasculares, metabolicas y neurocognitivas': { definicion: [5, 6, 15], criterios_dx: [5, 6, 15], laboratorio: [5, 6, 15], tx_farmacologico: [5, 6, 15] },
+  'Situaciones especiales: perioperatorio, conduccion y poblaciones': { definicion: [12, 16], criterios_dx: [12, 16], laboratorio: [12, 16], tx_farmacologico: [12, 16] }
 };
 export const estigmasTitulo = 'Signos y pistas que orientan hacia un trastorno respiratorio del sueño';
 export const estigmas = [

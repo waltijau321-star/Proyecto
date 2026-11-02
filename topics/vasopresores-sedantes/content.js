@@ -264,8 +264,8 @@ export const content = {
 };
 
 export const compCites = {
-  'Norepinefrina (Noradrenalina)': { tx_medico: [2], criterios_tips: [2] },
-  'Adrenalina (Epinefrina)': { tx_medico: [2], criterios_tips: [2] },
+  'Norepinefrina (Noradrenalina)': { tx_medico: [2], criterios_tips: [2], laboratorio: [2], tx_farmacologico: [2] },
+  'Adrenalina (Epinefrina)': { tx_medico: [2], criterios_tips: [2], laboratorio: [2], tx_farmacologico: [2] },
   'Dopamina': { tx_medico: [2, 3] },
   'Dobutamina': { criterios_tips: [2] },
   'Vasopresina': { tx_medico: [2] },

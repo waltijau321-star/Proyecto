@@ -376,13 +376,20 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Tuberculosis pulmonar: sospecha y diagnostico': [11, 15, 16],
-  'Tratamiento de la tuberculosis sensible y su toxicidad': [1, 3],
-  'Infeccion tuberculosa latente': [4, 5, 14],
-  'Tuberculosis extrapulmonar': [8, 9],
-  'Tuberculosis resistente a farmacos': [2, 6, 7],
-  'Poblaciones especiales y control de la transmision': [10, 12, 13]
+  'Tuberculosis pulmonar: sospecha y diagnostico': { definicion: [11, 15, 16], criterios_dx: [11, 15, 16], laboratorio: [11, 15, 16], tx_farmacologico: [11, 15, 16] },
+  'Tratamiento de la tuberculosis sensible y su toxicidad': { definicion: [1, 3], criterios_dx: [1, 3], laboratorio: [1, 3], tx_farmacologico: [1, 3] },
+  'Infeccion tuberculosa latente': { definicion: [4, 5, 14], criterios_dx: [4, 5, 14], laboratorio: [4, 5, 14], tx_farmacologico: [4, 5, 14] },
+  'Tuberculosis extrapulmonar': { definicion: [8, 9], criterios_dx: [8, 9], laboratorio: [8, 9], tx_farmacologico: [8, 9] },
+  'Tuberculosis resistente a farmacos': { definicion: [2, 6, 7], criterios_dx: [2, 6, 7], laboratorio: [2, 6, 7], tx_farmacologico: [2, 6, 7] },
+  'Poblaciones especiales y control de la transmision': { definicion: [10, 12, 13], criterios_dx: [10, 12, 13], laboratorio: [10, 12, 13], tx_farmacologico: [10, 12, 13] }
 };
 export const estigmasTitulo = 'Signos y pistas que orientan hacia una tuberculosis';
 export const estigmas = [

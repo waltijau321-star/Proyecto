@@ -349,14 +349,21 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Obesidad comun (poligenica)': [1, 3, 4, 5],
-  'Obesidad monogenica y sindromica': [15, 16],
-  'Obesidad secundaria (endocrina y farmacologica)': [8, 1],
-  'Apnea obstructiva del sueno e hipoventilacion por obesidad': [19, 20],
-  'Enfermedad hepatica esteatosica metabolica': [17, 18],
-  'Complicaciones mecanicas, reproductivas y oncologicas': [21, 1],
-  'Complicaciones del tratamiento': [22, 22, 13, 14]
+  'Obesidad comun (poligenica)': { definicion: [1, 3, 4, 5], criterios_dx: [1, 3, 4, 5], laboratorio: [1, 3, 4, 5], tx_farmacologico: [1, 3, 4, 5] },
+  'Obesidad monogenica y sindromica': { definicion: [15, 16], criterios_dx: [15, 16], laboratorio: [15, 16], tx_farmacologico: [15, 16] },
+  'Obesidad secundaria (endocrina y farmacologica)': { definicion: [8, 1], criterios_dx: [8, 1], laboratorio: [8, 1], tx_farmacologico: [8, 1] },
+  'Apnea obstructiva del sueno e hipoventilacion por obesidad': { definicion: [19, 20], criterios_dx: [19, 20], laboratorio: [19, 20], tx_farmacologico: [19, 20] },
+  'Enfermedad hepatica esteatosica metabolica': { definicion: [17, 18], criterios_dx: [17, 18], laboratorio: [17, 18], tx_farmacologico: [17, 18] },
+  'Complicaciones mecanicas, reproductivas y oncologicas': { definicion: [21, 1], criterios_dx: [21, 1], laboratorio: [21, 1], tx_farmacologico: [21, 1] },
+  'Complicaciones del tratamiento': { definicion: [22, 22, 13, 14], criterios_dx: [22, 22, 13, 14], laboratorio: [22, 22, 13, 14], tx_farmacologico: [22, 22, 13, 14] }
 };
 export const estigmas = [];
 export const biopsia = null;

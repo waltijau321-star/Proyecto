@@ -459,13 +459,13 @@ export const content = {
 };
 
 export const compCites = {
-  'Miocardiopatía hipertrófica': { definicion: [3], criterios_dx: [1, 3], tx_farmacologico: [2, 3], tx_intervencionista: [2] },
-  'Miocardiopatía dilatada': { definicion: [5], tx_farmacologico: [6, 7], tx_intervencionista: [6, 7] },
-  'Miocardiopatía restrictiva': { imagen: [11], tx_farmacologico: [11] },
-  'Miocardiopatía arritmogénica del ventrículo derecho': { criterios_dx: [8, 9], tx_intervencionista: [10] },
-  'Miocardiopatía periparto': { definicion: [12], tx_farmacologico: [12, 13] },
-  'Insuficiencia cardiaca avanzada refractaria': { tx_farmacologico: [6, 7] },
-  'Arritmias ventriculares malignas y muerte súbita cardiaca': { tx_intervencionista: [14, 15] }
+  'Miocardiopatía hipertrófica': { definicion: [3], criterios_dx: [1, 3], tx_farmacologico: [2, 3], tx_intervencionista: [2], laboratorio: [1, 3] },
+  'Miocardiopatía dilatada': { definicion: [5], tx_farmacologico: [6, 7], tx_intervencionista: [6, 7], criterios_dx: [5], laboratorio: [5, 6, 7] },
+  'Miocardiopatía restrictiva': { imagen: [11], tx_farmacologico: [11], criterios_dx: [11], laboratorio: [11] },
+  'Miocardiopatía arritmogénica del ventrículo derecho': { criterios_dx: [8, 9], tx_intervencionista: [10], laboratorio: [8, 9], tx_farmacologico: [10] },
+  'Miocardiopatía periparto': { definicion: [12], tx_farmacologico: [12, 13], criterios_dx: [12], laboratorio: [12, 13] },
+  'Insuficiencia cardiaca avanzada refractaria': { tx_farmacologico: [6, 7], criterios_dx: [6, 7], laboratorio: [6, 7] },
+  'Arritmias ventriculares malignas y muerte súbita cardiaca': { tx_intervencionista: [14, 15], criterios_dx: [14, 15], laboratorio: [14, 15], tx_farmacologico: [14, 15] }
 };
 export const estigmas = [];
 export const biopsia = null;

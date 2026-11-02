@@ -330,15 +330,22 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Porfiria Aguda Intermitente': [1, 2, 11, 12],
-  'Otras porfirias hepáticas agudas': [1, 2, 12],
-  'Porfiria Cutánea Tarda': [7, 8],
-  'Protoporfiria Eritropoyética': [9, 10],
-  'Crisis porfírica aguda': [1, 2, 5, 13],
-  'Neuropatía y complicaciones neurológicas': [3, 12],
-  'Complicaciones hepáticas a largo plazo': [14, 15, 10],
-  'Fotosensibilidad y complicaciones cutáneas': [7, 9]
+  'Porfiria Aguda Intermitente': { definicion: [1, 2, 11, 12], criterios_dx: [1, 2, 11, 12], laboratorio: [1, 2, 11, 12], tx_farmacologico: [1, 2, 11, 12] },
+  'Otras porfirias hepáticas agudas': { definicion: [1, 2, 12], criterios_dx: [1, 2, 12], laboratorio: [1, 2, 12], tx_farmacologico: [1, 2, 12] },
+  'Porfiria Cutánea Tarda': { definicion: [7, 8], criterios_dx: [7, 8], laboratorio: [7, 8], tx_farmacologico: [7, 8] },
+  'Protoporfiria Eritropoyética': { definicion: [9, 10], criterios_dx: [9, 10], laboratorio: [9, 10], tx_farmacologico: [9, 10] },
+  'Crisis porfírica aguda': { definicion: [1, 2, 5, 13], criterios_dx: [1, 2, 5, 13], laboratorio: [1, 2, 5, 13], tx_farmacologico: [1, 2, 5, 13] },
+  'Neuropatía y complicaciones neurológicas': { definicion: [3, 12], criterios_dx: [3, 12], laboratorio: [3, 12], tx_farmacologico: [3, 12] },
+  'Complicaciones hepáticas a largo plazo': { definicion: [14, 15, 10], criterios_dx: [14, 15, 10], laboratorio: [14, 15, 10], tx_farmacologico: [14, 15, 10] },
+  'Fotosensibilidad y complicaciones cutáneas': { definicion: [7, 9], criterios_dx: [7, 9], laboratorio: [7, 9], tx_farmacologico: [7, 9] }
 };
 export const estigmas = [];
 export const biopsia = null;

@@ -362,13 +362,13 @@ export const content = {
 };
 
 export const compCites = {
-  'Deficiencia de vitamina B12 no autoinmune': { fisiopatologia: [1, 4] },
-  'Anemia perniciosa': { epidemiologia: [5, 6], fisiopatologia: [5] },
-  'Deficiencia de folato': { fisiopatologia: [8] },
-  'Causas no nutricionales de megaloblastosis': { tx_farmacologico: [8] },
-  'Degeneración combinada subaguda': { fisiopatologia: [12, 13] },
-  'Enmascaramiento hematológico por ácido fólico': { fisiopatologia: [14] },
-  'Neoplasias gástricas asociadas a anemia perniciosa': { epidemiologia: [7] }
+  'Deficiencia de vitamina B12 no autoinmune': { fisiopatologia: [1, 4], criterios_dx: [1, 4], laboratorio: [1, 4], tx_farmacologico: [1, 4] },
+  'Anemia perniciosa': { epidemiologia: [5, 6], fisiopatologia: [5], criterios_dx: [5], laboratorio: [5, 6], tx_farmacologico: [5, 6] },
+  'Deficiencia de folato': { fisiopatologia: [8], criterios_dx: [8], laboratorio: [8], tx_farmacologico: [8] },
+  'Causas no nutricionales de megaloblastosis': { tx_farmacologico: [8], criterios_dx: [8], laboratorio: [8] },
+  'Degeneración combinada subaguda': { fisiopatologia: [12, 13], criterios_dx: [12, 13], laboratorio: [12, 13], tx_farmacologico: [12, 13] },
+  'Enmascaramiento hematológico por ácido fólico': { fisiopatologia: [14], criterios_dx: [14], laboratorio: [14], tx_farmacologico: [14] },
+  'Neoplasias gástricas asociadas a anemia perniciosa': { epidemiologia: [7], criterios_dx: [7], laboratorio: [7], tx_farmacologico: [7] }
 };
 export const estigmas = [];
 export const biopsia = null;

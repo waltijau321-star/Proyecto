@@ -339,15 +339,22 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Linfoma de Hodgkin': [1, 2, 7],
-  'Linfoma No Hodgkin Agresivo': [3, 6, 8],
-  'Linfoma No Hodgkin Indolente': [4],
-  'Linfoma de Burkitt y Linfomas Altamente Agresivos': [5],
-  'Síndrome de vena cava superior': [9],
-  'Síndrome de lisis tumoral': [10],
-  'Compresión medular y otras urgencias oncológicas': [11],
-  'Complicaciones del tratamiento': [13, 14, 15]
+  'Linfoma de Hodgkin': { definicion: [1, 2, 7], criterios_dx: [1, 2, 7], laboratorio: [1, 2, 7], tx_farmacologico: [1, 2, 7] },
+  'Linfoma No Hodgkin Agresivo': { definicion: [3, 6, 8], criterios_dx: [3, 6, 8], laboratorio: [3, 6, 8], tx_farmacologico: [3, 6, 8] },
+  'Linfoma No Hodgkin Indolente': { definicion: [4], criterios_dx: [4], laboratorio: [4], tx_farmacologico: [4] },
+  'Linfoma de Burkitt y Linfomas Altamente Agresivos': { definicion: [5], criterios_dx: [5], laboratorio: [5], tx_farmacologico: [5] },
+  'Síndrome de vena cava superior': { definicion: [9], criterios_dx: [9], laboratorio: [9], tx_farmacologico: [9] },
+  'Síndrome de lisis tumoral': { definicion: [10], criterios_dx: [10], laboratorio: [10], tx_farmacologico: [10] },
+  'Compresión medular y otras urgencias oncológicas': { definicion: [11], criterios_dx: [11], laboratorio: [11], tx_farmacologico: [11] },
+  'Complicaciones del tratamiento': { definicion: [13, 14, 15], criterios_dx: [13, 14, 15], laboratorio: [13, 14, 15], tx_farmacologico: [13, 14, 15] }
 };
 export const estigmas = [];
 export const biopsia = null;

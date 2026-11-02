@@ -244,14 +244,21 @@ export const content = {
 Y una advertencia sobre el alta: las medidas que desplazan el potasio al interior de la célula son transitorias. Un paciente dado de alta de urgencias tras insulina y salbutamol, sin quelante ni corrección de la causa, vuelve con la misma cifra en unas horas.`
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Hiponatremia: clasificar antes de tratar': [1, 2, 7],
-  'Hiponatremia grave: el protocolo de las primeras horas': [1],
-  'Corrección excesiva y desmielinización osmótica': [1, 2],
-  'Hiperpotasemia: gravedad, electrocardiograma y las tres acciones': [3],
-  'Hipopotasemia e hipomagnesemia, que van juntas': [5],
-  'Lectura sistemática de la gasometría': [4],
-  'Acidosis metabólica: anion gap, albúmina y cociente delta': [4]
+  'Hiponatremia: clasificar antes de tratar': { definicion: [1, 2, 7], criterios_dx: [1, 2, 7], laboratorio: [1, 2, 7], tx_farmacologico: [1, 2, 7] },
+  'Hiponatremia grave: el protocolo de las primeras horas': { definicion: [1], criterios_dx: [1], tx_farmacologico: [1] },
+  'Corrección excesiva y desmielinización osmótica': { definicion: [1, 2], criterios_dx: [1, 2], tx_farmacologico: [1, 2] },
+  'Hiperpotasemia: gravedad, electrocardiograma y las tres acciones': { definicion: [3], criterios_dx: [3], laboratorio: [3], tx_farmacologico: [3] },
+  'Hipopotasemia e hipomagnesemia, que van juntas': { definicion: [5], criterios_dx: [5], laboratorio: [5], tx_farmacologico: [5] },
+  'Lectura sistemática de la gasometría': { definicion: [4], criterios_dx: [4], laboratorio: [4] },
+  'Acidosis metabólica: anion gap, albúmina y cociente delta': { definicion: [4], criterios_dx: [4], laboratorio: [4] }
 };
 
 export const estigmasTitulo = 'Datos que cambian la conducta';

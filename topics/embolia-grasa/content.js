@@ -222,12 +222,19 @@ export const content = {
   }
 };
 
+// Las citas de cada ficha estaban en forma PLANA (un array por ficha). El motor normaliza esa
+// forma anclandola SOLO al campo `definicion` (ver openModal en engine/study-view.js), de modo
+// que criterios_dx, laboratorio y tx_farmacologico no pintaban ninguna cita aunque las fuentes
+// de la ficha si estuvieran declaradas. Convertido a la forma por campo el 2/11/2026: se reparten
+// a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
+// lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
+// sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
 export const compCites = {
-  'Embolia grasa postraumática/ortopédica': [1, 4, 11],
-  'Embolia grasa no traumática': [8, 9],
-  'Insuficiencia respiratoria y síndrome de dificultad respiratoria aguda': [2, 5],
-  'Disfunción neurológica': [14, 6],
-  'Púrpura petequial y hallazgos hematológicos': [1, 13]
+  'Embolia grasa postraumática/ortopédica': { definicion: [1, 4, 11], criterios_dx: [1, 4, 11], laboratorio: [1, 4, 11], tx_farmacologico: [1, 4, 11] },
+  'Embolia grasa no traumática': { definicion: [8, 9], criterios_dx: [8, 9], laboratorio: [8, 9], tx_farmacologico: [8, 9] },
+  'Insuficiencia respiratoria y síndrome de dificultad respiratoria aguda': { definicion: [2, 5], criterios_dx: [2, 5], laboratorio: [2, 5], tx_farmacologico: [2, 5] },
+  'Disfunción neurológica': { definicion: [14, 6], criterios_dx: [14, 6], laboratorio: [14, 6], tx_farmacologico: [14, 6] },
+  'Púrpura petequial y hallazgos hematológicos': { definicion: [1, 13], criterios_dx: [1, 13], laboratorio: [1, 13], tx_farmacologico: [1, 13] }
 };
 export const estigmas = [];
 export const biopsia = null;
