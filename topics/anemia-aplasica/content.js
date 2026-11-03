@@ -113,7 +113,7 @@ export const content = {
       complementarios: 'Tipificación HLA del paciente y de hermanos disponibles de inmediato al diagnóstico, dado que la edad y la disponibilidad de un donante HLA-idéntico determinan la primera línea de tratamiento; estudio de fragilidad cromosómica en todo paciente menor de 40 años para excluir anemia de Fanconi antes de iniciar cualquier tratamiento.',
       dx_diferencial: 'Síndrome mielodisplásico hipoplásico (clonalidad demostrable por cariotipo/NGS, ver el tema de Síndromes Mielodisplásicos), hemoglobinuria paroxística nocturna clásica (hemólisis y trombosis predominantes sobre la falla medular), síndromes de falla medular congénita (ver esa tarjeta), infiltración medular por leucemia aguda hipocelular.',
       tx_medico: 'Soporte transfusional restrictivo, para minimizar la aloinmunización y preservar la elegibilidad a trasplante, con hemoderivados irradiados y leucorreducidos en todo candidato a trasplante; evitar transfusiones de familiares potenciales donantes.',
-      tx_farmacologico: 'Globulina antitimocítica (de caballo, superior a la de conejo en estudios comparativos) más ciclosporina, con eltrombopag (agonista del receptor de trombopoyetina) agregado desde el inicio, esquema que ha demostrado mejores tasas de respuesta hematológica completa que la inmunosupresión estándar sola; factor estimulante de colonias de granulocitos como coadyuvante en la neutropenia profunda con infección activa, sin beneficio establecido en supervivencia si se usa de rutina.',
+      tx_farmacologico: 'Globulina antitimocítica (de caballo, superior a la de conejo en estudios comparativos) más ciclosporina, con eltrombopag (agonista del receptor de trombopoyetina) agregado desde el inicio, esquema que ha demostrado mejores tasas de respuesta hematológica completa que la inmunosupresión estándar sola; los factores de crecimiento hematopoyéticos NO forman parte del tratamiento: la eritropoyetina y el factor estimulante de colonias de granulocitos son invariablemente ineficaces en la aplasia, y añadir G-CSF a la globulina antitimocítica con ciclosporina no mejora los resultados a largo plazo ni las complicaciones.',
       tx_intervencionista: 'Trasplante alogénico de células madre hematopoyéticas de un hermano HLA-idéntico como tratamiento de primera línea en el paciente joven (típicamente &lt;40 años, umbral que se ha ido flexibilizando); trasplante de donante no emparentado o haploidéntico como alternativa en el paciente sin hermano compatible, especialmente si falla la inmunosupresión.',
       criterios_uci: 'Sepsis neutropénica grave, sangrado mayor con inestabilidad hemodinámica.',
       criterios_tips: 'No aplica.',
@@ -209,7 +209,7 @@ export const content = {
       complementarios: 'Ninguno adicional específico.',
       dx_diferencial: 'Enfermedad del suero por la globulina antitimocítica (fiebre con artralgias/exantema, sin foco infeccioso, típicamente 1-2 semanas después de iniciada, ver la tarjeta de complicaciones del trasplante/inmunosupresión).',
       tx_medico: 'Precauciones estándar/de neutropenia, evaluación clínica dirigida a foco.',
-      tx_farmacologico: 'Antibiótico empírico de amplio espectro con cobertura antipseudomónica dentro de la primera hora; cobertura antifúngica empírica (equinocandina o un azol con actividad frente a mohos) si la fiebre persiste más de 4-7 días pese a antibiótico de amplio espectro, dado el riesgo particularmente alto de infección fúngica invasiva en la neutropenia profunda y prolongada de esta enfermedad; factor estimulante de colonias de granulocitos en la infección grave activa, sin uso rutinario fuera de ese contexto.',
+      tx_farmacologico: 'Antibiótico empírico de amplio espectro con cobertura antipseudomónica dentro de la primera hora; cobertura antifúngica empírica (equinocandina o un azol con actividad frente a mohos) si la fiebre persiste más de 4-7 días pese a antibiótico de amplio espectro, dado el riesgo particularmente alto de infección fúngica invasiva en la neutropenia profunda y prolongada de esta enfermedad; los factores estimulantes de colonias NO se recomiendan para tratar la fiebre y la neutropenia ya establecidas, y en la aplasia en concreto son invariablemente ineficaces.',
       tx_intervencionista: 'Retiro del catéter venoso central si hay infección asociada al dispositivo no controlada con antibiótico.',
       criterios_uci: 'Sepsis con datos de choque, infección fúngica invasiva con compromiso respiratorio.',
       criterios_tips: 'No aplica.',
@@ -217,7 +217,7 @@ export const content = {
       seguimiento_hospitalario: 'Vigilancia de la resolución de la fiebre, reevaluación a las 48-96 horas según cultivos/evolución.',
       seguimiento_ambulatorio: 'Profilaxis antifúngica en pacientes seleccionados de muy alto riesgo durante la fase de neutropenia profunda prolongada.',
       pronostico: 'La infección no controlada durante la fase de neutropenia profunda es la principal causa de muerte temprana; el pronóstico mejora sustancialmente una vez lograda la respuesta hematológica al tratamiento definitivo.',
-      algoritmo: ['Fiebre + ANC &lt;500/µL → hemocultivos + antibiótico empírico de amplio espectro dentro de la primera hora', 'Persistencia &gt;4-7 días sin foco → agregar cobertura antifúngica empírica + TC de tórax de alta resolución', 'Galactomanano seriado si se sospecha aspergilosis', 'Datos de choque o compromiso respiratorio → manejo en UCI', 'G-CSF solo en infección grave activa, no de rutina']
+      algoritmo: ['Fiebre + ANC &lt;500/µL → hemocultivos + antibiótico empírico de amplio espectro dentro de la primera hora', 'Persistencia &gt;4-7 días sin foco → agregar cobertura antifúngica empírica + TC de tórax de alta resolución', 'Galactomanano seriado si se sospecha aspergilosis', 'Datos de choque o compromiso respiratorio → manejo en UCI', 'NO usar G-CSF: es ineficaz en la aplasia y su uso prolongado favorece la selección clonal']
     },
     {
       nombre: 'Sangrado por trombocitopenia',
@@ -337,19 +337,30 @@ export const content = {
 //     piperacillin-tazobactam, is recommended (A-I)", y "Empirical antifungal coverage should be
 //     considered in high-risk patients who have persistent fever after 4-7 days of a
 //     broad-spectrum antibacterial regimen and no identified fever source (A-II)".
-//     DOS AVISOS DE CONTENIDO comprobados: esta guia NO fija la ventana de la primera hora que
+// EL G-CSF, ARREGLADO EL 2/11/2026 (tercera tanda, tarde). El aviso de abajo decia que el campo
+// ofrecia G-CSF en la infeccion grave activa contra la recomendacion 42 de la IDSA. Al buscar TODAS
+// las menciones del tema (la leccion del tren de cuatro) aparecieron TRES, y la guia propia de la
+// enfermedad es aun mas tajante que la IDSA: la BSH 2024 (fuente 16) dice "Erythropoietin and
+// granulocyte colony-stimulating factor (G-CSF) are invariably ineffective in AA patients" y "In SAA
+// and VSAA, G-CSF given along with ATG and ciclosporin does not improve long-term outcomes and
+// complications". Las tres se reescribieron: el tx_farmacologico de la forma grave, el de la ficha de
+// infecciones y el paso del algoritmo. Las otras dos menciones del tema NO se tocaron porque ya
+// decian lo correcto: el uso prolongado de G-CSF como factor de riesgo de evolucion clonal.
+// Con el texto ajustado las citas son defendibles: [6, 7, 8, 16] en la forma grave y [16, 17] en la
+// ficha de infecciones, una fuente por frase.
+//
+//     UN AVISO DE CONTENIDO que sigue en pie: esta guia NO fija la ventana de la primera hora que
 //     da el campo (su unico "within 1 h" habla de llegar a un centro medico), y su recomendacion
 //     42 dice "CSFs are not generally recommended for treatment of established fever and
-//     neutropenia (B-II)" mientras el campo ofrece G-CSF en la infeccion grave activa. Se cito
-//     por las dos primeras clausulas, que son las que el campo manda hacer.
+//     neutropenia (B-II)", que es lo que el campo dice ahora (ver arriba).
 export const compCites = {
-  'Anemia aplásica adquirida idiopática grave/muy grave': { definicion: [2], tx_farmacologico: [6, 7, 8], criterios_trasplante: [10], criterios_dx: [2], laboratorio: [2, 6, 7, 8, 10] },
+  'Anemia aplásica adquirida idiopática grave/muy grave': { definicion: [2], tx_farmacologico: [6, 7, 8, 16], criterios_trasplante: [10], criterios_dx: [2], laboratorio: [2, 6, 7, 8, 10] },
   'Anemia aplásica no grave': { tx_farmacologico: [7], criterios_dx: [7], laboratorio: [7] },
   'Anemia aplásica secundaria': { fisiopatologia: [14], criterios_dx: [14], laboratorio: [14], tx_farmacologico: [14] },
   'Anemia aplásica congénita': { fisiopatologia: [13], epidemiologia: [12], tx_intervencionista: [11], criterios_dx: [13], laboratorio: [13, 12, 11], tx_farmacologico: [11] },
   'Evolución clonal': { tx_farmacologico: [15], criterios_dx: [15], laboratorio: [15] },
   'Complicaciones del trasplante y de la inmunosupresión': { epidemiologia: [10], criterios_dx: [10], laboratorio: [10], tx_farmacologico: [10] },
-  'Infecciones por neutropenia profunda': { criterios_dx: [17], laboratorio: [17], tx_farmacologico: [17] },
+  'Infecciones por neutropenia profunda': { criterios_dx: [17], laboratorio: [17], tx_farmacologico: [16, 17] },
   'Sangrado por trombocitopenia': { criterios_dx: [16], laboratorio: [16], tx_farmacologico: [16] }
 };
 export const estigmas = [];

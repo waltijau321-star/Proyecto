@@ -2303,9 +2303,9 @@ async function run() {
     'debilidad-adquirida-uci': 2, 'eccemas': 3, 'sindromes-mielodisplasicos': 5,
     'anemias-hemoliticas-hereditarias': 6, 'sindromes-mieloproliferativos': 8,
     'anemias-hemoliticas-adquiridas': 12, 'vasopresores-sedantes': 14,
-    'cirrosis-hepatica': 24
+    'cirrosis-hepatica': 22
   };
-  const ATRIB_TOTAL_MINIMO = 1986;
+  const ATRIB_TOTAL_MINIMO = 1988;
 
   const atribPorTema = {};
   let atribTotal = 0, atribCampos = 0;

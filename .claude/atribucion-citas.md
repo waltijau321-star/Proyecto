@@ -76,8 +76,8 @@ aceptando el limite y dejandolo escrito, como ya se hizo en la cabecera de esos 
 | | |
 |---|---|
 | Campos de la regla | 2072 |
-| Atribuidos | **1986** (95.8%) |
-| Huecos | 86 |
+| Atribuidos | **1988** (95.9%) |
+| Huecos | 84 |
 | Temas completos | **92** de 106 |
 
 (El dia anterior eran 1941 y 131 huecos. Tres pasadas el mismo dia: se cerraron 23, se
@@ -401,7 +401,45 @@ abierto que se encontro citando sus umbrales ("maintaining serum ferritin below 
 achieving a cardiac T2* of over 20 milliseconds") es un marco de cribado endocrino pediatrico de
 Pakistan, genero y poblacion equivocados: citarlo seria el defecto de `urticaria` otra vez.
 
-### Y tres preguntas de CONTENIDO que decide el autor
+### Las tres preguntas de contenido, RESUELTAS esa misma tarde
+
+El autor decidio ajustar los tres textos. Es el camino de la midodrina otra vez: cuando una cita no
+se sostiene, puede que la cita este mal o puede que **el campo afirme mas de lo que su fuente dice**,
+y la segunda se arregla escribiendo. Dos de los tres huecos se cerraron solos al corregir el texto,
+asi que el total sube a 1988 y los huecos bajan a 84.
+
+1. **El `laboratorio` de la hipertension portal** decia "trombocitopenia (marcador indirecto mas
+   sensible)", y eso le atribuye una capacidad de descartar que la AASLD 2024 niega. Ahora dice lo
+   que la guia si sostiene: que el recuento aislado no basta y que su valor esta en combinarlo con
+   la elastografia, con los dos pares de cortes de la "Rule of Five" (plaquetas <150 000 con 20-25
+   kPa, o <110 000 con 15-20 kPa, presumen HPCS; >150 000 con <15 kPa la descartan). **Cita [23]**.
+2. **El `tx_farmacologico` del ACLF** recomendaba corticoides para la hepatitis alcoholica grave sin
+   ninguna de las dos exclusiones que la EASL convierte en recomendacion fuerte. Ahora las lleva, y
+   lleva tambien el "si se dan, vigilancia estrecha de infeccion". De paso aparecio que la clausula
+   del hepatorrenal, que esa guia no cubre, **si la sostiene la fuente 6 del propio tema**: "The
+   treatment of choice for HRS-AKI is vasoconstrictor drugs in combination with albumin. The
+   preferred drug is terlipressin". **Cita [6, 22]**, una por clausula.
+3. **El G-CSF de `anemia-aplasica`**, y aqui la correccion fue mas grande de lo que parecia. El aviso
+   se habia escrito contra la recomendacion 42 de la IDSA, pero **la guia propia de la enfermedad es
+   mas tajante**: la BSH 2024 dice "Erythropoietin and granulocyte colony-stimulating factor (G-CSF)
+   are invariably ineffective in AA patients" y "In SAA and VSAA, G-CSF given along with ATG and
+   ciclosporin does not improve long-term outcomes and complications". Buscando TODAS las menciones
+   del tema (la leccion del tren de cuatro) salieron **tres** sitios que lo ofrecian: el
+   `tx_farmacologico` de la forma grave, el de la ficha de infecciones y un paso del `algoritmo`.
+   Los tres reescritos. Las otras dos menciones no se tocaron porque ya decian lo correcto, que el
+   uso prolongado de G-CSF es factor de riesgo de evolucion clonal, y ahora el tema concuerda consigo
+   mismo. **Citas [6, 7, 8, 16] y [16, 17]**.
+
+Lo que deja esto como metodo: **de los tres avisos de contenido, ninguno era un hueco de cita**. Eran
+tres textos que habia que ajustar, y en dos casos el ajuste devolvio la cita. Conviene mirar los
+avisos de contenido antes que los huecos: salen mas baratos y dejan mejor la app.
+
+Sigue en pie un aviso menor que no se toco: ni la IDSA ni la BSH **fijan la ventana de la primera
+hora** para el antibiotico empirico que los dos campos de neutropenia febril dan por sentada (el
+unico "within 1 h" de la IDSA habla de llegar a un centro medico). No se cambio porque no es una
+contradiccion, es una practica estandar sin fuente en el tema.
+
+### El enunciado original de las tres preguntas
 
 Las tres salieron de leer los pasajes, no de medir nada, y las tres estan anotadas junto a su cita:
 
@@ -446,9 +484,9 @@ a medias.
 | `sindromes-mieloproliferativos` | 8 | 16 | los criterios de la prefibrotica y del IWG-MRT no estan en el documento de la OMS, y el resto lo cubriria la NCCN de LMA, prohibida por licencia |
 | `anemias-hemoliticas-adquiridas` | 12 | 16 | Brodsky (13) para la trombosis de la HPN: **PMC solo da su resumen** (PMC4215311); mas la de sobrecarga de hierro |
 | `vasopresores-sedantes` | 14 | 8 | **10 son dosis y presentaciones: ninguna guia las da.** Hace falta una referencia de dosificacion y el formulario institucional |
-| `cirrosis-hepatica` | 24 | 24 | O Leary (13), EASL vascular (12), EASL descompensada (5), Fallon (10), ILTS (11) y Guichelaar (15): **ninguna tiene texto completo en PMC y el sitio de la revista responde 403** |
+| `cirrosis-hepatica` | 22 | 24 | O Leary (13), EASL vascular (12), EASL descompensada (5), Fallon (10), ILTS (11) y Guichelaar (15): **ninguna tiene texto completo en PMC y el sitio de la revista responde 403** |
 
-Total: **86 huecos en 14 temas**. La columna de la derecha ya no dice "si se sabe": se midio. En
+Total: **84 huecos en 14 temas**. La columna de la derecha ya no dice "si se sabe": se midio. En
 nueve de los catorce lo que falta es una fuente que **no se puede leer** (no esta en el repositorio,
 no esta abierta en PubMed Central, o su licencia prohibe usarla), y en tres no hay nada que citar
 porque el campo no afirma nada.
