@@ -5,13 +5,46 @@
 # Un archivo mal formado se rechaza en el despliegue, y ya sabemos lo que cuesta un despliegue
 # que falla en silencio (ver .claude/revision-general-2026-11.md, el 16 de octubre de 2026).
 #
-# NO hay Content-Security-Policy todavia, y es una omision deliberada: la app tiene 104 onclick
-# en linea, asi que la politica necesitaria 'unsafe-inline' para scripts, y ademas hay que
-# enumerar bien cada destino (www.gstatic.com para el SDK de Firebase, fonts.googleapis.com y
-# fonts.gstatic.com para la tipografia, identitytoolkit / securetoken / firestore de
-# googleapis.com para auth y datos). Equivocarse en uno de esos deja a los residentes sin poder
-# iniciar sesion, y eso no se puede comprobar sin una sesion real. Va por separado y verificado.
-
+# CONTENT-SECURITY-POLICY, 2/11/2026. Va en modo REPORT-ONLY a proposito: asi el navegador
+# informa de lo que habria bloqueado y NO bloquea nada, de modo que una lista de destinos
+# incompleta no puede dejar a un residente sin iniciar sesion. Era justo lo que mantenia este
+# punto abierto desde octubre.
+#
+# COMO PASARLA A OBLIGATORIA, cuando se haya usado la app unos dias con sesion real: abrir
+# miosler.com con la consola del navegador abierta, iniciar sesion, entrar a un tema, escribir una
+# nota y abrir un video; si no aparece ni un aviso de "Content Security Policy" (los avisos de
+# report-only dicen "would have been blocked"), renombrar la cabecera a Content-Security-Policy
+# sin el sufijo. Si aparece alguno, anadir ESE destino y repetir. No pasarla a obligatoria sin
+# haber iniciado sesion al menos una vez: la puerta de acceso es lo unico que puede dejar a
+# alguien fuera.
+#
+# DE DONDE SALE CADA DESTINO (del codigo, no de suposiciones):
+#   script-src www.gstatic.com   los 3 modulos del SDK de Firebase se importan de ahi
+#                                (firebase-app, firebase-auth y firebase-firestore 12.15.0).
+#   style-src  fonts.googleapis  la hoja de Google Fonts que carga index.html.
+#   font-src   fonts.gstatic     los .woff2 de Newsreader, Source Sans 3 e IBM Plex Mono.
+#   img-src    upload.wikimedia  las 34 imagenes clinicas de Wikimedia de las fichas.
+#   frame-src  www.youtube.com   los videos de Stanford Medicine 25 incrustados en Semiologia.
+#   connect-src los cuatro hosts de Google que usa el SDK: identitytoolkit (registro, acceso y
+#                                correo de recuperacion), securetoken (refresco del token),
+#                                firestore (users/{uid} y las notas por tema) y www.googleapis
+#                                como red de seguridad para variantes del SDK.
+# Comprobado cargando la app en un navegador y mirando los recursos que pide de verdad: al
+# arrancar solo salen fonts.googleapis.com, www.gstatic.com y fonts.gstatic.com. Los enlaces
+# salientes (Merck, Cleveland Clinic, Wikipedia, los audios de la Universidad de Washington,
+# PubMed) son <a href> y la CSP no los gobierna, asi que no hace falta listarlos.
+#
+# UNSAFE-INLINE, y por que no se puede quitar hoy: la app tiene 188 onclick, 5 oninput, 4
+# onchange y 8084 atributos style= escritos en linea, asi que script-src y style-src lo necesitan.
+# Con eso la politica ya no frena un XSS que inyecte un onclick, pero si sirve para tres cosas:
+# acota DE DONDE puede venir el codigo (solo este dominio y gstatic), prohibe eval (no hay
+# ninguno en el codigo desde que se quito Function(entry.action)) y corta la exfiltracion a un
+# host ajeno, que es la segunda mitad de cualquier XSS. Quitarlo exigiria convertir los 188
+# manejadores a addEventListener, que es un trabajo aparte y no una linea.
+#
+# LO QUE HAY QUE TOCAR AQUI SI LA APP CAMBIA: una fuente nueva, una imagen de otro dominio, un
+# video de otro sitio, o los audios de la Universidad de Washington si algun dia se alojan o se
+# incrustan (harian falta media-src y su host).
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
@@ -19,3 +52,4 @@
   Strict-Transport-Security: max-age=31536000
   Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=()
   Cross-Origin-Opener-Policy: same-origin
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://upload.wikimedia.org; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.googleapis.com; frame-src https://www.youtube.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'

@@ -83,7 +83,7 @@ comentado. El README sigue describiendo el archivo como "Calculadoras generales 
 CKD-EPI, Wells, CHA₂DS₂-VASc)". Relacionado con el 3.1 de octubre, que señalaba que no hay Wells
 ni PERC en ninguna calculadora: sigue siendo cierto, y ahora además está mal documentado.
 
-### 1.3 Producción no manda una sola cabecera de seguridad (media) · RESUELTO EN PARTE el 1/11/2026
+### 1.3 Producción no manda una sola cabecera de seguridad (media) · RESUELTO el 2/11/2026
 
 Medido contra el sitio en vivo: `content-security-policy`, `x-content-type-options`,
 `strict-transport-security`, `x-frame-options`, `referrer-policy` y `permissions-policy` están
@@ -99,10 +99,47 @@ aborta el despliegue entero), pero conviene comprobar el build igual, porque hoy
 build fallido no avisa.
 
 **Hecho el 1/11/2026.** `_headers` en la raíz con `X-Content-Type-Options`, `Referrer-Policy`,
-`X-Frame-Options`, HSTS a un año, `Permissions-Policy` y `Cross-Origin-Opener-Policy`. **Queda la
-CSP a propósito**, por lo dicho arriba: necesita `'unsafe-inline'` mientras existan los 104
-`onclick`, y la lista de destinos hay que verificarla con una sesión real para no dejar a nadie
-fuera. El archivo lleva escrito ese razonamiento.
+`X-Frame-Options`, HSTS a un año, `Permissions-Policy` y `Cross-Origin-Opener-Policy`.
+
+**La CSP, el 2/11/2026, y en modo `Report-Only`.** Lo que mantenía este punto abierto era doble:
+hacía falta la lista exacta de destinos, y "verificarla con una sesión real" parecía la única
+manera de no dejar a nadie fuera. Las dos mitades tenían salida.
+
+**La lista sale del código, no de suposiciones.** Medido sobre lo que se publica (descontando
+`graphify-out/`, que no se sirve): el SDK de Firebase 12.15.0 se importa como tres módulos de
+`www.gstatic.com`; la hoja de Google Fonts viene de `fonts.googleapis.com` y sus `.woff2` de
+`fonts.gstatic.com`; las 34 imágenes clínicas externas son todas de `upload.wikimedia.org`; los
+vídeos incrustados son 9 `iframe` de `www.youtube.com`; y el SDK habla con cuatro hosts de Google
+(`identitytoolkit`, `securetoken`, `firestore` y `www.googleapis.com`). **No hay un solo `fetch`**
+**a un host externo en todo el código**, ni `eval`, ni `new Function`, ni URIs `data:`, ni
+inyección de estilos en tiempo de ejecución, y `index.html` no tiene ni un `<script>` ni un
+`<style>` en línea. Lo demás que aparece en el código son enlaces salientes (`<a href>` a Merck,
+Cleveland Clinic, Wikipedia, PubMed y los audios de la Universidad de Washington), y la CSP no
+gobierna la navegación, así que no hay que listarlos. El `xmlns` de los SVG (`www.w3.org`) tampoco
+es una petición de red.
+
+**Y el riesgo de dejar a alguien fuera se quita con `Report-Only`**: el navegador informa de lo que
+habría bloqueado y no bloquea nada. El propio archivo explica cómo pasarla a obligatoria después
+de unos días de uso con sesión real, y por qué no hacerlo sin haber iniciado sesión al menos una
+vez.
+
+**Pero antes de publicarla se probó en modo OBLIGATORIO**, que es más fuerte que confiar en el
+informe: se cargó la app en el navegador con la política inyectada como `<meta>` en el mismo
+origen, y bajo ella arrancó limpia (sin un solo mensaje en consola), cargó las 61 fuentes y los
+tres módulos del SDK, **cargaron dos imágenes reales de Wikimedia a 960 px**, **cargó un `iframe`**
+**de YouTube** y **se registró el service worker**. Con dos controles negativos para demostrar que
+la política estaba de verdad activa y no ignorada: un `<script>` de `cdn.jsdelivr.net` y una imagen
+de `example.com`, **los dos bloqueados**, con el mensaje de consola nombrando la directiva
+(`script-src 'self' 'unsafe-inline' https://www.gstatic.com`). Lo único que no se puede probar sin
+sesión es el intercambio con `identitytoolkit`/`securetoken`/`firestore`, que es exactamente para
+lo que está el `Report-Only`.
+
+**`'unsafe-inline'` sigue siendo necesario, y hoy son más de los 104 que decía este informe**: hay
+**188 `onclick`**, 5 `oninput`, 4 `onchange`, 1 `onerror` y **8084 atributos `style=`**. Con
+`'unsafe-inline'` la política ya no frena un XSS que inyecte un `onclick`, pero sí acota de dónde
+puede venir el código, prohíbe `eval` y corta la exfiltración a un host ajeno, que es la segunda
+mitad de cualquier XSS. Quitarlo es convertir 188 manejadores a `addEventListener`: un trabajo
+aparte, no una línea.
 
 ### 1.4 El examen simulado se rompia con los casos en cascada (critica) · RESUELTO el 1/11/2026
 
@@ -633,6 +670,9 @@ _(Los metadatos de Inicio, que abrian esta lista, se cerraron el 1 de noviembre:
 
 **A medias: necesitan una sesion real**
 
-- **La CSP (parte de 1.3).** Necesita la lista exacta de destinos y una sesion real para
-  comprobar que nadie se queda sin iniciar sesion. Las otras seis cabeceras ya estan puestas y
-  verificadas en produccion; esta es la unica que puede dejar a alguien fuera si se escribe mal.
+- ~~**La CSP (parte de 1.3).**~~ **Cerrada el 2/11/2026, en modo `Report-Only`.** La premisa de este
+pendiente era que hacía falta una sesión real: con `Report-Only` no hace falta, porque no puede
+bloquear nada. La lista de destinos se sacó del código y se probó la política en modo obligatorio
+en el navegador, con controles negativos. Lo que queda es **tuyo y de un minuto**: usar la app unos
+días con la consola abierta y, si no sale ningún aviso, quitarle el sufijo `-Report-Only` a la
+cabecera. Las instrucciones están escritas en el propio `_headers`.
