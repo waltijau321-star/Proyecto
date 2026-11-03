@@ -36,6 +36,14 @@ Lo que se ejecutó para este informe:
 > barrido de 816 fichas y 494 estigmas otra vez en cero anomalías. Lo que sigue abierto, y por
 > qué, está en la sección 7.
 
+> **Qué ha cambiado desde que se escribió este informe.** Las cifras de arriba y de la sección 0
+> son la foto del 1 de noviembre y se dejan como estaban, porque son el registro de lo que se
+> ejecutó ese día. Lo que vale hoy: **107 temas** (entra `endocarditis-infecciosa` el 3/11) y la
+> suite en **2839/2839**, no 106 y 2391. En citas, **2021 de 2105 campos de la regla mínima
+> (96,0%)**, con 84 huecos en 14 temas. Y el apartado 2.6 cambió de conclusión: **afinar las citas
+> de ficha a campo ya no es un pendiente**, porque medirlo demostró que hacerlo borraría citas
+> correctas. Si vas a trabajar en las citas, lee eso antes.
+
 ---
 
 ## 0. Lo que está sólido (medido, no supuesto)
@@ -393,9 +401,42 @@ mas 51 atribuciones a mano que cerraron Semiologia 9 de 9.
 **Lo que queda, con honestidad: de los 1962, unos 1250 estan atribuidos a nivel de FICHA y no de
 campo.** La cita dice que la ficha se apoya en esas fuentes, no que ese campo salga de esa fuente.
 Es fiel a lo que el autor declaro y es un salto frente a no pintar nada, pero no es lo mismo que
-las 111 hechas a mano leyendo cada campo. Afinarlas es trabajo de leer fuentes y sigue abierto.
+las 111 hechas a mano leyendo cada campo.
 
-**Quedan 110 huecos en 15 temas** (eran 131 el mismo dia; se cerraron 23, se retiraron 3 por
+**AFINARLAS ERA EL PENDIENTE EQUIVOCADO, y eso se midio la tarde del 2/11/2026: este pendiente se
+cierra RECONOCIENDOLO, no haciendolo.** Se intento mecanizar el afinado con el mismo criterio que
+habia funcionado a mano, quedarse con la fuente cuyo asunto aparece en el texto del campo, y el
+metodo se cayo al revisar sus propias propuestas una por una: **de las 16 primeras hubo que
+rechazar 13**. La razon es estructural y no del metodo: un campo tiene varias clausulas y **cada
+una se apoya en una fuente distinta**. En `anemia-ferropenica`, "perfil de hierro de control tras
+el ensayo terapeutico" es del estudio de Stoffel y "en la sospecha de IRIDA, hepcidina serica" es
+del paper de TMPRSS6: las dos sostienen el campo. En la hemoglobinuria paroxistica el campo dice
+"eculizumab o ravulizumab" y hay una fuente para cada uno. **La evidencia de que la fuente 15 sirve
+no prueba que la 14 no sirva**, y la regla estaba construida como si lo probara. De los 1288 que
+citaban dos o mas, en **1221 no hay ninguna evidencia textual** que permita distinguir: estrechar
+ahi borraria citas correctas, que es el error contrario al que este apartado persigue.
+
+**Medido de nuevo el 3/11/2026 sobre los 107 temas** (en el navegador, que es la medida
+autoritativa): de los **2021** campos atribuidos de la regla minima, **760 citan una sola fuente**
+y no tienen nada que afinar, **727 citan dos** y **534 citan tres o mas**. Es decir que el
+pendiente nunca fue "leer quince fuentes por campo", y de los 1261 que citan varias, en la gran
+mayoria la cita a nivel de ficha **ES el nivel honesto**.
+
+**Lo que SI era un defecto, y aparecio leyendo las propuestas rechazadas: la cita del GENERO
+EQUIVOCADO.** No es imprecision, es una cita que no sostiene lo que se le atribuye, que es
+exactamente el defecto de `urticaria`. `diabetes-mellitus` citaba CREDENCE, DAPA-CKD y FIDELIO
+(tres ensayos de tratamiento) en una tabla de `criterios_dx`; `delirium-coma-encefalopatias`
+citaba el metodo CAM de Inouye, un instrumento diagnostico, en `tx_farmacologico`;
+`coagulacion-trombofilias` citaba el ISTH-BAT, una escala de sangrado, en el tratamiento de von
+Willebrand; y `anemia-aplasica` citaba tres ensayos en un `laboratorio` sobre panel viral y
+citometria. Se clasifico cada referencia por su genero (criterios o escala / ensayo de farmacos /
+guia o revision, que vale para cualquier campo) y salieron **165 cruces en 53 temas**; **se
+corrigieron 140 en 44 temas** exigiendo cuatro condiciones a la vez, y **quedan 25 sin tocar a
+proposito**, los que no las cumplen. Las cuatro condiciones, el detalle tema por tema y los 36
+casos escritos a mano que no se tocaron estan en `.claude/atribucion-citas.md`.
+
+**Quedaban 110 huecos en 15 temas** al escribir esto; **hoy son 84 en 14**, tras la tercera tanda
+de esa misma tarde (eran 131 al empezar el dia; se cerraron 23, se retiraron 3 por
 equivocadas y una volvio al arreglar el texto del campo), en `ATRIB_PENDIENTES` de `tests.js` y
 en `.claude/atribucion-citas.md`.
 
@@ -534,7 +575,8 @@ queda es que las preguntas sueltas suban su propio 12.7%.
 
 ## 4. Cobertura por bloque
 
-156 de 318 ítems, descontando el bloque duplicado R1.
+157 de 318 ítems, descontando el bloque duplicado R1 (eran 156; el 3/11/2026 entra la endocarditis
+infecciosa, que abre el bloque de Infectología).
 
 | Bloque | Cubierto |
 |---|---|
@@ -545,7 +587,7 @@ queda es que las preguntas sueltas suban su propio 12.7%.
 | Cardiovascular | 18% (4/22) |
 | Habilidades y procedimientos | 6% (1/16) |
 | Gastroenterología y Hepatología | 5% (1/22) |
-| Infectología | **0% (0/20)** |
+| Infectología | **5% (1/20)** |
 | Reumatología e Inmunología | **0% (0/16)** |
 | Farmacología y Toxicología | **0% (0/11)** |
 | Paliativos y Bioética | 0% (0/10) |
@@ -555,8 +597,12 @@ queda es que las preguntas sueltas suban su propio 12.7%.
 | Ambulatoria y Preventiva | 0% (0/4) |
 
 Nefrología pasó de cero a 56% desde octubre, con el patrón de construcción ya probado. Las dos de
-mayor rendimiento por tema construido siguen siendo **Infectología** y **Reumatología**, que
-suman 36 ítems entre las dos y están las dos en cero.
+mayor rendimiento por tema construido siguen siendo **Infectología** y **Reumatología**, que suman
+36 ítems entre las dos. Infectología dejó de estar en cero el 3/11/2026 con el módulo 121,
+endocarditis infecciosa, elegido con el plan previo de `.claude/infectologia-fuentes.md` porque era
+el único del bloque que podía nacer cumpliendo la regla mínima de citas sin depender de una fuente
+que falte; quedan 18 de sus 19 módulos. Reumatología sigue entera en cero, con su plan escrito en
+`.claude/reumatologia-fuentes.md`.
 
 ---
 
@@ -616,18 +662,24 @@ de donde venia cada arreglo.
     juicio se quedo sin tocar a proposito.
 12. La CSP, la parte de 1.3 que no se pudo cerrar. **Pendiente**, ver la seccion 7.
 13. ~~Las citas (2.6).~~ **Cerrado en su mayor parte el 2/11/2026: 1962 de 2072 campos (94.7%)
-    y 91 de 106 temas completos.** La mayor parte no eran citas que faltaran sino la forma plana de
-    `compCites`, que el motor ancla solo a `definicion`: 62 temas y 427 fichas con las fuentes
-    declaradas y sin pintar. Siguen abiertas dos cosas: **afinar a nivel de campo los ~1250
-    atribuidos a nivel de ficha** y los **110 huecos de 15 temas** (eran 131; se cerraron 23, se
-    retiraron 3 por equivocadas al releer los pasajes y una volvio al arreglar el texto, y la
-    premisa con que se habian dejado era falsa: ver 2.6).
+    y 91 de 106 temas completos**, y **2021 sobre 107 temas** desde el 3/11. La mayor parte no eran
+    citas que faltaran sino la forma plana de `compCites`, que el motor ancla solo a `definicion`:
+    62 temas y 427 fichas con las fuentes declaradas y sin pintar. De las dos cosas que este punto
+    daba por abiertas, **una se cerro reconociendola**: ~~afinar a nivel de campo los ~1250
+    atribuidos a nivel de ficha~~ **no hay que hacerlo**, porque de los 1288 que citaban varias
+    fuentes en 1221 no hay evidencia textual que distinga y estrechar borraria citas correctas
+    (ver 2.6). El defecto real era otro, la cita del **genero equivocado**: 165 cruces, 140
+    corregidos, 25 dejados a proposito. Sigue abierto solo lo otro: los **84 huecos de 14 temas**
+    (eran 131; la premisa con que se habian dejado era falsa, ver 2.6), que dependen de fuentes que
+    no estan en `Bibliografia/` ni abiertas en PMC.
 14. El candado de las fichas (2.4). **Pendiente**, y es una decision del autor entre dos
     alternativas, ver la seccion 7.
 
 **Este trimestre**
-15. Infectologia y Reumatologia, los dos bloques en cero de mayor rendimiento (36 items entre los
-    dos).
+15. Infectologia y Reumatologia, los dos bloques de mayor rendimiento (36 items entre los dos).
+    **Empezado el 3/11/2026**: el modulo 121, endocarditis infecciosa, deja Infectologia en 1/20.
+    Lo siguiente del bloque es el 122 (VIH y oportunistas), que ademas alimenta al 133 y al 135.
+    Reumatologia sigue en cero y su plan dice empezar por lupus.
 16. Decidir la norma de las fichas: 32 por tema, o cobertura del tema. **Es una decision del
     autor**, no un defecto, y es distinta del candado del punto 14: esta es cuantas fichas lleva
     un tema, aquella es cuando se desbloquean.
@@ -653,17 +705,30 @@ _(Los metadatos de Inicio, que abrian esta lista, se cerraron el 1 de noviembre:
 - **Las citas (2.6): cerradas al 94.7%, y lo que queda es de precision, no de cobertura.** 1962
   de 2072 campos y 91 de 106 temas completos (2/11/2026, ver 2.6). Quedan dos cosas, y conviene no
   confundirlas:
-  - **afinar a nivel de campo los ~1250 que estan atribuidos a nivel de ficha.** La cita dice que
-    la ficha se apoya en esas fuentes, no que ese campo salga de esa fuente. Esto si es leer
-    fuentes tema por tema, y en los temas con 15 o 16 es trabajo de verdad;
-  - los **110 huecos de 15 temas** listados en `ATRIB_PENDIENTES` (eran 131). Lo de "exige
-    fuentes nuevas, no reparto" era falso: en 9 de los 15 temas la fuente ya esta, o declarada en
-    el propio tema o en `Bibliografia/` sin usar, y la tabla de `.claude/atribucion-citas.md`
-    nombra ahora la fuente candidata de cada uno. Lo que sigue en pie es no adivinar: cada cita se
-    verifica buscando en el PDF lo que el campo afirma, o se deja el hueco. Una cita equivocada
-    sigue siendo peor que un hueco.
-- **La cobertura (seccion 4).** Es escribir temas nuevos. Infectologia (0/20) y Reumatologia
-  (0/16) son los dos bloques de mayor rendimiento, 36 items entre los dos.
+  - ~~**afinar a nivel de campo los ~1250 que estan atribuidos a nivel de ficha.**~~ **CERRADO
+    el 2/11/2026, y se cierra RECONOCIENDOLO, no haciendolo.** Afinar la gran mayoria seria
+    EMPEORARLAS: un campo tiene varias clausulas y cada una se apoya en una fuente distinta, de
+    modo que la evidencia de que una fuente sirve no prueba que la otra no sirva. De los 1288 que
+    citaban dos o mas, en **1221 no hay ninguna evidencia textual** que distinga, y estrechar ahi
+    borraria citas correctas. El metodo se cayo al revisar sus propias propuestas: **de las 16
+    primeras hubo que rechazar 13**. Medido de nuevo el 3/11 sobre 107 temas: de los 2021 campos
+    atribuidos, 760 citan una sola fuente y no tienen nada que afinar. **Si alguien reabre este
+    punto, que lea antes `.claude/atribucion-citas.md`**: hacerlo es una regresion, no una mejora.
+    Lo que SI era defecto es la cita del **genero equivocado** (un ensayo de farmacos en
+    `criterios_dx`, un instrumento diagnostico en `tx_farmacologico`): 165 cruces en 53 temas, 140
+    corregidos en 44, y **25 dejados a proposito** porque no cumplen las cuatro condiciones que
+    hacen defendible quitar una cita;
+  - los **84 huecos de 14 temas** listados en `ATRIB_PENDIENTES` (eran 131, luego 110). Lo de
+    "exige fuentes nuevas, no reparto" era falso: en 9 de los 15 temas de entonces la fuente ya
+    esta, o declarada en el propio tema o en `Bibliografia/` sin usar, y la tabla de
+    `.claude/atribucion-citas.md` nombra la fuente candidata de cada uno. Lo que sigue en pie es no
+    adivinar: cada cita se verifica buscando en el PDF lo que el campo afirma, o se deja el hueco.
+    Una cita equivocada sigue siendo peor que un hueco. **Lo que queda hoy depende de una fuente
+    que no esta**: la licencia de la NCCN, ocho papers sin texto completo en PMC, dos con solo
+    resumen, una revista que responde 403 y la 5.a edicion de la TIF, que cerraria 9 de una vez.
+- **La cobertura (seccion 4).** Es escribir temas nuevos. Infectologia (**1/20** desde el 3/11,
+  con el modulo 121 de endocarditis) y Reumatologia (0/16) siguen siendo los dos bloques de mayor
+  rendimiento, 35 items por hacer entre los dos. Los dos tienen su plan de fuentes escrito.
 - **Los objetivos de aprendizaje por tema.** Venia del informe de octubre (su 2.5) y sigue sin
   empezar. No se habia vuelto a nombrar en ningun sitio salvo el orden sugerido, que es como paso
   inadvertido hasta el 1 de noviembre.

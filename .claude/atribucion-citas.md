@@ -30,8 +30,10 @@ tengan contenido (y no sean "No aplica"):
 Son los tres donde una afirmacion sin fuente pesa mas junto a la cama del paciente. Los demas
 campos siguen la convencion anterior: se atribuyen cuando el autor quiere marcar algo.
 
-**Alcance:** 2072 campos en los 106 temas. Un tema nuevo nace cumpliendola, que es mucho mas
-barato que volver meses despues (ver el parrafo de `CLAUDE.md`).
+**Alcance:** 2072 campos en los 106 temas; **2105 en los 107 desde el 3/11/2026**, cuando entro
+`endocarditis-infecciosa` con sus 33 campos y **a cero huecos**, que es la prueba de que un tema
+nuevo nace cumpliendola. Eso es mucho mas barato que volver meses despues (ver el parrafo de
+`CLAUDE.md`).
 
 ## El trinquete
 
@@ -41,8 +43,9 @@ reves, que es mas fuerte: en vez de enumerar los temas completos, enumera los PE
 
 1. Ningun indice apunta fuera de la bibliografia de su tema.
 2. Ninguna cita cuelga de un campo que la ficha no tiene.
-3. El total de campos atribuidos no baja de la marca (1962), salvo que se retire una cita
-   por equivocada, y entonces se escribe el motivo en `tests.js` con la frase de la fuente.
+3. El total de campos atribuidos no baja de la marca (**2021** desde el 3/11/2026; era 1962),
+   salvo que se retire una cita por equivocada, y entonces se escribe el motivo en `tests.js` con
+   la frase de la fuente.
 4. Ningun tema de la lista de pendientes empeora, y todo tema fuera de ella esta a cero.
 
 Asi el trabajo se hace por bloques sin que nada se desande y sin dejar la suite en rojo mientras
@@ -71,7 +74,34 @@ ejemplos de este primer bloque:
 del tema cubre de verdad. Eso no se arregla atribuyendo, se arregla consiguiendo la fuente (o
 aceptando el limite y dejandolo escrito, como ya se hizo en la cabecera de esos `content.js`).
 
-## Estado a 2 de noviembre de 2026
+## Estado a 3 de noviembre de 2026
+
+Medido en el navegador sobre los 107 temas, que es la medida autoritativa:
+
+| | |
+|---|---|
+| Campos de la regla | 2105 |
+| Atribuidos | **2021** (96.0%) |
+| Huecos | 84, en **14** temas |
+| Temas completos | **93** de 107 |
+
+Lo unico que cambia respecto al 2 de noviembre es que entro `endocarditis-infecciosa` con 33
+campos y **cero huecos**: los 84 huecos son exactamente los mismos de entonces, y siguen siendo
+los que dependen de una fuente que no esta (ver "Lo que NO se cerro").
+
+### El reparto de la precision, medido el 3/11 sobre los 2021
+
+| | |
+|---|---|
+| Citan **una sola** fuente: no hay nada que afinar | **760** (38%) |
+| Citan **dos** | **727** (36%) |
+| Citan **tres o mas** | **534** (26%) |
+
+Sirve para dimensionar lo que dice el apartado de mas abajo: el pendiente de "afinar" nunca fue
+leer quince fuentes por campo, y en la gran mayoria de los 1261 que citan varias **la cita a nivel
+de ficha es el nivel honesto**.
+
+### Estado anterior, a 2 de noviembre de 2026
 
 | | |
 |---|---|
