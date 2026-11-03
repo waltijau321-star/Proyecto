@@ -134,6 +134,16 @@ de `example.com`, **los dos bloqueados**, con el mensaje de consola nombrando la
 sesión es el intercambio con `identitytoolkit`/`securetoken`/`firestore`, que es exactamente para
 lo que está el `Report-Only`.
 
+**Y el `Report-Only` encontró algo en su primera carga en producción, que es la mejor defensa de
+haberlo publicado así**: Cloudflare inyecta en la respuesta el beacon de Web Analytics
+(`static.cloudflareinsights.com/beacon.min.js`), que **no está en el repositorio** y por tanto no
+aparecía ni en el inventario del código ni en la prueba local. Con una política obligatoria se
+habría quedado bloqueado en silencio. Se añadieron sus dos entradas (`script-src` para el script y
+`connect-src` para `cloudflareinsights.com`, que es donde reporta) y queda escrito en `_headers`
+que si algún día se apaga Web Analytics en el panel de Cloudflare esas dos entradas se pueden
+quitar. Moraleja para la próxima cabecera: el inventario del código no incluye lo que el CDN añade
+por su cuenta.
+
 **`'unsafe-inline'` sigue siendo necesario, y hoy son más de los 104 que decía este informe**: hay
 **188 `onclick`**, 5 `oninput`, 4 `onchange`, 1 `onerror` y **8084 atributos `style=`**. Con
 `'unsafe-inline'` la política ya no frena un XSS que inyecte un `onclick`, pero sí acota de dónde

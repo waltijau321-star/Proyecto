@@ -25,6 +25,12 @@
 #   font-src   fonts.gstatic     los .woff2 de Newsreader, Source Sans 3 e IBM Plex Mono.
 #   img-src    upload.wikimedia  las 34 imagenes clinicas de Wikimedia de las fichas.
 #   frame-src  www.youtube.com   los videos de Stanford Medicine 25 incrustados en Semiologia.
+#   static.cloudflareinsights.com y cloudflareinsights.com: el beacon de Cloudflare Web Analytics.
+#                                NO esta en el repositorio: lo inyecta Cloudflare en la respuesta,
+#                                asi que no aparecio al inventariar el codigo ni al probar en local,
+#                                y lo delato el primer report-only de produccion. Si algun dia se
+#                                apaga Web Analytics en el panel de Cloudflare, estas dos entradas
+#                                se pueden quitar.
 #   connect-src los cuatro hosts de Google que usa el SDK: identitytoolkit (registro, acceso y
 #                                correo de recuperacion), securetoken (refresco del token),
 #                                firestore (users/{uid} y las notas por tema) y www.googleapis
@@ -52,4 +58,4 @@
   Strict-Transport-Security: max-age=31536000
   Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=()
   Cross-Origin-Opener-Policy: same-origin
-  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://upload.wikimedia.org; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.googleapis.com; frame-src https://www.youtube.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://upload.wikimedia.org; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.googleapis.com https://cloudflareinsights.com; frame-src https://www.youtube.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'
