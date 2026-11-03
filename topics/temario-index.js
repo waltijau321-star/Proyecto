@@ -211,7 +211,7 @@ export const temarioBlocks = [
     title: 'X. Enfermedades Infecciosas',
     intro: 'Diagnóstico sindrómico, uso racional de antimicrobianos y manejo del huésped inmunocomprometido.',
     clusters: [
-      { name: 'Infecciones frecuentes por sistema', items: ['Infecciones del tracto urinario', 'Infecciones de piel y tejidos blandos', 'Micosis superficiales (tiña, pitiriasis versicolor, onicomicosis)', 'Infecciones osteoarticulares', 'Endocarditis infecciosa', 'Infecciones de transmisión sexual (sífilis, uretritis)', 'Infecciones por herpesvirus (herpes simple, herpes zóster, mononucleosis infecciosa)'] },
+      { name: 'Infecciones frecuentes por sistema', items: ['Infecciones del tracto urinario', 'Infecciones de piel y tejidos blandos', 'Micosis superficiales (tiña, pitiriasis versicolor, onicomicosis)', 'Infecciones osteoarticulares', { label: 'Endocarditis infecciosa', topicId: 'endocarditis-infecciosa' }, 'Infecciones de transmisión sexual (sífilis, uretritis)', 'Infecciones por herpesvirus (herpes simple, herpes zóster, mononucleosis infecciosa)'] },
       { name: 'Huésped inmunocomprometido', items: ['VIH/SIDA e infecciones oportunistas', 'Infecciones en el paciente neutropénico y trasplantado'] },
       { name: 'Principios generales', items: ['Uso racional de antimicrobianos y resistencia antimicrobiana', 'Vacunación en el adulto'] },
       { name: 'Infecciones tropicales, zoonosis y parasitosis', items: [

@@ -118,9 +118,32 @@ comprobados abriendo la carpeta y no suponiendo:
 - **126, osteoarticulares.** Berbari cubre la osteomielitis vertebral y EBJIS/SANJO la artritis
   séptica; la **infección de prótesis articular** no la cubre ninguna de las dos.
 
-## Por dónde empezar
+## Estado
 
-**El 121, endocarditis infecciosa**, y por cuatro razones que se refuerzan: la guía está en el
+**121, endocarditis infecciosa: CONSTRUIDO el 3/11/2026.** `topics/endocarditis-infecciosa/`,
+40 preguntas, 32 fichas de memoria, 11 fichas de contenido, 5 calculadoras y 2 figuras, con la
+ESC 2023 como fuente de casi todo y **cero huecos** en la regla mínima de citas (`ATRIB_TOTAL_MINIMO`
+pasa de 1988 a 2021). Tres cosas que conviene saber antes de escribir el siguiente módulo:
+
+- la bibliografía quedó en **tres** fuentes, no en una, pero las otras dos se usan en un solo sitio
+  cada una y solo donde se leyó el pasaje: los **Duke-ISCVID 2023** (Fowler, *Clin Infect Dis*
+  77(4):518-526) para la escala que compara los dos juegos de criterios de 2023, y la **ESC/EACTS
+  2021 de valvulopatía** para la reoperación de la fuga paravalvular (I C). Esa segunda remite
+  expresamente el manejo de la endocarditis a la guía de endocarditis, así que colgarle algo más
+  habría sido el defecto de `urticaria` otra vez;
+- del Duke-ISCVID **no hay texto completo abierto**: PMC10681650 devuelve el resumen sin cuerpo. Lo
+  que sostiene es exactamente lo que dice ese resumen (inspección intraoperatoria como criterio
+  mayor nuevo, lista ampliada de microorganismos típicos y retirada de los requisitos de separación
+  temporal y venopunción distinta para los hemocultivos), y eso está escrito en la cabecera del
+  `content.js`;
+- la ficha de la endocarditis **derecha** no se rige por la cuadrícula de la izquierda: el umbral
+  de vegetación es de 20 mm y las indicaciones quirúrgicas son otras tres. La calculadora del
+  momento de la cirugía lo dice en el propio formulario en vez de esconderlo en el resultado.
+
+## Por dónde seguir
+
+El 121 ya está. Se eligió **por cuatro razones** que siguen valiendo como criterio para el
+siguiente: la guía está en el
 repo, es **de 2023 y completa** (95 páginas con recomendaciones graduadas, que es lo que permite
 escribir `criterios_dx` citando el grado), es un tema clásico de medicina interna que la app
 menciona **26 veces en 7 temas sin poder abrirlo**, y es el único módulo del bloque que puede

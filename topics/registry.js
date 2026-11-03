@@ -859,6 +859,14 @@ export const registry = [
       import('./nefropatia-diabetica-hipertensiva/calculators.js'),
       import('./nefropatia-diabetica-hipertensiva/study.js')
     ])
+  },
+  {
+    id: 'endocarditis-infecciosa', titulo: 'Endocarditis Infecciosa', accent: '#7a2f52', preguntas: 40,
+    load: () => Promise.all([
+      import('./endocarditis-infecciosa/content.js'),
+      import('./endocarditis-infecciosa/calculators.js'),
+      import('./endocarditis-infecciosa/study.js')
+    ])
   }
 ];
 

@@ -2305,7 +2305,10 @@ async function run() {
     'anemias-hemoliticas-adquiridas': 12, 'vasopresores-sedantes': 14,
     'cirrosis-hepatica': 22
   };
-  const ATRIB_TOTAL_MINIMO = 1988;
+  // 3/11/2026: +33 al nacer `endocarditis-infecciosa` (modulo 121), que entra a cero huecos. Sus
+  // 11 fichas llevan los tres campos de la regla minima citados contra la ESC 2023, que es un
+  // documento unico que cubre diagnostico, microbiologia, antibioticos, cirugia y seguimiento.
+  const ATRIB_TOTAL_MINIMO = 2021;
 
   const atribPorTema = {};
   let atribTotal = 0, atribCampos = 0;
@@ -2524,7 +2527,7 @@ async function run() {
     // 'valoracion-preoperatoria' entra sin reescritura porque la auditoría lo encontró ya en
     // regla (37.5% / 0.98x / 8.3% / 0 atípicas). Sirve de prueba de que los umbrales son
     // alcanzables con contenido clínico real, no un ideal teórico.
-    const REVISADOS = new Set(['nefropatia-diabetica-hipertensiva', 'glomerulopatias-sindromes-glomerulares', 'sodio-potasio-acido-base', 'enfermedad-renal-cronica', 'valoracion-preoperatoria', 'embolia-grasa',
+    const REVISADOS = new Set(['endocarditis-infecciosa', 'nefropatia-diabetica-hipertensiva', 'glomerulopatias-sindromes-glomerulares', 'sodio-potasio-acido-base', 'enfermedad-renal-cronica', 'valoracion-preoperatoria', 'embolia-grasa',
       'anemia-ferropenica', 'anemia-megaloblastica', 'anemia-enfermedad-cronica',
       'anemias-hemoliticas-hereditarias', 'anemias-hemoliticas-adquiridas', 'anemia-aplasica',
       'hemoglobinopatias', 'policitemia-secundaria', 'porfirias',

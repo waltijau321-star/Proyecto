@@ -14,7 +14,7 @@
      es atómico, bastaba que una sola petición fallara (red móvil, cuota de almacenamiento en
      iOS) para que el install entero se rechazara y el usuario se quedara SIN offline, en
      silencio y sin forma de notarlo. */
-const CACHE_VERSION = 'residentemed-1e2bf0e302';
+const CACHE_VERSION = 'residentemed-82edbf6487';
 const SHELL = [
   './',
   './index.html',
@@ -63,6 +63,9 @@ const SHELL = [
   './protocols/vpo-riesgos.js'
 ];
 const CONTENT = [
+  './topics/endocarditis-infecciosa/content.js',
+  './topics/endocarditis-infecciosa/calculators.js',
+  './topics/endocarditis-infecciosa/study.js',
   './topics/sodio-potasio-acido-base/content.js',
   './topics/sodio-potasio-acido-base/calculators.js',
   './topics/sodio-potasio-acido-base/study.js',
