@@ -344,13 +344,31 @@ export const content = {
 // a esos tres campos las fuentes que la ficha ya declaraba, y `definicion` queda igual para que
 // lo que ya se veia no cambie. La precision es de FICHA, no de campo: afinar cual de las fuentes
 // sostiene cada campo es una pasada posterior (ver .claude/atribucion-citas.md).
+// Cita del 2/11/2026 para el criterios_dx del sindrome post-cuidados intensivos, leida del texto
+// completo de Hermans y Van den Berghe (fuente 6) en PubMed Central (PMC4526175,
+// doi 10.1186/s13054-015-0993-7). Su frase: "ICUAW may be an important contributor to the post
+// intensive care syndrome (PICS). This term includes the physical, mental, and cognitive
+// dysfunctions that are part of the persisting disabilities, which extend beyond the acute
+// hospitalization". Son los tres dominios y el "tras el alta" que pide el campo. La `definicion`
+// ya citaba a Needham (15) y Herridge (16), que son el origen del termino.
+//
+// LOS DOS QUE SE QUEDAN SIN CITA, comprobado leyendo esa revision entera:
+//   - laboratorio (descartar anemia, hipotiroidismo, deficits nutricionales): la revision no
+//     propone ningun cribado de laboratorio para el sindrome. Lo unico que dice de analitica es
+//     que "Creatine kinase may be increased in patients with ICUAW but is not a good biomarker",
+//     que no es lo que el campo manda hacer.
+//   - tx_farmacologico: su apartado de prevencion y tratamiento es entero no farmacologico
+//     (tratar la sepsis, movilizacion precoz, insulina para la glucemia, evitar la nutricion
+//     parenteral la primera semana, estimulacion electrica con evidencia no concluyente) y en
+//     ningun sitio habla de tratar la ansiedad ni la depresion. Que la fuente no ofrezca ningun
+//     farmaco no es lo mismo que que diga que no hay ninguno, asi que no se cita.
 export const compCites = {
   'Debilidad adquirida: reconocerla': { definicion: [1, 2, 4, 5], criterios_dx: [1, 2, 4, 5], laboratorio: [1, 2, 4, 5], tx_farmacologico: [1, 2, 4, 5] },
   'Polineuropatía y miopatía del paciente crítico': { definicion: [3, 6], criterios_dx: [3, 6], laboratorio: [3, 6], tx_farmacologico: [3, 6] },
   'Lo que imita la debilidad adquirida': { definicion: [2, 5], criterios_dx: [2, 5], laboratorio: [2, 5], tx_farmacologico: [2, 5] },
   'Prevención: lo único que funciona': { definicion: [7, 8, 9, 12], criterios_dx: [8, 9], laboratorio: [8, 9], tx_farmacologico: [7, 8, 9, 12] },
   'Debilidad diafragmática y fracaso del destete': { definicion: [13, 14], criterios_dx: [13, 14], laboratorio: [13, 14], tx_farmacologico: [13, 14] },
-  'Síndrome post-cuidados intensivos': { definicion: [15, 16] }
+  'Síndrome post-cuidados intensivos': { criterios_dx: [6], definicion: [15, 16] }
 };
 export const estigmasTitulo = 'Signos que orientan y banderas que no encajan';
 export const estigmas = [

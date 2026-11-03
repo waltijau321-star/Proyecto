@@ -2292,16 +2292,20 @@ async function run() {
   // matiz del tren de cuatro de la guia de bloqueo neuromuscular ("en contra de usarlo solo en
   // infusion continua") se puso en los SEIS sitios del tema que lo mencionan, no solo en los dos
   // que lo citaban: arreglar dos habria dejado el tema contradiciendose.
+  // Al cerrar un bloque se aprietan los dos numeros. 2/11/2026, tercera tanda: 23 huecos menos
+  // (110 -> 87) con fuentes LEIDAS, no deducidas; `anemia-aplasica` sale de la lista porque queda
+  // a cero y pasa a exigirsele cero como a los demas. Lo que no se cerro esta explicado tema por
+  // tema en la cabecera de su content.js y en .claude/atribucion-citas.md: casi todo depende de
+  // una fuente que no esta en Bibliografia/ ni abierta en PMC.
   const ATRIB_PENDIENTES = {
-    'sepsis': 1, 'valoracion-preoperatoria': 1, 'miocardiopatias': 3,
-    'anemia-ferropenica': 3, 'anemia-megaloblastica': 3,
-    'anemia-enfermedad-cronica': 3, 'debilidad-adquirida-uci': 3, 'eccemas': 3,
-    'anemia-aplasica': 6, 'anemias-hemoliticas-hereditarias': 6,
-    'sindromes-mielodisplasicos': 9, 'sindromes-mieloproliferativos': 9,
+    'sepsis': 1, 'valoracion-preoperatoria': 1, 'anemia-ferropenica': 1,
+    'miocardiopatias': 3, 'anemia-megaloblastica': 3, 'anemia-enfermedad-cronica': 3,
+    'debilidad-adquirida-uci': 2, 'eccemas': 3, 'sindromes-mielodisplasicos': 5,
+    'anemias-hemoliticas-hereditarias': 6, 'sindromes-mieloproliferativos': 8,
     'anemias-hemoliticas-adquiridas': 12, 'vasopresores-sedantes': 14,
-    'cirrosis-hepatica': 34
+    'cirrosis-hepatica': 24
   };
-  const ATRIB_TOTAL_MINIMO = 1962;
+  const ATRIB_TOTAL_MINIMO = 1986;
 
   const atribPorTema = {};
   let atribTotal = 0, atribCampos = 0;

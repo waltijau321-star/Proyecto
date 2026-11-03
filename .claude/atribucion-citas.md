@@ -76,9 +76,9 @@ aceptando el limite y dejandolo escrito, como ya se hizo en la cabecera de esos 
 | | |
 |---|---|
 | Campos de la regla | 2072 |
-| Atribuidos | **1962** (94.7%) |
-| Huecos | 110 |
-| Temas completos | **91** de 106 |
+| Atribuidos | **1986** (95.8%) |
+| Huecos | 86 |
+| Temas completos | **92** de 106 |
 
 (El dia anterior eran 1941 y 131 huecos. Tres pasadas el mismo dia: se cerraron 23, se
 **retiraron 3 por equivocadas** al releer los pasajes, y **una volvio al arreglar el texto del
@@ -356,6 +356,73 @@ Los casos ya documentados de antes siguen igual: la paniculitis de `eritemas-rea
 de dermatitis herpetiforme y las de "otros eccemas".
 
 
+## Tercera tanda del 2 de noviembre de 2026: 24 huecos mas, y donde esta el techo
+
+De 110 a **86**, con la misma regla de siempre: se lee el pasaje, se escribe la frase de la fuente
+en la cabecera del `content.js` y, cuando la fuente solo sostiene una clausula incidental, se deja
+el hueco anotado. Ninguna de las 24 se dedujo del titulo de la fuente.
+
+| Tema | Antes | Ahora | Con que |
+|---|---|---|---|
+| `cirrosis-hepatica` | 34 | 24 | AASLD 2024 de hipertension portal y varices (NUEVA, fuente 23, estaba en `Bibliografia/` sin usar), AASLD 2023 de HCC (18), EASL 2023 de ACLF (22) y GLIM 2019 (NUEVA, fuente 24) |
+| `anemia-aplasica` | 6 | **0** | BSH 2024 de aplasica (NUEVA, 16) e IDSA de neutropenia febril (NUEVA, 17), las dos en `Bibliografia/` sin usar |
+| `sindromes-mielodisplasicos` | 9 | 5 | IDSA (NUEVA, 16) y la clasificacion OMS 5a ed. (1), leida en PMC |
+| `anemia-ferropenica` | 3 | 1 | la guia BSG (3), que ya estaba declarada en el tema |
+| `sindromes-mieloproliferativos` | 9 | 8 | clasificacion OMS 5a ed. (1) |
+| `debilidad-adquirida-uci` | 3 | 2 | Hermans (6), leida entera en PMC |
+
+**Lo que confirma el patron del 2 de noviembre**: de los 24, **veintiuno se cerraron con fuentes que
+ya estaban**, cuatro de ellas en `Bibliografia/` sin usar y el resto declaradas en el propio tema.
+Solo dos necesitaron salir a PubMed Central, y las dos estaban ya en la `bibliografia` del tema.
+
+### Tres hallazgos que cambian como se trabaja esto
+
+**1. La guia NCCN no se puede usar, y hay siete en el repositorio.** El PDF de LMA dice en cada
+pagina: "use of this NCCN Content is governed by the End-User License Agreement, and you MAY NOT
+distribute this Content or **use it with any artificial intelligence model or tool**". Se leyo lo
+justo para encontrar la clausula y se dejo ahi, de modo que los 2 huecos de transformacion a LMA de
+`sindromes-mielodisplasicos` y los de `sindromes-mieloproliferativos` siguen abiertos aunque la
+fuente este en el disco. Afecta tambien a los NCCN de colon, esofago, gastrico, pancreas, recto y
+cabeza y cuello. Decision del autor: conseguir otra fuente, o usarla el mismo a mano.
+
+**2. "Esta en PubMed Central" no quiere decir que se pueda leer.** De los nueve articulos que se
+sondearon, solo tres dan texto completo (la OMS 5a ed., Hermans, y el consenso de B12 que resulto
+no servir). **O Leary, las dos EASL, Guichelaar, Needham, Herridge, Cullis, Fan y Krowka no tienen
+PMCID**, y de **Brodsky y Carmel PMC devuelve solo el resumen**. Citar desde un resumen no es leer
+el pasaje, asi que no se hizo. El sitio de la revista tampoco sirve de salida: una peticion al
+texto completo de la EASL de cirrosis descompensada responde **403**.
+
+**3. La fuente que mas rendiria ahora es la TIF 5a edicion (2025)**, las guias de la Thalassaemia
+International Federation: cerraria los **nueve** huecos de "Sobrecarga de hierro transfusional" que
+hay repartidos entre `anemias-hemoliticas-hereditarias`, `anemias-hemoliticas-adquiridas` y
+`anemia-enfermedad-cronica`, que son los mismos tres campos escritos tres veces (ferritina sostenida,
+cuantificacion por RM T2*, y los tres quelantes). No esta en `Bibliografia/`. El unico documento
+abierto que se encontro citando sus umbrales ("maintaining serum ferritin below 1000 ng/mL and
+achieving a cardiac T2* of over 20 milliseconds") es un marco de cribado endocrino pediatrico de
+Pakistan, genero y poblacion equivocados: citarlo seria el defecto de `urticaria` otra vez.
+
+### Y tres preguntas de CONTENIDO que decide el autor
+
+Las tres salieron de leer los pasajes, no de medir nada, y las tres estan anotadas junto a su cita:
+
+- **El `tx_farmacologico` del ACLF recomienda corticoides** para la hepatitis alcoholica grave
+  sobreanadida, y su propia fuente declarada (22) recomienda lo contrario en dos escenarios:
+  "Corticosteroids are not recommended in patients with severe alcohol-related hepatitis and ACLF-3,
+  nor in patients with uncontrolled bacterial infection" (recomendacion fuerte), y anade que "with
+  increasing severity of ACLF, corticosteroid responsiveness is progressively reduced whilst the risk
+  of infection increases". El campo no nombra ninguna de las dos exclusiones. Por eso quedo sin cita.
+- **El `laboratorio` de la hipertension portal llama a la trombocitopenia "marcador indirecto mas
+  sensible"**, y la AASLD 2024 dice "There are insufficient data to support the utilization of any
+  serological markers such as platelet count alone ... to exclude CSPH". Ademas "hypersplenism" y
+  "leukopenia" tienen cero apariciones en esa guia.
+- **El G-CSF de la neutropenia febril**: en `anemia-aplasica` el campo lo ofrece en la infeccion grave
+  activa, y la recomendacion 42 de la IDSA dice "CSFs are not generally recommended for treatment of
+  established fever and neutropenia (B-II)". En `sindromes-mielodisplasicos` el mismo campo si
+  concuerda con la guia, que es la prueba de que no es un problema de la fuente sino de ese texto.
+
+De paso, ninguna de las dos guias que lo mencionan **fija la ventana de la primera hora** para el
+antibiotico empirico que los dos campos dan por sentada: el unico "within 1 h" de la IDSA habla de
+llegar a un centro medico.
 ## El trabajo que queda, por tema
 
 Ordenado por huecos, de menos a mas: los primeros son los mas rapidos. La columna "Fuentes" avisa
@@ -364,25 +431,27 @@ leer. Ojo con el patron que se ve en la tabla: muchos temas tienen TODOS sus cam
 (18 de 18, 24 de 24), lo que significa que su `compCites` nunca se relleno, mientras otros estan
 a medias.
 
-| Tema | Huecos | Fuentes del tema | Fuente que lo cerraria, si se sabe |
+| Tema | Huecos | Fuentes del tema | Que lo cierra, y si se puede leer |
 |---|---|---|---|
 | `sepsis` | 1 | 10 | guia de transfusion de plaquetas y plasma; el repo solo tiene la de hematies (Carson AABB 2023) |
 | `valoracion-preoperatoria` | 1 | 11 | riesgo quirurgico en cirrosis (Mayo / VOCAL-Penn, o una guia AASLD); ninguna de sus 11 es de hepatologia |
+| `anemia-ferropenica` | 1 | 16 | **nada**: el campo dice "ninguno especifico" y su clausula de las heces oscuras no esta en la guia BSG (cero apariciones de "melaena") |
 | `miocardiopatias` | 3 | 15 | **ninguna: los tres son enunciados de ausencia**, el tema esta cerrado de hecho |
-| `anemia-ferropenica` | 3 | 16 | Stoffel (10), Rimon (13) y la guia BSG (3), ya en el tema: hablan de tolerancia al hierro oral |
-| `anemia-megaloblastica` | 3 | 16 | `Obeid-et-al-2024-B12-deficiency-Delphi-consensus.pdf`, en el repo y sin usar |
-| `anemia-enfermedad-cronica` | 3 | 16 | Cullis (5), ya en el tema, para el diagnostico; falta la de quelacion |
-| `debilidad-adquirida-uci` | 3 | 16 | Needham (15) y Herridge (16), ya en el tema y ya citadas en la `definicion` de esa misma ficha |
+| `anemia-megaloblastica` | 3 | 16 | Carmel (11) seria la buena, y **PMC solo da su resumen** (PMC2532799); el consenso Delphi de B12 del repo NO sirve: cero apariciones de LDH, haptoglobina, esquistocitos y microangiopatia |
+| `anemia-enfermedad-cronica` | 3 | 16 | la de sobrecarga de hierro transfusional: **TIF 5a edicion (2025)**, que no esta en el repo |
 | `eccemas` | 3 | 4 | pendiente de verdad: 4 fuentes y ninguna cubre "otros eccemas" |
-| `anemia-aplasica` | 6 | 15 | `Kulasekararaj-et-al-2024-BSH-aplastic-anaemia-guideline.pdf`, en el repo y sin usar |
-| `anemias-hemoliticas-hereditarias` | 6 | 15 | falta la de sobrecarga de hierro; ojo, la de parvovirus (12) es para la crisis APLASICA, no la megaloblastica |
-| `sindromes-mielodisplasicos` | 9 | 15 | `Freifeld-et-al-2011-IDSA-neutropenic-fever-guideline.pdf` y `NCCN-2026-AML-guideline.pdf`, los dos en el repo |
-| `sindromes-mieloproliferativos` | 9 | 16 | la clasificacion OMS (1) y la ICC (2), ya en el tema y las dos completas en PMC; ojo, los criterios IWG-MRT de mielofibrosis post-PV **no** son el DIPSS (8) |
+| `debilidad-adquirida-uci` | 2 | 16 | nada: Hermans (6) se leyo entera y no propone cribado analitico ni farmaco para el sindrome |
+| `sindromes-mielodisplasicos` | 5 | 16 | 3 de sangrado (Fenaux o NCCN de SMD, ninguna en el repo) y 2 de transformacion a LMA, que **la licencia de la NCCN prohibe usar** |
+| `anemias-hemoliticas-hereditarias` | 6 | 15 | la de sobrecarga de hierro (TIF 5a ed.) y la crisis megaloblastica; ojo, la de parvovirus (12) es para la crisis APLASICA |
+| `sindromes-mieloproliferativos` | 8 | 16 | los criterios de la prefibrotica y del IWG-MRT no estan en el documento de la OMS, y el resto lo cubriria la NCCN de LMA, prohibida por licencia |
+| `anemias-hemoliticas-adquiridas` | 12 | 16 | Brodsky (13) para la trombosis de la HPN: **PMC solo da su resumen** (PMC4215311); mas la de sobrecarga de hierro |
 | `vasopresores-sedantes` | 14 | 8 | **10 son dosis y presentaciones: ninguna guia las da.** Hace falta una referencia de dosificacion y el formulario institucional |
-| `anemias-hemoliticas-adquiridas` | 12 | 16 | Brodsky (13) para la trombosis de la HPN, ya en el tema y completa en PMC; falta la de sobrecarga de hierro |
-| `cirrosis-hepatica` | 34 | 22 | cada complicacion tiene SU fuente ya declarada (Baveno VII, EASL, Fallon, O'Leary, Tandon...); es verificarlas una a una |
+| `cirrosis-hepatica` | 24 | 24 | O Leary (13), EASL vascular (12), EASL descompensada (5), Fallon (10), ILTS (11) y Guichelaar (15): **ninguna tiene texto completo en PMC y el sitio de la revista responde 403** |
 
-Total: **110 huecos en 15 temas**. La columna de la derecha es el trabajo real que queda: en 9 de
+Total: **86 huecos en 14 temas**. La columna de la derecha ya no dice "si se sabe": se midio. En
+nueve de los catorce lo que falta es una fuente que **no se puede leer** (no esta en el repositorio,
+no esta abierta en PubMed Central, o su licencia prohibe usarla), y en tres no hay nada que citar
+porque el campo no afirma nada.
 los 15 temas la fuente ya esta, o en la `bibliografia` del tema o en `Bibliografia/` sin usar.
 
 ## Como ver los huecos de un tema

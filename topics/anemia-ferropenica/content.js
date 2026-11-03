@@ -365,6 +365,21 @@ export const content = {
   }
 };
 
+// Citas del 2/11/2026 para la intolerancia al hierro oral, leidas del PDF de la guia BSG
+// (fuente 3, Snook 2021), que ya estaba declarada en el tema:
+//   - criterios_dx: "There should be a prompt and measurable haematological response to the
+//     initiation of IRT, and early monitoring should detect those patients not responding to or
+//     intolerant to oral iron", con la revision a las 2-4 semanas, que es el "contexto temporal
+//     apropiado" del campo.
+//   - tx_farmacologico: "For patients with intolerance or failure of Hb response at the 2-4
+//     weeks point, alternate day traditional iron salts (if not already used) or ferric maltol
+//     may be alternatives to parenteral iron on those with mild-moderate anaemia (Hb >95 g/L)",
+//     mas la declaracion 35, "Intolerance and malabsorption of oral IRT can be particular
+//     problems ... and parenteral IRT may be required".
+//   - laboratorio SE QUEDA SIN CITA a proposito: su clausula distintiva son las heces oscuras
+//     que obligan a descartar un sangrado digestivo verdadero, y en esa guia "black stool",
+//     "dark stool", "melaena" y "melena" tienen CERO apariciones. Y lo primero que dice el campo
+//     ("ninguno especifico") no es algo que se pueda citar.
 export const compCites = {
   'Ferropenia por pérdida crónica de sangre': { epidemiologia: [3, 4], criterios_dx: [3, 4], laboratorio: [3, 4], tx_farmacologico: [3, 4] },
   'Ferropenia por disminución del aporte o la absorción': { fisiopatologia: [7], criterios_dx: [7], laboratorio: [7], tx_farmacologico: [7] },
@@ -372,7 +387,8 @@ export const compCites = {
   'Ferropenia refractaria al hierro oral': { fisiopatologia: [9], tx_medico: [10], criterios_dx: [9], laboratorio: [9, 10], tx_farmacologico: [10] },
   'Síndrome de Plummer-Vinson': { definicion: [12], criterios_dx: [12], laboratorio: [12], tx_farmacologico: [12] },
   'Insuficiencia cardiaca de alto gasto': { tx_farmacologico: [15], criterios_dx: [15], laboratorio: [15] },
-  'Reacciones al hierro intravenoso': { fisiopatologia: [11], laboratorio: [11], criterios_dx: [11], tx_farmacologico: [11] }
+  'Reacciones al hierro intravenoso': { fisiopatologia: [11], laboratorio: [11], criterios_dx: [11], tx_farmacologico: [11] },
+  'Efectos adversos e intolerancia al hierro oral': { criterios_dx: [3], tx_farmacologico: [3] }
 };
 export const estigmas = [];
 export const biopsia = null;

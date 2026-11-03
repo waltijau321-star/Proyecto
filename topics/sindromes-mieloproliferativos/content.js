@@ -332,12 +332,34 @@ export const content = {
   }
 };
 
+// Cita del 2/11/2026, leida del texto completo de la clasificacion OMS 5a edicion (fuente 1) en
+// PubMed Central (PMC9252913, doi 10.1038/s41375-022-01613-1):
+//   - criterios_dx de Transformacion a fase blastica: "PV and ET progress to AP (10-19% blasts)
+//     and BP (>=20% blasts) in a minority of cases, but leukaemic transformation is more
+//     frequent in PMF", y para la LMC "Criteria for BP include: (1) >=20% myeloid blasts in the
+//     blood or bone marrow". Es exactamente el corte que da el campo, y en los dos
+//     compartimentos.
+//
+// LOS SEIS HUECOS QUE SIGUEN ABIERTOS, medidos y no supuestos:
+//   - laboratorio y tx_farmacologico de la fase blastica (NGS repetido para la evolucion clonal;
+//     induccion intensiva o hipometilante con venetoclax). Son de monitorizacion y de
+//     tratamiento, y la OMS es una clasificacion. La guia NCCN de LMA del repositorio los
+//     cubriria, pero SU LICENCIA LO PROHIBE: "you MAY NOT distribute this Content or use it with
+//     any artificial intelligence model or tool".
+//   - los tres de Mielofibrosis prefibrotica. Este documento de la OMS reconoce la entidad ("Reco
+//     gnizing prefibrotic PMF remains necessary to separate it not only from ET and PV but also
+//     from fibrotic PMF") pero NO reproduce la tabla de criterios mayores y menores que el campo
+//     enumera, asi que citarlo seria atribuirle un detalle que no trae.
+//   - el criterios_dx de Transformacion a mielofibrosis secundaria: son los criterios IWG-MRT y
+//     no estan en este documento. Ojo con la trampa ya anotada: el IWG-MRT de la mielofibrosis
+//     post-PV no es el DIPSS (fuente 8).
 export const compCites = {
   'Policitemia vera': { tx_medico: [5], tx_farmacologico: [3, 11], criterios_dx: [5, 3, 11], laboratorio: [5, 3, 11] },
   'Trombocitemia esencial': { criterios_dx: [1], complementarios: [6], laboratorio: [6], tx_farmacologico: [1] },
   'Mielofibrosis manifiesta': { tx_farmacologico: [10], tx_intervencionista: [8, 9], criterios_dx: [8, 9], laboratorio: [10, 8, 9] },
   'Trombosis arterial y venosa': { epidemiologia: [16], criterios_dx: [16], laboratorio: [16], tx_farmacologico: [16] },
-  'Sangrado por enfermedad de von Willebrand adquirida': { fisiopatologia: [15], criterios_dx: [15], laboratorio: [15], tx_farmacologico: [15] }
+  'Sangrado por enfermedad de von Willebrand adquirida': { fisiopatologia: [15], criterios_dx: [15], laboratorio: [15], tx_farmacologico: [15] },
+  'Transformación a fase blástica': { criterios_dx: [1] }
 };
 export const estigmas = [];
 export const biopsia = null;

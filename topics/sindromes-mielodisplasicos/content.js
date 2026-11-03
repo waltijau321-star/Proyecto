@@ -60,7 +60,8 @@ export const bibliografia = [
   'Godley LA, DiNardo CD. Genetic predisposition to myeloid neoplasms. Blood. 2021;138(9):723-733.',
   'Angelucci E, Li J, Greenberg P, et al. Iron Chelation in Transfusion-Dependent Patients With Low- to Intermediate-1-Risk Myelodysplastic Syndromes: A Randomized Trial. Ann Intern Med. 2020;172(8):513-522.',
   'Cheson BD, Greenberg PL, Bennett JM, et al. Clinical application and proposal for modification of the International Working Group (IWG) response criteria in myelodysplasia. Blood. 2006;108(2):419-425.',
-  'de Witte T, Bowen D, Robin M, et al. Allogeneic hematopoietic stem cell transplantation for MDS and CMML: recommendations from an international expert panel. Blood. 2017;129(13):1753-1762.'
+  'de Witte T, Bowen D, Robin M, et al. Allogeneic hematopoietic stem cell transplantation for MDS and CMML: recommendations from an international expert panel. Blood. 2017;129(13):1753-1762.',
+  'Freifeld AG, Bow EJ, Sepkowitz KA, et al. Clinical practice guideline for the use of antimicrobial agents in neutropenic patients with cancer: 2010 update by the Infectious Diseases Society of America. Clin Infect Dis. 2011;52(4):e56-e93.'
 ];
 
 // Reproduce el marcado de .modal-figure (mismo helper que ECV/miocardiopatías) para insertar
@@ -339,12 +340,52 @@ export const content = {
   }
 };
 
+// Citas del 2/11/2026 para la neutropenia febril, leidas del PDF de la guia IDSA (fuente 16,
+// NUEVA; estaba en Bibliografia/ sin usar y va al final para no desplazar los indices):
+//   - criterios_dx: el campo reproduce las dos definiciones literales, "Fever is defined as a
+//     single oral temperature measurement of >38.3 C (101 F) or a temperature of >38.0 C
+//     (100.4 F) sustained over a 1-h period" y "Neutropenia is defined as an ANC of <500
+//     cells/mm3 or an ANC that is expected to decrease to <500 cells/mm3 during the next 48 h",
+//     esta segunda con la ventana de 48 horas incluida.
+//   - laboratorio, recomendaciones 5 y 6 (hemocultivos de cada lumen del cateter mas uno
+//     periferico; biometria con diferencial y creatinina). OJO: la guia condiciona el urocultivo
+//     a que haya sintomas, "Culture of urine samples is indicated if signs or symptoms", y el
+//     lactato que anade el campo no aparece en toda la guia.
+//   - tx_farmacologico, recomendaciones 9 y 21 (monoterapia antipseudomonica con cefepime,
+//     carbapenemico o piperacilina-tazobactam; antifungico empirico si la fiebre persiste tras
+//     4-7 dias, donde cae el ">96 horas" del campo). La guia NO fija la ventana de la primera
+//     hora. Del G-CSF el campo SI concuerda: casos seleccionados y sin uso rutinario, y la
+//     recomendacion 42 dice "CSFs are not generally recommended for treatment of established
+//     fever and neutropenia (B-II)".
+//
+// LOS SEIS HUECOS QUE SIGUEN ABIERTOS, y por que:
+//   - los tres de Transformacion a LMA. La fuente que los cerraria es la guia NCCN de LMA que
+//     hay en Bibliografia/, y SU LICENCIA LO PROHIBE expresamente: "you MAY NOT distribute this
+//     Content or use it with any artificial intelligence model or tool". El camino limpio es la
+//     clasificacion OMS 5a edicion (fuente 1) para el corte del 20% de blastos y una fuente
+//     abierta de tratamiento de LMA para la induccion y el hipometilante con venetoclax.
+//   - los tres de Sangrado por trombocitopenia: el acido tranexamico y los agonistas del
+//     receptor de trombopoyetina en SMD los cubririan Fenaux (5) o la guia NCCN de SMD (6), y
+//     ninguna de las dos esta en Bibliografia/.
+// Cita del 2/11/2026 para el criterios_dx de la transformacion a LMA, leida del texto completo de
+// la clasificacion OMS 5a edicion (fuente 1) en PubMed Central (PMC9252913,
+// doi 10.1038/s41375-022-01613-1). Sostiene la segunda mitad del campo con su propia frase: "the
+// elimination of the 20% blast requirement for AML types with defining genetic abnormalities",
+// que es el "independientemente del porcentaje de blastos" del campo; y de ahi se sigue que el
+// 20% sigue valiendo para los tipos que NO se definen por genetica, que es la primera mitad. En
+// el mismo documento, la fase blastica de las neoplasias mieloproliferativas se define por
+// ">=20% blasts" en sangre o medula.
+// PRECISION QUE EL CAMPO NO DICE y conviene anadir: esa eliminacion del corte tiene DOS
+// excepciones nombradas en la fuente, la LMA con fusion BCR::ABL1 y la LMA con mutacion de CEBPA,
+// que conservan el 20%.
 export const compCites = {
   'SMD de bajo riesgo': { definicion: [1], tx_farmacologico: [7, 8], criterios_dx: [14], laboratorio: [14] },
   'SMD de alto riesgo': { tx_farmacologico: [9], tx_intervencionista: [15], criterios_dx: [9, 15], laboratorio: [15] },
   'SMD hipoplásico': { tx_farmacologico: [11], criterios_dx: [11], laboratorio: [11] },
   'SMD relacionado a tratamiento (t-MDS)': { epidemiologia: [12], criterios_dx: [12], laboratorio: [12], tx_farmacologico: [12] },
-  'Sobrecarga de hierro transfusional': { tx_farmacologico: [13], criterios_dx: [13], laboratorio: [13] }
+  'Sobrecarga de hierro transfusional': { tx_farmacologico: [13], criterios_dx: [13], laboratorio: [13] },
+  'Neutropenia febril / infecciones recurrentes': { criterios_dx: [16], laboratorio: [16], tx_farmacologico: [16] },
+  'Transformación a leucemia mieloide aguda': { criterios_dx: [1] }
 };
 export const estigmas = [];
 export const biopsia = null;

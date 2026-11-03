@@ -48,7 +48,9 @@ export const bibliografia = [
   'Alter BP, Giri N, Savage SA, Rosenberg PS. Cancer risk in Fanconi anemia. Blood. 2018;131(15):1739-1741.',
   'Shimamura A, Alter BP. Pathophysiology and management of inherited bone marrow failure syndromes. Blood Rev. 2010;24(3):101-122.',
   'Dolberg OJ, Levy Y. Idiosyncratic drug-induced aplastic anemia. Isr Med Assoc J. 2014;16(9):587-590.',
-  'Brodsky RA. Paroxysmal nocturnal hemoglobinuria. Blood. 2014;124(18):2804-2811.'
+  'Brodsky RA. Paroxysmal nocturnal hemoglobinuria. Blood. 2014;124(18):2804-2811.',
+  'Kulasekararaj A, Cavenagh J, Dokal I, et al. Guidelines for the diagnosis and management of adult aplastic anaemia: a British Society for Haematology Guideline. Br J Haematol. 2024. doi:10.1111/bjh.19236.',
+  'Freifeld AG, Bow EJ, Sepkowitz KA, et al. Clinical practice guideline for the use of antimicrobial agents in neutropenic patients with cancer: 2010 update by the Infectious Diseases Society of America. Clin Infect Dis. 2011;52(4):e56-e93.'
 ];
 
 // Reproduce el marcado de .modal-figure (mismo helper que SMD/NMP/miocardiopatías) para insertar
@@ -306,13 +308,49 @@ export const content = {
   }
 };
 
+// Citas del 2/11/2026 para las dos fichas transversales que no tenian ninguna, VERIFICADAS
+// LEYENDO EL PASAJE. Las dos fuentes nuevas (16 y 17) estaban en Bibliografia/ sin usar y van AL
+// FINAL: insertarlas en medio desplazaria todos los indices posteriores y el motor pintaria otra
+// referencia sin avisar.
+//
+// BSH 2024 de aplasica (16), Sangrado por trombocitopenia:
+//   - criterios_dx y laboratorio: la tabla de estudios pide "1. Full blood count ... 3. Blood
+//     film examination", y el texto dice "In the early stages, isolated cytopenia, particularly
+//     thrombocytopenia, may occur". OJO: la guia pide el frotis para excluir tricoleucemia o
+//     GATA2, no la seudotrombocitopenia que el campo da como motivo.
+//   - tx_farmacologico: "Although tranexamic acid in patients undergoing intensive chemotherapy
+//     suggests no benefit, it may be considered in AA patients", mas el eltrombopag como parte
+//     del esquema de primera linea. OJO: la guia lo deja en "may be considered" y no singulariza
+//     la menorragia.
+//
+// IDSA 2010/2011 de neutropenia febril (17), Infecciones por neutropenia profunda:
+//   - criterios_dx, literal de la guia: "Fever is defined as a single oral temperature
+//     measurement of >38.3 C (101 F) or a temperature of >38.0 C (100.4 F) sustained over a 1-h
+//     period", y "Neutropenia is defined as an ANC of <500 cells/mm3".
+//   - laboratorio, recomendaciones 5 y 6: "Laboratory tests should include a complete blood cell
+//     (CBC) count with differential leukocyte count and platelet count; measurement of serum
+//     levels of creatinine", y "At least 2 sets of blood cultures are recommended, with a set
+//     collected simultaneously from each lumen of an existing CVC, if present, and from a
+//     peripheral vein site".
+//   - tx_farmacologico, recomendaciones 9 y 21: "monotherapy with an anti-pseudomonal b-lactam
+//     agent, such as cefepime, a carbapenem (meropenem or imipenem-cilastatin), or
+//     piperacillin-tazobactam, is recommended (A-I)", y "Empirical antifungal coverage should be
+//     considered in high-risk patients who have persistent fever after 4-7 days of a
+//     broad-spectrum antibacterial regimen and no identified fever source (A-II)".
+//     DOS AVISOS DE CONTENIDO comprobados: esta guia NO fija la ventana de la primera hora que
+//     da el campo (su unico "within 1 h" habla de llegar a un centro medico), y su recomendacion
+//     42 dice "CSFs are not generally recommended for treatment of established fever and
+//     neutropenia (B-II)" mientras el campo ofrece G-CSF en la infeccion grave activa. Se cito
+//     por las dos primeras clausulas, que son las que el campo manda hacer.
 export const compCites = {
   'Anemia aplásica adquirida idiopática grave/muy grave': { definicion: [2], tx_farmacologico: [6, 7, 8], criterios_trasplante: [10], criterios_dx: [2], laboratorio: [2, 6, 7, 8, 10] },
   'Anemia aplásica no grave': { tx_farmacologico: [7], criterios_dx: [7], laboratorio: [7] },
   'Anemia aplásica secundaria': { fisiopatologia: [14], criterios_dx: [14], laboratorio: [14], tx_farmacologico: [14] },
   'Anemia aplásica congénita': { fisiopatologia: [13], epidemiologia: [12], tx_intervencionista: [11], criterios_dx: [13], laboratorio: [13, 12, 11], tx_farmacologico: [11] },
   'Evolución clonal': { tx_farmacologico: [15], criterios_dx: [15], laboratorio: [15] },
-  'Complicaciones del trasplante y de la inmunosupresión': { epidemiologia: [10], criterios_dx: [10], laboratorio: [10], tx_farmacologico: [10] }
+  'Complicaciones del trasplante y de la inmunosupresión': { epidemiologia: [10], criterios_dx: [10], laboratorio: [10], tx_farmacologico: [10] },
+  'Infecciones por neutropenia profunda': { criterios_dx: [17], laboratorio: [17], tx_farmacologico: [17] },
+  'Sangrado por trombocitopenia': { criterios_dx: [16], laboratorio: [16], tx_farmacologico: [16] }
 };
 export const estigmas = [];
 export const biopsia = null;
