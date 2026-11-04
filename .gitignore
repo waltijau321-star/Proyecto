@@ -24,3 +24,11 @@ graphify-out/
 # (ver .claude/skills/figura-didactica/SKILL.md). El script también acepta la variable de
 # entorno GEMINI_API_KEY como alternativa a este archivo.
 .claude/gemini-key.txt
+
+# Los tres manuales de dosificación pediátrica (Taketomo 18.ª ed., NeoFax 2026 y Harriet Lane
+# 23.ª ed.): 160 MB de ediciones comerciales vigentes. Se aparta A PROPÓSITO del resto de
+# Bibliografia/, que sí está versionada y solo excluida del despliegue por .assetsignore: este
+# repositorio es PÚBLICO, así que versionarlos los publicaría como descarga de GitHub aunque
+# nunca lleguen al sitio. Lo que se versiona de ellos son las CITAS y los números de página, en
+# protocols/pediatria-farmacos.js.
+/Bibliografia/XVI. Pediatría/
