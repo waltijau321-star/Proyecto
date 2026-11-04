@@ -20,11 +20,13 @@ import { mountTopicChat, setChatTopic, setChatSection, setChatUser } from './eng
 import { firebaseReady } from './engine/firebase-config.js';
 import './engine/infusion-calc.js';
 import { mountVpo, refocusVpo, vpoSearchEntries, nuevoPaciente } from './engine/vpo.js';
+import { esPediatra } from './engine/pediatria-acceso.js';
+import { mountPediatria, nuevoPacientePedia, pediaSearchEntries, refocusPediatria } from './engine/pediatria.js';
 import { protocols } from './protocols/protocols.js';
 
 setGeneralCalcs(generalCalculators);
 
-const mounted = { protocolos: false, vpo: false, calc: false };
+const mounted = { protocolos: false, vpo: false, calc: false, pediatria: false };
 let currentTopic = null;
 
 // Títulos de encabezado para las secciones que no giran en torno a un solo tema
@@ -34,6 +36,7 @@ const SECTION_TITLES = {
   calc: ['Calculadoras', 'MIOsler'],
   protocolos: ['Protocolos', 'MIOsler'],
   vpo: ['Valoración preoperatoria', 'MIOsler'],
+  pediatria: ['Pediatría', 'Farmacología'],
   admin: ['Admin', 'MIOsler'],
   examen: ['Examen simulado', 'MIOsler']
 };
@@ -85,6 +88,10 @@ function showSection(sec) {
   if (sec === 'vpo') {
     if (!mounted.vpo) { mountVpo(document.getElementById('vpo-root')); mounted.vpo = true; }
     else refocusVpo();
+  }
+  if (sec === 'pediatria') {
+    if (!mounted.pediatria) { mountPediatria(document.getElementById('pedia-root')); mounted.pediatria = true; }
+    else refocusPediatria();
   }
   if (sec === 'calc' && !mounted.calc) { mountAllCalculatorsSection(); mounted.calc = true; }
   if (sec === 'inicio') { mountHomeSection(); }
@@ -160,6 +167,48 @@ function mountHomeSection() {
   });
 }
 
+/* Corre `fn` cuando el navegador quede libre. Tres precauciones, y ninguna es de adorno:
+    - se llama como `window.requestIdleCallback(...)`, con su receptor, porque desprendido del
+      objeto (`const f = window.requestIdleCallback; f(...)`) hay motores que lanzan
+      "Illegal invocation";
+    - va envuelto en try/catch y con repliegue a setTimeout, para que ni eso ni la falta de la API
+      en un navegador viejo (Safari no la trajo hasta 2024) deje el buscador sin índice para
+      siempre;
+    - con `timeout`, porque sin él requestIdleCallback puede no dispararse nunca si la pestaña
+      queda de fondo, que es justo lo que pasa cuando alguien abre la app y se va.
+   Vive en el ámbito del módulo porque lo usan el arranque y el cambio de sesión. */
+const alRatito = (fn) => {
+  try {
+    if (typeof window.requestIdleCallback === 'function') window.requestIdleCallback(fn, { timeout: 3000 });
+    else setTimeout(fn, 200);
+  } catch (e) {
+    setTimeout(fn, 200);
+  }
+};
+
+/* ---------- Visibilidad de la pestaña Pediatría ----------
+   Mismo mecanismo que nav-admin: el botón nace oculto en index.html y se enciende según el
+   perfil. Se llama desde el callback de initAuth (y solo DESPUÉS de initCloudSync: la bandera es
+   un campo del documento del usuario y syncGet no la ve hasta que esa llamada fusionó el espejo
+   en memoria; antes de eso, un residente de pediatría entrando en un dispositivo nuevo no vería
+   su pestaña) y desde 'rm:perfil-guardado', que es lo que dispara Mi cuenta al guardar.
+
+   Un caso honesto que no se arregla con código: si initCloudSync agota su tope de tiempo sin red,
+   en un dispositivo ESTRENADO la bandera todavía no está en local y la pestaña no aparece en ese
+   primer arranque. En cuanto la lectura de la nube llega una vez, queda en localStorage y
+   sobrevive. Es el mismo compromiso que ya hace el resto del perfil. */
+function aplicarVisibilidadPediatria() {
+  const btn = document.getElementById('nav-pediatria');
+  if (!btn) return;
+  const puede = esPediatra();
+  btn.style.display = puede ? '' : 'none';
+  // Quitarse la bandera estando dentro de la sección dejaría la sección a la vista sin ninguna
+  // pestaña que la señale y sin forma de volver a ella: se sale a Inicio.
+  const sec = document.getElementById('sec-pediatria');
+  if (!puede && sec && sec.classList.contains('active')) showSection('inicio');
+}
+window.addEventListener('rm:perfil-guardado', aplicarVisibilidadPediatria);
+
 /* ---------- Cambio de sesión tras el arranque ----------
    Las secciones montadas una sola vez conservan en el DOM lo que renderizaron con los datos
    del usuario anterior. En VPO eso son datos de un paciente concreto (fármacos y estudios
@@ -171,17 +220,23 @@ function resetSectionsForNewSession({ otroUsuario }) {
   // cloud-sync, pero vpo.js guarda el paciente en curso en variables de su propio módulo, que
   // ningún borrado de almacenamiento alcanza. Si es el mismo usuario que vuelve a entrar, su
   // borrador se respeta.
-  if (otroUsuario) nuevoPaciente();
+  if (otroUsuario) { nuevoPaciente(); nuevoPacientePedia(); }
   mounted.protocolos = false;
   mounted.vpo = false;
   mounted.calc = false;
-  ['proto-root', 'vpo-root', 'calc-root'].forEach(id => {
+  mounted.pediatria = false;
+  ['proto-root', 'vpo-root', 'calc-root', 'pedia-root'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.innerHTML = '';
   });
   // Estudio no se desmonta nunca (no tiene bandera en `mounted`), así que sin esto seguiría
   // mostrando el progreso del quiz y el candado de las fichas del usuario anterior.
   if (currentTopic) mountStudy(currentTopic);
+  // El índice del buscador ya no es el mismo para todos: las entradas de Pediatría dependen de la
+  // bandera del perfil. Sin esto, tras un cambio de sesión en un dispositivo compartido el índice
+  // sigue siendo el de la persona anterior. Es barato la segunda vez: los módulos de tema ya están
+  // en el registro del navegador y loadTopic no vuelve a pedir nada a la red.
+  alRatito(() => buildAndSetGlobalIndex());
   showSection('inicio');
 }
 
@@ -219,6 +274,7 @@ async function buildAndSetGlobalIndex() {
     index.push({ label: c.title, type: 'Calculadora', scope: 'General', section: 'calc', action: () => window.openCalc(c.key) });
   });
   vpoSearchEntries().forEach(e => index.push(e));
+  if (esPediatra()) pediaSearchEntries().forEach(e => index.push(e));
   protocols.forEach(p => {
     index.push({ label: p.title, type: 'Protocolo', scope: 'Protocolos', section: 'protocolos', action: () => window.rmProtoOpen(p.id) });
   });
@@ -282,14 +338,6 @@ async function init() {
     //    índice para siempre;
     //  - con `timeout`, porque sin él requestIdleCallback puede no dispararse nunca si la
     //    pestaña queda de fondo, que es justo lo que pasa cuando alguien abre la app y se va.
-    const alRatito = (fn) => {
-      try {
-        if (typeof window.requestIdleCallback === 'function') window.requestIdleCallback(fn, { timeout: 3000 });
-        else setTimeout(fn, 200);
-      } catch (e) {
-        setTimeout(fn, 200);
-      }
-    };
     alRatito(() => buildAndSetGlobalIndex());
   }
 
@@ -308,6 +356,7 @@ async function init() {
     setChatUser(user);
     if (user) lastUid = user.uid;
     document.getElementById('nav-admin').style.display = isAdmin() ? '' : 'none';
+    aplicarVisibilidadPediatria();
     if (!user && firebaseReady) return;
     if (!booted) await bootApp();
     else resetSectionsForNewSession({ otroUsuario }); // cambio de sesión tras el arranque

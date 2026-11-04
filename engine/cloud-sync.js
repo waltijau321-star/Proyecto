@@ -79,7 +79,10 @@ function withTimeout(promise, ms) {
 }
 
 /* ---------- Estrategia de fusión por tipo de clave ---------- */
-function strategyFor(key) {
+// Exportada para tests.js: es una función pura, y lo que hay que vigilar es que cada clave nueva
+// que guarde un mapa declare su estrategia. Exportarla no cambia el comportamiento del archivo
+// (mismo criterio que con mergeValue).
+export function strategyFor(key) {
   if (key === 'rm:quiz-progress') return 'quiz';
   // Leitner (una caja y una fecha por elemento): fichas de repaso y repetición espaciada del
   // banco de preguntas. Fusionar elemento por elemento, no como un bloque: si no, practicar en
@@ -93,6 +96,11 @@ function strategyFor(key) {
   // 'rm:vpo:ruta' un camino de decisiones, y unir dos caminos daría ramas contradictorias.
   // Para esos dos la estrategia escalar es la correcta: gana el último dispositivo.
   if (key === 'rm:vpo:farmacos' || key === 'rm:vpo:estudios') return 'bool-map';
+  // Pediatría: los fármacos y los cuadros marcados como habituales son acumulativos y se unen
+  // entre dispositivos, por el mismo motivo que los de VPO. Y por el mismo motivo tampoco vale
+  // marcar todo el prefijo 'rm:pedia:': 'rm:pedia:tab' guarda una cadena y 'rm:pedia:paciente' un
+  // objeto con el peso y la edad, y unir dos pesos daría un paciente que no existe.
+  if (key === 'rm:pedia:favoritos' || key === 'rm:pedia:cuadros') return 'bool-map';
   return 'scalar';
 }
 

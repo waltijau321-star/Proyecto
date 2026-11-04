@@ -7,6 +7,7 @@ import { auth } from './firebase-config.js';
 import { getCurrentUser, signOutUser, RESIDENCY_YEARS } from './auth.js';
 import { syncGet, syncSet } from './cloud-sync.js';
 import { escHtml } from './texto-seguro.js';
+import { PEDIATRIA_KEY, setPediatra } from './pediatria-acceso.js';
 
 const SUPPORT_EMAIL = 'waltijau321@gmail.com';
 const THEME_KEY = 'rm:theme-pref';
@@ -41,6 +42,7 @@ function renderMyAccount() {
       </div>
       <div class="calc-field"><label>País</label><input type="text" id="acc-country" value="${escHtml(syncGet('rm:profile-country', ''))}"></div>
       <div class="calc-field"><label>Estado / provincia</label><input type="text" id="acc-state" value="${escHtml(syncGet('rm:profile-state', ''))}"></div>
+      <label class="auth-checkbox-row field-full"><input type="checkbox" id="acc-pediatria" ${syncGet(PEDIATRIA_KEY, false) ? 'checked' : ''}>Soy de Pediatría: muestra en mi menú la sección de <strong>farmacología pediátrica</strong></label>
       <button type="submit" class="field-full">Guardar cambios</button>
     </form>
     <p class="auth-note" id="acc-saved-note" style="display:none;">Cambios guardados.</p>
@@ -53,6 +55,7 @@ function renderMyAccount() {
     syncSet('rm:profile-year', document.getElementById('acc-year').value);
     syncSet('rm:profile-country', document.getElementById('acc-country').value.trim());
     syncSet('rm:profile-state', document.getElementById('acc-state').value.trim());
+    setPediatra(document.getElementById('acc-pediatria').checked);
     document.getElementById('acc-saved-note').style.display = 'block';
     // El panel de notas firma con este nombre y tiene que enterarse sin recargar: si el nombre
     // estaba vacío, está mostrando el aviso que manda aquí, y quedarse mostrándolo después de
@@ -66,7 +69,7 @@ function renderAbout() {
   openModal(`
     <span class="modal-tag">Acerca de</span>
     <h2>MIOsler</h2>
-    <p class="fbody" style="color:var(--ink-dim); margin-bottom:14px;">Plataforma de estudio y apoyo para residentes de Medicina Interna: temario completo, autoevaluación por tema, calculadoras clínicas validadas y protocolos de manejo.</p>
+    <p class="fbody" style="color:var(--ink-dim); margin-bottom:14px;">Plataforma de estudio y apoyo para residentes de Medicina Interna: temario completo, autoevaluación por tema, calculadoras clínicas validadas y protocolos de manejo. Para residentes de Pediatría incluye además una sección de farmacología pediátrica.</p>
     <p class="auth-note">Es material educativo: no sustituye el juicio clínico ni las guías de práctica vigentes en tu institución. Elaborado por el Dr. Walter Jáuregui.</p>
   `);
 }

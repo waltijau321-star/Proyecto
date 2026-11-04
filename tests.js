@@ -37,7 +37,7 @@ function assert(cond, msg) {
 
 async function run() {
   /* ---------------- Sincronización (engine/cloud-sync.js) ---------------- */
-  const { syncGet, syncSet, mergeValue, clearLocalData } = await import('./engine/cloud-sync.js');
+  const { syncGet, syncSet, mergeValue, clearLocalData, strategyFor } = await import('./engine/cloud-sync.js');
 
   test('sync: round-trip de un valor escalar', () => {
     syncSet('rm:test-scalar', 'hola');
@@ -866,6 +866,454 @@ async function run() {
       'una tarjeta usa "un piso" de escaleras; el resto de la app usa dos pisos para los 4 MET'));
   });
 
+
+  /* ---------------- Farmacología pediátrica (protocols/pediatria-farmacos.js) ----------------
+     Plantilla: el bloque de fármacos de VPO, unas líneas más arriba. Lo que cambia es que aquí
+     hay además aritmética (engine/pediatria-dosis.js es puro justamente para poder probarla con
+     casos) y una vista DERIVADA (la pestaña por enfermedad), que exige comprobar la integridad
+     referencial en los dos sentidos. */
+  const pedia = await import('./protocols/pediatria-farmacos.js');
+  const pedDosis = await import('./engine/pediatria-dosis.js');
+  const pedFarmVista = await import('./engine/pediatria-farmacos.js');
+  const pedEnfVista = await import('./engine/pediatria-enfermedades.js');
+  const pedVista = await import('./engine/pediatria-vista.js');
+  const pedFicha = await import('./engine/pediatria-ficha.js');
+
+  // Trinquete de contenido, igual que ATRIB_TOTAL_MINIMO: el número puede SUBIR con cada bloque
+  // y nunca bajar. Si baja a propósito, se baja la marca a mano y se dice por qué en el commit.
+  const PEDIA_FARMACOS_MINIMO = 12;
+  const PEDIA_LINEAS_MINIMO = 45;
+  const PEDIA_CUADROS_MINIMO = 19;
+  // Cuadros declarados COMPLETOS: tienen que seguir teniendo al menos un fármaco y todas sus
+  // líneas con fuente y página. Un cuadro que entra aquí no vuelve a salir.
+  const PEDIA_CUADROS_COMPLETOS = ['otitis-media-aguda', 'neumonia-adquirida-comunidad',
+    'fiebre', 'crisis-asmatica', 'anafilaxia'];
+
+  const todasLasLineas = pedia.farmacos.flatMap(f => (f.dosis || []).map(d => [f, d]));
+
+  test('Pediatría: cada fármaco tiene los campos obligatorios del contrato', () => {
+    pedia.farmacos.forEach(f => {
+      ['id', 'grupo', 'farmaco', 'resumen'].forEach(k => {
+        assert(f[k] && String(f[k]).trim(), `'${f.id || '(sin id)'}' no tiene '${k}'`);
+      });
+      assert(Array.isArray(f.presentaciones) && f.presentaciones.length,
+        `'${f.id}' no declara presentaciones: sin ellas no se puede pasar de mg a mL`);
+      assert(Array.isArray(f.dosis) && f.dosis.length, `'${f.id}' no tiene ninguna linea de dosis`);
+    });
+  });
+
+  test('Pediatría: los id de fármaco no se repiten', () => {
+    const ids = pedia.farmacos.map(f => f.id);
+    assertEqual(ids.filter((v, i) => ids.indexOf(v) !== i), [], 'hay id de farmaco repetidos');
+  });
+
+  test('Pediatría: cada clase existe y ninguna clase declarada se queda vacía', () => {
+    const declaradas = pedia.grupos.map(g => g.id);
+    pedia.farmacos.forEach(f => assert(declaradas.includes(f.grupo),
+      `'${f.id}' dice ser de la clase '${f.grupo}', que no esta declarada`));
+    // En los dos sentidos: una clase sin miembros pinta un acordeon vacio.
+    pedia.grupos.forEach(g => assert(pedia.farmacos.some(f => f.grupo === g.id),
+      `la clase '${g.id}' no tiene ningun farmaco`));
+  });
+
+  test('Pediatría: cada área existe y ninguna área declarada se queda vacía', () => {
+    const declaradas = pedia.areas.map(a => a.id);
+    pedia.indicaciones.forEach(i => assert(declaradas.includes(i.area),
+      `el cuadro '${i.id}' dice ser del area '${i.area}', que no esta declarada`));
+    pedia.areas.forEach(a => assert(pedia.indicaciones.some(i => i.area === a.id),
+      `el area '${a.id}' no tiene ningun cuadro`));
+  });
+
+  test('Pediatría: cada cuadro tiene nombre, área y contexto', () => {
+    const ids = pedia.indicaciones.map(i => i.id);
+    assertEqual(ids.filter((v, i) => ids.indexOf(v) !== i), [], 'hay id de cuadro repetidos');
+    pedia.indicaciones.forEach(i => {
+      ['nombre', 'area', 'contexto'].forEach(k => assert(i[k] && String(i[k]).trim(),
+        `el cuadro '${i.id}' no tiene '${k}'`));
+      // `contexto` es lo que impide que la lista se lea como "estos farmacos tratan esto, elige
+      // uno". Una frase de tres palabras no dice a que paciente aplica y a cual no.
+      assert(i.contexto.length >= 40, `el contexto de '${i.id}' es demasiado corto para acotar nada`);
+    });
+  });
+
+  test('Pediatría: cada presentación declara su concentración y la dice en la etiqueta', () => {
+    pedia.farmacos.forEach(f => f.presentaciones.forEach(p => {
+      assert(p.id && p.etiqueta, `una presentacion de '${f.id}' no tiene id o etiqueta`);
+      assert(typeof p.mg === 'number' && p.mg > 0, `la presentacion '${p.id}' de '${f.id}' no declara mg`);
+      assert(p.mL === null || (typeof p.mL === 'number' && p.mL > 0),
+        `la presentacion '${p.id}' de '${f.id}' tiene un mL que no es ni null ni positivo`);
+      // La etiqueta se pinta junto a cada volumen calculado: si no dice la concentracion, el
+      // volumen no se puede comprobar contra el frasco.
+      assert(p.etiqueta.includes(String(p.mg)),
+        `la etiqueta de '${p.id}' (${f.id}) no menciona sus ${p.mg} mg`);
+      if (p.mL !== null) assert(/mL/.test(p.etiqueta),
+        `la etiqueta de '${p.id}' (${f.id}) es liquida pero no dice mL`);
+    }));
+  });
+
+  /* ---- Las líneas de dosis ---- */
+  test('Pediatría: toda línea declara indicaciones[] como array no vacío', () => {
+    todasLasLineas.forEach(([f, d]) => {
+      assert(Array.isArray(d.indicaciones) && d.indicaciones.length,
+        `una linea de '${f.id}' no declara a que cuadros aplica`);
+    });
+  });
+
+  test('Pediatría: cada cuadro citado por una línea existe en la taxonomía', () => {
+    const ids = new Set(pedia.indicaciones.map(i => i.id));
+    todasLasLineas.forEach(([f, d]) => d.indicaciones.forEach(i => assert(ids.has(i),
+      `'${f.id}' cita el cuadro '${i}', que no existe`)));
+  });
+
+  test('Pediatría: cada cuadro declarado lo cita al menos una línea de dosis', () => {
+    // El otro sentido, y es el que hace fiable la vista derivada: un cuadro huerfano es una
+    // enfermedad que el residente abre y encuentra vacia.
+    pedia.indicaciones.forEach(i => assert(pedEnfVista.farmacosDeCuadro(i.id).length,
+      `el cuadro '${i.id}' no tiene ningun farmaco: se abriria vacio`));
+  });
+
+  test('Pediatría: cada línea trae mgkg o fija, nunca las dos', () => {
+    todasLasLineas.forEach(([f, d]) => {
+      const porPeso = !!d.mgkg, fija = !!d.fija;
+      assert(porPeso !== fija, `una linea de '${f.id}' declara mgkg y fija a la vez, o ninguna`);
+      const v = d.mgkg || d.fija;
+      const tieneValor = typeof v.valor === 'number';
+      const tieneRango = typeof v.min === 'number' && typeof v.max === 'number';
+      assert(tieneValor !== tieneRango, `una linea de '${f.id}' no trae ni un valor ni un rango, o trae los dos`);
+      if (tieneRango) assert(v.min < v.max, `una linea de '${f.id}' tiene un rango con min >= max`);
+    });
+  });
+
+  test('Pediatría: toda dosis por peso declara su base, dosis o día', () => {
+    todasLasLineas.filter(([, d]) => d.mgkg).forEach(([f, d]) => {
+      assert(d.mgkg.por === 'dosis' || d.mgkg.por === 'dia',
+        `una linea de '${f.id}' no dice si los mg/kg son por dosis o por dia: es el error de factor 3 o 4 mas repetido de la pediatria`);
+    });
+  });
+
+  test('Pediatría: toda línea por día declara el intervalo, y el intervalo divide a 24', () => {
+    todasLasLineas.forEach(([f, d]) => {
+      if (d.mgkg && d.mgkg.por === 'dia') {
+        assert(typeof d.cada === 'number', `una linea de '${f.id}' da mg/kg/dia sin intervalo: no se puede repartir`);
+      }
+      if (typeof d.cada === 'number') {
+        assert(d.cada > 0 && 24 % d.cada === 0, `una linea de '${f.id}' tiene un intervalo de ${d.cada} h, que no divide a 24`);
+      }
+      assert(typeof d.cada === 'number' || d.unica === true,
+        `una linea de '${f.id}' no dice ni cada cuanto ni que sea dosis unica`);
+    });
+  });
+
+  test('Pediatría: la vía de cada línea es una de las declaradas', () => {
+    todasLasLineas.forEach(([f, d]) => assert(d.via && pedDosis.VIAS[d.via],
+      `una linea de '${f.id}' tiene la via '${d.via}', que no esta en VIAS`));
+  });
+
+  test('Pediatría: los techos son positivos y el de la toma no supera al del día', () => {
+    todasLasLineas.forEach(([f, d]) => {
+      ['maxDosis', 'maxDia', 'maxMgkgDosis', 'maxMgkgDia'].forEach(k => {
+        if (d[k] !== undefined) assert(typeof d[k] === 'number' && d[k] > 0,
+          `'${f.id}' tiene un ${k} que no es un numero positivo`);
+      });
+      if (typeof d.maxDosis === 'number' && typeof d.maxDia === 'number') {
+        assert(d.maxDosis <= d.maxDia, `'${f.id}' tiene un techo por toma mayor que el del dia`);
+      }
+    });
+  });
+
+  test('Pediatría: las franjas son coherentes y ninguna línea mezcla dos ejes', () => {
+    todasLasLineas.forEach(([f, d]) => {
+      [['edadMin', 'edadMax'], ['egMin', 'egMax'], ['pesoMin', 'pesoMax']].forEach(([lo, hi]) => {
+        if (typeof d[lo] === 'number' && typeof d[hi] === 'number') {
+          assert(d[lo] < d[hi], `'${f.id}' tiene una franja con ${lo} >= ${hi}`);
+        }
+      });
+      // Edad gestacional y dias de vida en la misma linea se combinarian con Y, y lo que dicen
+      // los manuales suele ser una disyuncion ("33 a 37 semanas O nacido a termino de menos de
+      // 10 dias"): escribirla como Y deja fuera al recien nacido de termino.
+      const tieneEg = typeof d.egMin === 'number' || typeof d.egMax === 'number';
+      const tieneEdad = typeof d.edadMin === 'number' || typeof d.edadMax === 'number';
+      assert(!(tieneEg && tieneEdad),
+        `'${f.id}' acota a la vez por edad gestacional y por dias de vida: los ejes se combinan con Y y la fuente casi siempre dice O`);
+    });
+  });
+
+  /* ---- Las fuentes ---- */
+  test('Pediatría: cada línea declara evidencia y una fuente con página', () => {
+    todasLasLineas.forEach(([f, d]) => {
+      assert(pedia.EVIDENCIA[d.evidencia], `una linea de '${f.id}' tiene la evidencia '${d.evidencia}', que no existe`);
+      assert(d.fuente && pedia.FUENTES[d.fuente.ref],
+        `una linea de '${f.id}' cita una fuente que no esta declarada`);
+      assert(Number.isInteger(d.fuente.pagina) && d.fuente.pagina > 0,
+        `una linea de '${f.id}' no dice en que pagina se leyo: sin pagina el dato no es comprobable`);
+    });
+  });
+
+  test('Pediatría: la evidencia concuerda con lo que su fuente puede respaldar', () => {
+    todasLasLineas.forEach(([f, d]) => {
+      const fuente = pedia.FUENTES[d.fuente.ref];
+      assert(fuente.autoridad === d.evidencia,
+        `'${f.id}' marca la linea como '${d.evidencia}' citando a ${d.fuente.ref}, cuya autoridad es '${fuente.autoridad}'`);
+      if (d.evidencia === 'guia') {
+        assert(/\b(19|20)\d{2}\b/.test(fuente.cita),
+          `la fuente ${d.fuente.ref} se presenta como guia pero su cita no lleva ano`);
+      }
+      // Lo mismo que vigila VPO: decir "practica estandar" no es citar una fuente.
+      assert(!/pr[áa]ctica\s+est[áa]ndar/i.test(fuente.cita),
+        `la cita de ${d.fuente.ref} invoca una "practica estandar" en vez de una fuente`);
+    });
+  });
+
+  test('Pediatría: ninguna línea ordena el tratamiento sin una guía detrás', () => {
+    // La prueba mas importante del bloque. Ninguna de las fuentes de esta seccion es una guia de
+    // tratamiento: son manuales de dosificacion, dicen cuanto y no que primero. Marcar una linea
+    // como primera eleccion citando un manual le atribuye una recomendacion que no hace, y quien
+    // abre un cuadro y lee "primera linea" lo prescribe.
+    todasLasLineas.forEach(([f, d]) => {
+      if (d.linea === undefined) return;
+      assert(d.fuenteLinea && pedia.FUENTES[d.fuenteLinea.ref],
+        `'${f.id}' declara un orden de eleccion sin 'fuenteLinea'`);
+      const fl = pedia.FUENTES[d.fuenteLinea.ref];
+      assert(fl.autoridad === 'guia',
+        `'${f.id}' apoya un orden de eleccion en ${d.fuenteLinea.ref}, que no es una guia de tratamiento`);
+      assert(/\b(19|20)\d{2}\b/.test(fl.cita),
+        `la guia que ordena el tratamiento de '${f.id}' no lleva ano`);
+    });
+  });
+
+  test('Pediatría: toda fuente declarada la cita alguna línea', () => {
+    // Una fuente declarada y no usada es una fuente que nadie comprobo.
+    const usadas = new Set(todasLasLineas.map(([, d]) => d.fuente.ref));
+    Object.keys(pedia.FUENTES).forEach(ref => assert(usadas.has(ref),
+      `la fuente '${ref}' esta declarada pero no la cita ninguna linea`));
+  });
+
+  /* ---- La aritmética (engine/pediatria-dosis.js, puro) ---- */
+  test('Pediatría dosis: redondearVolumen usa el paso de jeringa que corresponde', () => {
+    assertEqual(Math.round(pedDosis.redondearVolumen(0.834) * 1000) / 1000, 0.83, 'por debajo de 1 mL, paso de 0.01');
+    assertEqual(Math.round(pedDosis.redondearVolumen(7.46) * 100) / 100, 7.5, 'entre 1 y 10 mL, paso de 0.1');
+    assertEqual(Math.round(pedDosis.redondearVolumen(12.3) * 100) / 100, 12.5, 'por encima de 10 mL, paso de 0.5');
+    assertEqual(pedDosis.redondearVolumen(0), 0);
+    assertEqual(pedDosis.redondearVolumen(-3), 0);
+    assertEqual(pedDosis.redondearVolumen('hola'), 0);
+  });
+
+  test('Pediatría dosis: los mg que se muestran son los que entrega el volumen redondeado', () => {
+    // Si se redondea el volumen y no los mg, lo que queda impreso es una contradiccion: pide un
+    // volumen que la jeringa no puede medir y afirma unos mg que ese volumen no entrega.
+    const amox = pedia.farmacos.find(f => f.id === 'amoxicilina');
+    const pres = amox.presentaciones.find(p => p.id === 'susp-250');
+    const r = pedDosis.calcularDosis(amox.dosis[0], { peso: 12.4 }, pres);
+    const porML = pres.mg / pres.mL;
+    assertEqual(Math.round(r.volumen.mg * 1000) / 1000, Math.round(r.volumen.mL * porML * 1000) / 1000,
+      'los mg impresos no son los del volumen redondeado');
+  });
+
+  test('Pediatría dosis: el tope de adulto se aplica y se puede explicar', () => {
+    const aceta = pedia.farmacos.find(f => f.id === 'acetaminofen');
+    const r = pedDosis.calcularDosis(aceta.dosis[0], { peso: 70 }, null);
+    assertEqual(r.dosis.max, 1000, 'el techo de 1 g por toma no se aplico');
+    assertEqual(r.topeMordio, 'dosis');
+    assert(Math.abs(r.mgkgReal.max - 1000 / 70) < 1e-9, 'el mg/kg efectivo tras el tope no cuadra');
+    assert(r.sinTope && Math.abs(r.sinTope.dosis.max - 15 * 70) < 1e-9,
+      'no se conserva lo que habria dado la aritmetica sin topar');
+  });
+
+  test('Pediatría dosis: el techo por peso acota donde el absoluto no llega', () => {
+    // El neonato: 90 mg/kg/dia sobre 3.2 kg son 288 mg, muy por debajo de cualquier techo
+    // absoluto. Si solo existiera el techo en mg, el recien nacido se quedaria sin techo.
+    const aceta = pedia.farmacos.find(f => f.id === 'acetaminofen');
+    const neo = aceta.dosis.find(d => d.maxMgkgDia === 90);
+    assert(neo, 'se esperaba una linea neonatal con techo de 90 mg/kg/dia');
+    const r = pedDosis.calcularDosis(neo, { peso: 3.2 }, null);
+    assert(r.topes.dia !== null && Math.abs(r.topes.dia - 90 * 3.2) < 1e-9,
+      'el techo por peso no se convirtio a mg para este nino');
+    assertEqual(r.topes.diaDe, 'mgkg');
+  });
+
+  test('Pediatría dosis: redondear nunca cruza el techo', () => {
+    const linea = { mgkg: { valor: 100, por: 'dosis' }, cada: 6, via: 'oral', maxDosis: 101 };
+    const pres = { id: 'x', etiqueta: 'jarabe 100 mg/5 mL', mg: 100, mL: 5 };
+    const r = pedDosis.calcularDosis(linea, { peso: 1 }, pres);
+    assert(r.volumen.mg <= 101 + 1e-6,
+      `el volumen redondeado entrega ${r.volumen.mg} mg y el techo es 101: un techo que se salta al redondear no es un techo`);
+  });
+
+  test('Pediatría dosis: sin peso devuelve null y no inventa un número', () => {
+    const amox = pedia.farmacos.find(f => f.id === 'amoxicilina');
+    assertEqual(pedDosis.calcularDosis(amox.dosis[0], {}, null), null);
+    assertEqual(pedDosis.calcularDosis(amox.dosis[0], { peso: null }, null), null);
+  });
+
+  test('Pediatría dosis: un peso imposible se rechaza en vez de calcularse', () => {
+    const amox = pedia.farmacos.find(f => f.id === 'amoxicilina');
+    [0, -5, 0.1, 400, NaN, '70'].forEach(peso => assertEqual(
+      pedDosis.calcularDosis(amox.dosis[0], { peso }, null), null, `acepto un peso de ${peso}`));
+  });
+
+  test('Pediatría dosis: una dosis fija se resuelve sin peso', () => {
+    // Las dos dosis que hay que poner con mas prisa, la del autoinyector de adrenalina por tramos
+    // de peso y la de adulto del adolescente, son fijas: exigir ficha para darlas seria absurdo.
+    const cef = pedia.farmacos.find(f => f.id === 'ceftriaxona');
+    const fija = cef.dosis.find(d => d.fija);
+    assert(fija, 'se esperaba una linea de dosis fija en ceftriaxona');
+    const r = pedDosis.calcularDosis(fija, {}, null);
+    assert(r && r.dosis.max === fija.fija.valor, 'la dosis fija no se resolvio sin peso');
+    assertEqual(r.porPeso, false);
+  });
+
+  test('Pediatría dosis: un volumen que no se puede medir se avisa y no se imprime', () => {
+    const adr = pedia.farmacos.find(f => f.id === 'adrenalina');
+    const pres = adr.presentaciones.find(p => p.id === 'amp-1000');
+    const r = pedDosis.calcularDosis(adr.dosis[0], { peso: 0.5 }, pres);
+    assertEqual(r.volumen, null, 'imprimio un volumen por debajo de la marca mas pequena de la jeringa');
+    assert(r.avisos.some(a => /diluir/.test(a)), 'no aviso de que hay que diluir');
+  });
+
+  test('Pediatría dosis: lineaAplica responde sin-dato cuando falta la edad, nunca false', () => {
+    // Esconder una dosis por un dato que nadie pidio es una dosis que el residente no llego a ver.
+    const amox = pedia.farmacos.find(f => f.id === 'amoxicilina');
+    const conFranja = amox.dosis.find(d => typeof d.edadMin === 'number');
+    assertEqual(pedDosis.lineaAplica(conFranja, {}), 'sin-dato');
+    assertEqual(pedDosis.lineaAplica(conFranja, { edadDias: 1 }), false);
+    assertEqual(pedDosis.lineaAplica(conFranja, { edadDias: 1000 }), true);
+  });
+
+  test('Pediatría dosis: la edad se convierte igual venga en días, meses o años', () => {
+    assertEqual(pedDosis.aDias(10, 'd'), 10);
+    assert(Math.abs(pedDosis.aDias(3, 'm') - 3 * pedDosis.DIAS_POR_MES) < 1e-9);
+    assert(Math.abs(pedDosis.aDias(2, 'a') - 2 * pedDosis.DIAS_POR_ANO) < 1e-9);
+    assertEqual(pedDosis.aDias(-1, 'd'), null);
+    assertEqual(pedDosis.aDias(3, 'semanas'), null);
+    // Tres meses no son tres dias: es la conversion que decide que linea de dosis aplica.
+    assert(pedDosis.aDias(3, 'm') > 85 && pedDosis.aDias(3, 'm') < 95);
+  });
+
+  test('Pediatría dosis: ninguna línea de ningún fármaco revienta el cálculo', () => {
+    const pesos = [3.2, 12.4, 28, 60];
+    todasLasLineas.forEach(([f, d]) => {
+      f.presentaciones.forEach(p => pesos.forEach(peso => {
+        const r = pedDosis.calcularDosis(d, { peso }, p);
+        if (!r) return;
+        [r.dosis.min, r.dosis.max].forEach(v => assert(isFinite(v) && v > 0,
+          `'${f.id}' con ${peso} kg da una dosis que no es un numero positivo`));
+        if (typeof d.maxDosis === 'number') assert(r.dosis.max <= d.maxDosis + 1e-6,
+          `'${f.id}' con ${peso} kg se pasa de su techo por toma`);
+        if (r.volumen) assert(isFinite(r.volumen.mL) && r.volumen.mL > 0,
+          `'${f.id}' con ${peso} kg y ${p.id} da un volumen que no es un numero positivo`);
+      }));
+    });
+  });
+
+  /* ---- El pintado (solo existe al pintar, así que probar los datos no lo cubre) ---- */
+  test('Pediatría: la lista encuentra un fármaco por su alias, su clase y su vía', () => {
+    const nombres = q => [...pedFarmVista.listaFarmacosPediaHTML(q)
+      .matchAll(/class="vpo-drug-name">([^<]+)</g)].map(m => m[1]);
+    assert(nombres('amoxi').includes('Amoxicilina'), 'el alias "amoxi" no encuentra la amoxicilina');
+    assert(nombres('epinefrina').includes('Adrenalina'), 'el alias "epinefrina" no encuentra la adrenalina');
+    assert(nombres('antibiotico').includes('Azitromicina'),
+      'buscar "antibiotico" deja fuera a los macrolidos: la palabra tiene que estar en la etiqueta de la clase');
+    // La via solo vive en el chip de la fila: si no entra en el pajar, buscarla devuelve cero
+    // teniendola delante. Es el mismo defecto que dejo documentado la lista de VPO.
+    assert(nombres('nebulizada').includes('Salbutamol'), 'buscar por via no encuentra nada');
+    assert(nombres('otitis').includes('Amoxicilina'), 'no se puede buscar por enfermedad desde la pestana de farmacos');
+  });
+
+  test('Pediatría: la lista por enfermedad encuentra un cuadro por el fármaco que lo trata', () => {
+    const nombres = q => [...pedEnfVista.listaCuadrosPediaHTML(q)
+      .matchAll(/class="vpo-drug-name">([^<]+)</g)].map(m => m[1]);
+    assert(nombres('ceftriaxona').length, 'buscar un farmaco en la pestana por enfermedad no devuelve sus cuadros');
+    assert(nombres('OMA').includes('Otitis media aguda'), 'el alias de un cuadro no lo encuentra');
+  });
+
+  test('Pediatría: la ficha nombra la presentación en cada volumen, y repite el peso usado', () => {
+    const previo = syncGet('rm:pedia:paciente', {});
+    try {
+      syncSet('rm:pedia:paciente', { peso: '12.4', edad: '3', edadUnidad: 'a' });
+      const amox = pedia.farmacos.find(f => f.id === 'amoxicilina');
+      const html = pedVista.lineaHTML(amox.dosis[0], amox);
+      const pres = pedVista.presentacionElegida(amox);
+      assert(html.includes('Con 12.4 kg'),
+        'la linea no repite el peso que uso: es la defensa principal contra el error de factor diez');
+      // Ni un mililitro suelto: 5 mL de 125 mg/5 mL y 5 mL de 250 mg/5 mL se ven igual en la jeringa.
+      const bloqueVol = (html.match(/<div class="pedia-calc-vol">(.*?)<\/div>/) || [])[1] || '';
+      assert(bloqueVol.includes('mL'), 'no se pinto el volumen');
+      assert(bloqueVol.includes(pres.etiqueta),
+        'hay un volumen en pantalla sin decir de que presentacion sale');
+      assert(/al día/.test(html), 'no se imprimen las dos lecturas, por toma y por dia');
+    } finally {
+      syncSet('rm:pedia:paciente', previo);
+    }
+  });
+
+  test('Pediatría: sin peso no se pinta ningún número calculado', () => {
+    const previo = syncGet('rm:pedia:paciente', {});
+    try {
+      syncSet('rm:pedia:paciente', {});
+      const amox = pedia.farmacos.find(f => f.id === 'amoxicilina');
+      const html = pedVista.lineaHTML(amox.dosis[0], amox);
+      assert(!/pedia-calc/.test(html), 'pinto un bloque de calculo sin peso en la ficha');
+      // Pero el dato crudo sigue estando: la seccion es un libro de consulta antes que una
+      // calculadora, y sin peso tiene que seguir siendo util.
+      assert(/mg\/kg/.test(html), 'sin peso desaparecio tambien el dato del manual');
+    } finally {
+      syncSet('rm:pedia:paciente', previo);
+    }
+  });
+
+  test('Pediatría: la vista por enfermedad no presenta un orden de elección sin fuente', () => {
+    // Mientras ninguna linea declare `linea` con su guia, el cuadro tiene que decir en pantalla
+    // que lo que muestra no es un orden de eleccion.
+    pedia.indicaciones.forEach(i => {
+      const hayOrden = pedEnfVista.farmacosDeCuadro(i.id).some(x => x.lineas.some(l => l.linea));
+      if (hayOrden) return;
+      const html = pedEnfVista.cuadroHTML(i.id).html;
+      assert(/No es un orden de elección/.test(html),
+        `el cuadro '${i.id}' lista farmacos sin decir que no es un orden de eleccion`);
+      // Y el contexto se pinta siempre, encima de la lista: es lo que dice a que paciente aplica.
+      const cuadro = pedia.indicaciones.find(x => x.id === i.id);
+      assert(html.includes(cuadro.contexto), `el cuadro '${i.id}' no pinta su contexto`);
+    });
+  });
+
+  test('Pediatría: el peso del niño no se comparte con el de la valoración preoperatoria', () => {
+    // Quien valora a un adulto de 70 kg y luego consulta una dosis pediatrica no debe heredar
+    // ese peso. Son claves distintas a proposito.
+    const previoVpo = syncGet('rm:vpo:paciente', {});
+    const previoPed = syncGet('rm:pedia:paciente', {});
+    try {
+      syncSet('rm:vpo:paciente', { peso: '70' });
+      syncSet('rm:pedia:paciente', {});
+      assertEqual(pedFicha.pacientePedia().peso, null,
+        'el peso de la valoracion preoperatoria se colo en la seccion de pediatria');
+    } finally {
+      syncSet('rm:vpo:paciente', previoVpo);
+      syncSet('rm:pedia:paciente', previoPed);
+    }
+  });
+
+  /* ---- Trinquete de contenido ---- */
+  test('Pediatría: el catálogo no se encoge', () => {
+    assert(pedia.farmacos.length >= PEDIA_FARMACOS_MINIMO,
+      `hay ${pedia.farmacos.length} farmacos y la marca esta en ${PEDIA_FARMACOS_MINIMO}`);
+    assert(todasLasLineas.length >= PEDIA_LINEAS_MINIMO,
+      `hay ${todasLasLineas.length} lineas de dosis y la marca esta en ${PEDIA_LINEAS_MINIMO}`);
+    assert(pedia.indicaciones.length >= PEDIA_CUADROS_MINIMO,
+      `hay ${pedia.indicaciones.length} cuadros y la marca esta en ${PEDIA_CUADROS_MINIMO}`);
+  });
+
+  test('Pediatría: los cuadros declarados completos siguen completos', () => {
+    PEDIA_CUADROS_COMPLETOS.forEach(id => {
+      assert(pedia.indicaciones.some(i => i.id === id), `el cuadro completo '${id}' ya no existe`);
+      const encontrados = pedEnfVista.farmacosDeCuadro(id);
+      assert(encontrados.length, `el cuadro completo '${id}' se quedo sin farmacos`);
+      encontrados.forEach(({ farmaco, lineas }) => lineas.forEach(l => {
+        assert(l.fuente && l.fuente.ref && l.fuente.pagina,
+          `una linea de '${farmaco.id}' en el cuadro completo '${id}' perdio su fuente`);
+      }));
+    });
+  });
+
   // Las escalas que VPO enlaza de otros temas se resuelven aquí, fuera del test: el runner es
   // síncrono y una promesa rechazada dentro de un test() pasaría inadvertida.
   const vpoEngineLinks = await import('./engine/vpo.js');
@@ -973,6 +1421,104 @@ async function run() {
     // que estar en ella, o esta prueba dejaria de mirarlo.
     MODULOS_VPO.forEach(f => hermanosDe(f).forEach(h => assert(MODULOS_VPO.includes(h),
       `'${f}' importa '${h}', que no esta en la lista de modulos de VPO`)));
+  });
+
+
+  // La sección Pediatría son nueve módulos más su archivo de datos. Igual que con VPO, estas dos
+  // pruebas leen el TEXTO de los archivos en vez de importarlos: lo que vigilan es cómo se
+  // importan unos a otros, y eso no se observa desde los módulos ya cargados.
+  const MODULOS_PEDIA = ['pediatria.js', 'pediatria-acceso.js', 'pediatria-estado.js',
+    'pediatria-ficha.js', 'pediatria-dosis.js', 'pediatria-vista.js', 'pediatria-farmacos.js',
+    'pediatria-enfermedades.js'];
+  const fuentePedia = {};
+  for (const f of MODULOS_PEDIA) {
+    fuentePedia[f] = await (await fetch('./engine/' + f + '?v=' + Date.now())).text();
+  }
+  const hermanosPedia = f => [...fuentePedia[f].matchAll(/from '\.\/(pediatria[^']*\.js)'/g)].map(m => m[1]);
+  const fuenteIndex = await (await fetch('./index.html?v=' + Date.now())).text();
+  const fuenteApp = await (await fetch('./app.js?v=' + Date.now())).text();
+  const fuenteAdmin = await (await fetch('./engine/admin.js?v=' + Date.now())).text();
+
+  test('Pediatría: los módulos de la sección están todos en SHELL del service worker', () => {
+    // SHELL se precachea de forma atómica y CONTENT con tolerancia a fallos: un módulo del motor
+    // que cayera en CONTENT podría quedarse sin cachear y la sección se caería al abrir la app
+    // sin red. Con nueve archivos, olvidar uno es el fallo fácil, y no se nota hasta que alguien
+    // está sin conexión.
+    MODULOS_PEDIA.forEach(f => assert(SHELL_SW.includes(`./engine/${f}`),
+      `'engine/${f}' no esta en SHELL de sw.js: offline, la seccion Pediatria se rompe`));
+    ['./protocols/pediatria-farmacos.js', './engine/listas-marcables.js'].forEach(u => {
+      assert(SHELL_SW.includes(u), `${u} no esta en SHELL de sw.js`);
+      assert(!CONTENT_SW.includes(u), `${u} no puede estar en CONTENT`);
+    });
+    // Y que la lista de arriba no se quede corta: cualquier hermano que alguien importe tiene que
+    // estar en ella, o esta prueba dejaria de mirarlo.
+    MODULOS_PEDIA.forEach(f => hermanosPedia(f).forEach(h => assert(MODULOS_PEDIA.includes(h),
+      `'${f}' importa '${h}', que no esta en la lista de modulos de Pediatria`)));
+  });
+
+  test('Pediatría: las dependencias entre módulos van en una sola dirección', () => {
+    // La regla del area: ninguna pestana importa a otra. Lo que las dos necesitan (la ficha del
+    // nino, la aritmetica, el pintado de una linea) vive en modulos que no importan a nadie del
+    // area. Cualquier otra arista es un ciclo esperando a pasar, y en modulos ES un ciclo no
+    // falla al cargar: falla mas tarde, con un undefined dificil de rastrear.
+    const PERMITIDO = {
+      'pediatria-dosis.js': [],
+      'pediatria-estado.js': [],
+      'pediatria-acceso.js': [],
+      'pediatria-ficha.js': ['pediatria-dosis.js', 'pediatria-estado.js'],
+      'pediatria-vista.js': ['pediatria-dosis.js', 'pediatria-ficha.js'],
+      'pediatria-farmacos.js': ['pediatria-dosis.js', 'pediatria-estado.js', 'pediatria-ficha.js', 'pediatria-vista.js'],
+      'pediatria-enfermedades.js': ['pediatria-dosis.js', 'pediatria-estado.js', 'pediatria-ficha.js', 'pediatria-vista.js'],
+      'pediatria.js': MODULOS_PEDIA.filter(f => f !== 'pediatria.js')
+    };
+    MODULOS_PEDIA.forEach(f => hermanosPedia(f).forEach(h => assert(PERMITIDO[f].includes(h),
+      `'${f}' importa '${h}', que no esta permitido`)));
+    // Nadie importa al cascaron: es la puerta de entrada de la seccion, no una pieza mas.
+    MODULOS_PEDIA.filter(f => f !== 'pediatria.js').forEach(f => assert(!hermanosPedia(f).includes('pediatria.js'),
+      `'${f}' importa el cascaron engine/pediatria.js`));
+    // Y las dos pestanas no se conocen entre si.
+    assert(!hermanosPedia('pediatria-farmacos.js').includes('pediatria-enfermedades.js')
+      && !hermanosPedia('pediatria-enfermedades.js').includes('pediatria-farmacos.js'),
+      'las dos pestanas de Pediatria se importan entre si');
+  });
+
+  test('Pediatría: la sección está declarada en los cuatro sitios que hacen falta', () => {
+    // Una seccion son cuatro declaraciones sueltas, y olvidar una falla de una forma distinta:
+    // sin la seccion en index.html el montaje no encuentra donde pintar; sin SECTION_TITLES la
+    // cabecera dice "MIOsler"; sin la rama de showSection el boton no hace nada; y sin la
+    // etiqueta de admin.js la tabla de uso muestra el id en crudo.
+    assert(/id="sec-pediatria"/.test(fuenteIndex), 'falta la seccion sec-pediatria en index.html');
+    assert(/id="pedia-root"/.test(fuenteIndex), 'falta el contenedor pedia-root en index.html');
+    assert(/data-sec="pediatria"[^>]*id="nav-pediatria"/.test(fuenteIndex),
+      'falta el boton del nav, o su data-sec no cuadra con su id');
+    assert(/id="nav-pediatria"[^>]*style="display:none;"/.test(fuenteIndex),
+      'el boton de Pediatria no nace oculto: lo veria todo el mundo hasta que app.js lo apague');
+    assert(/pediatria:\s*\['Pediatría'/.test(fuenteApp), 'falta la entrada en SECTION_TITLES');
+    assert(/sec === 'pediatria'/.test(fuenteApp), 'falta la rama de montaje en showSection');
+    assert(/pediatria: 'Pediatría'/.test(fuenteAdmin), 'falta la etiqueta en SECTION_LABELS de admin.js');
+  });
+
+  test('Pediatría: el buscador global solo ofrece la sección a quien la ve', () => {
+    // Una entrada que navega a una seccion cuya pestana esta oculta es un callejon sin salida, y
+    // es la unica forma en que esta puerta de entrada se convierte en un error visible.
+    assert(/if \(esPediatra\(\)\) pediaSearchEntries\(\)/.test(fuenteApp),
+      'las entradas de Pediatria entran en el indice del buscador sin comprobar quien es el usuario');
+    // Y el indice deja de ser el mismo para todos, asi que un cambio de sesion lo reconstruye.
+    const reinicio = (fuenteApp.match(/function resetSectionsForNewSession[\s\S]*?\n}/) || [''])[0];
+    assert(/buildAndSetGlobalIndex/.test(reinicio),
+      'al cambiar de sesion no se reconstruye el indice: en un dispositivo compartido seguiria el de la persona anterior');
+  });
+
+  test('Pediatría: las claves que guardan un mapa declaran su estrategia de fusión', () => {
+    // Sin esto caen en 'scalar' y gana el ultimo dispositivo: marcar un farmaco en el telefono
+    // borraria lo marcado en la computadora. Es la razon por la que 'rm:vpo:farmacos' tiene su
+    // linea en strategyFor.
+    assertEqual(strategyFor('rm:pedia:favoritos'), 'bool-map');
+    assertEqual(strategyFor('rm:pedia:cuadros'), 'bool-map');
+    // Y las que NO son mapas tienen que seguir siendo escalares: unir dos pesos daria un
+    // paciente que no existe.
+    assertEqual(strategyFor('rm:pedia:paciente'), 'scalar');
+    assertEqual(strategyFor('rm:pedia:tab'), 'scalar');
   });
 
   /* ---------------- Reparto del precache (sw.js: SHELL frente a CONTENT) ---------------- */

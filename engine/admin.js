@@ -114,7 +114,7 @@ const EVENT_LABELS = {
   deckReview: { start: 'deckReviewStart', complete: 'deckReviewComplete', label: 'Fichas (mazo, Inicio)' },
   case: { start: 'caseStart', complete: 'caseComplete', label: 'Caso clínico' }
 };
-const SECTION_LABELS = { inicio: 'Inicio', estudio: 'Estudio', calc: 'Calc', protocolos: 'Protocolos', vpo: 'VPO', examen: 'Examen', admin: 'Admin' };
+const SECTION_LABELS = { inicio: 'Inicio', estudio: 'Estudio', calc: 'Calc', protocolos: 'Protocolos', vpo: 'VPO', pediatria: 'Pediatría', examen: 'Examen', admin: 'Admin' };
 
 function usageStatsHTML(users) {
   const optedIn = users.filter(u => u['rm:usage-stats']);
@@ -200,6 +200,7 @@ export async function mountAdmin(root) {
       <td>${esc(u.email)}</td>
       <td>${esc(u['rm:profile-hospital'])}</td>
       <td>${esc(u['rm:profile-year'])}</td>
+      <td>${u['rm:profile-pediatria'] ? 'Sí' : '—'}</td>
       <td>${esc(u['rm:profile-country'])}${u['rm:profile-state'] ? ', ' + esc(u['rm:profile-state']) : ''}</td>
       <td>${esc(u['rm:profile-referral'])}</td>
       <td>${formatDate(u.createdAt)}</td>
@@ -220,9 +221,9 @@ export async function mountAdmin(root) {
     <div class="admin-table-wrap">
       <table class="admin-table">
         <thead><tr>
-          <th>Nombre</th><th>Correo</th><th>Hospital</th><th>Año</th><th>País / Estado</th><th>Cómo nos conoció</th><th>Registrado</th>
+          <th>Nombre</th><th>Correo</th><th>Hospital</th><th>Año</th><th>Pediatría</th><th>País / Estado</th><th>Cómo nos conoció</th><th>Registrado</th>
         </tr></thead>
-        <tbody>${rows || `<tr><td colspan="7">Todavía no hay usuarios registrados.</td></tr>`}</tbody>
+        <tbody>${rows || `<tr><td colspan="8">Todavía no hay usuarios registrados.</td></tr>`}</tbody>
       </table>
     </div>
   </div>`;

@@ -14,7 +14,7 @@
      es atómico, bastaba que una sola petición fallara (red móvil, cuota de almacenamiento en
      iOS) para que el install entero se rechazara y el usuario se quedara SIN offline, en
      silencio y sin forma de notarlo. */
-const CACHE_VERSION = 'residentemed-82edbf6487';
+const CACHE_VERSION = 'residentemed-bc253df6a4';
 const SHELL = [
   './',
   './index.html',
@@ -25,6 +25,15 @@ const SHELL = [
   './engine/calculators.js',
   './engine/general-calc.js',
   './engine/protocols.js',
+  './engine/listas-marcables.js',
+  './engine/pediatria.js',
+  './engine/pediatria-acceso.js',
+  './engine/pediatria-estado.js',
+  './engine/pediatria-ficha.js',
+  './engine/pediatria-dosis.js',
+  './engine/pediatria-vista.js',
+  './engine/pediatria-farmacos.js',
+  './engine/pediatria-enfermedades.js',
   './engine/vpo.js',
   './engine/vpo-estado.js',
   './engine/vpo-ficha.js',
@@ -60,7 +69,8 @@ const SHELL = [
   './protocols/vpo-farmacos.js',
   './protocols/vpo-ruta.js',
   './protocols/vpo-estudios.js',
-  './protocols/vpo-riesgos.js'
+  './protocols/vpo-riesgos.js',
+  './protocols/pediatria-farmacos.js'
 ];
 const CONTENT = [
   './topics/endocarditis-infecciosa/content.js',

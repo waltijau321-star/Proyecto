@@ -88,7 +88,7 @@ const builtCount = temarioItems.filter(it => it && typeof it === 'object' && it.
 
 function footerHTML() {
   return `<footer class="home-footer">
-    <p>MIOsler es una herramienta de apoyo académico elaborada por el Dr. Walter Jáuregui para la formación de residentes de Medicina Interna. Es material educativo: no sustituye el juicio clínico ni las guías de práctica vigentes en tu institución.</p>
+    <p>MIOsler es una herramienta de apoyo académico elaborada por el Dr. Walter Jáuregui para la formación de residentes de Medicina Interna y de Pediatría. Es material educativo: no sustituye el juicio clínico ni las guías de práctica vigentes en tu institución.</p>
     <p class="home-footer-copy">© ${new Date().getFullYear()} MIOsler</p>
   </footer>`;
 }
@@ -203,6 +203,7 @@ function renderSignupPage(errorMsg) {
             </div>
             <div class="calc-field"><label for="auth-country">País</label><input type="text" id="auth-country" required autocomplete="country-name"></div>
             <div class="calc-field"><label for="auth-state">Estado / provincia</label><input type="text" id="auth-state" required autocomplete="address-level1"></div>
+            <label class="auth-checkbox-row field-full"><input type="checkbox" id="auth-pediatria">¿Eres de Pediatría? Añade a tu menú la sección de <strong>farmacología pediátrica</strong>: dosis por peso, búsqueda por fármaco y por enfermedad. Puedes cambiarlo cuando quieras en <strong>Mi cuenta</strong>.</label>
             <div class="calc-field field-full"><label for="auth-referral">¿Dónde escuchaste de nosotros?</label>
               <select id="auth-referral">${REFERRAL_SOURCES.map(r => `<option value="${r}">${r}</option>`).join('')}</select>
             </div>
@@ -254,6 +255,7 @@ function renderSignupPage(errorMsg) {
     const country = modal.querySelector('#auth-country').value.trim();
     const state = modal.querySelector('#auth-state').value.trim();
     const referral = modal.querySelector('#auth-referral').value;
+    const pediatria = modal.querySelector('#auth-pediatria').checked;
     const email = modal.querySelector('#auth-email').value.trim();
     const password = modal.querySelector('#auth-password').value;
     const passwordConfirm = modal.querySelector('#auth-password-confirm').value;
@@ -274,6 +276,10 @@ function renderSignupPage(errorMsg) {
       syncSet('rm:profile-country', country);
       syncSet('rm:profile-state', state);
       syncSet('rm:profile-referral', referral);
+      // Decide si la sección Pediatría aparece en el nav (ver engine/pediatria-acceso.js). Se
+      // escribe aquí, con el resto del perfil, y no con setPediatra(): este archivo no debe
+      // importar el módulo de la sección solo para un booleano.
+      syncSet('rm:profile-pediatria', pediatria);
       await createUserWithEmailAndPassword(auth, email, password);
     } catch (err) {
       renderAuthModal(friendlyError(err));
@@ -291,7 +297,7 @@ function termsAndConditionsHTML() {
       <p>Al crear una cuenta en MIOsler aceptas estos términos y condiciones. Si no estás de acuerdo, no debes registrarte ni usar la plataforma.</p>
 
       <h3>2. Qué es MIOsler</h3>
-      <p>MIOsler es una herramienta de apoyo académico, elaborada por el Dr. Walter Jáuregui, dirigida a residentes de Medicina Interna. Es material educativo: no sustituye el juicio clínico ni las guías de práctica vigentes en tu institución, y no debe usarse para tomar decisiones sobre pacientes reales.</p>
+      <p>MIOsler es una herramienta de apoyo académico, elaborada por el Dr. Walter Jáuregui, dirigida a residentes de Medicina Interna y, en su sección de Pediatría, a residentes de Pediatría. Es material educativo: no sustituye el juicio clínico ni las guías de práctica vigentes en tu institución, y no debe usarse para tomar decisiones sobre pacientes reales.</p>
 
       <h3>3. Tu cuenta</h3>
       <p>Eres responsable de la veracidad de los datos que proporcionas (nombre, hospital, año de residencia, país, etc.) y de mantener la confidencialidad de tu contraseña. Puedes solicitar la eliminación de tu cuenta y tus datos escribiendo a waltijau321@gmail.com.</p>

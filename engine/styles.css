@@ -12,6 +12,11 @@
   /* --accent/--modal-accent los fija JS por tema (color por defecto en modo claro);
      -fg es lo que consumen los estilos, para poder aclararlos en modo oscuro sin tocar JS. */
   --accent-fg:var(--accent);
+  /* Dos tonos semánticos de la sección Pediatría: el ámbar del tope de adulto y el rojo del
+     aviso. Son tokens y no hex a pelo porque sobre el panel oscuro el original se queda
+     ilegible; se aclaran abajo con la misma fórmula que --accent-fg. */
+  --pedia-tope-fg:#85602e;
+  --pedia-alerta-fg:#8c3a34;
   --modal-accent-fg:var(--modal-accent,var(--accent));
 
   /* ---- Escala de radio (unifica los valores sueltos que había: 3/6/8/10px) ---- */
@@ -37,6 +42,8 @@
     --chrome-bg:rgba(27,25,21,.92); --chrome-bg-soft:rgba(27,25,21,.9);
     --accent-fg:color-mix(in srgb, var(--accent) 65%, white 35%);
     --modal-accent-fg:color-mix(in srgb, var(--modal-accent,var(--accent)) 65%, white 35%);
+    --pedia-tope-fg:color-mix(in srgb, #85602e 55%, white 45%);
+    --pedia-alerta-fg:color-mix(in srgb, #8c3a34 55%, white 45%);
     --shadow-sm:0 2px 6px rgba(0,0,0,.28);
     --shadow-md:0 12px 32px rgba(0,0,0,.42);
     --shadow-lg:0 12px 40px rgba(0,0,0,.46);
@@ -50,6 +57,8 @@
   --chrome-bg:rgba(27,25,21,.92); --chrome-bg-soft:rgba(27,25,21,.9);
   --accent-fg:color-mix(in srgb, var(--accent) 65%, white 35%);
   --modal-accent-fg:color-mix(in srgb, var(--modal-accent,var(--accent)) 65%, white 35%);
+  --pedia-tope-fg:color-mix(in srgb, #85602e 55%, white 45%);
+  --pedia-alerta-fg:color-mix(in srgb, #8c3a34 55%, white 45%);
   --shadow-sm:0 2px 6px rgba(0,0,0,.28);
   --shadow-md:0 12px 32px rgba(0,0,0,.42);
   --shadow-lg:0 12px 40px rgba(0,0,0,.46);
@@ -623,6 +632,17 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 .nav-item.active{color:var(--shell);}
 .nav-item:hover{color:var(--ink-dim);}
 .nav-item.active:hover{color:var(--shell);}
+/* Con la pestaña de Pediatría el nav llega a 6 botones, y a 7 en la cuenta del autor (Admin).
+   `.nav-item` es flex:1 y conserva min-width:auto, así que "Protocolos", que es una palabra que
+   no parte, se niega a encogerse por debajo de su ancho mínimo y se lo quita a sus vecinos: a
+   360 px con 7 botones las etiquetas se tocan, y a 320 px se desborda. No se recorta el texto
+   con ellipsis ni se hace el nav desplazable: una pestaña a medio leer, o fuera de vista, es una
+   pestaña que nadie encuentra. Se encogen la etiqueta y el icono, que es reversible y no esconde
+   nada. A 9.5 px "Protocolos" mide unos 44 px, que entra con 7 botones hasta los 308 px. */
+@media (max-width:400px){
+  .nav-item{font-size:9.5px; letter-spacing:-.02em;}
+  .nav-item svg{width:21px; height:21px;}
+}
 
 /* ==========================================================================
    CALCULADORAS (grid global reutilizado desde .comp-grid/.comp-card)
@@ -951,6 +971,9 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
    oscurece en modo oscuro y el contraste caía a 2.7:1. Con blanco queda igual en ambos temas. */
 .vpo-ev-guia{color:#fff; background:#3f6b52;}
 .vpo-ev-consenso{color:#fff; background:#85602e;}
+/* Azul pizarra, el mismo tono que el acento de Anticoagulantes en VPO: queda claramente a un
+   lado del verde de "guía" y del ámbar de "consenso" sin inventar un color nuevo en la paleta. */
+.vpo-ev-manual{color:#fff; background:#3d5a73;}
 
 /* ---------------- VPO: pestaña de ruta (asistente por pasos) ---------------- */
 .vpo-miga{list-style:none; margin:0 0 22px; padding:0; display:flex; flex-direction:column; gap:6px;}
@@ -1023,12 +1046,85 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 }
 .vpo-inline-link:hover{opacity:.75;}
 .vpo-d-lead{font-size:14px; color:var(--ink-dim); line-height:1.6; margin:0 0 20px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
-.vpo-d-h{font-family:'Newsreader',serif; font-size:1.05rem; font-weight:600; color:var(--modal-accent); margin:18px 0 7px;}
+.vpo-d-h{font-family:'Newsreader',serif; font-size:1.05rem; font-weight:600; color:var(--modal-accent-fg); margin:18px 0 7px;}
 .vpo-d-b{font-size:14px; color:var(--ink-dim); line-height:1.65;}
 .vpo-d-b ul.cr-list{margin:8px 0 0; padding-left:20px; display:flex; flex-direction:column; gap:7px;}
 @media (max-width:520px){
   .vpo-drug{flex-wrap:wrap;}
   .vpo-drug-main{flex-basis:100%;}
+}
+
+/* ==========================================================================
+   PEDIATRÍA (sección de farmacología pediátrica)
+   Reutiliza casi todo de VPO: .vpo-drug-* para la lista, .vpo-chip, .vpo-ev*, .vpo-ficha* y
+   .pillbar. Lo que sigue es solo la línea de dosis, que no existía en ninguna otra sección.
+   Todos los colores salen de --modal-accent-fg o de los tokens: nunca del crudo --modal-accent,
+   que en modo oscuro se queda ilegible sobre el panel.
+   ========================================================================== */
+
+/* El aviso del peso imposible, en la cabecera de la ficha, donde se ve plegada. */
+.pedia-aviso-peso{color:var(--pedia-alerta-fg); font-weight:600;}
+
+/* Una línea de dosis. La que corresponde al niño de la ficha lleva la barra del acento; las de
+   otras franjas van dentro de un <details> y se quedan sin ella. */
+.pedia-linea{
+  border:1px solid var(--line); border-radius:var(--radius-md); padding:12px 14px; margin-bottom:12px;
+  background:var(--panel);
+}
+.pedia-linea.aplica{border-inline-start:3px solid var(--modal-accent-fg);}
+.pedia-linea-cuadros{
+  font-size:11px; font-weight:600; letter-spacing:.02em; text-transform:uppercase;
+  color:var(--modal-accent-fg); margin-bottom:5px;
+}
+.pedia-linea-dato{font-size:14.5px; font-weight:600; color:var(--ink); line-height:1.5;}
+.pedia-linea-franja{font-size:12px; color:var(--ink-faint); margin-top:2px;}
+.pedia-linea-nota{font-size:13px; color:var(--ink-dim); line-height:1.6; margin-top:8px;}
+
+/* Lo calculado para ESTE niño. Fondo propio para que se distinga del dato del manual: lo de
+   arriba es lo que dice la fuente, esto es aritmética sobre el peso que hay en la ficha. */
+.pedia-calc{
+  margin-top:9px; padding:9px 11px; border-radius:var(--radius-sm);
+  background:var(--panel2); display:flex; flex-direction:column; gap:5px;
+}
+.pedia-calc-mg{font-size:14px; color:var(--ink); line-height:1.5;}
+.pedia-calc-vol{font-size:14px; color:var(--ink); line-height:1.5;}
+/* El tope, cuando muerde. Ámbar oscuro: a 12.5 px el #966b35 del resto de la app se queda en
+   4.26:1 sobre el panel claro, por debajo del mínimo legible. */
+.pedia-calc-tope{font-size:12.5px; color:var(--pedia-tope-fg); font-weight:600; line-height:1.5;}
+.pedia-calc-aviso{font-size:12.5px; color:var(--pedia-alerta-fg); font-weight:600; line-height:1.5;}
+
+/* El selector de presentación y su advertencia. */
+.pedia-pres{margin:0 0 18px;}
+.pedia-pres-unica{font-size:12.5px; color:var(--ink-dim); line-height:1.6; margin:0 0 18px; font-style:italic;}
+
+/* Las franjas que no corresponden al niño de la ficha: a un toque, nunca borradas. */
+.pedia-otras{margin-top:4px;}
+.pedia-otras>summary{
+  cursor:pointer; font-size:12.5px; font-weight:600; color:var(--modal-accent-fg);
+  padding:7px 0; list-style:none;
+}
+.pedia-otras>summary::-webkit-details-marker{display:none;}
+.pedia-otras>summary::before{content:'▸ '; display:inline-block; transition:transform var(--dur-fast) var(--ease);}
+.pedia-otras[open]>summary::before{content:'▾ ';}
+
+/* La vista por enfermedad: un bloque por clase terapéutica, y dentro un fármaco por ficha. */
+.pedia-enf-grupo{margin-bottom:22px;}
+.pedia-enf-grupo>h3{
+  font-family:'Newsreader',serif; font-size:1rem; font-weight:600; color:var(--c);
+  margin:0 0 10px; padding-bottom:5px; border-bottom:1px solid var(--line);
+}
+.pedia-enf-farmaco{margin-bottom:16px;}
+.pedia-enf-nombre{
+  display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; width:100%;
+  background:none; border:none; padding:0 0 7px; cursor:pointer; text-align:start;
+  font-family:'Source Sans 3',sans-serif; font-size:14.5px; font-weight:600; color:var(--ink);
+}
+.pedia-enf-nombre:hover{color:var(--modal-accent-fg);}
+.pedia-enf-ver{font-size:11.5px; font-weight:600; color:var(--modal-accent-fg);}
+
+@media (max-width:520px){
+  .pedia-linea{padding:10px 11px;}
+  .pedia-linea-dato{font-size:14px;}
 }
 .study-section{scroll-margin-top:112px;}
 #study-root .bib-list li{scroll-margin-top:112px;}

@@ -240,6 +240,52 @@ topic's calculators at once, grouped by topic — there's no more "active topic"
 steps: [{ phase, text, note }] }`. Rendered automatically by `engine/protocols.js` — theory first,
 then a per-step checklist with local persistence.
 
+**Pediatría** (`protocols/pediatria-farmacos.js` + `engine/pediatria*.js`): a pharmacology
+formulary for pediatric residents, built like VPO (a shell area with internal tabs, not a
+registry topic). Two tabs, **one dataset**: "Por enfermedad" is *derived* by grouping each drug's
+`dosis[].indicaciones[]`, never hand-written twice, and two tests check referential integrity in
+both directions (an orphan indication is a disease that opens empty).
+
+Four rules that are not style:
+- **Nothing ranks a treatment.** Taketomo, NeoFax and Harriet Lane are *dosing* handbooks: they
+  say how much, not what first. A `linea` field (first choice) is optional and, when present,
+  requires `fuenteLinea` pointing at a treatment guideline with a year; the suite rejects it
+  otherwise. By default the disease view groups by drug class and says on screen that it is not
+  an order of choice, and every indication carries a required `contexto` stating which patient
+  the list does **not** cover.
+- **One `mgkg` key with an explicit `por: 'dosis'|'dia'`**, never two alternative keys, and
+  everything in milligrams (`mgkg` and `presentaciones[].mg` share a unit so they can be
+  divided). Ceilings come in four flavours and the lowest applicable one binds: `maxDosis`/
+  `maxDia` in mg, `maxMgkgDosis`/`maxMgkgDia` in mg/kg. Dropping the per-kg ones leaves the
+  neonate with no ceiling at all.
+- **`evidencia` has three values here**, not VPO's two: `guia | manual | consenso`. The normal
+  case is a reference handbook, which is more than accepted practice and less than a guideline.
+  `evidencia` and `fuente: {ref, pagina}` sit on each **dose line**, not on the drug, because a
+  neonatal line and a pediatric line routinely come from different books.
+- **Every number was read on the page**, and the page is in the data. There is no "verify later"
+  state: a line without `fuente.pagina` does not land. Two traps in that PDF: the text layer has
+  OCR errors (`AC1CLOVIR`, `CURATO` for CITRATO), and the running head of a page is the drug that
+  *starts* on it, so the text at the top is usually the tail of the previous monograph. Searching
+  a page range for "Dosificación" returned a barbiturate's dose under amoxicillin and the topical
+  preparation under systemic clindamycin: read the passage and confirm it is the right drug.
+
+Access is a **UI convenience, not a security boundary**, and `engine/pediatria-acceso.js` says so
+in its header: the flag is `rm:profile-pediatria` on the user's own document, which
+`firestore.rules` lets them write. That is fine, because what it hides is educational material,
+not anybody's data. So **`firestore.rules` is not touched for this**, and there is deliberately no
+email allowlist (`firebase-config.js` is served publicly; a resident's address is a third party's
+data). New users tick a box at signup; the 100+ already registered turn it on in "Mi cuenta",
+which fires the existing `rm:perfil-guardado` event that `app.js` listens to. The author sees it
+always, through `isAdmin()`.
+
+The arithmetic lives in `engine/pediatria-dosis.js`, which is **pure on purpose** so the sync
+runner can cover it with cases: volumes round to the real syringe graduation and then the
+delivered mg are recomputed from the rounded volume (so the chart and the syringe never disagree),
+a ceiling is never crossed by a rounding artefact, the computed row restates the weight it used
+(the tenfold-error defence), no weight returns `null` rather than a number, and `lineaAplica`
+returns `'sin-dato'` rather than `false` when the age is missing, so no dose is ever silently
+hidden.
+
 **Auth gate**: `app.js`'s `init()` waits on `initAuth()` before booting (`bootApp()` runs
 `selectTopic` + `showSection('inicio')` + registers the service worker) — the app only free-boots
 without an auth gate if `engine/firebase-config.js` still has placeholder config
