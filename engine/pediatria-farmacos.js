@@ -6,7 +6,7 @@
 import { farmacos, grupos, indicaciones } from '../protocols/pediatria-farmacos.js';
 import { openModalShell } from './calculators.js';
 import { listaMarcable, bloqueHTML } from './listas-marcables.js';
-import { ACCENT, FAVORITOS_KEY, registrarPintor } from './pediatria-estado.js';
+import { ACCENT, registrarPintor } from './pediatria-estado.js';
 import { VIAS } from './pediatria-dosis.js';
 import { pacientePedia } from './pediatria-ficha.js';
 import { elegirPresentacion, lineaHTML, repartirPorFranja, selectorPresentacionHTML } from './pediatria-vista.js';
@@ -42,7 +42,7 @@ const chipVias = f => {
 };
 
 const listaFarmacos = listaMarcable({
-  prefijo: 'pedia-drug', clave: FAVORITOS_KEY, items: farmacos, grupos,
+  prefijo: 'pedia-drug', items: farmacos, grupos, marcable: false,
   nombre: f => f.farmaco,
   sub: f => f.resumen,
   chip: chipVias,
@@ -56,7 +56,6 @@ const listaFarmacos = listaMarcable({
     (f.dosis || []).map(d => (d.indicaciones || []).map(i => NOMBRES_CUADROS[i] || '').join(' ')).join(' '),
     viasDe(f).map(v => `${VIAS[v]} ${ABREVIATURA[v] || ''}`).join(' ')
   ].join(' '),
-  tituloBoton: 'Marcar como fármaco habitual',
   abrir: 'rmPediaFarmaco'
 });
 
@@ -119,7 +118,6 @@ window.rmPediaPresentacion = (farmacoId, presId) => {
   abrirFarmacoPedia(farmacoId);
 };
 
-export const limpiarFavoritosPedia = () => listaFarmacos.limpiar();
 // Exportada solo para tests.js: la búsqueda se resuelve al pintar la lista (el pajar incluye los
 // alias, la clase y los cuadros), así que probar los datos de cada entrada no la cubre.
 export const listaFarmacosPediaHTML = q => listaFarmacos.listaHTML(q);

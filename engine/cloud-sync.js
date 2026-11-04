@@ -96,11 +96,6 @@ export function strategyFor(key) {
   // 'rm:vpo:ruta' un camino de decisiones, y unir dos caminos daría ramas contradictorias.
   // Para esos dos la estrategia escalar es la correcta: gana el último dispositivo.
   if (key === 'rm:vpo:farmacos' || key === 'rm:vpo:estudios') return 'bool-map';
-  // Pediatría: los fármacos y los cuadros marcados como habituales son acumulativos y se unen
-  // entre dispositivos, por el mismo motivo que los de VPO. Y por el mismo motivo tampoco vale
-  // marcar todo el prefijo 'rm:pedia:': 'rm:pedia:tab' guarda una cadena y 'rm:pedia:paciente' un
-  // objeto con el peso y la edad, y unir dos pesos daría un paciente que no existe.
-  if (key === 'rm:pedia:favoritos' || key === 'rm:pedia:cuadros') return 'bool-map';
   return 'scalar';
 }
 

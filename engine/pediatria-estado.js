@@ -14,8 +14,6 @@ export const TAB_KEY       = 'rm:pedia:tab';
 // valora a un adulto de 70 kg y luego consulta una dosis pediátrica no debe heredar ese peso:
 // compartir la clave convertiría una comodidad en un riesgo de dosificación.
 export const PACIENTE_KEY  = 'rm:pedia:paciente';
-export const FAVORITOS_KEY = 'rm:pedia:favoritos';
-export const CUADROS_KEY   = 'rm:pedia:cuadros';
 
 // Verde salvia: el acento propio de la sección, distinto del granate del contenido de Medicina
 // Interna y del verde del shell, para que se vea de un golpe en qué área se está.

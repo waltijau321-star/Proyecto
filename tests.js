@@ -1438,6 +1438,7 @@ async function run() {
   const fuenteIndex = await (await fetch('./index.html?v=' + Date.now())).text();
   const fuenteApp = await (await fetch('./app.js?v=' + Date.now())).text();
   const fuenteAdmin = await (await fetch('./engine/admin.js?v=' + Date.now())).text();
+  const pediaEstadoFuente = await (await fetch('./engine/pediatria-estado.js?v=' + Date.now())).text();
 
   test('Pediatría: los módulos de la sección están todos en SHELL del service worker', () => {
     // SHELL se precachea de forma atómica y CONTENT con tolerancia a fallos: un módulo del motor
@@ -1509,16 +1510,19 @@ async function run() {
       'al cambiar de sesion no se reconstruye el indice: en un dispositivo compartido seguiria el de la persona anterior');
   });
 
-  test('Pediatría: las claves que guardan un mapa declaran su estrategia de fusión', () => {
-    // Sin esto caen en 'scalar' y gana el ultimo dispositivo: marcar un farmaco en el telefono
-    // borraria lo marcado en la computadora. Es la razon por la que 'rm:vpo:farmacos' tiene su
-    // linea en strategyFor.
-    assertEqual(strategyFor('rm:pedia:favoritos'), 'bool-map');
-    assertEqual(strategyFor('rm:pedia:cuadros'), 'bool-map');
-    // Y las que NO son mapas tienen que seguir siendo escalares: unir dos pesos daria un
-    // paciente que no existe.
+  test('Pediatría: sus dos claves se fusionan como escalares, que es lo correcto para las dos', () => {
+    // La seccion guarda solo dos cosas, y en las dos gana el ultimo dispositivo a proposito:
+    // 'rm:pedia:tab' es una cadena, y 'rm:pedia:paciente' es un objeto que describe a UN nino.
+    // Fusionarlo campo a campo entre dispositivos daria un paciente que no existe, con el peso
+    // de uno y la edad de otro, que es justo el dato con el que no se puede jugar aqui.
     assertEqual(strategyFor('rm:pedia:paciente'), 'scalar');
     assertEqual(strategyFor('rm:pedia:tab'), 'scalar');
+    // Y no quedan claves de la seccion sin estrategia pensada: si alguien anade una que guarde
+    // un mapa acumulativo (unos favoritos, por ejemplo), tiene que declararla en strategyFor o
+    // marcar en el telefono borrara lo marcado en la computadora.
+    const claves = [...pediaEstadoFuente.matchAll(/'(rm:pedia:[a-z-]+)'/g)].map(m => m[1]);
+    assertEqual([...new Set(claves)].sort(), ['rm:pedia:paciente', 'rm:pedia:tab'],
+      'aparecio una clave nueva de Pediatria: decide su estrategia de fusion antes de usarla');
   });
 
   /* ---------------- Reparto del precache (sw.js: SHELL frente a CONTENT) ---------------- */

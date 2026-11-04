@@ -23,8 +23,13 @@ function norm(s) {
 const LISTAS = {};
 
 export function listaMarcable(cfg) {
-  const { prefijo, clave, items, grupos, nombre, sub, chip, heno, tituloBoton, abrir } = cfg;
-  const marcados = () => syncGet(clave, {});
+  const { prefijo, clave, items, grupos, nombre, sub, chip, heno, tituloBoton, abrir,
+          marcable = true } = cfg;
+  // `marcable: false` pinta la lista sin el botón de marcar. No es una preferencia estética: en
+  // VPO ese botón añade el ítem a la nota, que es una acción con un resultado visible en otra
+  // pestaña; en una lista donde no hay nota a la que añadir nada, el botón ocupa sitio en cada
+  // fila y no hace nada que el usuario pueda ver. Sin botón tampoco hay clave que guardar.
+  const marcados = () => (marcable && clave) ? syncGet(clave, {}) : {};
 
   // La etiqueta del grupo entra en el pajar aunque no la escriba cada lista: el placeholder
   // ofrece buscar "por grupo" y "esteroides" o "anticoagulantes" no devolvían nada, porque la
@@ -44,9 +49,9 @@ export function listaMarcable(cfg) {
         <span class="vpo-drug-name">${nombre(it)}</span>
         <span class="vpo-drug-sum">${sub(it)}</span>
       </button>
-      <span class="vpo-chip" style="--chip:${c.color}">${c.label}</span>
+      <span class="vpo-chip" style="--chip:${c.color}">${c.label}</span>${marcable ? `
       <button type="button" class="vpo-drug-add" title="${tituloBoton}"
-        aria-pressed="${on}" onclick="rmListaMarcar('${prefijo}','${it.id}', this)">${on ? '✓' : '+'}</button>
+        aria-pressed="${on}" onclick="rmListaMarcar('${prefijo}','${it.id}', this)">${on ? '✓' : '+'}</button>` : ''}
     </li>`;
   };
 
@@ -70,6 +75,7 @@ export function listaMarcable(cfg) {
   };
 
   const toggle = (id, btn) => {
+    if (!marcable || !clave) return;
     const marks = marcados();
     if (marks[id]) delete marks[id]; else marks[id] = true;
     syncSet(clave, marks);
@@ -82,7 +88,8 @@ export function listaMarcable(cfg) {
     }
   };
 
-  const api = { listaHTML, repintar, toggle, limpiar: () => { syncSet(clave, {}); repintar(); },
+  const api = { listaHTML, repintar, toggle,
+                limpiar: () => { if (marcable && clave) syncSet(clave, {}); repintar(); },
                 paraNota: () => items.filter(it => marcados()[it.id]) };
   LISTAS[prefijo] = api;
   return api;

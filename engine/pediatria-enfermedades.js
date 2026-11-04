@@ -18,7 +18,7 @@
 import { areas, farmacos, grupos, indicaciones } from '../protocols/pediatria-farmacos.js';
 import { openModalShell } from './calculators.js';
 import { listaMarcable } from './listas-marcables.js';
-import { ACCENT, CUADROS_KEY, registrarPintor } from './pediatria-estado.js';
+import { ACCENT, registrarPintor } from './pediatria-estado.js';
 import { pacientePedia } from './pediatria-ficha.js';
 import { lineaHTML, repartirPorFranja } from './pediatria-vista.js';
 
@@ -45,7 +45,7 @@ const nombresDe = cuadroId => farmacosDeCuadro(cuadroId).map(x => x.farmaco.farm
 const items = indicaciones.map(i => ({ ...i, grupo: i.area }));
 
 const listaCuadros = listaMarcable({
-  prefijo: 'pedia-enf', clave: CUADROS_KEY, items, grupos: areas,
+  prefijo: 'pedia-enf', items, grupos: areas, marcable: false,
   nombre: i => i.nombre,
   // El adelanto de la fila son los fármacos mismos: es lo que se viene a ver, y ahorra abrir.
   sub: i => {
@@ -60,7 +60,6 @@ const listaCuadros = listaMarcable({
   // El pajar incluye los nombres de los fármacos que tratan el cuadro: así escribir "amoxicilina"
   // en esta pestaña encuentra los cuadros que trata, y no solo al revés.
   heno: i => [i.nombre, (i.alias || []).join(' '), i.contexto, nombresDe(i.id).join(' ')].join(' '),
-  tituloBoton: 'Marcar este cuadro como habitual',
   abrir: 'rmPediaCuadro'
 });
 
@@ -137,6 +136,5 @@ export function abrirCuadroPedia(id) {
   if (r) openModalShell(r.accent, r.html);
 }
 
-export const limpiarCuadrosPedia = () => listaCuadros.limpiar();
 // Exportada solo para tests.js, igual que la de la otra pestaña.
 export const listaCuadrosPediaHTML = q => listaCuadros.listaHTML(q);
