@@ -264,7 +264,19 @@ Five rules that are not style:
   postnatal days. A line may not declare both `eg*` and `pma*`: two readings of "weeks" in one
   line says nothing about which governs. `carga` carries the loading dose, and `cada` may exceed
   24 h (gentamicin q36 and q48 in the preterm), in which case no daily total is computed because
-  none exists.
+  none exists. Intervals are an explicit allowlist in `tests.js`, not a formula: the neonatal ones
+  follow no arithmetic rule (amikacin q42, q30, q20; vancomycin q18), and a formula loose enough
+  to admit them admits `cada: 7` too.
+- **Three ways to dose, exactly one per line.** `mgkg` (by weight), `fija` (an absolute mg dose
+  that is not multiplied by weight) and `infusion` (continuous, `{min, max, unidad}` with unidad
+  one of `mcg/kg/min`, `mcg/kg/h`, `mg/kg/h`). An infusion carries no `cada` and is never `unica`;
+  it may carry a `carga`. The rate uses the standard drip formula already verified in
+  `engine/infusion-calc.js` (per minute: mL/h = dose x weight x 60 / concentration; per hour:
+  without the 60), and the concentration must be converted to the dose's mass unit, since
+  `presentaciones[].mg` is in mg and vasoactive infusions are in micrograms. Rates round to
+  0.01 mL/h, which is what a neonatal pump programs, and the **decision about whether a pump can
+  deliver it is made on the raw rate, before rounding**: checking the rounded value printed
+  "0 mL/h" as if it were an instruction.
 - **Nothing ranks a treatment.** Taketomo, NeoFax and Harriet Lane are *dosing* handbooks: they
   say how much, not what first. A `linea` field (first choice) is optional and, when present,
   requires `fuenteLinea` pointing at a treatment guideline with a year; the suite rejects it

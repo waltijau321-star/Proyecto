@@ -52,7 +52,32 @@ export const VOLUMEN_ORAL_ALTO = 20;
 // y por eso se pueden dividir. Un fármaco que los manuales dan en microgramos (0.01 mg/kg en vez
 // de 10 mcg/kg) se escribe igualmente en mg: añadir un campo de unidad a la línea de dosis sin
 // añadirlo también a la presentación da un volumen mil veces mayor, y nada avisaría.
+/* ---------------- Infusión continua ----------------
+   La tercera forma de dosificar, además de la dosis por peso y la fija: el fármaco que entra sin
+   parar y se mide en masa por kilo y por tiempo. El midazolam del neonato ventilado y los
+   vasoactivos se pautan así, y sin esto no se podían escribir.
+
+   La fórmula es la estándar de goteo, la misma que usa engine/infusion-calc.js para el adulto y
+   que allí quedó verificada contra la hoja de cálculo del autor:
+     si la dosis es por MINUTO:  mL/h = dosis × peso × 60 / concentración
+     si la dosis es por HORA:    mL/h = dosis × peso / concentración
+   La concentración va en la MISMA unidad de masa que la dosis, y de ahí el factor de 1000 para
+   las que se pautan en microgramos: las presentaciones de este archivo están en mg/mL. */
 const num = v => (typeof v === 'number' && isFinite(v));
+
+export const UNIDADES_INFUSION = {
+  'mcg/kg/min': { porMinuto: true,  masa: 'mcg', porMg: 1000 },
+  'mcg/kg/h':   { porMinuto: false, masa: 'mcg', porMg: 1000 },
+  'mg/kg/h':    { porMinuto: false, masa: 'mg',  porMg: 1 }
+};
+
+// Las bombas de infusión neonatales llegan a la centésima de mL/h, y es la precisión que hace
+// falta: a 1 kg y 0.02 mg/kg/h con una dilución de 1 mg/mL salen 0.02 mL/h, y redondear a la
+// décima lo convertiría en cero o en el doble.
+export function redondearRitmo(mLh) {
+  if (!num(mLh) || mLh <= 0) return 0;
+  return Number((Math.round(mLh * 100) / 100).toFixed(2));
+}
 
 /* ---------------- Redondeo ----------------
    Lo que una jeringa puede medir de verdad, que no es lo mismo que lo que una división puede
@@ -202,6 +227,18 @@ export function textoFranja(linea) {
 export function textoDosis(linea) {
   const d = linea.mgkg || {};
   const partes = [];
+  if (linea.infusion) {
+    const inf = linea.infusion;
+    const rango = num(inf.valor) ? `${inf.valor}` : `${inf.min} a ${inf.max}`;
+    if (linea.carga) {
+      const c = linea.carga;
+      partes.push('carga de ' + (num(c.valor) ? c.valor : c.min + ' a ' + c.max) + ' mg/kg, luego');
+    }
+    partes.push(`${rango} ${inf.unidad} en infusión continua`);
+    if (linea.via) partes.push(VIAS[linea.via] || linea.via);
+    if (linea.duracion) partes.push(linea.duracion);
+    return partes.join(' · ');
+  }
   if (linea.carga) {
     const c = linea.carga;
     partes.push('carga de ' + (num(c.valor) ? c.valor : c.min + ' a ' + c.max) + ' mg/kg, luego');
@@ -232,6 +269,8 @@ export function calcularDosis(linea, paciente, presentacion) {
      calcula igual y se devuelve con peso null. Es lo correcto y además es lo útil, porque las dos
      dosis que hay que poner con más prisa (la adrenalina del autoinyector por tramos de peso y la
      dosis de adulto del adolescente) son justo fijas. */
+  if (linea.infusion) return infusionResuelta(linea, peso, presentacion);
+
   if (linea.fija) return fijaResuelta(linea, peso, presentacion);
 
   if (!num(peso) || peso < PESO_MIN || peso > PESO_MAX) return null;
@@ -384,6 +423,79 @@ function anadirForma(res, linea, mgObjetivo, presentacion, topeDosis) {
   if (Math.abs(n - exacto) / exacto > 0.1) {
     avisos.push(`Partir esta presentación obliga a desviarse más del 10% de la dosis calculada (${redondearMg(exacto * presentacion.mg)} mg): valora una forma líquida.`);
   }
+}
+
+/* ---------------- La línea de infusión continua ----------------
+   Devuelve el ritmo en mL/h además de la masa por hora, porque lo que se programa en la bomba es
+   el ritmo y lo que se anota en el expediente es la dosis. Sin el peso no hay nada que calcular:
+   una infusión por kilo no existe sin el kilo. */
+function infusionResuelta(linea, peso, presentacion) {
+  if (!num(peso) || peso < PESO_MIN || peso > PESO_MAX) return null;
+  const inf = linea.infusion || {};
+  const u = UNIDADES_INFUSION[inf.unidad];
+  if (!u) return null;
+  const lo = num(inf.valor) ? inf.valor : inf.min;
+  const hi = num(inf.valor) ? inf.valor : inf.max;
+  if (!num(lo) || !num(hi)) return null;
+
+  const avisos = [];
+  // Masa por hora, que es lo que se escribe en la indicación.
+  const factorHora = u.porMinuto ? 60 : 1;
+  const masaHora = { min: lo * peso * factorHora, max: hi * peso * factorHora };
+
+  const res = {
+    peso,
+    tomas: null,
+    porDia: false,
+    porPeso: true,
+    esInfusion: true,
+    unidadInfusion: inf.unidad,
+    unidadMasa: u.masa,
+    dosis: { min: lo, max: hi },          // la dosis tal cual, en su unidad de infusión
+    masaHora,
+    dia: { min: null, max: null },
+    sinTope: null,
+    topeMordio: null,
+    topes: { dosis: null, dia: null, dosisDe: null, diaDe: null },
+    mgkgReal: null,
+    volumen: null,
+    unidades: null,
+    carga: null,
+    ritmo: null,
+    avisos
+  };
+
+  if (presentacion && num(presentacion.mg) && presentacion.mg > 0 && num(presentacion.mL) && presentacion.mL > 0) {
+    // La concentración, en la misma unidad de masa que la dosis.
+    const conc = (presentacion.mg / presentacion.mL) * u.porMg;
+    /* Se decide sobre el ritmo CRUDO y se redondea después. Mirar el redondeado para saber si
+       la bomba puede entregarlo es mirar el dato ya destruido: 0.0004 mL/h redondea a 0.00, y
+       comparar ese cero con 0.01 no detecta nada, así que se imprimía "0 mL/h" como si fuera
+       una indicación. El mínimo que programa una bomba es 0.01 mL/h. */
+    const crudo = x => x * peso * factorHora / conc;
+    const crudoMin = crudo(lo), crudoMax = crudo(hi);
+    if (crudoMax < 0.01) {
+      avisos.push('El ritmo queda por debajo de 0.01 mL/h, que es lo mínimo que programa una bomba: hace falta una dilución más diluida.');
+    } else {
+      res.ritmo = { min: redondearRitmo(crudoMin), max: redondearRitmo(crudoMax), etiqueta: presentacion.etiqueta };
+      if (crudoMin < 0.01) {
+        avisos.push('El extremo bajo del rango no llega a 0.01 mL/h con esta dilución: para empezar por ahí hace falta diluir más.');
+      }
+    }
+  }
+
+  // La carga, si la línea la trae, va en mg/kg como en el resto del archivo.
+  if (linea.carga) {
+    const cl = num(linea.carga.valor) ? linea.carga.valor : linea.carga.min;
+    const ch = num(linea.carga.valor) ? linea.carga.valor : linea.carga.max;
+    if (num(cl) && num(ch)) {
+      const sub = { avisos: [], volumen: null, unidades: null };
+      anadirForma(sub, linea, ch * peso, presentacion, null);
+      res.carga = { min: cl * peso, max: ch * peso, volumen: sub.volumen, unidades: sub.unidades };
+    }
+  }
+
+  return res;
 }
 
 /* ---------------- La línea de dosis fija ----------------

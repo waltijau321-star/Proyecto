@@ -881,16 +881,17 @@ async function run() {
 
   // Trinquete de contenido, igual que ATRIB_TOTAL_MINIMO: el número puede SUBIR con cada bloque
   // y nunca bajar. Si baja a propósito, se baja la marca a mano y se dice por qué en el commit.
-  const PEDIA_FARMACOS_MINIMO = 19;
-  const PEDIA_LINEAS_MINIMO = 136;
-  const PEDIA_CUADROS_MINIMO = 40;
+  const PEDIA_FARMACOS_MINIMO = 20;
+  const PEDIA_LINEAS_MINIMO = 145;
+  const PEDIA_CUADROS_MINIMO = 45;
   // Cuadros declarados COMPLETOS: tienen que seguir teniendo al menos un fármaco y todas sus
   // líneas con fuente y página. Un cuadro que entra aquí no vuelve a salir.
   const PEDIA_CUADROS_COMPLETOS = ['otitis-media-aguda', 'neumonia-adquirida-comunidad',
     'fiebre', 'crisis-asmatica', 'anafilaxia', 'sepsis-neonatal-precoz',
     'lactante-febril-sin-foco', 'oftalmia-neonatal', 'conducto-arterioso-persistente', 'crup',
     'herpes-neonatal', 'sepsis-neonatal-tardia', 'infeccion-anaerobios', 'vomito-gastroenteritis',
-    'reflujo-gastroesofagico', 'encefalitis-herpetica'];
+    'reflujo-gastroesofagico', 'encefalitis-herpetica', 'estado-epileptico',
+    'sedacion-ventilacion-mecanica'];
 
   const todasLasLineas = pedia.farmacos.flatMap(f => (f.dosis || []).map(d => [f, d]));
   // Los intervalos que existen de verdad en las tres fuentes, en horas.
@@ -977,11 +978,18 @@ async function run() {
       `el cuadro '${i.id}' no tiene ningun farmaco: se abriria vacio`));
   });
 
-  test('Pediatría: cada línea trae mgkg o fija, nunca las dos', () => {
+  test('Pediatría: cada línea trae una sola forma de dosificar: por peso, fija o en infusión', () => {
     todasLasLineas.forEach(([f, d]) => {
-      const porPeso = !!d.mgkg, fija = !!d.fija;
-      assert(porPeso !== fija, `una linea de '${f.id}' declara mgkg y fija a la vez, o ninguna`);
-      const v = d.mgkg || d.fija;
+      // Tres formas, y exactamente una por linea: la dosis por kilo, la fija que no se
+      // multiplica por el peso, y la infusion continua, que no se mide en masa sino en masa por
+      // tiempo. Una linea con dos seria dos indicaciones distintas escritas como una.
+      const formas = [!!d.mgkg, !!d.fija, !!d.infusion].filter(Boolean).length;
+      assertEqual(formas, 1, `una linea de '${f.id}' declara ${formas} formas de dosificar, y debe declarar 1`);
+      if (d.infusion) {
+        assert(pedDosis.UNIDADES_INFUSION[d.infusion.unidad],
+          `la infusion de '${f.id}' usa la unidad '${d.infusion.unidad}', que no esta declarada`);
+      }
+      const v = d.mgkg || d.fija || d.infusion;
       const tieneValor = typeof v.valor === 'number';
       const tieneRango = typeof v.min === 'number' && typeof v.max === 'number';
       assert(tieneValor !== tieneRango, `una linea de '${f.id}' no trae ni un valor ni un rango, o trae los dos`);
@@ -1013,8 +1021,12 @@ async function run() {
         if (d.mgkg && d.mgkg.por === 'dia') assert(d.cada <= 24,
           `una linea de '${f.id}' da mg/kg/dia con un intervalo de ${d.cada} h, que es mas de un dia`);
       }
-      assert(typeof d.cada === 'number' || d.unica === true,
-        `una linea de '${f.id}' no dice ni cada cuanto ni que sea dosis unica`);
+      // La infusion continua no lleva intervalo ni es dosis unica: es continua, y exigirle
+      // cualquiera de las dos cosas seria describirla mal.
+      assert(typeof d.cada === 'number' || d.unica === true || !!d.infusion,
+        `una linea de '${f.id}' no dice ni cada cuanto, ni que sea dosis unica, ni que sea una infusion`);
+      if (d.infusion) assert(typeof d.cada !== 'number',
+        `la infusion de '${f.id}' declara un intervalo: una infusion continua no tiene intervalo`);
     });
   });
 
@@ -1311,6 +1323,58 @@ async function run() {
           `'${f.id}' con ${peso} kg y ${p.id} da un volumen que no es un numero positivo`);
       }));
     });
+  });
+
+  test('Pediatría dosis: la infusión convierte bien de dosis a ritmo de bomba', () => {
+    /* La formula es la estandar de goteo, la misma que engine/infusion-calc.js dejo verificada
+       contra la hoja de calculo del autor:
+         por minuto:  mL/h = dosis x peso x 60 / concentracion
+         por hora:    mL/h = dosis x peso / concentracion
+       Lo que hay que vigilar es la UNIDAD de la concentracion: las presentaciones estan en mg/mL
+       y las infusiones de vasoactivos en microgramos, asi que falta un factor de 1000 que, si se
+       olvida, da un ritmo mil veces mayor. */
+    const mida = pedia.farmacos.find(f => f.id === 'midazolam');
+    const uno = mida.presentaciones.find(p => p.id === 'amp-1');   // 1 mg/mL
+
+    // Estado epileptico: 1 mcg/kg/min en un nino de 20 kg con dilucion de 1 mg/mL.
+    // 1 x 20 x 60 = 1200 mcg/h, y a 1000 mcg/mL son 1.2 mL/h.
+    const est = mida.dosis.find(d => d.infusion && d.infusion.unidad === 'mcg/kg/min');
+    const r1 = pedDosis.calcularDosis(est, { peso: 20, edadDias: 2000 }, uno);
+    assert(r1 && r1.esInfusion, 'no se resolvio como infusion');
+    assertEqual(Math.round(r1.masaHora.min), 1200, 'los mcg/h no cuadran');
+    assertEqual(r1.ritmo.min, 1.2, 'el ritmo de bomba no cuadra con la formula de goteo');
+
+    // Sedacion neonatal: 0.02 mg/kg/h en 1.4 kg con 1 mg/mL -> 0.028 mg/h -> 0.03 mL/h.
+    const neo = mida.dosis.find(d => d.infusion && d.infusion.unidad === 'mg/kg/h' && d.infusion.min === 0.02);
+    const r2 = pedDosis.calcularDosis(neo, { peso: 1.4, eg: 28, edadDias: 5 }, uno);
+    assert(Math.abs(r2.masaHora.min - 0.028) < 1e-9, 'los mg/h no cuadran');
+    assertEqual(r2.ritmo.min, 0.03, 'el ritmo neonatal no cuadra');
+  });
+
+  test('Pediatría dosis: una infusión sin peso no inventa un ritmo', () => {
+    const mida = pedia.farmacos.find(f => f.id === 'midazolam');
+    const est = mida.dosis.find(d => d.infusion);
+    assertEqual(pedDosis.calcularDosis(est, {}, mida.presentaciones[0]), null);
+    assertEqual(pedDosis.calcularDosis(est, { peso: 400 }, mida.presentaciones[0]), null);
+  });
+
+  test('Pediatría dosis: un ritmo que la bomba no puede programar se avisa y no se imprime', () => {
+    // Por debajo de 0.01 mL/h no hay bomba que lo entregue: decirlo es mas util que imprimir un
+    // numero que nadie puede poner.
+    const linea = { infusion: { valor: 0.02, unidad: 'mg/kg/h' }, via: 'iv' };
+    const concentrada = { id: 'x', etiqueta: 'concentrada 50 mg/mL', mg: 50, mL: 1 };
+    const r = pedDosis.calcularDosis(linea, { peso: 1 }, concentrada);
+    assertEqual(r.ritmo, null, 'imprimio un ritmo que la bomba no puede programar');
+    assert(r.avisos.some(a => /bomba|diluid/i.test(a)), 'no aviso de que hay que diluir mas');
+  });
+
+  test('Pediatría dosis: redondearRitmo trabaja a la centésima de mL/h', () => {
+    // Las bombas neonatales llegan a 0.01 mL/h, y redondear a la decima convertiria 0.028 en
+    // cero o en el doble.
+    assertEqual(pedDosis.redondearRitmo(0.028), 0.03);
+    assertEqual(pedDosis.redondearRitmo(1.234), 1.23);
+    assertEqual(pedDosis.redondearRitmo(0), 0);
+    assertEqual(pedDosis.redondearRitmo(-1), 0);
   });
 
   /* ---- El pintado (solo existe al pintar, así que probar los datos no lo cubre) ---- */

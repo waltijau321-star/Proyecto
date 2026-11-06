@@ -124,6 +124,7 @@ export const areas = [
   { id: 'piel',          label: 'Piel y tejidos blandos',           accent: '#85602e' },
   { id: 'urgencias',     label: 'Urgencias y reanimación',          accent: '#5c4a73' },
   { id: 'digestivo',     label: 'Digestivo',                        accent: '#6b5335' },
+  { id: 'neurologia',    label: 'Neurología y sedación',            accent: '#5c4a73' },
   { id: 'metabolico',    label: 'Metabólico y electrolitos',        accent: '#4a5c73' },
   { id: 'reumatologia',  label: 'Reumatología',                     accent: '#6b5335' },
   { id: 'profilaxis',    label: 'Profilaxis',                       accent: '#4a5c73' }
@@ -280,6 +281,26 @@ export const indicaciones = [
   { id: 'colitis-c-difficile', area: 'digestivo', nombre: 'Colitis por Clostridioides difficile',
     alias: ['C difficile', 'colitis pseudomembranosa', 'diarrea por antibiotico'],
     contexto: 'Colitis por Clostridioides difficile. Lo primero es suspender el antibiótico que la desencadenó cuando sea posible; el tratamiento de esta lista se da por vía oral porque actúa en la luz del colon.' },
+
+  { id: 'estado-epileptico', area: 'neurologia', nombre: 'Estado epiléptico refractario',
+    alias: ['convulsion', 'crisis', 'status', 'epilepsia'],
+    contexto: 'Crisis que no cede con las medidas de primera línea. Lo que hay aquí es la dosis del fármaco: la secuencia del estado epiléptico, con sus tiempos, la decide el protocolo y no una tabla.' },
+
+  { id: 'crisis-convulsiva-aguda', area: 'neurologia', nombre: 'Crisis en racimo del paciente con epilepsia',
+    alias: ['crisis repetitivas', 'racimo', 'rescate', 'intranasal'],
+    contexto: 'Episodios de crisis frecuentes y estereotipados, distintos del patrón habitual del paciente con epilepsia. Es el tratamiento de rescate, no el de fondo.' },
+
+  { id: 'sedacion-procedimiento', area: 'neurologia', nombre: 'Sedación para procedimientos',
+    alias: ['sedacion', 'procedimiento', 'ansiolisis'],
+    contexto: 'Sedación para un procedimiento en el niño que respira solo. Exige monitorización y a alguien dedicado a vigilarla: la dosis es la parte fácil.' },
+
+  { id: 'sedacion-ventilacion-mecanica', area: 'neonatal', nombre: 'Sedación en ventilación mecánica',
+    alias: ['sedacion', 'ventilacion', 'UCIN', 'infusion'],
+    contexto: 'Sedación continua del recién nacido intubado. La necesidad baja mucho si lleva opioide, y en el prematuro hay dudas serias sobre la seguridad del midazolam.' },
+
+  { id: 'premedicacion-intubacion', area: 'neonatal', nombre: 'Premedicación para la intubación',
+    alias: ['intubacion', 'secuencia rapida', 'premedicacion'],
+    contexto: 'Fármacos previos a la intubación programada del recién nacido. Es una secuencia combinada: ninguno de estos fármacos se usa solo para esto.' },
 
   { id: 'bradicardia-reanimacion', area: 'urgencias', nombre: 'Bradicardia con mala perfusión',
     alias: ['paro', 'reanimacion', 'RCP', 'bradicardia', 'asistolia'],
@@ -1614,6 +1635,16 @@ export const farmacos = [
         evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1125 }
       },
       {
+        // Harriet Lane p1125, infusion continua, a cualquier edad: 0.1 a 1 mcg/kg/min, ajustando
+        // al efecto. Viene en la seccion de uso cardiaco, justo despues de las dosis de paro, y
+        // asi se recoge: no se le pone una indicacion de choque que la fuente no nombra.
+        indicaciones: ['bradicardia-reanimacion'],
+        infusion: { min: 0.1, max: 1, unidad: 'mcg/kg/min' },
+        via: 'iv',
+        nota: 'Es la infusión continua de la sección de uso cardíaco del Harriet Lane, para cualquier edad, y se titula al efecto. El extremo alto del rango no es la dosis de inicio.',
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1125 }
+      },
+      {
         // Harriet Lane p1125, crup: nebulizacion como alternativa a la adrenalina racemica,
         // 0.5 mL/kg de la solucion 1:1000 diluidos en 3 mL de salino, con tope de 5 mL.
         indicaciones: ['crup'],
@@ -2218,6 +2249,113 @@ export const farmacos = [
     dilucion: 'La suspensión oral se prepara a 2 mg/mL y lleva bicarbonato de sodio, que es lo que protege al principio activo del ácido del estómago: no se sustituye por agua.',
     administracion: 'Administrar 30 minutos antes del alimento.',
     noTriturar: true
+  },
+
+  {
+    id: 'midazolam',
+    grupo: 'urgencias',
+    farmaco: 'Midazolam',
+    alias: ['Dormicum', 'benzodiacepina', 'midazo', 'sedacion'],
+    resumen: 'Benzodiacepina de acción corta: crisis convulsiva, sedación y la infusión del niño ventilado.',
+    presentaciones: [
+      { id: 'amp-5',  etiqueta: 'ampolla 5 mg/mL', mg: 5, mL: 1 },
+      { id: 'amp-1',  etiqueta: 'ampolla 5 mg/5 mL (1 mg/mL)', mg: 1, mL: 1 },
+      { id: 'dil-05', etiqueta: 'dilución 0.5 mg/mL', mg: 0.5, mL: 1 }
+    ],
+    dosis: [
+      {
+        // Harriet Lane p1245, estado epileptico refractario, a partir de los 2 meses: carga de
+        // 0.2 mg/kg IV una vez y despues infusion continua a 1 mcg/kg/min, subiendo cada 5 min
+        // hasta el efecto. La dosis media descrita es de 2.3 mcg/kg/min, con un rango de 1 a 18.
+        indicaciones: ['estado-epileptico'],
+        carga: { valor: 0.2 },
+        infusion: { min: 1, max: 18, unidad: 'mcg/kg/min' },
+        via: 'iv',
+        edadMin: 60,
+        nota: 'Se empieza en 1 mcg/kg/min y se sube cada 5 minutos hasta el efecto: el extremo alto del rango no es la dosis de inicio. La media descrita es de 2.3 mcg/kg/min.',
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1245 }
+      },
+      {
+        // Harriet Lane p1245, crisis en racimo o convulsiones repetitivas agudas, via
+        // intranasal con la forma inyectable: 0.2 a 0.3 mg/kg/dosis, maximo 10 mg, la mitad en
+        // cada fosa nasal; puede repetirse una vez a los 10 min.
+        indicaciones: ['crisis-convulsiva-aguda'],
+        mgkg: { min: 0.2, max: 0.3, por: 'dosis' },
+        unica: true, via: 'intranasal',
+        maxDosis: 10,
+        edadMin: 29,
+        nota: 'Se administra la mitad de la dosis en cada fosa nasal, con la forma inyectable y un atomizador nasal. Si no hay respuesta a los 10 minutos puede repetirse una vez. Es para las crisis en racimo del paciente con epilepsia, distintas de su patrón habitual.',
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1245 }
+      },
+      {
+        // Harriet Lane p1244, sedacion para procedimientos, via IM: 0.1 a 0.15 mg/kg/dosis de 30
+        // a 60 min antes, maximo 10 mg.
+        indicaciones: ['sedacion-procedimiento'],
+        mgkg: { min: 0.1, max: 0.15, por: 'dosis' },
+        unica: true, via: 'im',
+        maxDosis: 10,
+        edadMin: 29,
+        nota: 'De 30 a 60 minutos antes del procedimiento. El Harriet Lane recoge que en el paciente muy ansioso se ha usado hasta 0.5 mg/kg por dosis.',
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1244 }
+      },
+      {
+        // Harriet Lane p1245, sedacion para procedimientos, via IV, de 6 meses a 5 anos: 0.05 a
+        // 0.1 mg/kg/dosis en 2 a 3 min; puede repetirse cada 2 a 3 min hasta un total de 6 mg.
+        indicaciones: ['sedacion-procedimiento'],
+        mgkg: { min: 0.05, max: 0.1, por: 'dosis' },
+        unica: true, via: 'iv',
+        maxDosis: 6,
+        edadMin: 183, edadMax: 1826,
+        nota: 'Cada dosis se pasa en 2 a 3 minutos y puede repetirse a ese mismo intervalo. El techo de 6 mg es el total acumulado, no el de una sola dosis; el Harriet Lane señala que puede hacer falta hasta 0.6 mg/kg en total para el efecto buscado.',
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1245 }
+      },
+
+      /* ---- Recién nacido (NeoFax) ---- */
+      {
+        // NeoFax p1554, premedicacion para la intubacion endotraqueal, recien nacido de termino:
+        // 0.05 a 0.1 mg/kg/dosis IV o IM.
+        indicaciones: ['premedicacion-intubacion'],
+        mgkg: { min: 0.05, max: 0.1, por: 'dosis' },
+        unica: true, via: 'iv',
+        egMin: 37,
+        nota: 'NeoFax la combina con otros fármacos de la secuencia; no es una sedación aislada.',
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 1554 }
+      },
+      {
+        // NeoFax p1554, sedacion del recien nacido en ventilacion mecanica, de 24 a menos de 32
+        // semanas de edad gestacional: carga de 0.05 a 0.2 mg/kg IV en 2 a 15 min y despues
+        // infusion a 0.02 a 0.03 mg/kg/h. Algunos expertos llegan a 0.2 mg/kg/h.
+        indicaciones: ['sedacion-ventilacion-mecanica'],
+        carga: { min: 0.05, max: 0.2 },
+        infusion: { min: 0.02, max: 0.03, unidad: 'mg/kg/h' },
+        via: 'iv',
+        egMin: 24, egMax: 32,
+        nota: 'La carga se pasa en 2 a 15 minutos. NeoFax recoge que algunos expertos evitan la carga en el prematuro para no provocar hipotensión, sobre todo con la presión lábil o junto a fentanilo, y que otros llegan a 0.2 mg/kg/h de mantenimiento. La infusión puede ir más rápido las primeras horas para alcanzar niveles.',
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 1554 }
+      },
+      {
+        // NeoFax p1554: mas de 32 semanas de edad gestacional, misma carga y mantenimiento
+        // inicial a 0.06 mg/kg/h.
+        indicaciones: ['sedacion-ventilacion-mecanica'],
+        carga: { min: 0.05, max: 0.2 },
+        infusion: { valor: 0.06, unidad: 'mg/kg/h' },
+        via: 'iv',
+        egMin: 32,
+        nota: 'La carga se pasa en 2 a 15 minutos. Es el ritmo inicial: se ajusta al efecto, y baja si el niño lleva opioide.',
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 1554 }
+      }
+    ],
+    mecanismo: 'Agonista del receptor GABA-A: aumenta la frecuencia de apertura del canal de cloro y con ello la inhibición neuronal.',
+    adversos: ['Depresión respiratoria', 'Hipotensión', 'Bradicardia', 'Agitación paradójica, sobre todo en el niño pequeño'],
+    precauciones: [
+      'NeoFax lo incluye en la KIDs List: cautela por debajo de 1500 g, por el riesgo de hemorragia intraventricular grave, leucomalacia periventricular y muerte. Algunos expertos no lo recomiendan en el prematuro por ese motivo.',
+      'El Harriet Lane lo contraindica en el glaucoma de ángulo estrecho y en el choque, y pide cautela en la insuficiencia cardíaca, la renal, la enfermedad pulmonar y la disfunción hepática.',
+      'Bajar la dosis cuando se combina con un opioide o cuando hay compromiso respiratorio: la depresión respiratoria de los dos juntos no es la suma, es más.',
+      'Se recomienda monitorización cardiovascular mientras se administra.'
+    ],
+    dilucion: 'Para infusión continua se diluye hasta una concentración que deje el ritmo en un valor programable por la bomba: con 1 mg/mL, un recién nacido de 1.4 kg a 0.02 mg/kg/h va a 0.03 mL/h, que ya es el límite de lo que una bomba neonatal resuelve. Si el ritmo sale por debajo de 0.01 mL/h hay que diluir más.',
+    administracion: 'La vía intranasal usa la forma inyectable con atomizador, repartida entre las dos fosas nasales.',
+    noTriturar: false
   }
 ];
 

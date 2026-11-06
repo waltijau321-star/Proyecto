@@ -58,6 +58,25 @@ function calculadoHTML(linea, farmaco) {
 
   const filas = [];
 
+  /* La infusión continua se pinta aparte: lo que se programa en la bomba es un RITMO en mL/h, y
+     lo que se escribe en la indicación es una masa por hora. Las dos cosas, y nombrando la
+     dilución, porque el mismo ritmo con otra dilución es otra dosis. */
+  if (r.esInfusion) {
+    if (r.carga) {
+      const volC = r.carga.volumen
+        ? ` · ${r.carga.volumen.etiqueta} → ${Math.round(r.carga.volumen.mL * 100) / 100} mL (${redondearMg(r.carga.volumen.mg)} mg)`
+        : '';
+      filas.push(`<div class="pedia-calc-carga"><strong>Carga, una sola vez: ${parTexto(r.carga, 'mg')}</strong>${volC}</div>`);
+    }
+    filas.push(`<div class="pedia-calc-mg"><strong>Con ${r.peso} kg → ${parTexto(r.masaHora, r.unidadMasa + '/h')}</strong></div>`);
+    if (r.ritmo) {
+      const rango = (r.ritmo.min === r.ritmo.max) ? `${r.ritmo.max}` : `${r.ritmo.min} a ${r.ritmo.max}`;
+      filas.push(`<div class="pedia-calc-vol">${r.ritmo.etiqueta} → <strong>${rango} mL/h</strong> en la bomba</div>`);
+    }
+    (r.avisos || []).forEach(x => filas.push(`<div class="pedia-calc-aviso">${x}</div>`));
+    return `<div class="pedia-calc">${filas.join('')}</div>`;
+  }
+
   // Los mg. Se imprimen la lectura por toma Y la lectura por día siempre que se conozcan las dos:
   // una línea mal etiquetada (mg/kg/día escrito como mg/kg/dosis, o al revés) produce así un
   // total diario visiblemente absurdo en vez de una toma plausiblemente equivocada.
