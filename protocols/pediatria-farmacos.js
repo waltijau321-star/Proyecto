@@ -108,6 +108,8 @@ export const grupos = [
   { id: 'otros-atb',     label: 'Otros antibióticos: macrólidos y aminoglucósidos', accent: '#5c4a73' },
   { id: 'corticoides',   label: 'Corticoides sistémicos',           accent: '#85602e' },
   { id: 'broncodilatadores', label: 'Broncodilatadores',            accent: '#3f6b52' },
+  { id: 'antivirales',   label: 'Antivirales',                      accent: '#4a5c73' },
+  { id: 'digestivo',     label: 'Digestivo: antieméticos y antiácidos', accent: '#6b5335' },
   { id: 'urgencias',     label: 'Fármacos de urgencia',             accent: '#7c2d2d' }
 ];
 
@@ -121,6 +123,7 @@ export const areas = [
   { id: 'neonatal',      label: 'Neonatología',                     accent: '#5a6b35' },
   { id: 'piel',          label: 'Piel y tejidos blandos',           accent: '#85602e' },
   { id: 'urgencias',     label: 'Urgencias y reanimación',          accent: '#5c4a73' },
+  { id: 'digestivo',     label: 'Digestivo',                        accent: '#6b5335' },
   { id: 'metabolico',    label: 'Metabólico y electrolitos',        accent: '#4a5c73' },
   { id: 'reumatologia',  label: 'Reumatología',                     accent: '#6b5335' },
   { id: 'profilaxis',    label: 'Profilaxis',                       accent: '#4a5c73' }
@@ -229,6 +232,54 @@ export const indicaciones = [
   { id: 'hiperpotasemia', area: 'metabolico', nombre: 'Hiperpotasemia',
     alias: ['hiperkalemia', 'potasio', 'K alto'],
     contexto: 'Descenso agudo del potasio sérico con beta2 nebulizado, que lo desplaza al interior de la célula sin eliminarlo. No sustituye a las medidas que lo eliminan ni a la protección de membrana si hay cambios en el electrocardiograma.' },
+
+  { id: 'herpes-neonatal', area: 'neonatal', nombre: 'Herpes neonatal',
+    alias: ['VHS', 'herpes simple', 'HSV'],
+    contexto: 'Infección por virus del herpes simple en el recién nacido, localizada en piel, ojo y boca, o diseminada, o del sistema nervioso central. La duración del tratamiento depende de cuál de las tres sea, y empezarlo pronto es lo que cambia el pronóstico.' },
+
+  { id: 'sepsis-neonatal-tardia', area: 'neonatal', nombre: 'Sepsis neonatal tardía',
+    alias: ['late onset', 'sepsis nosocomial', 'cateter'],
+    contexto: 'Infección que aparece después de las primeras 72 horas de vida, con otra flora que la precoz: pesan el estafilococo coagulasa negativo y el resistente a meticilina. El esquema empírico depende de la flora de la unidad.' },
+
+  { id: 'toxoplasmosis-congenita', area: 'neonatal', nombre: 'Toxoplasmosis congénita',
+    alias: ['Toxoplasma', 'toxoplasmosis'],
+    contexto: 'Toxoplasmosis congénita confirmada o con alta sospecha. El tratamiento es siempre combinado y dura meses: ningún fármaco de esta lista se usa solo para este cuadro.' },
+
+  { id: 'encefalitis-herpetica', area: 'infeccioso', nombre: 'Encefalitis herpética',
+    alias: ['encefalitis', 'herpes', 'VHS'],
+    contexto: 'Encefalitis por virus del herpes simple fuera del periodo neonatal. Ante la sospecha se trata sin esperar a la confirmación, porque el retraso es lo que deja secuelas.' },
+
+  { id: 'infeccion-anaerobios', area: 'infeccioso', nombre: 'Infección por anaerobios',
+    alias: ['anaerobios', 'absceso', 'enterocolitis', 'peritonitis'],
+    contexto: 'Infección intraabdominal, absceso o enterocolitis donde pesa la flora anaerobia. Casi nunca se trata sola: acompaña a la cobertura de gramnegativos que decida el protocolo.' },
+
+  { id: 'infeccion-por-sarm', area: 'infeccioso', nombre: 'Infección por Staphylococcus aureus resistente a meticilina',
+    alias: ['SARM', 'MRSA', 'estafilococo resistente'],
+    contexto: 'Infección por Staphylococcus aureus resistente a meticilina, confirmada o con alta sospecha por la epidemiología local. Que haya que cubrirlo de entrada depende de la prevalencia en tu medio y de la gravedad del cuadro.' },
+
+  { id: 'vomito-gastroenteritis', area: 'digestivo', nombre: 'Vómito en la gastroenteritis aguda',
+    alias: ['vomito', 'gastroenteritis', 'rehidratacion'],
+    contexto: 'Vómito que impide la rehidratación oral en la gastroenteritis aguda del niño. Una sola dosis suele bastar: el antiemético abre la puerta a rehidratar por boca, no trata la gastroenteritis.' },
+
+  { id: 'nausea-vomito-posoperatorio', area: 'digestivo', nombre: 'Náusea y vómito posoperatorios',
+    alias: ['posoperatorio', 'anestesia', 'vomito'],
+    contexto: 'Prevención de la náusea y el vómito tras la anestesia. El Harriet Lane señala que repetir dosis para controlarlos después puede no aportar beneficio.' },
+
+  { id: 'nausea-vomito-quimioterapia', area: 'digestivo', nombre: 'Náusea y vómito por quimioterapia',
+    alias: ['quimioterapia', 'emetogeno', 'oncologia'],
+    contexto: 'Prevención del vómito inducido por quimioterapia. El esquema completo lo decide el protocolo de oncología; aquí está la dosis del antiemético.' },
+
+  { id: 'reflujo-gastroesofagico', area: 'digestivo', nombre: 'Esofagitis y enfermedad por reflujo',
+    alias: ['reflujo', 'ERGE', 'esofagitis', 'ulcera'],
+    contexto: 'Esofagitis demostrada, enfermedad por reflujo o úlcera. No es la regurgitación del lactante sano, que es fisiológica y no necesita ningún fármaco.' },
+
+  { id: 'amebiasis', area: 'digestivo', nombre: 'Amebiasis',
+    alias: ['amebas', 'Entamoeba histolytica', 'disenteria'],
+    contexto: 'Amebiasis intestinal o hepática por Entamoeba histolytica. Después del tratamiento hace falta un amebicida luminal, que no está en esta lista.' },
+
+  { id: 'colitis-c-difficile', area: 'digestivo', nombre: 'Colitis por Clostridioides difficile',
+    alias: ['C difficile', 'colitis pseudomembranosa', 'diarrea por antibiotico'],
+    contexto: 'Colitis por Clostridioides difficile. Lo primero es suspender el antibiótico que la desencadenó cuando sea posible; el tratamiento de esta lista se da por vía oral porque actúa en la luz del colon.' },
 
   { id: 'bradicardia-reanimacion', area: 'urgencias', nombre: 'Bradicardia con mala perfusión',
     alias: ['paro', 'reanimacion', 'RCP', 'bradicardia', 'asistolia'],
@@ -388,7 +439,7 @@ export const farmacos = [
         carga: { min: 20, max: 25 },
         mgkg: { min: 12, max: 15, por: 'dosis' },
         cada: 12, via: 'oral',
-        pmaMax: 32,
+        pmaMax: 31,
         evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 17 }
       },
       {
@@ -409,7 +460,7 @@ export const farmacos = [
         carga: { valor: 30 },
         mgkg: { min: 12, max: 18, por: 'dosis' },
         cada: 12, via: 'rectal',
-        pmaMax: 32,
+        pmaMax: 31,
         evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 17 }
       },
       {
@@ -1583,6 +1634,590 @@ export const farmacos = [
     ],
     dilucion: 'Para la vía intramuscular se usa la ampolla 1:1000 sin diluir. Para la intravenosa de la reanimación se usa la jeringa precargada 1:10 000, que ya viene diluida. Para nebulizar en el crup, la dosis de la solución 1:1000 se diluye en 3 mL de solución salina. En infusión continua, el Harriet Lane da de 0.1 a 1 mcg/kg/min a cualquier edad.',
     noTriturar: false
+  },
+
+  /* ============ Antivirales ============ */
+  {
+    id: 'aciclovir',
+    grupo: 'antivirales',
+    farmaco: 'Aciclovir',
+    alias: ['Zovirax', 'acyclovir', 'herpes'],
+    resumen: 'Antiviral del herpes: el tratamiento del herpes neonatal y de la encefalitis herpética.',
+    presentaciones: [
+      { id: 'vial-50', etiqueta: 'vial reconstituido a 50 mg/mL', mg: 50, mL: 1 },
+      { id: 'inf-7',   etiqueta: 'diluido para infusión a 7 mg/mL', mg: 7, mL: 1 },
+      { id: 'susp-200', etiqueta: 'suspensión oral 200 mg/5 mL', mg: 200, mL: 5 }
+    ],
+    dosis: [
+      {
+        // NeoFax p50, herpes simple del recien nacido, dosis aprobada: menos de 34 semanas de
+        // edad posmenstrual, 20 mg/kg IV cada 12 h durante 21 dias, cada dosis en 1 hora de
+        // infusion a ritmo constante.
+        indicaciones: ['herpes-neonatal'],
+        mgkg: { valor: 20, por: 'dosis' },
+        cada: 12, via: 'iv',
+        pmaMax: 33,
+        duracion: '14 días en la enfermedad localizada de piel, ojo o boca; 21 días en la diseminada o del sistema nervioso central',
+        nota: 'Cada dosis se infunde en 1 hora a ritmo constante. En la enfermedad del sistema nervioso central, NeoFax continúa 7 días más si la reacción en cadena de la polimerasa en líquido cefalorraquídeo sigue positiva tras 19 a 21 días, y mantiene el tratamiento intravenoso hasta negativizarla. La terapia anticipada sin enfermedad probada dura 10 días.',
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 50 }
+      },
+      {
+        // NeoFax p50: 34 semanas de edad posmenstrual o mas, 20 mg/kg IV cada 8 h durante
+        // 21 dias.
+        indicaciones: ['herpes-neonatal'],
+        mgkg: { valor: 20, por: 'dosis' },
+        cada: 8, via: 'iv',
+        pmaMin: 34,
+        duracion: '14 días en la enfermedad localizada; 21 días en la diseminada o del sistema nervioso central',
+        nota: 'Cada dosis se infunde en 1 hora a ritmo constante. El Harriet Lane da la misma pauta escrita como 60 mg/kg al día repartidos cada 8 horas.',
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 50 }
+      },
+      {
+        // Harriet Lane p997, encefalitis herpetica de 3 meses a 12 anos: 60 mg/kg/24 h
+        // repartidos cada 8 h IV, durante 14 a 21 dias.
+        indicaciones: ['encefalitis-herpetica'],
+        mgkg: { valor: 60, por: 'dia' },
+        cada: 8, via: 'iv',
+        edadMin: 90, edadMax: 4383,
+        duracion: 'de 14 a 21 días',
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 997 }
+      },
+      {
+        // Harriet Lane p997, encefalitis herpetica a partir de los 12 anos: 30 mg/kg/24 h
+        // repartidos cada 8 h IV.
+        indicaciones: ['encefalitis-herpetica'],
+        mgkg: { valor: 30, por: 'dia' },
+        cada: 8, via: 'iv',
+        edadMin: 4383,
+        duracion: 'de 14 a 21 días',
+        nota: 'A partir de los 12 años la dosis por kilo baja a la mitad que en el niño pequeño.',
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 997 }
+      }
+    ],
+    mecanismo: 'Análogo de nucleósido: la timidina cinasa viral lo fosforila y, ya activo, inhibe la ADN polimerasa del virus. Por eso actúa sobre la célula infectada y apenas sobre la sana.',
+    adversos: ['Lesión renal por cristaluria, sobre todo con infusión rápida o deshidratación', 'Flebitis', 'Neutropenia en el tratamiento neonatal prolongado'],
+    precauciones: [
+      'Hidratar bien y no acelerar la infusión: la nefrotoxicidad del aciclovir intravenoso es casi siempre por cristales, y se previene con volumen y tiempo.',
+      'En el recién nacido tratado 21 días hay que vigilar el recuento absoluto de neutrófilos.'
+    ],
+    dilucion: 'Se reconstituye el vial a 50 mg/mL y se diluye hasta un máximo de 7 mg/mL para la infusión. Cada dosis se pasa en 1 hora a ritmo constante: en bolo precipita en el túbulo renal.',
+    administracion: 'La supresión oral posterior al tratamiento intravenoso se dosifica por superficie corporal (300 mg/m² por dosis, tres veces al día durante 6 meses), que esta herramienta no calcula: ese dato queda aquí escrito, no en una línea de dosis por peso.',
+    noTriturar: false
+  },
+
+  /* ============ Antiinfecciosos: los que se añaden a la clase ============ */
+  {
+    id: 'amikacina',
+    grupo: 'otros-atb',
+    farmaco: 'Amikacina',
+    alias: ['Amikin', 'aminoglucosido', 'amika'],
+    resumen: 'Aminoglucósido para gramnegativos resistentes; en el neonato se dosifica por peso.',
+    presentaciones: [
+      { id: 'amp-250', etiqueta: 'ampolla 500 mg/2 mL (250 mg/mL)', mg: 250, mL: 1 },
+      { id: 'dil-5',   etiqueta: 'diluida a 5 mg/mL para el neonato', mg: 5, mL: 1 }
+    ],
+    dosis: [
+      {
+        // Harriet Lane p1007, lactante y nino: 15 a 22.5 mg/kg/24 h repartidos cada 8 h IV o IM.
+        indicaciones: ['infeccion-bacteriana-grave'],
+        mgkg: { min: 15, max: 22.5, por: 'dia' },
+        cada: 8, via: 'iv',
+        maxDia: 1500,
+        edadMin: 29,
+        nota: 'El Harriet Lane recoge que el lactante y el paciente con fibrosis quística pueden necesitar empezar en 30 mg/kg/día repartidos cada 8 horas. El techo inicial es de 1.5 g al día, y a partir de ahí manda la concentración sérica.',
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1007 }
+      },
+
+      /* ---- Recién nacido (NeoFax): aquí el eje es el PESO, no la edad posmenstrual ----
+         Es la diferencia con la gentamicina, que reparte por edad posmenstrual. NeoFax construyó
+         esta tabla sobre farmacocinética poblacional y validación prospectiva, buscando un pico
+         por encima de 24 mg/L y un valle por debajo de 3. */
+      {
+        indicaciones: ['sepsis-neonatal-precoz', 'infeccion-bacteriana-grave'],
+        mgkg: { valor: 16, por: 'dosis' },
+        cada: 48, via: 'iv',
+        pesoMax: 0.8, edadMax: 13,
+        nota: 'El pico se mide 1 hora después de terminar una infusión de 20 minutos.',
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 108 }
+      },
+      {
+        indicaciones: ['sepsis-neonatal-precoz', 'infeccion-bacteriana-grave'],
+        mgkg: { valor: 20, por: 'dosis' },
+        cada: 42, via: 'iv',
+        pesoMax: 0.8, edadMin: 14, edadMax: 28,
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 108 }
+      },
+      {
+        indicaciones: ['sepsis-neonatal-precoz', 'infeccion-bacteriana-grave'],
+        mgkg: { valor: 16, por: 'dosis' },
+        cada: 42, via: 'iv',
+        pesoMin: 0.801, pesoMax: 1.2, edadMax: 13,
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 108 }
+      },
+      {
+        indicaciones: ['sepsis-neonatal-precoz', 'infeccion-bacteriana-grave'],
+        mgkg: { valor: 20, por: 'dosis' },
+        cada: 36, via: 'iv',
+        pesoMin: 0.801, pesoMax: 1.2, edadMin: 14, edadMax: 28,
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 108 }
+      },
+      {
+        indicaciones: ['sepsis-neonatal-precoz', 'infeccion-bacteriana-grave'],
+        mgkg: { valor: 15, por: 'dosis' },
+        cada: 36, via: 'iv',
+        pesoMin: 1.201, pesoMax: 2.8, edadMax: 13,
+        nota: 'NeoFax parte este tramo en dos (de 1201 a 2000 g y de 2001 a 2800 g), pero antes de los 14 días de vida la pauta es la misma para los dos.',
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 108 }
+      },
+      {
+        indicaciones: ['sepsis-neonatal-precoz', 'infeccion-bacteriana-grave'],
+        mgkg: { valor: 18, por: 'dosis' },
+        cada: 30, via: 'iv',
+        pesoMin: 1.201, pesoMax: 2.0, edadMin: 14, edadMax: 28,
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 108 }
+      },
+      {
+        indicaciones: ['sepsis-neonatal-precoz', 'infeccion-bacteriana-grave'],
+        mgkg: { valor: 18, por: 'dosis' },
+        cada: 24, via: 'iv',
+        pesoMin: 2.001, pesoMax: 2.8, edadMin: 14, edadMax: 28,
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 108 }
+      },
+      {
+        indicaciones: ['sepsis-neonatal-precoz', 'infeccion-bacteriana-grave'],
+        mgkg: { valor: 15, por: 'dosis' },
+        cada: 30, via: 'iv',
+        pesoMin: 2.8, edadMax: 13,
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 108 }
+      },
+      {
+        indicaciones: ['sepsis-neonatal-precoz', 'infeccion-bacteriana-grave'],
+        mgkg: { valor: 18, por: 'dosis' },
+        cada: 20, via: 'iv',
+        pesoMin: 2.8, edadMin: 14, edadMax: 28,
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 108 }
+      }
+    ],
+    mecanismo: 'Se une a la subunidad ribosómica 30S e inhibe la síntesis de proteínas bacterianas.',
+    adversos: ['Nefrotoxicidad', 'Ototoxicidad, que puede ser irreversible'],
+    precauciones: [
+      'La dosis inicial es solo eso: a partir de ahí manda la concentración sérica, y por eso NeoFax fija el objetivo de pico y de valle.',
+      'El Harriet Lane da una tabla neonatal alternativa repartida por edad posmenstrual, no por peso. Aquí se recoge la de NeoFax, que es la referencia neonatal; conviene no mezclar las dos en el mismo paciente.',
+      'Cautela con la insuficiencia renal, vestibular o auditiva previa, y con otros fármacos nefrotóxicos u ototóxicos.'
+    ],
+    dilucion: 'Se diluye para infundir en 20 minutos, que es el tiempo sobre el que NeoFax define el pico.',
+    noTriturar: false
+  },
+
+  {
+    id: 'vancomicina',
+    grupo: 'otros-atb',
+    farmaco: 'Vancomicina',
+    alias: ['Vancocin', 'glucopeptido', 'vanco', 'SARM', 'MRSA'],
+    resumen: 'Glucopéptido para grampositivos resistentes: el intervalo lo decide la edad posmenstrual.',
+    presentaciones: [
+      { id: 'vial-50', etiqueta: 'vial reconstituido a 50 mg/mL', mg: 50, mL: 1 },
+      { id: 'inf-5',   etiqueta: 'diluida para infusión a 5 mg/mL', mg: 5, mL: 1 },
+      { id: 'oral-25', etiqueta: 'solución oral 25 mg/mL', mg: 25, mL: 1 }
+    ],
+    dosis: [
+      {
+        // Harriet Lane p1388, lactante y nino de 1 mes a 12 anos: 15 mg/kg/dosis cada 6 h.
+        indicaciones: ['infeccion-por-sarm', 'infeccion-bacteriana-grave'],
+        mgkg: { valor: 15, por: 'dosis' },
+        cada: 6, via: 'iv',
+        edadMin: 29, edadMax: 4383,
+        nota: 'Dosis empírica inicial: a partir de ahí la pauta la define la monitorización de concentraciones.',
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1388 }
+      },
+      {
+        // Harriet Lane p1388: infecciones del sistema nervioso central, endocarditis,
+        // osteomielitis, neumonia y artritis septica, 20 mg/kg/dosis cada 6 h.
+        indicaciones: ['meningitis-bacteriana', 'infeccion-por-sarm'],
+        mgkg: { valor: 20, por: 'dosis' },
+        cada: 6, via: 'iv',
+        edadMin: 29, edadMax: 4383,
+        nota: 'Dosis alta del Harriet Lane para la infección del sistema nervioso central, la endocarditis, la osteomielitis, la neumonía y la artritis séptica.',
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1388 }
+      },
+      {
+        // Harriet Lane p1388, colitis por Clostridioides difficile: 40 a 50 mg/kg/24 h
+        // repartidos cada 6 h por via ORAL durante 7 a 10 dias, maximo 500 mg/24 h.
+        indicaciones: ['colitis-c-difficile'],
+        mgkg: { min: 40, max: 50, por: 'dia' },
+        cada: 6, via: 'oral',
+        maxDia: 500,
+        edadMin: 29,
+        duracion: 'de 7 a 10 días',
+        nota: 'Por vía ORAL, que en esta indicación es la correcta justamente porque no se absorbe y actúa en la luz del colon. El Harriet Lane recoge que en la enfermedad grave o fulminante se han usado hasta 2 g al día.',
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1388 }
+      },
+
+      /* ---- Recién nacido (NeoFax): la dosis es 10 a 15 mg/kg y lo que cambia por edad
+         posmenstrual y posnatal es el INTERVALO ---- */
+      {
+        indicaciones: ['sepsis-neonatal-tardia', 'infeccion-por-sarm'],
+        mgkg: { min: 10, max: 15, por: 'dosis' },
+        cada: 18, via: 'iv',
+        pmaMax: 29, edadMax: 14,
+        nota: 'El Harriet Lane precisa la dosis dentro del rango: 10 mg/kg por dosis en la bacteriemia y 15 mg/kg en la meningitis y la neumonía.',
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 2390 }
+      },
+      {
+        indicaciones: ['sepsis-neonatal-tardia', 'infeccion-por-sarm'],
+        mgkg: { min: 10, max: 15, por: 'dosis' },
+        cada: 12, via: 'iv',
+        pmaMax: 29, edadMin: 15, edadMax: 28,
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 2390 }
+      },
+      {
+        indicaciones: ['sepsis-neonatal-tardia', 'infeccion-por-sarm'],
+        mgkg: { min: 10, max: 15, por: 'dosis' },
+        cada: 12, via: 'iv',
+        pmaMin: 30, pmaMax: 36, edadMax: 14,
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 2390 }
+      },
+      {
+        indicaciones: ['sepsis-neonatal-tardia', 'infeccion-por-sarm'],
+        mgkg: { min: 10, max: 15, por: 'dosis' },
+        cada: 8, via: 'iv',
+        pmaMin: 30, pmaMax: 36, edadMin: 15, edadMax: 28,
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 2390 }
+      },
+      {
+        indicaciones: ['sepsis-neonatal-tardia', 'infeccion-por-sarm'],
+        mgkg: { min: 10, max: 15, por: 'dosis' },
+        cada: 12, via: 'iv',
+        pmaMin: 37, pmaMax: 44, edadMax: 7,
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 2390 }
+      },
+      {
+        indicaciones: ['sepsis-neonatal-tardia', 'infeccion-por-sarm'],
+        mgkg: { min: 10, max: 15, por: 'dosis' },
+        cada: 8, via: 'iv',
+        pmaMin: 37, pmaMax: 44, edadMin: 8, edadMax: 28,
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 2390 }
+      },
+      {
+        // NeoFax p2390, ultima fila: 45 semanas de edad posmenstrual o mas, cualquier edad
+        // posnatal, cada 6 h. Se alcanza de verdad dentro del mes de vida: un nacido a las
+        // 42 semanas con 21 dias ya esta ahi.
+        indicaciones: ['sepsis-neonatal-tardia', 'infeccion-por-sarm'],
+        mgkg: { min: 10, max: 15, por: 'dosis' },
+        cada: 6, via: 'iv',
+        pmaMin: 45, edadMax: 28,
+        nota: 'A partir de las 45 semanas de edad posmenstrual la tabla ya no distingue por días de vida.',
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 2390 }
+      }
+    ],
+    mecanismo: 'Inhibe la síntesis de la pared celular en un paso distinto al de los betalactámicos, uniéndose al extremo D-alanil-D-alanina del peptidoglucano.',
+    adversos: ['Nefrotoxicidad, sobre todo asociada a otros nefrotóxicos', 'Reacción por infusión rápida con eritema de cara y tronco', 'Ototoxicidad, poco frecuente'],
+    precauciones: [
+      'La reacción de la infusión rápida no es alergia: se previene alargando la infusión, no suspendiendo el fármaco.',
+      'NeoFax deja claro que la edad posmenstrual es el determinante principal del intervalo y la edad posnatal el calificador secundario, porque la eliminación va con la madurez renal.',
+      'En la infección grave por Staphylococcus aureus resistente a meticilina, NeoFax ajusta la dosis al cociente entre el área bajo la curva y la concentración mínima inhibitoria, con un techo de 3600 mg al día.'
+    ],
+    dilucion: 'Se reconstituye a 50 mg/mL y se diluye hasta 5 mg/mL para la infusión, que se pasa en 60 minutos como mínimo. La solución oral de la colitis no se diluye ni se cambia por la intravenosa: son usos distintos.',
+    noTriturar: false
+  },
+
+  {
+    id: 'clindamicina',
+    grupo: 'otros-atb',
+    farmaco: 'Clindamicina',
+    alias: ['Cleocin', 'Dalacin', 'lincosamida', 'clinda'],
+    resumen: 'Cubre grampositivos y anaerobios, y es la alternativa en piel con sospecha de resistencia.',
+    presentaciones: [
+      { id: 'amp-150', etiqueta: 'ampolla 600 mg/4 mL (150 mg/mL)', mg: 150, mL: 1 },
+      { id: 'dil-12',  etiqueta: 'diluida para infusión a 12 mg/mL', mg: 12, mL: 1 },
+      { id: 'sol-75',  etiqueta: 'solución oral 75 mg/5 mL', mg: 75, mL: 5 },
+      { id: 'cap-300', etiqueta: 'cápsula 300 mg', mg: 300, mL: null }
+    ],
+    dosis: [
+      {
+        // Harriet Lane p1084, nino mayor de 1 mes y adolescente, via oral: 10 a 40 mg/kg/24 h
+        // repartidos cada 6 a 8 h, maximo 1.8 g/24 h.
+        indicaciones: ['infeccion-piel-tejidos-blandos', 'infeccion-anaerobios'],
+        mgkg: { min: 10, max: 40, por: 'dia' },
+        cada: 8, via: 'oral',
+        maxDia: 1800,
+        edadMin: 29,
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1084 }
+      },
+      {
+        // Harriet Lane p1084, via IM o IV: 20 a 40 mg/kg/24 h repartidos cada 6 a 8 h, maximo
+        // 2.7 g/24 h.
+        indicaciones: ['infeccion-piel-tejidos-blandos', 'infeccion-anaerobios', 'infeccion-bacteriana-grave'],
+        mgkg: { min: 20, max: 40, por: 'dia' },
+        cada: 8, via: 'iv',
+        maxDia: 2700,
+        edadMin: 29,
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1084 }
+      },
+
+      /* ---- Recién nacido (Harriet Lane, que imprime una tabla de neonato por edad
+         posmenstrual; NeoFax solo trae carbunco y toxoplasmosis congénita) ---- */
+      {
+        indicaciones: ['infeccion-anaerobios', 'sepsis-neonatal-tardia'],
+        mgkg: { valor: 5, por: 'dosis' },
+        cada: 8, via: 'iv',
+        pmaMax: 32,
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1084 }
+      },
+      {
+        indicaciones: ['infeccion-anaerobios', 'sepsis-neonatal-tardia'],
+        mgkg: { valor: 7, por: 'dosis' },
+        cada: 8, via: 'iv',
+        pmaMin: 33, pmaMax: 40,
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1084 }
+      },
+      {
+        indicaciones: ['infeccion-anaerobios', 'sepsis-neonatal-tardia'],
+        mgkg: { valor: 9, por: 'dosis' },
+        cada: 8, via: 'iv',
+        pmaMin: 41, edadMax: 28,
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1084 }
+      },
+      {
+        // NeoFax p684, toxoplasmosis congenita: 5 a 7.5 mg/kg oral o IV cada 6 h, maximo
+        // 600 mg por dosis, junto a pirimetamina y acido folinico.
+        indicaciones: ['toxoplasmosis-congenita'],
+        mgkg: { min: 5, max: 7.5, por: 'dosis' },
+        cada: 6, via: 'iv',
+        maxDosis: 600,
+        edadMax: 28,
+        nota: 'Nunca sola: NeoFax la combina con pirimetamina (2 mg/kg al día por vía oral 2 días, luego 1 mg/kg al día de 2 a 6 meses y después 1 mg/kg tres veces por semana) más ácido folínico durante todo el tratamiento con pirimetamina y hasta una semana después.',
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 684 }
+      },
+      {
+        // NeoFax p684, carbunco: 32 a menos de 37 semanas de edad gestacional, 7 mg/kg oral,
+        // IV o IM cada 8 h.
+        indicaciones: ['carbunco'],
+        mgkg: { valor: 7, por: 'dosis' },
+        cada: 8, via: 'iv',
+        egMin: 32, egMax: 37,
+        duracion: '60 días en la profilaxis tras exposición por aerosol; al menos 2 semanas en el carbunco sistémico',
+        nota: 'En el recién nacido de término, NeoFax sube a 9 mg/kg cada 8 horas.',
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 684 }
+      }
+    ],
+    mecanismo: 'Se une a la subunidad ribosómica 50S e inhibe la síntesis de proteínas bacterianas. Reduce además la producción de toxinas, que es por lo que se añade en la infección estreptocócica invasiva.',
+    adversos: ['Diarrea', 'Colitis por Clostridioides difficile, que es su efecto adverso característico', 'Exantema'],
+    precauciones: ['Vigilar la frecuencia y el aspecto de las deposiciones: la diarrea por clindamicina puede ser el primer signo de una colitis por Clostridioides difficile.'],
+    dilucion: 'Para infusión se diluye a un máximo de 12 mg/mL y se pasa en 30 minutos como mínimo; no se administra en bolo.',
+    noTriturar: false
+  },
+
+  {
+    id: 'metronidazol',
+    grupo: 'otros-atb',
+    farmaco: 'Metronidazol',
+    alias: ['Flagyl', 'anaerobios', 'metro', 'amebiasis'],
+    resumen: 'Para anaerobios y amebas; en el neonato lleva dosis de carga y el intervalo va por edad posmenstrual.',
+    presentaciones: [
+      { id: 'inf-5',   etiqueta: 'solución para infusión 5 mg/mL', mg: 5, mL: 1 },
+      { id: 'susp-125', etiqueta: 'suspensión oral 125 mg/5 mL', mg: 125, mL: 5 },
+      { id: 'tab-500', etiqueta: 'tableta 500 mg', mg: 500, mL: null }
+    ],
+    dosis: [
+      {
+        // Harriet Lane p1241, lactante, nino y adolescente, infeccion por anaerobios: 30 a
+        // 50 mg/kg/24 h repartidos cada 8 h por via oral, maximo 2250 mg/24 h.
+        indicaciones: ['infeccion-anaerobios'],
+        mgkg: { min: 30, max: 50, por: 'dia' },
+        cada: 8, via: 'oral',
+        maxDia: 2250,
+        edadMin: 29,
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1241 }
+      },
+      {
+        // Harriet Lane p1241, amebiasis en el nino: 35 a 50 mg/kg/24 h repartidos cada 8 h por
+        // via oral durante 10 dias, maximo 750 mg por dosis.
+        indicaciones: ['amebiasis'],
+        mgkg: { min: 35, max: 50, por: 'dia' },
+        cada: 8, via: 'oral',
+        maxDosis: 750,
+        edadMin: 29,
+        duracion: '10 días',
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1241 }
+      },
+
+      /* ---- Recién nacido (NeoFax): carga única de 15 mg/kg para todos, y el mantenimiento y
+         el intervalo por edad posmenstrual. Las dosis oral e intravenosa son la misma. ---- */
+      {
+        indicaciones: ['infeccion-anaerobios'],
+        carga: { valor: 15 },
+        mgkg: { valor: 7.5, por: 'dosis' },
+        cada: 24, via: 'iv',
+        pmaMin: 24, pmaMax: 25,
+        nota: 'La dosis oral y la intravenosa son la misma.',
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 1531 }
+      },
+      {
+        indicaciones: ['infeccion-anaerobios'],
+        carga: { valor: 15 },
+        mgkg: { valor: 10, por: 'dosis' },
+        cada: 24, via: 'iv',
+        pmaMin: 26, pmaMax: 27,
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 1531 }
+      },
+      {
+        indicaciones: ['infeccion-anaerobios'],
+        carga: { valor: 15 },
+        mgkg: { valor: 7.5, por: 'dosis' },
+        cada: 12, via: 'iv',
+        pmaMin: 28, pmaMax: 33,
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 1531 }
+      },
+      {
+        indicaciones: ['infeccion-anaerobios'],
+        carga: { valor: 15 },
+        mgkg: { valor: 7.5, por: 'dosis' },
+        cada: 8, via: 'iv',
+        pmaMin: 34, pmaMax: 40,
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 1531 }
+      },
+      {
+        indicaciones: ['infeccion-anaerobios'],
+        carga: { valor: 15 },
+        mgkg: { valor: 7.5, por: 'dosis' },
+        cada: 6, via: 'iv',
+        pmaMin: 41, edadMax: 28,
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 1531 }
+      }
+    ],
+    mecanismo: 'En el interior del microorganismo anaerobio se reduce a un compuesto que rompe su ADN. Por eso solo actúa donde no hay oxígeno.',
+    adversos: ['Sabor metálico', 'Náusea', 'Neuropatía periférica con tratamientos prolongados'],
+    precauciones: ['Evitar el alcohol durante el tratamiento y hasta tres días después, por la reacción tipo disulfiram.'],
+    dilucion: 'La presentación intravenosa viene lista para usar a 5 mg/mL y se infunde en 30 a 60 minutos; no necesita dilución adicional.',
+    noTriturar: false
+  },
+
+  /* ============ Digestivo ============ */
+  {
+    id: 'ondansetron',
+    grupo: 'digestivo',
+    farmaco: 'Ondansetrón',
+    alias: ['Zofran', 'antiemetico', 'vomito', 'ondanse'],
+    resumen: 'Antiemético: una sola dosis corta el vómito de la gastroenteritis y permite rehidratar por boca.',
+    presentaciones: [
+      { id: 'amp-2',  etiqueta: 'ampolla 2 mg/mL', mg: 2, mL: 1 },
+      { id: 'sol-4',  etiqueta: 'solución oral 4 mg/5 mL', mg: 4, mL: 5 },
+      { id: 'tab-4',  etiqueta: 'tableta bucodispersable 4 mg', mg: 4, mL: null },
+      { id: 'tab-8',  etiqueta: 'tableta bucodispersable 8 mg', mg: 8, mL: null }
+    ],
+    // El Harriet Lane da la dosis desde el mes de vida por via IV, pero la oral de la
+    // gastroenteritis la empieza a los 6 meses, y advierte que hay pocos datos por debajo de los
+    // 3 anos. NeoFax no trae monografia.
+    sinNeonatal: 'Ni NeoFax ni el Harriet Lane dan una dosis de recién nacido: el Harriet Lane empieza al mes de vida por vía intravenosa y a los 6 meses por vía oral, y advierte que los datos por debajo de los 3 años son limitados.',
+    dosis: [
+      {
+        // Harriet Lane p1275, vomito en la gastroenteritis aguda, via oral preferida, por tramos
+        // de peso con la tableta bucodispersable: de 8 a 15 kg, 2 mg en dosis unica.
+        indicaciones: ['vomito-gastroenteritis'],
+        fija: { valor: 2 },
+        unica: true, via: 'oral',
+        edadMin: 183, pesoMin: 8, pesoMax: 15,
+        nota: 'Dosis única con la tableta bucodispersable. El Harriet Lane prefiere la vía oral y reserva la intravenosa para cuando no se puede usar la boca. Es lo que permite empezar la rehidratación oral.',
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1275 }
+      },
+      {
+        // Harriet Lane p1275: de mas de 15 a 30 kg, 4 mg en dosis unica.
+        indicaciones: ['vomito-gastroenteritis'],
+        fija: { valor: 4 },
+        unica: true, via: 'oral',
+        edadMin: 183, pesoMin: 15, pesoMax: 30,
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1275 }
+      },
+      {
+        // Harriet Lane p1275: mas de 30 kg, 8 mg en dosis unica.
+        indicaciones: ['vomito-gastroenteritis'],
+        fija: { valor: 8 },
+        unica: true, via: 'oral',
+        edadMin: 183, pesoMin: 30,
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1275 }
+      },
+      {
+        // Harriet Lane p1275, via intravenosa desde el mes de vida: 0.15 a 0.3 mg/kg/dosis en
+        // dosis unica, maximo 8 mg.
+        indicaciones: ['vomito-gastroenteritis'],
+        mgkg: { min: 0.15, max: 0.3, por: 'dosis' },
+        unica: true, via: 'iv',
+        maxDosis: 8,
+        edadMin: 29,
+        nota: 'Vía intravenosa, para cuando no se puede usar la oral.',
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1275 }
+      },
+      {
+        // Harriet Lane p1274, prevencion de nausea y vomito posoperatorios, nino de 1 mes a
+        // 12 anos de menos de 40 kg: 0.1 mg/kg/dosis en dosis unica antes de la anestesia.
+        indicaciones: ['nausea-vomito-posoperatorio'],
+        mgkg: { valor: 0.1, por: 'dosis' },
+        unica: true, via: 'iv',
+        edadMin: 29, edadMax: 4383, pesoMax: 40,
+        nota: 'Se administra antes de la anestesia, en 2 a 5 minutos. A partir de 40 kg el Harriet Lane pasa a 4 mg en dosis única.',
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1274 }
+      },
+      {
+        // Harriet Lane p1274, quimioterapia moderadamente emetogena, via IV: 0.15 mg/kg/dosis
+        // (maximo 8 mg en el nino) 30 min antes y a las 4 y 8 h.
+        indicaciones: ['nausea-vomito-quimioterapia'],
+        mgkg: { valor: 0.15, por: 'dosis' },
+        cada: 4, via: 'iv',
+        maxDosis: 8,
+        edadMin: 29,
+        nota: 'La primera dosis 30 minutos antes de la quimioterapia, y después a las 4 y a las 8 horas; luego cada 4 horas si hace falta. Con fármacos muy emetógenos el techo por dosis sube a 16 mg.',
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1274 }
+      }
+    ],
+    mecanismo: 'Antagonista de los receptores 5-HT3 de la serotonina, en la zona gatillo quimiorreceptora y en las aferencias vagales del intestino.',
+    adversos: ['Cefalea', 'Estreñimiento', 'Prolongación del intervalo QT', 'Elevación transitoria de transaminasas'],
+    precauciones: [
+      'Evitar en el síndrome de QT largo congénito. El Harriet Lane recomienda vigilancia electrocardiográfica si hay alteraciones electrolíticas, insuficiencia cardíaca o bradiarritmia.',
+      'Cortar el vómito puede enmascarar un íleo progresivo o una distensión gástrica: no sustituye a explorar al niño.'
+    ],
+    administracion: 'La tableta bucodispersable se coloca sobre la lengua y se deja disolver; no hace falta agua, que es justo lo que la hace útil en el niño que vomita.',
+    noTriturar: false
+  },
+
+  {
+    id: 'omeprazol',
+    grupo: 'digestivo',
+    farmaco: 'Omeprazol',
+    alias: ['Prilosec', 'inhibidor de bomba', 'IBP', 'reflujo'],
+    resumen: 'Inhibidor de la bomba de protones para la esofagitis y la enfermedad por reflujo.',
+    presentaciones: [
+      { id: 'susp-2',  etiqueta: 'suspensión oral 2 mg/mL', mg: 2, mL: 1 },
+      { id: 'cap-20',  etiqueta: 'cápsula 20 mg', mg: 20, mL: null },
+      { id: 'cap-10',  etiqueta: 'cápsula 10 mg', mg: 10, mL: null }
+    ],
+    dosis: [
+      {
+        // Harriet Lane p1273, lactante y nino, esofagitis, enfermedad por reflujo o ulcera:
+        // empezar en 1 mg/kg/24 h por via oral en una o dos tomas, maximo 20 mg/24 h.
+        indicaciones: ['reflujo-gastroesofagico'],
+        mgkg: { valor: 1, por: 'dia' },
+        cada: 24, via: 'oral',
+        maxDia: 20,
+        edadMin: 29,
+        nota: 'Es la dosis de inicio, en una o dos tomas. El Harriet Lane recoge un intervalo eficaz de 0.7 a 4 mg/kg/día, y que el niño de 1 a 6 años puede necesitar más por su aclaramiento aumentado. Alternativa por tramos de peso: 2.5 mg de 3 a menos de 5 kg, 5 mg de 5 a menos de 10 kg, 10 mg de 10 a menos de 20 kg y 20 mg a partir de 20 kg.',
+        evidencia: 'manual', fuente: { ref: 'HARRIET', pagina: 1273 }
+      },
+      {
+        // NeoFax p1781, recien nacido: 0.5 a 1.5 mg/kg/dosis por via oral una vez al dia.
+        indicaciones: ['reflujo-gastroesofagico'],
+        mgkg: { min: 0.5, max: 1.5, por: 'dosis' },
+        cada: 24, via: 'oral',
+        edadMax: 28,
+        evidencia: 'manual', fuente: { ref: 'NEOFAX', pagina: 1781 }
+      }
+    ],
+    mecanismo: 'Inhibe de forma irreversible la bomba de protones de la célula parietal gástrica, el último paso de la secreción de ácido.',
+    adversos: ['Cefalea', 'Diarrea', 'Hipomagnesemia con el uso prolongado'],
+    precauciones: ['El reflujo del lactante sano casi nunca necesita fármaco: la mayoría es fisiológico y mejora solo. El inhibidor es para la esofagitis demostrada o la enfermedad por reflujo, no para la regurgitación.'],
+    dilucion: 'La suspensión oral se prepara a 2 mg/mL y lleva bicarbonato de sodio, que es lo que protege al principio activo del ácido del estómago: no se sustituye por agua.',
+    administracion: 'Administrar 30 minutos antes del alimento.',
+    noTriturar: true
   }
 ];
 

@@ -881,16 +881,20 @@ async function run() {
 
   // Trinquete de contenido, igual que ATRIB_TOTAL_MINIMO: el número puede SUBIR con cada bloque
   // y nunca bajar. Si baja a propósito, se baja la marca a mano y se dice por qué en el commit.
-  const PEDIA_FARMACOS_MINIMO = 12;
-  const PEDIA_LINEAS_MINIMO = 91;
-  const PEDIA_CUADROS_MINIMO = 28;
+  const PEDIA_FARMACOS_MINIMO = 19;
+  const PEDIA_LINEAS_MINIMO = 136;
+  const PEDIA_CUADROS_MINIMO = 40;
   // Cuadros declarados COMPLETOS: tienen que seguir teniendo al menos un fármaco y todas sus
   // líneas con fuente y página. Un cuadro que entra aquí no vuelve a salir.
   const PEDIA_CUADROS_COMPLETOS = ['otitis-media-aguda', 'neumonia-adquirida-comunidad',
     'fiebre', 'crisis-asmatica', 'anafilaxia', 'sepsis-neonatal-precoz',
-    'lactante-febril-sin-foco', 'oftalmia-neonatal', 'conducto-arterioso-persistente', 'crup'];
+    'lactante-febril-sin-foco', 'oftalmia-neonatal', 'conducto-arterioso-persistente', 'crup',
+    'herpes-neonatal', 'sepsis-neonatal-tardia', 'infeccion-anaerobios', 'vomito-gastroenteritis',
+    'reflujo-gastroesofagico', 'encefalitis-herpetica'];
 
   const todasLasLineas = pedia.farmacos.flatMap(f => (f.dosis || []).map(d => [f, d]));
+  // Los intervalos que existen de verdad en las tres fuentes, en horas.
+  const INTERVALOS = [1, 2, 3, 4, 6, 8, 12, 18, 20, 24, 30, 36, 42, 48, 72];
 
   test('Pediatría: cada fármaco tiene los campos obligatorios del contrato', () => {
     pedia.farmacos.forEach(f => {
@@ -998,11 +1002,12 @@ async function run() {
         assert(typeof d.cada === 'number', `una linea de '${f.id}' da mg/kg/dia sin intervalo: no se puede repartir`);
       }
       if (typeof d.cada === 'number') {
-        // Divisor de 24, o multiplo de 12 para los intervalos largos: NeoFax pauta la gentamicina
-        // del prematuro cada 36 y cada 48 h. Lo que se rechaza es un intervalo que no existe en
-        // la practica, como cada 7 h.
-        assert(d.cada > 0 && (24 % d.cada === 0 || d.cada % 12 === 0),
-          `una linea de '${f.id}' tiene un intervalo de ${d.cada} h, que no es un intervalo real`);
+        // Lista declarada, no formula. Los intervalos neonatales no siguen ninguna regla
+        // aritmetica: NeoFax pauta la amikacina del prematuro cada 42, cada 30 y cada 20 h, y la
+        // vancomicina cada 18. Una formula que los aceptara aceptaria tambien un 'cada 7'. Al
+        // anadir un intervalo nuevo hay que ponerlo aqui, que es justamente el punto.
+        assert(INTERVALOS.includes(d.cada),
+          `una linea de '${f.id}' tiene un intervalo de ${d.cada} h, que no esta en la lista de intervalos reales`);
         // Y una dosis POR DIA no se puede repartir en un intervalo de mas de 24 h: no hay
         // "total diario" que repartir entre media toma.
         if (d.mgkg && d.mgkg.por === 'dia') assert(d.cada <= 24,
@@ -1090,6 +1095,42 @@ async function run() {
         `'${f.id}' apoya un orden de eleccion en ${d.fuenteLinea.ref}, que no es una guia de tratamiento`);
       assert(/\b(19|20)\d{2}\b/.test(fl.cita),
         `la guia que ordena el tratamiento de '${f.id}' no lleva ano`);
+    });
+  });
+
+  test('Pediatría: las tablas neonatales por edad posmenstrual no dejan huecos ni se solapan', () => {
+    /* Esta prueba nace de un defecto real. Las bandas de NeoFax estan escritas en semanas
+       CUMPLIDAS ("29 semanas o menos", "30 a 36"), y la edad posmenstrual se calculaba con
+       decimales: un nino de 1.4 kg y 20 dias nacido a las 27 semanas daba 29.86 semanas y no
+       caia en ninguna de las dos. La vancomicina no le mostraba ni una linea de dosis, que es
+       exactamente el fallo que una tabla de dosificacion no se puede permitir: no avisa, solo
+       deja la pantalla vacia.
+
+       Se barre la rejilla entera de cada tabla declarada y se exige UNA linea en cada casilla.
+       Ni cero (hueco) ni dos (solape, que en el borde de banda pintaria dos dosis distintas y
+       contradictorias para el mismo nino). */
+    const TABLAS = [
+      ['gentamicina',  'sepsis-neonatal-precoz', 'iv'],
+      ['vancomicina',  'sepsis-neonatal-tardia', 'iv'],
+      ['metronidazol', 'infeccion-anaerobios',   'iv'],
+      ['clindamicina', 'infeccion-anaerobios',   'iv'],
+      ['aciclovir',    'herpes-neonatal',        'iv']
+    ];
+    TABLAS.forEach(([idFarmaco, idCuadro, via]) => {
+      const f = pedia.farmacos.find(x => x.id === idFarmaco);
+      assert(f, `no existe el farmaco '${idFarmaco}'`);
+      const lineas = f.dosis.filter(d => d.via === via && d.indicaciones.includes(idCuadro)
+        && (typeof d.pmaMin === 'number' || typeof d.pmaMax === 'number'));
+      assert(lineas.length, `'${idFarmaco}' no tiene tabla por edad posmenstrual para '${idCuadro}'`);
+      for (let pma = 24; pma <= 46; pma++) {
+        for (let dias = 0; dias <= 28; dias++) {
+          // El peso va dentro de cualquier banda razonable: aqui lo que se barre es el tiempo.
+          const paciente = { pma, edadDias: dias, peso: 2, eg: pma - Math.floor(dias / 7) };
+          const aplican = lineas.filter(d => pedDosis.lineaAplica(d, paciente) === true);
+          assertEqual(aplican.length, 1,
+            `'${idFarmaco}' con ${pma} semanas de edad posmenstrual y ${dias} dias de vida tiene ${aplican.length} lineas, y deberia tener exactamente 1`);
+        }
+      }
     });
   });
 

@@ -47,7 +47,12 @@ export function pacientePedia() {
        el fármaco como uno de 31, no como un recién nacido.
        Hace falta tener las dos cosas: sin edad gestacional no hay posmenstrual que valga, y
        devolver aquí la edad gestacional a secas sería dosificar a las 28 semanas para siempre. */
-    pma: (eg !== null && edadDias !== null) ? eg + edadDias / 7 : null,
+    /* Se trunca a semanas CUMPLIDAS, que es como se cuenta y como estan escritas las bandas de
+       los manuales. Sin truncar, un nino de 29 semanas y 6 dias vale 29.86 y no cae ni en la
+       banda "29 semanas o menos" ni en la de "30 a 36": las tablas de NeoFax dejarian un hueco
+       de una semana entera, y la vista no mostraria ninguna dosis. Con un nino de 1.4 kg y
+       20 dias nacido a las 27 semanas, la vancomicina no daba ni una linea. */
+    pma: (eg !== null && edadDias !== null) ? Math.floor(eg + edadDias / 7) : null,
     // El peso tal como se escribió, para poder avisar de que está fuera de rango en vez de
     // ignorarlo en silencio: un 700 teclado por 7.00 no debe limitarse a no calcular nada.
     pesoCrudo: peso
