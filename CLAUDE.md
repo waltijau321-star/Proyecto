@@ -246,7 +246,25 @@ registry topic). Two tabs, **one dataset**: "Por enfermedad" is *derived* by gro
 `dosis[].indicaciones[]`, never hand-written twice, and two tests check referential integrity in
 both directions (an orphan indication is a disease that opens empty).
 
-Four rules that are not style:
+Five rules that are not style:
+- **The neonate is dosed from the neonatal reference.** Any line that can reach a patient of 28
+  days or less must cite NeoFax, or Harriet Lane where NeoFax has no monograph (it has none for
+  dexamethasone, epinephrine or cephalexin). Taketomo is excluded for the neonate even though it
+  prints "Dosificación neonatal", so **every non-neonatal line carries an explicit `edadMin: 29`**
+  and a test enforces it line by line: a dose must never reach a newborn by omission. A drug with
+  no neonatal dose in either neonatal source declares `sinNeonatal` with where to look instead,
+  and the monograph prints it above the doses.
+- **Three time axes in the neonate, and they are different things.** `edadMin/edadMax` are days of
+  life; `pmaMin/pmaMax` are weeks of **postmenstrual** age (gestational age at birth plus days of
+  life, derived in `pacientePedia`, never asked for); `egMin/egMax` are weeks of gestational age
+  **at birth**, which never changes. Plus `pesoMin/pesoMax` in kg of current weight and
+  `pesoNacMin/pesoNacMax` in **grams of birth weight** (the ibuprofen-lysine PDA course is dosed on
+  birth weight for all three doses). The axes combine with AND, which is exactly what NeoFax's
+  tables are: gentamicin's chart is PMA × postnatal days, ampicillin's is gestational age ×
+  postnatal days. A line may not declare both `eg*` and `pma*`: two readings of "weeks" in one
+  line says nothing about which governs. `carga` carries the loading dose, and `cada` may exceed
+  24 h (gentamicin q36 and q48 in the preterm), in which case no daily total is computed because
+  none exists.
 - **Nothing ranks a treatment.** Taketomo, NeoFax and Harriet Lane are *dosing* handbooks: they
   say how much, not what first. A `linea` field (first choice) is optional and, when present,
   requires `fuenteLinea` pointing at a treatment guideline with a year; the suite rejects it
@@ -263,11 +281,16 @@ Four rules that are not style:
   `evidencia` and `fuente: {ref, pagina}` sit on each **dose line**, not on the drug, because a
   neonatal line and a pediatric line routinely come from different books.
 - **Every number was read on the page**, and the page is in the data. There is no "verify later"
-  state: a line without `fuente.pagina` does not land. Two traps in that PDF: the text layer has
-  OCR errors (`AC1CLOVIR`, `CURATO` for CITRATO), and the running head of a page is the drug that
-  *starts* on it, so the text at the top is usually the tail of the previous monograph. Searching
-  a page range for "Dosificación" returned a barbiturate's dose under amoxicillin and the topical
-  preparation under systemic clindamycin: read the passage and confirm it is the right drug.
+  state: a line without `fuente.pagina` does not land. Three traps: Taketomo's text layer has OCR
+  errors (`AC1CLOVIR`, `CURATO` for CITRATO); its running head is the drug that *starts* on the
+  page, so the text at the top is usually the tail of the previous monograph (searching a page
+  range for "Dosificación" returned a barbiturate's dose under amoxicillin and the topical
+  preparation under systemic clindamycin); and NeoFax has no running head at all, but prints
+  `NEONATAL DRUG MONOGRAPH` plus the drug name at the foot of every page of a monograph, which is
+  its index. Read the passage and confirm it is the right drug. Where two sources disagree with
+  themselves, drop the line and say why: Taketomo's IV hypersensitivity line for epinephrine reads
+  "0.01 mg/kg (0.01 mL/kg of 1:10 000)", and those two numbers differ by a factor of ten, so the
+  neonatal cardiac dose comes from Harriet Lane, whose figures agree.
 
 Access is a **UI convenience, not a security boundary**, and `engine/pediatria-acceso.js` says so
 in its header: the flag is `rm:profile-pediatria` on the user's own document, which

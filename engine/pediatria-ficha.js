@@ -16,7 +16,7 @@ import { aDias, diasEnPalabras, PESO_MAX, PESO_MIN } from './pediatria-dosis.js'
 import { pacienteGuardado, guardarPaciente, PACIENTE_KEY, repintarActiva } from './pediatria-estado.js';
 import { syncSet } from './cloud-sync.js';
 
-const CAMPOS = ['peso', 'edad', 'edadUnidad', 'eg'];
+const CAMPOS = ['peso', 'edad', 'edadUnidad', 'eg', 'pesoNacimiento'];
 const UNIDADES = [
   { value: 'd', label: 'días' },
   { value: 'm', label: 'meses' },
@@ -33,10 +33,21 @@ export function pacientePedia() {
   const p = pacienteGuardado();
   const peso = num(p.peso);
   const edad = num(p.edad);
+  const eg = num(p.eg);
+  const edadDias = edad !== null ? aDias(edad, p.edadUnidad || 'a') : null;
   return {
     peso: (peso !== null && peso >= PESO_MIN && peso <= PESO_MAX) ? peso : null,
-    edadDias: edad !== null ? aDias(edad, p.edadUnidad || 'a') : null,
-    eg: num(p.eg),
+    edadDias,
+    eg,
+    pesoNacimiento: num(p.pesoNacimiento),
+    /* La edad POSMENSTRUAL, que no se pregunta porque se calcula: es la gestacional al nacer más
+       el tiempo que lleva fuera. NeoFax lo dice con todas las letras en la gentamicina ("PMA;
+       equivalent to gestational age plus postnatal age") y la reparte así porque lo que madura
+       es el riñón, no el calendario: un prematuro de 28 semanas con tres semanas de vida maneja
+       el fármaco como uno de 31, no como un recién nacido.
+       Hace falta tener las dos cosas: sin edad gestacional no hay posmenstrual que valga, y
+       devolver aquí la edad gestacional a secas sería dosificar a las 28 semanas para siempre. */
+    pma: (eg !== null && edadDias !== null) ? eg + edadDias / 7 : null,
     // El peso tal como se escribió, para poder avisar de que está fuera de rango en vez de
     // ignorarlo en silencio: un 700 teclado por 7.00 no debe limitarse a no calcular nada.
     pesoCrudo: peso
@@ -48,7 +59,11 @@ export function resumenPedia(p) {
   const partes = [];
   if (p.peso !== null) partes.push(`${p.peso} kg`);
   if (p.edadDias !== null) partes.push(diasEnPalabras(p.edadDias));
-  if (p.eg !== null) partes.push(`${p.eg} semanas de edad gestacional`);
+  if (p.eg !== null) partes.push(`${p.eg} sem al nacer`);
+  // La posmenstrual se enseña porque es la que decide la dosis neonatal, y porque verla sale
+  // más barato que recalcularla de cabeza cada vez.
+  if (p.pma !== null) partes.push(`${Math.round(p.pma * 10) / 10} sem posmenstrual`);
+  if (p.pesoNacimiento !== null) partes.push(`${p.pesoNacimiento} g al nacer`);
   return partes.join(' · ');
 }
 
@@ -70,14 +85,20 @@ function cuerpoHTML() {
         <select id="pedf-edadUnidad" onchange="rmPediaFicha('edadUnidad', this.value)">${
           UNIDADES.map(u => `<option value="${u.value}"${unidad === u.value ? ' selected' : ''}>${u.label}</option>`).join('')
         }</select></div>
-      <div class="calc-field"><label for="pedf-eg">Edad gestacional (semanas)</label>
+      <div class="calc-field"><label for="pedf-eg">Edad gestacional al nacer (semanas)</label>
         <input type="number" id="pedf-eg" step="1" min="20" max="44" placeholder="solo neonatos" value="${val('eg')}"
           oninput="rmPediaFicha('eg', this.value)"></div>
+      <div class="calc-field"><label for="pedf-pesoNacimiento">Peso al nacer (g)</label>
+        <input type="number" id="pedf-pesoNacimiento" step="10" min="300" max="6000" placeholder="solo neonatos" value="${val('pesoNacimiento')}"
+          oninput="rmPediaFicha('pesoNacimiento', this.value)"></div>
     </div>
     <p class="vpo-ficha-pie">Con el peso puesto, cada línea de dosis muestra además los miligramos y
       los mililitros de este niño. La edad decide qué franja aplica: mientras falte, se muestran todas.
-      Este peso es solo de la sección Pediatría, no se comparte con la valoración preoperatoria. Se borra
-      con <strong>Paciente nuevo</strong>.</p>`;
+      En el neonato hacen falta además las dos últimas: con la edad gestacional al nacer y los días de
+      vida se calcula sola la <strong>edad posmenstrual</strong>, que es con la que NeoFax reparte casi
+      toda la dosis neonatal, y el <strong>peso al nacer</strong> no es el de hoy en un prematuro de
+      tres semanas, pero es el que usan varias tablas. Este peso es solo de la sección Pediatría, no se
+      comparte con la valoración preoperatoria. Se borra con <strong>Paciente nuevo</strong>.</p>`;
 }
 
 export function fichaPediaHTML() {

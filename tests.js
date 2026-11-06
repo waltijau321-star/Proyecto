@@ -882,12 +882,13 @@ async function run() {
   // Trinquete de contenido, igual que ATRIB_TOTAL_MINIMO: el número puede SUBIR con cada bloque
   // y nunca bajar. Si baja a propósito, se baja la marca a mano y se dice por qué en el commit.
   const PEDIA_FARMACOS_MINIMO = 12;
-  const PEDIA_LINEAS_MINIMO = 45;
-  const PEDIA_CUADROS_MINIMO = 19;
+  const PEDIA_LINEAS_MINIMO = 91;
+  const PEDIA_CUADROS_MINIMO = 28;
   // Cuadros declarados COMPLETOS: tienen que seguir teniendo al menos un fármaco y todas sus
   // líneas con fuente y página. Un cuadro que entra aquí no vuelve a salir.
   const PEDIA_CUADROS_COMPLETOS = ['otitis-media-aguda', 'neumonia-adquirida-comunidad',
-    'fiebre', 'crisis-asmatica', 'anafilaxia'];
+    'fiebre', 'crisis-asmatica', 'anafilaxia', 'sepsis-neonatal-precoz',
+    'lactante-febril-sin-foco', 'oftalmia-neonatal', 'conducto-arterioso-persistente', 'crup'];
 
   const todasLasLineas = pedia.farmacos.flatMap(f => (f.dosis || []).map(d => [f, d]));
 
@@ -997,7 +998,15 @@ async function run() {
         assert(typeof d.cada === 'number', `una linea de '${f.id}' da mg/kg/dia sin intervalo: no se puede repartir`);
       }
       if (typeof d.cada === 'number') {
-        assert(d.cada > 0 && 24 % d.cada === 0, `una linea de '${f.id}' tiene un intervalo de ${d.cada} h, que no divide a 24`);
+        // Divisor de 24, o multiplo de 12 para los intervalos largos: NeoFax pauta la gentamicina
+        // del prematuro cada 36 y cada 48 h. Lo que se rechaza es un intervalo que no existe en
+        // la practica, como cada 7 h.
+        assert(d.cada > 0 && (24 % d.cada === 0 || d.cada % 12 === 0),
+          `una linea de '${f.id}' tiene un intervalo de ${d.cada} h, que no es un intervalo real`);
+        // Y una dosis POR DIA no se puede repartir en un intervalo de mas de 24 h: no hay
+        // "total diario" que repartir entre media toma.
+        if (d.mgkg && d.mgkg.por === 'dia') assert(d.cada <= 24,
+          `una linea de '${f.id}' da mg/kg/dia con un intervalo de ${d.cada} h, que es mas de un dia`);
       }
       assert(typeof d.cada === 'number' || d.unica === true,
         `una linea de '${f.id}' no dice ni cada cuanto ni que sea dosis unica`);
@@ -1023,18 +1032,21 @@ async function run() {
 
   test('Pediatría: las franjas son coherentes y ninguna línea mezcla dos ejes', () => {
     todasLasLineas.forEach(([f, d]) => {
-      [['edadMin', 'edadMax'], ['egMin', 'egMax'], ['pesoMin', 'pesoMax']].forEach(([lo, hi]) => {
+      [['edadMin', 'edadMax'], ['egMin', 'egMax'], ['pmaMin', 'pmaMax'],
+       ['pesoMin', 'pesoMax'], ['pesoNacMin', 'pesoNacMax']].forEach(([lo, hi]) => {
         if (typeof d[lo] === 'number' && typeof d[hi] === 'number') {
           assert(d[lo] < d[hi], `'${f.id}' tiene una franja con ${lo} >= ${hi}`);
         }
       });
-      // Edad gestacional y dias de vida en la misma linea se combinarian con Y, y lo que dicen
-      // los manuales suele ser una disyuncion ("33 a 37 semanas O nacido a termino de menos de
-      // 10 dias"): escribirla como Y deja fuera al recien nacido de termino.
+      // Combinar edad gestacional (o posmenstrual) con dias de vida SI esta permitido, y es lo
+      // que piden las tablas de NeoFax: "34 semanas o menos Y 7 dias de vida o menos" es una
+      // casilla suya. Lo que no puede coexistir son las dos lecturas de "semanas": la
+      // gestacional al nacer, que no cambia, y la posmenstrual, que crece cada dia. Una linea
+      // que declarara las dos estaria diciendo dos cosas distintas con la misma palabra.
       const tieneEg = typeof d.egMin === 'number' || typeof d.egMax === 'number';
-      const tieneEdad = typeof d.edadMin === 'number' || typeof d.edadMax === 'number';
-      assert(!(tieneEg && tieneEdad),
-        `'${f.id}' acota a la vez por edad gestacional y por dias de vida: los ejes se combinan con Y y la fuente casi siempre dice O`);
+      const tienePma = typeof d.pmaMin === 'number' || typeof d.pmaMax === 'number';
+      assert(!(tieneEg && tienePma),
+        `'${f.id}' acota a la vez por edad gestacional al nacer y por edad posmenstrual: son dos cosas distintas y la linea no dice cual manda`);
     });
   });
 
@@ -1081,6 +1093,59 @@ async function run() {
     });
   });
 
+  test('Pediatría: toda dosis que alcanza a un recién nacido cita una fuente neonatal', () => {
+    /* La regla mas importante del bloque, y es decision del autor: un paciente de 28 dias o
+       menos se dosifica desde NeoFax, o desde el Harriet Lane donde NeoFax no trae monografia.
+       El Taketomo es un manual de dosificacion general excelente y trae "Dosificacion neonatal"
+       en muchas monografias, pero aqui no vale para el recien nacido.
+
+       Mecanicamente: una linea alcanza al neonato salvo que declare `edadMin` de 29 dias o mas.
+       Por eso cada linea que NO es neonatal lleva ese `edadMin: 29` explicito: asi no hay dosis
+       que llegue a un recien nacido por descuido, que es justo lo que pasaria si el campo se
+       pudiera omitir. */
+    todasLasLineas.forEach(([f, d]) => {
+      const excluyeNeonato = typeof d.edadMin === 'number' && d.edadMin >= 29;
+      if (excluyeNeonato) return;
+      const fuente = pedia.FUENTES[d.fuente.ref];
+      assert(fuente.neonatal,
+        `'${f.id}' tiene una linea que alcanza a un recien nacido citando ${d.fuente.ref}, que no es fuente neonatal: ponle edadMin 29 o resiembra la dosis desde NeoFax`);
+    });
+  });
+
+  test('Pediatría: el fármaco sin dosis neonatal lo dice, y ninguna de sus líneas alcanza al recién nacido', () => {
+    // Cefalexina y dexametasona no tienen monografia neonatal en ninguna de las dos fuentes
+    // neonatales. Eso no se resuelve en silencio: el farmaco lo declara y la ficha lo pinta
+    // arriba, antes que las dosis.
+    pedia.farmacos.forEach(f => {
+      const alcanzaAlguna = (f.dosis || []).some(d => !(typeof d.edadMin === 'number' && d.edadMin >= 29));
+      if (f.sinNeonatal) {
+        assert(!alcanzaAlguna,
+          `'${f.id}' dice no tener dosis neonatal pero alguna de sus lineas alcanza al recien nacido`);
+        assert(f.sinNeonatal.length >= 40, `el aviso de '${f.id}' no explica donde buscarla`);
+      } else {
+        assert(alcanzaAlguna,
+          `'${f.id}' no tiene ninguna linea para el recien nacido y tampoco declara 'sinNeonatal': di de donde falta la dosis`);
+      }
+    });
+  });
+
+  test('Pediatría: la dosis de carga trae un valor o un rango, y es mayor que la de mantenimiento', () => {
+    todasLasLineas.filter(([, d]) => d.carga).forEach(([f, d]) => {
+      const c = d.carga;
+      const tieneValor = typeof c.valor === 'number';
+      const tieneRango = typeof c.min === 'number' && typeof c.max === 'number';
+      assert(tieneValor !== tieneRango, `la carga de '${f.id}' no trae ni un valor ni un rango, o trae los dos`);
+      const alto = tieneValor ? c.valor : c.max;
+      assert(alto > 0, `la carga de '${f.id}' no es positiva`);
+      // Una carga que no supera a la de mantenimiento no es una carga: o esta mal escrita, o
+      // sobra. Se compara contra el mantenimiento por TOMA, que es lo comparable.
+      if (d.mgkg && d.mgkg.por === 'dosis') {
+        const mant = typeof d.mgkg.valor === 'number' ? d.mgkg.valor : d.mgkg.max;
+        assert(alto >= mant, `la carga de '${f.id}' (${alto}) no supera a su mantenimiento por toma (${mant})`);
+      }
+    });
+  });
+
   test('Pediatría: toda fuente declarada la cita alguna línea', () => {
     // Una fuente declarada y no usada es una fuente que nadie comprobo.
     const usadas = new Set(todasLasLineas.map(([, d]) => d.fuente.ref));
@@ -1120,13 +1185,15 @@ async function run() {
   });
 
   test('Pediatría dosis: el techo por peso acota donde el absoluto no llega', () => {
-    // El neonato: 90 mg/kg/dia sobre 3.2 kg son 288 mg, muy por debajo de cualquier techo
-    // absoluto. Si solo existiera el techo en mg, el recien nacido se quedaria sin techo.
+    // El prematuro: el techo de NeoFax para el acetaminofen IV de 28 a 32 semanas es de
+    // 40 mg/kg/dia, que sobre 1.2 kg son 48 mg. Esta tan lejos de cualquier techo absoluto que,
+    // si solo existiera el techo en mg, el recien nacido se quedaria practicamente sin techo.
     const aceta = pedia.farmacos.find(f => f.id === 'acetaminofen');
-    const neo = aceta.dosis.find(d => d.maxMgkgDia === 90);
-    assert(neo, 'se esperaba una linea neonatal con techo de 90 mg/kg/dia');
-    const r = pedDosis.calcularDosis(neo, { peso: 3.2 }, null);
-    assert(r.topes.dia !== null && Math.abs(r.topes.dia - 90 * 3.2) < 1e-9,
+    const neo = aceta.dosis.find(d => d.maxMgkgDia === 40);
+    assert(neo, 'se esperaba la linea neonatal de NeoFax con techo de 40 mg/kg/dia');
+    assertEqual(neo.fuente.ref, 'NEOFAX', 'esa linea deberia venir de NeoFax');
+    const r = pedDosis.calcularDosis(neo, { peso: 1.2 }, null);
+    assert(r.topes.dia !== null && Math.abs(r.topes.dia - 40 * 1.2) < 1e-9,
       'el techo por peso no se convirtio a mg para este nino');
     assertEqual(r.topes.diaDe, 'mgkg');
   });

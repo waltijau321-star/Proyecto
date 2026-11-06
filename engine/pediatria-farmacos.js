@@ -100,11 +100,13 @@ export function abrirFarmacoPedia(id) {
     <span class="modal-tag" style="color:${g.accent};">${g.label}</span>
     <h2>${f.farmaco}</h2>
     <p class="vpo-d-lead"><span class="vpo-chip" style="--chip:${c.color}">${c.label}</span> ${f.resumen}</p>
+    ${f.sinNeonatal ? `<p class="pedia-sin-neonatal">${f.sinNeonatal}</p>` : ''}
     ${selectorPresentacionHTML(f)}
     ${bloqueHTML('Dosis', lineas(aplican) + otrasHTML)}
     ${f.noTriturar ? `<p class="pedia-calc-aviso">No debe triturarse ni partirse.</p>` : ''}
     ${bloqueLista('Efectos adversos', f.adversos)}
     ${bloqueLista('Precauciones', f.precauciones)}
+    ${f.dilucion ? bloqueHTML('Dilución y preparación', f.dilucion) : ''}
     ${f.ajusteRenal ? bloqueHTML('Ajuste en disfunción renal', f.ajusteRenal) : ''}
     ${f.administracion ? bloqueHTML('Administración', f.administracion) : ''}
     ${f.mecanismo ? bloqueHTML('Mecanismo', f.mecanismo) : ''}

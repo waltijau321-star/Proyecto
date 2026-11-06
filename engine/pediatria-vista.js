@@ -62,14 +62,26 @@ function calculadoHTML(linea, farmaco) {
   // una línea mal etiquetada (mg/kg/día escrito como mg/kg/dosis, o al revés) produce así un
   // total diario visiblemente absurdo en vez de una toma plausiblemente equivocada.
   const porToma = parTexto(r.dosis, 'mg');
-  const alDia = num(r.dia && r.dia.min) ? parTexto(r.dia, 'mg') : '';
+  // Con una sola toma al dia, el total diario es la misma cifra: repetirla no informa de nada y
+  // ensucia la linea. Las dos lecturas valen cuando de verdad son dos numeros distintos.
+  const alDia = (num(r.dia && r.dia.min) && r.tomas && r.tomas > 1) ? parTexto(r.dia, 'mg') : '';
   const cadaCuanto = num(linea.cada) ? ` cada ${linea.cada} h` : (linea.unica ? ' en dosis única' : '');
   const conPeso = r.peso !== null
     ? `Con ${r.peso} kg` : 'Dosis fija, no depende del peso';
   const mgTexto = alDia
     ? `${porToma}${cadaCuanto} = ${alDia} al día`
     : `${porToma}${cadaCuanto}`;
-  filas.push(`<div class="pedia-calc-mg"><strong>${conPeso} → ${mgTexto}</strong></div>`);
+  if (r.carga) {
+    // Primero la carga, que es la que se pone primero. Va en su propia fila y dice que es una
+    // sola vez: confundirla con la de mantenimiento es dar el doble cada seis horas.
+    const vol = r.carga.volumen
+      ? ` · ${r.carga.volumen.etiqueta} → ${Math.round(r.carga.volumen.mL * 100) / 100} mL (${redondearMg(r.carga.volumen.mg)} mg)`
+      : (r.carga.unidades ? ` · ${r.carga.unidades.etiqueta} → ${r.carga.unidades.n} (${redondearMg(r.carga.unidades.mg)} mg)` : '');
+    filas.push(`<div class="pedia-calc-carga"><strong>Carga, una sola vez: ${
+      parTexto(r.carga, 'mg')}</strong>${vol}</div>`);
+  }
+  filas.push(`<div class="pedia-calc-mg"><strong>${
+    r.carga ? 'Después, ' + conPeso.charAt(0).toLowerCase() + conPeso.slice(1) : conPeso} → ${mgTexto}</strong></div>`);
 
   // El tope, cuando muerde: se dice el techo, a cuántos mg/kg queda y lo que habría dado la
   // aritmética sin topar. Un número que deja de seguir al peso sin explicación es un número que

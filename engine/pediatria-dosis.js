@@ -61,8 +61,9 @@ const num = v => (typeof v === 'number' && isFinite(v));
 export function redondearVolumen(mL) {
   if (!num(mL) || mL <= 0) return 0;
   const paso = mL < 1 ? 0.01 : mL < 10 ? 0.1 : 0.5;
-  // El +1e-9 absorbe el error binario: 0.145/0.01 da 14.499999999999998, que redondearía a 0.14.
-  return Math.round(mL / paso + 1e-9) * paso;
+  // El +1e-9 absorbe el error binario al dividir (0.145/0.01 da 14.499999999999998, que
+  // redondearía a 0.14), y el toFixed el que reaparece al multiplicar de vuelta.
+  return Number((Math.round(mL / paso + 1e-9) * paso).toFixed(2));
 }
 
 // Los comprimidos se parten por la mitad o en cuartos, no en décimas. Mismo criterio que el
@@ -77,7 +78,11 @@ export function redondearMg(mg) {
   if (!num(mg) || mg <= 0) return 0;
   const magnitud = Math.floor(Math.log10(mg));
   const paso = Math.pow(10, Math.max(magnitud - 2, -3));
-  return Math.round(mg / paso + 1e-9) * paso;
+  // El toFixed no es cosmetica: multiplicar el escalado por el paso vuelve a meter error binario
+  // y 13.2 acaba impreso como 13.200000000000001 en la ficha. Se corta a los decimales que el
+  // propio paso admite.
+  const decimales = Math.max(0, -Math.floor(Math.log10(paso)));
+  return Number((Math.round(mg / paso + 1e-9) * paso).toFixed(decimales));
 }
 
 /* ---------------- Edad ----------------
@@ -117,17 +122,34 @@ export function diasEnPalabras(dias) {
    falta de un dato que nadie pidió es una dosis que el residente no llegó a ver; la vista las
    pinta todas desplegadas mientras no haya con qué decidir.
 
-   Ejes, y solo estos tres:
-     edadMin / edadMax  días de vida (para el neonato, su edad posnatal)
-     egMin   / egMax    semanas de edad gestacional
-     pesoMin / pesoMax  kg
-   Lo que se omite significa "sin límite por ese lado". Una línea sin ningún eje es para todos. */
+   CINCO ejes, y conviene no confundir los tres que hablan de tiempo, porque en el neonato son
+   tres cosas distintas y una tabla de NeoFax usa dos a la vez:
+
+     edadMin / edadMax        DÍAS de vida (edad posnatal). "Tiene 5 días".
+     pmaMin / pmaMax          SEMANAS de edad POSMENSTRUAL: lo que tendría de gestación si
+                              siguiera dentro. Es la edad gestacional al nacer más los días de
+                              vida, y es el eje con el que NeoFax reparte casi toda la dosis
+                              neonatal, porque lo que madura es el riñón, no el calendario.
+                              La ficha no lo pregunta: se calcula (ver pacientePedia).
+     egMin / egMax            SEMANAS de edad gestacional AL NACER, que no cambia nunca. Se usa
+                              solo donde la fuente habla del nacimiento ("prematuro de 28 a 32
+                              semanas"), no de la madurez de hoy.
+     pesoMin / pesoMax        kg de peso ACTUAL, el que multiplica la dosis.
+     pesoNacMin / pesoNacMax  GRAMOS de peso AL NACER, que en un prematuro de tres semanas ya no
+                              es su peso de hoy. Varias tablas neonatales reparten por este.
+
+   Lo que se omite no acota por ese lado. Una línea sin ningún eje es para todos.
+
+   Los ejes se combinan con Y, y eso es lo que pide NeoFax: "33 a 36 semanas de edad
+   posmenstrual Y de 0 a 7 días de vida" es una casilla de su tabla, no dos alternativas. */
 export function lineaAplica(linea, paciente) {
   const p = paciente || {};
   const ejes = [
-    { min: linea.edadMin, max: linea.edadMax, valor: p.edadDias },
-    { min: linea.egMin,   max: linea.egMax,   valor: p.eg },
-    { min: linea.pesoMin, max: linea.pesoMax, valor: p.peso }
+    { min: linea.edadMin,    max: linea.edadMax,    valor: p.edadDias },
+    { min: linea.pmaMin,     max: linea.pmaMax,     valor: p.pma },
+    { min: linea.egMin,      max: linea.egMax,      valor: p.eg },
+    { min: linea.pesoMin,    max: linea.pesoMax,    valor: p.peso },
+    { min: linea.pesoNacMin, max: linea.pesoNacMax, valor: p.pesoNacimiento }
   ];
   let falta = false;
   for (const e of ejes) {
@@ -141,13 +163,20 @@ export function lineaAplica(linea, paciente) {
 }
 
 // La franja de la línea, en palabras. Se pinta SIEMPRE, con ficha o sin ella: si la franja se
-// dedujera de la posición en la lista, bastaría un reordenamiento para cambiar de paciente.
+// dedujera de la posición en la lista, bastaría un reordenamiento para cambiar de paciente. Cada
+// eje se nombra entero ("de edad posmenstrual", "al nacer") porque abreviarlos es justamente
+// como se confunden entre si.
 export function textoFranja(linea) {
   const partes = [];
-  const eg = [];
-  if (num(linea.egMin)) eg.push(`desde ${linea.egMin}`);
-  if (num(linea.egMax)) eg.push(`hasta ${linea.egMax}`);
-  if (eg.length) partes.push(`${eg.join(' y ')} semanas de edad gestacional`);
+
+  const tramo = (min, max, unidad, antes, despues) => {
+    if (!num(min) && !num(max)) return null;
+    const d = despues ? ' ' + despues : '';
+    const pre = antes ? antes + ' ' : '';
+    if (num(min) && num(max)) return `${pre}de ${min} a ${max} ${unidad}${d}`;
+    if (num(min)) return `${pre}desde ${min} ${unidad}${d}`;
+    return `${pre}hasta ${max} ${unidad}${d}`;
+  };
 
   if (num(linea.edadMin) && num(linea.edadMax)) {
     partes.push(`de ${diasEnPalabras(linea.edadMin)} a ${diasEnPalabras(linea.edadMax)}`);
@@ -157,9 +186,12 @@ export function textoFranja(linea) {
     partes.push(`hasta ${diasEnPalabras(linea.edadMax)}`);
   }
 
-  if (num(linea.pesoMin) && num(linea.pesoMax)) partes.push(`de ${linea.pesoMin} a ${linea.pesoMax} kg`);
-  else if (num(linea.pesoMin)) partes.push(`desde ${linea.pesoMin} kg`);
-  else if (num(linea.pesoMax)) partes.push(`hasta ${linea.pesoMax} kg`);
+  [
+    tramo(linea.pmaMin, linea.pmaMax, 'semanas', null, 'de edad posmenstrual'),
+    tramo(linea.egMin, linea.egMax, 'semanas', 'nacido', 'de gestación'),
+    tramo(linea.pesoMin, linea.pesoMax, 'kg', null, null),
+    tramo(linea.pesoNacMin, linea.pesoNacMax, 'g', 'con peso al nacer', null)
+  ].forEach(t => { if (t) partes.push(t); });
 
   return partes.length ? partes.join(', ') : 'cualquier edad';
 }
@@ -170,6 +202,10 @@ export function textoFranja(linea) {
 export function textoDosis(linea) {
   const d = linea.mgkg || {};
   const partes = [];
+  if (linea.carga) {
+    const c = linea.carga;
+    partes.push('carga de ' + (num(c.valor) ? c.valor : c.min + ' a ' + c.max) + ' mg/kg, luego');
+  }
   if (linea.fija) {
     // Dosis fija, no por peso: el adolescente por encima del techo de adulto, y los fármacos
     // que se dan por tramos de peso en vez de por kg (los autoinyectores de adrenalina).
@@ -208,7 +244,11 @@ export function calcularDosis(linea, paciente, presentacion) {
 
   // Tomas al día. Una dosis diaria sin intervalo no se puede repartir, y por eso el contrato
   // obliga a `cada` cuando la base es por día (hay una prueba que lo comprueba).
-  const tomas = num(linea.cada) && linea.cada > 0 ? 24 / linea.cada : null;
+  /* Con intervalos de MÁS de 24 h no hay tomas al día que valgan: la gentamicina del prematuro
+     va cada 36 o cada 48 h, y repartir eso en "0.67 tomas diarias" produciría un total diario que
+     nadie administra y que invita a sumarlo mal. En ese caso no se calcula total diario y la
+     vista enseña solo la dosis por toma, que es lo que se indica. */
+  const tomas = num(linea.cada) && linea.cada > 0 && linea.cada <= 24 ? 24 / linea.cada : null;
   if (porDia && !tomas) return null;
 
   const avisos = [];
@@ -273,12 +313,31 @@ export function calcularDosis(linea, paciente, presentacion) {
     mgkgReal: { min: a.dosis / peso, max: b.dosis / peso },
     volumen: null,
     unidades: null,
+    carga: null,
     avisos
   };
 
   // El extremo alto del rango es el que manda para el volumen: es el que puede pasarse del tope
   // al redondear y el que decide si la toma es demasiado líquido.
   anadirForma(res, linea, b.dosis, presentacion, topeDosis);
+
+  /* La dosis de CARGA (impregnación): la primera, mayor que las siguientes. Va en su propio
+     bloque y con su propio volumen, porque se administra una sola vez y confundirla con la de
+     mantenimiento significa dar el doble cada seis horas. NeoFax la usa en el acetaminofén oral
+     y rectal del neonato y en la ceftriaxona de la meningitis. */
+  if (linea.carga) {
+    const cl = num(linea.carga.valor) ? linea.carga.valor : linea.carga.min;
+    const ch = num(linea.carga.valor) ? linea.carga.valor : linea.carga.max;
+    if (num(cl) && num(ch)) {
+      const sub = { avisos: [], volumen: null, unidades: null };
+      // Sin tope: el techo por toma es el de mantenimiento, y la carga es justamente la que lo
+      // supera a propósito.
+      anadirForma(sub, linea, ch * peso, presentacion, null);
+      res.carga = { min: cl * peso, max: ch * peso, volumen: sub.volumen, unidades: sub.unidades };
+      sub.avisos.forEach(x => avisos.push('En la dosis de carga: ' + x));
+    }
+  }
+
   return res;
 }
 
@@ -352,6 +411,7 @@ function fijaResuelta(linea, peso, presentacion) {
     mgkgReal: pesoValido ? { min: lo / peso, max: hi / peso } : null,
     volumen: null,
     unidades: null,
+    carga: null,
     avisos: []
   };
   anadirForma(res, linea, hi, presentacion, null);
