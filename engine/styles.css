@@ -799,6 +799,12 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 .exam-page-header{display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;}
 .exam-page-timer{font-size:1.1rem; font-weight:600; color:var(--shell); background:var(--panel2); border:1px solid var(--line); padding:6px 16px; border-radius:20px;}
 
+.home-bank{margin-top:18px;}
+.home-bank-head{
+  display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px;
+  font-size:11.5px; text-transform:uppercase; letter-spacing:.03em; color:var(--ink-faint);
+}
+
 @media (max-width:640px){
   .home-progress{flex-direction:column; align-items:flex-start;}
   .home-reset{margin-left:0;}
@@ -808,28 +814,68 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 /* ---------------- Temario completo (acordeón en Inicio) ---------------- */
 .temario-list{display:flex; flex-direction:column; gap:10px;}
 .temario-block{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;}
+/* La fila del bloque es ahora de dos pisos (título + etiqueta arriba, barra de progreso
+   debajo), así que el <summary> deja de ser flex y lo es .temario-block-head, que es también
+   quien lleva la flecha. */
 .temario-block > summary{
-  list-style:none; cursor:pointer; padding:14px 16px; display:flex; align-items:center; gap:12px;
+  list-style:none; cursor:pointer; padding:14px 16px; display:block;
   font-family:'Newsreader',serif; font-weight:600; font-size:15.5px; color:var(--ink);
 }
 .temario-block > summary::-webkit-details-marker{display:none;}
-.temario-block > summary::after{
-  content:""; flex:none; width:9px; height:9px; margin-left:auto;
+.temario-block-head{display:flex; align-items:center; gap:12px;}
+.temario-block-head::after{
+  content:""; flex:none; width:9px; height:9px; margin-left:auto; margin-bottom:4px;
   border-right:2px solid var(--ink-faint); border-bottom:2px solid var(--ink-faint);
   transform:rotate(45deg); transition:transform .15s;
 }
-.temario-block[open] > summary::after{transform:rotate(-135deg);}
+.temario-block[open] > summary .temario-block-head::after{transform:rotate(-135deg);}
+.temario-block > summary .prog-bar{margin-top:10px;}
 .temario-block-title{flex:1; min-width:0;}
 .temario-block-cov{
   flex:none; font-family:'Source Sans 3',sans-serif; font-size:10.5px; font-weight:600; color:var(--ink-faint);
   background:var(--bg); border:1px solid var(--line); border-radius:20px; padding:3px 10px; white-space:nowrap;
 }
-/* Barra de cobertura del bloque (built/total, ya calculado en blockCoverage() de home.js) —
-   complementa el texto "N/M temas · X%" con una lectura visual instantánea. */
+/* Barra de cobertura del bloque (built/total, ya calculado en blockCoverage() de home.js).
+   Mide CONTENIDO CONSTRUIDO, no el avance del usuario — que es lo que miden la etiqueta de la
+   fila y la barra verde/rojo —, y por eso vive dentro del bloque abierto y con su propio
+   rótulo: dos barras sin etiqueta en la misma tarjeta se leen como la misma cosa. */
+.temario-block-cobertura{margin:0 16px; display:flex; flex-direction:column; gap:5px;}
+.temario-block-cobertura > span{
+  font-family:'Source Sans 3',sans-serif; font-size:10.5px; color:var(--ink-faint);
+  text-transform:uppercase; letter-spacing:.03em;
+}
 .temario-block-bar{height:4px; margin:0 16px; background:var(--line); border-radius:4px; overflow:hidden;}
+.temario-block-cobertura .temario-block-bar{margin:0;}
 .temario-block-bar span{
   display:block; height:100%; background:var(--shell); border-radius:4px;
   transition:width var(--dur-slow) var(--ease);
+}
+
+/* Barra apilada de progreso (progressBar() en engine/home.js): verde lo acertado, rojo lo
+   fallado, gris lo que falta. Los tres trozos se miden sobre el mismo total, así que la barra
+   siempre representa el banco completo del bloque (o de la app, en "Tu progreso").
+   Los dos colores son los mismos del aro de Inicio, a propósito. */
+.prog-bar{display:flex; height:6px; background:var(--line); border-radius:6px; overflow:hidden;}
+.prog-bar > span{display:block; height:100%; transition:width var(--dur-slow) var(--ease);}
+.prog-ok{background:#2f6f5e;}
+.prog-bad{background:#8c3a34;}
+.prog-legend{
+  display:flex; flex-wrap:wrap; gap:14px; margin-top:8px;
+  font-family:'Source Sans 3',sans-serif; font-size:11.5px; color:var(--ink-faint);
+}
+.prog-legend span{display:inline-flex; align-items:center; gap:6px;}
+.prog-dot{width:8px; height:8px; border-radius:50%; background:var(--line); flex:none;}
+.prog-dot.ok{background:#2f6f5e;}
+.prog-dot.bad{background:#8c3a34;}
+
+/* En móvil la etiqueta del bloque ("348/1962 contestadas · 76% acierto") no cabe junto al
+   título: es `nowrap` y no encoge, así que se montaba encima del texto. Baja a su propia línea,
+   con la flecha reordenada para que siga a la derecha del título. */
+@media (max-width:640px){
+  .temario-block-head{flex-wrap:wrap;}
+  .temario-block-title{order:1;}
+  .temario-block-head::after{order:2; margin-bottom:0;}
+  .temario-block-cov{order:3; flex-basis:100%; margin-top:8px; padding:0; border:0; background:none; white-space:normal;}
 }
 .temario-block-intro{margin:10px 16px 12px; font-size:12.5px; color:var(--ink-faint); line-height:1.55;}
 .temario-group{margin:0 16px 12px; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--bg);}

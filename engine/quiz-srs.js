@@ -178,9 +178,32 @@ export function isQuizCompleted(topicId, quiz) {
 //    migrate(): si la pregunta vuelve, su progreso sigue ahí), así que el recuento puede sobrar
 //    por ese lado. Se acota con `total` para que el porcentaje de Inicio no pase del 100%.
 export function answeredCount(topicId, total) {
+  return answeredBreakdown(topicId, total).contestadas;
+}
+
+// Desglose del banco de un tema por el ESTADO de cada pregunta, y tampoco necesita el banco: la
+// caja de Leitner ya dice como fue el ultimo intento, porque de caja solo se sube acertando y
+// un fallo devuelve a la 1. Asi que caja 1 = la fallaste la ultima vez, caja 2 o mas = la
+// acertaste. Es lo que pinta la barra verde/rojo/gris de Inicio (por bloque del temario y
+// global), y por eso cuenta PREGUNTAS DISTINTAS y no intentos: los intentos (`rm:quiz-progress`,
+// con sus reintentos) pueden superar el tamano del banco, y una barra cuyos trozos no suman el
+// total no es una barra de progreso.
+// El tope es el mismo que tenia answeredCount() y por la misma razon (el id de una pregunta
+// reescrita se conserva a proposito, ver migrate()), pero aqui el recorte se reparte entre los
+// dos colores en su proporcion, para que verde + rojo + gris sumen siempre el banco.
+export function answeredBreakdown(topicId, total) {
   const max = Math.max(0, Number(total) || 0);
-  if (!max) return 0;
-  return Math.min(Object.keys(loadQuizSRS(topicId)).length, max);
+  if (!max) return { acertadas: 0, falladas: 0, contestadas: 0, pendientes: 0 };
+  const store = loadQuizSRS(topicId);
+  let acertadas = 0, falladas = 0;
+  Object.values(store).forEach(e => { if (e && (e.box || 1) > 1) acertadas++; else falladas++; });
+  let n = acertadas + falladas;
+  if (n > max) {
+    acertadas = Math.round((acertadas * max) / n);
+    falladas = max - acertadas;
+    n = max;
+  }
+  return { acertadas, falladas, contestadas: n, pendientes: max - n };
 }
 
 // Cuántas preguntas del banco faltan por responder al menos una vez (para el mensaje del candado).

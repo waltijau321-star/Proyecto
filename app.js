@@ -8,7 +8,7 @@ import { setGeneralCalcs, mountAllCalculators } from './engine/calculators.js';
 import { generalCalculators } from './engine/general-calc.js';
 import { mountProtocols } from './engine/protocols.js';
 import { mountHome } from './engine/home.js';
-import { answeredCount } from './engine/quiz-srs.js';
+import { answeredBreakdown } from './engine/quiz-srs.js';
 import { maybeShowSplash } from './engine/logo-splash.js';
 import { initAuth } from './engine/auth.js';
 import { initCloudSync } from './engine/cloud-sync.js';
@@ -150,13 +150,16 @@ async function selectTopic(id, { reflectUrl = true } = {}) {
 // sale del almacén del repaso espaciado (answeredCount), que tampoco necesita el banco.
 // Ya no es `async`: la portada se pinta en el mismo cuadro.
 function mountHomeSection() {
-  const topics = registry.map(t => ({
-    id: t.id, titulo: t.titulo, accent: t.accent, quizCount: t.preguntas || 0
-  }));
-  const totalQuestions = topics.reduce((n, t) => n + t.quizCount, 0);
   // "Contestada" = ya se respondió al menos una vez, el mismo criterio que desbloquea las fichas
-  // de repaso del tema (ver engine/quiz-srs.js), no el total de intentos.
-  const answeredQuestions = topics.reduce((n, t) => n + answeredCount(t.id, t.quizCount), 0);
+  // de repaso del tema (ver engine/quiz-srs.js), no el total de intentos. El desglose
+  // acertadas/falladas viene de la caja de Leitner de cada pregunta, así que también cuenta
+  // preguntas distintas y no intentos: es lo que pinta la barra verde/rojo/gris de Inicio.
+  const topics = registry.map(t => {
+    const quizCount = t.preguntas || 0;
+    return { id: t.id, titulo: t.titulo, accent: t.accent, quizCount, ...answeredBreakdown(t.id, quizCount) };
+  });
+  const totalQuestions = topics.reduce((n, t) => n + t.quizCount, 0);
+  const answeredQuestions = topics.reduce((n, t) => n + t.contestadas, 0);
   mountHome(document.getElementById('home-root'), {
     topics, totalQuestions, answeredQuestions, temarioBlocks,
     navigateToTopic: async (id) => {

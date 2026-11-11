@@ -130,7 +130,7 @@ async function run() {
   localStorage.removeItem('rm:test-obj');
 
   /* ---------------- Repetición espaciada de preguntas (engine/quiz-srs.js) ---------------- */
-  const { updateQuizSRS, dueQuestionIndices, loadQuizSRS, isQuizCompleted, remainingToComplete, questionId, answeredCount } = await import('./engine/quiz-srs.js');
+  const { updateQuizSRS, dueQuestionIndices, loadQuizSRS, isQuizCompleted, remainingToComplete, questionId, answeredCount, answeredBreakdown } = await import('./engine/quiz-srs.js');
   const T = 'rm-test-topic';
   // Banco de prueba. La segunda pregunta está escrita sin acentos y con entidad HTML a
   // propósito: la mitad de la biblioteca está así, y la corrección ortográfica pendiente no
@@ -268,7 +268,73 @@ async function run() {
     assertEqual(answeredCount('tema-que-no-existe-' + Date.now(), 36), 0);
   });
 
+  /* ---- answeredBreakdown: el desglose que pinta la barra verde/rojo/gris de Inicio ----
+     Mide PREGUNTAS DISTINTAS (una vez cada una, por su ultimo resultado), no intentos: los
+     intentos de `rm:quiz-progress` incluyen reintentos y pueden pasar del tamano del banco, y
+     una barra cuyos trozos no suman el total no dice cuanto llevas. El color sale de la caja de
+     Leitner, que solo sube acertando: caja 1 = fallada la ultima vez, caja 2 o mas = acertada. */
+  test('answeredBreakdown: la caja 1 es roja, de la 2 en adelante es verde, y el resto es gris', () => {
+    syncSet('rm:quiz-srs:' + T, {
+      a: { box: 1 }, b: { box: 2 }, c: { box: 5 }, d: { box: 1 }, e: { box: 9 }
+    });
+    assertEqual(answeredBreakdown(T, 20), { acertadas: 3, falladas: 2, contestadas: 5, pendientes: 15 });
+  });
+
+  test('answeredBreakdown: los tres trozos suman siempre el banco, aunque sobren ids viejos', () => {
+    const store = {};
+    for (let i = 0; i < 60; i++) store['x' + i] = { box: i < 45 ? 3 : 1 };
+    syncSet('rm:quiz-srs:' + T, store);
+    const d = answeredBreakdown(T, 40);
+    assertEqual(d.acertadas + d.falladas + d.pendientes, 40, 'los trozos no suman el banco');
+    assertEqual(d.contestadas, 40);
+    // El recorte reparte en la misma proporcion (45 de 60 acertadas = 75% de 40).
+    assertEqual(d.acertadas, 30);
+    assertEqual(d.falladas, 10);
+  });
+
+  test('answeredBreakdown: sin datos todo es gris, y un banco vacio no inventa preguntas', () => {
+    assertEqual(answeredBreakdown('tema-que-no-existe-' + Date.now(), 12),
+      { acertadas: 0, falladas: 0, contestadas: 0, pendientes: 12 });
+    assertEqual(answeredBreakdown(T, 0), { acertadas: 0, falladas: 0, contestadas: 0, pendientes: 0 });
+  });
+
+  test('answeredBreakdown: una clave del formato viejo (indice) cuenta igual, y sin caja es roja', () => {
+    syncSet('rm:quiz-srs:' + T, { '7': { box: 3 }, abc: {} });
+    assertEqual(answeredBreakdown(T, 10), { acertadas: 1, falladas: 1, contestadas: 2, pendientes: 8 });
+  });
+
   localStorage.removeItem('rm:quiz-srs:' + T);
+
+  /* ---- La fila de cada bloque del temario (engine/home.js) ----
+     Un mismo tema cuelga de varios items del temario (`neumonia` aparece en cinco), asi que el
+     progreso tiene que contar cada tema UNA vez o la barra prometeria mas preguntas que las que
+     existen; la cobertura de contenido, en cambio, sigue contando items. */
+  const homeMod = await import('./engine/home.js');
+
+  test('temario: un tema repetido en varios items cuenta su banco una sola vez', () => {
+    const bloque = { title: 'Prueba', clusters: [{ name: 'c1', items: [
+      { label: 'Uno', topicId: 'alfa' }, { label: 'Otra vista', topicId: 'alfa' },
+      { label: 'Dos', topicId: 'beta' }, 'Sin construir'
+    ] }] };
+    const porId = {
+      alfa: { id: 'alfa', quizCount: 30, acertadas: 10, falladas: 5, contestadas: 15 },
+      beta: { id: 'beta', quizCount: 20, acertadas: 2, falladas: 0, contestadas: 2 }
+    };
+    const cov = homeMod.blockCoverage(bloque, porId);
+    assertEqual(cov.preguntas, 50, 'las preguntas del bloque');
+    assertEqual(cov.acertadas, 12);
+    assertEqual(cov.falladas, 5);
+    assertEqual(cov.contestadas, 17);
+    // La cobertura de contenido no cambia: sigue siendo items del temario, no temas distintos.
+    assertEqual(cov.built, 3);
+    assertEqual(cov.total, 4);
+  });
+
+  test('temario: la etiqueta del bloque dice el avance, y el acierto va sobre lo contestado', () => {
+    assertEqual(homeMod.blockChip({ preguntas: 0, contestadas: 0, acertadas: 0 }), 'Sin preguntas todavía');
+    assertEqual(homeMod.blockChip({ preguntas: 50, contestadas: 0, acertadas: 0 }), '0/50 contestadas');
+    assertEqual(homeMod.blockChip({ preguntas: 50, contestadas: 20, acertadas: 15 }), '20/50 contestadas · 75% acierto');
+  });
 
   /* ---------------- Requisitos de contraseña (engine/auth.js) ---------------- */
   const { checkPasswordRules } = await import('./engine/auth.js');

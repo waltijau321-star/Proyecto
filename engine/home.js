@@ -59,6 +59,31 @@ function animateRing(root) {
   setTimeout(finish, 400);
 }
 
+/* ---------------- Barra de progreso apilada (bloques del temario y portada) ----------------
+   Verde lo acertado, rojo lo fallado, gris lo que falta. Los tres trozos se miden sobre el
+   mismo total, PREGUNTAS DISTINTAS del banco, no intentos: el color sale de la caja de Leitner
+   de cada pregunta (ver answeredBreakdown() en engine/quiz-srs.js), que dice como fue el ultimo
+   intento. Con intentos los trozos podrian sumar mas que el banco, y entonces no seria una
+   barra de progreso. El aro de "Tu progreso" si cuenta intentos, y por eso su porcentaje y el
+   de la barra no tienen por que coincidir; el modal de ayuda lo dice. */
+function progressBar(acertadas, falladas, total, label) {
+  if (!total) return '';
+  const pA = ((acertadas / total) * 100).toFixed(2);
+  const pF = ((falladas / total) * 100).toFixed(2);
+  const hecho = Math.round(((acertadas + falladas) / total) * 100);
+  return `<div class="prog-bar" role="progressbar" aria-valuenow="${hecho}" aria-valuemin="0" aria-valuemax="100" aria-label="${label}">
+    <span class="prog-ok" style="width:${pA}%"></span><span class="prog-bad" style="width:${pF}%"></span>
+  </div>`;
+}
+
+function progressLegend(acertadas, falladas, pendientes) {
+  return `<div class="prog-legend">
+    <span><i class="prog-dot ok"></i>${acertadas} acertadas</span>
+    <span><i class="prog-dot bad"></i>${falladas} falladas</span>
+    <span><i class="prog-dot none"></i>${pendientes} sin contestar</span>
+  </div>`;
+}
+
 // Placeholder mientras mountFlashcardDeck()/mountExamSummary() resuelven su carga (ambas son
 // async: leen progreso vía syncGet/Firestore). Aproxima la forma final (2 stats + botón) sin
 // tener que conocer los datos reales todavía.
@@ -128,14 +153,34 @@ function temarioItemRow(item, blockTitle, clusterName, topicsById) {
 function blockClusters(b) {
   return b.groups ? b.groups.flatMap(g => g.clusters) : b.clusters;
 }
-function blockCoverage(b, topicsById) {
+// Dos recuentos distintos y conviene no mezclarlos: `built`/`total`/`pct` son SUBTEMAS del
+// temario (items de la lista, y un mismo tema puede estar colgado de varios: `neumonia` aparece
+// en cinco items y `deterioro-cognitivo-demencias` en cinco mas), mientras que el progreso del
+// usuario se mide en PREGUNTAS y por eso suma cada tema UNA sola vez. Sin ese `Set`, un bloque
+// con temas repetidos contaria su banco varias veces y la barra prometeria mas preguntas de las
+// que existen.
+export function blockCoverage(b, topicsById) {
   const allItems = blockClusters(b).flatMap(c => c.items);
   const total = allItems.length;
   const builtIds = allItems.filter(it => typeof it !== 'string' && topicsById[it.topicId]).map(it => it.topicId);
   const built = builtIds.length;
   const pct = total ? Math.round((built / total) * 100) : 0;
-  const questionCount = builtIds.reduce((sum, id) => sum + (topicsById[id].quizCount || 0), 0);
-  return { total, built, pct, questionCount };
+  const unicos = [...new Set(builtIds)];
+  const preguntas = unicos.reduce((n, id) => n + (topicsById[id].quizCount || 0), 0);
+  const acertadas = unicos.reduce((n, id) => n + (topicsById[id].acertadas || 0), 0);
+  const falladas = unicos.reduce((n, id) => n + (topicsById[id].falladas || 0), 0);
+  const contestadas = acertadas + falladas;
+  return { total, built, pct, preguntas, acertadas, falladas, contestadas };
+}
+
+// Texto de la etiqueta del bloque: el progreso del usuario, no la cobertura de contenido (que
+// vive dentro del bloque, abierto). El % de acierto se calcula sobre lo contestado, porque
+// medirlo sobre el banco entero castigaria por no haber empezado.
+export function blockChip(cov) {
+  if (!cov.preguntas) return 'Sin preguntas todavía';
+  if (!cov.contestadas) return `0/${cov.preguntas} contestadas`;
+  const pct = Math.round((cov.acertadas / cov.contestadas) * 100);
+  return `${cov.contestadas}/${cov.preguntas} contestadas · ${pct}% acierto`;
 }
 
 function clusterHTML(c, blockTitle, topicsById) {
@@ -160,10 +205,16 @@ function temarioTreeHTML(blocks, topicsById) {
     return `
     <details class="temario-block">
       <summary>
-        <span class="temario-block-title">${b.title}</span>
-        <span class="temario-block-cov">${cov.built}/${cov.total} temas · ${cov.pct}% · ${cov.questionCount} preguntas</span>
+        <div class="temario-block-head">
+          <span class="temario-block-title">${b.title}</span>
+          <span class="temario-block-cov">${blockChip(cov)}</span>
+        </div>
+        ${progressBar(cov.acertadas, cov.falladas, cov.preguntas, 'Tu progreso en ' + b.title)}
       </summary>
-      <div class="temario-block-bar" role="progressbar" aria-valuenow="${cov.pct}" aria-valuemin="0" aria-valuemax="100" aria-label="Cobertura de ${b.title}"><span style="width:${cov.pct}%"></span></div>
+      <div class="temario-block-cobertura">
+        <span>${cov.built}/${cov.total} subtemas construidos · ${cov.pct}%</span>
+        <div class="temario-block-bar" role="progressbar" aria-valuenow="${cov.pct}" aria-valuemin="0" aria-valuemax="100" aria-label="Contenido construido de ${b.title}"><span style="width:${cov.pct}%"></span></div>
+      </div>
       <p class="temario-block-intro">${b.intro}</p>
       ${body}
     </details>`;
@@ -177,7 +228,7 @@ function openResetConfirm() {
     <button class="modal-close" onclick="closeModal()">✕</button>
     <span class="modal-tag" style="color:#8c3a34;">Reiniciar progreso</span>
     <h2>¿Estás seguro?</h2>
-    <p class="fbody" style="color:var(--ink-dim);margin-bottom:20px;">Se borrará el conteo de preguntas correctas e incorrectas de todos los temas. Esta acción no se puede deshacer.</p>
+    <p class="fbody" style="color:var(--ink-dim);margin-bottom:20px;">Se borrará el conteo de intentos correctos e incorrectos de todos los temas, que es lo que muestra el aro. Tu avance en el banco se queda como está: las preguntas que ya contestaste, la barra verde/rojo y el calendario de repaso no se tocan. Esta acción no se puede deshacer.</p>
     <button class="calc-copy" onclick="rmResetProgress()">Sí, reiniciar</button>
     <button class="calc-copy" style="margin-left:8px;" onclick="closeModal()">Cancelar</button>`;
   // Limpia una posible clase 'auth-page' pegada del login (mismo #overlay reutilizado en toda
@@ -234,7 +285,8 @@ const HELP_CONTENT = {
     color: '#3d5a73',
     tag: 'Cómo funciona',
     title: 'Tu progreso',
-    body: `<p class="fbody" style="color:var(--ink-dim);">"Preguntas en el banco" es el total de preguntas de opción múltiple de todos los temas construidos. "Contestadas" cuenta cuántas de esas ya respondiste al menos una vez (sin importar si acertaste); ese mismo conteo, por tema, es el que desbloquea las fichas de repaso de cada tema. "Correctas"/"Incorrectas" acumulan todos tus intentos históricos, incluyendo reintentos. El aro central muestra tu % de acierto sobre esos intentos.</p>`
+    body: `<p class="fbody" style="color:var(--ink-dim);">"Preguntas en el banco" es el total de preguntas de opción múltiple de todos los temas construidos. "Contestadas" cuenta cuántas de esas ya respondiste al menos una vez (sin importar si acertaste); ese mismo conteo, por tema, es el que desbloquea las fichas de repaso de cada tema. "Temas empezados" son los temas con al menos una pregunta contestada, y "terminados" aquellos cuyo banco ya respondiste completo. "Correctas"/"Incorrectas" acumulan todos tus intentos históricos, incluyendo reintentos. El aro central muestra tu % de acierto sobre esos intentos.</p>
+    <p class="fbody" style="color:var(--ink-dim);">La barra de abajo, y la de cada bloque del Temario, miden otra cosa: cuentan <strong>preguntas</strong>, una sola vez cada una, según cómo te fue la última vez que la respondiste. Verde es la que acertaste, rojo la que fallaste y gris la que todavía no contestas, así que los tres trozos suman el banco entero. Por eso el porcentaje de la barra y el del aro no tienen por qué coincidir: el aro dice cómo respondes, la barra dice cuánto llevas y qué te falta repasar. Una pregunta pasa de rojo a verde en cuanto la aciertas de nuevo.</p>`
   },
   fichas: {
     color: '#5c4a73',
@@ -290,6 +342,17 @@ export function mountHome(root, opts = {}) {
   const { correct, incorrect, answered } = getAnsweredSummary();
   const pct = answered ? Math.round((correct / answered) * 100) : null;
   const bankPct = totalQuestions ? Math.round((answeredQuestions / totalQuestions) * 100) : 0;
+  // El aro cuenta INTENTOS (`correct`/`incorrect`, con los reintentos dentro) y la barra cuenta
+  // PREGUNTAS DISTINTAS por su ultimo resultado, asi que los dos porcentajes pueden no coincidir
+  // y es correcto: el aro dice como respondes, la barra dice cuanto banco llevas y en que estado.
+  const gAcertadas = topics.reduce((n, t) => n + (t.acertadas || 0), 0);
+  const gFalladas = topics.reduce((n, t) => n + (t.falladas || 0), 0);
+  const gPendientes = Math.max(0, totalQuestions - gAcertadas - gFalladas);
+  // "Empezado" = al menos una pregunta contestada; "terminado" = el banco entero contestado al
+  // menos una vez, que es el mismo criterio que desbloquea las fichas del tema (aqui se mide
+  // contra `preguntas` del registro, porque Inicio no carga ningun tema).
+  const temasEmpezados = topics.filter(t => (t.contestadas || 0) > 0).length;
+  const temasTerminados = topics.filter(t => t.quizCount > 0 && (t.contestadas || 0) >= t.quizCount).length;
   // El numero de bloques se CALCULA, igual que `itemCount` en auth.js: escrito a mano se
   // quedo en 14 cuando el temario se renumero a 21, y nadie lo noto. El bloque "R1" no se
   // cuenta, porque es un acceso rapido a items que ya viven en su bloque tematico.
@@ -314,8 +377,15 @@ export function mountHome(root, opts = {}) {
               <div class="home-stat"><span class="home-stat-n">${answeredQuestions}</span><span class="home-stat-l">Contestadas <span class="mono" style="color:var(--ink-faint);">(${bankPct}%)</span></span></div>
               <div class="home-stat"><span class="home-stat-n" style="color:#2f6f5e;">${correct}</span><span class="home-stat-l">Correctas</span></div>
               <div class="home-stat"><span class="home-stat-n" style="color:#8c3a34;">${incorrect}</span><span class="home-stat-l">Incorrectas</span></div>
+              <div class="home-stat"><span class="home-stat-n">${temasEmpezados}</span><span class="home-stat-l">Temas empezados <span class="mono" style="color:var(--ink-faint);">(de ${topics.length})</span></span></div>
+              <div class="home-stat"><span class="home-stat-n">${temasTerminados}</span><span class="home-stat-l">Temas terminados</span></div>
             </div>
             <button class="home-reset" onclick="rmOpenResetConfirm()">Reiniciar progreso</button>
+          </div>
+          <div class="home-bank">
+            <div class="home-bank-head"><span>Tu avance en el banco</span><span class="mono">${bankPct}%</span></div>
+            ${progressBar(gAcertadas, gFalladas, totalQuestions, 'Tu avance en el banco de preguntas')}
+            ${progressLegend(gAcertadas, gFalladas, gPendientes)}
           </div>
           <div class="home-progress-divider"></div>
           ${examSectionHTML()}
