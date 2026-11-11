@@ -72,7 +72,7 @@ Nunca al revés. Un residente paga por lo que ya no quiere perder, no por una pr
 
 ---
 
-## 3. Estado del tablero (9 nov 2026)
+## 3. Estado del tablero (11 nov 2026)
 
 - **Producto**: en producción en miosler.com (Cloudflare Worker, despliegue por push a `main`).
   107 temas construidos de los 318 ítems del temario holístico. Semiología completa (9/9).
@@ -82,7 +82,13 @@ Nunca al revés. Un residente paga por lo que ya no quiere perder, no por una pr
   Protocolos, VPO (valoración preoperatoria), Pediatría (farmacología, recién nacida), Examen,
   Admin.
 - **Usuarios**: más de 100 cuentas registradas. Ya hay notas de comunidad por tema.
-- **Técnico**: 2883 pruebas en verde, PWA offline, Firebase Auth + Firestore, sin build step.
+- **Técnico**: 2924 pruebas en verde, PWA offline, Firebase Auth + Firestore, sin build step.
+  Abrir la app cuesta 58 peticiones y 1.26 MB (eran 250 y 7.5 MB hasta el 11 nov: el indice del
+  buscador cargaba los 107 temas en cada apertura).
+- **Inicio ya dirige**: la portada no solo dice cuanto llevas, dice que hacer. Una accion del dia
+  elegida por estado (sigue el banco a medias, empieza por Semiologia, haz un examen) que lleva en
+  UN clic de la portada a responder una pregunta. Es la primera jugada deliberada contra la puerta
+  del habito.
 - **Negocio**: ingresos cero. Sin cobro, sin pasarela, sin precio publicado. El campo
   `rm:suscripcion` no lo escribe nadie todavía; el panel lo lee y muestra 0 a propósito.
 
@@ -311,6 +317,9 @@ adelante se escriben en el momento.
 
 | Fecha | Decisión | Por qué | Qué la revertiría |
 |-------|----------|---------|-------------------|
+| 11 nov 2026 | Inicio estrena **la accion del dia**: una sola accion primaria, elegida por estado, que lleva de la portada a responder una pregunta en un clic. Cierra de paso el hueco visual de la tarjeta "Repasa y practica". | La portada medía el progreso pero no dirigía, y las puertas 2 y 3 (activación y hábito) no se abren con contenido nuevo sino con que lo que hay se use. El orden de la acción (terminar lo empezado antes que abrir un tema nuevo) es deliberado: terminar el banco de un tema desbloquea sus fichas, que es lo que convierte una visita en un hábito. | Que el panel no mueva activación ni hábito en dos meses. Entonces se cambia la jugada, no el umbral: tocaría la racha semanal o el recordatorio. |
+| 11 nov 2026 | **No se precocina el indice del buscador**: se arma bajo demanda. | El service worker ya precarga esos módulos para el offline, en lotes de seis; el índice los pedía otra vez, de golpe, en cada apertura. Un archivo generado duplicaría datos que ya viajan y, sin build step, añadiría un generador que hay que acordarse de correr. | Que la primera búsqueda resulte lenta de verdad en un teléfono con red mala. Entonces se precocina solo el índice (etiqueta + tipo + destino), no el contenido. |
+| 11 nov 2026 | Los dos pendientes de coherencia de Inicio (los bloques del temario suman 4208 preguntas contra las 3863 del banco; "tema" tiene tres denominadores) **se dejan como están**. | No pasan la prueba de la cabecera: ninguna de las dos cosas cambia lo que un residente hace a las tres de la mañana. | Que un residente pregunte por qué no cuadran. Un solo mensaje basta: significa que la portada se lee con lupa. |
 | 9 nov 2026 | Nace Osler: dirección del proyecto con memoria propia en `Osler.md`. | El producto avanzaba sin que nadie midiera el negocio. | Nada: la dirección se puede equivocar, no se puede ausentar. |
 | 9 nov 2026 | El Admin estrena "Camino a la meta" con las seis puertas, el embudo y la monetización, sin quitar nada de lo que había. | Lo que no se mide no se dirige, y el panel medía solo contenido. | Que las cifras resulten engañosas por los datos que hay; entonces se corrigen las definiciones, no se quita el panel. |
 | 9 nov 2026 | Las métricas se calculan de datos que ya se escriben (`updatedAt`, `rm:quiz-progress`, perfil). No se añade telemetría nueva. | `updatedAt` cubre a todos los usuarios; `rm:usage-stats` solo a quien activó la analítica opcional. Medir el negocio no justifica pedir más datos de nadie. | Que haga falta un dato que ningún campo actual aproxime, y entonces se declara en los términos antes de recogerlo. |

@@ -162,9 +162,19 @@ function mountHomeSection() {
   const answeredQuestions = topics.reduce((n, t) => n + t.contestadas, 0);
   mountHome(document.getElementById('home-root'), {
     topics, totalQuestions, answeredQuestions, temarioBlocks,
-    navigateToTopic: async (id) => {
+    // `opciones` viene de la accion del dia de Inicio: deja al residente en Autoevaluacion con el
+    // banco abierto, en vez de en la portada del tema. El scroll va en el cuadro siguiente porque
+    // la seccion acaba de hacerse visible y antes de eso no tiene posicion.
+    navigateToTopic: async (id, opciones = {}) => {
       await selectTopic(id);
       showSection('estudio');
+      if (opciones.ancla) {
+        requestAnimationFrame(() => {
+          const el = document.getElementById(opciones.ancla);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      }
+      if (opciones.quiz && typeof window.openQuiz === 'function') window.openQuiz();
     },
     navigateToSection: (sec) => showSection(sec)
   });

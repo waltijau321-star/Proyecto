@@ -816,6 +816,30 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 .exam-page-header{display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;}
 .exam-page-timer{font-size:1.1rem; font-weight:600; color:var(--shell); background:var(--panel2); border:1px solid var(--line); padding:6px 16px; border-radius:20px;}
 
+/* La accion del dia: el unico boton de la portada que dice que hacer AHORA. Se distingue del
+   resto a proposito (fondo propio y borde de acento), porque compite con una pagina llena de
+   numeros y de temario. */
+.home-hoy{
+  margin:0 0 18px; padding:14px 16px; border-radius:var(--radius-lg);
+  background:var(--shell-soft); border:1px solid var(--line); border-left:3px solid var(--shell);
+}
+.home-hoy-tag{
+  font-family:'Source Sans 3',sans-serif; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.06em; color:var(--shell);
+}
+.home-hoy-titulo{font-family:'Newsreader',serif; font-size:17px; font-weight:600; color:var(--ink); margin:4px 0 2px;}
+.home-hoy-detalle{font-size:13px; color:var(--ink-dim); margin:0 0 12px; line-height:1.5;}
+.home-hoy-btn{
+  background:var(--shell); border:0; color:#fffdf9; font-family:'Source Sans 3',sans-serif;
+  font-size:13px; font-weight:700; padding:10px 18px; border-radius:var(--radius); cursor:pointer;
+  min-height:40px;
+}
+.home-hoy-btn:hover{background:var(--shell-dim);}
+/* En oscuro el verde del shell se aclara, y el texto blanco encima se queda en 2.6:1. El boton
+   invierte: tinta oscura sobre el verde claro, 6.4:1. */
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .home-hoy-btn{color:#1b1915;} }
+:root[data-theme="dark"] .home-hoy-btn{color:#1b1915;}
+
 .home-bank{margin-top:18px;}
 .home-bank-head{
   display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px;

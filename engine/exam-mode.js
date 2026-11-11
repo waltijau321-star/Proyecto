@@ -393,4 +393,4 @@ export async function mountExamSummary(root) {
   if (historyBtn) historyBtn.addEventListener('click', openHistoryModal);
 }
 
-Object.assign(window, { rmSelectExamOption: selectExamOption, rmConfirmExamAnswer: confirmExamAnswer, rmAnswerExam: answerExam, rmNextExam: nextExam, rmExitExam: exitExam });
+Object.assign(window, { rmSelectExamOption: selectExamOption, rmConfirmExamAnswer: confirmExamAnswer, rmAnswerExam: answerExam, rmNextExam: nextExam, rmExitExam: exitExam, rmAbrirConfigExamen: openExamConfigModal });

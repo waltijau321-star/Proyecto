@@ -335,6 +335,36 @@ async function run() {
   // de dentro si era alcanzable, asi que se podia marcar un tema sin poder abrirlo). Esto vigila
   // que el texto clicable siga siendo un <button> de verdad, y que el boton de repasar conserve
   // los dos atributos de los que depende actualizarlo en su sitio sin volver a montar Inicio.
+  /* ---- La accion del dia de Inicio ----
+     La portada decia cuanto llevas pero no que hacer, y para un R1 entre dos pacientes esa es la
+     pregunta. El orden importa: terminar un banco empezado desbloquea las fichas de ese tema, que
+     es lo que convierte una visita suelta en un habito; por eso va antes que abrir un tema nuevo. */
+  const temaT = (id, titulo, q, c) => ({ id, titulo, quizCount: q, contestadas: c, acertadas: c, falladas: 0 });
+  const bloquesT = [{ title: 'I. Semiologia', clusters: [{ name: 'c', items: [{ label: 'Historia', topicId: 'hist' }] }] }];
+
+  test('inicio: la accion del dia manda terminar lo empezado, y elige el tema mas avanzado', () => {
+    const a = homeMod.accionDelDia([temaT('hist', 'Historia', 24, 24), temaT('epoc', 'EPOC', 36, 22), temaT('neu', 'Neumonia', 40, 5)], bloquesT);
+    assertEqual(a.tipo, 'seguir');
+    assertEqual(a.topicId, 'epoc', 'EPOC va al 61% y Neumonia al 12%: se sigue por el mas cerca de terminar');
+    assert(/14 preguntas/.test(a.detalle), 'tiene que decir cuantas faltan: ' + a.detalle);
+  });
+
+  test('inicio: sin nada contestado se entra por el primer tema del temario, no del registro', () => {
+    // El registro esta en el orden en que se fueron escribiendo los temas; el temario empieza por
+    // Semiologia, que es por donde se entra.
+    const a = homeMod.accionDelDia([temaT('epoc', 'EPOC', 36, 0), temaT('hist', 'Historia', 24, 0)], bloquesT);
+    assertEqual(a.tipo, 'empezar');
+    assertEqual(a.topicId, 'hist');
+  });
+
+  test('inicio: con todo contestado la accion es el examen, y sin banco no hay accion', () => {
+    const a = homeMod.accionDelDia([temaT('hist', 'Historia', 24, 24), temaT('epoc', 'EPOC', 36, 36)], bloquesT);
+    assertEqual(a.tipo, 'aldia');
+    assert(!a.topicId, 'el examen simulado no cuelga de ningun tema');
+    assertEqual(homeMod.accionDelDia([temaT('x', 'Sin banco', 0, 0)], bloquesT), null);
+    assertEqual(homeMod.accionDelDia([], bloquesT), null);
+  });
+
   test('temario: la fila de un tema construido es un boton, no un div clicable', () => {
     const fila = homeMod.temarioItemRow({ label: 'Prueba', topicId: 'alfa' }, 'Bloque', 'Grupo',
       { alfa: { id: 'alfa', accent: '#123456', quizCount: 10 } });

@@ -97,6 +97,76 @@ function loadingSkeleton() {
   </div>`;
 }
 
+/* ---------------- La accion del dia ("Que estudio hoy") ----------------
+   Inicio pintaba el estado (cuanto llevas) pero no decia que hacer, y la tarjeta de la derecha
+   quedaba medio vacia. Para un R1 que abre la app entre dos pacientes, esa es LA pregunta.
+   Se decide solo con lo que ya hay en memoria (el registro y el almacen del repaso espaciado),
+   sin cargar ningun tema, que es la regla de Inicio.
+   El orden no es caprichoso: primero terminar lo empezado (es lo que desbloquea las fichas del
+   tema, o sea lo que convierte una visita en un habito), luego empezar algo, y solo al final el
+   examen simulado, que es para quien ya no tiene banco pendiente. */
+export function accionDelDia(topics, temarioBlocks) {
+  const conBanco = (topics || []).filter(t => t.quizCount > 0);
+  if (!conBanco.length) return null;
+  const empezados = conBanco.filter(t => (t.contestadas || 0) > 0);
+  // Entre los temas a medias, el mas avanzado: es el que esta mas cerca de desbloquear sus fichas.
+  const aMedias = empezados
+    .filter(t => t.contestadas < t.quizCount)
+    .sort((a, b) => (b.contestadas / b.quizCount) - (a.contestadas / a.quizCount));
+  if (aMedias.length) {
+    const t = aMedias[0];
+    const faltan = t.quizCount - t.contestadas;
+    return {
+      tipo: 'seguir', topicId: t.id, etiqueta: 'Sigue donde lo dejaste', titulo: t.titulo,
+      detalle: `Te ${faltan === 1 ? 'falta' : 'faltan'} ${faltan} pregunta${faltan === 1 ? '' : 's'} del banco. Al terminarlo se desbloquean las fichas de repaso de este tema.`,
+      boton: 'Seguir →'
+    };
+  }
+  const sinEmpezar = conBanco.filter(t => !(t.contestadas || 0));
+  if (sinEmpezar.length) {
+    const t = empezados.length ? sinEmpezar[0] : (temaDeEntrada(temarioBlocks, conBanco) || sinEmpezar[0]);
+    return {
+      tipo: empezados.length ? 'siguiente' : 'empezar',
+      topicId: t.id,
+      etiqueta: empezados.length ? 'Siguiente tema' : 'Empieza por aquí',
+      titulo: t.titulo,
+      detalle: `${t.quizCount} preguntas de opción múltiple, cada una con su explicación.`,
+      boton: 'Abrir el banco →'
+    };
+  }
+  return {
+    tipo: 'aldia', etiqueta: 'Estás al día', titulo: 'Respondiste todo el banco',
+    detalle: 'Un examen simulado mezcla temas y te dice dónde estás flojo.',
+    boton: 'Examen simulado →'
+  };
+}
+
+// Por donde se empieza cuando no hay nada contestado: el primer tema construido del temario,
+// que es Semiologia, y no el primero del registro (que es el orden en que se fueron escribiendo).
+function temaDeEntrada(temarioBlocks, conBanco) {
+  const porId = {};
+  conBanco.forEach(t => { porId[t.id] = t; });
+  for (const b of (temarioBlocks || []).filter(x => !x.quickAccess)) {
+    for (const c of blockClusters(b)) {
+      for (const it of c.items) {
+        if (it && typeof it !== 'string' && porId[it.topicId]) return porId[it.topicId];
+      }
+    }
+  }
+  return null;
+}
+
+function accionDelDiaHTML(accion) {
+  if (!accion) return '';
+  const onclick = accion.topicId ? `rmEstudiarHoy('${accion.topicId}')` : 'rmAbrirConfigExamen()';
+  return `<div class="home-hoy">
+    <span class="home-hoy-tag">${accion.etiqueta}</span>
+    <h3 class="home-hoy-titulo">${accion.titulo}</h3>
+    <p class="home-hoy-detalle">${accion.detalle}</p>
+    <button class="home-hoy-btn" onclick="${onclick}">${accion.boton}</button>
+  </div>`;
+}
+
 /* ---------------- Temario completo (acordeón) ---------------- */
 let wipIndex = [];
 
@@ -347,7 +417,10 @@ export function mountHome(root, opts = {}) {
   const { topics = [], totalQuestions = 0, answeredQuestions = 0, navigateToTopic, temarioBlocks = [] } = opts;
   const topicsById = {};
   topics.forEach(t => { topicsById[t.id] = t; });
-  window.rmGoTopic = (id) => navigateToTopic && navigateToTopic(id);
+  window.rmGoTopic = (id, opciones) => navigateToTopic && navigateToTopic(id, opciones);
+  // La accion del dia no deja al residente en la portada del tema: lo lleva a Autoevaluacion y le
+  // abre el banco. Son los dos clics que separaban "abrir la app" de "responder una pregunta".
+  window.rmEstudiarHoy = (id) => navigateToTopic && navigateToTopic(id, { ancla: 'autoevaluacion', quiz: true });
   window.rmOpenResetConfirm = openResetConfirm;
   window.rmResetProgress = resetProgressNow;
   window.rmEditExamDate = editExamDate;
@@ -422,6 +495,7 @@ export function mountHome(root, opts = {}) {
 
         <div class="home-dash-card">
           <h2 class="home-subhead">Repasa y practica</h2>
+          ${accionDelDiaHTML(accionDelDia(topics, temarioBlocks))}
           <div class="home-study-box">
             <div class="home-study-col">
               <h3 class="home-study-col-title">Fichas de repaso <button class="home-help-btn" onclick="rmOpenHelp('fichas')" aria-label="Cómo funcionan las fichas de repaso" title="Cómo funciona">?</button></h3>
