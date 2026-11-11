@@ -8,6 +8,20 @@ MIOsler (formerly "ResidenteMed"): a PWA (installable, offline-capable) study pl
 Internal Medicine residents. Vanilla HTML/CSS/JS, ES modules, **no build step, no Node, no
 bundler**. Content author: Dr. Walter Jáuregui.
 
+## Osler: la dirección del proyecto
+
+**Cuando el usuario escriba "Osler" u "Osli"** (solo o con una pregunta detrás), antes de
+cualquier otra cosa: invocar la skill `osler` (`.claude/skills/osler/SKILL.md`) y leer **`Osler.md`**
+en la raíz del repo. Ahí vive la doctrina de dirección (la meta final, la escalera de seis puertas
+hacia la monetización, los siete métodos, la bitácora de decisiones y el filtro del no). Lo mismo
+aplica, sin que lo pida, a cualquier pregunta de prioridades, crecimiento, usuarios, precio,
+suscripciones, ingresos o metas.
+
+Los números de la meta viven en **una sola fuente**: `MODELO`, en `engine/admin-metas.js`, que es
+lo que pinta el panel "Camino a la meta" del Admin. `Osler.md` lleva el razonamiento de cada
+umbral; si los dos discrepan, manda el código y se corrige el documento. `Osler.md` está en
+`.assetsignore`: es material de trabajo y no se publica.
+
 ## Commands
 
 **Run locally** — ES modules require HTTP, not `file://`. Serve the repo root with any static

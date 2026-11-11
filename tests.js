@@ -1697,6 +1697,284 @@ async function run() {
       'aparecio una clave nueva de Pediatria: decide su estrategia de fusion antes de usarla');
   });
 
+  /* ---------------- Camino a la meta (engine/admin-metas.js + engine/precios.js) ----------------
+     El panel de dirección del Admin. Se prueba con cohortes inventadas porque es la única forma
+     de saber si cuenta bien: los datos reales viven en Firestore y aquí no hay credenciales ni
+     debe haberlas. Un panel de dirección que miente es peor que no tenerlo. */
+  {
+    const metasMod = await import('./engine/admin-metas.js');
+    const { MODELO, calcularMetricas, puertas, coberturaTemario, esSuscriptor, metasHTML, resumenPorMoneda } = metasMod;
+    const preciosMod = await import('./engine/precios.js');
+    const { ANCLA, TIPOS, MONEDAS, PAIS_MONEDA, normalizaPais, monedaDe, paisReconocido,
+      precioDe, precioAtractivo, catalogoPrecios } = preciosMod;
+    const fuenteOsler = await (await fetch('./Osler.md?v=' + Date.now())).text();
+    const UN_DIA = 86400000;
+    const AHORA = Date.UTC(2026, 10, 9);
+    const hace = d => AHORA - d * UN_DIA;
+
+    const cohorte = [
+      // Recién registrada, activa hoy y enganchada.
+      { createdAt: hace(2), updatedAt: hace(0.5), 'rm:quiz-progress': { a: { correct: 40, incorrect: 20 } },
+        'rm:profile-referral': 'Un companero', 'rm:profile-country': 'Mexico', 'rm:profile-hospital': 'IMSS La Raza' },
+      // Veterana que sigue viva: cohorte madura y retenida.
+      { createdAt: hace(60), updatedAt: hace(3), 'rm:quiz-progress': { a: { correct: 5, incorrect: 0 } },
+        'rm:profile-referral': 'Un companero', 'rm:profile-country': 'mexico ', 'rm:profile-hospital': 'imss la raza ' },
+      // Veterana que se fue: cohorte madura, ni retenida ni activa. Sin país declarado.
+      { createdAt: hace(90), updatedAt: hace(45), 'rm:quiz-progress': {} },
+      // Timestamp de Firestore más latido de la analítica opcional: manda la señal más reciente,
+      // o esta usuaria contaría como ida llevando 5 días de uso. Es la única que paga.
+      { createdAt: { toMillis: () => hace(40) }, updatedAt: { toMillis: () => hace(30) },
+        'rm:usage-stats': { lastActive: hace(5) }, 'rm:suscripcion': 'activa',
+        'rm:profile-country': 'México.', 'rm:quiz-progress': { b: { correct: 50 } } },
+      // Se registró y no abrió nada: ni activa ni activada, y tampoco dijo de dónde es.
+      { createdAt: hace(1) }
+    ];
+    const m = calcularMetricas(cohorte, AHORA);
+
+    test('metas: el embudo cuenta a cada residente en el peldaño que le toca', () => {
+      assertEqual(m.total, 5, 'total');
+      assertEqual(m.nuevos7, 2, 'registros de la semana');
+      assertEqual(m.nuevos30, 2, 'registros del mes');
+      assertEqual(m.activos7, 3, 'activos de la semana');
+      assertEqual(m.activos30, 3, 'activos del mes');
+      assertEqual(m.activados, 3, 'activados (una pregunta o más)');
+      assertEqual(m.enganchados, 2, 'enganchados (' + MODELO.umbralEnganche + ' preguntas o más)');
+      assertEqual(m.preguntasTotales, 115, 'preguntas del grupo');
+      assertEqual(m.suscriptores, 1, 'suscriptores');
+    });
+
+    test('metas: la retención solo se pregunta a quien tuvo tiempo de irse', () => {
+      // Tres cuentas pasan de 30 días; dos siguen vivas. Meter en el divisor a las dos cuentas
+      // nuevas inflaría la cifra justo cuando más gente se registra, que es cuando más engañaría.
+      assertEqual(m.cohorteMadura, 3, 'cohorte madura');
+      assertEqual(m.retenidos, 2, 'retenidos');
+      assertEqual(m.retencion, 67, 'retención %');
+      assertEqual(m.habito, 100, 'hábito % (semana sobre mes)');
+      assertEqual(m.pctActivados, 60, 'activación %');
+      assertEqual(m.pctEnganchados, 40, 'enganchados %');
+    });
+
+    test('metas: el ingreso se suma con el precio de la moneda de cada quien', () => {
+      // La suscriptora es de México, así que el ingreso es el precio publicado de casa y no un
+      // promedio mundial. Multiplicar suscriptores por "el precio" es justo el error que esconde
+      // de dónde sale el dinero cuando cada moneda redondea distinto.
+      assertEqual(m.mrr, ANCLA.mensual, 'ingreso mensual');
+      assertEqual(m.arpuReal, ANCLA.mensual, 'ingreso por suscriptor');
+      // Tres mexicanas a 199 y dos sin país a precio en dólares: el promedio queda por debajo del
+      // ancla, y de ese promedio sale cuántas suscripciones hacen falta.
+      const usd = precioDe('Narnia').mensualMXN;
+      assertEqual(m.arpuHipotetico, Math.round((ANCLA.mensual * 3 + usd * 2) / 5), 'ingreso medio esperado');
+      assertEqual(m.suscriptoresParaMeta, Math.ceil(MODELO.metaIngresoMensual / m.arpuHipotetico),
+        'suscripciones que hacen falta para la meta');
+      // Dos enganchados mexicanos al 25%: (199 + 199) / 4 = 99.5, que redondea a 100.
+      assertEqual(m.ingresoProyectado, 100, 'ingreso proyectado');
+      // Dos cuentas no dijeron de dónde son: se les cobra en la moneda por defecto, pero se
+      // cuentan aparte para que aparezcan en el panel.
+      assertEqual(m.sinPais, 2, 'sin país reconocible');
+    });
+
+    test('metas: alcance y canal se normalizan antes de contar', () => {
+      // 'IMSS La Raza' y 'imss la raza ' son el mismo hospital escrito por dos residentes, y
+      // 'Mexico', 'mexico ' y 'México.' son el mismo país: contarlos aparte inventaría mercados.
+      assertEqual(m.hospitales, 1, 'hospitales distintos');
+      assertEqual(m.paises, 1, 'países distintos');
+      assertEqual(m.canales, { 'Un companero': 2 }, 'canales');
+    });
+
+    test('metas: sin usuarios no se inventa ningún porcentaje', () => {
+      // Dividir entre cero y pintar 0% diría que la activación es mala cuando lo que pasa es que
+      // no hay dato. El panel tiene que decir que no sabe.
+      const v = calcularMetricas([], AHORA);
+      assertEqual(v.total, 0);
+      assertEqual(v.pctActivados, null, 'activación');
+      assertEqual(v.habito, null, 'hábito');
+      assertEqual(v.retencion, null, 'retención');
+      assertEqual(v.mrr, 0, 'ingreso');
+      assertEqual(v.arpuHipotetico, 0, 'ingreso medio');
+      assertEqual(v.suscriptoresParaMeta, null, 'suscripciones para la meta');
+    });
+
+    test('metas: una suscripción solo cuenta si está activa', () => {
+      // Una prueba gratuita no es dinero, y el campo puede llegar en las dos formas que tomará
+      // el día que exista el cobro.
+      assert(esSuscriptor({ 'rm:suscripcion': 'activa' }), 'cadena activa');
+      assert(esSuscriptor({ 'rm:suscripcion': { estado: 'activa' } }), 'objeto activo');
+      assert(!esSuscriptor({ 'rm:suscripcion': { estado: 'prueba' } }), 'una prueba no paga');
+      assert(!esSuscriptor({ 'rm:suscripcion': 'cancelada' }), 'cancelada');
+      assert(!esSuscriptor({}), 'sin campo');
+    });
+
+    test('metas: el mapa de ingreso pone a cada residente en una sola moneda', () => {
+      const filas = resumenPorMoneda(cohorte, AHORA);
+      const mx = filas.find(f => f.moneda === 'MXN');
+      assertEqual(mx.registrados, 3, 'registrados en pesos');
+      assertEqual(mx.activos30, 3, 'activos en pesos');
+      assertEqual(mx.enganchados, 2, 'enganchados en pesos');
+      assertEqual(mx.proyectado, 100, 'ingreso proyectado en pesos');
+      assertEqual(mx.paises, 1, 'países distintos que pagan en pesos');
+      assertEqual(mx.mensual, ANCLA.mensual, 'el precio de la fila');
+      const usd = filas.find(f => f.moneda === 'USD');
+      assertEqual(usd.registrados, 2, 'los que no declararon país');
+      assertEqual(usd.sinPais, 2, 'y se cuentan como país no reconocido');
+      assertEqual(filas.reduce((n, f) => n + f.registrados, 0), cohorte.length,
+        'alguien se contó dos veces o se perdió entre monedas');
+      // Solo aparecen las monedas que alguien usa.
+      assertEqual(resumenPorMoneda([{ createdAt: AHORA, 'rm:profile-country': 'Chile' }], AHORA).map(f => f.moneda),
+        ['CLP'], 'se pintan monedas que nadie usa');
+    });
+
+    test('metas: la escalera marca una sola puerta como la actual', () => {
+      const lista = puertas({ total: 200, pctActivados: 80, habito: 10, retencion: 90, mrr: 0, suscriptoresParaMeta: 300 }, 100);
+      assertEqual(lista.map(p => p.estado),
+        ['abierta', 'abierta', 'actual', 'abierta', 'abierta', 'pendiente'],
+        'una puerta cumplida se pinta abierta aunque la anterior no lo esté, pero la actual es la primera cerrada');
+      assertEqual(lista.filter(p => p.estado === 'actual').length, 1, 'puertas actuales');
+      assertEqual(lista.map(p => p.n), [1, 2, 3, 4, 5, 6], 'numeración');
+      // La última puerta se mide en dinero, no en cabezas.
+      assertEqual(lista[5].objetivo, MODELO.metaIngresoMensual, 'la puerta de cobro se mide en MXN al mes');
+      // El avance no pasa de 100 aunque la cifra doble la meta: la barra no se sale.
+      assertEqual(puertas({ total: 600, pctActivados: 0, habito: 0, retencion: 0, mrr: 0, suscriptoresParaMeta: null })[0].avance, 100);
+    });
+
+    test('metas: la cobertura del temario lee las dos formas de bloque', () => {
+      // Un bloque puede traer `groups` o `clusters` sueltos, y un ítem puede ser una cadena.
+      const arbol = [
+        { groups: [{ clusters: [{ items: [{ label: 'a', topicId: 'x' }, { label: 'b', topicId: null }] }] }] },
+        { clusters: [{ items: ['item sin tema', { label: 'c', topicId: 'y' }] }] }
+      ];
+      assertEqual(coberturaTemario(arbol), { totales: 4, construidos: 2, pct: 50 });
+      assertEqual(coberturaTemario([]), { totales: 0, construidos: 0, pct: 0 }, 'sin bloques');
+    });
+
+    test('metas: el panel se pinta sin huecos ni NaN', () => {
+      // La lección de los select que pintaban "undefined": compute() correcto no garantiza que
+      // el pintado lo esté. Aquí se mira el HTML, que es lo que ve el autor.
+      const html = metasHTML(cohorte, coberturaTemario([{ clusters: [{ items: [{ topicId: 'x' }, 'y'] }] }]), AHORA);
+      assert(!/undefined|NaN/.test(html), 'el panel pinta undefined o NaN');
+      assert(html.includes('Estudiaron esta semana'), 'falta la estrella polar');
+      assert(html.includes('Suscriptores'), 'falta la fila de suscriptores');
+      assert(html.includes('Proy./mes') && html.includes('Peso mexicano'), 'falta la lista de precios del mundo');
+      MODELO.horizontes.forEach(h => assert(html.includes(h.nombre), 'falta el horizonte ' + h.nombre));
+      assert(/meta-puerta--actual/.test(html), 'ninguna puerta queda marcada como la actual');
+      assertEqual((html.match(/class="meta-puerta meta-puerta--/g) || []).length, 6, 'puertas pintadas');
+    });
+
+    test('metas: los módulos están en SHELL y el Admin los monta sin perder nada de lo que ya había', () => {
+      ['./engine/admin-metas.js', './engine/precios.js'].forEach(u => assert(SHELL_SW.includes(u),
+        u + ' no esta en SHELL de sw.js: sin red, el Admin se cae al importarlo'));
+      assert(/metasHTML\(users, coberturaTemario\(temarioBlocks\)\)/.test(fuenteAdmin),
+        'el Admin no monta el panel de metas');
+      // El panel se añadió ENCIMA de lo que había. Estas cuatro secciones son las originales y
+      // ninguna se sacrifica por la nueva.
+      ['Reportes de notas', 'Estadísticas del grupo', 'Uso de la plataforma', 'Usuarios registrados']
+        .forEach(h => assert(fuenteAdmin.includes(h), 'desaparecio la seccion "' + h + '" del Admin'));
+    });
+
+    test('metas: los números de Osler.md no se separan del código', () => {
+      // Osler.md lleva el razonamiento de cada número y el código lleva el número. Si los dos se
+      // separan, el documento dirige hacia una meta que el panel ya no mide.
+      const esperado = [
+        MODELO.metaTraccion + ' registrados',
+        MODELO.metaActivacion + '% responde',
+        MODELO.metaHabito + '% de los activos del mes',
+        MODELO.metaRetencion + '% de la cohorte',
+        MODELO.metaCobertura + '% del temario',
+        MODELO.metaIngresoMensual.toLocaleString('es-MX') + ' MXN al mes',
+        ANCLA.mensual + ' MXN',
+        precioDe('Estados Unidos').mensual + ' USD'
+      ];
+      // Y la tabla de precios de Osler.md se compara fila a fila con la que calcula el código:
+      // una moneda mal copiada ahi es un precio que se publica mal.
+      const fmt = (v, c) => (v < 20 ? v.toFixed(2) : Math.round(v).toLocaleString('es-MX')) + ' ' + c;
+      catalogoPrecios().forEach(c => esperado.push(
+        `| ${c.moneda} | ${fmt(c.mensual, c.moneda)} | ${fmt(c.anual, c.moneda)} | ${c.mensualMXN} MXN |`));
+      MODELO.horizontes.forEach(h => {
+        esperado.push(h.nombre);
+        esperado.push(h.mxn.toLocaleString('es-MX') + ' MXN');
+      });
+      esperado.forEach(t => assert(fuenteOsler.includes(t),
+        'Osler.md ya no dice "' + t + '": el documento y el código se separaron'));
+    });
+
+    test('precios: el país se normaliza de verdad, que llega de un campo de texto libre', () => {
+      // El registro pide el país con un <input type="text">. Sin esto, "México." y "mexico" son
+      // dos mercados distintos en la lista de precios.
+      assertEqual(normalizaPais('  MÉXICO. '), 'mexico');
+      assertEqual(normalizaPais('méjico'), 'mexico');
+      assertEqual(normalizaPais('EEUU'), 'estados unidos');
+      assertEqual(normalizaPais('Rep. Dominicana'), 'republica dominicana');
+      assertEqual(normalizaPais('Perú'), 'peru');
+      assertEqual(normalizaPais(''), '');
+      assertEqual(normalizaPais(undefined), '');
+    });
+
+    test('precios: cada país cobra en su moneda y lo que no se reconoce cae en la de por defecto', () => {
+      // Como la tienda por defecto de una app: un país que no está en la tabla no se queda sin
+      // precio, se le cobra en dólares, pero el panel lo enseña para que se añada su moneda.
+      assertEqual(monedaDe('México'), 'MXN');
+      assertEqual(monedaDe('Colombia'), 'COP');
+      assertEqual(monedaDe('España'), 'EUR');
+      assertEqual(monedaDe('Ecuador'), 'USD', 'dolarizado de derecho');
+      assertEqual(monedaDe('Narnia'), 'USD', 'país desconocido');
+      assertEqual(monedaDe(''), 'USD', 'sin país');
+      assert(paisReconocido('Perú'), 'Perú tiene que estar en la tabla');
+      assert(!paisReconocido('Narnia'), 'Narnia no puede estar en la tabla');
+      assertEqual(precioDe('Narnia').reconocido, false);
+      assertEqual(precioDe('Narnia').moneda, 'USD');
+    });
+
+    test('precios: el ancla es el precio de casa y no se recalcula', () => {
+      // 199 MXN y 1590 al año se publican, no se convierten de vuelta desde el dólar: pasar por
+      // el tipo de cambio dos veces movería el precio de casa cada vez que se actualiza la tabla.
+      const mx = precioDe('México');
+      assertEqual(mx.moneda, ANCLA.moneda);
+      assertEqual(mx.mensual, ANCLA.mensual);
+      assertEqual(mx.anual, ANCLA.anual);
+      assertEqual(mx.mensualMXN, ANCLA.mensual, 'el equivalente en MXN del ancla es el ancla');
+    });
+
+    test('precios: el redondeo deja números atractivos y prefiere el escalón de abajo', () => {
+      // 10.76 no es un precio: es el resultado de una división. El escalón de abajo se prefiere
+      // mientras no se aleje más de un 8%, así que casi todo el mundo paga un poco menos que la
+      // paridad exacta y nadie paga mucho más.
+      assertEqual(precioAtractivo(10.76), 9.99, 'dólares');
+      assertEqual(precioAtractivo(9.9), 9.99, 'euros: abajo quedaría un 9.2% por debajo, así que sube');
+      assertEqual(precioAtractivo(40.35), 39, 'soles');
+      assertEqual(precioAtractivo(44116), 43990, 'pesos colombianos');
+      assertEqual(precioAtractivo(10222), 10190, 'pesos chilenos');
+      // El ancla NO pasa por aquí: 199 caería a 189 por la misma regla, y el precio de casa es
+      // un número publicado, no el resultado de un redondeo.
+      assertEqual(precioAtractivo(199), 189, 'la regla también se aplicaría al ancla');
+      assertEqual(precioAtractivo(0), 0, 'sin valor no hay precio');
+      assertEqual(precioAtractivo(-5), 0, 'un precio negativo no existe');
+    });
+
+    test('precios: ningún precio del mundo se aleja de la paridad más de lo tolerado', () => {
+      // Es la promesa del modelo: el mismo precio en todas partes, cambiando solo la moneda. Si
+      // una conversión se saliera, habría un país pagando el doble sin que nadie lo notara.
+      const ancla = ANCLA.mensual;
+      catalogoPrecios().forEach(c => {
+        const desvio = (c.mensualMXN - ancla) / ancla;
+        assert(desvio <= 0.08, `${c.moneda} cuesta un ${Math.round(desvio * 100)}% MÁS que el ancla`);
+        assert(desvio >= -0.12, `${c.moneda} cuesta un ${Math.round(-desvio * 100)}% MENOS que el ancla`);
+      });
+    });
+
+    test('precios: la tabla de monedas es coherente consigo misma', () => {
+      catalogoPrecios().forEach(c => {
+        assert(TIPOS.porUsd[c.moneda] > 0, 'la moneda ' + c.moneda + ' no tiene tipo de cambio');
+        assert(c.anual < c.mensual * 12,
+          'el anual de ' + c.moneda + ' no sale a cuenta: nadie lo compraría, y el anual es la caja');
+        assert(c.mensual > 0 && c.anual > 0, 'precio vacío en ' + c.moneda);
+      });
+      Object.keys(PAIS_MONEDA).forEach(p => {
+        assertEqual(normalizaPais(p), p, 'el país "' + p + '" no está normalizado, así que monedaDe() nunca lo encontrará');
+        assert(MONEDAS[PAIS_MONEDA[p]], 'el país "' + p + '" apunta a una moneda que no existe');
+      });
+      assert(TIPOS.fecha, 'los tipos de cambio necesitan fecha: un número sin fecha envejece sin avisar');
+    });
+  }
+
   /* ---------------- Reparto del precache (sw.js: SHELL frente a CONTENT) ---------------- */
 
   test('sw: SHELL y CONTENT no se solapan y ninguna esta vacia', () => {

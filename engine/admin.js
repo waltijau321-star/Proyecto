@@ -8,6 +8,8 @@ import { getCurrentUser } from './auth.js';
 import { fetchAllUsers } from './cloud-sync.js';
 import { escHtml as esc } from './texto-seguro.js';
 import { registry } from '../topics/registry.js';
+import { temarioBlocks } from '../topics/temario-index.js';
+import { metasHTML, coberturaTemario } from './admin-metas.js';
 
 export function isAdmin() {
   const user = getCurrentUser();
@@ -207,7 +209,13 @@ export async function mountAdmin(root) {
     </tr>`).join('');
 
   root.innerHTML = `<div class="sec-body">
-    <h2 class="home-subhead">Reportes de notas</h2>
+    <h2 class="home-subhead">Camino a la meta</h2>
+    <p class="home-subhead-note">Dónde estamos respecto a la meta final: una herramienta que los
+      residentes usan cada semana y que se sostiene con suscripciones. Las puertas se abren en
+      orden; la que está marcada es la única que importa hoy.</p>
+    ${metasHTML(users, coberturaTemario(temarioBlocks))}
+
+    <h2 class="home-subhead" style="margin-top:30px;">Reportes de notas</h2>
     ${reportesHTML(reportes, reportesError)}
 
     <h2 class="home-subhead" style="margin-top:30px;">Estadísticas del grupo</h2>
