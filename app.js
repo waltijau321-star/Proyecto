@@ -298,7 +298,36 @@ async function navigateToSearchResult(entry) {
 }
 
 /* ---------- Arranque ---------- */
+/* ---------- Foco de los modales (uno para toda la app) ---------- */
+// Al abrir un modal el foco se quedaba en el boton de atras, asi que un lector de pantalla no
+// anunciaba el dialogo y el primer Tab seguia recorriendo la pagina de debajo; al cerrarlo se
+// quedaba en el boton de cerrar, ya oculto, y el siguiente Tab empezaba desde el principio del
+// documento. Se vigila la clase del #overlay en vez de tocar a cada modulo: todos abren el
+// mismo #overlay/#modal anadiendo .active (ayuda de Inicio, fichas, calculadoras, examen, VPO,
+// Pediatria), asi que una sola vigilancia los cubre a todos. auth.js ya hacia esto para su
+// propio modal, y su .focus() explicito sigue mandando porque corre despues.
+function vigilarFocoDeModales() {
+  const ov = document.getElementById('overlay');
+  const modal = document.getElementById('modal');
+  if (!ov || !modal) return;
+  let focoPrevio = null;
+  new MutationObserver(() => {
+    const abierto = ov.classList.contains('active');
+    if (abierto && !focoPrevio) {
+      focoPrevio = document.activeElement;
+      modal.setAttribute('tabindex', '-1');
+      // El contenedor, no el primer boton: el lector anuncia el dialogo entero y el primer Tab
+      // entra en orden al primer control.
+      modal.focus();
+    } else if (!abierto && focoPrevio) {
+      if (document.contains(focoPrevio) && typeof focoPrevio.focus === 'function') focoPrevio.focus();
+      focoPrevio = null;
+    }
+  }).observe(ov, { attributes: true, attributeFilter: ['class'] });
+}
+
 async function init() {
+  vigilarFocoDeModales();
   mountAccountMenu();
   mountTopicChat();
   const params = new URLSearchParams(location.search);

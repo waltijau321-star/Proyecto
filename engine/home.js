@@ -127,23 +127,32 @@ function openWip(idx) {
   document.body.style.overflow = 'hidden';
 }
 
-function temarioItemRow(item, blockTitle, clusterName, topicsById) {
+// La fila era un <div onclick>: se abria con el raton y con nada mas. Ni el tabulador la
+// alcanzaba ni un lector de pantalla la anunciaba como algo que se pueda abrir, y como el boton
+// "Repasar" de dentro si era un <button>, quien navega con teclado podia marcar un tema como
+// repasado pero no abrirlo. Ahora el texto clicable es un <button> de verdad, hermano del de
+// repasar (y no su contenedor: un boton dentro de otro boton no es HTML valido), asi que el
+// teclado, el foco y el lector de pantalla funcionan sin codigo propio.
+export function temarioItemRow(item, blockTitle, clusterName, topicsById) {
   const label = typeof item === 'string' ? item : item.label;
   const topicId = typeof item === 'string' ? null : item.topicId;
   const topic = topicId ? topicsById[topicId] : null;
   if (topic) {
     const reviewed = isTopicReviewed(topicId);
-    return `<div class="temario-item available" style="--tc:${(topic.accent || '#2f6f5e') + '22'};--tc-dark:${topic.accent || '#2f6f5e'}" onclick="rmGoTopic('${topicId}')">
-      <span>${label}</span>
-      <span style="display:flex;align-items:center;flex:none;">
+    return `<div class="temario-item available" style="--tc:${(topic.accent || '#2f6f5e') + '22'};--tc-dark:${topic.accent || '#2f6f5e'}">
+      <button type="button" class="ti-open" onclick="rmGoTopic('${topicId}')">
+        <span class="ti-label">${label}</span>
         <span class="ti-tag">Abrir</span>
-        <button class="ti-review${reviewed ? ' checked' : ''}" title="Marcar como repasado" onclick="event.stopPropagation(); rmToggleReviewed('${topicId}')">${reviewed ? '✓ Repasado' : 'Repasar'}</button>
-      </span></div>`;
+      </button>
+      <button type="button" class="ti-review${reviewed ? ' checked' : ''}" data-topic="${topicId}" aria-pressed="${reviewed}" title="Marcar como repasado" onclick="rmToggleReviewed('${topicId}')">${reviewed ? '✓ Repasado' : 'Repasar'}</button>
+    </div>`;
   }
   const idx = wipIndex.length;
   wipIndex.push({ blockTitle, clusterName });
-  return `<div class="temario-item wip" onclick="rmOpenWip(${idx})">
-    <span>${label}</span><span class="ti-tag">En desarrollo</span></div>`;
+  return `<div class="temario-item wip">
+    <button type="button" class="ti-open" onclick="rmOpenWip(${idx})">
+      <span class="ti-label">${label}</span><span class="ti-tag">En desarrollo</span>
+    </button></div>`;
 }
 
 // Un bloque normal trae `clusters` (lista plana). Un bloque de acceso rápido como R1
@@ -191,6 +200,11 @@ function clusterHTML(c, blockTitle, topicsById) {
     </div>`;
 }
 
+// Que bloques del temario estan desplegados. Vive fuera de mountHome() a proposito: cualquier
+// cosa que vuelva a montar Inicio (guardar la fecha del examen, por ejemplo) cerraba de golpe
+// todo lo que el usuario tenia abierto y lo dejaba mirando otra parte de la lista.
+const bloquesAbiertos = new Set();
+
 function temarioTreeHTML(blocks, topicsById) {
   wipIndex = [];
   return `<div class="temario-list">${blocks.map(b => {
@@ -203,7 +217,7 @@ function temarioTreeHTML(blocks, topicsById) {
         </details>`).join('')
       : b.clusters.map(c => clusterHTML(c, b.title, topicsById)).join('');
     return `
-    <details class="temario-block">
+    <details class="temario-block"${bloquesAbiertos.has(b.title) ? ' open' : ''}>
       <summary>
         <div class="temario-block-head">
           <span class="temario-block-title">${b.title}</span>
@@ -263,7 +277,7 @@ function examSectionHTML() {
     return `<div class="home-exam home-exam-form">
       <p class="home-subhead-note" style="margin:0 0 10px;">${dateStr ? 'Elige la nueva fecha de tu examen.' : 'Agrega la fecha de tu examen para ver cuántos días te faltan.'}</p>
       <div class="home-exam-row">
-        <input type="date" id="home-exam-input" class="home-exam-input" value="${dateStr}">
+        <input type="date" id="home-exam-input" class="home-exam-input" aria-label="Fecha de tu examen" value="${dateStr}">
         <button class="home-quick" onclick="rmSaveExamDate()">Guardar</button>
       </div>
     </div>`;
@@ -337,7 +351,19 @@ export function mountHome(root, opts = {}) {
   window.rmSaveExamDate = saveExamDateNow;
   window.rmOpenWip = openWip;
   window.rmOpenHelp = openHelp;
-  window.rmToggleReviewed = (id) => { setTopicReviewed(id, !isTopicReviewed(id)); if (LAST_ROOT) mountHome(LAST_ROOT, LAST_OPTS); };
+  // Marcar un tema como repasado solo cambia ese boton, no vuelve a montar Inicio: el remonte
+  // cerraba todos los bloques del temario y dejaba al usuario perdido en la lista cada vez que
+  // marcaba algo. Son varios botones por tema, porque un mismo tema cuelga de varios subtemas
+  // del temario, asi que se actualizan todos los que lleven su id.
+  window.rmToggleReviewed = (id) => {
+    const marcado = !isTopicReviewed(id);
+    setTopicReviewed(id, marcado);
+    document.querySelectorAll(`.ti-review[data-topic="${id}"]`).forEach(b => {
+      b.classList.toggle('checked', marcado);
+      b.setAttribute('aria-pressed', String(marcado));
+      b.textContent = marcado ? '✓ Repasado' : 'Repasar';
+    });
+  };
 
   const { correct, incorrect, answered } = getAnsweredSummary();
   const pct = answered ? Math.round((correct / answered) * 100) : null;
@@ -380,7 +406,7 @@ export function mountHome(root, opts = {}) {
               <div class="home-stat"><span class="home-stat-n">${temasEmpezados}</span><span class="home-stat-l">Temas empezados <span class="mono" style="color:var(--ink-faint);">(de ${topics.length})</span></span></div>
               <div class="home-stat"><span class="home-stat-n">${temasTerminados}</span><span class="home-stat-l">Temas terminados</span></div>
             </div>
-            <button class="home-reset" onclick="rmOpenResetConfirm()">Reiniciar progreso</button>
+            ${answered || answeredQuestions ? '<button class="home-reset" onclick="rmOpenResetConfirm()">Reiniciar progreso</button>' : ''}
           </div>
           <div class="home-bank">
             <div class="home-bank-head"><span>Tu avance en el banco</span><span class="mono">${bankPct}%</span></div>
@@ -412,6 +438,12 @@ export function mountHome(root, opts = {}) {
     </div>`;
 
   animateRing(root);
+  root.querySelectorAll('details.temario-block').forEach(d => {
+    const titulo = (d.querySelector('.temario-block-title') || {}).textContent || '';
+    d.addEventListener('toggle', () => {
+      if (d.open) bloquesAbiertos.add(titulo); else bloquesAbiertos.delete(titulo);
+    });
+  });
   mountFlashcardDeck(document.getElementById('fc-deck-root'));
   mountExamSummary(document.getElementById('exam-root'));
   window.rmRefreshHome = () => { if (LAST_ROOT) mountHome(LAST_ROOT, LAST_OPTS); };

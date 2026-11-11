@@ -330,6 +330,26 @@ async function run() {
     assertEqual(cov.total, 4);
   });
 
+  // La fila del temario era un <div onclick>: se abria con el raton y con nada mas, de modo que
+  // el temario entero quedaba fuera del teclado y del lector de pantalla (y el boton "Repasar"
+  // de dentro si era alcanzable, asi que se podia marcar un tema sin poder abrirlo). Esto vigila
+  // que el texto clicable siga siendo un <button> de verdad, y que el boton de repasar conserve
+  // los dos atributos de los que depende actualizarlo en su sitio sin volver a montar Inicio.
+  test('temario: la fila de un tema construido es un boton, no un div clicable', () => {
+    const fila = homeMod.temarioItemRow({ label: 'Prueba', topicId: 'alfa' }, 'Bloque', 'Grupo',
+      { alfa: { id: 'alfa', accent: '#123456', quizCount: 10 } });
+    assert(/<button[^>]*class="ti-open"/.test(fila), 'el texto del tema tiene que ser un <button>');
+    assert(!/<div class="temario-item[^>]*onclick/.test(fila), 'la fila no puede volver a llevar onclick');
+    assert(/data-topic="alfa"/.test(fila), 'el boton de repasar necesita data-topic');
+    assert(/aria-pressed="false"/.test(fila), 'el boton de repasar necesita aria-pressed');
+  });
+
+  test('temario: la fila de un subtema en desarrollo tambien es un boton', () => {
+    const fila = homeMod.temarioItemRow('Todavia sin construir', 'Bloque', 'Grupo', {});
+    assert(/<button[^>]*class="ti-open"/.test(fila), 'la fila en desarrollo tiene que ser un <button>');
+    assert(!/<div class="temario-item[^>]*onclick/.test(fila), 'la fila no puede volver a llevar onclick');
+  });
+
   test('temario: la etiqueta del bloque dice el avance, y el acierto va sobre lo contestado', () => {
     assertEqual(homeMod.blockChip({ preguntas: 0, contestadas: 0, acertadas: 0 }), 'Sin preguntas todavía');
     assertEqual(homeMod.blockChip({ preguntas: 50, contestadas: 0, acertadas: 0 }), '0/50 contestadas');
@@ -2221,6 +2241,14 @@ async function run() {
     const bloques = cssFuente.match(/\.app-shell\s*\{[^}]*\}/g) || [];
     assert(bloques.length > 0, 'no se encontro ninguna regla .app-shell: cambio el nombre de la clase?');
     bloques.forEach(b => assert(!/transform\s*:/.test(b), 'hay un transform en .app-shell: ' + b));
+  });
+
+  test('fecha del examen: sin text-transform capitalize', () => {
+    // toLocaleDateString('es') ya devuelve "15 de diciembre de 2026", que es como se escribe en
+    // espanol. Un capitalize en la regla lo pintaba "15 De Diciembre De 2026".
+    const regla = cssFuente.match(/\.home-exam-date\{[^}]*\}/);
+    assert(regla, 'no se encontro la regla .home-exam-date: cambio el nombre de la clase?');
+    assert(!/capitalize/.test(regla[0]), 'la fecha del examen no va con capitalize: ' + regla[0]);
   });
 
   test('notas: los modulos nuevos estan en SHELL y no en CONTENT', () => {

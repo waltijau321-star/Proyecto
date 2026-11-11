@@ -752,7 +752,8 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 .home-exam-count{font-family:'Newsreader',serif; font-size:2.4rem; font-weight:600; color:var(--shell); flex:none; min-width:60px; text-align:center;}
 .home-exam-body{flex:1; min-width:0;}
 .home-exam-label{font-size:14px; font-weight:600; color:var(--ink);}
-.home-exam-date{font-size:12.5px; color:var(--ink-faint); text-transform:capitalize; margin-top:2px;}
+/* Sin `capitalize`: en espanol la fecha va en minuscula y pintaba "15 De Diciembre De 2026". */
+.home-exam-date{font-size:12.5px; color:var(--ink-faint); margin-top:2px;}
 .home-exam-row{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
 .home-exam-input{
   background:var(--panel); border:1px solid var(--line); color:var(--ink); border-radius:var(--radius);
@@ -897,13 +898,25 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
   margin:0 0 8px; font-family:'Source Sans 3',sans-serif; font-size:11.5px; font-weight:700;
   text-transform:uppercase; letter-spacing:.03em; color:var(--shell);
 }
+/* La fila ya no es clicable ella misma: lo clicable es .ti-open, un <button> de verdad, para
+   que el temario se pueda recorrer con el tabulador (ver temarioItemRow() en home.js). La fila
+   conserva el hover y el relleno de la derecha; el de la izquierda lo pone el boton. */
 .temario-item{
-  display:flex; align-items:center; justify-content:space-between; gap:10px;
-  padding:9px 10px; border-radius:8px; font-size:13.5px; color:var(--ink-dim); cursor:pointer;
+  display:flex; align-items:center; gap:6px;
+  padding:0 10px 0 0; border-radius:8px; font-size:13.5px; color:var(--ink-dim);
   border:1px solid transparent;
 }
 .temario-item:hover{background:var(--panel2);}
 .temario-item.available{color:var(--ink); font-weight:500;}
+.ti-open{
+  flex:1; min-width:0; display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:9px 10px; background:none; border:0; border-radius:8px; cursor:pointer;
+  font:inherit; color:inherit; text-align:left;
+}
+/* `anywhere` porque los rotulos del temario traen cadenas sin espacios
+   ("Murphy/McBurney/Rovsing/Blumberg") que en un telefono empujaban el boton "Repasar" fuera
+   de la pantalla: sin poder partirlas, el ancho minimo de la fila superaba el de la ventana. */
+.ti-label{min-width:0; overflow-wrap:anywhere;}
 .temario-item .ti-tag{
   flex:none; font-family:'Source Sans 3',sans-serif; font-size:10px; font-weight:700; text-transform:uppercase;
   letter-spacing:.03em; padding:3px 9px; border-radius:20px; white-space:nowrap;
