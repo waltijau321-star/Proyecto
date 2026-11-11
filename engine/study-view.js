@@ -703,7 +703,30 @@ function openStigma(i) {
 // este módulo solo renderiza el input/resultados y delega el clic.
 let GLOBAL_INDEX = [];
 let NAVIGATE = null;
-export function setGlobalSearch(index, navigateFn) { GLOBAL_INDEX = index || []; NAVIGATE = navigateFn || null; }
+// El indice ya no se construye al arrancar, sino la primera vez que alguien usa el buscador:
+// armarlo obliga a cargar los 107 temas (243 modulos, 7.3 MB) y eso ocurria en CADA apertura de
+// la app, aunque nadie buscara nada, compitiendo ademas con la precarga por lotes del service
+// worker justo cuando el residente esta empezando a usarla. `indiceListo` distingue "todavia no
+// lo he pedido" de "esta vacio", que es lo que antes no se podia distinguir.
+let indiceListo = false;
+let PEDIR_INDICE = null;
+
+export function setGlobalSearch(index, navigateFn) {
+  GLOBAL_INDEX = index || [];
+  NAVIGATE = navigateFn || null;
+  indiceListo = true;
+  // Si el usuario ya escribio mientras se armaba, se repinta su busqueda sin que tenga que
+  // volver a teclear: para el, el buscador tardo un momento y luego respondio.
+  const inp = document.getElementById('search-input');
+  if (inp && inp.value.trim()) runSearch(inp.value);
+}
+
+// app.js entrega aqui COMO se construye el indice, en vez de construirlo de entrada.
+export function setGlobalSearchLoader(fn) { PEDIR_INDICE = fn || null; }
+// Tras un cambio de sesion el indice deja de valer (las entradas de Pediatria dependen del
+// perfil), asi que se olvida y se vuelve a pedir cuando alguien busque.
+export function resetGlobalSearch() { GLOBAL_INDEX = []; NAVIGATE = null; indiceListo = false; }
+export function prepararBuscador() { if (!indiceListo && PEDIR_INDICE) PEDIR_INDICE(); }
 function normalize(s) { return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
 // Solo cuenta si q aparece al inicio de una "palabra" (inicio de cadena o tras un separador),
 // para que p. ej. "SOFA" no encuentre falsos positivos dentro de "esofágicas".
@@ -720,6 +743,12 @@ function runSearch(query) {
   const box = document.getElementById('search-results');
   const q = normalize(query.trim());
   if (!q) { box.classList.remove('active'); box.innerHTML = ''; return; }
+  if (!indiceListo) {
+    prepararBuscador();
+    box.innerHTML = '<div class="search-empty">Preparando el buscador…</div>';
+    box.classList.add('active');
+    return;
+  }
   const matches = GLOBAL_INDEX.filter(item => matchesQuery(item.label, q)).slice(0, 8);
   box.innerHTML = matches.length
     ? matches.map((m, i) => `<div class="search-item" data-idx="${i}"><span class="search-item-label">${m.label}</span><span class="search-item-type">${m.type}${m.scope ? ' · ' + m.scope : ''}</span></div>`).join('')
@@ -791,7 +820,7 @@ export function mountStudy(topic) {
     <nav class="pillbar">${navPills}</nav>
     <div class="searchbar-wrap">
       <div class="searchbar">
-        <input type="text" id="search-input" placeholder="Buscar en toda la app: temas, escalas, calculadoras, VPO, protocolos…" autocomplete="off" oninput="runSearch(this.value)">
+        <input type="text" id="search-input" placeholder="Buscar en toda la app: temas, escalas, calculadoras, VPO, protocolos…" autocomplete="off" onfocus="rmPrepararBuscador()" oninput="runSearch(this.value)">
         <div class="search-results" id="search-results"></div>
       </div>
     </div>
@@ -836,7 +865,7 @@ Object.assign(window, {
   openQuiz, startQuiz, selectQuizOption, confirmQuizAnswer, answerQuiz, nextQuiz, nextCascadeStep,
   openFlashcards, lockedFlashcardsNotice, flipFlashcard, rateFlashcard,
   openCase, selectCaseOption, confirmCaseAnswer, answerCase, nextCase,
-  openStigma, runSearch, clearSearch,
+  openStigma, runSearch, clearSearch, rmPrepararBuscador: prepararBuscador,
   openImgLightbox, closeImgLightbox, openEscalaExpand
 });
 document.addEventListener('keydown', e => {

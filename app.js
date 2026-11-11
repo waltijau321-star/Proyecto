@@ -3,7 +3,7 @@
 
 import { registry, loadTopic } from './topics/registry.js';
 import { temarioBlocks } from './topics/temario-index.js';
-import { mountStudy, setGlobalSearch, slugify } from './engine/study-view.js';
+import { mountStudy, setGlobalSearch, setGlobalSearchLoader, resetGlobalSearch, slugify } from './engine/study-view.js';
 import { setGeneralCalcs, mountAllCalculators } from './engine/calculators.js';
 import { generalCalculators } from './engine/general-calc.js';
 import { mountProtocols } from './engine/protocols.js';
@@ -170,25 +170,6 @@ function mountHomeSection() {
   });
 }
 
-/* Corre `fn` cuando el navegador quede libre. Tres precauciones, y ninguna es de adorno:
-    - se llama como `window.requestIdleCallback(...)`, con su receptor, porque desprendido del
-      objeto (`const f = window.requestIdleCallback; f(...)`) hay motores que lanzan
-      "Illegal invocation";
-    - va envuelto en try/catch y con repliegue a setTimeout, para que ni eso ni la falta de la API
-      en un navegador viejo (Safari no la trajo hasta 2024) deje el buscador sin índice para
-      siempre;
-    - con `timeout`, porque sin él requestIdleCallback puede no dispararse nunca si la pestaña
-      queda de fondo, que es justo lo que pasa cuando alguien abre la app y se va.
-   Vive en el ámbito del módulo porque lo usan el arranque y el cambio de sesión. */
-const alRatito = (fn) => {
-  try {
-    if (typeof window.requestIdleCallback === 'function') window.requestIdleCallback(fn, { timeout: 3000 });
-    else setTimeout(fn, 200);
-  } catch (e) {
-    setTimeout(fn, 200);
-  }
-};
-
 /* ---------- Visibilidad de la pestaña Pediatría ----------
    Mismo mecanismo que nav-admin: el botón nace oculto en index.html y se enciende según el
    perfil. Se llama desde el callback de initAuth (y solo DESPUÉS de initCloudSync: la bandera es
@@ -237,13 +218,31 @@ function resetSectionsForNewSession({ otroUsuario }) {
   if (currentTopic) mountStudy(currentTopic);
   // El índice del buscador ya no es el mismo para todos: las entradas de Pediatría dependen de la
   // bandera del perfil. Sin esto, tras un cambio de sesión en un dispositivo compartido el índice
-  // sigue siendo el de la persona anterior. Es barato la segunda vez: los módulos de tema ya están
-  // en el registro del navegador y loadTopic no vuelve a pedir nada a la red.
-  alRatito(() => buildAndSetGlobalIndex());
+  // sigue siendo el de la persona anterior. No se reconstruye aquí: se olvida, y se vuelve a
+  // armar si la persona nueva busca algo (barato la segunda vez, porque los módulos de tema ya
+  // están en el registro del navegador y loadTopic no vuelve a pedir nada a la red).
+  indicePromesa = null;
+  resetGlobalSearch();
   showSection('inicio');
 }
 
 /* ---------- Buscador global (todos los temas, VPO y protocolos, sin importar la sección activa) ---------- */
+// Construir el índice obliga a cargar los 107 temas: 243 módulos y 7.3 MB, medidos en el
+// navegador. Antes se hacía en CADA arranque de la app (en cuanto el navegador quedaba libre),
+// aunque el residente no buscara nada en toda la sesión, y encima disparaba las 243 peticiones
+// de golpe justo mientras el service worker precargaba esos mismos archivos de seis en seis
+// para no saturar la red del teléfono. Los bytes no se ahorran del todo —la app es offline y el
+// worker los baja igual, pero a su ritmo y en segundo plano—; lo que se quita es el coste por
+// apertura y el atropello entre ambos.
+// Ahora se arma la primera vez que alguien toca el buscador (ver prepararBuscador() en
+// study-view.js) y una sola vez por sesión: la promesa se guarda, y si falla se olvida para que
+// la siguiente búsqueda lo vuelva a intentar en vez de quedarse en "Preparando…" para siempre.
+let indicePromesa = null;
+function asegurarIndiceGlobal() {
+  if (!indicePromesa) indicePromesa = buildAndSetGlobalIndex().catch(() => { indicePromesa = null; });
+  return indicePromesa;
+}
+
 async function buildAndSetGlobalIndex() {
   const index = [];
   for (const t of registry) {
@@ -356,21 +355,13 @@ async function init() {
       navigator.serviceWorker.register('./sw.js').catch(() => {});
     }
 
-    // El índice del buscador sí recorre los 106 temas (necesita las complicaciones, los estigmas
-    // y las escalas de cada uno, que solo están en los módulos), así que construirlo aquí mismo
-    // volvía a meter la descarga completa en el camino crítico del arranque: se construye cuando
-    // el navegador queda libre. Hasta entonces el buscador devuelve menos resultados, que es
-    // mejor que una portada en blanco durante segundos.
-    // Tres precauciones, y ninguna es de adorno:
-    //  - se llama como `window.requestIdleCallback(...)`, con su receptor, porque desprendido del
-    //    objeto (`const f = window.requestIdleCallback; f(...)`) hay motores que lanzan
-    //    "Illegal invocation";
-    //  - va envuelto en try/catch y con repliegue a setTimeout, para que ni eso ni la falta de
-    //    la API en un navegador viejo (Safari no la trajo hasta 2024) deje el buscador sin
-    //    índice para siempre;
-    //  - con `timeout`, porque sin él requestIdleCallback puede no dispararse nunca si la
-    //    pestaña queda de fondo, que es justo lo que pasa cuando alguien abre la app y se va.
-    alRatito(() => buildAndSetGlobalIndex());
+    // El índice del buscador recorre los 107 temas (necesita las complicaciones, los estigmas y
+    // las escalas de cada uno, que solo están en los módulos). Arrancar la app ya no lo arma:
+    // aquí solo se deja dicho CÓMO armarlo, y study-view.js lo pide la primera vez que alguien
+    // escribe en el buscador (o en cuanto le da el foco, así que casi siempre está listo antes
+    // de terminar de teclear). Mientras tanto la caja dice "Preparando el buscador…", que es
+    // más honesto que devolver menos resultados sin avisar, como hacía antes.
+    setGlobalSearchLoader(asegurarIndiceGlobal);
   }
 
   // El arranque real de la app espera a que Firebase Auth confirme si hay sesión iniciada

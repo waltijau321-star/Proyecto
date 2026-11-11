@@ -1762,10 +1762,13 @@ async function run() {
     // es la unica forma en que esta puerta de entrada se convierte en un error visible.
     assert(/if \(esPediatra\(\)\) pediaSearchEntries\(\)/.test(fuenteApp),
       'las entradas de Pediatria entran en el indice del buscador sin comprobar quien es el usuario');
-    // Y el indice deja de ser el mismo para todos, asi que un cambio de sesion lo reconstruye.
+    // Y el indice deja de ser el mismo para todos, asi que un cambio de sesion tiene que
+    // dejarlo sin valor. Ya no se reconstruye ahi: desde que se arma bajo demanda basta con
+    // olvidarlo (la promesa guardada y el indice de study-view), y la primera busqueda de la
+    // persona nueva lo vuelve a pedir. Lo que no puede pasar es que siga en pie el anterior.
     const reinicio = (fuenteApp.match(/function resetSectionsForNewSession[\s\S]*?\n}/) || [''])[0];
-    assert(/buildAndSetGlobalIndex/.test(reinicio),
-      'al cambiar de sesion no se reconstruye el indice: en un dispositivo compartido seguiria el de la persona anterior');
+    assert(reinicio.includes('indicePromesa = null') && reinicio.includes('resetGlobalSearch()'),
+      'al cambiar de sesion no se olvida el indice: en un dispositivo compartido seguiria el de la persona anterior');
   });
 
   test('Pediatría: sus dos claves se fusionan como escalares, que es lo correcto para las dos', () => {
@@ -3147,6 +3150,53 @@ async function run() {
   const { registry, loadTopic } = await import('./topics/registry.js');
 
   const studyView = await import('./engine/study-view.js');
+
+  /* ---- Buscador bajo demanda ----
+     El indice obliga a cargar los 107 temas (243 modulos, 7.3 MB), asi que ya no se arma al
+     arrancar sino la primera vez que alguien busca. El riesgo del cambio es silencioso: si nadie
+     llama al cargador, el buscador no encuentra nunca nada y no hay error en ninguna consola. */
+  test('buscador: la primera busqueda pide el indice, avisa que lo prepara y repinta al llegar', () => {
+    const inp = document.createElement('input'); inp.id = 'search-input';
+    const box = document.createElement('div'); box.id = 'search-results';
+    document.body.append(inp, box);
+    try {
+      studyView.resetGlobalSearch();
+      let pedidos = 0;
+      studyView.setGlobalSearchLoader(() => { pedidos++; });
+      inp.value = 'sofa';
+      window.runSearch('sofa');
+      assertEqual(pedidos, 1, 'la primera busqueda tiene que pedir el indice');
+      assert(/Preparando/.test(box.innerHTML), 'mientras se arma, la caja tiene que decirlo');
+      studyView.setGlobalSearch([{ label: 'SOFA', type: 'Escala', scope: 'Sepsis' }], () => {});
+      assert(/SOFA/.test(box.innerHTML), 'al llegar el indice se repinta la busqueda que estaba esperando');
+      window.runSearch('sofa');
+      assertEqual(pedidos, 1, 'con el indice ya armado no se vuelve a pedir');
+    } finally {
+      inp.remove(); box.remove();
+      studyView.resetGlobalSearch();
+      studyView.setGlobalSearchLoader(null);
+    }
+  });
+
+  test('buscador: olvidar el indice (cambio de sesion) hace que se vuelva a pedir', () => {
+    const inp = document.createElement('input'); inp.id = 'search-input';
+    const box = document.createElement('div'); box.id = 'search-results';
+    document.body.append(inp, box);
+    try {
+      let pedidos = 0;
+      studyView.setGlobalSearchLoader(() => { pedidos++; });
+      studyView.setGlobalSearch([{ label: 'SOFA', type: 'Escala', scope: 'Sepsis' }], () => {});
+      window.runSearch('sofa');
+      assertEqual(pedidos, 0, 'con indice armado no se pide nada');
+      studyView.resetGlobalSearch();
+      window.runSearch('sofa');
+      assertEqual(pedidos, 1, 'tras olvidarlo, la siguiente busqueda lo vuelve a pedir');
+    } finally {
+      inp.remove(); box.remove();
+      studyView.resetGlobalSearch();
+      studyView.setGlobalSearchLoader(null);
+    }
+  });
 
   for (const entry of registry) {
     const topic = await loadTopic(entry.id);
