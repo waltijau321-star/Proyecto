@@ -132,9 +132,36 @@ function formHTML(pool) {
     </form>`;
 }
 
+// Abrir el modal cuesta cargar los 107 temas la primera vez de cada sesion (loadTopicPool los
+// recorre uno a uno), y hasta hoy no pasaba nada en pantalla mientras tanto: el boton se quedaba
+// quieto unos segundos y parecia muerto. Desde que el indice del buscador se arma bajo demanda
+// esto se nota mas, porque ya no hay nadie que haya cargado los temas antes. Asi que el modal se
+// abre PRIMERO, diciendo que esta preparando, y se rellena cuando el banco esta listo.
+// La espera solo se pinta si el banco no esta ya en memoria, para no hacer parpadear un estado
+// de carga que duraria un cuadro.
 async function openExamConfigModal() {
-  const pool = await loadTopicPool();
   const m = document.getElementById('modal');
+  const esperando = !TOPIC_POOL;
+  if (esperando) {
+    m.style.setProperty('--modal-accent', '#3d5a73');
+    m.innerHTML = `
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <span class="modal-tag" style="color:#3d5a73;">Examen simulado</span>
+      <h2 id="examen-preparando">Preparando el examen…</h2>
+      <p class="fbody" style="color:var(--ink-dim);">Estoy reuniendo las preguntas de todos los temas. Tarda un momento la primera vez de cada sesión.</p>`;
+    document.getElementById('overlay').classList.remove('auth-page');
+    document.getElementById('overlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  const pool = await loadTopicPool();
+  // Mientras se cargaba, el usuario pudo cerrar el modal o abrir otro distinto. Pintar aqui el
+  // formulario le cambiaria la pantalla debajo de las manos, asi que si lo que hay delante ya no
+  // es nuestra espera, no se toca nada: el banco queda cargado y el siguiente clic lo abre al
+  // instante.
+  if (esperando) {
+    const sigueAbierto = document.getElementById('overlay').classList.contains('active');
+    if (!sigueAbierto || !document.getElementById('examen-preparando')) return;
+  }
   m.style.setProperty('--modal-accent', '#3d5a73');
   m.innerHTML = `
     <button class="modal-close" onclick="closeModal()">✕</button>

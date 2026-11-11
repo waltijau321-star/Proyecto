@@ -3180,6 +3180,22 @@ async function run() {
     }
   });
 
+  // El modal del examen carga los 107 temas la primera vez de cada sesion. Si alguien vuelve a
+  // poner el await por delante del pintado, el boton se queda otra vez quieto varios segundos
+  // sin decir nada, que es como estaba y nadie lo nota leyendo el codigo.
+  // El runner llama a cada prueba de forma SINCRONA (ver test() arriba): una prueba `async`
+  // devolveria una promesa que nadie espera, asi que pasaria siempre aunque fallara. Por eso la
+  // fuente se trae aqui fuera, como con fuenteApp y cssFuente.
+  const fuenteExamen = await (await fetch('./engine/exam-mode.js?v=' + Date.now())).text();
+  test('examen: el modal se abre ANTES de cargar el banco, no despues', () => {
+    const fn = (fuenteExamen.split('async function openExamConfigModal')[1] || '').slice(0, 2500);
+    assert(fn, 'no se encontro openExamConfigModal');
+    const espera = fn.indexOf('Preparando el examen');
+    const carga = fn.indexOf('await loadTopicPool');
+    assert(espera !== -1, 'el modal ya no avisa de que esta preparando el banco');
+    assert(carga !== -1 && espera < carga, 'la carga del banco volvio a ir antes de pintar nada');
+  });
+
   test('buscador: olvidar el indice (cambio de sesion) hace que se vuelva a pedir', () => {
     const inp = document.createElement('input'); inp.id = 'search-input';
     const box = document.createElement('div'); box.id = 'search-results';
