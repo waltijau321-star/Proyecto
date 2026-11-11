@@ -13,6 +13,7 @@
 // corregir la ortografía de una pregunta NO borra el progreso de nadie; reescribir el enunciado
 // de fondo sí lo reinicia, que es justo lo que corresponde porque ya es otra pregunta.
 import { syncGet, syncSet } from './cloud-sync.js';
+import { registrarDiaDeEstudio } from './racha.js';
 
 // Cajas de Leitner. Hasta el 1 de noviembre de 2026 eran 5 y el intervalo maximo era de 14
 // dias, de modo que una pregunta dominada volvia 26 veces al año para siempre: con 4954
@@ -139,6 +140,9 @@ export function updateQuizSRS(topicId, question, correct) {
   const ease = nextEase(prev.ease, correct);
   store[id] = { box, ease, next: srsDue(box, ease) };
   syncSet(key(topicId), store);
+  // Un solo sitio cubre las dos rutas por las que se responde una pregunta (el quiz del tema
+  // y el examen simulado), que es por lo que la marca del dia vive aqui y no en quien llama.
+  registrarDiaDeEstudio();
 }
 
 // Índices vencidos dentro del banco `quiz`. Una pregunta nunca respondida NO cuenta como

@@ -96,6 +96,11 @@ export function strategyFor(key) {
   // 'rm:vpo:ruta' un camino de decisiones, y unir dos caminos daría ramas contradictorias.
   // Para esos dos la estrategia escalar es la correcta: gana el último dispositivo.
   if (key === 'rm:vpo:farmacos' || key === 'rm:vpo:estudios') return 'bool-map';
+  // Dias de estudio (la racha de Inicio): la union es la semantica correcta, porque un dia
+  // estudiado en cualquiera de los dos dispositivos se estudio. Con la estrategia escalar por
+  // defecto el documento de la nube pisaba el mapa local, asi que estudiar en el telefono
+  // borraba los dias de la computadora en silencio.
+  if (key === 'rm:dias-estudio') return 'bool-map';
   return 'scalar';
 }
 

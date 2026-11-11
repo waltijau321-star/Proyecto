@@ -3,6 +3,7 @@
 // solo consume un resumen que le pasa app.js (que sí conoce todos los temas y secciones).
 import { getAnsweredSummary, resetAnsweredSummary, isTopicReviewed, setTopicReviewed } from './study-view.js';
 import { syncGet, syncSet } from './cloud-sync.js';
+import { leerDiasDeEstudio, resumenRacha } from './racha.js';
 import { mountExamSummary } from './exam-mode.js';
 import { mountFlashcardDeck } from './flashcard-deck.js';
 
@@ -84,6 +85,33 @@ function progressLegend(acertadas, falladas, pendientes) {
     <span><i class="prog-dot ok"></i>${acertadas} preguntas acertadas</span>
     <span><i class="prog-dot bad"></i>${falladas} falladas</span>
     <span><i class="prog-dot none"></i>${pendientes} sin contestar</span>
+  </div>`;
+}
+
+/* ---------------- La semana a la vista (la racha, en semanas) ----------------
+   Siete columnas, una por dia de la semana en curso, y debajo una sola frase que dice en que
+   punto esta. Lo que decide todo esta en engine/racha.js; aqui solo se pinta.
+   Los dias no se distinguen SOLO por color: el estudiado lleva palomita sobre relleno, el que
+   paso vacio es un aro, el que no ha llegado es un aro punteado y el de hoy lleva un anillo
+   extra. Quien no distingue el verde del gris sigue leyendo la tira, y quien no la ve tiene la
+   frase, que lleva los mismos numeros. */
+export function semanaHTML(resumen) {
+  const dias = resumen.semana.map(d => {
+    const num = String(Number(d.dia.slice(8, 10)));
+    const estado = d.estudiado ? 'estudiado' : (d.futuro ? 'futuro' : 'vacio');
+    const dicho = d.estudiado ? 'estudiaste' : (d.futuro ? 'aún no llega' : 'sin estudiar');
+    const etiqueta = d.nombre + ' ' + num + ', ' + dicho + (d.esHoy ? ', hoy' : '');
+    return `<span class="hs-dia ${estado}${d.esHoy ? ' hoy' : ''}" role="img" aria-label="${etiqueta}" title="${etiqueta}">
+      <i class="hs-ini">${d.inicial}</i><b class="hs-punto">${d.estudiado ? '✓' : ''}</b></span>`;
+  }).join('');
+  // La racha se anuncia a partir de DOS semanas: "1 semana seguida" es solo esta semana, y
+  // ponerle nombre de racha a eso abarata la palabra justo cuando hay que hacerla valer.
+  const chip = resumen.rachaSemanas >= 2
+    ? `<span class="hs-racha">${resumen.rachaSemanas} semanas seguidas</span>` : '';
+  return `<div class="home-semana">
+    <div class="hs-head"><span class="hs-titulo">Tu semana</span>${chip}</div>
+    <div class="hs-tira" role="group" aria-label="Días de estudio de esta semana">${dias}</div>
+    <p class="hs-msg">${resumen.mensaje}</p>
   </div>`;
 }
 
@@ -373,7 +401,8 @@ const HELP_CONTENT = {
     tag: 'Cómo funciona',
     title: 'Tu progreso',
     body: `<p class="fbody" style="color:var(--ink-dim);">"Preguntas en el banco" es el total de preguntas de opción múltiple de todos los temas construidos. "Contestadas" cuenta cuántas de esas ya respondiste al menos una vez (sin importar si acertaste); ese mismo conteo, por tema, es el que desbloquea las fichas de repaso de cada tema. "Temas empezados" son los temas con al menos una pregunta contestada, y "terminados" aquellos cuyo banco ya respondiste completo. "Respuestas correctas"/"Respuestas incorrectas" acumulan todos tus intentos históricos, incluyendo reintentos, y el aro central es su porcentaje: mide cómo respondes, no cuánto llevas.</p>
-    <p class="fbody" style="color:var(--ink-dim);">La barra de abajo, y la de cada bloque del Temario, miden otra cosa: cuentan <strong>preguntas</strong>, una sola vez cada una, según cómo te fue la última vez que la respondiste. Verde es la que acertaste, rojo la que fallaste y gris la que todavía no contestas, así que los tres trozos suman el banco entero. Por eso el porcentaje de la barra y el del aro no tienen por qué coincidir: el aro dice cómo respondes, la barra dice cuánto llevas y qué te falta repasar. Una pregunta pasa de rojo a verde en cuanto la aciertas de nuevo.</p>`
+    <p class="fbody" style="color:var(--ink-dim);">La barra de abajo, y la de cada bloque del Temario, miden otra cosa: cuentan <strong>preguntas</strong>, una sola vez cada una, según cómo te fue la última vez que la respondiste. Verde es la que acertaste, rojo la que fallaste y gris la que todavía no contestas, así que los tres trozos suman el banco entero. Por eso el porcentaje de la barra y el del aro no tienen por qué coincidir: el aro dice cómo respondes, la barra dice cuánto llevas y qué te falta repasar. Una pregunta pasa de rojo a verde en cuanto la aciertas de nuevo.</p>
+    <p class="fbody" style="color:var(--ink-dim);">Arriba, <strong>"Tu semana"</strong> marca los días en que respondiste una pregunta o calificaste una ficha. Con <strong>3 días cualesquiera</strong> la semana cuenta como cumplida, y la racha suma <strong>semanas</strong> cumplidas seguidas, no días: una cadena diaria se rompe en la primera guardia de 24 horas, y lo que importa es que vuelvas cada semana, no que no faltes nunca. La semana en curso no rompe la racha mientras no termine, así que un lunes sin estudiar todavía no te quita nada.</p>`
   },
   fichas: {
     color: '#5c4a73',
@@ -459,6 +488,9 @@ export function mountHome(root, opts = {}) {
   // quedo en 14 cuando el temario se renumero a 21, y nadie lo noto. El bloque "R1" no se
   // cuenta, porque es un acceso rapido a items que ya viven en su bloque tematico.
   const bloquesNumerados = temarioBlocks.filter(b => !b.quickAccess).length;
+  // La semana sale de un mapa de dias en memoria (`rm:dias-estudio`), asi que no carga ningun
+  // tema: la regla de Inicio sigue en pie.
+  const racha = resumenRacha(leerDiasDeEstudio());
 
   root.innerHTML = `
     <div class="home-hero">
@@ -470,6 +502,7 @@ export function mountHome(root, opts = {}) {
       <div class="grid home-dash-row">
         <div class="home-dash-card">
           <h2 class="home-subhead">Tu progreso <button class="home-help-btn" onclick="rmOpenHelp('progreso')" aria-label="Cómo funciona tu progreso" title="Cómo funciona">?</button></h2>
+          ${semanaHTML(racha)}
           <div class="home-progress">
             <div class="home-progress-ring">${ring(correct, incorrect)}
               <div class="home-progress-center">${pct !== null ? pct + '%' : 'Sin datos'}${pct !== null ? '<span>de tus respuestas</span>' : ''}</div>

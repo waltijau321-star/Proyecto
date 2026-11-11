@@ -6,6 +6,7 @@
 
 import { syncGet, syncSet } from './cloud-sync.js';
 import { updateQuizSRS, dueQuestionIndices, isQuizCompleted, remainingToComplete, SRS_INTERVALS, SRS_MAX_BOX } from './quiz-srs.js';
+import { registrarDiaDeEstudio } from './racha.js';
 import { trackEvent } from './usage-tracking.js';
 import { setCalcTopic } from './calculators.js';
 
@@ -586,6 +587,7 @@ function rateFlashcard(rating) {
   if (rating === 1) box = 1; else if (rating === 2) box = Math.max(1, box); else if (rating === 3) box = Math.min(SRS_MAX_BOX, box + 1); else box = Math.min(SRS_MAX_BOX, box + 2);
   progress[card.id] = { box, next: Date.now() + (SRS_INTERVALS[box] || 0) };
   saveFlashcardProgress(progress);
+  registrarDiaDeEstudio();
   fcState.index++; fcState.showBack = false; renderFlashcard();
 }
 

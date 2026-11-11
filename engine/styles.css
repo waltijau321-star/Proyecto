@@ -840,6 +840,34 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .home-hoy-btn{color:#1b1915;} }
 :root[data-theme="dark"] .home-hoy-btn{color:#1b1915;}
 
+/* Tu semana: la tira de siete dias y la racha, arriba de "Tu progreso". El estado de cada dia
+   se lee por FORMA (relleno con palomita, aro, aro punteado, anillo de hoy) y no solo por color. */
+.home-semana{margin:0 0 16px;}
+.hs-head{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:9px;}
+.hs-titulo{font-size:12px; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-label); font-weight:700;}
+.hs-racha{
+  font-size:11.5px; font-weight:700; padding:3px 9px; border-radius:999px;
+  color:var(--prog-ok); border:1px solid var(--prog-ok); background:transparent; white-space:nowrap;
+}
+.hs-tira{display:grid; grid-template-columns:repeat(7, 1fr); gap:4px;}
+.hs-dia{display:flex; flex-direction:column; align-items:center; gap:5px;}
+.hs-ini{font-size:10.5px; font-weight:600; color:var(--ink-label); font-style:normal; line-height:1;}
+.hs-punto{
+  width:26px; height:26px; border-radius:50%; display:grid; place-items:center;
+  /* El aro del dia sin estudiar va en --ink-label y no en --line: medido sobre la tarjeta,
+     --line daba 1.22:1, o sea un punto que practicamente no esta, y el dia vacio es justo la
+     mitad de la informacion que da la tira. */
+  border:2px solid var(--ink-label); font-size:13px; font-weight:800; line-height:1; color:transparent;
+  box-sizing:border-box;
+}
+.hs-dia.estudiado .hs-punto{background:var(--prog-ok); border-color:var(--prog-ok); color:var(--bg);}
+.hs-dia.futuro .hs-punto{border-style:dashed; opacity:.5;}
+/* El anillo de hoy se dibuja con dos sombras: la primera abre un hueco del color de la tarjeta
+   para que el aro no se pegue al punto. */
+.hs-dia.hoy .hs-punto{box-shadow:0 0 0 2px var(--panel), 0 0 0 3.5px var(--ink-dim);}
+.hs-dia.hoy .hs-ini{color:var(--ink); font-weight:800;}
+.hs-msg{margin:10px 0 0; font-size:13px; line-height:1.45; color:var(--ink-dim);}
+
 .home-bank{margin-top:18px;}
 .home-bank-head{
   display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px;

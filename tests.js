@@ -388,6 +388,109 @@ async function run() {
     assertEqual(homeMod.blockChip({ preguntas: 50, contestadas: 20, acertadas: 15 }), '20/50 contestadas · 75% acertadas');
   });
 
+  /* ---------------- La semana y la racha (engine/racha.js) ----------------
+     resumenRacha() es pura y el `ahora` entra por parametro justo para esto: las pruebas fijan
+     el dia en lugar de depender de cuando se corren. No se prueba registrarDiaDeEstudio(),
+     que escribe via syncSet: tests.html comparte origen con la app y ensuciaria el progreso
+     real de quien corre las pruebas. */
+  const rachaMod = await import('./engine/racha.js');
+  // Miercoles 11 de noviembre de 2026, 10:00 local. Su lunes es el 9.
+  const MIERCOLES = new Date(2026, 10, 11, 10, 0).getTime();
+  const LUNES_SIG = new Date(2026, 10, 16, 8, 0).getTime();
+  const mapa = (...dias) => { const m = {}; dias.forEach(d => { m[d] = true; }); return m; };
+
+  test('racha: sin historia no se inventa nada y la semana empieza en lunes', () => {
+    const r = rachaMod.resumenRacha({}, MIERCOLES);
+    assertEqual(r.semana.length, 7);
+    assertEqual(r.semana[0].dia, '2026-11-09', 'la semana arranca el lunes, no el domingo');
+    assertEqual(r.semana[0].inicial, 'L');
+    assertEqual(r.diasEstaSemana, 0);
+    assertEqual(r.rachaSemanas, 0);
+    assert(r.semana[2].esHoy, 'el miercoles es hoy');
+    assert(!r.semana[2].futuro && r.semana[3].futuro, 'el jueves todavia no llego');
+    assert(/Aún no estudias esta semana/.test(r.mensaje), r.mensaje);
+  });
+
+  test('racha: a media semana dice cuantos dias faltan para que cuente', () => {
+    const r = rachaMod.resumenRacha(mapa('2026-11-09', '2026-11-11'), MIERCOLES);
+    assertEqual(r.diasEstaSemana, 2);
+    assertEqual(r.faltan, 1);
+    assertEqual(r.cumplidaEstaSemana, false);
+    assertEqual(r.rachaSemanas, 0);
+    assert(/Uno más y la semana cuenta/.test(r.mensaje), r.mensaje);
+  });
+
+  test('racha: tres dias cumplen la semana y la suman a las anteriores', () => {
+    const r = rachaMod.resumenRacha(mapa(
+      '2026-11-09', '2026-11-10', '2026-11-11',
+      '2026-11-02', '2026-11-03', '2026-11-04',
+      '2026-10-26', '2026-10-27', '2026-10-28'), MIERCOLES);
+    assertEqual(r.cumplidaEstaSemana, true);
+    assertEqual(r.rachaSemanas, 3, 'la semana en curso cuenta en cuanto se cumple');
+    assert(/Llevas 3 semanas seguidas/.test(r.mensaje), r.mensaje);
+  });
+
+  test('racha: el lunes por la mañana la racha sigue viva, no en cero', () => {
+    // El defecto que esto evita: contar siempre desde la semana en curso haria que abrir la app
+    // un lunes temprano, tras un mes sin faltar, dijera "0 semanas".
+    const r = rachaMod.resumenRacha(mapa(
+      '2026-11-09', '2026-11-10', '2026-11-11',
+      '2026-11-02', '2026-11-03', '2026-11-04',
+      '2026-10-26', '2026-10-27', '2026-10-28'), LUNES_SIG);
+    assertEqual(r.diasEstaSemana, 0, 'la semana nueva empieza vacia');
+    assertEqual(r.rachaSemanas, 3, 'la semana en curso no rompe la racha mientras no termine');
+    assert(/Te faltan 3 días para no perderla/.test(r.mensaje), r.mensaje);
+  });
+
+  test('racha: una semana en blanco corta la cuenta aunque haya mas atras', () => {
+    const r = rachaMod.resumenRacha(mapa(
+      '2026-11-02', '2026-11-03', '2026-11-04',
+      '2026-10-19', '2026-10-20', '2026-10-21'), MIERCOLES);
+    assertEqual(r.rachaSemanas, 1, 'la del 26 de octubre esta vacia: la racha se queda en una');
+    assert(!/semanas seguidas/.test(r.mensaje), 'con una sola no se anuncia racha: ' + r.mensaje);
+  });
+
+  test('racha: un dia basura, uno en falso y uno del futuro no encienden ningun punto', () => {
+    const r = rachaMod.resumenRacha({
+      'ayer': true, '2026-02-31': true, '2026-11-10': false, '2026-11-13': true
+    }, MIERCOLES);
+    assertEqual(r.diasEstaSemana, 0);
+    assertEqual(r.semana[1].estudiado, false, 'un valor false no es un dia estudiado');
+    assertEqual(r.semana[4].estudiado, false, 'el viernes no ha llegado: no se pinta estudiado');
+  });
+
+  test('racha: el dia se mide en hora local, no en UTC', () => {
+    // A las 23:30 en America el dia UTC ya es el siguiente; con toISOString() la app encenderia
+    // el punto de un dia en que la persona dormia.
+    assertEqual(rachaMod.diaLocal(new Date(2026, 10, 11, 23, 30)), '2026-11-11');
+    assertEqual(rachaMod.diaLocal(new Date(2026, 10, 11, 0, 5)), '2026-11-11');
+    assertEqual(rachaMod.diaLocal(new Date('no es fecha')), '');
+  });
+
+  test('racha: lunesDe cruza el mes y es idempotente', () => {
+    assertEqual(rachaMod.diaLocal(rachaMod.lunesDe(new Date(2026, 10, 15))), '2026-11-09', 'el domingo cae en la semana que empezo el lunes 9');
+    assertEqual(rachaMod.diaLocal(rachaMod.lunesDe(new Date(2026, 10, 9))), '2026-11-09');
+    assertEqual(rachaMod.diaLocal(rachaMod.lunesDe(new Date(2026, 10, 1))), '2026-10-26', 'el domingo 1 de noviembre pertenece a la semana del 26 de octubre');
+  });
+
+  test('racha: los dias de dos dispositivos se unen, no se pisan', () => {
+    // La trampa: la estrategia por defecto es escalar, que se queda con el valor de la nube y
+    // tira el local. Con eso, estudiar en el telefono borraba los dias de la computadora.
+    assertEqual(strategyFor('rm:dias-estudio'), 'bool-map');
+    const unido = mergeValue('rm:dias-estudio', mapa('2026-11-09'), mapa('2026-11-10'));
+    assertEqual(unido['2026-11-09'], true, 'el dia local tiene que sobrevivir a la fusion');
+    assertEqual(unido['2026-11-10'], true);
+  });
+
+  test('inicio: la tira de la semana no se lee solo por color', () => {
+    const html = homeMod.semanaHTML(rachaMod.resumenRacha(mapa('2026-11-09'), MIERCOLES));
+    assert(/hs-dia estudiado[^"]*"[^>]*>\s*<i class="hs-ini">L<\/i><b class="hs-punto">✓/.test(html),
+      'el dia estudiado lleva palomita, no solo relleno verde');
+    assert(/class="hs-dia vacio hoy"/.test(html), 'hoy lleva su propia clase para el anillo');
+    assert(/role="img" aria-label="lunes 9, estudiaste"/.test(html), 'cada dia se anuncia con su nombre y su estado');
+    assert(/hs-msg">1 día esta semana/.test(html), 'la frase repite los numeros para quien no ve la tira');
+  });
+
   /* ---------------- Requisitos de contraseña (engine/auth.js) ---------------- */
   const { checkPasswordRules } = await import('./engine/auth.js');
 
