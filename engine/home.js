@@ -24,10 +24,10 @@ function ring(correct, incorrect) {
   // su valor real justo después del montaje, vía atributos SVG con transición CSS (ring-arc).
   return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="transform:rotate(-90deg);">
     <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--line)" stroke-width="${stroke}"/>
-    <circle class="ring-arc" cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#8c3a34" stroke-width="${stroke}"
+    <circle class="ring-arc" cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--prog-bad)" stroke-width="${stroke}"
       data-len="${incorrectLen}" data-gap="${circ - incorrectLen}" data-offset="${-correctLen}"
       stroke-dasharray="0 ${circ}" stroke-dashoffset="0"/>
-    <circle class="ring-arc" cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#2f6f5e" stroke-width="${stroke}"
+    <circle class="ring-arc" cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--prog-ok)" stroke-width="${stroke}"
       data-len="${correctLen}" data-gap="${circ - correctLen}" data-offset="0"
       stroke-dasharray="0 ${circ}" stroke-linecap="butt"/>
   </svg>`;
@@ -71,14 +71,17 @@ function progressBar(acertadas, falladas, total, label) {
   const pA = ((acertadas / total) * 100).toFixed(2);
   const pF = ((falladas / total) * 100).toFixed(2);
   const hecho = Math.round(((acertadas + falladas) / total) * 100);
-  return `<div class="prog-bar" role="progressbar" aria-valuenow="${hecho}" aria-valuemin="0" aria-valuemax="100" aria-label="${label}">
+  // El nombre accesible lleva los tres numeros, no solo el porcentaje: quien no distingue el
+  // verde del rojo (o no ve la barra) se queda si no con un dato que no dice que te falta.
+  const detalle = `${label}: ${acertadas} acertadas, ${falladas} falladas, ${total - acertadas - falladas} sin contestar`;
+  return `<div class="prog-bar" role="progressbar" aria-valuenow="${hecho}" aria-valuemin="0" aria-valuemax="100" aria-label="${detalle}" title="${detalle}">
     <span class="prog-ok" style="width:${pA}%"></span><span class="prog-bad" style="width:${pF}%"></span>
   </div>`;
 }
 
 function progressLegend(acertadas, falladas, pendientes) {
   return `<div class="prog-legend">
-    <span><i class="prog-dot ok"></i>${acertadas} acertadas</span>
+    <span><i class="prog-dot ok"></i>${acertadas} preguntas acertadas</span>
     <span><i class="prog-dot bad"></i>${falladas} falladas</span>
     <span><i class="prog-dot none"></i>${pendientes} sin contestar</span>
   </div>`;
@@ -189,7 +192,7 @@ export function blockChip(cov) {
   if (!cov.preguntas) return 'Sin preguntas todavía';
   if (!cov.contestadas) return `0/${cov.preguntas} contestadas`;
   const pct = Math.round((cov.acertadas / cov.contestadas) * 100);
-  return `${cov.contestadas}/${cov.preguntas} contestadas · ${pct}% acierto`;
+  return `${cov.contestadas}/${cov.preguntas} contestadas · ${pct}% acertadas`;
 }
 
 function clusterHTML(c, blockTitle, topicsById) {
@@ -299,7 +302,7 @@ const HELP_CONTENT = {
     color: '#3d5a73',
     tag: 'Cómo funciona',
     title: 'Tu progreso',
-    body: `<p class="fbody" style="color:var(--ink-dim);">"Preguntas en el banco" es el total de preguntas de opción múltiple de todos los temas construidos. "Contestadas" cuenta cuántas de esas ya respondiste al menos una vez (sin importar si acertaste); ese mismo conteo, por tema, es el que desbloquea las fichas de repaso de cada tema. "Temas empezados" son los temas con al menos una pregunta contestada, y "terminados" aquellos cuyo banco ya respondiste completo. "Correctas"/"Incorrectas" acumulan todos tus intentos históricos, incluyendo reintentos. El aro central muestra tu % de acierto sobre esos intentos.</p>
+    body: `<p class="fbody" style="color:var(--ink-dim);">"Preguntas en el banco" es el total de preguntas de opción múltiple de todos los temas construidos. "Contestadas" cuenta cuántas de esas ya respondiste al menos una vez (sin importar si acertaste); ese mismo conteo, por tema, es el que desbloquea las fichas de repaso de cada tema. "Temas empezados" son los temas con al menos una pregunta contestada, y "terminados" aquellos cuyo banco ya respondiste completo. "Respuestas correctas"/"Respuestas incorrectas" acumulan todos tus intentos históricos, incluyendo reintentos, y el aro central es su porcentaje: mide cómo respondes, no cuánto llevas.</p>
     <p class="fbody" style="color:var(--ink-dim);">La barra de abajo, y la de cada bloque del Temario, miden otra cosa: cuentan <strong>preguntas</strong>, una sola vez cada una, según cómo te fue la última vez que la respondiste. Verde es la que acertaste, rojo la que fallaste y gris la que todavía no contestas, así que los tres trozos suman el banco entero. Por eso el porcentaje de la barra y el del aro no tienen por qué coincidir: el aro dice cómo respondes, la barra dice cuánto llevas y qué te falta repasar. Una pregunta pasa de rojo a verde en cuanto la aciertas de nuevo.</p>`
   },
   fichas: {
@@ -396,13 +399,13 @@ export function mountHome(root, opts = {}) {
           <h2 class="home-subhead">Tu progreso <button class="home-help-btn" onclick="rmOpenHelp('progreso')" aria-label="Cómo funciona tu progreso" title="Cómo funciona">?</button></h2>
           <div class="home-progress">
             <div class="home-progress-ring">${ring(correct, incorrect)}
-              <div class="home-progress-center">${pct !== null ? pct + '%' : 'Sin datos'}${pct !== null ? '<span>acierto</span>' : ''}</div>
+              <div class="home-progress-center">${pct !== null ? pct + '%' : 'Sin datos'}${pct !== null ? '<span>de tus respuestas</span>' : ''}</div>
             </div>
             <div class="home-progress-stats">
               <div class="home-stat"><span class="home-stat-n">${totalQuestions}</span><span class="home-stat-l">Preguntas en el banco</span></div>
               <div class="home-stat"><span class="home-stat-n">${answeredQuestions}</span><span class="home-stat-l">Contestadas <span class="mono" style="color:var(--ink-faint);">(${bankPct}%)</span></span></div>
-              <div class="home-stat"><span class="home-stat-n" style="color:#2f6f5e;">${correct}</span><span class="home-stat-l">Correctas</span></div>
-              <div class="home-stat"><span class="home-stat-n" style="color:#8c3a34;">${incorrect}</span><span class="home-stat-l">Incorrectas</span></div>
+              <div class="home-stat"><span class="home-stat-n" style="color:var(--prog-ok);">${correct}</span><span class="home-stat-l">Respuestas correctas</span></div>
+              <div class="home-stat"><span class="home-stat-n" style="color:var(--prog-bad);">${incorrect}</span><span class="home-stat-l">Respuestas incorrectas</span></div>
               <div class="home-stat"><span class="home-stat-n">${temasEmpezados}</span><span class="home-stat-l">Temas empezados <span class="mono" style="color:var(--ink-faint);">(de ${topics.length})</span></span></div>
               <div class="home-stat"><span class="home-stat-n">${temasTerminados}</span><span class="home-stat-l">Temas terminados</span></div>
             </div>

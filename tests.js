@@ -350,10 +350,12 @@ async function run() {
     assert(!/<div class="temario-item[^>]*onclick/.test(fila), 'la fila no puede volver a llevar onclick');
   });
 
-  test('temario: la etiqueta del bloque dice el avance, y el acierto va sobre lo contestado', () => {
+  test('temario: la etiqueta del bloque dice el avance, y el porcentaje va sobre lo contestado', () => {
     assertEqual(homeMod.blockChip({ preguntas: 0, contestadas: 0, acertadas: 0 }), 'Sin preguntas todavía');
     assertEqual(homeMod.blockChip({ preguntas: 50, contestadas: 0, acertadas: 0 }), '0/50 contestadas');
-    assertEqual(homeMod.blockChip({ preguntas: 50, contestadas: 20, acertadas: 15 }), '20/50 contestadas · 75% acierto');
+    // "acertadas", no "acierto": el aro de Inicio mide intentos y esto mide preguntas, y dos
+    // porcentajes con el mismo nombre en la misma pantalla se leen como el mismo numero.
+    assertEqual(homeMod.blockChip({ preguntas: 50, contestadas: 20, acertadas: 15 }), '20/50 contestadas · 75% acertadas');
   });
 
   /* ---------------- Requisitos de contraseña (engine/auth.js) ---------------- */
