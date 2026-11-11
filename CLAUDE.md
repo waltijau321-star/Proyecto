@@ -113,7 +113,21 @@ Inicio — most entries there don't have a built topic yet (`topicId: null`).
 **`app.js`** is the shell/router: owns section switching (`showSection`), the active topic
 (`selectTopic`), and the cross-topic global search index (`buildAndSetGlobalIndex`, gathers
 complicaciones/estigmas/escalas/calculators from every topic in the registry plus VPO and
-protocols). `index.html` provides the static shell (header, `<section id="sec-*">` per section,
+protocols). **That index is built on demand, not at startup.** It is the one thing in the app
+that does load all 107 topics (243 modules, 7.3 MB measured in the browser), and building it on
+every open cost 250 requests and 7.5 MB where Inicio now needs 58 and 1.26 MB. `app.js` only
+hands the building function to `setGlobalSearchLoader`; `engine/study-view.js` asks for it when
+the search box takes focus, or on the first keystroke if that was too late, and paints
+"Preparando el buscador…" until it lands. It is built once per session; a failure forgets the
+stored promise so the next search retries instead of waiting forever; and a session change calls
+`resetGlobalSearch()` rather than rebuilding, because the Pediatría entries depend on the profile
+and the previous user's index must not survive. **A precooked index file was considered and
+rejected**: `sw.js` already precaches those same modules for offline use, in batches of six so it
+does not saturate a phone's network, so the bytes travel anyway and the old eager build was only
+asking for them a second time, all at once, on top of that careful precache. A generated index
+would duplicate data that already ships and, with no build step here, would add a generator
+someone has to remember to run and a new way to publish a stale index.
+`index.html` provides the static shell (header, `<section id="sec-*">` per section,
 bottom nav, one shared `#overlay`/`#modal` pair reused by every modal in the app).
 
 **Sync layer — the one rule that matters most.** `engine/cloud-sync.js` exports `syncGet`/`syncSet`,
