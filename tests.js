@@ -310,6 +310,7 @@ async function run() {
      progreso tiene que contar cada tema UNA vez o la barra prometeria mas preguntas que las que
      existen; la cobertura de contenido, en cambio, sigue contando items. */
   const homeMod = await import('./engine/home.js');
+  const fcMod = await import('./engine/flashcard-deck.js');
 
   test('temario: un tema repetido en varios items cuenta su banco una sola vez', () => {
     const bloque = { title: 'Prueba', clusters: [{ name: 'c1', items: [
@@ -363,6 +364,71 @@ async function run() {
     assert(!a.topicId, 'el examen simulado no cuelga de ningun tema');
     assertEqual(homeMod.accionDelDia([temaT('x', 'Sin banco', 0, 0)], bloquesT), null);
     assertEqual(homeMod.accionDelDia([], bloquesT), null);
+  });
+
+  /* ---- El repaso que toca ----
+     La accion del dia miraba SOLO el avance del banco, asi que a un residente con 40 fichas
+     vencidas le decia "sigue donde lo dejaste" en un banco a medias y enterraba el repaso en una
+     tarjeta de abajo. Lo vencido va primero porque es lo unico que se pierde por no hacerlo hoy:
+     una pregunta sin contestar sigue ahi manana. */
+  const mazoT = (vencidas, temas) => ({ enMazo: 99, vencidas, temas });
+
+  test('inicio: lo vencido manda, por encima de terminar el banco empezado', () => {
+    const temas = [temaT('hist', 'Historia', 24, 24), temaT('epoc', 'EPOC', 36, 22)];
+    const a = homeMod.accionDelDia(temas, bloquesT,
+      mazoT(7, [{ id: 'epoc', titulo: 'EPOC', vencidas: 5 }, { id: 'sep', titulo: 'Sepsis', vencidas: 2 }]));
+    assertEqual(a.tipo, 'repasar');
+    assert(/7 fichas vencidas/.test(a.titulo), 'dice cuantas: ' + a.titulo);
+    assert(/EPOC y Sepsis/.test(a.detalle), 'nombra los temas: ' + a.detalle);
+    assert(!a.topicId, 'el repaso no cuelga de un tema: mezcla las vencidas de todos');
+    // Sin vencidas, la accion vuelve a ser exactamente la de antes.
+    assertEqual(homeMod.accionDelDia(temas, bloquesT, mazoT(0, [])).tipo, 'seguir');
+    assertEqual(homeMod.accionDelDia(temas, bloquesT).tipo, 'seguir', 'sin mazo se comporta igual');
+  });
+
+  test('inicio: una sola ficha vencida se dice en singular y no lista temas de mas', () => {
+    const una = homeMod.accionDelDia([temaT('epoc', 'EPOC', 36, 22)], bloquesT,
+      mazoT(1, [{ id: 'epoc', titulo: 'EPOC', vencidas: 1 }]));
+    assertEqual(una.titulo, '1 ficha vencida');
+    assert(/Repasarla/.test(una.boton), 'el boton tambien va en singular: ' + una.boton);
+    assert(!/temas más/.test(una.detalle), 'con un solo tema no hay "y N temas mas": ' + una.detalle);
+    // Con mas de dos temas se nombran dos y se cuenta el resto, para que el texto no crezca.
+    const varios = homeMod.accionDelDia([temaT('epoc', 'EPOC', 36, 22)], bloquesT,
+      mazoT(9, [{ id: 'a', titulo: 'Asma', vencidas: 4 }, { id: 'b', titulo: 'EPOC', vencidas: 3 },
+                { id: 'c', titulo: 'Sepsis', vencidas: 1 }, { id: 'd', titulo: 'Cirrosis', vencidas: 1 }]));
+    assert(/De Asma, EPOC y 2 temas más\./.test(varios.detalle), varios.detalle);
+  });
+
+  test('fichas: el conteo de vencidas sale del progreso guardado, sin cargar ningun tema', () => {
+    const T = 1762800000000;
+    const antes = fcMod.resumenVencidas(T);
+    syncSet('flashcard-progress:sepsis', {
+      0: { box: 3, next: T - 86400000 },  // vencio ayer
+      1: { box: 5, next: T + 86400000 },  // vence manana: no cuenta
+      2: { box: 1, next: T }              // vence justo ahora: cuenta
+    });
+    const d = fcMod.resumenVencidas(T);
+    assertEqual(d.vencidas - antes.vencidas, 2, 'solo las dos cuyo next ya paso');
+    assertEqual(d.enMazo - antes.enMazo, 3, 'en el mazo estan las tres');
+    const fila = d.temas.find(t => t.id === 'sepsis');
+    assert(fila && fila.vencidas === 2, 'el tema vencido aparece con su cuenta');
+    // El titulo tiene que venir del REGISTRO (que lo lleva duplicado), no del modulo del tema:
+    // es lo que permite nombrarlo en la portada sin cargar nada.
+    assert(fila.titulo && /sepsis/i.test(fila.titulo), 'titulo del registro: ' + fila.titulo);
+    // Una ficha sin fecha (documento viejo de la nube) no se cuenta como vencida.
+    syncSet('flashcard-progress:sepsis', { 0: { box: 1 } });
+    assertEqual(fcMod.resumenVencidas(T).vencidas - antes.vencidas, 0, 'sin next no esta vencida');
+    syncSet('flashcard-progress:sepsis', {});
+  });
+
+  test('fichas: el progreso que apunta a una ficha que ya no existe se poda', () => {
+    // Pasa si el mazo de un tema se acorta despues de que alguien lo califico: el indice guardado
+    // deja de existir, el repaso no puede servirlo y la portada lo contaria para siempre.
+    assertEqual(fcMod.podarFantasmas({ 0: { box: 2 }, 5: { box: 1 } }, 3), { 0: { box: 2 } });
+    assertEqual(fcMod.podarFantasmas({ 0: { box: 2 }, 2: { box: 1 } }, 3), null, 'nada que podar: no se escribe');
+    assertEqual(fcMod.podarFantasmas({ x: { box: 1 } }, 3), {}, 'una clave que no es indice tambien sobra');
+    assertEqual(fcMod.podarFantasmas({}, 3), null);
+    assertEqual(fcMod.podarFantasmas(null, 3), null);
   });
 
   test('temario: la fila de un tema construido es un boton, no un div clicable', () => {

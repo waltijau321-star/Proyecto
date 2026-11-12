@@ -12,6 +12,59 @@ let reviewState = { deck: [], index: 0, showBack: false };
 
 function fcKey(topicId) { return 'flashcard-progress:' + topicId; }
 
+/* ------------------- Lo vencido, sin cargar ni un tema -------------------
+   La fecha de vencimiento de una ficha vive en el PROGRESO guardado (`flashcard-progress:<id>`),
+   no en el modulo del tema, asi que contar lo vencido no cuesta una sola peticion: basta leer el
+   progreso de cada tema del registro, que ya esta en memoria o en localStorage. Eso es lo que
+   permite que la accion del dia de Inicio se pinte de golpe, sin esperar al mazo y sin romper la
+   regla de que nada montado por Inicio carga temas.
+
+   El titulo sale del registro, que lo lleva duplicado a proposito (igual que `accent` y
+   `preguntas`), de modo que nombrar los temas vencidos tampoco cuesta una peticion.
+
+   Cuenta una ficha MAS de las que el repaso puede servir en un solo caso: si el tema perdio
+   fichas desde que el usuario califico esa, porque el progreso guarda el indice y un indice que
+   ya no existe no puede entrar al mazo. No se disimula restandolo cada vez: `loadCardPool()`
+   poda esos indices en cuanto carga el tema, asi que el desajuste dura, como mucho, hasta la
+   primera visita a Inicio y se corrige en la fuente. */
+export function resumenVencidas(ahora = Date.now()) {
+  let enMazo = 0, vencidas = 0;
+  const temas = [];
+  registry.forEach(t => {
+    const prog = syncGet(fcKey(t.id), {}) || {};
+    const claves = Object.keys(prog);
+    if (!claves.length) return;
+    let n = 0;
+    claves.forEach(k => {
+      const p = prog[k];
+      // `next` tiene que ser un numero: un documento viejo de la nube puede traer la ficha sin
+      // fecha, y `undefined <= ahora` es false, pero mas vale decirlo que depender de eso.
+      if (p && typeof p.next === 'number' && p.next <= ahora) n++;
+    });
+    enMazo += claves.length;
+    vencidas += n;
+    if (n) temas.push({ id: t.id, titulo: t.titulo, vencidas: n });
+  });
+  // De mas a menos vencidas, y a igualdad por titulo: con los mismos datos, dos pintados tienen
+  // que nombrar los temas en el mismo orden.
+  temas.sort((a, b) => b.vencidas - a.vencidas || String(a.titulo).localeCompare(String(b.titulo), 'es'));
+  return { enMazo, vencidas, temas };
+}
+
+// Progreso que apunta a fichas que ya no existen en el tema. Devuelve el mapa podado, o null si
+// no habia nada que podar, para no escribir a Firestore cuando no hay cambio. Pura, para que
+// las pruebas la cubran sin tocar el mazo.
+export function podarFantasmas(prog, nFichas) {
+  const limpio = {};
+  let sobran = 0;
+  Object.keys(prog || {}).forEach(k => {
+    const i = Number(k);
+    if (Number.isInteger(i) && i >= 0 && i < nFichas) limpio[k] = prog[k];
+    else sobran++;
+  });
+  return sobran ? limpio : null;
+}
+
 // Carga SOLO los temas en los que ya se calificó alguna ficha, y es exacto, no una
 // aproximación: deckSummary() descarta toda ficha sin progreso guardado, así que un tema sin
 // progreso no puede aportar nada al mazo. Antes recorría los 106 temas (205 peticiones y 7.1 MB
@@ -31,6 +84,8 @@ async function loadCardPool() {
     const topic = await loadTopic(t.id);
     if (!topic) continue;
     const flashcards = (topic.study && topic.study.flashcards) || [];
+    const podado = podarFantasmas(prog, flashcards.length);
+    if (podado) syncSet(fcKey(t.id), podado);
     flashcards.forEach((c, i) => cards.push({ topicId: t.id, topicTitulo: topic.meta.titulo, cardIndex: i, front: c.front, back: c.back }));
   }
   return cards;
@@ -101,6 +156,22 @@ function rateCard(rating) {
   reviewState.index++; reviewState.showBack = false; renderReview();
 }
 
+// Abre el repaso de las vencidas desde cualquier sitio. Existe aparte de mountFlashcardDeck()
+// porque la accion del dia de Inicio se pinta ANTES de que el resumen del mazo termine de
+// cargar: su boton tiene que responder al primer clic, no a partir del segundo. Lo que espera
+// aqui es `loadTopic()`, que memoriza, asi que en la practica ya esta resuelto.
+export async function abrirRepasoVencidas() {
+  const { due } = deckSummary(await loadCardPool());
+  if (!due.length) {
+    // Ya no hay nada vencido: se repaso en otra pestaña, o el conteo barato contaba un indice
+    // fantasma que loadCardPool() acaba de podar. Repintar Inicio deja la portada diciendo la
+    // verdad, que es mejor que abrir un repaso de cero fichas.
+    if (window.rmRefreshHome) window.rmRefreshHome();
+    return;
+  }
+  openReview(due);
+}
+
 export async function mountFlashcardDeck(root) {
   const pool = await loadCardPool();
   const { inDeck, due } = deckSummary(pool);
@@ -115,11 +186,9 @@ export async function mountFlashcardDeck(root) {
       <div class="home-stat"><span class="home-stat-n">${inDeck.length}</span><span class="home-stat-l">Fichas en tu mazo</span></div>
       <div class="home-stat"><span class="home-stat-n" style="color:${due.length ? '#8c3a34' : '#2f6f5e'};">${due.length}</span><span class="home-stat-l">Vencidas hoy</span></div>
       ${due.length
-        ? `<button class="home-quick" onclick="rmOpenDeckReview()">Repasar vencidas →</button>`
+        ? `<button class="home-quick" onclick="rmRepasarVencidas()">Repasar vencidas →</button>`
         : `<span class="fc-deck-uptodate">Estás al día ✓</span>`}
     </div>`;
-
-  window.rmOpenDeckReview = () => openReview(due);
 }
 
-Object.assign(window, { rmFlipDeckCard: flipCard, rmRateDeckCard: rateCard });
+Object.assign(window, { rmFlipDeckCard: flipCard, rmRateDeckCard: rateCard, rmRepasarVencidas: abrirRepasoVencidas });

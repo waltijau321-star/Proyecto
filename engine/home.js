@@ -5,7 +5,7 @@ import { getAnsweredSummary, resetAnsweredSummary, isTopicReviewed, setTopicRevi
 import { syncGet, syncSet } from './cloud-sync.js';
 import { leerDiasDeEstudio, resumenRacha } from './racha.js';
 import { mountExamSummary } from './exam-mode.js';
-import { mountFlashcardDeck } from './flashcard-deck.js';
+import { mountFlashcardDeck, resumenVencidas } from './flashcard-deck.js';
 
 let LAST_ROOT = null, LAST_OPTS = null;
 let examEditMode = false;
@@ -130,10 +130,37 @@ function loadingSkeleton() {
    quedaba medio vacia. Para un R1 que abre la app entre dos pacientes, esa es LA pregunta.
    Se decide solo con lo que ya hay en memoria (el registro y el almacen del repaso espaciado),
    sin cargar ningun tema, que es la regla de Inicio.
-   El orden no es caprichoso: primero terminar lo empezado (es lo que desbloquea las fichas del
-   tema, o sea lo que convierte una visita en un habito), luego empezar algo, y solo al final el
-   examen simulado, que es para quien ya no tiene banco pendiente. */
-export function accionDelDia(topics, temarioBlocks) {
+   El orden no es caprichoso: primero REPASAR LO VENCIDO, luego terminar lo empezado (es lo que
+   desbloquea las fichas del tema, o sea lo que convierte una visita en un habito), luego empezar
+   algo, y solo al final el examen simulado, que es para quien ya no tiene banco pendiente.
+
+   Lo vencido va arriba por una asimetria real, no por gusto: una pregunta sin contestar sigue
+   ahi manana, igual de contestable; una ficha vencida se esta olvidando mientras no se repasa.
+   Es lo unico de esta portada que se PIERDE por no hacerlo hoy, asi que es lo unico que merece
+   el primer sitio. Y no hay umbral (una sola ficha vencida ya gana) porque el umbral honesto
+   seria el del olvido, que es uno, y porque repasar una ficha cuesta segundos: en cuanto se
+   repasa, la portada pasa sola a la accion siguiente. */
+export function accionDelDia(topics, temarioBlocks, mazo) {
+  if (mazo && mazo.vencidas > 0) {
+    const nombres = (mazo.temas || []).slice(0, 2).map(t => t.titulo).filter(Boolean);
+    const otros = Math.max(0, (mazo.temas || []).length - nombres.length);
+    // "Asma y EPOC" con dos, "Asma, EPOC y 2 temas más" con mas: se nombran dos como mucho y el
+    // resto se cuenta, para que el texto de la portada no crezca con el mazo.
+    const partes = nombres.concat(otros ? [`${otros} tema${otros === 1 ? '' : 's'} más`] : []);
+    const de = partes.length > 1
+      ? partes.slice(0, -1).join(', ') + ' y ' + partes[partes.length - 1]
+      : (partes[0] || '');
+    const una = mazo.vencidas === 1;
+    return {
+      tipo: 'repasar',
+      etiqueta: 'Te toca repasar',
+      titulo: una ? '1 ficha vencida' : `${mazo.vencidas} fichas vencidas`,
+      detalle: (nombres.length ? `De ${de}. ` : '')
+        + (una ? 'Va antes que el banco' : 'Van antes que el banco')
+        + ': las preguntas siguen ahí mañana, esto se está olvidando.',
+      boton: una ? 'Repasarla →' : 'Repasarlas →'
+    };
+  }
   const conBanco = (topics || []).filter(t => t.quizCount > 0);
   if (!conBanco.length) return null;
   const empezados = conBanco.filter(t => (t.contestadas || 0) > 0);
@@ -186,7 +213,11 @@ function temaDeEntrada(temarioBlocks, conBanco) {
 
 function accionDelDiaHTML(accion) {
   if (!accion) return '';
-  const onclick = accion.topicId ? `rmEstudiarHoy('${accion.topicId}')` : 'rmAbrirConfigExamen()';
+  // El repaso no cuelga de ningun tema: abre el mazo con las vencidas de todos, que es lo que
+  // hace `rmRepasarVencidas` (flashcard-deck.js), registrado al cargar el modulo y no al montar
+  // el mazo, para que este boton funcione al primer clic.
+  const onclick = accion.tipo === 'repasar' ? 'rmRepasarVencidas()'
+    : accion.topicId ? `rmEstudiarHoy('${accion.topicId}')` : 'rmAbrirConfigExamen()';
   return `<div class="home-hoy">
     <span class="home-hoy-tag">${accion.etiqueta}</span>
     <h3 class="home-hoy-titulo">${accion.titulo}</h3>
@@ -408,7 +439,7 @@ const HELP_CONTENT = {
     color: '#5c4a73',
     tag: 'Cómo funciona',
     title: 'Fichas de repaso',
-    body: `<p class="fbody" style="color:var(--ink-dim);">Cada tema tiene su propio mazo de fichas, pero permanece bloqueado hasta que respondas, al menos una vez, todas las preguntas del banco de ese tema. Una vez desbloqueado, las fichas usan repetición espaciada (sistema Leitner de 9 cajas, con intervalos de 0, 1, 3, 7, 14, 30, 60, 120 y 240 días): "Bien" sube la ficha una caja y "Fácil" la sube dos, así que tarda más en volver a aparecer; "Difícil" la deja en la caja en la que está y "Otra vez" la devuelve a la primera. Cada sesión prioriza las fichas vencidas.</p>`
+    body: `<p class="fbody" style="color:var(--ink-dim);">Cada tema tiene su propio mazo de fichas, pero permanece bloqueado hasta que respondas, al menos una vez, todas las preguntas del banco de ese tema. Una vez desbloqueado, las fichas usan repetición espaciada (sistema Leitner de 9 cajas, con intervalos de 0, 1, 3, 7, 14, 30, 60, 120 y 240 días): "Bien" sube la ficha una caja y "Fácil" la sube dos, así que tarda más en volver a aparecer; "Difícil" la deja en la caja en la que está y "Otra vez" la devuelve a la primera. Cada sesión prioriza las fichas vencidas, y cuando tienes alguna vencida la acción del día de la portada te manda a ellas antes que al banco: una pregunta sin contestar sigue ahí mañana, una ficha vencida se está olvidando.</p>`
   },
   examen: {
     color: '#8c3a34',
@@ -491,6 +522,9 @@ export function mountHome(root, opts = {}) {
   // La semana sale de un mapa de dias en memoria (`rm:dias-estudio`), asi que no carga ningun
   // tema: la regla de Inicio sigue en pie.
   const racha = resumenRacha(leerDiasDeEstudio());
+  // Las fichas vencidas tambien salen del progreso guardado, sin cargar ningun tema (ver
+  // resumenVencidas en flashcard-deck.js), asi que la accion del dia se decide sincrona.
+  const mazo = resumenVencidas();
 
   root.innerHTML = `
     <div class="home-hero">
@@ -528,7 +562,7 @@ export function mountHome(root, opts = {}) {
 
         <div class="home-dash-card">
           <h2 class="home-subhead">Repasa y practica</h2>
-          ${accionDelDiaHTML(accionDelDia(topics, temarioBlocks))}
+          ${accionDelDiaHTML(accionDelDia(topics, temarioBlocks, mazo))}
           <div class="home-study-box">
             <div class="home-study-col">
               <h3 class="home-study-col-title">Fichas de repaso <button class="home-help-btn" onclick="rmOpenHelp('fichas')" aria-label="Cómo funcionan las fichas de repaso" title="Cómo funciona">?</button></h3>
