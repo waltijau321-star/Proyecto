@@ -181,13 +181,17 @@ export async function mountFlashcardDeck(root) {
     return;
   }
 
+  // Esta tarjeta ya no lleva boton de repaso cuando hay vencidas: la accion del dia, cuarenta
+  // pixeles mas arriba, lo lleva ("Repasarlas") y abre exactamente el mismo mazo. Dos botones
+  // identicos tan cerca no daban dos caminos, daban una duda sobre si eran lo mismo. Se queda con
+  // lo que la accion del dia NO dice, que es el tamaño del mazo entero, y con el "Estas al dia"
+  // del caso contrario, porque cuando no hay vencidas la accion del dia habla de otra cosa y nada
+  // mas en la pantalla te dice que no debes nada.
   root.innerHTML = `
     <div class="fc-deck-summary">
       <div class="home-stat"><span class="home-stat-n">${inDeck.length}</span><span class="home-stat-l">Fichas en tu mazo</span></div>
       <div class="home-stat"><span class="home-stat-n" style="color:${due.length ? '#8c3a34' : '#2f6f5e'};">${due.length}</span><span class="home-stat-l">Vencidas hoy</span></div>
-      ${due.length
-        ? `<button class="home-quick" onclick="rmRepasarVencidas()">Repasar vencidas →</button>`
-        : `<span class="fc-deck-uptodate">Estás al día ✓</span>`}
+      ${due.length ? '' : `<span class="fc-deck-uptodate">Estás al día ✓</span>`}
     </div>`;
 }
 
