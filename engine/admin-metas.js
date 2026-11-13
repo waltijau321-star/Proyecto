@@ -9,9 +9,9 @@
 //
 // 1. **Todo se calcula de datos que YA se escriben.** No se añade telemetría nueva para pintar
 //    este panel. `updatedAt` lo pone cloud-sync.js en cada escritura, así que sirve de "última
-//    señal de vida" para TODOS los usuarios, no solo para los que activaron la analítica
-//    opcional (`rm:usage-stats`); de ahí sale actividad semanal y mensual sin pedir permiso de
-//    nada nuevo. La única cifra que todavía no puede existir es la de suscriptores: no hay cobro.
+//    señal de vida" para TODOS los usuarios, no solo para los que tienen contadores de uso
+//    (`rm:usage-stats`, que falta en quien no ha abierto la app desde que existen); de ahí sale
+//    actividad semanal y mensual sin pedir permiso de nada nuevo. La única cifra que todavía no puede existir es la de suscriptores: no hay cobro.
 //    Se lee de `rm:suscripcion` y vale 0 hasta que lo haya, dicho en pantalla y no disimulado.
 //
 // 2. **Las funciones de cálculo son puras** (`calcularMetricas`, `puertas`), para que tests.js
@@ -63,8 +63,8 @@ function millis(v) {
   return 0;
 }
 
-/* Última señal de vida: la más reciente entre la escritura al documento (todos) y el latido de la
-   analítica opcional (los que la activaron). Nunca se usa solo la segunda: dejaría fuera a la
+/* Última señal de vida: la más reciente entre la escritura al documento (todos) y el latido de los
+   contadores de uso (solo quien los tiene). Nunca se usa solo la segunda: dejaría fuera a la
    mayoría y el panel pintaría una app muerta que no lo está. */
 export function ultimaActividad(u) {
   const stats = u['rm:usage-stats'] || {};

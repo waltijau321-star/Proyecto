@@ -118,14 +118,19 @@ const EVENT_LABELS = {
 };
 const SECTION_LABELS = { inicio: 'Inicio', estudio: 'Estudio', calc: 'Calc', protocolos: 'Protocolos', vpo: 'VPO', pediatria: 'Pediatría', examen: 'Examen', admin: 'Admin' };
 
+/* `rm:usage-stats` NO es "quien activo la analitica": no existe ese ajuste en ninguna parte de la
+   app, y usage-tracking.js lo dice en su cabecera ("no es una preferencia configurable"). El campo
+   falta solo en la cuenta de quien no ha usado la app desde que el contador existe. Las tres
+   etiquetas de esta seccion decian "opt-in" / "activada" y hacian leer el denominador al reves:
+   parecian el numero de voluntarios cuando son, simplemente, los usuarios con uso registrado. */
 function usageStatsHTML(users) {
-  const optedIn = users.filter(u => u['rm:usage-stats']);
-  if (!optedIn.length) {
-    return `<p class="home-subhead-note">Nadie ha activado "Analítica de uso" todavía (es opcional, desde el menú de cuenta de cada usuario).</p>`;
+  const conUso = users.filter(u => u['rm:usage-stats']);
+  if (!conUso.length) {
+    return `<p class="home-subhead-note">Todavía no hay contadores de uso de nadie.</p>`;
   }
 
   const sections = {}, topics = {}, events = {};
-  optedIn.forEach(u => {
+  conUso.forEach(u => {
     const s = u['rm:usage-stats'] || {};
     Object.entries(s.sections || {}).forEach(([k, v]) => { sections[k] = (sections[k] || 0) + v; });
     Object.entries(s.topics || {}).forEach(([k, v]) => { topics[k] = (topics[k] || 0) + v; });
@@ -144,7 +149,7 @@ function usageStatsHTML(users) {
 
   return `
     <div class="home-progress-stats">
-      <div class="home-stat"><span class="home-stat-n">${optedIn.length}</span><span class="home-stat-l">Usuarios con analítica activada</span></div>
+      <div class="home-stat"><span class="home-stat-n">${conUso.length}</span><span class="home-stat-l">Usuarios con uso registrado</span></div>
     </div>
     <h3 style="color:var(--ink);font-weight:600;margin:20px 0 10px;font-size:14px;">Finalización por actividad</h3>
     <p class="home-subhead-note">Cuántas sesiones se inician vs. se completan, para ver dónde abandonan.</p>
@@ -221,7 +226,7 @@ export async function mountAdmin(root) {
     <h2 class="home-subhead" style="margin-top:30px;">Estadísticas del grupo</h2>
     ${cohortStatsHTML(users)}
 
-    <h2 class="home-subhead" style="margin-top:30px;">Uso de la plataforma (opt-in)</h2>
+    <h2 class="home-subhead" style="margin-top:30px;">Uso de la plataforma</h2>
     ${usageStatsHTML(users)}
 
     <h2 class="home-subhead" style="margin-top:30px;">Usuarios registrados</h2>

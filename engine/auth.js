@@ -290,7 +290,7 @@ function renderSignupPage(errorMsg) {
   showOverlay();
 }
 
-function termsAndConditionsHTML() {
+export function termsAndConditionsHTML() {
   return `
     <div class="terms-body">
       <h3>1. Aceptación</h3>
@@ -306,7 +306,8 @@ function termsAndConditionsHTML() {
       <p>Tu progreso de estudio (temas completados, resultados de autoevaluación, fichas) y los datos de tu perfil se guardan de forma asociada a tu cuenta mediante Firebase, para que puedas acceder a ellos desde distintos dispositivos. Las notas que publiques en un tema también se guardan asociadas a tu cuenta.</p>
 
       <h3>5. Analítica de uso</h3>
-      <p>MIOsler comparte de forma anónima qué secciones y funciones usas, para ayudarme a mejorar la app. No se comparte el contenido de tus respuestas ni tu identidad. Al crear tu cuenta aceptas esta analítica como parte del funcionamiento de la plataforma.</p>
+      <p>MIOsler cuenta qué secciones y funciones usas y cuántas veces: por ejemplo, cuántas veces abres un tema, o cuántas autoevaluaciones empiezas y cuántas terminas. Sirve para saber qué parte de la plataforma se usa de verdad y cuál hay que rehacer.</p>
+      <p>Esos contadores se guardan dentro de tu propia cuenta, en el mismo documento que tu perfil, así que <strong>están asociados a ti y el autor tiene acceso a ellos</strong>. No son anónimos y no son opcionales: forman parte del funcionamiento de la plataforma y los aceptas al crear la cuenta. En cambio, no se envían a ningún tercero (no hay rastreadores, publicidad ni servicios de analítica externos) y no se guarda el contenido de tus respuestas: solo cuántas veces usaste cada cosa.</p>
 
       <h3>6. Notas del tema (contenido que publicas)</h3>
       <p>Cada tema tiene un panel de notas donde puedes compartir mnemotecnias, enlaces, correcciones y dudas. Al usarlo aceptas lo siguiente:</p>
@@ -327,7 +328,7 @@ function termsAndConditionsHTML() {
       <h3>9. Cambios a estos términos</h3>
       <p>Estos términos pueden actualizarse conforme evolucione la plataforma. Los cambios relevantes se notificarán dentro de la app.</p>
 
-      <p class="terms-updated">Última actualización: octubre de 2026.</p>
+      <p class="terms-updated">Última actualización: noviembre de 2026.</p>
     </div>`;
 }
 

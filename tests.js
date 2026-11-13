@@ -570,6 +570,37 @@ async function run() {
     assert(r.len && r.upper && r.lower && r.number, 'Abcdef12 debería cumplir los 4 requisitos');
   });
 
+  /* ---------------- Los terminos dicen lo que el codigo hace (engine/auth.js) ---------------- */
+  // La seccion 5 decia "MIOsler comparte de forma anonima ... No se comparte el contenido de tus
+  // respuestas ni tu identidad" mientras usage-tracking.js guardaba los contadores con syncSet, o
+  // sea dentro de users/{uid}, el mismo documento que lleva el correo, el nombre y el hospital, y
+  // Admin los lee de ahi. De las tres afirmaciones solo una era cierta (el contenido de las
+  // respuestas no se guarda). No era un matiz de redaccion: era la unica frase de los terminos que
+  // el propio codigo desmentia. Estas pruebas atan el texto al comportamiento, para que corregir
+  // uno sin el otro ponga la suite en rojo.
+  const { termsAndConditionsHTML } = await import('./engine/auth.js');
+  const fuenteTracking = await (await fetch('./engine/usage-tracking.js?v=' + Date.now())).text();
+  const terminos = termsAndConditionsHTML();
+  const seccion5 = terminos.slice(terminos.indexOf('5. Analítica de uso'), terminos.indexOf('6. Notas del tema'));
+
+  test('términos: los contadores se guardan identificados y la sección 5 lo dice', () => {
+    assert(/syncSet\(STATS_KEY/.test(fuenteTracking),
+      'usage-tracking.js deberia seguir guardando con syncSet, o sea en users/{uid}; si eso cambia, esta prueba hay que rehacerla');
+    assert(seccion5.length > 300, 'no se encontro la seccion 5 de los terminos');
+    assert(!/de forma an[óo]nima/i.test(seccion5),
+      'los contadores viven en users/{uid} junto al correo y el hospital: no se pueden anunciar como anonimos');
+    assert(/No son an[óo]nimos/.test(seccion5), 'la seccion 5 tiene que decirlo en voz alta, no omitirlo');
+    assert(/asociados a ti/.test(seccion5), 'tiene que decir que estan asociados a la cuenta');
+    assert(/el autor tiene acceso a ellos/.test(seccion5), 'y quien los puede ver');
+  });
+
+  test('términos: la sección 5 también dice lo que NO se hace', () => {
+    // Lo que de verdad protege al residente no es un "anonimo" falso: es que no hay terceros.
+    assert(/ning[úu]n tercero/.test(seccion5), 'no se envian a ningun tercero, que es lo que si es cierto');
+    assert(/contenido de tus respuestas/.test(seccion5), 'la unica promesa de la version anterior que si se cumplia se conserva');
+    assert(/no son opcionales/.test(seccion5), 'no existe ningun ajuste para desactivarla, asi que no se insinua que lo haya');
+  });
+
   /* ---------------- Trampa de foco de las capas modales (engine/study-view.js) ---------------- */
   const { capaModalSuperior, focoDelTabulador } = await import('./engine/study-view.js');
 
