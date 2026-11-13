@@ -1939,7 +1939,7 @@ async function run() {
     const im = new Image();
     im.onload = () => res({ w: im.naturalWidth, h: im.naturalHeight });
     im.onerror = () => res(null);
-    im.src = './icons/og-card.png?v=' + Date.now();
+    im.src = './icons/og-card-v2.png?v=' + Date.now();
   });
 
   test('enlace compartido: estan las etiquetas que leen WhatsApp, Telegram y X', () => {
@@ -1954,7 +1954,9 @@ async function run() {
     const src = (fuenteIndex.match(/property="og:image" content="([^"]+)"/) || [])[1];
     assert(src && /^https:\/\//.test(src),
       'og:image tiene que ser una URL absoluta: una ruta relativa la ignoran todos los clientes');
-    assert(ogCard, 'icons/og-card.png no se pudo cargar');
+    assert(/og-card-v2\.png$/.test(src),
+      'og:image tiene que apuntar al archivo que existe hoy; al cambiar la tarjeta cambia el nombre');
+    assert(ogCard, 'icons/og-card-v2.png no se pudo cargar');
     const anchoDicho = Number((fuenteIndex.match(/property="og:image:width" content="(\d+)"/) || [])[1]);
     const altoDicho = Number((fuenteIndex.match(/property="og:image:height" content="(\d+)"/) || [])[1]);
     assertEqual(ogCard.w, anchoDicho, 'el ancho declarado en og:image:width no es el real');
@@ -1964,12 +1966,11 @@ async function run() {
   });
 
   test('enlace compartido: la tarjeta NO se precachea', () => {
-    // La pide el rastreador, nunca la app. En SHELL o CONTENT serian 48 KB bajados al telefono
-    // de cada residente para algo que ese telefono no va a mostrar jamas.
-    ['./icons/og-card.png', 'icons/og-card.png'].forEach(u => {
-      assert(!SHELL_SW.includes(u), 'og-card.png no debe estar en SHELL');
-      assert(!CONTENT_SW.includes(u), 'og-card.png no debe estar en CONTENT');
-    });
+    // La pide el rastreador, nunca la app. En SHELL o CONTENT serian 105 KB bajados al telefono
+    // de cada residente para algo que ese telefono no va a mostrar jamas. Se vigila cualquier
+    // og-card, no solo la version de hoy: al cambiar la tarjeta cambia el nombre del archivo.
+    [...SHELL_SW, ...CONTENT_SW].forEach(u => assert(!/og-card/.test(u),
+      `${u} no debe precachearse: la tarjeta del enlace la pide el rastreador, no la app`));
   });
 
   test('Pediatría: los módulos de la sección están todos en SHELL del service worker', () => {
