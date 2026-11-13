@@ -1930,6 +1930,48 @@ async function run() {
   const fuenteAdmin = await (await fetch('./engine/admin.js?v=' + Date.now())).text();
   const pediaEstadoFuente = await (await fetch('./engine/pediatria-estado.js?v=' + Date.now())).text();
 
+  /* ---------------- Tarjeta del enlace compartido (index.html) ---------------- */
+  // El canal por el que llega un residente es el grupo de WhatsApp de su sede. Sin estas
+  // etiquetas el enlace se pinta como una URL pelada. Y el fallo clasico no es olvidarlas, es
+  // poner og:image relativa: el <head> se ve perfecto, la app funciona, y la previsualizacion
+  // sale sin imagen en todos los clientes, que no resuelven rutas relativas.
+  const ogCard = await new Promise(res => {
+    const im = new Image();
+    im.onload = () => res({ w: im.naturalWidth, h: im.naturalHeight });
+    im.onerror = () => res(null);
+    im.src = './icons/og-card.png?v=' + Date.now();
+  });
+
+  test('enlace compartido: estan las etiquetas que leen WhatsApp, Telegram y X', () => {
+    ['og:type', 'og:site_name', 'og:url', 'og:title', 'og:description', 'og:image'].forEach(p =>
+      assert(new RegExp(`property="${p}"`).test(fuenteIndex), `falta <meta property="${p}"> en index.html`));
+    assert(/name="twitter:card" content="summary_large_image"/.test(fuenteIndex),
+      'sin summary_large_image la tarjeta sale en miniatura');
+    assert(/rel="canonical" href="https:\/\/miosler\.com\/"/.test(fuenteIndex), 'falta el canonical');
+  });
+
+  test('enlace compartido: og:image es absoluta y mide lo que dice medir', () => {
+    const src = (fuenteIndex.match(/property="og:image" content="([^"]+)"/) || [])[1];
+    assert(src && /^https:\/\//.test(src),
+      'og:image tiene que ser una URL absoluta: una ruta relativa la ignoran todos los clientes');
+    assert(ogCard, 'icons/og-card.png no se pudo cargar');
+    const anchoDicho = Number((fuenteIndex.match(/property="og:image:width" content="(\d+)"/) || [])[1]);
+    const altoDicho = Number((fuenteIndex.match(/property="og:image:height" content="(\d+)"/) || [])[1]);
+    assertEqual(ogCard.w, anchoDicho, 'el ancho declarado en og:image:width no es el real');
+    assertEqual(ogCard.h, altoDicho, 'el alto declarado en og:image:height no es el real');
+    assert(Math.abs(ogCard.w / ogCard.h - 1.91) < 0.05,
+      'la proporcion tiene que rondar 1.91:1 o WhatsApp recorta la tarjeta');
+  });
+
+  test('enlace compartido: la tarjeta NO se precachea', () => {
+    // La pide el rastreador, nunca la app. En SHELL o CONTENT serian 48 KB bajados al telefono
+    // de cada residente para algo que ese telefono no va a mostrar jamas.
+    ['./icons/og-card.png', 'icons/og-card.png'].forEach(u => {
+      assert(!SHELL_SW.includes(u), 'og-card.png no debe estar en SHELL');
+      assert(!CONTENT_SW.includes(u), 'og-card.png no debe estar en CONTENT');
+    });
+  });
+
   test('Pediatría: los módulos de la sección están todos en SHELL del service worker', () => {
     // SHELL se precachea de forma atómica y CONTENT con tolerancia a fallos: un módulo del motor
     // que cayera en CONTENT podría quedarse sin cachear y la sección se caería al abrir la app

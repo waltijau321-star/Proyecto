@@ -6,6 +6,34 @@
 <title>MIOsler: plataforma de estudio y apoyo para residentes de Medicina Interna</title>
 <meta name="theme-color" content="#2f6f5e">
 <meta name="description" content="MIOsler: estudio, calculadoras y protocolos para residentes de Medicina Interna.">
+<link rel="canonical" href="https://miosler.com/">
+<!-- Tarjeta de enlace compartido. Para esta app importa mas que el SEO: el canal por el que
+     llega un residente es el grupo de WhatsApp de su sede, no una busqueda en Google, y ahi un
+     enlace sin estas etiquetas se pinta como una URL pelada que nadie abre. Ademas el SEO poco
+     puede hacer aqui: el contenido lo pinta JS detras de la puerta de auth, asi que un rastreador
+     solo ve el cromo del header. Estas etiquetas, en cambio, viven en el <head> estatico y
+     funcionan sin ejecutar una linea de JavaScript.
+     Dos cosas que muerden: og:image TIENE que ser absoluta (una ruta relativa la ignoran todos
+     los clientes, y es el fallo clasico), y las previsualizaciones se cachean con fuerza en el
+     lado de WhatsApp y Telegram, asi que cambiar la imagen mas adelante NO refresca los enlaces
+     que ya circulan: habria que publicarla con otro nombre de archivo.
+     icons/og-card.png NO va al precache de sw.js a proposito: la pide el rastreador, nunca la
+     app, y serian 48 KB en el telefono de cada residente para nada. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MIOsler">
+<meta property="og:locale" content="es_MX">
+<meta property="og:url" content="https://miosler.com/">
+<meta property="og:title" content="MIOsler: plataforma de estudio para residentes de Medicina Interna">
+<meta property="og:description" content="Temario de Medicina Interna con autoevaluación, repaso espaciado, calculadoras clínicas y protocolos. Funciona sin conexión y sincroniza tu progreso entre dispositivos.">
+<meta property="og:image" content="https://miosler.com/icons/og-card.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="MIOsler: plataforma de estudio para residentes de Medicina Interna.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MIOsler: plataforma de estudio para residentes de Medicina Interna">
+<meta name="twitter:description" content="Temario de Medicina Interna con autoevaluación, repaso espaciado, calculadoras clínicas y protocolos. Funciona sin conexión y sincroniza tu progreso entre dispositivos.">
+<meta name="twitter:image" content="https://miosler.com/icons/og-card.png">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/favicon-64.png" type="image/png">
 <link rel="apple-touch-icon" href="icons/icon-apple-180.png">
