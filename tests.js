@@ -2072,6 +2072,7 @@ async function run() {
     const { ANCLA, TIPOS, MONEDAS, PAIS_MONEDA, normalizaPais, monedaDe, paisReconocido,
       precioDe, precioAtractivo, catalogoPrecios } = preciosMod;
     const fuenteOsler = await (await fetch('./Osler.md?v=' + Date.now())).text();
+    const { temarioBlocks: bloquesTemario } = await import('./topics/temario-index.js');
     const UN_DIA = 86400000;
     const AHORA = Date.UTC(2026, 10, 9);
     const hace = d => AHORA - d * UN_DIA;
@@ -2208,6 +2209,31 @@ async function run() {
       ];
       assertEqual(coberturaTemario(arbol), { totales: 4, construidos: 2, pct: 50 });
       assertEqual(coberturaTemario([]), { totales: 0, construidos: 0, pct: 0 }, 'sin bloques');
+    });
+
+    test('metas: la cobertura no cuenta dos veces un bloque de acceso rápido', () => {
+      // El bloque "R1" es un atajo a ítems que ya están en su bloque de siempre. Contarlo le
+      // sumaba al panel 86 construidos de más: 243/404 = 60% y la puerta de Producto abierta, con
+      // 157/318 = 49% construido de verdad.
+      const arbol = [
+        { quickAccess: true, groups: [{ clusters: [{ items: [{ label: 'a', topicId: 'x' }] }] }] },
+        { clusters: [{ items: [{ label: 'a', topicId: 'x' }, { label: 'b', topicId: null }] }] }
+      ];
+      assertEqual(coberturaTemario(arbol), { totales: 2, construidos: 1, pct: 50 });
+    });
+
+    test('metas: el panel cuenta el mismo temario que la puerta de acceso', () => {
+      // Contado aquí como lo cuenta `auth.js` para su "N de M temas", que es la cifra pública.
+      const clustersOf = b => (b.groups ? b.groups.flatMap(g => g.clusters) : b.clusters) || [];
+      const items = bs => bs.flatMap(b => clustersOf(b)).flatMap(c => c.items || []);
+      const propios = items(bloquesTemario.filter(b => !b.quickAccess));
+      const construidos = propios.filter(it => it && typeof it === 'object' && it.topicId).length;
+      const c = coberturaTemario(bloquesTemario);
+      assertEqual(c.totales, propios.length, 'ítems del temario');
+      assertEqual(c.construidos, construidos, 'ítems con tema construido');
+      // Sin un bloque de acceso rápido en el temario real, esta prueba pasaría sin vigilar nada.
+      assert(items(bloquesTemario).length > propios.length,
+        'el temario ya no trae bloque de acceso rápido: esta prueba dejó de vigilar el doble conteo');
     });
 
     test('metas: el panel se pinta sin huecos ni NaN', () => {

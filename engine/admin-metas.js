@@ -190,11 +190,17 @@ export function resumenPorMoneda(users, ahora = Date.now()) {
 
 /* Cobertura del temario: cuántos de los ítems del temario holístico tienen tema construido.
    Recibe los bloques en vez de importarlos para poder probarla con un árbol de juguete, y porque
-   un bloque puede traer `groups` o `clusters` sueltos (las dos formas existen hoy). */
+   un bloque puede traer `groups` o `clusters` sueltos (las dos formas existen hoy).
+
+   Los bloques de acceso rápido (`quickAccess`, hoy solo "R1") se saltan AQUÍ y no en quien llama:
+   son un atajo a ítems que ya están en su bloque de siempre, no temario aparte. Contarlos sumaba
+   86 ítems construidos por segunda vez, y el panel leía 243/404 = 60% con la puerta de Producto
+   abierta cuando lo construido era 157/318 = 49%. Es el mismo filtro de `auth.js` y `home.js`:
+   la portada pública y este panel tienen que decir el mismo número. */
 export function coberturaTemario(blocks) {
   const clustersOf = b => (b.groups ? b.groups.flatMap(g => g.clusters) : b.clusters) || [];
   let totales = 0, construidos = 0;
-  (blocks || []).forEach(b => clustersOf(b).forEach(c => (c.items || []).forEach(it => {
+  (blocks || []).filter(b => !b.quickAccess).forEach(b => clustersOf(b).forEach(c => (c.items || []).forEach(it => {
     totales++;
     if (typeof it !== 'string' && it && it.topicId) construidos++;
   })));
