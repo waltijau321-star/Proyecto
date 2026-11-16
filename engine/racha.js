@@ -60,8 +60,9 @@ export function diaLocal(ts) {
 // Medianoche local del dia que nombra la cadena, o null si no es un dia real. new Date('2026-11-11')
 // NO sirve aqui: la norma dice que una fecha sola se interpreta en UTC, o sea la tarde del dia
 // anterior en America. El ida y vuelta por diaLocal() descarta de paso un '2026-02-31', que el
-// constructor aceptaria corriendolo al 3 de marzo.
-function fechaDe(dia) {
+// constructor aceptaria corriendolo al 3 de marzo. Exportada porque la foto semanal del Admin
+// (engine/admin-fotos.js) nombra sus semanas con la misma cadena y necesita la misma lectura.
+export function fechaDe(dia) {
   if (!RE_DIA.test(dia)) return null;
   const p = dia.split('-');
   const f = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));

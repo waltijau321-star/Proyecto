@@ -14,7 +14,7 @@
      es atómico, bastaba que una sola petición fallara (red móvil, cuota de almacenamiento en
      iOS) para que el install entero se rechazara y el usuario se quedara SIN offline, en
      silencio y sin forma de notarlo. */
-const CACHE_VERSION = 'residentemed-8338d19590';
+const CACHE_VERSION = 'residentemed-8f533d53b9';
 const SHELL = [
   './',
   './index.html',
@@ -50,6 +50,7 @@ const SHELL = [
   './engine/cloud-sync.js',
   './engine/admin.js',
   './engine/admin-metas.js',
+  './engine/admin-fotos.js',
   './engine/precios.js',
   './engine/account-menu.js',
   './engine/exam-mode.js',

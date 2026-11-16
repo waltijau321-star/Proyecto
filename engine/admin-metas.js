@@ -18,6 +18,7 @@
 //    las cubra con cohortes inventadas. Un panel de dirección que miente es peor que no tenerlo.
 import { escHtml as esc } from './texto-seguro.js';
 import { ANCLA, TIPOS, MONEDAS, precioDe, monedaDe, normalizaPais, catalogoPrecios, formatoPrecio } from './precios.js';
+import { tendenciaHTML } from './admin-fotos.js';
 
 const DIA = 86400000;
 
@@ -384,8 +385,10 @@ function horizontesHTML(m) {
     </table></div>`;
 }
 
-/* `cobertura` es { construidos, totales, pct } o null si no se pudo calcular. */
-export function metasHTML(users, cobertura, ahora = Date.now()) {
+/* `cobertura` es { construidos, totales, pct } o null si no se pudo calcular. `fotos` es la serie
+   semanal de engine/admin-fotos.js; sin ella el panel se pinta igual, solo que sin la tabla. Va
+   justo debajo de las puertas y no al final porque es lo que dice si una puerta se está moviendo. */
+export function metasHTML(users, cobertura, ahora = Date.now(), fotos = null) {
   const m = calcularMetricas(users, ahora);
   const lista = puertas(m, cobertura ? cobertura.pct : undefined);
   const abiertas = lista.filter(p => p.abierta).length;
@@ -416,6 +419,9 @@ export function metasHTML(users, cobertura, ahora = Date.now()) {
     </div>
 
     <div class="meta-puertas">${puertasHTML(lista)}</div>
+    ${fotos ? `
+    <h3 class="meta-h3">Semana a semana</h3>
+    ${tendenciaHTML(fotos, ahora)}` : ''}
 
     <h3 class="meta-h3">El embudo, hoy</h3>
     ${embudoHTML(m)}

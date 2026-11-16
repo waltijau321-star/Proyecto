@@ -2073,6 +2073,7 @@ async function run() {
       precioDe, precioAtractivo, catalogoPrecios } = preciosMod;
     const fuenteOsler = await (await fetch('./Osler.md?v=' + Date.now())).text();
     const { temarioBlocks: bloquesTemario } = await import('./topics/temario-index.js');
+    const fotosMod = await import('./engine/admin-fotos.js');
     const UN_DIA = 86400000;
     const AHORA = Date.UTC(2026, 10, 9);
     const hace = d => AHORA - d * UN_DIA;
@@ -2250,15 +2251,183 @@ async function run() {
     });
 
     test('metas: los módulos están en SHELL y el Admin los monta sin perder nada de lo que ya había', () => {
-      ['./engine/admin-metas.js', './engine/precios.js'].forEach(u => assert(SHELL_SW.includes(u),
+      ['./engine/admin-metas.js', './engine/admin-fotos.js', './engine/precios.js'].forEach(u => assert(SHELL_SW.includes(u),
         u + ' no esta en SHELL de sw.js: sin red, el Admin se cae al importarlo'));
-      assert(/metasHTML\(users, coberturaTemario\(temarioBlocks\)\)/.test(fuenteAdmin),
-        'el Admin no monta el panel de metas');
+      assert(/metasHTML\(users, cobertura, Date\.now\(\), fotos\)/.test(fuenteAdmin),
+        'el Admin no monta el panel de metas, o no le pasa la serie semanal');
       // El panel se añadió ENCIMA de lo que había. Estas cuatro secciones son las originales y
       // ninguna se sacrifica por la nueva.
       ['Reportes de notas', 'Estadísticas del grupo', 'Uso de la plataforma', 'Usuarios registrados']
         .forEach(h => assert(fuenteAdmin.includes(h), 'desaparecio la seccion "' + h + '" del Admin'));
     });
+
+    /* La foto semanal (engine/admin-fotos.js). El panel enseñaba solo el día de hoy, y la bitácora
+       de Osler.md tiene decisiones que se revierten "si a los dos meses no sube X". Esto es la
+       serie que permite contestarlo, así que lo que se vigila es que no pierda una semana, que no
+       invente un cambio y que diga lo mismo que las puertas. */
+    {
+      const { FOTOS_KEY, SEMANAS_A_LA_VISTA, semanaDe, fotoDe, fotosValidas, anotarFoto,
+        lecturaDeFoto, tendenciaHTML, registrarFotoSemanal } = fotosMod;
+      // Las semanas van en hora LOCAL, así que estos instantes se construyen en hora local.
+      const MIE_18 = new Date(2026, 10, 18, 12).getTime();   // miércoles; su semana empieza el lunes 16
+      const cob = { construidos: 157, totales: 318, pct: 49 };
+      // Una foto de juguete: cada prueba dice solo los campos que le importan.
+      const foto = (t, extra = {}) => ({ t, total: 100, activados: 50, activos7: 20, activos30: 40,
+        enganchados: 10, madura: 60, retenidos: 24, suscriptores: 0, mrr: 0, preguntas: 900,
+        construidos: 157, items: 318, ...extra });
+
+      test('fotos: la semana se nombra por su lunes, en hora local', () => {
+        assertEqual(semanaDe(MIE_18), '2026-11-16');
+        assertEqual(semanaDe(new Date(2026, 10, 16, 0, 5).getTime()), '2026-11-16', 'el lunes a las 00:05 ya es su semana');
+        assertEqual(semanaDe(new Date(2026, 10, 22, 23, 55).getTime()), '2026-11-16', 'el domingo a las 23:55 sigue en ella');
+        assertEqual(semanaDe(new Date(2026, 10, 23, 0, 5).getTime()), '2026-11-23');
+      });
+
+      test('fotos: la foto dice lo mismo que las puertas del panel', () => {
+        // La tabla deriva sus porcentajes de la foto; las puertas los leen de calcularMetricas.
+        // Si las dos fórmulas se separan, el mismo panel enseña dos cifras del mismo hábito.
+        const f = fotoDe(m, cob, AHORA);
+        const l = lecturaDeFoto(f);
+        assertEqual(f.t, AHORA);
+        assertEqual(l.registrados, m.total, 'registrados');
+        assertEqual(l.activacion, m.pctActivados, 'activación');
+        assertEqual(l.activos7, m.activos7, 'activos de la semana');
+        assertEqual(l.habito, m.habito, 'hábito');
+        assertEqual(l.retencion, m.retencion, 'retención');
+        assertEqual(l.enganchados, m.enganchados, 'enganchados');
+        assertEqual(l.temario, cob.pct, 'temario');
+        // Sin nadie registrado no hay porcentaje, y eso no es un cero.
+        const vacia = lecturaDeFoto(fotoDe(calcularMetricas([], AHORA), cob, AHORA));
+        assertEqual([vacia.activacion, vacia.habito, vacia.retencion], [null, null, null]);
+      });
+
+      test('fotos: en la foto no viaja nada de ningún residente', () => {
+        // Lo que se guarda son sumas. Si un día entra aquí un correo, un nombre o un uid, deja de
+        // ser cierto lo que la propia tabla dice en pantalla.
+        const f = fotoDe(m, cob, AHORA);
+        Object.keys(f).forEach(k => assert(typeof f[k] === 'number' && Number.isFinite(f[k]), 'el campo ' + k + ' no es un número'));
+      });
+
+      test('fotos: de cada semana queda la última vista, y sin cambios no se escribe', () => {
+        const primera = anotarFoto({}, undefined, foto(1000), '2026-11-16');
+        assertEqual(primera.cambio, true, 'la primera foto se escribe');
+        assertEqual(Object.keys(primera.fotos), ['2026-11-16']);
+        // Las mismas cifras un rato después: se conserva la foto que había, con su hora.
+        const igual = anotarFoto(primera.fotos, undefined, foto(5000), '2026-11-16');
+        assertEqual(igual.cambio, false, 'abrir el panel otra vez no es otra escritura');
+        assertEqual(igual.fotos['2026-11-16'].t, 1000);
+        // Una cifra distinta: la semana se queda con la vista nueva.
+        const otra = anotarFoto(primera.fotos, undefined, foto(9000, { total: 104 }), '2026-11-16');
+        assertEqual(otra.cambio, true);
+        assertEqual([otra.fotos['2026-11-16'].total, otra.fotos['2026-11-16'].t], [104, 9000]);
+        // La semana siguiente no toca la anterior.
+        const dos = anotarFoto(otra.fotos, undefined, foto(20000, { total: 110 }), '2026-11-23');
+        assertEqual(Object.keys(dos.fotos), ['2026-11-16', '2026-11-23']);
+        assertEqual(dos.fotos['2026-11-16'].total, 104);
+      });
+
+      test('fotos: un dispositivo atrasado no pisa la semana que guardó el otro', () => {
+        // La trampa: la computadora guardó la semana del 9 y el teléfono, con su copia local
+        // atrasada, abre el panel el 16. Si escribiera solo lo suyo, la del 9 se perdería.
+        assertEqual(strategyFor(FOTOS_KEY), 'mapa-reciente');
+        const nube = { '2026-11-02': foto(100), '2026-11-09': foto(200, { total: 90 }) };
+        const local = { '2026-11-02': foto(100) };
+        const r = anotarFoto(local, nube, foto(300, { total: 104 }), '2026-11-16');
+        assertEqual(Object.keys(r.fotos), ['2026-11-02', '2026-11-09', '2026-11-16']);
+        assertEqual(r.fotos['2026-11-09'].total, 90, 'la semana que solo estaba en la nube sobrevive');
+        assertEqual(r.cambio, true);
+        // La misma semana en los dos lados: gana la foto más reciente, venga de donde venga.
+        const nueva = { '2026-11-09': foto(500, { total: 95 }) }, vieja = { '2026-11-09': foto(200, { total: 90 }) };
+        assertEqual(mergeValue(FOTOS_KEY, nueva, vieja)['2026-11-09'].total, 95, 'la reciente es la local');
+        assertEqual(mergeValue(FOTOS_KEY, vieja, nueva)['2026-11-09'].total, 95, 'la reciente es la de la nube');
+        // Y la fusión no convierte cada foto en un `true`, que es lo que haría 'bool-map'.
+        assertEqual(typeof mergeValue(FOTOS_KEY, nueva, nube)['2026-11-02'], 'object');
+      });
+
+      test('fotos: lo que no es una foto no llega a la tabla', () => {
+        const sucio = { '2026-11-16': foto(1), 'no-es-fecha': foto(2), '2026-02-31': foto(3),
+          '2026-11-09': { t: 4, total: 'muchos' }, '2026-11-02': true, '2026-10-26': null };
+        assertEqual(Object.keys(fotosValidas(sucio)), ['2026-11-16']);
+        assertEqual([fotosValidas(null), fotosValidas('x'), fotosValidas([foto(1)])], [{}, {}, {}]);
+      });
+
+      test('fotos: la primera foto lo dice, y no inventa una comparación', () => {
+        const html = tendenciaHTML({ '2026-11-16': foto(MIE_18) }, MIE_18);
+        assert(html.includes('primera foto de la serie'), 'no avisa de que es la primera');
+        assert(html.includes('en curso'), 'no marca la semana en curso');
+        assert(!html.includes('foto-delta'), 'pinta un cambio sin tener contra qué comparar');
+        assert(!/undefined|NaN|null/.test(html), 'la tabla pinta undefined, NaN o null');
+      });
+
+      test('fotos: la tabla enseña el cambio, la semana sin foto y el plazo de la bitácora', () => {
+        const serie = {
+          '2026-09-21': foto(1, { total: 80, activos7: 10 }),    // ocho semanas antes del lunes 16
+          '2026-11-02': foto(2, { total: 96, activos7: 12 }),
+          // la semana del 9 de noviembre no tiene foto
+          '2026-11-16': foto(3, { total: 104, activos7: 20 })
+        };
+        const html = tendenciaHTML(serie, MIE_18);
+        assertEqual((html.match(/<tr><td>/g) || []).length, 3, 'una fila por foto');
+        assert(html.includes('104 <span class="foto-delta">+8</span>'), 'no pinta el cambio de registrados frente a la foto anterior');
+        // Hábito: 20 de 40 contra 12 de 40. En puntos, no en porcentaje del porcentaje.
+        assert(html.includes('50% <span class="foto-delta">+20 pts</span>'), 'el cambio de un porcentaje va en puntos');
+        // Activación: 50 de 104 contra 50 de 96. Más registrados sin más activados la baja.
+        assert(html.includes('48% <span class="foto-delta">−4 pts</span>'), 'una caída se escribe con su signo');
+        assert(html.includes('40% <span class="foto-delta">=</span>'), 'lo que no cambió se dice, no se deja en blanco');
+        assert(/class="foto-hueco"><td[^>]*>Sin foto: 1 semana /.test(html), 'no avisa de la semana en que no hubo foto');
+        assert(html.includes('Sin foto: 5 semanas '), 'no avisa del salto largo');
+        assert(html.includes('En 8 semanas'), 'la comparación de cabecera no usa el plazo de dos meses');
+        assert(html.includes('registrados de 80 a 104') && html.includes('hábito de 25% a 50%'),
+          'la comparación de cabecera no dice de cuánto a cuánto');
+        assert(!/undefined|NaN|null/.test(html), 'la tabla pinta undefined, NaN o null');
+      });
+
+      test('fotos: una semana del futuro no manda en la tabla, y se ve un trimestre', () => {
+        // Reloj mal puesto en otro dispositivo: esa foto sería la primera fila y la referencia de
+        // todos los cambios.
+        const conFuturo = { '2026-11-16': foto(1), '2026-11-09': foto(2, { total: 90 }), '2027-01-04': foto(3, { total: 7777 }) };
+        const html = tendenciaHTML(conFuturo, MIE_18);
+        assert(!html.includes('7777'), 'pinta una semana que no ha llegado');
+        assert(html.includes('En una semana'), 'dos fotos seguidas son una semana');
+        const larga = {};
+        for (let i = 0; i < 20; i++) larga[semanaDe(new Date(2026, 10, 18 - 7 * i, 12).getTime())] = foto(i + 1, { total: 200 - i });
+        const tabla = tendenciaHTML(larga, MIE_18);
+        assertEqual(Object.keys(larga).length, 20, 'la serie de prueba tiene veinte semanas');
+        assertEqual((tabla.match(/<tr><td>/g) || []).length, SEMANAS_A_LA_VISTA, 'filas a la vista');
+        assert(!tabla.includes('foto-hueco'), 'una serie sin saltos no tiene filas de hueco');
+      });
+
+      test('fotos: registrar une con la nube, guarda con syncSet y devuelve lo guardado', () => {
+        try {
+          syncSet(FOTOS_KEY, {});
+          const nube = { '2026-11-09': foto(200, { total: 90 }) };
+          const serie = registrarFotoSemanal(m, cob, nube, MIE_18);
+          assertEqual(Object.keys(serie), ['2026-11-09', '2026-11-16']);
+          assertEqual(serie['2026-11-16'].total, m.total);
+          assertEqual(syncGet(FOTOS_KEY, null), serie, 'lo guardado no es lo devuelto');
+          // Sin copia de la nube (documento sin el campo) tampoco se pierde lo local.
+          assertEqual(Object.keys(registrarFotoSemanal(m, cob, undefined, MIE_18)), ['2026-11-09', '2026-11-16']);
+        } finally {
+          syncSet(FOTOS_KEY, {});
+          localStorage.removeItem(FOTOS_KEY);
+        }
+      });
+
+      test('fotos: el Admin aparta su propio documento antes de sacarse de la lista', () => {
+        // La copia de la nube de las fotos viaja en el documento del administrador. Buscado
+        // después del filtro ya no está: la unión se haría contra nada y volvería la trampa del
+        // dispositivo atrasado, sin que ninguna pantalla lo delate.
+        const iPropio = fuenteAdmin.indexOf('users.find(u => u.uid === me.uid)');
+        const iFiltro = fuenteAdmin.indexOf('users.filter(u => u.email !== me.email)');
+        assert(iPropio > 0 && iFiltro > 0, 'cambió la forma de apartar o de filtrar al administrador: revisar esta prueba');
+        assert(iPropio < iFiltro, 'el documento propio se busca después de haberlo filtrado');
+        const con = metasHTML(cohorte, cob, MIE_18, { '2026-11-16': foto(MIE_18) });
+        assert(con.includes('Semana a semana') && con.indexOf('Semana a semana') < con.indexOf('El embudo, hoy'),
+          'la serie no va debajo de las puertas');
+        assert(!/undefined|NaN/.test(con), 'el panel con serie pinta undefined o NaN');
+        assert(!metasHTML(cohorte, cob, MIE_18).includes('Semana a semana'), 'sin serie no debe pintarse su título');
+      });
+    }
 
     test('metas: los números de Osler.md no se separan del código', () => {
       // Osler.md lleva el razonamiento de cada número y el código lleva el número. Si los dos se

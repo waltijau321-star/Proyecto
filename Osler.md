@@ -72,7 +72,7 @@ Nunca al revés. Un residente paga por lo que ya no quiere perder, no por una pr
 
 ---
 
-## 3. Estado del tablero (11 nov 2026)
+## 3. Estado del tablero (16 nov 2026)
 
 - **Producto**: en producción en miosler.com (Cloudflare Worker, despliegue por push a `main`).
   107 temas construidos de los 318 ítems del temario holístico. Semiología completa (9/9).
@@ -82,13 +82,16 @@ Nunca al revés. Un residente paga por lo que ya no quiere perder, no por una pr
   Protocolos, VPO (valoración preoperatoria), Pediatría (farmacología, recién nacida), Examen,
   Admin.
 - **Usuarios**: más de 100 cuentas registradas. Ya hay notas de comunidad por tema.
-- **Técnico**: 2924 pruebas en verde, PWA offline, Firebase Auth + Firestore, sin build step.
+- **Técnico**: 2956 pruebas en verde, PWA offline, Firebase Auth + Firestore, sin build step.
   Abrir la app cuesta 58 peticiones y 1.26 MB (eran 250 y 7.5 MB hasta el 11 nov: el indice del
   buscador cargaba los 107 temas en cada apertura).
 - **Inicio ya dirige**: la portada no solo dice cuanto llevas, dice que hacer. Una accion del dia
   elegida por estado (sigue el banco a medias, empieza por Semiologia, haz un examen) que lleva en
   UN clic de la portada a responder una pregunta. Es la primera jugada deliberada contra la puerta
   del habito.
+- **El panel ya tiene memoria**: desde el 16 nov guarda una foto semanal de la escalera y la pinta
+  como serie, con el cambio frente a la foto anterior. La primera comparación llega con la
+  segunda foto; el juicio de las jugadas de hábito, con la de las ocho semanas.
 - **Negocio**: ingresos cero. Sin cobro, sin pasarela, sin precio publicado. El campo
   `rm:suscripcion` no lo escribe nadie todavía; el panel lo lee y muestra 0 a propósito.
 
@@ -317,6 +320,7 @@ adelante se escriben en el momento.
 
 | Fecha | Decisión | Por qué | Qué la revertiría |
 |-------|----------|---------|-------------------|
+| 16 nov 2026 | **El panel guarda una foto semanal de la escalera** (`engine/admin-fotos.js`): los totales de "Camino a la meta", una por semana, tomada al abrir Admin, con la tabla "Semana a semana" debajo de las puertas y una comparación contra la foto de hace ocho semanas. El mismo día se corrigió el conteo de la puerta de Producto, que sumaba dos veces el atajo R1 y la daba por abierta (243/404 en lugar de 157/318). | Cuatro filas de esta bitácora, y la regla de la escalera, se revierten "si a los dos meses no sube X", y el panel solo enseñaba el día de hoy: sin serie esa condición no la puede comprobar nadie, y una decisión que no se puede revisar deja de ser decisión y pasa a ser dogma. Es también lo que faltaba antes de una cuarta jugada de hábito a ciegas. La foto son sumas, sin nada de ningún residente, y vive en el documento del propio administrador: no se recoge ningún dato nuevo, así que no toca los términos. Coste: una sesión. | Que la serie salga inservible porque el panel se abre de forma tan irregular que hay más semanas sin foto que con ella. Entonces la foto tendría que tomarse sola, y eso pide un cron en el Worker con acceso de servidor a Firestore: infraestructura nueva, que se decide aparte. |
 | 12 nov 2026 | **La tarjeta del enlace compartido** (Open Graph y Twitter Card en `index.html`, con una imagen 1200x630 en `icons/og-card.png`). Es la jugada contra la puerta 1, tracción, y se eligió sin los números del panel. | Sin las cifras de Admin no se puede dirigir sobre el hábito: ya había tres jugadas seguidas en la portada y una cuarta a ciegas sería apilar intervenciones sobre un embudo que nadie mide. La puerta 1, en cambio, se mide desde el código, y estaba medida: cero etiquetas Open Graph, así que un enlace a miosler.com pegado en un grupo de WhatsApp se pinta como una URL pelada. Ese grupo ES el canal de este público, no una búsqueda en Google. Y el SEO aquí poco puede hacer: el contenido lo pinta JS detrás de la puerta de auth, así que un rastreador solo ve el cromo del header; estas etiquetas viven en el `<head>` estático y funcionan sin ejecutar JavaScript. Coste: una tarde. | Que los enlaces compartidos no traigan registros en dos meses. Entonces el problema no es el envoltorio del enlace sino que nadie lo comparte, y la jugada pasa a ser el botón de compartir dentro de la app, o la difusión sede por sede. |
 | 12 nov 2026 | **Los términos prometían una analítica anónima que no lo es: se corrige el texto, no el código.** La sección 5 dice ahora que los contadores viven dentro del documento del usuario, que están asociados a él y que el autor tiene acceso, que no son anónimos ni opcionales, y dice lo que sí los protege: no salen a ningún tercero. Admin deja de llamarlos "opt-in" y "analítica activada". | La sección 5 afirmaba tres cosas y solo una era cierta (el contenido de las respuestas, que de verdad no se guarda). Los contadores se escriben con `syncSet`, o sea en `users/{uid}`, el mismo documento que lleva el correo, el nombre y el hospital, y Admin los lee de ahí. Es el límite 4 de Osler leído al revés: el panel se construyó a propósito sobre datos ya declarados, pero lo declarado no describía lo que se recoge. Se corrige el texto y no el comportamiento porque el comportamiento es legítimo y deliberado, y porque la verdad se defiende mejor que la promesa falsa: no hay rastreadores, ni publicidad, ni terceros. Peor todavía era la etiqueta de Admin: decía "es opcional, desde el menú de cuenta de cada usuario" sobre un ajuste que no existe en ninguna parte de la app, así que hacía leer el denominador al revés. | Que se decida hacer la analítica de verdad opcional o de verdad anónima; entonces cambia el código y el texto detrás, y el panel pierde el denominador que hoy tiene. Pendiente aparte: la sección 9 promete notificar dentro de la app los cambios relevantes de los términos, y no hay mecanismo para hacerlo. |
 | 11 nov 2026 | **La accion del dia manda primero a las fichas vencidas**, por encima de terminar un banco empezado, y sin umbral: una sola ficha vencida ya gana. El conteo sale del progreso guardado, sin cargar ningun tema. | Es la jugada 3 contra la puerta 3, el habito. La portada tenia el repaso enterrado en una tarjeta de abajo y mandaba al banco a quien ya tenia fichas venciendose, que es justo lo que el repaso espaciado existe para evitar. El orden lo decide una asimetria real: una pregunta sin contestar sigue ahi manana, igual de contestable; una ficha vencida se esta olvidando mientras tanto. Es lo unico de la portada que se pierde por no hacerlo hoy. | Que alguien diga que una sola ficha vencida no merece ser la accion del dia, o que a los dos meses no suba la proporcion de fichas repasadas antes de vencer. Lo primero pone un umbral en `accionDelDia` (engine/home.js); lo segundo cambia la jugada, no el umbral: tocaria el recordatorio. |

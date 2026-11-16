@@ -1411,6 +1411,11 @@ footer{text-align:center; padding:50px 20px 70px; color:var(--ink-faint); font-s
 /* La tabla de admin es nowrap; el nombre de la moneda es lo unico que puede envolverse sin
    deformar nada, y asi la columna del dinero cabe sin desplazamiento horizontal. */
 .meta-celda-ancha{white-space:normal; min-width:130px; line-height:1.35;}
+/* La foto semanal (engine/admin-fotos.js). El cambio frente a la foto anterior va en --ink-label,
+   el gris que si llega a 4.5:1 en letra pequeña, y se lee por su signo, no por un color. */
+.foto-delta{margin-left:3px; font-size:11.5px; font-weight:400; color:var(--ink-label);}
+.foto-encurso{margin-left:4px; font-size:10.5px; font-weight:600; text-transform:uppercase; letter-spacing:.04em; color:var(--accent-fg);}
+.admin-table tr.foto-hueco td{padding:6px 14px; font-size:12px; font-style:italic; color:var(--ink-label); background:var(--panel);}
 
 @media (max-width:560px){
   .meta-norte-cifras{gap:20px;}

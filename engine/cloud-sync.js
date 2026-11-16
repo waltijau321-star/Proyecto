@@ -101,6 +101,11 @@ export function strategyFor(key) {
   // defecto el documento de la nube pisaba el mapa local, asi que estudiar en el telefono
   // borraba los dias de la computadora en silencio.
   if (key === 'rm:dias-estudio') return 'bool-map';
+  // Fotos semanales del panel de Admin (engine/admin-fotos.js): un registro por semana, cada uno
+  // con su marca de tiempo `t`. Se unen las semanas de los dos lados y, de una misma semana, gana
+  // la foto más reciente. No vale 'bool-map', que convertiría cada foto en un `true`, ni la
+  // escalar, con la que la nube pisaría la semana recién guardada en este dispositivo.
+  if (key === 'rm:admin-fotos') return 'mapa-reciente';
   return 'scalar';
 }
 
@@ -138,6 +143,19 @@ export function mergeValue(key, localVal, cloudVal) {
     const merged = { ...(cloudVal || {}) };
     Object.keys(localVal || {}).forEach(k => {
       merged[k] = !!(localVal[k]) || !!(merged[k]);
+    });
+    return merged;
+  }
+
+  if (strategy === 'mapa-reciente') {
+    const merged = {};
+    const claves = new Set([...Object.keys(localVal || {}), ...Object.keys(cloudVal || {})]);
+    claves.forEach(k => {
+      const l = (localVal && localVal[k]) || null;
+      const c = (cloudVal && cloudVal[k]) || null;
+      if (!l) { merged[k] = c; return; }
+      if (!c) { merged[k] = l; return; }
+      merged[k] = (l.t || 0) > (c.t || 0) ? l : c;
     });
     return merged;
   }

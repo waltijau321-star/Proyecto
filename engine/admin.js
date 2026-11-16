@@ -9,7 +9,8 @@ import { fetchAllUsers } from './cloud-sync.js';
 import { escHtml as esc } from './texto-seguro.js';
 import { registry } from '../topics/registry.js';
 import { temarioBlocks } from '../topics/temario-index.js';
-import { metasHTML, coberturaTemario } from './admin-metas.js';
+import { metasHTML, coberturaTemario, calcularMetricas } from './admin-metas.js';
+import { registrarFotoSemanal, FOTOS_KEY } from './admin-fotos.js';
 
 export function isAdmin() {
   const user = getCurrentUser();
@@ -193,6 +194,10 @@ export async function mountAdmin(root) {
   // La cuenta del propio administrador no debe contarse en estadísticas ni en
   // el listado de registros: es la cuenta de prueba/autoría, no un residente real.
   const me = getCurrentUser();
+  // El documento del propio administrador se aparta ANTES de sacarlo de la lista: trae la copia
+  // de la nube de las fotos semanales, recién leída, que es con la que hay que unir antes de
+  // escribir la de esta semana (ver engine/admin-fotos.js).
+  const propio = me ? users.find(u => u.uid === me.uid) : null;
   if (me && me.email) users = users.filter(u => u.email !== me.email);
 
   users.sort((a, b) => {
@@ -213,12 +218,21 @@ export async function mountAdmin(root) {
       <td>${formatDate(u.createdAt)}</td>
     </tr>`).join('');
 
+  // La foto se toma con los mismos `users` que pinta el panel, ya sin el administrador, para que
+  // la tabla y las puertas cuenten a la misma gente.
+  const cobertura = coberturaTemario(temarioBlocks);
+  // Si la foto falla, el panel se pinta sin la tabla: guardar la serie nunca debe costar el panel.
+  let fotos = null;
+  try {
+    fotos = registrarFotoSemanal(calcularMetricas(users), cobertura, propio ? propio[FOTOS_KEY] : undefined);
+  } catch (e) { fotos = null; }
+
   root.innerHTML = `<div class="sec-body">
     <h2 class="home-subhead">Camino a la meta</h2>
     <p class="home-subhead-note">Dónde estamos respecto a la meta final: una herramienta que los
       residentes usan cada semana y que se sostiene con suscripciones. Las puertas se abren en
       orden; la que está marcada es la única que importa hoy.</p>
-    ${metasHTML(users, coberturaTemario(temarioBlocks))}
+    ${metasHTML(users, cobertura, Date.now(), fotos)}
 
     <h2 class="home-subhead" style="margin-top:30px;">Reportes de notas</h2>
     ${reportesHTML(reportes, reportesError)}
