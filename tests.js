@@ -710,6 +710,80 @@ async function run() {
     assertEqual(r.cls, 'C');
   });
 
+  /* ---------------- Calculadoras clínicas: Espirometría y pruebas de función respiratoria ----------------
+     Los casos son los mismos números que afirman el banco de preguntas y la ficha de la prueba
+     broncodilatadora: si alguien toca un umbral, el tema dejaría de concordar consigo mismo. */
+  const pfrMod = await import('./topics/espirometria/calculators.js');
+  const pfr = key => pfrMod.calculators.find(c => c.key === key);
+
+  test('espirometría: grado de calidad ATS/ERS 2019 en sus bordes', () => {
+    const g = pfrMod.gradoCalidad;
+    assertEqual(g(3, false, 150), 'A');
+    assertEqual(g(2, false, 150), 'B', 'dos aceptables dentro de 150 mL es B, no A');
+    assertEqual(g(2, false, 180), 'C', 'la pregunta del banco: 180 mL con dos aceptables');
+    assertEqual(g(4, false, 250), 'D');
+    assertEqual(g(3, false, 260), 'E');
+    assertEqual(g(1, false, null), 'E');
+    assertEqual(g(0, true, null), 'U');
+    assertEqual(g(0, false, null), 'F');
+    assertEqual(pfr('pfr-calidad-espiro').compute({ acept: 2, dif: null, util: '' }), null, 'con dos aceptables falta la diferencia');
+  });
+
+  test('espirometría: patrón y gravedad por z (ERS/ATS 2022)', () => {
+    const p = pfrMod.patronEspirometrico;
+    assertEqual(p(-0.6, 0.2, -0.3, null).patron, 'Normal');
+    const obs = p(-2.4, -0.5, -3.1, null);
+    assertEqual(obs.patron, 'Obstructivo');
+    assertEqual(obs.gravedad, 'moderada', 'z del FEV1 de -3.1 es moderada');
+    assert(/disanáptico/.test(p(-2.0, 0.5, -0.2, null).patron), 'cociente bajo con FEV1 y FVC normales');
+    assert(/Posible restricción/.test(p(0.9, -2.3, -1.9, null).patron), 'FVC baja con cociente normal y sin TLC');
+    assertEqual(p(0.9, -2.3, -1.9, -2.4).patron, 'Restricción confirmada (TLC baja)');
+    assert(/no específico/.test(p(0.9, -2.3, -1.9, 0.1).patron), 'con TLC normal es no específico');
+    assert(/Posible mixto/.test(p(-2.4, -1.9, -2.9, null).patron), 'cociente y FVC bajos sin TLC');
+    assert(/atrapamiento/.test(p(-2.4, -1.9, -2.9, 0.8).patron), 'el segundo caso en cascada: TLC normal');
+    assertEqual(pfrMod.gravedadZ(-2.5), 'leve');
+    assertEqual(pfrMod.gravedadZ(-4), 'moderada');
+    assertEqual(pfrMod.gravedadZ(-4.4), 'grave');
+  });
+
+  test('espirometría: broncodilatador, los dos criterios con los números del banco', () => {
+    const r = pfr('pfr-broncodilatador').compute({ fev1Pre: 2.00, fev1Post: 2.26, fev1Pred: 3.20, fvcPre: null, fvcPost: null, fvcPred: null });
+    assert(Math.abs(r.fev1.deltaMl - 260) < 0.01, 'cambio de 260 mL');
+    assert(Math.abs(r.fev1.pctBasal - 13) < 0.01, '13% del basal');
+    assert(Math.abs(r.fev1.pctPred - 8.125) < 0.01, '8.1% del predicho');
+    assert(r.posClasico && !r.pos2022, 'positiva por GINA y negativa por ERS/ATS 2022');
+    const c = pfr('pfr-broncodilatador').compute({ fev1Pre: 3.10, fev1Post: 3.32, fev1Pred: 3.30, fvcPre: null, fvcPost: null, fvcPred: null });
+    assert(!c.posClasico && !c.pos2022, 'el primer caso en cascada: negativa por ambos (220 mL, 7.1% y 6.7%)');
+    assert(pfr('pfr-broncodilatador').compute({ fev1Pre: 2, fev1Post: 2.3, fev1Pred: 3, fvcPre: 3, fvcPost: null, fvcPred: null }).fvcIncompleta);
+  });
+
+  test('DLCO: el ajuste por hemoglobina es neutro en la hemoglobina de referencia', () => {
+    assert(Math.abs(pfrMod.factorHb('h', 14.6) - 1) < 0.001, 'varón con 14.6 g/dL');
+    assert(Math.abs(pfrMod.factorHb('m', 13.4) - 1) < 0.001, 'mujer con 13.4 g/dL');
+    const r = pfr('pfr-dlco-hb').compute({ grupo: 'm', med: 55, pred: 100, hb: 9 });
+    assert(r.pctAj > 64 && r.pctAj < 68, 'la pregunta del banco: 55% sin ajustar pasa a unos 66%');
+  });
+
+  test('caminata de 6 minutos: Enright 1998 y producto distancia-desaturación', () => {
+    assert(Math.abs(pfrMod.enright1998('h', 60, 170, 75) - 544.7) < 0.1, 'varón de 60 años, 170 cm, 75 kg');
+    assert(Math.abs(pfrMod.enright1998('m', 60, 160, 65) - 508.95) < 0.1, 'mujer de 60 años, 160 cm, 65 kg');
+    const r = pfr('pfr-pc6m').compute({ sexo: 'h', edad: 60, talla: 170, peso: 75, dist: 300, spo2: 85 });
+    assertEqual(r.dsp, 25500);
+    assert(r.dist < 350 && !r.fueraEdad);
+  });
+
+  test('fuerza muscular, variabilidad del FEM y FeNO', () => {
+    const f = pfr('pfr-fuerza').compute({ sexo: 'h', edad: 58, pi: 55, pe: 120, cvSent: 3.0, cvSup: 1.95 });
+    assert(!f.piExcluye && f.peExcluye, 'la pregunta del banco: PImax baja con PEmax normal');
+    assert(Math.abs(f.caidaCv - 35) < 0.01, 'caída de la capacidad vital en decúbito de 35%');
+    assert(Math.abs(pfrMod.variabilidadFem(450, 400) - 11.76) < 0.01);
+    assertEqual(pfrMod.categoriaFeno(62, 'adulto'), 'alta');
+    assertEqual(pfrMod.categoriaFeno(30, 'nino'), 'intermedia');
+    assert(pfrMod.cambioFeno(40, 60).significativo, '+20 ppb desde menos de 50');
+    assert(!pfrMod.cambioFeno(60, 70).significativo, '+16.7% desde más de 50 no basta');
+    assert(pfrMod.cambioFeno(80, 64).significativo, 'una reducción de 20% exacta ya cuenta');
+  });
+
   /* ---------------- Calculadoras clínicas: VPO (protocols/vpo-calc.js) ----------------
      Son las de fórmula más compleja del proyecto (dos regresiones logísticas). Los coeficientes
      están verificados contra la Tabla de Gupta PK, et al. Circulation 2011;124(4):381-387, y los
@@ -3938,7 +4012,9 @@ async function run() {
   // 3/11/2026: +33 al nacer `endocarditis-infecciosa` (modulo 121), que entra a cero huecos. Sus
   // 11 fichas llevan los tres campos de la regla minima citados contra la ESC 2023, que es un
   // documento unico que cubre diagnostico, microbiologia, antibioticos, cirugia y seguimiento.
-  const ATRIB_TOTAL_MINIMO = 2021;
+  // 18/11/2026: +33 al nacer `espirometria`, tambien a cero huecos: 13 fichas con criterios_dx y
+  // laboratorio citados (26) mas las 7 que tienen campo de farmacos (7).
+  const ATRIB_TOTAL_MINIMO = 2054;
 
   const atribPorTema = {};
   let atribTotal = 0, atribCampos = 0;
@@ -4157,7 +4233,7 @@ async function run() {
     // 'valoracion-preoperatoria' entra sin reescritura porque la auditoría lo encontró ya en
     // regla (37.5% / 0.98x / 8.3% / 0 atípicas). Sirve de prueba de que los umbrales son
     // alcanzables con contenido clínico real, no un ideal teórico.
-    const REVISADOS = new Set(['endocarditis-infecciosa', 'nefropatia-diabetica-hipertensiva', 'glomerulopatias-sindromes-glomerulares', 'sodio-potasio-acido-base', 'enfermedad-renal-cronica', 'valoracion-preoperatoria', 'embolia-grasa',
+    const REVISADOS = new Set(['espirometria', 'endocarditis-infecciosa','nefropatia-diabetica-hipertensiva', 'glomerulopatias-sindromes-glomerulares', 'sodio-potasio-acido-base', 'enfermedad-renal-cronica', 'valoracion-preoperatoria', 'embolia-grasa',
       'anemia-ferropenica', 'anemia-megaloblastica', 'anemia-enfermedad-cronica',
       'anemias-hemoliticas-hereditarias', 'anemias-hemoliticas-adquiridas', 'anemia-aplasica',
       'hemoglobinopatias', 'policitemia-secundaria', 'porfirias',

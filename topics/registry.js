@@ -867,6 +867,14 @@ export const registry = [
       import('./endocarditis-infecciosa/calculators.js'),
       import('./endocarditis-infecciosa/study.js')
     ])
+  },
+  {
+    id: 'espirometria', titulo: 'Espirometría y Pruebas de Función Respiratoria', accent: '#2c5f7c', preguntas: 36,
+    load: () => Promise.all([
+      import('./espirometria/content.js'),
+      import('./espirometria/calculators.js'),
+      import('./espirometria/study.js')
+    ])
   }
 ];
 
