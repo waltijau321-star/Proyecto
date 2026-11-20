@@ -26,11 +26,12 @@ const DIA = 86400000;
    La ÚNICA fuente de los números de la meta. `Osler.md` explica por qué cada uno es el que es;
    si cambia aquí, cambia el panel y cambia la prueba que lo vigila.
 
-   La meta se mide en DINERO AL MES, no en número de suscriptores, y eso es deliberado: con
-   precios distintos por país, 300 suscripciones pueden ser 59 000 MXN o 110 000 segun de donde
-   vengan. Contar cabezas escondería esa diferencia justo cuando empieza a importar. El número de
-   suscriptores que hace falta se DERIVA del ingreso medio de la gente que hay (`arpuHipotetico`),
-   así que se mueve solo cuando cambia la mezcla de países. Los precios viven en `precios.js`. */
+   La meta se mide en DINERO AL MES, no en número de suscriptores, y eso es deliberado: el precio
+   es uno solo, pero cada moneda lo redondea un poco distinto de la paridad y el plan anual rinde
+   menos por mes que el mensual (1590 MXN al año son unos 133 al mes contra 199). Contar cabezas
+   escondería lo que de verdad entra. El número de suscriptores que hace falta se DERIVA del
+   ingreso medio de la gente que hay (`arpuHipotetico`), así que se mueve solo cuando cambia la
+   mezcla de países. Los precios viven en `precios.js`. */
 export const MODELO = {
   monedaBase: 'MXN',
   metaIngresoMensual: 60000,    // MXN/mes: el horizonte "Sustituye"
@@ -92,10 +93,47 @@ export function esSuscriptor(u) {
 
 const pct = (a, b) => (b ? Math.round((a / b) * 100) : null);
 
-export function calcularMetricas(users, ahora = Date.now()) {
+/* ------------------------------------------------------- Uso de las fichas de repaso
+   Las fichas de un tema se desbloquean al contestar su banco ENTERO, y la accion del dia de Inicio
+   manda primero a las fichas vencidas: eso solo alcanza a quien ya llego ahi. Esto cuenta a cuantos,
+   sobre el documento de cada residente y sin cargar ningun banco (se lee `preguntas` del registro).
+   - `desbloqueo`: algun tema con tantas preguntas guardadas como tiene su banco. La app decide lo
+     mismo con `isQuizCompleted`, que tiene el banco delante; aqui se cuentan las claves de
+     `rm:quiz-srs:<tema>` contra el tamano, igual que `answeredCount`. Puede SOBRAR un poco: el id
+     de una pregunta reescrita se conserva a proposito en el almacen (ver `migrate` en quiz-srs.js),
+     asi que sigue contando. Una prueba compara las dos reglas sobre un banco real.
+   - `conDiez`: algun tema con PREGUNTAS_PARA_FICHAS contestadas (o el banco entero, si es mas
+     chico). Es la cuenta de la regla alternativa que se esta pensando para el candado: estos
+     residentes tendrian fichas desde hoy.
+   - `califico`: alguna ficha calificada, en cualquier tema. Se busca por prefijo en el documento y
+     no por la lista de bancos, para no dejar fuera un tema que ya no este en el registro.
+   Todo sale de campos que cloud-sync.js ya escribe: no se recoge ningun dato nuevo. */
+export const PREGUNTAS_PARA_FICHAS = 10;
+
+export function usoDeFichas(u, bancos) {
+  const doc = u || {};
+  let desbloqueo = false, conDiez = false;
+  Object.keys(bancos || {}).forEach(id => {
+    const total = Number(bancos[id]) || 0;
+    if (total <= 0) return; // un tema sin banco no tiene candado que abrir: cero claves no son "banco completo"
+    const srs = doc['rm:quiz-srs:' + id];
+    const contestadas = srs && typeof srs === 'object' ? Object.keys(srs).length : 0;
+    if (contestadas >= Math.min(PREGUNTAS_PARA_FICHAS, total)) conDiez = true;
+    if (contestadas >= total) desbloqueo = true;
+  });
+  const califico = Object.keys(doc).some(k => {
+    if (!k.startsWith('flashcard-progress:')) return false;
+    const v = doc[k];
+    return !!v && typeof v === 'object' && Object.keys(v).length > 0;
+  });
+  return { desbloqueo, conDiez, califico };
+}
+
+export function calcularMetricas(users, ahora = Date.now(), bancos = null) {
   let nuevos7 = 0, nuevos30 = 0, activos7 = 0, activos30 = 0;
   let activados = 0, enganchados = 0, cohorteMadura = 0, retenidos = 0;
   let suscriptores = 0, preguntasTotales = 0;
+  let conDiezPreguntas = 0, desbloquearon = 0, conFichas = 0;
   let mrr = 0, precioAcumulado = 0, conPrecio = 0, proyectado = 0, sinPais = 0;
   const canales = {};
   const paises = new Set(), hospitales = new Set();
@@ -112,6 +150,13 @@ export function calcularMetricas(users, ahora = Date.now()) {
     if (act && ahora - act <= 30 * DIA) activos30++;
     if (preguntas >= 1) activados++;
     if (preguntas >= MODELO.umbralEnganche) enganchados++;
+
+    if (bancos) {
+      const f = usoDeFichas(u, bancos);
+      if (f.conDiez) conDiezPreguntas++;
+      if (f.desbloqueo) desbloquearon++;
+      if (f.califico) conFichas++;
+    }
 
     // Retención: solo tiene sentido preguntarla a quien tuvo tiempo de irse. Una cuenta de ayer
     // no es "retenida", es nueva, y meterla en el divisor infla la cifra justo cuando más se
@@ -158,7 +203,9 @@ export function calcularMetricas(users, ahora = Date.now()) {
     sinPais,
     canales,
     paises: paises.size,
-    hospitales: hospitales.size
+    hospitales: hospitales.size,
+    // null cuando no se pasan los bancos: el panel no pinta filas que no puede contar.
+    fichas: bancos ? { conDiez: conDiezPreguntas, desbloquearon, conFichas } : null
   };
 }
 
@@ -208,7 +255,7 @@ export function coberturaTemario(blocks) {
   return { totales, construidos, pct: totales ? Math.round((construidos / totales) * 100) : 0 };
 }
 
-/* ------------------------------------------------------- Las cinco puertas
+/* ------------------------------------------------------- Las seis puertas
    Una escalera, no un tablero: cada puerta solo se abre con la anterior abierta, y mientras una
    esté cerrada las de abajo son una distracción. `valor` y `meta` son comparables en la misma
    unidad para que la barra no mienta. `cobertura` es el % del temario con tema construido, que
@@ -315,9 +362,13 @@ function embudoHTML(m) {
       ${fila('Activos (30 días)', m.activos30, 'Dejaron huella en el último mes.')}
       ${fila('Activos (7 días)', m.activos7, 'Estudiaron esta semana. La estrella polar.')}
       ${fila('Enganchados', m.enganchados, `${MODELO.umbralEnganche} preguntas o más. Son los que pagarían.`)}
+      ${m.fichas ? fila(`Con ${PREGUNTAS_PARA_FICHAS} preguntas de un tema`, m.fichas.conDiez, `Contestaron ${PREGUNTAS_PARA_FICHAS} preguntas o más de un mismo tema. Con una regla de ${PREGUNTAS_PARA_FICHAS} en vez del banco entero, estos ya tendrían sus fichas.`) : ''}
+      ${m.fichas ? fila('Desbloquearon fichas', m.fichas.desbloquearon, 'Contestaron el banco entero de algún tema, que es lo que pide hoy el candado de las fichas.') : ''}
+      ${m.fichas ? fila('Calificaron fichas', m.fichas.conFichas, 'Repasaron al menos una ficha: ya están dentro del ciclo de repaso.') : ''}
       ${fila('Suscriptores', m.suscriptores, 'Pagan. Todavía no hay cobro, así que vale 0 por diseño.')}
     </tbody>
-  </table></div>`;
+  </table></div>${m.fichas ? `
+  <p class="home-subhead-note">Las tres filas de fichas salen del progreso guardado de cada residente: preguntas contestadas por tema contra el tamaño de su banco. Si una pregunta se reescribió, su respuesta vieja sigue contando, así que el desbloqueo puede sobrar un poco.</p>` : ''}`;
 }
 
 function canalesHTML(canales) {
@@ -388,8 +439,8 @@ function horizontesHTML(m) {
 /* `cobertura` es { construidos, totales, pct } o null si no se pudo calcular. `fotos` es la serie
    semanal de engine/admin-fotos.js; sin ella el panel se pinta igual, solo que sin la tabla. Va
    justo debajo de las puertas y no al final porque es lo que dice si una puerta se está moviendo. */
-export function metasHTML(users, cobertura, ahora = Date.now(), fotos = null) {
-  const m = calcularMetricas(users, ahora);
+export function metasHTML(users, cobertura, ahora = Date.now(), fotos = null, bancos = null) {
+  const m = calcularMetricas(users, ahora, bancos);
   const lista = puertas(m, cobertura ? cobertura.pct : undefined);
   const abiertas = lista.filter(p => p.abierta).length;
   const actual = lista.find(p => p.estado === 'actual');

@@ -93,9 +93,59 @@ function footerHTML() {
   </footer>`;
 }
 
-function renderAuthModal(errorMsg) {
+/* Lo que la persona ya habia escrito en el formulario que se va a reconstruir. Cada pintura es un
+   `innerHTML` nuevo y los campos nacen vacios: "Las contraseñas no coinciden" borraba los DOCE
+   campos del registro, y una contraseña mala de inicio de sesion, el correo. Se lee aqui, mientras
+   el formulario viejo sigue en el DOM, y se devuelve en la misma llamada: nada queda guardado entre
+   una pintura y la siguiente, asi que lo de una persona no puede aparecer en el formulario de la
+   siguiente en una tablet compartida. Las contraseñas NO se leen: se vuelven a escribir. */
+function leerEscrito(modal) {
+  const escrito = {};
+  modal.querySelectorAll('#auth-form input, #auth-form select').forEach(c => {
+    if (!c.id || c.type === 'password') return;
+    escrito[c.id] = c.type === 'checkbox' ? c.checked : c.value;
+  });
+  return escrito;
+}
+function devolverEscrito(modal, escrito) {
+  Object.keys(escrito).forEach(id => {
+    const c = modal.querySelector('#' + id);
+    if (!c || c.type === 'password') return;
+    // Por propiedad y no dentro del HTML: lo escrito es texto de la persona, no marcado.
+    if (c.type === 'checkbox') c.checked = escrito[id];
+    else c.value = escrito[id];
+  });
+}
+
+/* Despues de pintar: arriba del todo y con el foco donde la persona va a seguir. Quien hace scroll
+   es #overlay, y al pasar de "Iniciar sesion" a "Registrarse" conservaba el de la pagina anterior:
+   quien pulsaba "Registrate" (a mas de 1200 px) aterrizaba con el titulo y el primer campo
+   ARRIBA de la pantalla, medido a -539 y -409 px, y con el foco en el contenedor, fuera del
+   formulario. `donde`: 'campo' (la persona acaba de elegir esta pagina: primer campo vacio),
+   'aviso' (hay un error: el foco va al aviso, que se anuncia solo) o null (primera pintura, donde
+   abrir el teclado de un telefono taparia justo los botones que acaban de aparecer). */
+function alFormulario(modal, donde) {
+  const overlay = document.getElementById('overlay');
+  if (overlay) overlay.scrollTop = 0;
+  if (donde === 'aviso') {
+    const aviso = modal.querySelector('.auth-error');
+    if (aviso) aviso.focus();
+  } else if (donde === 'campo') {
+    const campos = [...modal.querySelectorAll('#auth-form input:not([type="checkbox"]), #auth-form select')];
+    const destino = campos.find(c => c.tagName === 'INPUT' && !c.value) || campos[0];
+    if (destino) destino.focus();
+  }
+}
+
+// Exportada para tests.js (mismo criterio que checkPasswordRules): exportarla no cambia nada de lo
+// que hace la puerta. `navegado` es true cuando la persona acaba de elegir la pagina con un clic.
+export function renderAuthModal(errorMsg, navegado) {
+  const modal = document.getElementById('modal');
+  const escrito = errorMsg ? leerEscrito(modal) : null;
   if (mode === 'signup') renderSignupPage(errorMsg);
   else renderLoginPage(errorMsg);
+  if (escrito) devolverEscrito(modal, escrito);
+  alFormulario(modal, errorMsg ? 'aviso' : navegado ? 'campo' : null);
 }
 
 function renderLoginPage(errorMsg) {
@@ -109,6 +159,11 @@ function renderLoginPage(errorMsg) {
         <span class="auth-kicker">Plataforma de estudio y apoyo para residentes de Medicina Interna</span>
         <h1>MIOsler</h1>
         <p class="auth-desc">Temario completo, autoevaluación por tema, calculadoras clínicas validadas y protocolos de manejo, todo respaldado por guías internacionales vigentes.</p>
+
+        <div class="auth-cta">
+          <button type="button" class="home-hoy-btn" id="auth-cta-signup">Crear cuenta</button>
+          <button type="button" class="home-quick" id="auth-cta-login">Ya tengo cuenta</button>
+        </div>
 
         <div class="home-features">
           <div class="home-feature">
@@ -138,7 +193,7 @@ function renderLoginPage(errorMsg) {
         <div class="auth-modal">
           <h2>Iniciar sesión</h2>
           <p class="auth-note">Tu progreso se guarda en tu cuenta y se sincroniza entre dispositivos.</p>
-          ${errorMsg ? `<div class="auth-error">${errorMsg}</div>` : ''}
+          ${errorMsg ? `<div class="auth-error" role="alert" tabindex="-1">${errorMsg}</div>` : ''}
           <form id="auth-form">
             <div class="calc-field"><label for="auth-email">Correo</label><input type="email" id="auth-email" required autocomplete="email" value="${rememberedEmail.replace(/"/g, '&quot;')}"></div>
             <div class="calc-field"><label for="auth-password">Contraseña</label><input type="password" id="auth-password" required minlength="6" autocomplete="current-password"></div>
@@ -169,7 +224,19 @@ function renderLoginPage(errorMsg) {
       renderAuthModal(friendlyError(err));
     }
   });
-  modal.querySelector('#auth-toggle').addEventListener('click', (e) => { e.preventDefault(); mode = 'signup'; renderAuthModal(); });
+  modal.querySelector('#auth-toggle').addEventListener('click', (e) => { e.preventDefault(); mode = 'signup'; renderAuthModal(undefined, true); });
+  // Los dos botones de la primera pantalla. Antes la puerta no ofrecia ninguna accion sin bajar
+  // hasta el formulario: "Registrate" estaba a 1534 px en un telefono de 375x812 y a 1267 en un
+  // escritorio de 1024x768, o sea que no era un problema de pantalla chica.
+  modal.querySelector('#auth-cta-signup').addEventListener('click', () => { mode = 'signup'; renderAuthModal(undefined, true); });
+  modal.querySelector('#auth-cta-login').addEventListener('click', () => {
+    // Baja hasta el formulario (no arriba del todo, que es lo que haria alFormulario) y enfoca sin
+    // volver a desplazar, para que el titulo "Iniciar sesion" no se salga de la pantalla.
+    modal.querySelector('.auth-formside').scrollIntoView({ block: 'start' });
+    const campos = [...modal.querySelectorAll('#auth-form input:not([type="checkbox"])')];
+    const destino = campos.find(c => !c.value) || campos[0];
+    if (destino) destino.focus({ preventScroll: true });
+  });
   modal.querySelector('#auth-forgot').addEventListener('click', async (e) => {
     e.preventDefault();
     const email = modal.querySelector('#auth-email').value.trim();
@@ -180,6 +247,13 @@ function renderLoginPage(errorMsg) {
   showOverlay();
 }
 
+/* El registro NO pide el estado / provincia (decision del autor, 19/11/2026); el hospital SE QUEDA.
+   El registro es la puerta 1 de la escalera y era una pantalla de mas de 2000 px en un telefono con
+   9 campos obligatorios: ahora son 8. El hospital se conserva porque alimenta el canal de difusion
+   "hospital por hospital" y el conteo de sedes de Admin; el estado solo se ensena en la tabla de
+   Admin y en "Mi cuenta", y nada calcula con el (el precio depende del PAIS, que sigue siendo
+   obligatorio). `rm:profile-state` ya no se escribe aqui: falta en el documento de quien se
+   registre desde ahora, y todo lo que lo lee lo tolera. "Mi cuenta" sigue ofreciendo el campo. */
 function renderSignupPage(errorMsg) {
   const modal = document.getElementById('modal');
   modal.innerHTML = `
@@ -193,7 +267,7 @@ function renderSignupPage(errorMsg) {
         <div class="auth-modal">
           <h2>Crear cuenta</h2>
           <p class="auth-note">Cuéntanos un poco de ti para personalizar tu progreso. Tu avance se guarda en tu cuenta y se sincroniza entre dispositivos.</p>
-          ${errorMsg ? `<div class="auth-error">${errorMsg}</div>` : ''}
+          ${errorMsg ? `<div class="auth-error" role="alert" tabindex="-1">${errorMsg}</div>` : ''}
           <form id="auth-form" class="auth-form-grid">
             <div class="calc-field"><label for="auth-firstname">Nombre</label><input type="text" id="auth-firstname" required autocomplete="given-name"></div>
             <div class="calc-field"><label for="auth-lastname">Apellido</label><input type="text" id="auth-lastname" required autocomplete="family-name"></div>
@@ -201,8 +275,7 @@ function renderSignupPage(errorMsg) {
             <div class="calc-field"><label for="auth-year">Año de residencia</label>
               <select id="auth-year">${RESIDENCY_YEARS.map(y => `<option value="${y}">${y}</option>`).join('')}</select>
             </div>
-            <div class="calc-field"><label for="auth-country">País</label><input type="text" id="auth-country" required autocomplete="country-name"></div>
-            <div class="calc-field"><label for="auth-state">Estado / provincia</label><input type="text" id="auth-state" required autocomplete="address-level1"></div>
+            <div class="calc-field field-full"><label for="auth-country">País</label><input type="text" id="auth-country" required autocomplete="country-name"></div>
             <label class="auth-checkbox-row field-full"><input type="checkbox" id="auth-pediatria">¿Eres de Pediatría? Añade a tu menú la sección de <strong>farmacología pediátrica</strong>: dosis por peso, búsqueda por fármaco y por enfermedad. Puedes cambiarlo cuando quieras en <strong>Mi cuenta</strong>.</label>
             <div class="calc-field field-full"><label for="auth-referral">¿Dónde escuchaste de nosotros?</label>
               <select id="auth-referral">${REFERRAL_SOURCES.map(r => `<option value="${r}">${r}</option>`).join('')}</select>
@@ -253,7 +326,6 @@ function renderSignupPage(errorMsg) {
     const hospital = modal.querySelector('#auth-hospital').value.trim();
     const year = modal.querySelector('#auth-year').value;
     const country = modal.querySelector('#auth-country').value.trim();
-    const state = modal.querySelector('#auth-state').value.trim();
     const referral = modal.querySelector('#auth-referral').value;
     const pediatria = modal.querySelector('#auth-pediatria').checked;
     const email = modal.querySelector('#auth-email').value.trim();
@@ -274,7 +346,6 @@ function renderSignupPage(errorMsg) {
       syncSet('rm:profile-hospital', hospital);
       syncSet('rm:profile-year', year);
       syncSet('rm:profile-country', country);
-      syncSet('rm:profile-state', state);
       syncSet('rm:profile-referral', referral);
       // Decide si la sección Pediatría aparece en el nav (ver engine/pediatria-acceso.js). Se
       // escribe aquí, con el resto del perfil, y no con setPediatra(): este archivo no debe
@@ -285,7 +356,7 @@ function renderSignupPage(errorMsg) {
       renderAuthModal(friendlyError(err));
     }
   });
-  modal.querySelector('#auth-toggle').addEventListener('click', (e) => { e.preventDefault(); mode = 'login'; renderAuthModal(); });
+  modal.querySelector('#auth-toggle').addEventListener('click', (e) => { e.preventDefault(); mode = 'login'; renderAuthModal(undefined, true); });
   modal.querySelector('#auth-terms-link').addEventListener('click', (e) => { e.preventDefault(); openTermsModal(); });
   showOverlay();
 }

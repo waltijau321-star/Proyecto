@@ -18,6 +18,7 @@ Osler.md
 README.md
 firestore.rules
 LOGO.jpeg
+.gitignore
 
 # El ejecutor de pruebas se abre en local (http://localhost:8788/tests.html). No tiene por que
 # estar publico.

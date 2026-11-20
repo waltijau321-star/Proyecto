@@ -227,12 +227,17 @@ export async function mountAdmin(root) {
     fotos = registrarFotoSemanal(calcularMetricas(users), cobertura, propio ? propio[FOTOS_KEY] : undefined);
   } catch (e) { fotos = null; }
 
+  // Preguntas por tema, del registro, para contar quien desbloqueo las fichas sin cargar ningun
+  // banco (ver usoDeFichas en admin-metas.js).
+  const bancos = {};
+  registry.forEach(e => { bancos[e.id] = e.preguntas; });
+
   root.innerHTML = `<div class="sec-body">
     <h2 class="home-subhead">Camino a la meta</h2>
     <p class="home-subhead-note">Dónde estamos respecto a la meta final: una herramienta que los
       residentes usan cada semana y que se sostiene con suscripciones. Las puertas se abren en
       orden; la que está marcada es la única que importa hoy.</p>
-    ${metasHTML(users, cobertura, Date.now(), fotos)}
+    ${metasHTML(users, cobertura, Date.now(), fotos, bancos)}
 
     <h2 class="home-subhead" style="margin-top:30px;">Reportes de notas</h2>
     ${reportesHTML(reportes, reportesError)}

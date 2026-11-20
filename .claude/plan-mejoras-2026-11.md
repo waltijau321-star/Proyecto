@@ -9,6 +9,21 @@ léelo antes de empezar, porque las reglas del proyecto viven ahí.
 `residentemed-8f533d53b9`, la misma que sirve miosler.com. 107 temas, 3863 preguntas, 157 de 318
 ítems del temario (49%).
 
+**Cambió el 18 nov, antes de empezar a ejecutar**: otra sesión publicó el tema de espirometría
+(`b10c2e4`). Cifras medidas ese día: 108 temas, 3899 preguntas, 158 de 319 ítems del temario
+(50%), caché `residentemed-5cba0b5a4c`, suite 2987/2987. Donde este plan cita las cifras de arriba,
+valen las de este párrafo.
+
+**Avance de la ejecución** (se actualiza al cerrar cada tarea):
+- **T1 y T2: hechas el 18 nov en el árbol, SIN COMITEAR.** T1 solo se puede comprobar después de
+  publicar (ver su criterio).
+- **T3, partes A, B y C: hechas el 18 y 19 nov en el árbol, SIN COMITEAR.** Caché
+  `residentemed-f9aef8e4a1`, suite 2994/2994 (7 pruebas nuevas). **Queda la parte D, que es de
+  Walter** (la frase "Temario completo").
+- **T5: hecha el 19 nov en el árbol, SIN COMITEAR.** Caché `residentemed-22f6527276`, suite
+  2998/2998 (4 pruebas nuevas). Ver su sección. **Falta que Walter abra Admin y lea las cifras**, que
+  son las que deciden T6.
+
 **Ya hecho en esa misma sesión, no lo repitas**:
 - El panel de Admin contaba dos veces el bloque de atajo R1 y daba por abierta la puerta de
   Producto (243/404 en vez de 157/318). Corregido en `ee610a7`.
@@ -108,6 +123,9 @@ No intentes resolver nada de esta lista por tu cuenta. Recuérdaselo cuando veng
 
 ### T1. Sacar `.gitignore` del sitio publicado
 
+**Estado**: hecha en el árbol el 18 nov (línea `.gitignore` en `.assetsignore`), sin comitear. Falta
+comprobar el 404 tras publicar.
+
 **Decide**: nadie.
 
 **Medido**: `https://miosler.com/.gitignore` responde 200 con 1634 bytes. No hay secretos, pero
@@ -124,6 +142,13 @@ no está precargado, así que no hace falta bump de caché.
 despliegue comprueba también `sw.js`, `manifest.webmanifest` e `icons/og-card-v2.png` en 200.
 
 ### T2. Textos que quedaron desfasados
+
+**Estado**: hecha en el árbol el 18 nov, sin comitear. Se reescribieron las cuatro frases de
+`Osler.md` (puerta 6, tarifa de fundador, unidad económica) y la pregunta 1 de la sección 9, que
+pasó a ser la que sí sigue viva: el precio en las monedas débiles. En `admin-metas.js` cambió el
+comentario de `MODELO` y el rótulo "Las cinco puertas" pasó a "Las seis puertas". De paso se puso al
+día la sección 3 de `Osler.md` (108 temas, 158 de 319 ítems, 2987 pruebas), que la sesión de
+espirometría no había tocado.
 
 **Decide**: nadie. Son textos que contradicen una decisión ya tomada y anotada.
 
@@ -148,7 +173,53 @@ no las reformules.
 
 ### T3. La puerta de entrada en teléfono
 
-**Decide**: nadie para las partes A y B; Walter para la C y la D.
+**Estado (19 nov)**: A, B y C hechas y verificadas, sin comitear. D espera a Walter. Lo que se
+hizo y lo que se midió, para no repetirlo:
+- **Escritorio medido, y el plan se equivocaba**: la puerta es UNA columna en todos los anchos
+  (`flex-direction:column`), así que a 1024x768 el título "Iniciar sesión" estaba a 937 px, "Entrar"
+  a 1211 y "Regístrate" a 1267, todo bajo el pliegue. No era un problema solo de teléfono, y por eso
+  los botones nuevos se ven siempre.
+- **A**: dos botones bajo la descripción, `#auth-cta-signup` ("Crear cuenta", reusa `.home-hoy-btn`)
+  y `#auth-cta-login` ("Ya tengo cuenta", reusa `.home-quick`), con `.auth-cta` en `styles.css`. A
+  375x812 quedan a 377-423 y 433-479 px de 812, apilados y sin scroll horizontal; en escritorio,
+  lado a lado a 368-414. Contraste medido (transiciones apagadas): primario 5.81 claro y 6.53
+  oscuro, secundario 7.19 y 7.36.
+- **B**: `alFormulario()` en `engine/auth.js`. Tras pintar, scroll arriba y foco en el primer campo
+  vacío (si la persona eligió la página) o en el aviso (si hay un error). **Defecto hallado al
+  medir y no estaba en el plan**: al pulsar "Regístrate" desde abajo el scroll se quedaba donde
+  estaba, el título del registro caía a -539 px y el primer campo a -409, con el foco en el
+  contenedor. En la primera pintura NO se enfoca ningún campo a propósito: en un teléfono abriría el
+  teclado encima de los botones nuevos.
+- **B2, añadido por hallazgo**: `renderAuthModal` reconstruye la página con `innerHTML`, así que un
+  error ("Las contraseñas no coinciden", "Ese correo ya tiene una cuenta") **borraba los doce campos
+  del registro**. Ahora `leerEscrito`/`devolverEscrito` lo guardan y lo devuelven, sin las
+  contraseñas, dentro de la MISMA llamada: no queda nada entre una pintura y la siguiente, que
+  importa en una tablet compartida. El aviso lleva `role="alert"` y `tabindex="-1"`.
+- **Teclado verificado pulsando**: desde el foco inicial, Tab recorre CTA primario, CTA secundario,
+  correo, contraseña, "Recordar usuario", Entrar, "Regístrate", "Olvidé mi contraseña" y vuelve al
+  primero; Enter sobre el botón abre el registro con el foco en el primer campo; Shift+Tab desde el
+  primero salta al último. La trampa de foco sigue sujetando.
+- **Seguridad de la prueba**: el envío del registro, en la página real y en `tests.js`, usa un correo
+  sin arroba y contraseñas distintas; medido: 0 peticiones nuevas y ninguna clave de perfil escrita.
+  Nunca se crea una cuenta desde una prueba.
+- **Trampa de la prueba**: el contenedor de prueba tiene que medir lo que un teléfono (812 px). Con
+  300 px el primer campo cae fuera de la pantalla y enfocarlo desplaza el scroll: salió 275 donde la
+  página real mide 0.
+
+- **C, decidida por Walter el 19 nov**: el registro deja de pedir el **estado / provincia** y el
+  **hospital se queda** (obligatorio). Obligatorios: de 9 a 8 (nombre, apellido, hospital, país,
+  correo, contraseña, confirmación y términos); campos visibles de 12 a 11. Medido a 375x812: la
+  pantalla pasa de 2101 a 2024 px y el botón "Crear cuenta" de 1423 a 1346, o sea que el recorte
+  ahorra poco y lo grande de T3 son A y B. `rm:profile-state` ya no se escribe al registrarse; "Mi
+  cuenta" conserva el campo y la tabla de Admin tolera que falte. El país queda a ancho completo
+  para no quedarse solo en media fila. Una prueba fija los 8 obligatorios.
+- **Descartado en el camino**: una franja en Inicio que pedía hospital y estado tras el primer uso
+  (con "Ahora no" que la callaba 14 días y una clave nueva `rm:perfil-aviso-oculto`). Era idea mía
+  para no perder el canal "sede por sede" si ambos salían del registro; al quedarse el hospital no
+  tenía nada que pedir y se deshizo entera (`git checkout` de `home.js` y `account-menu.js`, y su
+  estilo). Si más adelante se recorta el hospital, esa es la idea a retomar.
+
+**Decide**: nadie para las partes A y B; Walter para la C y la D (la C ya está decidida).
 
 **Por qué**: es la puerta 1. Desde el 13 nov el enlace compartido en WhatsApp trae tarjeta, y esa
 tarjeta lleva a esta pantalla. El público llega en teléfono.
@@ -199,6 +270,31 @@ quita "sin fines de lucro" en cualquiera de los dos casos, que es la recomendaci
 **Hecho cuando**: no queda en pantalla una invitación sin forma de aceptarla.
 
 ### T5. Contar en el panel quién desbloqueó las fichas
+
+**Estado (19 nov)**: hecha y verificada, sin comitear. Lo que se hizo, para no repetirlo:
+- `usoDeFichas(u, bancos)` en `engine/admin-metas.js`: pura, sobre el documento de UN residente.
+  `desbloqueo` = algún tema con tantas claves en `rm:quiz-srs:<tema>` como `preguntas` tiene su
+  banco (la regla de `isQuizCompleted`, contada sin cargar el banco); `califico` = alguna clave
+  `flashcard-progress:*` con contenido, buscada por prefijo en el documento.
+- **Una tercera cifra que el plan no pedía**, `conDiez`: residentes con 10 preguntas (o el banco
+  entero si es menor) de un mismo tema. Es el número que T6 necesita: los que la regla "a las 10
+  preguntas" desbloquearía de inmediato. Constante `PREGUNTAS_PARA_FICHAS = 10`.
+- Se pintan como tres filas del embudo ("Con 10 preguntas de un tema", "Desbloquearon fichas",
+  "Calificaron fichas"), con la columna "Del total" que ya tenía, y una nota que dice cómo se cuenta.
+  `calcularMetricas(users, ahora, bancos)` y `metasHTML(..., fotos, bancos)` toman los bancos como
+  parámetro opcional; sin ellos no se pintan filas y `fichas` es `null`, no un cero. `admin.js` los
+  arma del registro (`bancos[e.id] = e.preguntas`), sin cargar ningún tema.
+- **Límite conocido, dicho en la propia nota del panel**: el desbloqueo puede SOBRAR un poco, porque
+  el id de una pregunta reescrita se conserva a propósito en el almacén. Una prueba compara la
+  cuenta con `isQuizCompleted` sobre un banco real, incluida una pregunta fallada, que también
+  cuenta.
+- **No se metió en la foto semanal**, a propósito: `esFoto` exige todos los `CAMPOS` y añadir uno
+  sin tolerar su ausencia en las fotos viejas descarta la serie entera. Si T6 cambia la regla, la
+  serie de "Calificaron fichas" es la medida de si funcionó, así que conviene tener su línea base
+  ANTES de cambiarla: es el siguiente paso lógico (hacer esos campos opcionales en `esFoto`).
+- Verificado con una cohorte inventada de 118 residentes y los 108 bancos reales: las tres filas
+  caben sin scroll horizontal y sin `undefined` ni `NaN`. **Las cifras de verdad solo las ve
+  Walter**, con su sesión de Admin.
 
 **Decide**: nadie. Es medir con datos que ya se leen.
 
@@ -259,7 +355,9 @@ momento. Un `_headers` mal formado hace fallar el despliegue entero.
 
 **Decide**: nadie. Es el único frente que avanza sin las cifras de Admin.
 
-**Medido**: 157 de 318 ítems. El panel redondea, así que la puerta abre en 190: faltan 33.
+**Medido** (18 nov, tras espirometría): 158 de 319 ítems. El panel redondea el porcentaje, así que
+la puerta abre en 190 ítems (190/319 = 59.56% se lee 60%): faltan 32. Cada tema nuevo que enlaza un
+ítem del temario acerca la puerta; espirometría añadió además un ítem al temario (318 a 319).
 Infectología va en 1 de 20 y Reumatología en 0 de 16; entre las dos casi la abren solas. Unos 3
 ítems de Infectología esperan fuente, y lo que falte sale de Nefrología, que va en 10 de 18.
 

@@ -570,6 +570,119 @@ async function run() {
     assert(r.len && r.upper && r.lower && r.number, 'Abcdef12 debería cumplir los 4 requisitos');
   });
 
+  /* ---------------- La puerta de entrada (engine/auth.js) ----------------
+     Es la puerta 1 de la escalera: desde que el enlace compartido trae tarjeta, lo primero que ve
+     un residente nuevo es esta pantalla. Medido el 18/11/2026: "Registrate" estaba a 1534 px en un
+     telefono de 375x812 y a 1267 en un escritorio de 1024x768, o sea que la primera pantalla no
+     ofrecia ninguna accion; al cambiar de pagina el scroll se quedaba donde estaba (el titulo del
+     registro aparecia a -539 px, arriba de la pantalla, con el foco fuera del formulario); y un
+     error borraba los doce campos del registro. Aqui se monta la puerta en un #overlay propio,
+     fuera de la pantalla pero con layout, para que el scroll y el foco se comporten como en la app.
+     El envio del registro usa un correo sin arroba y contraseñas distintas: el error vuelve ANTES
+     de tocar la red, y aun si ese orden cambiara, Firebase rechazaria ese correo. Nunca se crea
+     una cuenta desde esta prueba. */
+  {
+    const { renderAuthModal } = await import('./engine/auth.js');
+    const ov = document.createElement('div');
+    ov.id = 'overlay';
+    // Alto de un telefono (812). Con uno menor el primer campo y el aviso caen FUERA de la pantalla
+    // y enfocarlos desplaza el scroll, lo que no es un defecto de la puerta sino de la prueba: una
+    // primera version con 300 px dio 275 donde la pagina real, a 375x812, mide 0. La puerta mide
+    // mas de 2000 px, asi que sigue habiendo de donde desplazar.
+    ov.style.cssText = 'position:fixed;left:-9999px;top:0;width:420px;height:812px;overflow:auto;';
+    const md = document.createElement('div');
+    md.id = 'modal';
+    md.tabIndex = -1;
+    ov.appendChild(md);
+    document.body.appendChild(ov);
+    const q = s => md.querySelector(s);
+    const escribe = (id, v) => { const c = q('#' + id); if (c.type === 'checkbox') c.checked = v; else c.value = v; };
+    try {
+      renderAuthModal(); // la primera visita: pagina de inicio de sesion
+
+      test('puerta: los botones de la primera pantalla van antes que las tarjetas y el formulario', () => {
+        const a = q('#auth-cta-signup'), b = q('#auth-cta-login');
+        assert(a && b, 'faltan los dos botones de la primera pantalla');
+        assertEqual([a.type, b.type], ['button', 'button'], 'tipo de los botones');
+        assertEqual(a.textContent.trim(), 'Crear cuenta');
+        const antes = (x, y) => !!(x.compareDocumentPosition(y) & Node.DOCUMENT_POSITION_FOLLOWING);
+        assert(antes(a, b) && antes(b, q('.home-features')) && antes(q('.home-features'), q('#auth-form')),
+          'los botones tienen que ir antes de las tarjetas y del formulario, o vuelven a quedar bajo el pliegue');
+      });
+
+      test('puerta: "Crear cuenta" abre el registro arriba del todo y con el foco en el primer campo', () => {
+        ov.scrollTop = 200;
+        assert(ov.scrollTop > 0, 'la prueba no pudo desplazar la puerta, asi que no mide nada');
+        q('#auth-cta-signup').click();
+        assertEqual(q('h2').textContent, 'Crear cuenta');
+        assertEqual(ov.scrollTop, 0, 'el scroll tiene que volver arriba');
+        assertEqual(document.activeElement.id, 'auth-firstname', 'el foco tiene que caer en el primer campo');
+      });
+
+      test('puerta: "Ya tengo cuenta" enfoca el formulario de inicio de sesion sin cambiar de pagina', () => {
+        q('#auth-toggle').click(); // de vuelta al inicio de sesion
+        q('#auth-cta-login').click();
+        assertEqual(q('h2').textContent, 'Iniciar sesión');
+        // Con "recordar usuario" el correo ya viene escrito y el primer campo vacio es la contraseña.
+        assert(['auth-email', 'auth-password'].includes(document.activeElement.id), 'el foco tiene que caer en el formulario, cayo en ' + document.activeElement.id);
+      });
+
+      test('puerta: pulsar "Registrate" desde abajo no deja la pagina a media altura', () => {
+        // El caso medido roto: la persona baja, pulsa el enlace del pie y el registro nacia con el
+        // scroll del inicio de sesion.
+        ov.scrollTop = 250;
+        assert(ov.scrollTop > 0, 'la prueba no pudo desplazar la puerta, asi que no mide nada');
+        q('#auth-toggle').click();
+        assertEqual(q('h2').textContent, 'Crear cuenta');
+        assertEqual(ov.scrollTop, 0, 'scroll');
+        assertEqual(document.activeElement.id, 'auth-firstname', 'foco');
+      });
+
+      test('puerta: el registro ya no pide el estado, conserva el hospital y exige ocho campos', () => {
+        // Decision del autor (19/11/2026): el registro es la puerta 1 y tenia 9 campos obligatorios en
+        // una pantalla de mas de 2000 px en un telefono. El hospital se queda (alimenta el canal
+        // "hospital por hospital" y el conteo de sedes de Admin); el estado sale, y nada calcula con
+        // el. Si alguien vuelve a pedirlo, que sea una decision y no un descuido.
+        assert(!q('#auth-state'), 'el registro volvio a pedir el estado');
+        assert(q('#auth-hospital') && q('#auth-hospital').required, 'el hospital tiene que seguir siendo obligatorio');
+        const obligatorios = [...md.querySelectorAll('#auth-form [required]')].map(c => c.id).sort();
+        assertEqual(obligatorios, ['auth-country', 'auth-email', 'auth-firstname', 'auth-hospital', 'auth-lastname',
+          'auth-password', 'auth-password-confirm', 'auth-terms'], 'campos obligatorios');
+      });
+
+      test('puerta: un error devuelve lo escrito, menos las contraseñas, y lleva el foco al aviso', () => {
+        escribe('auth-firstname', 'Prueba'); escribe('auth-lastname', 'Local'); escribe('auth-hospital', 'Hospital de prueba');
+        escribe('auth-country', 'Mexico');
+        escribe('auth-year', q('#auth-year').options[2].value); escribe('auth-referral', q('#auth-referral').options[1].value);
+        escribe('auth-pediatria', true); escribe('auth-terms', true);
+        escribe('auth-email', 'sin-arroba'); escribe('auth-password', 'Abcdef12'); escribe('auth-password-confirm', 'Abcdef13');
+        ov.scrollTop = 250;
+        q('#auth-form').dispatchEvent(new Event('submit', { cancelable: true }));
+        const aviso = q('.auth-error');
+        assert(aviso && /no coinciden/.test(aviso.textContent), 'el error de contraseñas distintas no se pinto: si el orden de las validaciones cambio, esta prueba ya no es segura');
+        assertEqual(aviso.getAttribute('role'), 'alert', 'el aviso tiene que anunciarse solo');
+        assertEqual(document.activeElement, aviso, 'el foco tiene que ir al aviso');
+        assertEqual(ov.scrollTop, 0, 'el aviso tiene que quedar a la vista');
+        assertEqual([q('#auth-firstname').value, q('#auth-lastname').value, q('#auth-hospital').value, q('#auth-country').value, q('#auth-email').value],
+          ['Prueba', 'Local', 'Hospital de prueba', 'Mexico', 'sin-arroba'], 'campos de texto');
+        assertEqual([q('#auth-year').selectedIndex, q('#auth-referral').selectedIndex, q('#auth-pediatria').checked, q('#auth-terms').checked],
+          [2, 1, true, true], 'selectores y casillas');
+        assertEqual([q('#auth-password').value, q('#auth-password-confirm').value], ['', ''], 'las contraseñas nunca se devuelven');
+      });
+
+      test('puerta: lo escrito no sobrevive a la siguiente pintura (tablet compartida)', () => {
+        q('#auth-toggle').click(); // inicio de sesion
+        q('#auth-toggle').click(); // registro otra vez
+        assertEqual([q('#auth-firstname').value, q('#auth-hospital').value, q('#auth-email').value], ['', '', ''],
+          'el borrador de una persona aparecio en el formulario de la siguiente');
+      });
+    } finally {
+      if (!q('#auth-cta-signup')) q('#auth-toggle').click(); // la puerta vuelve a su pagina de partida
+      ov.remove();
+      document.body.style.overflow = ''; // showOverlay() lo dejo en 'hidden'
+    }
+  }
+
   /* ---------------- Los terminos dicen lo que el codigo hace (engine/auth.js) ---------------- */
   // La seccion 5 decia "MIOsler comparte de forma anonima ... No se comparte el contenido de tus
   // respuestas ni tu identidad" mientras usage-tracking.js guardaba los contadores con syncSet, o
@@ -2141,7 +2254,8 @@ async function run() {
      debe haberlas. Un panel de dirección que miente es peor que no tenerlo. */
   {
     const metasMod = await import('./engine/admin-metas.js');
-    const { MODELO, calcularMetricas, puertas, coberturaTemario, esSuscriptor, metasHTML, resumenPorMoneda } = metasMod;
+    const { MODELO, calcularMetricas, puertas, coberturaTemario, esSuscriptor, metasHTML, resumenPorMoneda,
+      usoDeFichas, PREGUNTAS_PARA_FICHAS } = metasMod;
     const preciosMod = await import('./engine/precios.js');
     const { ANCLA, TIPOS, MONEDAS, PAIS_MONEDA, normalizaPais, monedaDe, paisReconocido,
       precioDe, precioAtractivo, catalogoPrecios } = preciosMod;
@@ -2324,11 +2438,79 @@ async function run() {
       assertEqual((html.match(/class="meta-puerta meta-puerta--/g) || []).length, 6, 'puertas pintadas');
     });
 
+    /* Uso de las fichas (usoDeFichas, admin-metas.js). Las fichas de un tema se desbloquean al
+       contestar su banco entero, y antes de decidir si esa regla cambia hace falta saber a cuantos
+       alcanza. Se prueba con documentos inventados, y una prueba ata la cuenta del panel a
+       `isQuizCompleted`, la regla real de la app: son dos formas de contar lo mismo y no deben
+       separarse. */
+    const claves = n => Object.fromEntries(Array.from({ length: n }, (_, i) => ['id' + i, { box: 2 }]));
+
+    test('fichas: usoDeFichas cuenta el documento de un residente', () => {
+      const bancos = { a: 12, b: 40, chico: 4, vacio: 0 };
+      assertEqual(usoDeFichas({ 'rm:quiz-srs:a': claves(12) }, bancos), { desbloqueo: true, conDiez: true, califico: false }, 'banco entero');
+      assertEqual(usoDeFichas({ 'rm:quiz-srs:a': claves(PREGUNTAS_PARA_FICHAS) }, bancos), { desbloqueo: false, conDiez: true, califico: false }, 'diez de doce');
+      assertEqual(usoDeFichas({ 'rm:quiz-srs:b': claves(PREGUNTAS_PARA_FICHAS - 1) }, bancos), { desbloqueo: false, conDiez: false, califico: false }, 'nueve de cuarenta');
+      // Un banco mas chico que el umbral se desbloquea entero, y eso tambien es "diez" para la regla alternativa.
+      assertEqual(usoDeFichas({ 'rm:quiz-srs:chico': claves(4) }, bancos), { desbloqueo: true, conDiez: true, califico: false }, 'banco de cuatro');
+      assertEqual(usoDeFichas({ 'flashcard-progress:b': { 0: { box: 1, next: 0 } } }, bancos).califico, true, 'una ficha calificada');
+      // Cero claves no son "banco completo" en un tema sin banco: no hay candado que abrir.
+      assertEqual(usoDeFichas({ 'rm:quiz-srs:vacio': {} }, bancos), { desbloqueo: false, conDiez: false, califico: false }, 'tema sin banco');
+      // Documentos torcidos o ausentes no revientan el panel ni inventan nada.
+      const nada = { desbloqueo: false, conDiez: false, califico: false };
+      assertEqual(usoDeFichas({ 'rm:quiz-srs:a': 'x', 'flashcard-progress:a': {}, 'flashcard-progress:b': null }, bancos), nada, 'basura');
+      assertEqual([usoDeFichas(null, bancos), usoDeFichas({}, null), usoDeFichas(undefined, undefined)], [nada, nada, nada], 'sin documento o sin bancos');
+    });
+
+    test('fichas: la cuenta del panel coincide con la regla del candado de la app', () => {
+      // El panel cuenta claves guardadas contra el tamano del banco, sin cargarlo; la app pregunta
+      // `isQuizCompleted` con el banco delante. Si se separan, el panel diria cuantos desbloquearon
+      // algo que la app no considera desbloqueado.
+      const TF = 'rm-test-fichas';
+      const doc = () => ({ ['rm:quiz-srs:' + TF]: loadQuizSRS(TF) });
+      try {
+        syncSet('rm:quiz-srs:' + TF, {});
+        QZ.slice(0, -1).forEach(q => updateQuizSRS(TF, q, true));          // todas menos una
+        assertEqual(isQuizCompleted(TF, QZ), false, 'la app: falta una');
+        assertEqual(usoDeFichas(doc(), { [TF]: QZ.length }).desbloqueo, false, 'el panel: falta una');
+        updateQuizSRS(TF, QZ[QZ.length - 1], false);                       // una FALLADA tambien cuenta
+        assertEqual(isQuizCompleted(TF, QZ), true, 'la app: completo');
+        assertEqual(usoDeFichas(doc(), { [TF]: QZ.length }).desbloqueo, true, 'el panel: completo');
+      } finally {
+        localStorage.removeItem('rm:quiz-srs:' + TF);
+      }
+    });
+
+    test('fichas: el panel suma por residente, y sin bancos no inventa nada', () => {
+      const grupo = [
+        { 'rm:quiz-srs:a': claves(12), 'flashcard-progress:a': { 0: { box: 2, next: 0 } } }, // desbloqueo, diez, ficha
+        { 'rm:quiz-srs:a': claves(10) },                                                       // diez
+        { 'rm:quiz-srs:a': claves(3) },                                                        // ninguna
+        {}
+      ];
+      const r = calcularMetricas(grupo, AHORA, { a: 12 });
+      assertEqual(r.fichas, { conDiez: 2, desbloquearon: 1, conFichas: 1 });
+      assertEqual(r.total, 4, 'lo que ya medía no se movió');
+      assertEqual(calcularMetricas(grupo, AHORA).fichas, null, 'sin bancos no hay cuenta, no un cero');
+      assertEqual(calcularMetricas([], AHORA, { a: 12 }).fichas, { conDiez: 0, desbloquearon: 0, conFichas: 0 }, 'sin residentes');
+    });
+
+    test('fichas: el embudo pinta las tres filas con su nota, y sin bancos no pinta ninguna', () => {
+      const cob = { construidos: 1, totales: 2, pct: 50 };
+      const con = metasHTML(cohorte, cob, AHORA, null, { a: 12 });
+      ['Desbloquearon fichas', 'Calificaron fichas', `Con ${PREGUNTAS_PARA_FICHAS} preguntas de un tema`, 'puede sobrar un poco']
+        .forEach(t => assert(con.includes(t), 'falta "' + t + '"'));
+      assert(!/undefined|NaN/.test(con), 'el panel con fichas pinta undefined o NaN');
+      const sin = metasHTML(cohorte, cob, AHORA);
+      assert(!sin.includes('Desbloquearon fichas') && !sin.includes('puede sobrar un poco'), 'sin bancos se pintan filas que no se pueden contar');
+    });
+
     test('metas: los módulos están en SHELL y el Admin los monta sin perder nada de lo que ya había', () => {
       ['./engine/admin-metas.js', './engine/admin-fotos.js', './engine/precios.js'].forEach(u => assert(SHELL_SW.includes(u),
         u + ' no esta en SHELL de sw.js: sin red, el Admin se cae al importarlo'));
-      assert(/metasHTML\(users, cobertura, Date\.now\(\), fotos\)/.test(fuenteAdmin),
-        'el Admin no monta el panel de metas, o no le pasa la serie semanal');
+      assert(/metasHTML\(users, cobertura, Date\.now\(\), fotos, bancos\)/.test(fuenteAdmin),
+        'el Admin no monta el panel de metas, o no le pasa la serie semanal y los bancos');
+      assert(/bancos\[e\.id\] = e\.preguntas/.test(fuenteAdmin),
+        'el Admin tiene que sacar el tamano de cada banco del registro (`preguntas`), sin cargar ningun tema');
       // El panel se añadió ENCIMA de lo que había. Estas cuatro secciones son las originales y
       // ninguna se sacrifica por la nueva.
       ['Reportes de notas', 'Estadísticas del grupo', 'Uso de la plataforma', 'Usuarios registrados']
