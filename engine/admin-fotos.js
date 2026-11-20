@@ -43,6 +43,16 @@ export const SEMANAS_DE_JUICIO = 8;
 const CAMPOS = ['total', 'activados', 'activos7', 'activos30', 'enganchados', 'madura', 'retenidos',
   'suscriptores', 'mrr', 'preguntas', 'construidos', 'items'];
 
+/* Cifras que se anadieron DESPUES de las primeras fotos (19/11/2026, el uso de las fichas de
+   repaso: ver `usoDeFichas` en admin-metas.js). Las fotos viejas no las traen y SIGUEN SIENDO
+   VALIDAS: meterlas en CAMPOS habria hecho que `esFoto` descartara, en silencio, la serie entera ya
+   guardada, sin un error ni una fila menos que lo delatara. Si estan presentes tienen que ser
+   numeros; si no lo son, se quitan de la foto y la foto se queda.
+   Una foto solo las lleva si el panel pudo contarlas (se le pasaron los bancos): un cero inventado
+   seria una foto falsa. Y si algun dia cambia PREGUNTAS_PARA_FICHAS, la serie de `conDiez` deja de
+   ser comparable con la anterior: anotarlo en la bitacora de Osler.md. */
+const OPCIONALES = ['conDiez', 'desbloquearon', 'conFichas'];
+
 const DIA = 86400000;
 
 // La misma fórmula que `pct` en admin-metas.js. Una prueba compara las dos sobre la misma cohorte:
@@ -61,7 +71,7 @@ export function semanaDe(ahora = Date.now()) {
    importa de aquí la tabla, y los dos no pueden importarse entre sí. */
 export function fotoDe(m, cobertura, ahora = Date.now()) {
   const n = v => (Number.isFinite(v) ? Math.round(v) : 0);
-  return {
+  const f = {
     t: ahora,
     total: n(m.total),
     activados: n(m.activados),
@@ -76,10 +86,25 @@ export function fotoDe(m, cobertura, ahora = Date.now()) {
     construidos: n(cobertura && cobertura.construidos),
     items: n(cobertura && cobertura.totales)
   };
+  if (m.fichas) {
+    f.conDiez = n(m.fichas.conDiez);
+    f.desbloquearon = n(m.fichas.desbloquearon);
+    f.conFichas = n(m.fichas.conFichas);
+  }
+  return f;
 }
 
 function esFoto(v) {
   return !!v && typeof v === 'object' && Number.isFinite(v.t) && CAMPOS.every(c => Number.isFinite(v[c]));
+}
+
+// Un opcional presente que no es un numero se quita de la foto, y la foto se queda (ver OPCIONALES).
+function sinOpcionalesTorcidos(f) {
+  const malos = OPCIONALES.filter(c => c in f && !Number.isFinite(f[c]));
+  if (!malos.length) return f;
+  const g = { ...f };
+  malos.forEach(c => { delete g[c]; });
+  return g;
 }
 
 // Solo lo que de verdad es una foto, con las semanas en orden. Lo que venga torcido (un campo de
@@ -88,7 +113,7 @@ function esFoto(v) {
 export function fotosValidas(fotos) {
   const out = {};
   if (!fotos || typeof fotos !== 'object' || Array.isArray(fotos)) return out;
-  Object.keys(fotos).sort().forEach(k => { if (fechaDe(k) && esFoto(fotos[k])) out[k] = fotos[k]; });
+  Object.keys(fotos).sort().forEach(k => { if (fechaDe(k) && esFoto(fotos[k])) out[k] = sinOpcionalesTorcidos(fotos[k]); });
   return out;
 }
 
@@ -103,7 +128,18 @@ export function anotarFoto(local, nube, foto, semana) {
   const previa = unidas[semana];
   // Si las cifras son las mismas se conserva la foto que ya había, con su hora: el `t` dice cuándo
   // se VIO ese estado por primera vez, no cuándo se abrió el panel por última vez.
-  if (!previa || CAMPOS.some(c => previa[c] !== foto[c])) unidas[semana] = foto;
+  // Las cifras opcionales solo cuentan si la foto nueva las trae: una semana guardada SIN ellas
+  // (con la version anterior del panel) se rehace con ellas, y una foto tomada sin los bancos no
+  // borra las que la semana ya tenia.
+  const distinta = !previa
+    || CAMPOS.some(c => previa[c] !== foto[c])
+    || OPCIONALES.some(c => foto[c] !== undefined && previa[c] !== foto[c]);
+  if (distinta) {
+    unidas[semana] = { ...foto };
+    OPCIONALES.forEach(c => {
+      if (foto[c] === undefined && previa && previa[c] !== undefined) unidas[semana][c] = previa[c];
+    });
+  }
   const fotos = fotosValidas(unidas);
   return { fotos, cambio: JSON.stringify(fotos) !== JSON.stringify(local || {}) };
 }
@@ -111,6 +147,9 @@ export function anotarFoto(local, nube, foto, semana) {
 // Las siete cifras que pinta la tabla, derivadas de una foto. Exportada para la prueba que las
 // compara con las del panel.
 export function lecturaDeFoto(f) {
+  // Una foto sin las cifras de fichas (las de antes del 19/11/2026) las lee como null, que la
+  // tabla pinta con un guion; nunca como cero, que diria que nadie las uso.
+  const opcional = c => (Number.isFinite(f[c]) ? f[c] : null);
   return {
     registrados: f.total,
     activacion: pct(f.activados, f.total),
@@ -118,7 +157,10 @@ export function lecturaDeFoto(f) {
     habito: pct(f.activos7, f.activos30),
     retencion: pct(f.retenidos, f.madura),
     enganchados: f.enganchados,
-    temario: pct(f.construidos, f.items)
+    temario: pct(f.construidos, f.items),
+    conDiez: opcional('conDiez'),
+    desbloquearon: opcional('desbloquearon'),
+    conFichas: opcional('conFichas')
   };
 }
 
@@ -145,6 +187,18 @@ const COLUMNAS = [
   { k: 'enganchados', titulo: 'Enganchados', u: '' },
   { k: 'temario', titulo: 'Temario', u: '%' }
 ];
+
+// Las tres cifras del uso de las fichas van en una SEGUNDA tabla y no como tres columnas mas: la
+// principal ya llena los 935 px de un portatil con ocho, y con once habria que desplazarla de lado.
+// `umbral` es PREGUNTAS_PARA_FICHAS, que vive en admin-metas.js y no se puede importar aqui (ese
+// modulo importa este): lo pasa quien llama.
+function columnasDeFichas(umbral) {
+  return [
+    { k: 'conDiez', titulo: umbral ? `Con ${umbral} preguntas` : 'Con pocas preguntas', u: '' },
+    { k: 'desbloquearon', titulo: 'Desbloquearon fichas', u: '' },
+    { k: 'conFichas', titulo: 'Calificaron fichas', u: '' }
+  ];
+}
 
 // Semanas de la `a` (más antigua) a la `b`. Se redondea porque entre dos medianoches locales no
 // siempre hay un múltiplo exacto de 24 horas: el cambio de horario mete o quita una.
@@ -191,7 +245,7 @@ function resumenHTML(orden) {
     ${par('retención', 'retencion', '%')}.</p>`;
 }
 
-export function tendenciaHTML(fotos, ahora = Date.now()) {
+export function tendenciaHTML(fotos, ahora = Date.now(), umbralFichas = null) {
   const estaSemana = semanaDe(ahora);
   // Una semana del futuro (reloj mal puesto en otro dispositivo) no se pinta: sería la primera
   // fila de la tabla y la referencia de todos los cambios.
@@ -211,6 +265,17 @@ export function tendenciaHTML(fotos, ahora = Date.now()) {
         ? '1 semana' : sinFoto + ' semanas'} en que no se abrió este panel.</td></tr>` : ''}`;
   }).join('');
 
+  // El uso de las fichas: solo si alguna foto lo trae. Sin eso seria una tabla entera de guiones.
+  const colsF = columnasDeFichas(umbralFichas);
+  const hayFichas = orden.some(x => colsF.some(c => x.l[c.k] !== null));
+  const filasF = !hayFichas ? '' : orden.slice(0, SEMANAS_A_LA_VISTA).map((x, i) => {
+    const anterior = orden[i + 1] || null;
+    const celdas = colsF.map(c => `<td class="mono">${valor(x.l[c.k], c.u)}${
+      anterior ? deltaHTML(x.l[c.k], anterior.l[c.k], c.u) : ''}</td>`).join('');
+    const enCurso = x.semana === estaSemana ? ' <span class="foto-encurso">en curso</span>' : '';
+    return `<tr><td>${fechaCorta(x.semana)}${enCurso}</td>${celdas}</tr>`;
+  }).join('');
+
   return `<p class="home-subhead-note">Una foto de estos totales por semana, guardada al abrir
       este panel: de cada semana queda la última vista. La cifra pequeña es el cambio frente a la
       foto anterior. Son sumas, sin datos de ningún residente, y viven en tu propio documento.</p>
@@ -218,5 +283,11 @@ export function tendenciaHTML(fotos, ahora = Date.now()) {
     ${filas ? `<div class="admin-table-wrap"><table class="admin-table">
       <thead><tr><th>Semana del</th>${COLUMNAS.map(c => `<th>${c.titulo}</th>`).join('')}</tr></thead>
       <tbody>${filas}</tbody>
+    </table></div>` : ''}
+    ${filasF ? `<p class="home-subhead-note" style="margin-top:18px;"><strong>Uso de las fichas de repaso, semana a semana.</strong>
+      Las semanas guardadas antes de que existieran estas cifras no las traen y se ven con un guion.</p>
+    <div class="admin-table-wrap"><table class="admin-table">
+      <thead><tr><th>Semana del</th>${colsF.map(c => `<th>${c.titulo}</th>`).join('')}</tr></thead>
+      <tbody>${filasF}</tbody>
     </table></div>` : ''}`;
 }

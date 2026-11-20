@@ -2669,6 +2669,82 @@ async function run() {
         }
       });
 
+      /* Las cifras de fichas (usoDeFichas) se anadieron DESPUES de las primeras fotos. La trampa que
+         esto vigila: si fueran obligatorias, `esFoto` descartaria las fotos viejas y la serie
+         entera se iria en silencio, sin un error ni una fila menos que lo delatara. */
+      const fotoF = (t, extra = {}) => foto(t, { conDiez: 32, desbloquearon: 11, conFichas: 7, ...extra });
+
+      test('fotos: las cifras de fichas son opcionales, y una serie vieja no se pierde', () => {
+        const mezcla = { '2026-11-09': foto(1), '2026-11-16': fotoF(2) };
+        assertEqual(Object.keys(fotosValidas(mezcla)), ['2026-11-09', '2026-11-16'], 'la foto sin fichas se descarto');
+        // Un opcional torcido se quita de la foto, y la foto se queda.
+        const torcida = fotosValidas({ '2026-11-16': fotoF(3, { conDiez: 'muchos', conFichas: null }) })['2026-11-16'];
+        assert(torcida, 'una cifra de fichas torcida tiro la foto entera');
+        assertEqual([torcida.conDiez, torcida.conFichas, torcida.desbloquearon], [undefined, undefined, 11]);
+      });
+
+      test('fotos: fotoDe lleva las cifras de fichas solo si el panel pudo contarlas', () => {
+        const con = fotoDe({ ...m, fichas: { conDiez: 32, desbloquearon: 11, conFichas: 7 } }, cob, AHORA);
+        assertEqual([con.conDiez, con.desbloquearon, con.conFichas], [32, 11, 7]);
+        const sin = fotoDe(m, cob, AHORA); // `m` sale de calcularMetricas sin bancos: fichas es null
+        assert(!('conDiez' in sin) && !('desbloquearon' in sin) && !('conFichas' in sin), 'una foto sin bancos trae un cero inventado');
+      });
+
+      test('fotos: una semana guardada sin fichas se rehace con ellas, y sin cambios no se escribe', () => {
+        const vieja = anotarFoto({}, undefined, foto(1000), '2026-11-16').fotos; // la version anterior del panel
+        const nueva = anotarFoto(vieja, undefined, fotoF(5000), '2026-11-16');
+        assertEqual(nueva.cambio, true, 'la semana vieja no se completo con las fichas');
+        assertEqual(nueva.fotos['2026-11-16'].conFichas, 7);
+        // Mismas cifras con fichas: no se vuelve a escribir y se conserva la hora.
+        const igual = anotarFoto(nueva.fotos, undefined, fotoF(9000), '2026-11-16');
+        assertEqual([igual.cambio, igual.fotos['2026-11-16'].t], [false, 5000]);
+        // Una cifra de fichas distinta SI cambia la foto.
+        const otra = anotarFoto(nueva.fotos, undefined, fotoF(9000, { desbloquearon: 12 }), '2026-11-16');
+        assertEqual([otra.cambio, otra.fotos['2026-11-16'].desbloquearon], [true, 12]);
+        // Una foto tomada sin los bancos no borra las cifras que la semana ya tenia, ni cuando cambia otra.
+        const sinBancos = anotarFoto(nueva.fotos, undefined, foto(9500, { total: 130 }), '2026-11-16');
+        assertEqual([sinBancos.fotos['2026-11-16'].total, sinBancos.fotos['2026-11-16'].conFichas], [130, 7]);
+        assertEqual(anotarFoto(nueva.fotos, undefined, foto(9600), '2026-11-16').cambio, false, 'sin bancos y con las mismas cifras no hay nada que escribir');
+      });
+
+      test('fotos: lecturaDeFoto lee null donde no hay cifras de fichas, nunca cero', () => {
+        const vieja = lecturaDeFoto(foto(1));
+        assertEqual([vieja.conDiez, vieja.desbloquearon, vieja.conFichas], [null, null, null]);
+        const nueva = lecturaDeFoto(fotoF(1, { conFichas: 0 }));
+        assertEqual([nueva.conDiez, nueva.desbloquearon, nueva.conFichas], [32, 11, 0], 'un cero verdadero sigue siendo cero');
+      });
+
+      test('fotos: la tabla de fichas aparece solo si hay cifras, y las semanas viejas llevan guion', () => {
+        const soloViejas = tendenciaHTML({ '2026-11-09': foto(1), '2026-11-16': foto(2) }, MIE_18, PREGUNTAS_PARA_FICHAS);
+        assert(!soloViejas.includes('Uso de las fichas'), 'pinta una tabla entera de guiones');
+        const serie = {
+          '2026-11-02': foto(1),                                                                 // sin fichas
+          '2026-11-09': fotoF(2, { conDiez: 20, desbloquearon: 8, conFichas: 3 }),
+          '2026-11-16': fotoF(3)                                                                 // 32, 11, 7
+        };
+        const html = tendenciaHTML(serie, MIE_18, PREGUNTAS_PARA_FICHAS);
+        assert(html.includes('Uso de las fichas de repaso, semana a semana'), 'falta la tabla de fichas');
+        ['Con ' + PREGUNTAS_PARA_FICHAS + ' preguntas', 'Desbloquearon fichas', 'Calificaron fichas']
+          .forEach(t => assert(html.includes('<th>' + t + '</th>'), 'falta la columna "' + t + '"'));
+        // Desde aqui se mira SOLO la tabla de fichas: la principal tambien trae cifras con su cambio
+        // (`activos7` vale 20 en estas fotos) y una busqueda sobre todo el HTML encontraria esas.
+        const fichas = html.slice(html.indexOf('Uso de las fichas de repaso'));
+        assert(fichas.includes('32 <span class="foto-delta">+12</span>'), 'no pinta el cambio de "con 10 preguntas" frente a la semana anterior');
+        assert(fichas.includes('11 <span class="foto-delta">+3</span>') && fichas.includes('7 <span class="foto-delta">+4</span>'), 'faltan los otros dos cambios');
+        // La semana sin fichas se ve con guion en las tres columnas, y la que viene despues de ella no inventa un cambio.
+        assertEqual((fichas.match(/<td class="mono">–<\/td>/g) || []).length, 3, 'la semana vieja no se pinta con tres guiones');
+        assert(fichas.includes('<td class="mono">20</td>') && !fichas.includes('20 <span class="foto-delta">'), 'invento un cambio contra una semana que no trae fichas');
+        assert(!/undefined|NaN|null/.test(html), 'la tabla pinta undefined, NaN o null');
+        assert(tendenciaHTML(serie, MIE_18).includes('<th>Con pocas preguntas</th>'), 'sin el umbral la columna no debe inventar un numero');
+        // La tabla principal no se ensancha: las fichas van aparte.
+        assertEqual((html.match(/<thead><tr><th>Semana del<\/th>/g) || []).length, 2, 'una tabla principal y una de fichas');
+      });
+
+      test('fotos: el panel le pasa a la tabla el umbral de las fichas', () => {
+        const con = metasHTML(cohorte, cob, MIE_18, { '2026-11-16': fotoF(MIE_18) });
+        assert(con.includes('<th>Con ' + PREGUNTAS_PARA_FICHAS + ' preguntas</th>'), 'la tabla de fichas no recibe PREGUNTAS_PARA_FICHAS');
+      });
+
       test('fotos: el Admin aparta su propio documento antes de sacarse de la lista', () => {
         // La copia de la nube de las fotos viaja en el documento del administrador. Buscado
         // después del filtro ya no está: la unión se haría contra nada y volvería la trampa del
@@ -2682,6 +2758,13 @@ async function run() {
           'la serie no va debajo de las puertas');
         assert(!/undefined|NaN/.test(con), 'el panel con serie pinta undefined o NaN');
         assert(!metasHTML(cohorte, cob, MIE_18).includes('Semana a semana'), 'sin serie no debe pintarse su título');
+        // La foto tambien lleva las cifras de fichas, asi que los bancos se arman ANTES de tomarla y
+        // se le pasan: armados despues, la semana se guardaria sin ellas y sin que nada lo delatara.
+        const iBancos = fuenteAdmin.indexOf('const bancos = {}');
+        const iFoto = fuenteAdmin.indexOf('registrarFotoSemanal(calcularMetricas(');
+        assert(iBancos > 0 && iFoto > 0, 'cambio la forma de armar los bancos o de tomar la foto: revisar esta prueba');
+        assert(iBancos < iFoto, 'los bancos se arman despues de tomar la foto');
+        assert(/calcularMetricas\(users, Date\.now\(\), bancos\)/.test(fuenteAdmin), 'la foto no recibe los bancos');
       });
     }
 

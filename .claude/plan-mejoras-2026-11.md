@@ -15,14 +15,19 @@ léelo antes de empezar, porque las reglas del proyecto viven ahí.
 valen las de este párrafo.
 
 **Avance de la ejecución** (se actualiza al cerrar cada tarea):
-- **T1 y T2: hechas el 18 nov en el árbol, SIN COMITEAR.** T1 solo se puede comprobar después de
-  publicar (ver su criterio).
-- **T3, partes A, B y C: hechas el 18 y 19 nov en el árbol, SIN COMITEAR.** Caché
-  `residentemed-f9aef8e4a1`, suite 2994/2994 (7 pruebas nuevas). **Queda la parte D, que es de
-  Walter** (la frase "Temario completo").
-- **T5: hecha el 19 nov en el árbol, SIN COMITEAR.** Caché `residentemed-22f6527276`, suite
-  2998/2998 (4 pruebas nuevas). Ver su sección. **Falta que Walter abra Admin y lea las cifras**, que
-  son las que deciden T6.
+- **T1, T2, T3 (A, B y C) y T5: comiteadas en `fa5d2c0` y PUBLICADAS Y VERIFICADAS el 19 nov.**
+  Build `Workers Builds: proyecto` en success, miosler.com sirve la caché `residentemed-22f6527276`,
+  `/.gitignore` da 404 (T1 comprobada de verdad), el `auth.js` publicado trae los botones nuevos y
+  conserva el hospital sin el estado, y `admin-metas.js` y `admin.js` traen el conteo de fichas.
+  Suite 2998/2998. Las exclusiones siguen en 404 (`Osler.md`, `CLAUDE.md`, `tests.html`, `tests.js`,
+  `Bibliografia/`, este plan, `_headers`, `firestore.rules`).
+- **Foto con fichas (19 nov, SIN COMITEAR)**: las tres cifras de T5 entran también a la foto
+  semanal, como campos OPCIONALES (`OPCIONALES` en `engine/admin-fotos.js`, fuera de `CAMPOS`), y se
+  pintan en una segunda tabla "Uso de las fichas de repaso, semana a semana". Caché
+  `residentemed-711c94ada2`, suite 3004/3004 (6 pruebas nuevas). Es la línea base antes de T6.
+- **Pendiente de T3**: la parte D, que es de Walter (la frase "Temario completo").
+- **Pendiente de T5**: que Walter abra Admin y pase las tres cifras nuevas, que son las que
+  deciden T6.
 
 **Ya hecho en esa misma sesión, no lo repitas**:
 - El panel de Admin contaba dos veces el bloque de atajo R1 y daba por abierta la puerta de
@@ -123,8 +128,9 @@ No intentes resolver nada de esta lista por tu cuenta. Recuérdaselo cuando veng
 
 ### T1. Sacar `.gitignore` del sitio publicado
 
-**Estado**: hecha en el árbol el 18 nov (línea `.gitignore` en `.assetsignore`), sin comitear. Falta
-comprobar el 404 tras publicar.
+**Estado**: HECHA Y VERIFICADA el 19 nov (línea `.gitignore` en `.assetsignore`, commit `fa5d2c0`).
+Tras publicar, `/.gitignore` da 404, la portada 200, y `sw.js`, `manifest.webmanifest` e
+`icons/og-card-v2.png` siguen en 200.
 
 **Decide**: nadie.
 
@@ -143,7 +149,7 @@ despliegue comprueba también `sw.js`, `manifest.webmanifest` e `icons/og-card-v
 
 ### T2. Textos que quedaron desfasados
 
-**Estado**: hecha en el árbol el 18 nov, sin comitear. Se reescribieron las cuatro frases de
+**Estado**: HECHA el 18 nov, publicada en `fa5d2c0`. Se reescribieron las cuatro frases de
 `Osler.md` (puerta 6, tarifa de fundador, unidad económica) y la pregunta 1 de la sección 9, que
 pasó a ser la que sí sigue viva: el precio en las monedas débiles. En `admin-metas.js` cambió el
 comentario de `MODELO` y el rótulo "Las cinco puertas" pasó a "Las seis puertas". De paso se puso al
@@ -173,7 +179,7 @@ no las reformules.
 
 ### T3. La puerta de entrada en teléfono
 
-**Estado (19 nov)**: A, B y C hechas y verificadas, sin comitear. D espera a Walter. Lo que se
+**Estado (19 nov)**: A, B y C hechas, verificadas y publicadas en `fa5d2c0`. D espera a Walter. Lo que se
 hizo y lo que se midió, para no repetirlo:
 - **Escritorio medido, y el plan se equivocaba**: la puerta es UNA columna en todos los anchos
   (`flex-direction:column`), así que a 1024x768 el título "Iniciar sesión" estaba a 937 px, "Entrar"
@@ -271,7 +277,7 @@ quita "sin fines de lucro" en cualquiera de los dos casos, que es la recomendaci
 
 ### T5. Contar en el panel quién desbloqueó las fichas
 
-**Estado (19 nov)**: hecha y verificada, sin comitear. Lo que se hizo, para no repetirlo:
+**Estado (19 nov)**: hecha, verificada y publicada en `fa5d2c0`. Lo que se hizo, para no repetirlo:
 - `usoDeFichas(u, bancos)` en `engine/admin-metas.js`: pura, sobre el documento de UN residente.
   `desbloqueo` = algún tema con tantas claves en `rm:quiz-srs:<tema>` como `preguntas` tiene su
   banco (la regla de `isQuizCompleted`, contada sin cargar el banco); `califico` = alguna clave
@@ -288,10 +294,15 @@ quita "sin fines de lucro" en cualquiera de los dos casos, que es la recomendaci
   el id de una pregunta reescrita se conserva a propósito en el almacén. Una prueba compara la
   cuenta con `isQuizCompleted` sobre un banco real, incluida una pregunta fallada, que también
   cuenta.
-- **No se metió en la foto semanal**, a propósito: `esFoto` exige todos los `CAMPOS` y añadir uno
-  sin tolerar su ausencia en las fotos viejas descarta la serie entera. Si T6 cambia la regla, la
-  serie de "Calificaron fichas" es la medida de si funcionó, así que conviene tener su línea base
-  ANTES de cambiarla: es el siguiente paso lógico (hacer esos campos opcionales en `esFoto`).
+- **En la foto semanal entró después (19 nov)**, y no antes a propósito: `esFoto` exige todos los
+  `CAMPOS` y añadir uno sin tolerar su ausencia en las fotos viejas descarta la serie entera. Por eso
+  las tres cifras son `OPCIONALES`: una foto vieja sin ellas sigue valiendo, una foto con una cifra
+  torcida pierde solo esa cifra, y una semana guardada sin fichas se rehace con ellas la próxima vez
+  que se abre Admin. **El orden en `admin.js` importa**: los bancos se arman ANTES de tomar la
+  foto, o la semana se guardaría sin las cifras sin que nada lo delatara (hay una prueba). Si algún
+  día cambia `PREGUNTAS_PARA_FICHAS`, la serie de "con 10 preguntas" deja de ser comparable:
+  anotarlo en la bitácora de `Osler.md`. Las fichas van en una segunda tabla y no como tres columnas
+  más porque la principal ya llena los 935 px de un portátil con ocho.
 - Verificado con una cohorte inventada de 118 residentes y los 108 bancos reales: las tres filas
   caben sin scroll horizontal y sin `undefined` ni `NaN`. **Las cifras de verdad solo las ve
   Walter**, con su sesión de Admin.

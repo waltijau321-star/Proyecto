@@ -221,16 +221,16 @@ export async function mountAdmin(root) {
   // La foto se toma con los mismos `users` que pinta el panel, ya sin el administrador, para que
   // la tabla y las puertas cuenten a la misma gente.
   const cobertura = coberturaTemario(temarioBlocks);
+  // Preguntas por tema, del registro, para contar quien desbloqueo las fichas sin cargar ningun
+  // banco (ver usoDeFichas en admin-metas.js). Se arma ANTES de la foto porque la foto tambien
+  // lleva esas cifras: sin los bancos, la semana se guardaria sin ellas.
+  const bancos = {};
+  registry.forEach(e => { bancos[e.id] = e.preguntas; });
   // Si la foto falla, el panel se pinta sin la tabla: guardar la serie nunca debe costar el panel.
   let fotos = null;
   try {
-    fotos = registrarFotoSemanal(calcularMetricas(users), cobertura, propio ? propio[FOTOS_KEY] : undefined);
+    fotos = registrarFotoSemanal(calcularMetricas(users, Date.now(), bancos), cobertura, propio ? propio[FOTOS_KEY] : undefined);
   } catch (e) { fotos = null; }
-
-  // Preguntas por tema, del registro, para contar quien desbloqueo las fichas sin cargar ningun
-  // banco (ver usoDeFichas en admin-metas.js).
-  const bancos = {};
-  registry.forEach(e => { bancos[e.id] = e.preguntas; });
 
   root.innerHTML = `<div class="sec-body">
     <h2 class="home-subhead">Camino a la meta</h2>

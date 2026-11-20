@@ -472,7 +472,7 @@ export function metasHTML(users, cobertura, ahora = Date.now(), fotos = null, ba
     <div class="meta-puertas">${puertasHTML(lista)}</div>
     ${fotos ? `
     <h3 class="meta-h3">Semana a semana</h3>
-    ${tendenciaHTML(fotos, ahora)}` : ''}
+    ${tendenciaHTML(fotos, ahora, PREGUNTAS_PARA_FICHAS)}` : ''}
 
     <h3 class="meta-h3">El embudo, hoy</h3>
     ${embudoHTML(m)}

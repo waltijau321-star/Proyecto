@@ -92,7 +92,9 @@ Nunca al revés. Un residente paga por lo que ya no quiere perder, no por una pr
   del habito.
 - **El panel ya tiene memoria**: desde el 16 nov guarda una foto semanal de la escalera y la pinta
   como serie, con el cambio frente a la foto anterior. La primera comparación llega con la
-  segunda foto; el juicio de las jugadas de hábito, con la de las ocho semanas.
+  segunda foto; el juicio de las jugadas de hábito, con la de las ocho semanas. Desde el 19 nov la
+  foto lleva también el uso de las fichas (con 10 preguntas de un tema, desbloquearon, calificaron),
+  que es la línea base antes de tocar el candado de las fichas.
 - **Negocio**: ingresos cero. Sin cobro, sin pasarela, sin precio publicado. El campo
   `rm:suscripcion` no lo escribe nadie todavía; el panel lo lee y muestra 0 a propósito.
 
