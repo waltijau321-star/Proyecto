@@ -75,10 +75,12 @@ Nunca al revés. Un residente paga por lo que ya no quiere perder, no por una pr
 ## 3. Estado del tablero (16 nov 2026)
 
 - **Producto**: en producción en miosler.com (Cloudflare Worker, despliegue por push a `main`).
-  108 temas construidos, que cubren 158 de los 319 ítems del temario holístico (50%).
-  Semiología completa (9/9).
-  Dermatología completa (9/9). Faltan Reumatología entera (13 módulos) y 18 de los 19 de
-  Infectología.
+  109 temas construidos, que cubren 161 de los 319 ítems del temario holístico (50%); la
+  puerta de Producto abre en 190, faltan 29. Semiología completa (9/9).
+  Dermatología completa (9/9). Cardiovascular va en 7 de 22 desde el 19 nov, con
+  `insuficiencia-cardiaca` (tres ítems); su plan de fuentes está en
+  `.claude/cardiovascular-fuentes.md` y cubre 15 de los 18 ítems que faltan con guías del repo.
+  Faltan Reumatología entera (13 módulos) y 18 de los 19 de Infectología.
 - **Secciones**: Inicio (tablero, temario, mazo de fichas, examen simulado), Estudio, Calc,
   Protocolos, VPO (valoración preoperatoria), Pediatría (farmacología, recién nacida), Examen,
   Admin.

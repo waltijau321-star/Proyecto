@@ -875,6 +875,14 @@ export const registry = [
       import('./espirometria/calculators.js'),
       import('./espirometria/study.js')
     ])
+  },
+  {
+    id: 'insuficiencia-cardiaca', titulo: 'Insuficiencia Cardiaca', accent: '#a3364a', preguntas: 40,
+    load: () => Promise.all([
+      import('./insuficiencia-cardiaca/content.js'),
+      import('./insuficiencia-cardiaca/calculators.js'),
+      import('./insuficiencia-cardiaca/study.js')
+    ])
   }
 ];
 

@@ -21,7 +21,9 @@ valen las de este párrafo.
   conserva el hospital sin el estado, y `admin-metas.js` y `admin.js` traen el conteo de fichas.
   Suite 2998/2998. Las exclusiones siguen en 404 (`Osler.md`, `CLAUDE.md`, `tests.html`, `tests.js`,
   `Bibliografia/`, este plan, `_headers`, `firestore.rules`).
-- **Foto con fichas (19 nov, SIN COMITEAR)**: las tres cifras de T5 entran también a la foto
+- **Foto con fichas (19 nov, commit `81d1561`, PUBLICADA Y VERIFICADA)**: build en success, miosler.com
+  sirve `residentemed-711c94ada2`, los tres módulos del panel traen el cambio y el `admin.js`
+  publicado arma los bancos antes de tomar la foto. Las tres cifras de T5 entran también a la foto
   semanal, como campos OPCIONALES (`OPCIONALES` en `engine/admin-fotos.js`, fuera de `CAMPOS`), y se
   pintan en una segunda tabla "Uso de las fichas de repaso, semana a semana". Caché
   `residentemed-711c94ada2`, suite 3004/3004 (6 pruebas nuevas). Es la línea base antes de T6.
@@ -372,9 +374,13 @@ la puerta abre en 190 ítems (190/319 = 59.56% se lee 60%): faltan 32. Cada tema
 Infectología va en 1 de 20 y Reumatología en 0 de 16; entre las dos casi la abren solas. Unos 3
 ítems de Infectología esperan fuente, y lo que falte sale de Nefrología, que va en 10 de 18.
 
-**Orden**: el módulo 122 (VIH y oportunistas) según `.claude/infectologia-fuentes.md`; después el
+**Orden**: ~~el módulo 122 (VIH y oportunistas) según `.claude/infectologia-fuentes.md`; después el
 resto de ese plan. Reumatología según `.claude/reumatologia-fuentes.md`, que dice empezar por
-lupus. Un módulo por sesión.
+lupus.~~ **Cambiado el 19 nov 2026, decidido por Walter**: primero Cardiovascular, según
+`.claude/cardiovascular-fuentes.md`. Cada módulo de Infectología o Reumatología cubre algo más de
+un ítem; los de Cardiovascular, dos o tres, y el bloque iba en 4 de 22 con 25 guías en el repo.
+`insuficiencia-cardiaca` ya está (19 nov, 161 de 319); sigue `cardiopatia-isquemica`. Infectología
+y Reumatología siguen su plan cuando Cardiovascular se quede sin fuentes. Un módulo por sesión.
 
 **Qué hacer**: seguir `CLAUDE.md` al pie de la letra (plantilla, registro con `accent` y
 `preguntas`, `CONTENT` de `sw.js`, temario, `REVISADOS`, 32 fichas, citas por campo en base 1) y
