@@ -402,8 +402,14 @@ tr.flash td{background:var(--panel2);}
 .figure-body svg{max-width:100%; height:auto; display:block; margin:0 auto;}
 .figure-org{font-weight:600; color:var(--ink);}
 .figure-tag{display:inline-block; padding:2px 8px; border-radius:20px; font-size:11px; font-weight:600; white-space:nowrap;}
-.figure-tag.fail{background:#8c3a3420; color:#8c3a34;}
+.figure-tag.fail{background:#8c3a3420; color:var(--prog-bad);}
 .figure-tag.dys{background:#96703520; color:#8a5a1a;}
+/* En oscuro, el rojo y el ambar fijos de estas etiquetas daban 1,8:1 y 2,1:1 contra su propio
+   fondo tintado sobre el panel (medido el 21/11/2026 en la figura del reloj del IAMCEST); ahora
+   4,7:1 y 5,5:1. `fail` toma --prog-bad, que en claro es el mismo #8c3a34 y en oscuro se aclara,
+   y `dys` recibe aqui su variante oscura. En claro no cambia nada. */
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .figure-tag.dys{color:#d9a35a;} }
+:root[data-theme="dark"] .figure-tag.dys{color:#d9a35a;}
 .figure-grade-box{margin-top:14px; padding:12px 14px; background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); font-size:12.5px; color:var(--ink-dim); line-height:1.6;}
 .figure-grade-box strong{color:var(--ink);}
 .figure-source{font-size:11px; color:var(--ink-faint); font-style:italic; margin-top:10px;}

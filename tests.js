@@ -4281,7 +4281,9 @@ async function run() {
   // laboratorio citados (26) mas las 7 que tienen campo de farmacos (7).
   // 19/11/2026: +36 al nacer `insuficiencia-cardiaca`, a cero huecos: 12 fichas con los tres
   // campos de la regla minima citados contra la ESC 2021, la AHA 2022 o la Definicion Universal.
-  const ATRIB_TOTAL_MINIMO = 2090;
+  // 21/11/2026: +36 al nacer `cardiopatia-isquemica`, a cero huecos: 12 fichas citadas contra la
+  // ESC 2023 de SCA, la ESC 2024 de SCC, la ACC/AHA 2025 o la AHA 2017 de choque cardiogenico.
+  const ATRIB_TOTAL_MINIMO = 2126;
 
   const atribPorTema = {};
   let atribTotal = 0, atribCampos = 0;
@@ -4500,7 +4502,7 @@ async function run() {
     // 'valoracion-preoperatoria' entra sin reescritura porque la auditoría lo encontró ya en
     // regla (37.5% / 0.98x / 8.3% / 0 atípicas). Sirve de prueba de que los umbrales son
     // alcanzables con contenido clínico real, no un ideal teórico.
-    const REVISADOS = new Set(['insuficiencia-cardiaca', 'espirometria', 'endocarditis-infecciosa','nefropatia-diabetica-hipertensiva', 'glomerulopatias-sindromes-glomerulares', 'sodio-potasio-acido-base', 'enfermedad-renal-cronica', 'valoracion-preoperatoria', 'embolia-grasa',
+    const REVISADOS = new Set(['cardiopatia-isquemica', 'insuficiencia-cardiaca', 'espirometria', 'endocarditis-infecciosa','nefropatia-diabetica-hipertensiva', 'glomerulopatias-sindromes-glomerulares', 'sodio-potasio-acido-base', 'enfermedad-renal-cronica', 'valoracion-preoperatoria', 'embolia-grasa',
       'anemia-ferropenica', 'anemia-megaloblastica', 'anemia-enfermedad-cronica',
       'anemias-hemoliticas-hereditarias', 'anemias-hemoliticas-adquiridas', 'anemia-aplasica',
       'hemoglobinopatias', 'policitemia-secundaria', 'porfirias',

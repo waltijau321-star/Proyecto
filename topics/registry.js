@@ -883,6 +883,14 @@ export const registry = [
       import('./insuficiencia-cardiaca/calculators.js'),
       import('./insuficiencia-cardiaca/study.js')
     ])
+  },
+  {
+    id: 'cardiopatia-isquemica', titulo: 'Cardiopatía Isquémica', accent: '#7d3c2a', preguntas: 40,
+    load: () => Promise.all([
+      import('./cardiopatia-isquemica/content.js'),
+      import('./cardiopatia-isquemica/calculators.js'),
+      import('./cardiopatia-isquemica/study.js')
+    ])
   }
 ];
 

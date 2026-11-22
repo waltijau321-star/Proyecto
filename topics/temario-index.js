@@ -127,7 +127,7 @@ export const temarioBlocks = [
     title: 'II. Sistema Cardiovascular',
     intro: 'Reconocimiento, estabilización y manejo longitudinal de la enfermedad cardiovascular, la primera causa de morbimortalidad en el adulto.',
     clusters: [
-      { name: 'Cardiopatía isquémica', items: ['Angina estable y pruebas de isquemia', 'Síndromes coronarios agudos (SCACEST, SCASEST) y reperfusión', 'Choque cardiogénico'] },
+      { name: 'Cardiopatía isquémica', items: [{ label: 'Angina estable y pruebas de isquemia', topicId: 'cardiopatia-isquemica' }, { label: 'Síndromes coronarios agudos (SCACEST, SCASEST) y reperfusión', topicId: 'cardiopatia-isquemica' }, { label: 'Choque cardiogénico', topicId: 'cardiopatia-isquemica' }] },
       { name: 'Insuficiencia cardiaca', items: [{ label: 'IC aguda descompensada y edema agudo de pulmón', topicId: 'insuficiencia-cardiaca' }, { label: 'IC crónica con FEVI reducida y preservada', topicId: 'insuficiencia-cardiaca' }, { label: 'Dispositivos y terapias avanzadas (resincronización, asistencia ventricular)', topicId: 'insuficiencia-cardiaca' }] },
       { name: 'Arritmias y electrofisiología', items: ['Fibrilación y flutter auricular, anticoagulación', 'Taquiarritmias y bradiarritmias sintomáticas', 'Marcapasos y desfibriladores'] },
       { name: 'Enfermedad valvular, pericárdica y miocárdica', items: ['Valvulopatías nativas y protésicas', 'Cardiopatía reumática', 'Pericarditis y taponamiento cardiaco', { label: 'Miocardiopatías (hipertrófica, dilatada, restrictiva, arritmogénica del ventrículo derecho, periparto)', topicId: 'miocardiopatias' }, 'Miocarditis', 'Cor pulmonale', 'Cardiopatías congénitas en el adulto'] },

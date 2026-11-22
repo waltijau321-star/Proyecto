@@ -114,5 +114,23 @@ Los siete primeros módulos cubren **15 de los 18 ítems** con fuentes que ya es
     superíndices, y está bien;
   - la calculadora de péptidos se cruzó contra el caso 3 del quiz y por eso, en el obeso, un valor
     bajo ya no se titula "hace improbable": era la misma cifra enseñando dos cosas distintas.
-- **Siguiente**: `cardiopatia-isquemica`, con la ESC 2024 de SCC, la ESC 2023 de SCA, la ACC/AHA
-  2025 de SCA y la AHA 2017 de choque cardiogénico.
+- **21 nov 2026**: `insuficiencia-cardiaca` publicado (commit `fdce5fe`, build verde, caché
+  `residentemed-9ffe4964a8` en miosler.com). **`cardiopatia-isquemica` construido**: 12 fichas (6
+  formas de la enfermedad y el tratamiento común, 6 complicaciones del infarto), 40 preguntas, 32
+  fichas de memoria, 5 calculadoras y 2 figuras de tabla, a cero huecos (`ATRIB_TOTAL_MINIMO` de
+  2090 a 2126). Cubre angina estable, SCA y reperfusión, y choque cardiogénico: el temario pasa de
+  161 a 164 de 319. Suite 3054/3054, caché `residentemed-156c54f00d`. **Sin commit.** Lo que conviene
+  saber:
+  - las cuatro guías se revisaron buscando cláusulas contra la IA y **ninguna la tiene**;
+  - la ESC 2023 deja en su **suplemento**, que no está en el repo, los cortes del algoritmo 0 h/1 h
+    de troponina, la tabla de puntos del GRACE, las dosis de los fibrinolíticos y sus
+    contraindicaciones. Las dos últimas se citan a la **ACC/AHA 2025** (Tablas 13 y 14); los cortes
+    de troponina y el GRACE no se calculan, se explican;
+  - la tabla del modelo **RF-CL** de la ESC 2024 sale desordenada en texto: se renderizó la página
+    como imagen (PyMuPDF) y se transcribió desde ahí, cotejando las 30 casillas con el texto;
+  - al verificar las figuras en oscuro apareció un defecto del **motor**, no del tema: las etiquetas
+    `.figure-tag.fail` y `.dys` tenían colores fijos sin variante oscura (1,8:1 y 2,1:1). Arreglado
+    en `engine/styles.css` (4,7:1 y 5,5:1, sin cambio en claro); afecta a las 23 figuras de otros
+    temas que usan esas etiquetas.
+- **Siguiente**: `fibrilacion-auricular` (ESC 2024 y ACC/AHA 2023) y
+  `enfermedad-tromboembolica-venosa` (AHA/ACC 2026 de TEP y CHEST 2021).

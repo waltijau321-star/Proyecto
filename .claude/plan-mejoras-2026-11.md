@@ -379,7 +379,8 @@ resto de ese plan. Reumatología según `.claude/reumatologia-fuentes.md`, que d
 lupus.~~ **Cambiado el 19 nov 2026, decidido por Walter**: primero Cardiovascular, según
 `.claude/cardiovascular-fuentes.md`. Cada módulo de Infectología o Reumatología cubre algo más de
 un ítem; los de Cardiovascular, dos o tres, y el bloque iba en 4 de 22 con 25 guías en el repo.
-`insuficiencia-cardiaca` ya está (19 nov, 161 de 319); sigue `cardiopatia-isquemica`. Infectología
+`insuficiencia-cardiaca` (19 nov) y `cardiopatia-isquemica` (21 nov) ya están, 164 de 319; siguen
+`fibrilacion-auricular` y `enfermedad-tromboembolica-venosa`. Infectología
 y Reumatología siguen su plan cuando Cardiovascular se quede sin fuentes. Un módulo por sesión.
 
 **Qué hacer**: seguir `CLAUDE.md` al pie de la letra (plantilla, registro con `accent` y
